@@ -909,8 +909,117 @@
     </div>
   </div>
 </div>
-
 <script>
+function toggleMenu() {
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('mobile-menu');
+    hamburger.classList.toggle('open');
+    menu.classList.toggle('open');
+  }
+
+  // ── NAV SCROLL ──
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ── CARRITO ──
+  let cart = [];
+
+  function toggleCart() {
+    document.getElementById('cart-overlay').classList.toggle('open');
+    document.getElementById('cart-sidebar').classList.toggle('open');
+    document.body.style.overflow = document.getElementById('cart-sidebar').classList.contains('open') ? 'hidden' : '';
+  }
+
+  function addToCart(product) {
+    const existing = cart.find(i => i.id === product.id);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ ...product, qty: 1 });
+    }
+    renderCart();
+    if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart();
+  }
+
+  function changeQty(id, delta) {
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+    renderCart();
+  }
+
+  function removeItem(id) {
+    cart = cart.filter(i => i.id !== id);
+    renderCart();
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cart-items');
+    const footer = document.getElementById('cart-footer');
+    const badge = document.getElementById('cart-badge');
+    const totalEl = document.getElementById('cart-total');
+
+    const totalItems = cart.reduce((s, i) => s + i.qty, 0);
+    const totalPrice = cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+    badge.textContent = totalItems;
+    badge.style.display = totalItems > 0 ? 'flex' : 'none';
+
+    if (cart.length === 0) {
+      container.innerHTML = '<div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>';
+      footer.style.display = 'none';
+      return;
+    }
+
+    footer.style.display = 'block';
+    totalEl.textContent = '$' + totalPrice.toLocaleString('es-CL');
+
+    container.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'">
+        <div class="cart-item-info">
+          <h4>${item.name}</h4>
+          <div class="price">$${(item.price * item.qty).toLocaleString('es-CL')}</div>
+          <div class="cart-item-qty">
+            <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+          </div>
+        </div>
+        <button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button>
+      </div>
+    `).join('');
+  }
+
+  async function checkout() {
+    const btn = document.querySelector('.btn-checkout');
+    btn.disabled = true;
+    btn.textContent = 'Procesando...';
+
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart })
+      });
+      const data = await res.json();
+      if (data.init_point) {
+        window.location.href = data.init_point;
+      } else {
+        alert('Error al crear el pago. Intenta nuevamente.');
+      }
+    } catch (e) {
+      alert('Error de conexión. Intenta nuevamente.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Pagar con Mercado Pago →';
+    }
+  }
+
+/* ══ CATÁLOGO Y MODAL ══ */
 /* ══════════════════════════════════════════════════
    CATÁLOGO — PATAS & CAOS
 ══════════════════════════════════════════════════ */
@@ -1198,116 +1307,6 @@ function agregarAlCarritoDesdeModal() {
     cerrarModal();
   }, 1200);
 }
-</script>
-
-<script>
-    const hamburger = document.getElementById('hamburger');
-    const menu = document.getElementById('mobile-menu');
-    hamburger.classList.toggle('open');
-    menu.classList.toggle('open');
-  }
-
-  // ── NAV SCROLL ──
-  const nav = document.querySelector('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  });
-
-  // ── CARRITO ──
-  let cart = [];
-
-  function toggleCart() {
-    document.getElementById('cart-overlay').classList.toggle('open');
-    document.getElementById('cart-sidebar').classList.toggle('open');
-    document.body.style.overflow = document.getElementById('cart-sidebar').classList.contains('open') ? 'hidden' : '';
-  }
-
-  function addToCart(product) {
-    const existing = cart.find(i => i.id === product.id);
-    if (existing) {
-      existing.qty++;
-    } else {
-      cart.push({ ...product, qty: 1 });
-    }
-    renderCart();
-    if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart();
-  }
-
-  function changeQty(id, delta) {
-    const item = cart.find(i => i.id === id);
-    if (!item) return;
-    item.qty += delta;
-    if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
-    renderCart();
-  }
-
-  function removeItem(id) {
-    cart = cart.filter(i => i.id !== id);
-    renderCart();
-  }
-
-  function renderCart() {
-    const container = document.getElementById('cart-items');
-    const footer = document.getElementById('cart-footer');
-    const badge = document.getElementById('cart-badge');
-    const totalEl = document.getElementById('cart-total');
-
-    const totalItems = cart.reduce((s, i) => s + i.qty, 0);
-    const totalPrice = cart.reduce((s, i) => s + i.price * i.qty, 0);
-
-    badge.textContent = totalItems;
-    badge.style.display = totalItems > 0 ? 'flex' : 'none';
-
-    if (cart.length === 0) {
-      container.innerHTML = '<div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>';
-      footer.style.display = 'none';
-      return;
-    }
-
-    footer.style.display = 'block';
-    totalEl.textContent = '$' + totalPrice.toLocaleString('es-CL');
-
-    container.innerHTML = cart.map(item => `
-      <div class="cart-item">
-        <img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'">
-        <div class="cart-item-info">
-          <h4>${item.name}</h4>
-          <div class="price">$${(item.price * item.qty).toLocaleString('es-CL')}</div>
-          <div class="cart-item-qty">
-            <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
-            <span class="qty-num">${item.qty}</span>
-            <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
-          </div>
-        </div>
-        <button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button>
-      </div>
-    `).join('');
-  }
-
-  async function checkout() {
-    const btn = document.querySelector('.btn-checkout');
-    btn.disabled = true;
-    btn.textContent = 'Procesando...';
-
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: cart })
-      });
-      const data = await res.json();
-      if (data.init_point) {
-        window.location.href = data.init_point;
-      } else {
-        alert('Error al crear el pago. Intenta nuevamente.');
-      }
-    } catch (e) {
-      alert('Error de conexión. Intenta nuevamente.');
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Pagar con Mercado Pago →';
-    }
-  }
 </script>
 </body>
 </html>
