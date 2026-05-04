@@ -151,7 +151,8 @@
     cursor: pointer; transition: all .2s;
   }
   .btn-ghost:hover { border-color: var(--blanco); }
-  .prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+  .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .prod-card { cursor: pointer; }
   .prod-card { background: var(--card-bg); border-radius: 18px; overflow: hidden; transition: transform .2s; }
   .prod-card:hover { transform: translateY(-4px); }
   .prod-img { position: relative; aspect-ratio: 1; background: #f0dfc0; overflow: hidden; }
@@ -423,8 +424,139 @@
     display: flex; align-items: center; justify-content: center;
     display: none;
   }
-  .nav-cart-wrap { position: relative; }
-  .nav-cart-wrap .cart-badge { display: flex; }
+  /* ── MODAL DE PRODUCTO ── */
+  :root {
+    --crema-dark: #eddfc6;
+    --texto-suave: #6b5c4e;
+    --borde-modal: #e0d5c5;
+    --radio-modal: 16px;
+    --radio-sm: 8px;
+  }
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(26,26,26,.72);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+  }
+  .modal-overlay.activo { opacity: 1; visibility: visible; }
+  .modal-contenedor {
+    background: var(--blanco);
+    border-radius: var(--radio-modal);
+    width: 100%; max-width: 900px; max-height: 90vh;
+    overflow-y: auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    position: relative;
+    box-shadow: 0 24px 64px rgba(26,26,26,.2);
+    transform: translateY(24px) scale(.97);
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+  }
+  .modal-overlay.activo .modal-contenedor { transform: translateY(0) scale(1); }
+  .modal-cerrar {
+    position: absolute; top: 1rem; right: 1rem;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--cream); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; color: var(--negro); z-index: 10;
+    transition: background .2s, transform .15s;
+  }
+  .modal-cerrar:hover { background: var(--crema-dark); transform: scale(1.1); }
+  .modal-galeria {
+    background: var(--cream); border-radius: var(--radio-modal) 0 0 var(--radio-modal);
+    padding: 1.5rem;
+    display: flex; flex-direction: column; gap: 1rem;
+    position: sticky; top: 0; align-self: start;
+  }
+  .modal-imagen-principal {
+    width: 100%; aspect-ratio: 1/1;
+    border-radius: var(--radio-sm); background: var(--crema-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem; overflow: hidden;
+  }
+  .modal-imagen-principal img {
+    width: 100%; height: 100%; object-fit: cover;
+    border-radius: var(--radio-sm); transition: opacity .2s;
+  }
+  .modal-thumbnails { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .modal-thumb {
+    width: 64px; height: 64px; border-radius: 8px;
+    background: var(--crema-dark); cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color .2s, transform .15s;
+    overflow: hidden; display: flex; align-items: center;
+    justify-content: center; font-size: 1.5rem;
+  }
+  .modal-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .modal-thumb.activo { border-color: var(--terracota); }
+  .modal-thumb:hover { transform: scale(1.05); border-color: #f0e0d4; }
+  .modal-thumb.activo:hover { border-color: var(--terracota); }
+  .modal-contenido {
+    padding: 2rem 2rem 2rem 1.5rem;
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .modal-header-meta { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+  .modal-badge {
+    display: inline-block; padding: .18rem .7rem;
+    background: var(--cream); color: var(--terracota);
+    font-size: .68rem; font-weight: 700; border-radius: 100px;
+    letter-spacing: .06em; text-transform: uppercase;
+    border: 1px solid #f0e0d4;
+  }
+  .modal-cat-badge {
+    display: inline-block; padding: .18rem .7rem;
+    background: #f0f0f0; color: #666;
+    font-size: .68rem; font-weight: 600; border-radius: 100px;
+    letter-spacing: .04em; text-transform: uppercase;
+  }
+  .modal-nombre { font-size: 1.4rem; font-weight: 900; line-height: 1.2; color: var(--negro); }
+  .modal-precio { font-size: 1.6rem; font-weight: 800; color: var(--terracota); }
+  .modal-divider { height: 1px; background: var(--borde-modal); }
+  .modal-seccion-titulo {
+    font-size: .68rem; font-weight: 700; color: var(--texto-suave);
+    text-transform: uppercase; letter-spacing: .08em; margin-bottom: .35rem;
+  }
+  .modal-descripcion { font-size: .87rem; line-height: 1.65; color: #3d3028; }
+  .modal-caracteristicas-box {
+    background: var(--cream); border-radius: var(--radio-sm);
+    padding: .9rem 1.1rem; border: 1px solid var(--borde-modal);
+  }
+  .modal-lista { font-size: .83rem; color: var(--texto-suave); line-height: 1.85; list-style: none; }
+  .modal-lista li { position: relative; padding-left: 1rem; }
+  .modal-lista li::before { content: "•"; color: var(--terracota); position: absolute; left: 0; font-weight: 700; }
+  .modal-variantes { display: none; }
+  .modal-variantes.visible { display: block; }
+  .modal-variantes-opciones { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .4rem; }
+  .modal-variante-btn {
+    padding: .38rem 1rem; border-radius: 100px;
+    border: 1.5px solid var(--borde-modal);
+    background: transparent; font-family: 'Poppins', sans-serif;
+    font-size: .8rem; font-weight: 600; color: var(--texto-suave);
+    cursor: pointer; transition: all .2s;
+  }
+  .modal-variante-btn:hover { border-color: var(--terracota); color: var(--terracota); }
+  .modal-variante-btn.activo { background: var(--terracota); border-color: var(--terracota); color: var(--blanco); }
+  .modal-btn-carrito {
+    margin-top: auto; padding: .9rem 1.5rem;
+    background: var(--terracota); color: var(--blanco);
+    border: none; border-radius: var(--radio-sm);
+    font-family: 'Poppins', sans-serif; font-size: .95rem; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .5rem;
+    transition: background .2s, transform .15s;
+  }
+  .modal-btn-carrito:hover { background: #a8501f; transform: translateY(-1px); }
+  .modal-btn-carrito:active { transform: translateY(0); }
+  .modal-btn-carrito svg { width: 18px; height: 18px; flex-shrink: 0; }
+  @media (max-width: 640px) {
+    .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; }
+    .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; }
+    .modal-imagen-principal { aspect-ratio: 4/3; }
+    .modal-contenido { padding: 1.25rem; }
+    .modal-nombre { font-size: 1.2rem; }
+    .modal-precio { font-size: 1.35rem; }
+  }
 </style>
 </head>
 <body>
@@ -496,7 +628,7 @@
   </div>
   <div class="hero-img">
     <div class="hero-img-wrap">
-      <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&q=80" alt="Perro y gato felices">
+      <img src="golden_patas_y_caos.jpg" alt="Golden retriever Patas & Caos">
     </div>
     <div class="hero-tag">"Aprobado por mi golden"</div>
   </div>
@@ -521,57 +653,162 @@
       <p class="section-label">Más vendidos</p>
       <h2 class="section-title">Lo que más arrasa.<span>Literalmente.</span></h2>
     </div>
-    <button class="btn-ghost">Ver todo</button>
   </div>
   <div class="prod-grid">
-    <div class="prod-card">
+
+    <!-- Collar Find My -->
+    <div class="prod-card" onclick="abrirModal('collar-findmy')">
       <div class="prod-img">
-        <img src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400&q=80" alt="Collar con rastreador">
+        <img src="Collar_GPS.png" alt="Collar con Rastreador Apple Find My">
         <span class="prod-badge">Accesorio</span>
-        <button class="prod-heart">♡</button>
+        <button class="prod-heart" onclick="event.stopPropagation()">♡</button>
       </div>
       <div class="prod-info">
-        <h4>Collar con Rastreador Apple Find My</h4>
+        <h4>Collar con Rastreador Find My</h4>
         <p class="tagline">"Nunca más lo pierdes."</p>
-        <div class="prod-footer"><span class="prod-price">$16.990</span><button class="btn-add" onclick="addToCart({id:'collar',name:'Collar con Rastreador Apple Find My',price:16990,img:'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=100&q=60'})">Añadir</button></div>
+        <div class="prod-footer">
+          <span class="prod-price">$16.990</span>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart({id:'collar-findmy',name:'Collar con Rastreador Apple Find My',price:16990,img:'Collar_GPS.png'})">Añadir</button>
+        </div>
       </div>
     </div>
-    <div class="prod-card">
+
+    <!-- Fuente de Agua -->
+    <div class="prod-card" onclick="abrirModal('fuente-agua')">
       <div class="prod-img">
-        <img src="https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?w=400&q=80" alt="Fuente de agua">
+        <img src="Bebedero_Gatos_2.png" alt="Fuente de Agua Flor USB">
         <span class="prod-badge">Accesorio</span>
-        <button class="prod-heart">♡</button>
+        <button class="prod-heart" onclick="event.stopPropagation()">♡</button>
       </div>
       <div class="prod-info">
         <h4>Fuente de Agua Flor USB</h4>
         <p class="tagline">"Hidratación con glamour."</p>
-        <div class="prod-footer"><span class="prod-price">$21.990</span><button class="btn-add" onclick="addToCart({id:'fuente',name:'Fuente de Agua Flor USB',price:21990,img:'https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?w=100&q=60'})">Añadir</button></div>
+        <div class="prod-footer">
+          <span class="prod-price">$21.990</span>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart({id:'fuente-agua',name:'Fuente de Agua Flor USB',price:21990,img:'Bebedero_Gatos_2.png'})">Añadir</button>
+        </div>
       </div>
     </div>
-    <div class="prod-card">
+
+    <!-- Pájaro Interactivo -->
+    <div class="prod-card" onclick="abrirModal('pajaro')">
       <div class="prod-img">
-        <img src="https://images.unsplash.com/photo-1598133894008-61f7fdb8cc3a?w=400&q=80" alt="Juguete pájaro">
+        <img src="Pajaro_Gatos.png" alt="Pájaro Interactivo">
         <span class="prod-badge">Juguete</span>
-        <button class="prod-heart">♡</button>
+        <button class="prod-heart" onclick="event.stopPropagation()">♡</button>
       </div>
       <div class="prod-info">
         <h4>Pájaro Interactivo</h4>
         <p class="tagline">"Enemigo número uno."</p>
-        <div class="prod-footer"><span class="prod-price">$13.990</span><button class="btn-add" onclick="addToCart({id:'pajaro',name:'Pájaro Interactivo',price:13990,img:'https://images.unsplash.com/photo-1598133894008-61f7fdb8cc3a?w=100&q=60'})">Añadir</button></div>
+        <div class="prod-footer">
+          <span class="prod-price">$13.990</span>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart({id:'pajaro',name:'Pájaro Interactivo',price:13990,img:'Pajaro_Gatos.png'})">Añadir</button>
+        </div>
       </div>
     </div>
-    <div class="prod-card">
+
+    <!-- Pelota Interactiva LED -->
+    <div class="prod-card" onclick="abrirModal('pelota-led')">
       <div class="prod-img">
-        <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=400&q=80" alt="Masajeador pulpo">
+        <img src="Pelota_Interactiva_Gato.png" alt="Pelota Interactiva LED">
         <span class="prod-badge">Juguete</span>
-        <button class="prod-heart">♡</button>
+        <button class="prod-heart" onclick="event.stopPropagation()">♡</button>
+      </div>
+      <div class="prod-info">
+        <h4>Pelota Interactiva LED</h4>
+        <p class="tagline">"Brilla. Rueda. Enloquece."</p>
+        <div class="prod-footer">
+          <span class="prod-price">$8.990</span>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart({id:'pelota-led',name:'Pelota Interactiva LED',price:8990,img:'Pelota_Interactiva_Gato.png'})">Añadir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Masajeador Pulpo -->
+    <div class="prod-card" onclick="abrirModal('pulpo')">
+      <div class="prod-img">
+        <img src="Pulpo_Gatos_1.png" alt="Masajeador Pulpo">
+        <span class="prod-badge">Juguete</span>
+        <button class="prod-heart" onclick="event.stopPropagation()">♡</button>
       </div>
       <div class="prod-info">
         <h4>Masajeador Pulpo</h4>
         <p class="tagline">"Masaje y caos en uno."</p>
-        <div class="prod-footer"><span class="prod-price">$6.990</span><button class="btn-add" onclick="addToCart({id:'pulpo',name:'Masajeador Pulpo',price:6990,img:'https://images.unsplash.com/photo-1517849845537-4d257902454a?w=100&q=60'})">Añadir</button></div>
+        <div class="prod-footer">
+          <span class="prod-price">$6.990</span>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart({id:'pulpo',name:'Masajeador Pulpo',price:6990,img:'Pulpo_Gatos_1.png'})">Añadir</button>
+        </div>
       </div>
     </div>
+
+    <!-- Paw Balm -->
+    <div class="prod-card" onclick="abrirModal('paw-balm')">
+      <div class="prod-img">
+        <img src="Patas_y_Paw_Balm.png" alt="Paw Balm x2">
+        <span class="prod-badge">Cuidado</span>
+        <button class="prod-heart" onclick="event.stopPropagation()">♡</button>
+      </div>
+      <div class="prod-info">
+        <h4>Paw Balm x2</h4>
+        <p class="tagline">"SPA para patitas exigentes."</p>
+        <div class="prod-footer">
+          <span class="prod-price">$5.990</span>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart({id:'paw-balm',name:'Paw Balm x2',price:5990,img:'Patas_y_Paw_Balm.png'})">Añadir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Afeitadora LED -->
+    <div class="prod-card" onclick="abrirModal('afeitadora')">
+      <div class="prod-img">
+        <img src="Afeitadora_Gatos_1.png" alt="Afeitadora LED para Mascotas">
+        <span class="prod-badge">Cuidado</span>
+        <button class="prod-heart" onclick="event.stopPropagation()">♡</button>
+      </div>
+      <div class="prod-info">
+        <h4>Afeitadora LED para Mascotas</h4>
+        <p class="tagline">"Menos pelo, más sofá."</p>
+        <div class="prod-footer">
+          <span class="prod-price">$9.990</span>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart({id:'afeitadora',name:'Afeitadora LED para Mascotas',price:9990,img:'Afeitadora_Gatos_1.png'})">Añadir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cat Fest Meat Sticks (con variantes) -->
+    <div class="prod-card" onclick="abrirModal('cat-fest')">
+      <div class="prod-img">
+        <img src="Lamb_Meat_Sticks.png" alt="Cat Fest Meat Sticks">
+        <span class="prod-badge">Snack</span>
+        <button class="prod-heart" onclick="event.stopPropagation()">♡</button>
+      </div>
+      <div class="prod-info">
+        <h4>Cat Fest Meat Sticks</h4>
+        <p class="tagline">"Pato o cordero. Siempre piden más."</p>
+        <div class="prod-footer">
+          <span class="prod-price">$3.490</span>
+          <button class="btn-add" onclick="event.stopPropagation(); abrirModal('cat-fest')">Elegir sabor</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cats Snack (con variantes) -->
+    <div class="prod-card" onclick="abrirModal('cats-snack')">
+      <div class="prod-img">
+        <img src="Cats_Snacks_Gato.png" alt="Cats Snack">
+        <span class="prod-badge">Snack</span>
+        <button class="prod-heart" onclick="event.stopPropagation()">♡</button>
+      </div>
+      <div class="prod-info">
+        <h4>Cats Snack</h4>
+        <p class="tagline">"5 sabores, 0 culpa."</p>
+        <div class="prod-footer">
+          <span class="prod-price">$2.990</span>
+          <button class="btn-add" onclick="event.stopPropagation(); abrirModal('cats-snack')">Elegir sabor</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -630,8 +867,326 @@
   <div class="footer-bottom">© 2026 Patas & Caos. Todos los ladridos reservados.</div>
 </footer>
 
+<!-- ═══ MODAL DE PRODUCTO ═══ -->
+<div class="modal-overlay" id="modalProducto" onclick="cerrarModalSiFondo(event)">
+  <div class="modal-contenedor" role="dialog" aria-modal="true" aria-labelledby="modalNombre">
+    <button class="modal-cerrar" onclick="cerrarModal()" aria-label="Cerrar">✕</button>
+    <div class="modal-galeria">
+      <div class="modal-imagen-principal" id="modalImagenPrincipal">
+        <img id="modalImgTag" src="" alt="" style="display:none;" />
+      </div>
+      <div class="modal-thumbnails" id="modalThumbnails"></div>
+    </div>
+    <div class="modal-contenido">
+      <div class="modal-header-meta">
+        <span class="modal-badge" id="modalAudience"></span>
+        <span class="modal-cat-badge" id="modalCategoria"></span>
+      </div>
+      <h2 class="modal-nombre" id="modalNombre"></h2>
+      <div class="modal-precio" id="modalPrecio"></div>
+      <div class="modal-variantes" id="modalVariantes">
+        <p class="modal-seccion-titulo">Sabor</p>
+        <div class="modal-variantes-opciones" id="modalVariantesOpciones"></div>
+      </div>
+      <div class="modal-divider"></div>
+      <div>
+        <p class="modal-seccion-titulo">Descripción</p>
+        <p class="modal-descripcion" id="modalDescripcion"></p>
+      </div>
+      <div>
+        <p class="modal-seccion-titulo" id="modalCaracTitulo"></p>
+        <div class="modal-caracteristicas-box">
+          <ul class="modal-lista" id="modalCaracLista"></ul>
+        </div>
+      </div>
+      <button class="modal-btn-carrito" id="modalBtnCarrito" onclick="agregarAlCarritoDesdeModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        Añadir al carrito
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
-  function toggleMenu() {
+/* ══════════════════════════════════════════════════
+   CATÁLOGO — PATAS & CAOS
+══════════════════════════════════════════════════ */
+const productos = {
+
+  'collar-findmy': {
+    nombre: 'Collar con Rastreador Apple Find My',
+    precio: '$16.990', precioNum: 16990,
+    audience: 'Perros & Gatos', categoria: 'Accesorio',
+    descripcion: 'Porque tu gato sale "solo un momento" y desaparece tres horas. Este collar integra el soporte para rastreador Apple Find My, conectándose a la red de millones de dispositivos Apple para que puedas ubicarlo en tiempo real desde tu iPhone. Cinta nylon reflectante, campanilla metálica y funda de silicona en forma de huella.',
+    caracTitulo: 'Características',
+    caracteristicas: ['Compatible con rastreador Apple Find My','Cinta nylon reflectante de alta visibilidad','Funda de silicona suave con diseño de huella','Cierre de seguridad ajustable','Campanilla metálica incluida','Ajustable: cuellos de 20 a 32 cm'],
+    imagenes: ['Collar_GPS.png','Gato_con_Collar_GPS.png'], placeholders: ['📍','🐱']
+  },
+
+  'fuente-agua': {
+    nombre: 'Fuente de Agua Flor USB',
+    precio: '$21.990', precioNum: 21990,
+    audience: 'Para Gatos', categoria: 'Accesorio',
+    descripcion: 'Tu gato se niega a tomar agua del tazón porque "el agua quieta no es digna de él". Esta fuente con circulación continua imita el agua corriente natural. El surtidor en forma de flor los atrae desde el primer segundo. Filtro incluido. Hidratación premium para ese ser tan exigente.',
+    caracTitulo: 'Características',
+    caracteristicas: ['Circulación continua con bomba silenciosa USB','Surtidor en forma de flor','Depósito transparente de gran capacidad','Filtro incluido','Fácil de desarmar y limpiar','Apto para gatos y perros pequeños'],
+    imagenes: ['Bebedero_Gatos_2.png','Bebedero_Gatos_1.png'], placeholders: ['💧','🐱']
+  },
+
+  'pajaro': {
+    nombre: 'Pájaro Interactivo',
+    precio: '$13.990', precioNum: 13990,
+    audience: 'Para Gatos', categoria: 'Juguete',
+    descripcion: 'Un pájaro que se mueve solo. Tu gato va a actuar como si nunca en su vida hubiera cazado nada y esto fuera su gran oportunidad. El peluche interactivo simula el movimiento de un ave real activando el instinto cazador, mejorando el ejercicio físico y el bienestar mental.',
+    caracTitulo: 'Características',
+    caracteristicas: ['Movimiento autónomo que simula aves reales','Material peluche suave y resistente','Estimula el instinto cazador natural','Promueve el ejercicio físico y mental','Apto para gatos de todas las edades'],
+    imagenes: ['Pajaro_Gatos.png','Milo_Pajaro_Gatos.png'], placeholders: ['🐦','🐱']
+  },
+
+  'pelota-led': {
+    nombre: 'Pelota Interactiva LED',
+    precio: '$8.990', precioNum: 8990,
+    audience: 'Para Gatos', categoria: 'Juguete',
+    descripcion: 'Brilla, rebota y arrastra cintas holográficas que van a hacer que tu gato pierda completamente la compostura. La pelota LED viene unida a una cuerda con cuentas de colores y cintas iridiscentes que potencian la caza, el salto y el manotazo certero. Carga USB tipo C incluida.',
+    caracTitulo: 'Características',
+    caracteristicas: ['Pelota con luz LED integrada','Cuerda con cuentas de colores y cintas holográficas','Estimula salto, manotazo y persecución','Material suave texturizado resistente a mordiscos','Carga USB tipo C incluida','Diseño compacto y liviano'],
+    imagenes: ['Pelota_Interactiva_Gato.png','Milo_Jugando_Pelota_Interactiva.png'], placeholders: ['⚡','🐱']
+  },
+
+  'pulpo': {
+    nombre: 'Masajeador Pulpo',
+    precio: '$6.990', precioNum: 6990,
+    audience: 'Para Gatos', categoria: 'Juguete',
+    descripcion: 'El pulpo más querido del universo felino. Sus tentáculos de silicona están diseñados para masajear, atrapar y hacer perder la cordura a tu gato. Textura irresistible que estimula sus instintos de caza mientras tú te tomas un café en paz. De nada.',
+    caracTitulo: 'Características',
+    caracteristicas: ['Silicona suave y segura para mascotas','Tentáculos flexibles para estimulación táctil','Tamaño ideal para gatos adultos y cachorros','Fácil de limpiar','Colores vibrantes'],
+    imagenes: ['Pulpo_Gatos_1.png','Pulpo_Gatos_2.png'], placeholders: ['🐙','🐙']
+  },
+
+  'paw-balm': {
+    nombre: 'Paw Balm x2',
+    precio: '$5.990', precioNum: 5990,
+    audience: 'Perros & Gatos', categoria: 'Cuidado',
+    descripcion: 'La crema hidratante que tus mascotas merecen (aunque igual van a pisotear todo). Fórmula suave con ingredientes naturales que repara, protege e hidrata las almohadillas resecas o agrietadas. Contenido: 40g. Porque las patitas también merecen spa.',
+    caracTitulo: 'Ingredientes',
+    caracteristicas: ['Cera de abeja','Aceite de coco','Agua','Manteca de karité','Vitamina E','Cera de carnauba'],
+    imagenes: ['Patas_y_Paw_Balm.png','Paw_Balm.png','Ingredientes.png'], placeholders: ['🐾','🐾','🌿']
+  },
+
+  'afeitadora': {
+    nombre: 'Afeitadora LED para Mascotas',
+    precio: '$9.990', precioNum: 9990,
+    audience: 'Perros & Gatos', categoria: 'Cuidado',
+    descripcion: 'Porque los pelitos en el sofá son un estilo de vida, pero también hay un límite. Esta afeitadora con luz LED te permite ver exactamente dónde estás cortando. Silenciosa, recargable y con tu mascota levemente menos dramática al final del proceso.',
+    caracTitulo: 'Características',
+    caracteristicas: ['Luz LED integrada para máxima precisión','Motor silencioso — minimiza el estrés','Cuchilla de acero inoxidable duradera','Diseño ergonómico de fácil manejo','Recargable vía USB','Apta para pelo mediano y largo'],
+    imagenes: ['Afeitadora_Gatos_1.png','Afeitadora_Gatos_2.png','Afeitadora_Gatos_3.png'], placeholders: ['✂️','✂️','✂️']
+  },
+
+  'cat-fest': {
+    nombre: 'Cat Fest Meat Sticks',
+    precio: '$3.490', precioNum: 3490,
+    audience: 'Para Gatos', categoria: 'Snack',
+    descripcion: 'Palitos de carne 100% natural que tu gato va a reclamar hasta que se los des. Sabor irresistible, textura suave, sin azúcar ni cereales, con cierre zip lock. Human Grade — porque lo tuyo se merece lo mejor.',
+    caracTitulo: 'Características',
+    caracteristicas: ['100% carne natural','Sin azúcar agregada','Sin cereales (grain-free)','Textura suave e irresistible','Human Grade','Bolsa con cierre zip lock','Contenido neto: 45g'],
+    variantes: [
+      { label: 'Pato',    imagenes: ['Lamb_Meat_Sticks.png'], placeholders: ['🦆'] },
+      { label: 'Cordero', imagenes: ['Lamb_Meat_Sticks.png'], placeholders: ['🐑'] }
+    ]
+  },
+
+  'cats-snack': {
+    nombre: 'Cats Snack',
+    precio: '$2.990', precioNum: 2990,
+    audience: 'Para Gatos', categoria: 'Snack',
+    descripcion: 'Las galletitas que hacen que tu gato te mire con algo parecido al amor (o al hambre, pero qué importa). Crujientes por fuera, cremosas por dentro en las versiones rellenas. Elige el sabor favorito de tu experto en el tema.',
+    caracTitulo: 'Características',
+    caracteristicas: ['Galletas para gatos MarbenPets','Variedad de sabores con y sin relleno','Sin colorantes artificiales','Ideal como premio o snack diario','Contenido neto: 80g'],
+    variantes: [
+      { label: 'Catnip',                  imagenes: ['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'], placeholders: ['🌿','🐱'] },
+      { label: 'Matatabi',                imagenes: ['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'], placeholders: ['🌱','🐱'] },
+      { label: 'Rellena Atún + Queso',    imagenes: ['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'], placeholders: ['🧀','🐱'] },
+      { label: 'Rellena Atún + Ostiones', imagenes: ['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'], placeholders: ['🦪','🐱'] },
+      { label: 'Rellena Atún + Pollo',    imagenes: ['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'], placeholders: ['🍗','🐱'] }
+    ]
+  }
+
+};
+
+/* ══════════════════════════════════════════════════
+   ESTADO DEL MODAL
+══════════════════════════════════════════════════ */
+let productoActual = null;
+let varianteActualIdx = 0;
+let imagenActualIdx = 0;
+
+/* ══════════════════════════════════════════════════
+   ABRIR MODAL
+══════════════════════════════════════════════════ */
+function abrirModal(productoId) {
+  const p = productos[productoId];
+  if (!p) return;
+  productoActual = { ...p, id: productoId };
+  varianteActualIdx = 0;
+  imagenActualIdx = 0;
+
+  document.getElementById('modalNombre').textContent      = p.nombre;
+  document.getElementById('modalPrecio').textContent      = p.precio;
+  document.getElementById('modalAudience').textContent    = p.audience;
+  document.getElementById('modalCategoria').textContent   = p.categoria;
+  document.getElementById('modalDescripcion').textContent = p.descripcion;
+  document.getElementById('modalCaracTitulo').textContent = p.caracTitulo;
+
+  const lista = document.getElementById('modalCaracLista');
+  lista.innerHTML = '';
+  p.caracteristicas.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    lista.appendChild(li);
+  });
+
+  const variantesEl = document.getElementById('modalVariantes');
+  const opcionesEl  = document.getElementById('modalVariantesOpciones');
+  opcionesEl.innerHTML = '';
+
+  if (p.variantes && p.variantes.length > 0) {
+    variantesEl.classList.add('visible');
+    p.variantes.forEach((v, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'modal-variante-btn' + (idx === 0 ? ' activo' : '');
+      btn.textContent = v.label;
+      btn.onclick = () => seleccionarVariante(idx);
+      opcionesEl.appendChild(btn);
+    });
+    construirGaleria(p.variantes[0]);
+  } else {
+    variantesEl.classList.remove('visible');
+    construirGaleria(p);
+  }
+
+  document.getElementById('modalProducto').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+
+function seleccionarVariante(idx) {
+  varianteActualIdx = idx;
+  imagenActualIdx = 0;
+  document.querySelectorAll('.modal-variante-btn').forEach((btn, i) => {
+    btn.classList.toggle('activo', i === idx);
+  });
+  construirGaleria(productoActual.variantes[idx]);
+}
+
+/* ══════════════════════════════════════════════════
+   GALERÍA
+══════════════════════════════════════════════════ */
+function construirGaleria(fuente) {
+  const thumbsEl = document.getElementById('modalThumbnails');
+  thumbsEl.innerHTML = '';
+  actualizarImagenPrincipal(fuente, 0);
+
+  if (fuente.imagenes.length > 1) {
+    fuente.imagenes.forEach((src, idx) => {
+      const thumb = document.createElement('div');
+      thumb.className = 'modal-thumb' + (idx === 0 ? ' activo' : '');
+      thumb.onclick = () => cambiarImagen(idx, fuente);
+      const imgEl = document.createElement('img');
+      imgEl.src = src; imgEl.alt = '';
+      imgEl.onerror = () => {
+        thumb.innerHTML = '';
+        thumb.textContent = fuente.placeholders?.[idx] || '📷';
+        thumb.style.fontSize = '1.4rem';
+      };
+      thumb.appendChild(imgEl);
+      thumbsEl.appendChild(thumb);
+    });
+  }
+}
+
+function actualizarImagenPrincipal(fuente, idx) {
+  const principal = document.getElementById('modalImagenPrincipal');
+  const img       = document.getElementById('modalImgTag');
+  img.style.opacity = '0';
+  setTimeout(() => {
+    img.src = fuente.imagenes[idx];
+    img.onerror = () => {
+      img.style.display = 'none';
+      principal.textContent = fuente.placeholders?.[idx] || '📷';
+      principal.style.fontSize = '5rem';
+    };
+    img.onload = () => {
+      principal.textContent = '';
+      if (!principal.contains(img)) principal.appendChild(img);
+      img.style.display = 'block';
+      img.style.opacity = '1';
+    };
+  }, 130);
+}
+
+function cambiarImagen(idx, fuente) {
+  imagenActualIdx = idx;
+  actualizarImagenPrincipal(fuente, idx);
+  document.querySelectorAll('.modal-thumb').forEach((el, i) => {
+    el.classList.toggle('activo', i === idx);
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   CERRAR MODAL
+══════════════════════════════════════════════════ */
+function cerrarModal() {
+  document.getElementById('modalProducto').classList.remove('activo');
+  document.body.style.overflow = '';
+}
+function cerrarModalSiFondo(e) {
+  if (e.target.id === 'modalProducto') cerrarModal();
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') cerrarModal();
+});
+
+/* ══════════════════════════════════════════════════
+   AÑADIR AL CARRITO DESDE MODAL
+   → Conectado a tu addToCart() existente
+══════════════════════════════════════════════════ */
+function agregarAlCarritoDesdeModal() {
+  if (!productoActual) return;
+
+  let nombreCompleto = productoActual.nombre;
+  let fuenteActual = productoActual;
+
+  if (productoActual.variantes) {
+    const v = productoActual.variantes[varianteActualIdx];
+    nombreCompleto += ' — ' + v.label;
+    fuenteActual = v;
+  }
+
+  const imgCarrito = fuenteActual.imagenes?.[0] || '';
+
+  addToCart({
+    id:    productoActual.id + (productoActual.variantes ? '-' + varianteActualIdx : ''),
+    name:  nombreCompleto,
+    price: productoActual.precioNum,
+    img:   imgCarrito
+  });
+
+  const btn = document.getElementById('modalBtnCarrito');
+  const original = btn.innerHTML;
+  btn.textContent = '✓ ¡Añadido!';
+  btn.style.background = '#2d7a3a';
+  setTimeout(() => {
+    btn.innerHTML = original;
+    btn.style.background = '';
+    cerrarModal();
+  }, 1200);
+}
+</script>
+
+<script>
     const hamburger = document.getElementById('hamburger');
     const menu = document.getElementById('mobile-menu');
     hamburger.classList.toggle('open');
