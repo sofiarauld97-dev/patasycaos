@@ -57,24 +57,22 @@
 
   /* BLOQUE INTRO — Sofía */
   .sofia-bloque {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     margin-bottom: 80px;
   }
   .sofia-foto {
-    background: var(--card-bg);
     border-radius: 24px;
-    aspect-ratio: 4/5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 6rem;
-    border: 1.5px solid rgba(28,16,7,.08);
     overflow: hidden;
+    border: 1.5px solid rgba(28,16,7,.08);
   }
-  .sofia-foto img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; }
+  .sofia-foto img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 24px;
+  }
   .sofia-texto .label { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota); margin-bottom: .6rem; }
   .sofia-texto h2 { font-size: 2rem; font-weight: 900; line-height: 1.1; margin-bottom: 1.2rem; }
   .sofia-texto h2 em { font-style: normal; color: var(--terracota); }
@@ -193,7 +191,7 @@
 
   <!-- SOFÍA -->
   <div class="sofia-bloque">
-    <div class="sofia-foto">🐾</div>
+    <div class="sofia-foto"><img src="nosotros_sofia.jpg" alt="Sofía, fundadora de Patas & Caos"></div>
     <div class="sofia-texto">
       <p class="label">La fundadora</p>
       <h2>Hola, soy <em>Sofía.</em></h2>
