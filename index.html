@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Patas & Caos — Todo lo que tu mascota destrozará con amor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
@@ -30,8 +30,9 @@
     background: var(--cream);
     border-bottom: 1px solid rgba(28,16,7,.08);
     padding: 0 5%;
+    padding-top: env(safe-area-inset-top);
     display: flex; align-items: center; justify-content: space-between;
-    height: 68px;
+    height: calc(68px + env(safe-area-inset-top));
   }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
   .nav-logo img { width: 44px; height: 44px; object-fit: contain; }
@@ -135,22 +136,66 @@
   .cat-card h3 { font-weight: 700; font-size: 1rem; margin-bottom: .3rem; }
   .cat-card p { font-size: .82rem; color: #6b5a4e; }
 
-  /* PRODUCTS */
-  .products { background: var(--dark); padding: 80px 5%; }
-  .products-header {
+  /* TIENDA CON FILTROS */
+  .tienda { background: var(--dark); padding: 80px 5%; }
+  .tienda-header {
     display: flex; align-items: flex-end;
-    justify-content: space-between; margin-bottom: 2.5rem;
+    justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
   }
-  .products .section-label { color: var(--terracota); }
-  .products .section-title { color: var(--blanco); margin-bottom: 0; }
-  .products .section-title span { display: block; color: var(--terracota); }
-  .btn-ghost {
-    background: transparent; border: 1.5px solid rgba(255,255,255,.25);
-    color: var(--blanco); border-radius: 50px; padding: 10px 22px;
-    font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .85rem;
-    cursor: pointer; transition: all .2s;
+  .tienda .section-label { color: var(--terracota); }
+  .tienda .section-title { color: var(--blanco); margin-bottom: 0; }
+  .tienda .section-title span { display: block; color: var(--terracota); }
+  .tienda-count {
+    color: rgba(245,236,215,.5); font-size: .82rem; font-weight: 500;
+    white-space: nowrap; padding-bottom: .3rem;
   }
-  .btn-ghost:hover { border-color: var(--blanco); }
+
+  /* FILTROS */
+  .tienda-filters {
+    display: flex; align-items: center; gap: 1.5rem;
+    flex-wrap: wrap; margin-bottom: 2rem;
+    padding: 1.25rem 1.5rem;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+  }
+  .filter-group { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+  .filter-label {
+    font-size: .7rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: rgba(245,236,215,.45);
+    white-space: nowrap;
+  }
+  .filter-pills { display: flex; gap: .4rem; flex-wrap: wrap; }
+  .filter-pill {
+    padding: 6px 14px; border-radius: 50px;
+    border: 1.5px solid rgba(255,255,255,.15);
+    background: transparent; color: rgba(245,236,215,.7);
+    font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600;
+    cursor: pointer; transition: all .2s; white-space: nowrap;
+  }
+  .filter-pill:hover { border-color: var(--terracota); color: var(--terracota); }
+  .filter-pill.activo { background: var(--terracota); border-color: var(--terracota); color: #fff; }
+  .filter-divider {
+    width: 1px; height: 24px;
+    background: rgba(255,255,255,.1);
+    flex-shrink: 0;
+  }
+  .sort-select {
+    padding: 6px 14px; border-radius: 50px;
+    border: 1.5px solid rgba(255,255,255,.15);
+    background: transparent; color: rgba(245,236,215,.7);
+    font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600;
+    cursor: pointer; outline: none;
+  }
+  .sort-select option { background: var(--dark); color: var(--blanco); }
+
+  .no-results {
+    text-align: center; padding: 60px 20px; color: rgba(245,236,215,.45);
+  }
+  .no-results span { font-size: 3rem; display: block; margin-bottom: 1rem; }
+  .no-results p { font-size: .95rem; }
+
+  /* PRODUCTOS */
   .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
   .prod-card { cursor: pointer; }
   .prod-card { background: var(--card-bg); border-radius: 18px; overflow: hidden; transition: transform .2s; }
@@ -161,16 +206,17 @@
   /* CARRUSEL EN TARJETAS */
   .carr-btn {
     position: absolute; top: 50%; transform: translateY(-50%);
-    width: 30px; height: 30px; border-radius: 50%;
-    background: rgba(255,255,255,.88); border: none; cursor: pointer;
-    font-size: 1.1rem; font-weight: 700;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(255,255,255,.9); border: none; cursor: pointer;
+    font-size: 1rem; font-weight: 700;
     display: flex; align-items: center; justify-content: center;
-    z-index: 5; opacity: 0;
-    transition: opacity .2s, background .2s;
-    backdrop-filter: blur(4px); color: var(--negro); line-height: 1;
+    z-index: 5;
+    transition: background .15s, transform .15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    color: var(--negro); line-height: 1;
+    user-select: none;
   }
-  .prod-img:hover .carr-btn { opacity: 1; }
-  .carr-btn:hover { background: #fff; }
+  .carr-btn:hover { background: #fff; transform: translateY(-50%) scale(1.1); }
   .carr-prev { left: 8px; }
   .carr-next { right: 8px; }
   .carr-dots {
@@ -183,7 +229,6 @@
     transition: background .2s, transform .2s;
   }
   .carr-dot.activo { background: #fff; transform: scale(1.3); }
-  @media (hover: none) { .carr-btn { opacity: 1; } }
   .prod-badge {
     position: absolute; top: 12px; left: 12px;
     background: rgba(28,16,7,.65); color: var(--blanco);
@@ -302,6 +347,8 @@
     .cat-grid { grid-template-columns: repeat(2, 1fr); }
     .prod-grid { grid-template-columns: repeat(2, 1fr); }
     .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .tienda-filters { gap: 1rem; }
+    .filter-divider { display: none; }
   }
   @media (max-width: 600px) {
     .nav-links { display: none; }
@@ -309,7 +356,7 @@
     .prod-grid { grid-template-columns: 1fr; }
     .newsletter-box { padding: 36px 28px; }
     .newsletter-form { flex-direction: column; }
-    .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .tienda-filters { flex-direction: column; align-items: flex-start; }
   }
 
   /* ── MENÚ HAMBURGUESA ── */
@@ -659,8 +706,8 @@
     <h1>Todo lo que tu mascota <em>destrozará</em> con amor.</h1>
     <p>Accesorios, juguetes y comida pensados para perros, gatos y los humanos que los aguantan. Con cariño, sin postureo.</p>
     <div class="hero-btns">
-      <button class="btn-primary">Comprar ahora →</button>
-      <button class="btn-outline">Ver colecciones</button>
+      <button class="btn-primary" onclick="document.getElementById('tienda').scrollIntoView({behavior:'smooth'})">Comprar ahora →</button>
+      <button class="btn-outline" onclick="document.getElementById('categorias').scrollIntoView({behavior:'smooth'})">Ver categorías</button>
     </div>
     <div class="hero-stats">
       <div class="stat"><span>+5k</span><small>Patas felices</small></div>
@@ -681,22 +728,58 @@
   <p class="section-label">Categorías</p>
   <h2 class="section-title">Explora el caos organizado.</h2>
   <div class="cat-grid">
-    <div class="cat-card"><div class="cat-icon">🎀</div><h3>Accesorios</h3><p>Para no perderse en el caos</p></div>
-    <div class="cat-card"><div class="cat-icon">🎾</div><h3>Juguetes</h3><p>Pa' que rompan con estilo</p></div>
-    <div class="cat-card"><div class="cat-icon">✨</div><h3>Cuidado</h3><p>Porque también merecen spa</p></div>
-    <div class="cat-card"><div class="cat-icon">🍪</div><h3>Snacks</h3><p>Soborno legalizado</p></div>
+    <div class="cat-card" onclick="filtrarPorCategoria('Accesorio')"><div class="cat-icon">🎀</div><h3>Accesorios</h3><p>Para no perderse en el caos</p></div>
+    <div class="cat-card" onclick="filtrarPorCategoria('Juguete')"><div class="cat-icon">🎾</div><h3>Juguetes</h3><p>Pa' que rompan con estilo</p></div>
+    <div class="cat-card" onclick="filtrarPorCategoria('Cuidado')"><div class="cat-icon">✨</div><h3>Cuidado</h3><p>Porque también merecen spa</p></div>
+    <div class="cat-card" onclick="filtrarPorCategoria('Snack')"><div class="cat-icon">🍪</div><h3>Snacks</h3><p>Soborno legalizado</p></div>
   </div>
 </section>
 
-<!-- PRODUCTS -->
-<section class="products" id="tienda">
-  <div class="products-header">
+<!-- TIENDA -->
+<section class="tienda" id="tienda">
+  <div class="tienda-header">
     <div>
-      <p class="section-label">Más vendidos</p>
-      <h2 class="section-title">Lo que más arrasa.<span>Literalmente.</span></h2>
+      <p class="section-label">Tienda</p>
+      <h2 class="section-title">Todo el caos,<span>organizado.</span></h2>
+    </div>
+    <span class="tienda-count" id="tienda-count">9 productos</span>
+  </div>
+
+  <div class="tienda-filters">
+    <div class="filter-group">
+      <span class="filter-label">Categoría</span>
+      <div class="filter-pills" id="filter-cat">
+        <button class="filter-pill activo" onclick="setFiltro('cat','todos',this)">Todos</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Accesorio',this)">🎀 Accesorios</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Juguete',this)">🎾 Juguetes</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Cuidado',this)">✨ Cuidado</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Snack',this)">🍪 Snacks</button>
+      </div>
+    </div>
+    <div class="filter-divider"></div>
+    <div class="filter-group">
+      <span class="filter-label">Para</span>
+      <div class="filter-pills" id="filter-aud">
+        <button class="filter-pill activo" onclick="setFiltro('aud','todos',this)">Todos</button>
+        <button class="filter-pill" onclick="setFiltro('aud','Para Gatos',this)">🐱 Gatos</button>
+        <button class="filter-pill" onclick="setFiltro('aud','Perros & Gatos',this)">🐾 Perros & Gatos</button>
+      </div>
+    </div>
+    <div class="filter-divider"></div>
+    <div class="filter-group">
+      <span class="filter-label">Ordenar</span>
+      <select class="sort-select" id="sort-select" onchange="aplicarFiltros()">
+        <option value="default">Destacados</option>
+        <option value="price-asc">Precio ↑</option>
+        <option value="price-desc">Precio ↓</option>
+      </select>
     </div>
   </div>
+
   <div class="prod-grid" id="prod-grid"></div>
+  <div class="no-results" id="no-results" style="display:none">
+    <span>🐾</span><p>No hay productos en esta selección.</p>
+  </div>
 </section>
 
 <!-- NEWSLETTER -->
@@ -1029,51 +1112,85 @@ function crearCarrusel(imagenes, placeholders) {
 }
 
 /* ══════════════════════════════════════════════════
+   FILTROS DE TIENDA
+══════════════════════════════════════════════════ */
+const filtros = { cat: 'todos', aud: 'todos', sort: 'default' };
+
+function setFiltro(tipo, valor, btn) {
+  filtros[tipo] = valor;
+  const grupo = tipo === 'cat' ? 'filter-cat' : 'filter-aud';
+  document.querySelectorAll(`#${grupo} .filter-pill`).forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
+  aplicarFiltros();
+}
+
+function aplicarFiltros() {
+  filtros.sort = document.getElementById('sort-select')?.value || 'default';
+  generarTarjetas();
+}
+
+function filtrarPorCategoria(cat) {
+  filtros.cat = cat;
+  // Activar el pill correcto
+  document.querySelectorAll('#filter-cat .filter-pill').forEach(b => {
+    b.classList.toggle('activo', b.textContent.includes(cat));
+  });
+  generarTarjetas();
+  document.getElementById('tienda').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ══════════════════════════════════════════════════
    GENERAR TARJETAS DINÁMICAMENTE
 ══════════════════════════════════════════════════ */
 function generarTarjetas() {
   const grid = document.getElementById('prod-grid');
+  const noResults = document.getElementById('no-results');
+  const countEl = document.getElementById('tienda-count');
   if (!grid) return;
   grid.innerHTML = '';
   const stock = getStock();
 
-  ORDEN_PRODUCTOS.forEach(id => {
-    const p = productos[id];
-    if (!p) return;
+  // Filtrar
+  let lista = ORDEN_PRODUCTOS
+    .map(id => ({ id, p: productos[id] }))
+    .filter(({ p }) => {
+      if (!p) return false;
+      if (filtros.cat !== 'todos' && p.categoria !== filtros.cat) return false;
+      if (filtros.aud !== 'todos' && p.audience !== filtros.aud) return false;
+      return true;
+    });
 
-    const imagenes   = p.variantes ? p.variantes[0].imagenes   : p.imagenes;
+  // Ordenar
+  if (filtros.sort === 'price-asc')  lista.sort((a, b) => a.p.precioNum - b.p.precioNum);
+  if (filtros.sort === 'price-desc') lista.sort((a, b) => b.p.precioNum - a.p.precioNum);
+
+  if (countEl) countEl.textContent = `${lista.length} producto${lista.length !== 1 ? 's' : ''}`;
+  if (noResults) noResults.style.display = lista.length === 0 ? 'block' : 'none';
+  if (lista.length === 0) return;
+
+  lista.forEach(({ id, p }) => {
+    const imagenes     = p.variantes ? p.variantes[0].imagenes    : p.imagenes;
     const placeholders = p.variantes ? p.variantes[0].placeholders : p.placeholders;
-    const enStock    = checkStockCard(id, stock);
+    const enStock      = checkStockCard(id, stock);
 
     const card = document.createElement('div');
     card.className = 'prod-card' + (enStock ? '' : ' agotado');
     card.addEventListener('click', () => abrirModal(id));
 
-    // Carrusel
     const carrusel = crearCarrusel(imagenes, placeholders);
 
-    // Badge categoría
     const badge = document.createElement('span');
     badge.className = 'prod-badge';
     badge.textContent = p.categoria;
     carrusel.appendChild(badge);
 
-    // Heart
     const heart = document.createElement('button');
     heart.className = 'prod-heart';
     heart.innerHTML = '♡';
     heart.addEventListener('click', (e) => e.stopPropagation());
     carrusel.appendChild(heart);
 
-    // Info
     const btnId = 'btn-' + id;
-    let btnHTML = '';
-    if (p.variantes) {
-      btnHTML = `<button class="btn-add" id="${btnId}">Elegir sabor</button>`;
-    } else {
-      btnHTML = `<button class="btn-add" id="${btnId}">Añadir</button>`;
-    }
-
     const info = document.createElement('div');
     info.className = 'prod-info';
     info.innerHTML = `
@@ -1081,19 +1198,17 @@ function generarTarjetas() {
       <p class="tagline">${TAGLINES[id] || ''}</p>
       <div class="prod-footer">
         <span class="prod-price">${p.precio}</span>
-        ${btnHTML}
+        <button class="btn-add" id="${btnId}">${p.variantes ? 'Elegir sabor' : 'Añadir'}</button>
       </div>
     `;
     card.appendChild(carrusel);
     card.appendChild(info);
     grid.appendChild(card);
 
-    // Conectar botón
     const btn = document.getElementById(btnId);
     if (btn) {
       if (!enStock) {
-        btn.textContent = 'Agotado';
-        btn.disabled = true;
+        btn.textContent = 'Agotado'; btn.disabled = true;
       } else if (p.variantes) {
         btn.addEventListener('click', (e) => { e.stopPropagation(); abrirModal(id); });
       } else {
@@ -1123,7 +1238,7 @@ const productos = {
 
   'collar-findmy': {
     nombre: 'Collar con Rastreador Apple Find My',
-    precio: '$16.990', precioNum: 16990,
+    precio: '$12.990', precioNum: 12990,
     audience: 'Perros & Gatos', categoria: 'Accesorio',
     descripcion: 'Porque tu gato sale "solo un momento" y desaparece tres horas. Este collar integra el soporte para rastreador Apple Find My, conectándose a la red de millones de dispositivos Apple para que puedas ubicarlo en tiempo real desde tu iPhone. Cinta nylon reflectante, campanilla metálica y funda de silicona en forma de huella.',
     caracTitulo: 'Características',
@@ -1403,7 +1518,8 @@ function getStock() {
   } catch(e) { return { ...stockInicial }; }
 }
 
-document.addEventListener('DOMContentLoaded', generarTarjetas);
+// Llamar directamente — el script está al final del body, DOM ya listo
+generarTarjetas();
 
 function cerrarModal() {
   document.getElementById('modalProducto').classList.remove('activo');
