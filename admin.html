@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Patas & Caos</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --tc: #C4622D; --tc-d: #a34f22; --tc-l: #f5ebe0;
+  --ng: #1A1A1A; --cr: #F5ECD7; --bl: #ffffff;
+  --bg: #f0ebe0; --borde: #e0d4c0; --suave: #6b5c4e;
+  --verde: #2d7a3a; --radio: 14px;
+}
+body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--ng); min-height: 100vh; }
+
+/* HEADER */
+header {
+  background: var(--ng); color: var(--bl);
+  padding: 0 5%; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.header-brand { display: flex; align-items: center; gap: 10px; }
+.header-brand .dot { width: 28px; height: 28px; background: var(--tc); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .85rem; }
+.header-brand span { font-weight: 700; font-size: .95rem; }
+.header-sub { font-size: .75rem; color: rgba(255,255,255,.5); letter-spacing: .08em; text-transform: uppercase; }
+
+/* LAYOUT */
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: calc(100vh - 60px); }
+.panel-form { padding: 2rem 2.5rem; border-right: 1px solid var(--borde); overflow-y: auto; }
+.panel-output { padding: 2rem 2.5rem; background: var(--bl); overflow-y: auto; }
+
+/* SECCIONES */
+.seccion { margin-bottom: 2rem; }
+.seccion-titulo {
+  font-size: .65rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--tc);
+  margin-bottom: 1rem; padding-bottom: .5rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+/* FORM ELEMENTS */
+.campo { margin-bottom: 1rem; }
+.campo label { display: block; font-size: .78rem; font-weight: 600; color: var(--suave); margin-bottom: .35rem; }
+.campo input[type=text],
+.campo input[type=number],
+.campo select,
+.campo textarea {
+  width: 100%; padding: .6rem .9rem;
+  border: 1.5px solid var(--borde); border-radius: 8px;
+  font-family: 'Poppins', sans-serif; font-size: .85rem;
+  background: var(--bl); color: var(--ng);
+  transition: border-color .2s;
+  outline: none;
+}
+.campo input:focus, .campo select:focus, .campo textarea:focus { border-color: var(--tc); }
+.campo textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+.campo-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.campo-hint { font-size: .7rem; color: #999; margin-top: .25rem; }
+
+/* LISTA DINÁMICA */
+.lista-items { display: flex; flex-direction: column; gap: .5rem; margin-bottom: .6rem; }
+.lista-item { display: flex; gap: .5rem; align-items: center; }
+.lista-item input { flex: 1; padding: .5rem .8rem; border: 1.5px solid var(--borde); border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: .82rem; outline: none; transition: border-color .2s; }
+.lista-item input:focus { border-color: var(--tc); }
+.btn-remove {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1.5px solid #ddd; background: none;
+  cursor: pointer; font-size: .85rem; color: #aaa;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s; flex-shrink: 0;
+}
+.btn-remove:hover { background: #fee; border-color: #e74c3c; color: #e74c3c; }
+.btn-add-item {
+  display: flex; align-items: center; gap: .4rem;
+  background: none; border: 1.5px dashed var(--borde);
+  border-radius: 8px; padding: .45rem .9rem;
+  font-family: 'Poppins', sans-serif; font-size: .78rem;
+  color: var(--suave); cursor: pointer; width: 100%;
+  transition: all .2s;
+}
+.btn-add-item:hover { border-color: var(--tc); color: var(--tc); background: var(--tc-l); }
+
+/* VARIANTES */
+.toggle-row { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+.toggle-label { font-size: .82rem; font-weight: 600; color: var(--suave); }
+.toggle {
+  position: relative; width: 42px; height: 24px;
+  background: #ddd; border-radius: 100px; cursor: pointer;
+  transition: background .2s; border: none; flex-shrink: 0;
+}
+.toggle.on { background: var(--tc); }
+.toggle::after {
+  content: ''; position: absolute;
+  width: 18px; height: 18px; background: white;
+  border-radius: 50%; top: 3px; left: 3px;
+  transition: transform .2s;
+}
+.toggle.on::after { transform: translateX(18px); }
+
+.variante-card {
+  border: 1.5px solid var(--borde); border-radius: 10px;
+  padding: 1rem; margin-bottom: .75rem; background: #faf6f0;
+}
+.variante-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
+.variante-num { font-size: .72rem; font-weight: 700; color: var(--tc); text-transform: uppercase; letter-spacing: .06em; }
+
+/* BOTÓN PRINCIPAL */
+.btn-generar {
+  width: 100%; padding: .85rem;
+  background: var(--tc); color: var(--bl);
+  border: none; border-radius: 10px;
+  font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .95rem;
+  cursor: pointer; transition: background .2s, transform .15s;
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+}
+.btn-generar:hover { background: var(--tc-d); transform: translateY(-1px); }
+.btn-generar:active { transform: translateY(0); }
+
+/* OUTPUT */
+.output-placeholder {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 100%;
+  color: #bbb; text-align: center; gap: 1rem;
+  min-height: 300px;
+}
+.output-placeholder .big { font-size: 3rem; }
+.output-placeholder p { font-size: .85rem; line-height: 1.6; max-width: 220px; }
+
+.codigo-bloque { margin-bottom: 1.5rem; }
+.codigo-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: .5rem;
+}
+.codigo-titulo { font-size: .72rem; font-weight: 700; color: var(--suave); text-transform: uppercase; letter-spacing: .08em; }
+.btn-copiar {
+  display: flex; align-items: center; gap: .35rem;
+  padding: .3rem .75rem; border-radius: 6px;
+  border: 1.5px solid var(--borde); background: none;
+  font-family: 'Poppins', sans-serif; font-size: .72rem; font-weight: 600;
+  color: var(--suave); cursor: pointer; transition: all .2s;
+}
+.btn-copiar:hover { border-color: var(--tc); color: var(--tc); background: var(--tc-l); }
+.btn-copiar.copiado { border-color: var(--verde); color: var(--verde); background: #edfaf0; }
+.codigo-box {
+  background: var(--ng); color: #e8d5c0;
+  border-radius: 10px; padding: 1.2rem;
+  font-family: 'Courier New', monospace; font-size: .72rem;
+  line-height: 1.7; overflow-x: auto; white-space: pre;
+  max-height: 320px; overflow-y: auto;
+}
+.codigo-box .key { color: #f0a070; }
+.codigo-box .str { color: #a8d8a0; }
+.codigo-box .num { color: #88ccff; }
+
+/* PREVIEW */
+.preview-label { font-size: .72rem; font-weight: 700; color: var(--suave); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .75rem; }
+.preview-card {
+  background: #faf4ea; border-radius: 14px; overflow: hidden;
+  border: 1.5px solid var(--borde); max-width: 240px;
+}
+.preview-img {
+  width: 100%; aspect-ratio: 1; background: var(--cr);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3.5rem; position: relative;
+}
+.preview-badge {
+  position: absolute; top: 10px; left: 10px;
+  background: rgba(28,16,7,.65); color: white;
+  border-radius: 50px; padding: 3px 10px; font-size: .68rem; font-weight: 600;
+}
+.preview-info { padding: 14px; }
+.preview-info h4 { font-size: .88rem; font-weight: 700; margin-bottom: .2rem; line-height: 1.3; }
+.preview-tagline { font-size: .74rem; color: var(--suave); font-style: italic; margin-bottom: .7rem; }
+.preview-footer { display: flex; align-items: center; justify-content: space-between; }
+.preview-price { font-size: 1.05rem; font-weight: 800; color: var(--tc); }
+.preview-btn {
+  background: var(--tc); color: white; border: none;
+  border-radius: 50px; padding: 6px 14px;
+  font-size: .74rem; font-weight: 600;
+}
+
+/* INSTRUCCIONES */
+.instrucciones {
+  background: #f0f8f0; border: 1.5px solid #c0e0c8;
+  border-radius: 10px; padding: 1rem 1.2rem; margin-top: 1.5rem;
+}
+.instrucciones h4 { font-size: .78rem; font-weight: 700; color: #2d5a3a; margin-bottom: .6rem; }
+.instrucciones ol { padding-left: 1.2rem; }
+.instrucciones li { font-size: .75rem; color: #3a5a40; line-height: 1.8; }
+
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
+  .panel-form { border-right: none; border-bottom: 1px solid var(--borde); }
+  .campo-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">
+    <div class="dot">🐾</div>
+    <span>Patas & Caos</span>
+  </div>
+  <span class="header-sub">Panel de productos</span>
+</header>
+
+<div class="layout">
+
+  <!-- ═══ FORMULARIO ═══ -->
+  <div class="panel-form">
+
+    <!-- DATOS BÁSICOS -->
+    <div class="seccion">
+      <p class="seccion-titulo">Datos básicos</p>
+
+      <div class="campo">
+        <label>Nombre del producto *</label>
+        <input type="text" id="nombre" placeholder="ej: Rascador Espacial" oninput="generarId()">
+      </div>
+
+      <div class="campo-row">
+        <div class="campo">
+          <label>Precio de venta *</label>
+          <input type="number" id="precio" placeholder="9990" min="0">
+          <p class="campo-hint">Solo el número, sin puntos ni $</p>
+        </div>
+        <div class="campo">
+          <label>ID del producto *</label>
+          <input type="text" id="productoId" placeholder="rascador-espacial">
+          <p class="campo-hint">Generado automático, puedes editar</p>
+        </div>
+      </div>
+
+      <div class="campo-row">
+        <div class="campo">
+          <label>Categoría *</label>
+          <select id="categoria">
+            <option value="Accesorio">Accesorio</option>
+            <option value="Juguete">Juguete</option>
+            <option value="Cuidado">Cuidado</option>
+            <option value="Snack">Snack</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Audiencia *</label>
+          <select id="audience">
+            <option value="Para Gatos">Para Gatos</option>
+            <option value="Para Perros">Para Perros</option>
+            <option value="Perros & Gatos">Perros & Gatos</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Tagline (frase corta para la tarjeta) *</label>
+        <input type="text" id="tagline" placeholder='ej: "El sueño de todo explorador."'>
+      </div>
+    </div>
+
+    <!-- DESCRIPCIÓN Y CARACTERÍSTICAS -->
+    <div class="seccion">
+      <p class="seccion-titulo">Descripción y características</p>
+
+      <div class="campo">
+        <label>Descripción completa *</label>
+        <textarea id="descripcion" placeholder="Descripción con el humor y estilo de Patas & Caos..."></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Título de la lista (Características / Ingredientes)</label>
+        <select id="caracTitulo">
+          <option value="Características">Características</option>
+          <option value="Ingredientes">Ingredientes</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Características / Ingredientes *</label>
+        <div class="lista-items" id="caracItems">
+          <div class="lista-item">
+            <input type="text" placeholder="ej: Material resistente a mordiscos">
+            <button class="btn-remove" onclick="removeItem(this)">✕</button>
+          </div>
+        </div>
+        <button class="btn-add-item" onclick="addCarac()">+ Agregar ítem</button>
+      </div>
+    </div>
+
+    <!-- IMÁGENES Y VARIANTES -->
+    <div class="seccion">
+      <p class="seccion-titulo">Imágenes y variantes</p>
+
+      <div class="toggle-row">
+        <button class="toggle" id="toggleVariantes" onclick="toggleVariantes()" title="Activar variantes"></button>
+        <span class="toggle-label">¿Tiene variantes de sabor o color?</span>
+      </div>
+
+      <!-- SIN VARIANTES -->
+      <div id="bloqueImagenes">
+        <div class="campo">
+          <label>Archivos de imagen (nombres exactos en GitHub) *</label>
+          <div class="lista-items" id="imagenesItems">
+            <div class="lista-item">
+              <input type="text" placeholder="ej: Collar_GPS.png">
+              <button class="btn-remove" onclick="removeItem(this)">✕</button>
+            </div>
+          </div>
+          <button class="btn-add-item" onclick="addImagen()">+ Agregar imagen</button>
+          <p class="campo-hint">Escribe el nombre exacto del archivo, incluyendo extensión</p>
+        </div>
+      </div>
+
+      <!-- CON VARIANTES -->
+      <div id="bloqueVariantes" style="display:none;">
+        <div id="variantesContainer"></div>
+        <button class="btn-add-item" onclick="addVariante()">+ Agregar variante</button>
+      </div>
+    </div>
+
+    <!-- GENERAR -->
+    <button class="btn-generar" onclick="generar()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Generar código
+    </button>
+
+  </div>
+
+  <!-- ═══ OUTPUT ═══ -->
+  <div class="panel-output" id="panelOutput">
+    <div class="output-placeholder">
+      <div class="big">🐾</div>
+      <p>Completa el formulario y haz clic en <strong>Generar código</strong></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ══ TOGGLE VARIANTES ══ */
+let tieneVariantes = false;
+let varianteCount = 0;
+
+function toggleVariantes() {
+  tieneVariantes = !tieneVariantes;
+  const btn = document.getElementById('toggleVariantes');
+  btn.classList.toggle('on', tieneVariantes);
+  document.getElementById('bloqueImagenes').style.display = tieneVariantes ? 'none' : 'block';
+  document.getElementById('bloqueVariantes').style.display = tieneVariantes ? 'block' : 'none';
+  if (tieneVariantes && document.getElementById('variantesContainer').children.length === 0) {
+    addVariante();
+    addVariante();
+  }
+}
+
+function addVariante() {
+  varianteCount++;
+  const n = varianteCount;
+  const container = document.getElementById('variantesContainer');
+  const div = document.createElement('div');
+  div.className = 'variante-card';
+  div.id = 'variante-' + n;
+  div.innerHTML = `
+    <div class="variante-header">
+      <span class="variante-num">Variante ${n}</span>
+      <button class="btn-remove" onclick="this.closest('.variante-card').remove()" style="width:auto;padding:0 8px;border-radius:6px;font-size:.72rem;">Eliminar</button>
+    </div>
+    <div class="campo">
+      <label>Nombre del sabor / color</label>
+      <input type="text" placeholder="ej: Pato" class="v-label">
+    </div>
+    <div class="campo">
+      <label>Imágenes de esta variante</label>
+      <div class="lista-items v-imgs">
+        <div class="lista-item">
+          <input type="text" placeholder="ej: Lamb_Meat_Sticks.png">
+          <button class="btn-remove" onclick="removeItem(this)">✕</button>
+        </div>
+      </div>
+      <button class="btn-add-item" onclick="addImagenVariante(this)">+ Agregar imagen</button>
+    </div>
+  `;
+  container.appendChild(div);
+}
+
+function addImagenVariante(btn) {
+  const lista = btn.previousElementSibling;
+  const item = document.createElement('div');
+  item.className = 'lista-item';
+  item.innerHTML = `<input type="text" placeholder="foto.png"><button class="btn-remove" onclick="removeItem(this)">✕</button>`;
+  lista.appendChild(item);
+}
+
+/* ══ LISTAS DINÁMICAS ══ */
+function addCarac() {
+  const lista = document.getElementById('caracItems');
+  const item = document.createElement('div');
+  item.className = 'lista-item';
+  item.innerHTML = `<input type="text" placeholder="ej: Otra característica"><button class="btn-remove" onclick="removeItem(this)">✕</button>`;
+  lista.appendChild(item);
+  item.querySelector('input').focus();
+}
+
+function addImagen() {
+  const lista = document.getElementById('imagenesItems');
+  const item = document.createElement('div');
+  item.className = 'lista-item';
+  item.innerHTML = `<input type="text" placeholder="ej: Foto_Producto_2.png"><button class="btn-remove" onclick="removeItem(this)">✕</button>`;
+  lista.appendChild(item);
+  item.querySelector('input').focus();
+}
+
+function removeItem(btn) {
+  const parent = btn.closest('.lista-items');
+  if (parent && parent.children.length <= 1) return;
+  btn.closest('.lista-item').remove();
+}
+
+/* ══ GENERAR ID AUTOMÁTICO ══ */
+function generarId() {
+  const nombre = document.getElementById('nombre').value;
+  const id = nombre.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim().replace(/\s+/g, '-');
+  document.getElementById('productoId').value = id;
+}
+
+/* ══ FORMATEAR PRECIO ══ */
+function formatPrecio(num) {
+  return '$' + parseInt(num).toLocaleString('es-CL').replace(/\./g, '.');
+}
+
+/* ══ OBTENER VALORES ══ */
+function getListItems(contenedor) {
+  return Array.from(contenedor.querySelectorAll('.lista-item input'))
+    .map(i => i.value.trim()).filter(Boolean);
+}
+
+/* ══ GENERAR CÓDIGO ══ */
+function generar() {
+  const nombre    = document.getElementById('nombre').value.trim();
+  const precioNum = parseInt(document.getElementById('precio').value) || 0;
+  const id        = document.getElementById('productoId').value.trim();
+  const categoria = document.getElementById('categoria').value;
+  const audience  = document.getElementById('audience').value;
+  const tagline   = document.getElementById('tagline').value.trim();
+  const desc      = document.getElementById('descripcion').value.trim();
+  const caracTit  = document.getElementById('caracTitulo').value;
+  const caracs    = getListItems(document.getElementById('caracItems'));
+
+  if (!nombre || !precioNum || !id || !tagline || !desc || caracs.length === 0) {
+    alert('Completa todos los campos obligatorios (*)');
+    return;
+  }
+
+  const precio = formatPrecio(precioNum);
+  let imagenCard = '';
+  let jsProducto = '';
+
+  if (!tieneVariantes) {
+    const imagenes = getListItems(document.getElementById('imagenesItems'));
+    if (imagenes.length === 0) { alert('Agrega al menos una imagen'); return; }
+    imagenCard = imagenes[0];
+
+    const caracStr = caracs.map(c => `          '${c}'`).join(',\n');
+    const imgStr   = imagenes.map(i => `'${i}'`).join(', ');
+    const phStr    = imagenes.map(() => `'🐾'`).join(', ');
+
+    jsProducto = `  '${id}': {
+    nombre: '${nombre}',
+    precio: '${precio}', precioNum: ${precioNum},
+    audience: '${audience}', categoria: '${categoria}',
+    descripcion: '${desc.replace(/'/g,"\\'")}',
+    caracTitulo: '${caracTit}',
+    caracteristicas: [
+${caracStr}
+    ],
+    imagenes: [${imgStr}],
+    placeholders: [${phStr}]
+  },`;
+  } else {
+    const varCards = document.querySelectorAll('.variante-card');
+    if (varCards.length === 0) { alert('Agrega al menos una variante'); return; }
+
+    const variantes = Array.from(varCards).map(card => {
+      const label = card.querySelector('.v-label').value.trim();
+      const imgs  = Array.from(card.querySelectorAll('.v-imgs .lista-item input')).map(i => i.value.trim()).filter(Boolean);
+      return { label, imgs };
+    }).filter(v => v.label && v.imgs.length > 0);
+
+    if (variantes.length === 0) { alert('Completa al menos una variante con nombre e imagen'); return; }
+
+    imagenCard = variantes[0].imgs[0];
+
+    const caracStr  = caracs.map(c => `          '${c}'`).join(',\n');
+    const varStr    = variantes.map(v => {
+      const imgStr = v.imgs.map(i => `'${i}'`).join(', ');
+      const phStr  = v.imgs.map(() => `'🐾'`).join(', ');
+      return `      { label: '${v.label}', imagenes: [${imgStr}], placeholders: [${phStr}] }`;
+    }).join(',\n');
+
+    jsProducto = `  '${id}': {
+    nombre: '${nombre}',
+    precio: '${precio}', precioNum: ${precioNum},
+    audience: '${audience}', categoria: '${categoria}',
+    descripcion: '${desc.replace(/'/g,"\\'")}',
+    caracTitulo: '${caracTit}',
+    caracteristicas: [
+${caracStr}
+    ],
+    variantes: [
+${varStr}
+    ]
+  },`;
+  }
+
+  // HTML de la tarjeta
+  const btnAnadir = tieneVariantes
+    ? `<button class="btn-add" onclick="event.stopPropagation(); abrirModal('${id}')">Elegir sabor</button>`
+    : `<button class="btn-add" onclick="event.stopPropagation(); addToCart({id:'${id}',name:'${nombre}',price:${precioNum},img:'${imagenCard}'})">Añadir</button>`;
+
+  const htmlCard = `<div class="prod-card" onclick="abrirModal('${id}')">
+  <div class="prod-img">
+    <img src="${imagenCard}" alt="${nombre}">
+    <span class="prod-badge">${categoria}</span>
+    <button class="prod-heart" onclick="event.stopPropagation()">♡</button>
+  </div>
+  <div class="prod-info">
+    <h4>${nombre}</h4>
+    <p class="tagline">${tagline}</p>
+    <div class="prod-footer">
+      <span class="prod-price">${precio}</span>
+      ${btnAnadir}
+    </div>
+  </div>
+</div>`;
+
+  // Preview emoji según categoría
+  const emojiMap = { Accesorio:'🎀', Juguete:'🎮', Cuidado:'✨', Snack:'🍪' };
+  renderOutput(jsProducto, htmlCard, { nombre, precio, categoria, tagline, imagenCard, tieneVariantes, emoji: emojiMap[categoria] || '🐾' });
+}
+
+/* ══ RENDERIZAR OUTPUT ══ */
+function renderOutput(js, html, meta) {
+  document.getElementById('panelOutput').innerHTML = `
+
+    <div class="codigo-bloque">
+      <div class="codigo-header">
+        <span class="codigo-titulo">1 — Pegar en el objeto <code>productos</code> del JS</span>
+        <button class="btn-copiar" onclick="copiar(this, 'js-code')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copiar
+        </button>
+      </div>
+      <div class="codigo-box" id="js-code">${escapeHtml(js)}</div>
+    </div>
+
+    <div class="codigo-bloque">
+      <div class="codigo-header">
+        <span class="codigo-titulo">2 — Pegar en la grilla <code>prod-grid</code> del HTML</span>
+        <button class="btn-copiar" onclick="copiar(this, 'html-code')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copiar
+        </button>
+      </div>
+      <div class="codigo-box" id="html-code">${escapeHtml(html)}</div>
+    </div>
+
+    <div class="codigo-bloque">
+      <p class="preview-label">Vista previa de la tarjeta</p>
+      <div class="preview-card">
+        <div class="preview-img">
+          ${meta.imagenCard ? `<img src="${meta.imagenCard}" alt="${meta.nombre}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">` : ''}
+          <span style="position:absolute;font-size:3.5rem;">${meta.imagenCard ? '' : meta.emoji}</span>
+          <span class="preview-badge">${meta.categoria}</span>
+        </div>
+        <div class="preview-info">
+          <h4>${meta.nombre}</h4>
+          <p class="preview-tagline">${meta.tagline || '"El mejor del mercado."'}</p>
+          <div class="preview-footer">
+            <span class="preview-price">${meta.precio}</span>
+            <button class="preview-btn">${meta.tieneVariantes ? 'Elegir sabor' : 'Añadir'}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instrucciones">
+      <h4>📋 ¿Cómo usar estos bloques?</h4>
+      <ol>
+        <li>Copia el <strong>bloque JS</strong> y pégalo dentro del objeto <code>const productos = { ... }</code> en tu index.html, antes del cierre <code>};</code></li>
+        <li>Copia el <strong>bloque HTML</strong> y pégalo dentro de <code>&lt;div class="prod-grid"&gt;</code></li>
+        <li>Sube los cambios a GitHub → Vercel despliega automático</li>
+      </ol>
+    </div>
+  `;
+}
+
+/* ══ COPIAR AL PORTAPAPELES ══ */
+function copiar(btn, id) {
+  const texto = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(texto).then(() => {
+    btn.classList.add('copiado');
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ¡Copiado!`;
+    setTimeout(() => {
+      btn.classList.remove('copiado');
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copiar`;
+    }, 2000);
+  });
+}
+
+/* ══ ESCAPE HTML ══ */
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
