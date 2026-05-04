@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventario — Patas & Caos</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #F5ECD7;
+    --terracota: #C4622D;
+    --negro: #1A1A1A;
+    --dark: #1C1007;
+    --card-bg: #FAF4EA;
+    --borde: rgba(28,16,7,.1);
+    --verde: #2d7a3a;
+    --rojo: #c0392b;
+    --texto-suave: #6b5a4e;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--cream);
+    color: var(--negro);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--dark);
+    padding: 0 5%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .header-brand img { width: 36px; height: 36px; object-fit: contain; }
+  .header-brand-text { color: #F5ECD7; }
+  .header-brand-text strong { display: block; font-weight: 700; font-size: .95rem; line-height: 1.1; }
+  .header-brand-text span { font-size: .72rem; color: rgba(245,236,215,.55); font-weight: 400; }
+  .header-actions { display: flex; gap: .75rem; align-items: center; }
+  .btn-header {
+    background: none;
+    border: 1.5px solid rgba(245,236,215,.25);
+    color: #F5ECD7;
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-family: 'Poppins', sans-serif;
+    font-size: .82rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all .2s;
+  }
+  .btn-header:hover { border-color: var(--terracota); color: var(--terracota); }
+  .btn-exportar {
+    background: var(--terracota);
+    border-color: var(--terracota);
+    color: #fff;
+  }
+  .btn-exportar:hover { background: #a8501f; border-color: #a8501f; color: #fff; }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 5%; }
+
+  /* SUMMARY CARDS */
+  .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+  .sum-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--borde);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+  }
+  .sum-card .label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--texto-suave); margin-bottom: .4rem; }
+  .sum-card .value { font-size: 2rem; font-weight: 900; color: var(--negro); line-height: 1; }
+  .sum-card.verde .value { color: var(--verde); }
+  .sum-card.rojo .value { color: var(--rojo); }
+  .sum-card.terracota .value { color: var(--terracota); }
+
+  /* FILTERS */
+  .filters {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .filter-btn {
+    padding: 7px 18px;
+    border-radius: 50px;
+    border: 1.5px solid var(--borde);
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--texto-suave);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .filter-btn:hover { border-color: var(--terracota); color: var(--terracota); }
+  .filter-btn.activo { background: var(--terracota); border-color: var(--terracota); color: #fff; }
+
+  /* PRODUCT LIST */
+  .prod-list { display: flex; flex-direction: column; gap: .75rem; }
+  .sku-row {
+    background: var(--card-bg);
+    border: 1.5px solid var(--borde);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color .2s, opacity .2s;
+  }
+  .sku-row.agotado { opacity: .65; }
+  .sku-row.agotado { border-color: rgba(192,57,43,.25); }
+  .sku-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: #f0dfc0;
+    flex-shrink: 0;
+  }
+  .sku-img-placeholder {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    background: #f0dfc0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .sku-info { flex: 1; min-width: 0; }
+  .sku-nombre { font-weight: 700; font-size: .9rem; color: var(--negro); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sku-meta { display: flex; gap: .5rem; align-items: center; margin-top: .2rem; flex-wrap: wrap; }
+  .sku-cat {
+    font-size: .68rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 50px;
+    background: rgba(196,98,45,.1);
+    color: var(--terracota);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .sku-precio { font-size: .78rem; color: var(--texto-suave); font-weight: 500; }
+  .sku-updated { font-size: .7rem; color: #aaa; }
+
+  /* TOGGLE */
+  .toggle-wrap { display: flex; align-items: center; gap: .6rem; flex-shrink: 0; }
+  .toggle-label { font-size: .78rem; font-weight: 600; min-width: 60px; text-align: right; }
+  .toggle-label.en-stock { color: var(--verde); }
+  .toggle-label.agotado-lbl { color: var(--rojo); }
+  .toggle {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: var(--rojo);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background .25s;
+  }
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 3px;
+    top: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .25s;
+  }
+  .toggle input:checked + .toggle-slider { background: var(--verde); }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(22px); }
+
+  /* MODAL EXPORTAR */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+  }
+  .modal-bg.open { opacity: 1; visibility: visible; }
+  .modal-box {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 640px;
+    box-shadow: 0 24px 64px rgba(0,0,0,.2);
+    transform: translateY(16px);
+    transition: transform .3s;
+  }
+  .modal-bg.open .modal-box { transform: translateY(0); }
+  .modal-box h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; }
+  .modal-box p { font-size: .82rem; color: var(--texto-suave); margin-bottom: 1rem; line-height: 1.5; }
+  .code-block {
+    background: var(--dark);
+    color: #f0dfc0;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-family: 'Courier New', monospace;
+    font-size: .75rem;
+    line-height: 1.7;
+    white-space: pre;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .modal-btns { display: flex; gap: .75rem; justify-content: flex-end; }
+  .btn-copiar {
+    background: var(--terracota);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 22px;
+    font-family: 'Poppins', sans-serif;
+    font-size: .85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-copiar:hover { background: #a8501f; }
+  .btn-cerrar-modal {
+    background: none;
+    border: 1.5px solid var(--borde);
+    color: var(--texto-suave);
+    border-radius: 50px;
+    padding: 10px 22px;
+    font-family: 'Poppins', sans-serif;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-cerrar-modal:hover { border-color: var(--negro); color: var(--negro); }
+
+  /* LOG */
+  .log-section { margin-top: 2.5rem; }
+  .log-title { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--texto-suave); margin-bottom: .75rem; }
+  .log-list { display: flex; flex-direction: column; gap: .4rem; }
+  .log-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    font-size: .78rem;
+    color: var(--texto-suave);
+    padding: .5rem .75rem;
+    background: var(--card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--borde);
+  }
+  .log-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .log-dot.verde { background: var(--verde); }
+  .log-dot.rojo { background: var(--rojo); }
+  .log-item strong { color: var(--negro); }
+  .log-time { margin-left: auto; font-size: .7rem; color: #aaa; }
+  .log-empty { font-size: .82rem; color: #aaa; font-style: italic; padding: .5rem .75rem; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--negro);
+    color: #fff;
+    border-radius: 50px;
+    padding: 12px 22px;
+    font-size: .85rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: all .3s;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 700px) {
+    .summary { grid-template-columns: repeat(2, 1fr); }
+    .sku-nombre { font-size: .82rem; }
+  }
+  @media (max-width: 480px) {
+    .header-brand-text span { display: none; }
+    .sku-updated { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="header-brand">
+    <img src="logo.png" alt="Patas & Caos">
+    <div class="header-brand-text">
+      <strong>Patas & Caos</strong>
+      <span>Panel de Inventario</span>
+    </div>
+  </a>
+  <div class="header-actions">
+    <a href="/" class="btn-header" target="_blank">↗ Ver tienda</a>
+    <button class="btn-header btn-exportar" onclick="abrirExportar()">⬇ Exportar código</button>
+  </div>
+</header>
+
+<main>
+  <!-- SUMMARY -->
+  <div class="summary" id="summary">
+    <div class="sum-card">
+      <div class="label">Total SKUs</div>
+      <div class="value" id="sum-total">0</div>
+    </div>
+    <div class="sum-card verde">
+      <div class="label">En stock</div>
+      <div class="value" id="sum-stock">0</div>
+    </div>
+    <div class="sum-card rojo">
+      <div class="label">Agotados</div>
+      <div class="value" id="sum-agotados">0</div>
+    </div>
+    <div class="sum-card terracota">
+      <div class="label">Categorías</div>
+      <div class="value">4</div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters" id="filters">
+    <button class="filter-btn activo" onclick="filtrar('Todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filtrar('Accesorio', this)">🎀 Accesorios</button>
+    <button class="filter-btn" onclick="filtrar('Juguete', this)">🎾 Juguetes</button>
+    <button class="filter-btn" onclick="filtrar('Cuidado', this)">✨ Cuidado</button>
+    <button class="filter-btn" onclick="filtrar('Snack', this)">🍪 Snacks</button>
+  </div>
+
+  <!-- PRODUCT LIST -->
+  <div class="prod-list" id="prod-list"></div>
+
+  <!-- LOG -->
+  <div class="log-section">
+    <div class="log-title">📋 Historial de cambios</div>
+    <div class="log-list" id="log-list"></div>
+  </div>
+</main>
+
+<!-- MODAL EXPORTAR -->
+<div class="modal-bg" id="modal-exportar">
+  <div class="modal-box">
+    <h3>Exportar código de stock</h3>
+    <p>Copia este bloque y pégalo en tu <strong>index.html</strong>, reemplazando el objeto <code>stockInicial</code> existente. Luego sube a GitHub y Vercel lo despliega automático.</p>
+    <div class="code-block" id="codigo-exportar"></div>
+    <div class="modal-btns">
+      <button class="btn-cerrar-modal" onclick="cerrarExportar()">Cerrar</button>
+      <button class="btn-copiar" onclick="copiarCodigo()">Copiar código</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════
+   CATÁLOGO DE SKUs
+═══════════════════════════════════════ */
+const SKUS = [
+  { id: 'collar-findmy',                  nombre: 'Collar Find My',                      cat: 'Accesorio', precio: '$16.990', img: 'Collar_GPS.png',               emoji: '📡' },
+  { id: 'fuente-agua',                    nombre: 'Fuente de Agua Flor USB',             cat: 'Accesorio', precio: '$21.990', img: 'Bebedero_Gatos_2.png',          emoji: '💧' },
+  { id: 'pajaro',                         nombre: 'Pájaro Interactivo',                  cat: 'Juguete',   precio: '$13.990', img: 'Pajaro_Gatos.png',              emoji: '🐦' },
+  { id: 'pelota-led',                     nombre: 'Pelota Interactiva LED',              cat: 'Juguete',   precio: '$8.990',  img: 'Pelota_Interactiva_Gato.png',   emoji: '🔦' },
+  { id: 'pulpo',                          nombre: 'Masajeador Pulpo',                    cat: 'Juguete',   precio: '$6.990',  img: 'Pulpo_Gatos_1.png',             emoji: '🐙' },
+  { id: 'paw-balm',                       nombre: 'Paw Balm',                            cat: 'Cuidado',   precio: '$5.990',  img: 'Patas_y_Paw_Balm.png',          emoji: '🐾' },
+  { id: 'afeitadora',                     nombre: 'Afeitadora LED',                      cat: 'Cuidado',   precio: '$9.990',  img: 'Afeitadora_Gatos_1.png',        emoji: '✂️' },
+  { id: 'cat-fest_Pato',                  nombre: 'Cat Fest Meat Sticks — Pato',         cat: 'Snack',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.png',          emoji: '🦆' },
+  { id: 'cat-fest_Cordero',               nombre: 'Cat Fest Meat Sticks — Cordero',      cat: 'Snack',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.png',          emoji: '🐑' },
+  { id: 'cats-snack_Catnip',              nombre: 'Cats Snack — Catnip',                 cat: 'Snack',     precio: '$2.990',  img: 'Cats_Snacks_Gato.png',          emoji: '🌿' },
+  { id: 'cats-snack_Matatabi',            nombre: 'Cats Snack — Matatabi',               cat: 'Snack',     precio: '$2.990',  img: 'Cats_Snacks_Gato.png',          emoji: '🌱' },
+  { id: 'cats-snack_Rellena Atún + Queso',    nombre: 'Cats Snack — Rellena Atún + Queso',    cat: 'Snack', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🧀' },
+  { id: 'cats-snack_Rellena Atún + Ostiones', nombre: 'Cats Snack — Rellena Atún + Ostiones', cat: 'Snack', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🦪' },
+  { id: 'cats-snack_Rellena Atún + Pollo',    nombre: 'Cats Snack — Rellena Atún + Pollo',    cat: 'Snack', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🍗' },
+];
+
+const STOCK_KEY = 'pac_stock';
+const LOG_KEY   = 'pac_stock_log';
+
+/* ═══════════════════════════════════════
+   ESTADO
+═══════════════════════════════════════ */
+function cargarStock() {
+  try {
+    const s = localStorage.getItem(STOCK_KEY);
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  // Default: todo en stock
+  const def = {};
+  SKUS.forEach(s => def[s.id] = true);
+  return def;
+}
+
+function guardarStock(stock) {
+  localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
+}
+
+function cargarLog() {
+  try {
+    const l = localStorage.getItem(LOG_KEY);
+    return l ? JSON.parse(l) : [];
+  } catch(e) { return []; }
+}
+
+function guardarLog(log) {
+  localStorage.setItem(LOG_KEY, JSON.stringify(log.slice(0, 20)));
+}
+
+let stock = cargarStock();
+let filtroActual = 'Todos';
+
+/* ═══════════════════════════════════════
+   RENDER
+═══════════════════════════════════════ */
+function render() {
+  actualizarSummary();
+  renderLista();
+  renderLog();
+}
+
+function actualizarSummary() {
+  const total = SKUS.length;
+  const enStock = SKUS.filter(s => stock[s.id] !== false).length;
+  document.getElementById('sum-total').textContent = total;
+  document.getElementById('sum-stock').textContent = enStock;
+  document.getElementById('sum-agotados').textContent = total - enStock;
+}
+
+function renderLista() {
+  const lista = document.getElementById('prod-list');
+  const skusFiltrados = filtroActual === 'Todos'
+    ? SKUS
+    : SKUS.filter(s => s.cat === filtroActual);
+
+  lista.innerHTML = '';
+  skusFiltrados.forEach(sku => {
+    const enStock = stock[sku.id] !== false;
+    const row = document.createElement('div');
+    row.className = 'sku-row' + (enStock ? '' : ' agotado');
+    row.dataset.cat = sku.cat;
+    row.innerHTML = `
+      <div class="sku-img-placeholder" id="img-wrap-${sku.id.replace(/[^a-z0-9]/gi,'_')}">
+        ${sku.emoji}
+      </div>
+      <div class="sku-info">
+        <div class="sku-nombre">${sku.nombre}</div>
+        <div class="sku-meta">
+          <span class="sku-cat">${sku.cat}</span>
+          <span class="sku-precio">${sku.precio}</span>
+        </div>
+      </div>
+      <div class="toggle-wrap">
+        <span class="toggle-label ${enStock ? 'en-stock' : 'agotado-lbl'}" id="lbl-${sku.id.replace(/[^a-z0-9]/gi,'_')}">
+          ${enStock ? 'En stock' : 'Agotado'}
+        </span>
+        <label class="toggle">
+          <input type="checkbox" ${enStock ? 'checked' : ''} onchange="cambiarStock('${sku.id}', this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    `;
+    lista.appendChild(row);
+
+    // Intentar cargar imagen real
+    const img = new Image();
+    img.src = sku.img;
+    img.style.cssText = 'width:52px;height:52px;border-radius:10px;object-fit:cover;';
+    img.onload = () => {
+      const wrap = document.getElementById(`img-wrap-${sku.id.replace(/[^a-z0-9]/gi,'_')}`);
+      if (wrap) { wrap.innerHTML = ''; wrap.appendChild(img); }
+    };
+  });
+}
+
+function renderLog() {
+  const log = cargarLog();
+  const el = document.getElementById('log-list');
+  if (log.length === 0) {
+    el.innerHTML = '<div class="log-empty">Sin cambios registrados todavía.</div>';
+    return;
+  }
+  el.innerHTML = log.slice(0, 10).map(entry => `
+    <div class="log-item">
+      <span class="log-dot ${entry.enStock ? 'verde' : 'rojo'}"></span>
+      <span><strong>${entry.nombre}</strong> marcado como <strong>${entry.enStock ? 'En stock' : 'Agotado'}</strong></span>
+      <span class="log-time">${entry.hora}</span>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════
+   ACCIONES
+═══════════════════════════════════════ */
+function cambiarStock(id, enStock) {
+  stock[id] = enStock;
+  guardarStock(stock);
+
+  // Actualizar log
+  const sku = SKUS.find(s => s.id === id);
+  const log = cargarLog();
+  log.unshift({
+    id,
+    nombre: sku?.nombre || id,
+    enStock,
+    hora: new Date().toLocaleString('es-CL', { dateStyle: 'short', timeStyle: 'short' })
+  });
+  guardarLog(log);
+
+  // Re-render
+  render();
+  mostrarToast(enStock ? `✅ ${sku?.nombre} → En stock` : `🚫 ${sku?.nombre} → Agotado`);
+}
+
+function filtrar(cat, btn) {
+  filtroActual = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
+  renderLista();
+}
+
+/* ═══════════════════════════════════════
+   EXPORTAR
+═══════════════════════════════════════ */
+function abrirExportar() {
+  const lineas = SKUS.map(sku => {
+    const val = stock[sku.id] !== false ? 1 : 0;
+    return `  '${sku.id}': ${val},   // ${sku.nombre}`;
+  }).join('\n');
+
+  const codigo = `const stockInicial = {\n${lineas}\n};`;
+  document.getElementById('codigo-exportar').textContent = codigo;
+  document.getElementById('modal-exportar').classList.add('open');
+}
+
+function cerrarExportar() {
+  document.getElementById('modal-exportar').classList.remove('open');
+}
+
+function copiarCodigo() {
+  const texto = document.getElementById('codigo-exportar').textContent;
+  navigator.clipboard.writeText(texto).then(() => {
+    mostrarToast('✅ Código copiado al portapapeles');
+    cerrarExportar();
+  });
+}
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+let toastTimer;
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* CERRAR MODAL CON FONDO */
+document.getElementById('modal-exportar').addEventListener('click', function(e) {
+  if (e.target === this) cerrarExportar();
+});
+
+/* INIT */
+render();
+</script>
+</body>
+</html>
