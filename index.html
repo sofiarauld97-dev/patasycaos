@@ -658,7 +658,7 @@
     <span>Patas & Caos</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#tienda">Tienda</a></li>
+    <li><a href="/tienda">Tienda</a></li>
     <li><a href="#categorias">Categorías</a></li>
     <li><a href="#nosotros">Nosotros</a></li>
     <li><a href="#contacto">Contacto</a></li>
@@ -674,7 +674,7 @@
 
 <!-- MENÚ MÓVIL -->
 <div class="mobile-menu" id="mobile-menu">
-  <a href="#tienda" onclick="toggleMenu()">Tienda</a>
+  <a href="/tienda" onclick="toggleMenu()">Tienda</a>
   <a href="#categorias" onclick="toggleMenu()">Categorías</a>
   <a href="#nosotros" onclick="toggleMenu()">Nosotros</a>
   <a href="#contacto" onclick="toggleMenu()">Contacto</a>
@@ -707,7 +707,7 @@
     <h1>Todo lo que tu mascota <em>destrozará</em> con amor.</h1>
     <p>Accesorios, juguetes y comida pensados para perros, gatos y los humanos que los aguantan. Con cariño, sin postureo.</p>
     <div class="hero-btns">
-      <button class="btn-primary" onclick="document.getElementById('tienda').scrollIntoView({behavior:'smooth'})">Comprar ahora →</button>
+      <button class="btn-primary" onclick="window.location.href='/tienda'">Comprar ahora →</button>
       <button class="btn-outline" onclick="document.getElementById('categorias').scrollIntoView({behavior:'smooth'})">Ver categorías</button>
     </div>
     <div class="hero-stats">
@@ -729,58 +729,23 @@
   <p class="section-label">Categorías</p>
   <h2 class="section-title">Explora el caos organizado.</h2>
   <div class="cat-grid">
-    <div class="cat-card" onclick="filtrarPorCategoria('Accesorio')"><div class="cat-icon">🎀</div><h3>Accesorios</h3><p>Para no perderse en el caos</p></div>
-    <div class="cat-card" onclick="filtrarPorCategoria('Juguete')"><div class="cat-icon">🎾</div><h3>Juguetes</h3><p>Pa' que rompan con estilo</p></div>
-    <div class="cat-card" onclick="filtrarPorCategoria('Cuidado')"><div class="cat-icon">✨</div><h3>Cuidado</h3><p>Porque también merecen spa</p></div>
-    <div class="cat-card" onclick="filtrarPorCategoria('Snack')"><div class="cat-icon">🍪</div><h3>Snacks</h3><p>Soborno legalizado</p></div>
+    <div class="cat-card" onclick="window.location.href='/tienda?cat=Accesorio'"><div class="cat-icon">🎀</div><h3>Accesorios</h3><p>Para no perderse en el caos</p></div>
+    <div class="cat-card" onclick="window.location.href='/tienda?cat=Juguete'"><div class="cat-icon">🎾</div><h3>Juguetes</h3><p>Pa' que rompan con estilo</p></div>
+    <div class="cat-card" onclick="window.location.href='/tienda?cat=Cuidado'"><div class="cat-icon">✨</div><h3>Cuidado</h3><p>Porque también merecen spa</p></div>
+    <div class="cat-card" onclick="window.location.href='/tienda?cat=Snack'"><div class="cat-icon">🍪</div><h3>Snacks</h3><p>Soborno legalizado</p></div>
   </div>
 </section>
 
-<!-- TIENDA -->
-<section class="tienda" id="tienda">
-  <div class="tienda-header">
+<!-- MÁS VENDIDOS -->
+<section class="products" id="destacados">
+  <div class="products-header">
     <div>
-      <p class="section-label">Tienda</p>
-      <h2 class="section-title">Todo el caos,<span>organizado.</span></h2>
+      <p class="section-label">Más vendidos</p>
+      <h2 class="section-title">Lo que más arrasa.<span>Literalmente.</span></h2>
     </div>
-    <span class="tienda-count" id="tienda-count">9 productos</span>
+    <button class="btn-ghost" onclick="window.location.href='/tienda'">Ver todo →</button>
   </div>
-
-  <div class="tienda-filters">
-    <div class="filter-group">
-      <span class="filter-label">Categoría</span>
-      <div class="filter-pills" id="filter-cat">
-        <button class="filter-pill activo" onclick="setFiltro('cat','todos',this)">Todos</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Accesorio',this)">🎀 Accesorios</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Juguete',this)">🎾 Juguetes</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Cuidado',this)">✨ Cuidado</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Snack',this)">🍪 Snacks</button>
-      </div>
-    </div>
-    <div class="filter-divider"></div>
-    <div class="filter-group">
-      <span class="filter-label">Para</span>
-      <div class="filter-pills" id="filter-aud">
-        <button class="filter-pill activo" onclick="setFiltro('aud','todos',this)">Todos</button>
-        <button class="filter-pill" onclick="setFiltro('aud','Para Gatos',this)">🐱 Gatos</button>
-        <button class="filter-pill" onclick="setFiltro('aud','Perros & Gatos',this)">🐾 Perros & Gatos</button>
-      </div>
-    </div>
-    <div class="filter-divider"></div>
-    <div class="filter-group">
-      <span class="filter-label">Ordenar</span>
-      <select class="sort-select" id="sort-select" onchange="aplicarFiltros()">
-        <option value="default">Destacados</option>
-        <option value="price-asc">Precio ↑</option>
-        <option value="price-desc">Precio ↓</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="prod-grid" id="prod-grid"></div>
-  <div class="no-results" id="no-results" style="display:none">
-    <span>🐾</span><p>No hay productos en esta selección.</p>
-  </div>
+  <div class="prod-grid" id="prod-grid-destacados"></div>
 </section>
 
 <!-- NEWSLETTER -->
@@ -1520,7 +1485,41 @@ function getStock() {
 }
 
 // Llamar directamente — el script está al final del body, DOM ya listo
-generarTarjetas();
+const DESTACADOS = ['pulpo', 'collar-findmy', 'paw-balm', 'pelota-led', 'fuente-agua', 'cats-snack'];
+
+function generarDestacados() {
+  const grid = document.getElementById('prod-grid-destacados');
+  if (!grid) return;
+  grid.innerHTML = '';
+  const stock = getStock();
+  DESTACADOS.forEach(id => {
+    const p = productos[id]; if (!p) return;
+    const imagenes = p.variantes ? p.variantes[0].imagenes : p.imagenes;
+    const placeholders = p.variantes ? p.variantes[0].placeholders : p.placeholders;
+    const enStock = checkStockCard(id, stock);
+    const card = document.createElement('div');
+    card.className = 'prod-card' + (enStock ? '' : ' agotado');
+    card.addEventListener('click', () => abrirModal(id));
+    const carrusel = crearCarrusel(imagenes, placeholders);
+    const badge = document.createElement('span'); badge.className = 'prod-badge'; badge.textContent = p.categoria;
+    carrusel.appendChild(badge);
+    const heart = document.createElement('button'); heart.className = 'prod-heart'; heart.innerHTML = '♡';
+    heart.addEventListener('click', (e) => e.stopPropagation());
+    carrusel.appendChild(heart);
+    const btnId = 'dest-btn-' + id;
+    const info = document.createElement('div'); info.className = 'prod-info';
+    info.innerHTML = `<h4>${p.nombre}</h4><p class="tagline">${TAGLINES[id] || ''}</p><div class="prod-footer"><span class="prod-price">${p.precio}</span><button class="btn-add" id="${btnId}">${p.variantes ? 'Elegir sabor' : 'Añadir'}</button></div>`;
+    card.appendChild(carrusel); card.appendChild(info); grid.appendChild(card);
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      if (!enStock) { btn.textContent = 'Agotado'; btn.disabled = true; }
+      else if (p.variantes) btn.addEventListener('click', (e) => { e.stopPropagation(); abrirModal(id); });
+      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: imagenes[0] }); });
+    }
+  });
+}
+
+generarDestacados();
 
 function cerrarModal() {
   document.getElementById('modalProducto').classList.remove('activo');
