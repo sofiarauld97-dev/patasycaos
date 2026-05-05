@@ -1,0 +1,7 @@
+{
+  "name": "patasycaos",
+  "version": "1.0.0",
+  "dependencies": {
+    "@clerk/backend": "^1.0.0"
+  }
+}
