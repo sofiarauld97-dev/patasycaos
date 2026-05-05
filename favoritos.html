@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mis Favoritos — Patas & Caos</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{--cream:#F5ECD7;--terracota:#C4622D;--negro:#1A1A1A;--blanco:#FFFFFF;--dark:#1C1007;--card-bg:#FAF4EA;--suave:#6b5a4e;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Poppins',sans-serif;background:var(--cream);color:var(--negro);overflow-x:hidden;}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;background:var(--cream);border-bottom:1px solid rgba(28,16,7,.08);padding:0 5%;padding-top:env(safe-area-inset-top);display:flex;align-items:center;justify-content:space-between;height:calc(68px + env(safe-area-inset-top));}
+  .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .nav-logo img{width:44px;height:44px;object-fit:contain;}
+  .nav-logo span{font-weight:700;font-size:1.1rem;color:var(--negro);letter-spacing:-.02em;}
+  .nav-links{display:flex;gap:2rem;list-style:none;}
+  .nav-links a{text-decoration:none;color:var(--negro);font-size:.9rem;font-weight:500;transition:color .2s;}
+  .nav-links a:hover,.nav-links a.activo{color:var(--terracota);}
+  .nav-right{display:flex;align-items:center;gap:.5rem;}
+  .nav-cart{display:flex;align-items:center;gap:8px;background:var(--terracota);color:var(--blanco);border:none;border-radius:50px;padding:10px 22px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;transition:background .2s;text-decoration:none;}
+  .nav-cart:hover{background:#a8501f;}
+  .nav-cart-wrap{position:relative;}
+  .cart-badge{position:absolute;top:-6px;right:-6px;background:var(--negro);color:var(--blanco);border-radius:50%;width:20px;height:20px;font-size:.68rem;font-weight:700;display:none;align-items:center;justify-content:center;}
+  nav.scrolled{background:rgba(245,236,215,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+  .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:102;}
+  .hamburger span{display:block;width:24px;height:2px;background:var(--negro);border-radius:2px;transition:all .3s;}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu{position:fixed;top:0;left:0;right:0;background:var(--cream);border-bottom:1px solid rgba(28,16,7,.08);padding:24px 5%;padding-top:calc(68px + env(safe-area-inset-top) + 16px);display:none;flex-direction:column;gap:1.2rem;z-index:99;transform:translateY(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:0 8px 24px rgba(0,0,0,.08);}
+  .mobile-menu.open{transform:translateY(0);}
+  .mobile-menu a{text-decoration:none;color:var(--negro);font-size:1.1rem;font-weight:600;padding:8px 0;border-bottom:1px solid rgba(28,16,7,.06);transition:color .2s;}
+  .mobile-menu a:hover,.mobile-menu a.activo{color:var(--terracota);}
+  .mobile-menu a:last-child{border-bottom:none;}
+
+  /* USER NAV */
+  .btn-signin{background:none;border:1.5px solid rgba(28,16,7,.2);color:var(--negro);border-radius:50px;padding:9px 20px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.82rem;cursor:pointer;transition:all .2s;}
+  .btn-signin:hover{border-color:var(--terracota);color:var(--terracota);}
+  .user-wrap{position:relative;}
+  .user-avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;cursor:pointer;border:2px solid transparent;transition:border-color .2s;}
+  .user-avatar:hover{border-color:var(--terracota);}
+  .user-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:var(--blanco);border:1.5px solid rgba(28,16,7,.1);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:.75rem;min-width:180px;z-index:200;display:none;flex-direction:column;gap:.3rem;}
+  .user-dropdown.open{display:flex;}
+  .user-name-dd{font-size:.82rem;font-weight:700;padding:.4rem .6rem;color:var(--negro);border-bottom:1px solid rgba(28,16,7,.08);margin-bottom:.3rem;}
+  .user-dropdown button{background:none;border:none;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:500;color:#4a3a2e;cursor:pointer;padding:.5rem .6rem;border-radius:8px;text-align:left;display:block;transition:background .15s;width:100%;}
+  .user-dropdown button:hover{background:var(--cream);color:var(--terracota);}
+  .btn-signout{color:#c0392b !important;}
+
+  /* CARRITO */
+  .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;}
+  .cart-overlay.open{opacity:1;pointer-events:all;}
+  .cart-sidebar{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:95vw;background:var(--cream);z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:-8px 0 40px rgba(0,0,0,.12);}
+  .cart-sidebar.open{transform:translateX(0);}
+  .cart-header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px;border-bottom:1px solid rgba(28,16,7,.08);}
+  .cart-header h3{font-weight:700;font-size:1.1rem;}
+  .cart-close{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(28,16,7,.15);background:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+  .cart-close:hover{background:var(--negro);color:var(--blanco);border-color:var(--negro);}
+  .cart-items{flex:1;overflow-y:auto;padding:20px 28px;}
+  .cart-empty{text-align:center;padding:60px 20px;color:#8a7a6e;font-size:.9rem;line-height:1.7;}
+  .cart-empty span{font-size:3rem;display:block;margin-bottom:1rem;}
+  .cart-item{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid rgba(28,16,7,.06);}
+  .cart-item-img{width:72px;height:72px;border-radius:12px;object-fit:cover;background:#f0dfc0;flex-shrink:0;}
+  .cart-item-info{flex:1;}
+  .cart-item-info h4{font-size:.88rem;font-weight:700;margin-bottom:.25rem;line-height:1.3;}
+  .cart-item-info .price{font-size:.92rem;font-weight:800;color:var(--terracota);}
+  .cart-item-qty{display:flex;align-items:center;gap:8px;margin-top:8px;}
+  .qty-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(28,16,7,.2);background:none;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .2s;font-weight:700;}
+  .qty-btn:hover{background:var(--negro);color:var(--blanco);border-color:var(--negro);}
+  .qty-num{font-weight:700;font-size:.9rem;min-width:20px;text-align:center;}
+  .cart-item-remove{background:none;border:none;cursor:pointer;color:#aaa;font-size:1.1rem;padding:4px;transition:color .2s;flex-shrink:0;}
+  .cart-item-remove:hover{color:#e74c3c;}
+  .cart-footer{padding:20px 28px 28px;border-top:1px solid rgba(28,16,7,.08);}
+  .cart-subtotal{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .cart-subtotal span{font-size:.88rem;color:#6b5a4e;}
+  .cart-subtotal strong{font-size:1.3rem;font-weight:800;color:var(--negro);}
+  .cart-shipping{font-size:.78rem;color:#8a7a6e;margin-bottom:18px;}
+  .btn-checkout{width:100%;background:var(--terracota);color:var(--blanco);border:none;border-radius:50px;padding:16px;font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .btn-checkout:hover{background:#a8501f;}
+
+  /* PAGE */
+  .page-hero{background:var(--dark);padding:56px 5% 64px;text-align:center;}
+  .page-hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:900;color:var(--blanco);line-height:1.05;margin-bottom:.5rem;}
+  .page-hero h1 em{font-style:normal;color:var(--terracota);}
+  .page-hero p{font-size:.9rem;color:rgba(245,236,215,.5);max-width:400px;margin:0 auto;}
+
+  /* ESTADO */
+  .estado-wrap{max-width:900px;margin:0 auto;padding:64px 5% 80px;}
+  .estado-vacio{text-align:center;padding:60px 20px;}
+  .estado-vacio .icon{font-size:4rem;margin-bottom:1rem;}
+  .estado-vacio h3{font-size:1.2rem;font-weight:700;margin-bottom:.5rem;}
+  .estado-vacio p{font-size:.88rem;color:var(--suave);margin-bottom:1.5rem;line-height:1.6;}
+  .btn-ir-tienda{display:inline-block;background:var(--terracota);color:var(--blanco);border:none;border-radius:50px;padding:12px 28px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;text-decoration:none;transition:background .2s;}
+  .btn-ir-tienda:hover{background:#a8501f;}
+  .estado-login{text-align:center;padding:60px 20px;}
+  .estado-login .icon{font-size:4rem;margin-bottom:1rem;}
+  .estado-login h3{font-size:1.2rem;font-weight:700;margin-bottom:.5rem;}
+  .estado-login p{font-size:.88rem;color:var(--suave);margin-bottom:1.5rem;line-height:1.6;}
+  .btn-login{display:inline-block;background:var(--negro);color:var(--blanco);border:none;border-radius:50px;padding:12px 28px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;text-decoration:none;transition:background .2s;}
+  .btn-login:hover{background:#333;}
+
+  /* GRID */
+  .fav-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem;}
+  .fav-count{font-size:.88rem;color:var(--suave);}
+  .btn-limpiar-fav{background:none;border:1.5px solid rgba(28,16,7,.15);color:var(--suave);border-radius:50px;padding:7px 16px;font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;}
+  .btn-limpiar-fav:hover{border-color:#c0392b;color:#c0392b;}
+  .fav-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+  .prod-card{cursor:pointer;background:var(--card-bg);border-radius:18px;overflow:hidden;transition:transform .2s;}
+  .prod-card:hover{transform:translateY(-4px);}
+  .prod-img{position:relative;aspect-ratio:4/5;background:#f0dfc0;overflow:hidden;}
+  .prod-img img{width:100%;height:100%;object-fit:contain;transition:opacity .15s;}
+  .prod-badge{position:absolute;top:12px;left:12px;background:rgba(28,16,7,.65);color:var(--blanco);border-radius:50px;padding:4px 12px;font-size:.72rem;font-weight:600;}
+  .btn-quitar-fav{position:absolute;top:12px;right:12px;width:32px;height:32px;background:var(--blanco);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;border:none;transition:transform .2s;color:#e74c3c;}
+  .btn-quitar-fav:hover{transform:scale(1.15);}
+  .prod-info{padding:16px;}
+  .prod-info h4{font-weight:700;font-size:.9rem;margin-bottom:.2rem;}
+  .prod-info .tagline{font-size:.76rem;color:#6b5a4e;font-style:italic;margin-bottom:.75rem;}
+  .prod-footer{display:flex;align-items:center;justify-content:space-between;}
+  .prod-price{font-size:1.1rem;font-weight:800;color:var(--terracota);}
+  .btn-add{background:var(--terracota);color:var(--blanco);border:none;border-radius:50px;padding:7px 16px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.78rem;cursor:pointer;transition:background .2s;}
+  .btn-add:hover{background:#a8501f;}
+
+  /* FOOTER */
+  footer{background:var(--cream);border-top:1px solid rgba(28,16,7,.08);padding:48px 5% 32px;}
+  .footer-bottom{text-align:center;font-size:.82rem;color:#8a7a6e;padding-top:24px;border-top:1px solid rgba(28,16,7,.08);}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:40px;}
+  .footer-brand-row{display:flex;align-items:center;gap:10px;margin-bottom:.8rem;}
+  .footer-brand-row img{width:40px;height:40px;object-fit:contain;}
+  .footer-brand-name{font-weight:700;font-size:1rem;}
+  .footer-brand p{font-size:.85rem;color:#6b5a4e;line-height:1.6;max-width:260px;}
+  .footer-col h4{font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--negro);margin-bottom:1.2rem;}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.7rem;}
+  .footer-col ul a{text-decoration:none;color:#6b5a4e;font-size:.87rem;transition:color .2s;}
+  .footer-col ul a:hover{color:var(--terracota);}
+
+  @media(max-width:700px){.fav-grid{grid-template-columns:repeat(2,1fr);} .footer-grid{grid-template-columns:1fr;gap:2rem;} .nav-links{display:none;} .hamburger{display:flex;} .mobile-menu{display:flex;}}
+  @media(max-width:400px){.fav-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="logo.png" alt="Patas & Caos">
+    <span>Patas & Caos</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/tienda">Tienda</a></li>
+    <li><a href="/categorias">Categorías</a></li>
+    <li><a href="/nosotros">Nosotros</a></li>
+    <li><a href="/contacto">Contacto</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-cart-wrap">
+      <button class="nav-cart" onclick="toggleCart()">🛒 Carrito</button>
+      <span class="cart-badge" id="cart-badge">0</span>
+    </div>
+    <div id="nav-auth"></div>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/" onclick="toggleMenu()">Inicio</a>
+  <a href="/tienda" onclick="toggleMenu()">Tienda</a>
+  <a href="/categorias" onclick="toggleMenu()">Categorías</a>
+  <a href="/nosotros" onclick="toggleMenu()">Nosotros</a>
+  <a href="/contacto" onclick="toggleMenu()">Contacto</a>
+</div>
+
+<!-- CARRITO -->
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header">
+    <h3>🛒 Tu carrito</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty"><span>🐾</span>Tu carrito está vacío.</div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
+    <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
+    <button class="btn-checkout" onclick="window.location.href='/'">Ir a inicio para pagar</button>
+  </div>
+</aside>
+
+<!-- HERO -->
+<div class="page-hero">
+  <h1>Mis <em>favoritos.</em></h1>
+  <p>Los productos que guardaste para no perderlos.</p>
+</div>
+
+<!-- CONTENIDO -->
+<div class="estado-wrap" id="estado-wrap">
+  <!-- Se llena dinámicamente -->
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-row">
+        <img src="logo.png" alt="Patas & Caos" width="40" height="40">
+        <span class="footer-brand-name">Patas & Caos</span>
+      </div>
+      <p>Accesorios, juguetes y comida para mascotas con personalidad.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Tienda</h4>
+      <ul><li><a href="/tienda">Todos los productos</a></li><li><a href="/categorias">Categorías</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Mi cuenta</h4>
+      <ul><li><a href="/favoritos">Mis favoritos</a></li><li><a href="/contacto">Contacto</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Patas & Caos. Todos los ladridos reservados.</div>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('hamburger').classList.toggle('open');document.getElementById('mobile-menu').classList.toggle('open');}
+window.addEventListener('scroll',()=>document.querySelector('nav').classList.toggle('scrolled',window.scrollY>40));
+
+let cart=[];
+function toggleCart(){document.getElementById('cart-overlay').classList.toggle('open');document.getElementById('cart-sidebar').classList.toggle('open');document.body.style.overflow=document.getElementById('cart-sidebar').classList.contains('open')?'hidden':'';}
+function addToCart(product){const existing=cart.find(i=>i.id===product.id);if(existing)existing.qty++;else cart.push({...product,qty:1});renderCart();if(!document.getElementById('cart-sidebar').classList.contains('open'))toggleCart();}
+function changeQty(id,delta){const item=cart.find(i=>i.id===id);if(!item)return;item.qty+=delta;if(item.qty<=0)cart=cart.filter(i=>i.id!==id);renderCart();}
+function removeItem(id){cart=cart.filter(i=>i.id!==id);renderCart();}
+function renderCart(){
+  const container=document.getElementById('cart-items'),footer=document.getElementById('cart-footer'),badge=document.getElementById('cart-badge');
+  const totalItems=cart.reduce((s,i)=>s+i.qty,0),totalPrice=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  badge.textContent=totalItems;badge.style.display=totalItems>0?'flex':'none';
+  if(cart.length===0){container.innerHTML='<div class="cart-empty"><span>🐾</span>Tu carrito está vacío.</div>';footer.style.display='none';return;}
+  footer.style.display='block';
+  document.getElementById('cart-total').textContent='$'+totalPrice.toLocaleString('es-CL');
+  container.innerHTML=cart.map(item=>`<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`).join('');
+}
+
+/* CATÁLOGO */
+const TAGLINES={'tubito-atun':'"Cremoso, irresistible y con catnip. Fin."','tubito-conejo':'"El tubo que tu gato va a pedir con los ojos."','tubito-cangrejo':'"Cangrejo + catnip = caos garantizado."','lata-leonardo-kitten':'"Porque los gatitos también tienen exigencias."','lata-leonardo':'"Porque tu gato se merece un menú de verdad."','collar-findmy':'"Nunca más lo pierdes."','fuente-agua':'"Hidratación con glamour."','pajaro':'"Enemigo número uno."','pelota-led':'"Brilla. Rueda. Enloquece."','pulpo':'"Masaje y caos en uno."','paw-balm':'"SPA para patitas exigentes."','afeitadora':'"Menos pelo, más sofá."','cat-fest':'"Pato o cordero. Siempre piden más."','cats-snack':'"5 sabores, 0 culpa."'};
+const productos={
+  'tubito-atun':{nombre:'Tubito Cremoso Atún con Catnip',precio:'$2.990',precioNum:2990,categoria:'Snacks y Golosinas',imagenes:['Tubito_Cremoso_Cats_Snack2.png'],placeholders:['🐟']},
+  'tubito-conejo':{nombre:'Tubito Cremoso Conejo con Catnip',precio:'$2.990',precioNum:2990,categoria:'Snacks y Golosinas',imagenes:['Tubito_Cremoso_Cats_Snack1.png'],placeholders:['🐰']},
+  'tubito-cangrejo':{nombre:'Tubito Cremoso Cangrejo con Catnip',precio:'$2.990',precioNum:2990,categoria:'Snacks y Golosinas',imagenes:['Tubito_Cremoso_Cats_Snack3.png'],placeholders:['🦀']},
+  'lata-leonardo-kitten':{nombre:'Lata Leonardo Kitten 200g',precio:'$3.790',precioNum:3790,categoria:'Alimentos',imagenes:['Lata_Leonardo_Kitten.png'],placeholders:['🐱']},
+  'lata-leonardo':{nombre:'Lata Leonardo Adulto 200g',precio:'$3.790',precioNum:3790,categoria:'Alimentos',imagenes:['Latas_Leonardo_Adulto.png'],placeholders:['🐱']},
+  'collar-findmy':{nombre:'Collar con Rastreador Apple Find My',precio:'$12.990',precioNum:12990,categoria:'Accesorio',imagenes:['Collar_GPS.png'],placeholders:['📍']},
+  'fuente-agua':{nombre:'Fuente de Agua Flor USB',precio:'$21.990',precioNum:21990,categoria:'Accesorio',imagenes:['Bebedero_Gatos_2.png'],placeholders:['💧']},
+  'pajaro':{nombre:'Pájaro Interactivo',precio:'$13.990',precioNum:13990,categoria:'Juguete',imagenes:['Pajaro_Gatos.png'],placeholders:['🐦']},
+  'pelota-led':{nombre:'Pelota Interactiva LED',precio:'$8.990',precioNum:8990,categoria:'Juguete',imagenes:['Pelota_Interactiva_Gato.png'],placeholders:['⚡']},
+  'pulpo':{nombre:'Masajeador Pulpo',precio:'$6.990',precioNum:6990,categoria:'Juguete',imagenes:['Pulpo_Gatos_1.png'],placeholders:['🐙']},
+  'paw-balm':{nombre:'Paw Balm',precio:'$5.990',precioNum:5990,categoria:'Aseo e Higiene',imagenes:['Patas_y_Paw_Balm.png'],placeholders:['🐾']},
+  'afeitadora':{nombre:'Afeitadora LED para Mascotas',precio:'$9.990',precioNum:9990,categoria:'Aseo e Higiene',imagenes:['Afeitadora_Gatos_1.png'],placeholders:['✂️']},
+  'cat-fest':{nombre:'Cat Fest Meat Sticks',precio:'$3.490',precioNum:3490,categoria:'Snacks y Golosinas',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🥩']},
+  'cats-snack':{nombre:'Cats Snack',precio:'$2.990',precioNum:2990,categoria:'Snacks y Golosinas',imagenes:['Cats_Snacks_Gato.png'],placeholders:['🍪']},
+};
+
+/* SUPABASE */
+const SUPA_URL='https://xintmnshndhtqqbouxbo.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbnRtbnNobmRodHFxYm91eGJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDc2MTAsImV4cCI6MjA5MzU4MzYxMH0.Xl5eHoNoxLrb_8jK40zPL52Qa3t696QHkaAmyJEqJac';
+const _sb=window.supabase.createClient(SUPA_URL,SUPA_KEY);
+let sbToken=null,sbUser=null,wishlist=[];
+
+function updateAuthUI(){
+  const el=document.getElementById('nav-auth');if(!el)return;
+  if(sbUser){
+    const nombre=sbUser.user_metadata?.full_name||sbUser.email?.split('@')[0]||'Mi cuenta';
+    const avatar=sbUser.user_metadata?.avatar_url;
+    const avatarHTML=avatar?`<img src="${avatar}" class="user-avatar" onclick="toggleUserDropdown()" alt="${nombre}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;cursor:pointer">`:
+      `<div style="width:38px;height:38px;border-radius:50%;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onclick="toggleUserDropdown()">${nombre[0].toUpperCase()}</div>`;
+    el.innerHTML=`<div class="user-wrap">${avatarHTML}<div class="user-dropdown" id="user-dropdown"><span class="user-name-dd">👋 ${nombre}</span><a href="/favoritos" style="display:block;padding:.5rem .6rem;font-size:.82rem;font-weight:500;color:var(--terracota);text-decoration:none;border-radius:8px">❤️ Mis favoritos</a><button class="btn-signout" onclick="cerrarSesion()">Cerrar sesión</button></div></div>`;
+  }else{
+    el.innerHTML=`<button class="btn-signin" onclick="window.location.href='/'">Iniciar sesión</button>`;
+  }
+}
+
+function toggleUserDropdown(){document.getElementById('user-dropdown')?.classList.toggle('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('.user-wrap'))document.getElementById('user-dropdown')?.classList.remove('open');});
+
+async function cerrarSesion(){await _sb.auth.signOut();sbUser=null;sbToken=null;updateAuthUI();renderFavoritos();}
+
+async function cargarFavoritos(){
+  if(!sbToken){renderFavoritos();return;}
+  try{
+    const r=await fetch('/api/user-data-get',{headers:{Authorization:`Bearer ${sbToken}`}});
+    const data=await r.json();
+    wishlist=Array.isArray(data.wishlist)?data.wishlist:[];
+    if(Array.isArray(data.cart)&&data.cart.length>0){cart=data.cart;renderCart();}
+  }catch(e){}
+  renderFavoritos();
+}
+
+async function quitarFavorito(id){
+  wishlist=wishlist.filter(w=>w!==id);
+  await fetch('/api/user-data-set',{method:'POST',headers:{Authorization:`Bearer ${sbToken}`,'Content-Type':'application/json'},body:JSON.stringify({wishlist})});
+  renderFavoritos();
+}
+
+function renderFavoritos(){
+  const wrap=document.getElementById('estado-wrap');
+  if(!sbUser){
+    wrap.innerHTML=`<div class="estado-login"><div class="icon">🔒</div><h3>Inicia sesión para ver tus favoritos</h3><p>Guarda los productos que más te gustan y encuéntralos siempre aquí.</p><a href="/" class="btn-login">Ir al inicio</a></div>`;
+    return;
+  }
+  if(wishlist.length===0){
+    wrap.innerHTML=`<div class="estado-vacio"><div class="icon">💔</div><h3>Aún no tienes favoritos</h3><p>Navega la tienda y toca el ❤️ en los productos que te gusten para guardarlos aquí.</p><a href="/tienda" class="btn-ir-tienda">Ver la tienda →</a></div>`;
+    return;
+  }
+  const items=wishlist.filter(id=>productos[id]);
+  wrap.innerHTML=`
+    <div class="fav-header">
+      <span class="fav-count">${items.length} producto${items.length!==1?'s':''} guardado${items.length!==1?'s':''}</span>
+      <button class="btn-limpiar-fav" onclick="limpiarTodo()">✕ Limpiar todo</button>
+    </div>
+    <div class="fav-grid" id="fav-grid"></div>`;
+
+  const grid=document.getElementById('fav-grid');
+  items.forEach(id=>{
+    const p=productos[id];if(!p)return;
+    const img=p.imagenes?.[0]||'';
+    const emoji=p.placeholders?.[0]||'🐾';
+    const card=document.createElement('div');card.className='prod-card';
+    card.innerHTML=`
+      <div class="prod-img">
+        <img src="${img}" alt="${p.nombre}" onerror="this.style.display='none';this.parentElement.style.fontSize='3rem';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.textContent='${emoji}'">
+        <span class="prod-badge">${p.categoria}</span>
+        <button class="btn-quitar-fav" onclick="quitarFavorito('${id}')" title="Quitar de favoritos">❤️</button>
+      </div>
+      <div class="prod-info">
+        <h4>${p.nombre}</h4>
+        <p class="tagline">${TAGLINES[id]||''}</p>
+        <div class="prod-footer">
+          <span class="prod-price">${p.precio}</span>
+          <button class="btn-add" onclick="addToCart({id:'${id}',name:'${p.nombre}',price:${p.precioNum},img:'${img}'})">Añadir</button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+async function limpiarTodo(){
+  wishlist=[];
+  await fetch('/api/user-data-set',{method:'POST',headers:{Authorization:`Bearer ${sbToken}`,'Content-Type':'application/json'},body:JSON.stringify({wishlist})});
+  renderFavoritos();
+}
+
+/* INIT */
+_sb.auth.onAuthStateChange(async(event,session)=>{
+  if(session){sbUser=session.user;sbToken=session.access_token;updateAuthUI();if(event==='SIGNED_IN')await cargarFavoritos();}
+  else{sbUser=null;sbToken=null;updateAuthUI();renderFavoritos();}
+});
+
+_sb.auth.getSession().then(({data:{session}})=>{
+  if(session){sbUser=session.user;sbToken=session.access_token;updateAuthUI();cargarFavoritos();}
+  else{updateAuthUI();renderFavoritos();}
+});
+</script>
+</body>
+</html>
