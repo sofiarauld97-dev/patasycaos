@@ -871,22 +871,41 @@ function toggleWishlist(e, id) {
   guardarDatosUsuario({ saveCart: false, saveWishlist: true });
 }
 
-// Auto-guardar carrito cuando cambia
+// Auto-guardar carrito cuando cambia (solo si hay usuario logueado)
 const _origRenderCart = renderCart;
 renderCart = function() {
   _origRenderCart();
-  if (clerkUser) guardarDatosUsuario({ saveCart: true, saveWishlist: false });
+  if (clerkUser && clerkToken) {
+    // Debounce para no guardar en cada keystroke
+    clearTimeout(renderCart._saveTimer);
+    renderCart._saveTimer = setTimeout(() => {
+      guardarDatosUsuario({ saveCart: true, saveWishlist: false });
+    }, 800);
+  }
 };
 
 window.addEventListener('load', async () => {
+  // Esperar a que Clerk esté disponible (puede tardar si carga async)
+  let intentos = 0;
+  while (!window.Clerk && intentos < 20) {
+    await new Promise(r => setTimeout(r, 200));
+    intentos++;
+  }
   if (!window.Clerk) return;
   await window.Clerk.load();
   updateAuthUI();
   if (window.Clerk.user) await cargarDatosUsuario();
-  window.Clerk.addListener(({ user }) => {
-    if (user) cargarDatosUsuario();
-    else { cart=[]; wishlist=[]; renderCart(); actualizarWishlistUI(); }
-    updateAuthUI();
+  window.Clerk.addListener(async ({ user }) => {
+    if (user) {
+      clerkUser = user;
+      updateAuthUI();
+      await cargarDatosUsuario();
+    } else {
+      clerkUser = null;
+      cart = []; wishlist = [];
+      renderCart(); actualizarWishlistUI();
+      updateAuthUI();
+    }
   });
 });
 </script>
