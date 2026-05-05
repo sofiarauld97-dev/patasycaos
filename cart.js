@@ -6,6 +6,19 @@ const stockInicial = {'tubito-atun':3,'tubito-conejo':3,'tubito-cangrejo':3,'lat
 function getStock() { try { const s = localStorage.getItem('pac_stock'); if (!s) return {...stockInicial}; const p = JSON.parse(s); const m = {...stockInicial}; Object.keys(p).forEach(k => { m[k] = p[k]===false||p[k]===0?0:1; }); return m; } catch(e) { return {...stockInicial}; } }
 
 let cart = [];
+
+// Cargar carrito desde localStorage al iniciar
+(function() {
+  try {
+    const saved = localStorage.getItem('pac_cart');
+    if (saved) cart = JSON.parse(saved);
+  } catch(e) {}
+})();
+
+function guardarCarritoLocal() {
+  try { localStorage.setItem('pac_cart', JSON.stringify(cart)); } catch(e) {}
+}
+
 function toggleCart() { document.getElementById('cart-overlay').classList.toggle('open'); document.getElementById('cart-sidebar').classList.toggle('open'); document.body.style.overflow = document.getElementById('cart-sidebar').classList.contains('open') ? 'hidden' : ''; }
 function addToCart(product) {
   const stock = getStock();
@@ -44,8 +57,9 @@ function mostrarToastCarrito(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.style.opacity = '0', 2500);
 }
-function removeItem(id) { cart = cart.filter(i => i.id !== id); renderCart(); }
+function removeItem(id) { cart = cart.filter(i => i.id !== id); renderCart(); guardarCarritoLocal(); }
 function renderCart() {
+  guardarCarritoLocal();
   const container = document.getElementById('cart-items'), footer = document.getElementById('cart-footer'), badge = document.getElementById('cart-badge');
   const totalItems = cart.reduce((s,i) => s+i.qty, 0), totalPrice = cart.reduce((s,i) => s+i.price*i.qty, 0);
   badge.textContent = totalItems; badge.style.display = totalItems > 0 ? 'flex' : 'none';
@@ -308,6 +322,7 @@ async function cargarDatosUsuario() {
       const local = [...cart];
       cart = data.cart;
       local.forEach(item => { if (!cart.find(i=>i.id===item.id)) cart.push(item); });
+      guardarCarritoLocal();
       renderCart();
     }
     if (Array.isArray(data.wishlist)) { wishlist = data.wishlist; actualizarWishlistUI(); }
@@ -347,6 +362,7 @@ function updateAuthUI() {
 async function cerrarSesion() {
   await _sb.auth.signOut();
   sbUser=null; sbToken=null; cart=[]; wishlist=[];
+  guardarCarritoLocal();
   renderCart(); actualizarWishlistUI(); updateAuthUI();
 }
 
