@@ -15,7 +15,7 @@
     --borde-modal: #e0d5c5; --radio-modal: 16px; --radio-sm: 8px;
   }
   html { scroll-behavior: smooth; }
-  body { font-family: 'Poppins', sans-serif; background: var(--cream); color: var(--negro); overflow-x: hidden; }
+  body { font-family: 'Poppins', sans-serif; background: var(--dark); color: var(--negro); overflow-x: hidden; }
 
   /* NAV */
   nav {
@@ -103,7 +103,7 @@
 
   /* SHOP HEADER */
   .shop-header {
-    background: var(--dark); padding: 48px 5% 0;
+    background: var(--dark); padding: 48px 5% 0; margin-bottom: 0;
   }
   .breadcrumb {
     display: flex; align-items: center; gap: 8px;
@@ -333,8 +333,9 @@
         <button class="filter-pill activo" onclick="setFiltro('cat','todos',this)">Todos</button>
         <button class="filter-pill" onclick="setFiltro('cat','Accesorio',this)">🎀 Accesorios</button>
         <button class="filter-pill" onclick="setFiltro('cat','Juguete',this)">🎾 Juguetes</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Cuidado',this)">✨ Cuidado</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Snack',this)">🍪 Snacks</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Aseo e Higiene',this)">✨ Aseo e Higiene</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Alimentos',this)">🍽️ Alimentos</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Snacks y Golosinas',this)">🍪 Snacks y Golosinas</button>
       </div>
     </div>
     <div class="filter-divider"></div>
@@ -343,7 +344,7 @@
       <div class="filter-pills" id="filter-aud">
         <button class="filter-pill activo" onclick="setFiltro('aud','todos',this)">Todos</button>
         <button class="filter-pill" onclick="setFiltro('aud','Para Gatos',this)">🐱 Gatos</button>
-        <button class="filter-pill" onclick="setFiltro('aud','Perros & Gatos',this)">🐾 Perros & Gatos</button>
+        <button class="filter-pill" onclick="setFiltro('aud','Perros & Gatos',this)">🐶 Perros</button>
       </div>
     </div>
     <div class="filter-divider"></div>
@@ -518,15 +519,45 @@ async function checkout() {
 
 /* ── CATÁLOGO ── */
 const TAGLINES = {
+  'tubito-atun':'"Cremoso, irresistible y con catnip. Fin."',
+  'tubito-conejo':'"El tubo que tu gato va a pedir con los ojos."',
+  'tubito-cangrejo':'"Cangrejo + catnip = caos garantizado."',
+  'lata-leonardo-kitten':'"Porque los gatitos también tienen exigencias."',
+  'lata-leonardo':'"Porque tu gato se merece un menú de verdad."',
+  'collar-findmy':'"Nunca más lo pierdes."',
+  'fuente-agua':'"Hidratación con glamour."',
+  'pajaro':'"Enemigo número uno."',
+  'pelota-led':'"Brilla. Rueda. Enloquece."',
+  'pulpo':'"Masaje y caos en uno."',
+  'paw-balm':'"SPA para patitas exigentes."',
+  'afeitadora':'"Menos pelo, más sofá."',
+  'cat-fest':'"Pato o cordero. Siempre piden más."',
+  'cats-snack':'"5 sabores, 0 culpa."',
+};
   'collar-findmy': '"Nunca más lo pierdes."','fuente-agua': '"Hidratación con glamour."',
   'pajaro': '"Enemigo número uno."','pelota-led': '"Brilla. Rueda. Enloquece."',
   'pulpo': '"Masaje y caos en uno."','paw-balm': '"SPA para patitas exigentes."',
   'afeitadora': '"Menos pelo, más sofá."','cat-fest': '"Pato o cordero. Siempre piden más."',
   'cats-snack': '"5 sabores, 0 culpa."',
 };
-const ORDEN = ['collar-findmy','fuente-agua','pajaro','pelota-led','pulpo','paw-balm','afeitadora','cat-fest','cats-snack'];
+const ORDEN = ['tubito-atun','tubito-conejo','tubito-cangrejo','lata-leonardo-kitten','lata-leonardo','collar-findmy','fuente-agua','pajaro','pelota-led','pulpo','paw-balm','afeitadora','cat-fest','cats-snack'];
 
 const productos = {
+  'tubito-atun':{nombre:'Tubito Cremoso Atún con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'El combo más letal del universo felino: atún cremoso con catnip. Pack de 4 tubitos de puro premio.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor atún con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['Tubito_Cremoso_Cats_Snack2.png'],placeholders:['🐟']},
+  'tubito-conejo':{nombre:'Tubito Cremoso Conejo con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Conejo cremoso con catnip — una combinación que tu gato no va a poder ignorar. Pack de 4 tubitos.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor conejo con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['Tubito_Cremoso_Cats_Snack1.png'],placeholders:['🐰']},
+  'tubito-cangrejo':{nombre:'Tubito Cremoso Cangrejo con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Cangrejo cremoso con catnip — el sabor marino que hace perder la cabeza a cualquier gato. Pack de 4 tubitos.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor cangrejo con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['Tubito_Cremoso_Cats_Snack3.png'],placeholders:['🦀']},
+  'lata-leonardo-kitten':{nombre:'Lata Leonardo Kitten 200g',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Nutrición especial para gatitos en crecimiento. Leonardo Kitten fue formulada para cubrir todas las necesidades de los más pequeños de la casa — con proteína de alta calidad, sin cereales y con el estándar alemán.',caracTitulo:'Características',caracteristicas:['Formulada especialmente para gatitos','Alto contenido de proteína','Sin cereales añadidos','Formato 200g','🇩🇪 Fabricado en Alemania'],imagenes:['Lata_Leonardo_Kitten.png','Lata_Leonardo_Kitten_1.png'],placeholders:['🐱','🐱']},
+  'lata-leonardo':{nombre:'Lata Leonardo Adulto 200g',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Comida húmeda premium alemana para gatos adultos. Leonardo usa ingredientes de alta calidad, sin cereales añadidos y con alto contenido de proteína animal.',caracTitulo:'Características',caracteristicas:['Comida húmeda premium para gatos adultos','Alto contenido de proteína animal','Sin cereales añadidos','Formato 200g','5 sabores disponibles','🇩🇪 Fabricado en Alemania'],variantes:[{label:'Ave',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐔','🐱']},{label:'Pato',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🦆','🐱']},{label:'Conejo',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐰','🐱']},{label:'Pescado',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐟','🐱']},{label:'Ternera',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐄','🐱']}]},
+  'collar-findmy':{nombre:'Collar con Rastreador Apple Find My',precio:'$12.990',precioNum:12990,audience:'Perros & Gatos',categoria:'Accesorio',descripcion:'Porque tu gato sale "solo un momento" y desaparece tres horas. Compatible con la red Find My de Apple.',caracTitulo:'Características',caracteristicas:['Compatible con Apple Find My','Cinta nylon reflectante','Funda de silicona con diseño de huella','Cierre ajustable','Campanilla incluida'],imagenes:['Collar_GPS.png','Gato_con_Collar_GPS.png'],placeholders:['📍','🐱']},
+  'fuente-agua':{nombre:'Fuente de Agua Flor USB',precio:'$21.990',precioNum:21990,audience:'Para Gatos',categoria:'Accesorio',descripcion:'Tu gato se niega a tomar agua del tazón. Circulación continua, filtro incluido.',caracTitulo:'Características',caracteristicas:['Bomba silenciosa USB','Surtidor en forma de flor','Filtro incluido','Fácil de limpiar'],imagenes:['Bebedero_Gatos_2.png','Bebedero_Gatos_1.png'],placeholders:['💧','🐱']},
+  'pajaro':{nombre:'Pájaro Interactivo',precio:'$13.990',precioNum:13990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Un pájaro que se mueve solo. Tu gato va a actuar como si fuera su gran oportunidad.',caracTitulo:'Características',caracteristicas:['Movimiento autónomo','Peluche suave','Estimula instinto cazador'],imagenes:['Pajaro_Gatos.png','Milo_Pajaro_Gatos.png'],placeholders:['🐦','🐱']},
+  'pelota-led':{nombre:'Pelota Interactiva LED',precio:'$8.990',precioNum:8990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Brilla, rebota y arrastra cintas holográficas. Carga USB tipo C.',caracTitulo:'Características',caracteristicas:['Luz LED integrada','Cintas holográficas','Carga USB tipo C'],imagenes:['Pelota_Interactiva_Gato.png','Milo_Jugando_Pelota_Interactiva.png'],placeholders:['⚡','🐱']},
+  'pulpo':{nombre:'Masajeador Pulpo',precio:'$6.990',precioNum:6990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Sus tentáculos de silicona están diseñados para masajear y hacer perder la cordura a tu gato.',caracTitulo:'Características',caracteristicas:['Silicona suave','Tentáculos flexibles','Fácil de limpiar'],imagenes:['Pulpo_Gatos_1.png','Pulpo_Gatos_2.png'],placeholders:['🐙','🐙']},
+  'paw-balm':{nombre:'Paw Balm',precio:'$5.990',precioNum:5990,audience:'Perros & Gatos',categoria:'Aseo e Higiene',descripcion:'Crema hidratante natural para almohadillas resecas. 40g.',caracTitulo:'Ingredientes',caracteristicas:['Cera de abeja','Aceite de coco','Manteca de karité','Vitamina E','Cera de carnauba'],imagenes:['Patas_y_Paw_Balm.png','Paw_Balm.png','Ingredientes.png'],placeholders:['🐾','🐾','🌿']},
+  'afeitadora':{nombre:'Afeitadora LED para Mascotas',precio:'$9.990',precioNum:9990,audience:'Perros & Gatos',categoria:'Aseo e Higiene',descripcion:'Con luz LED para ver exactamente dónde cortas. Silenciosa y recargable.',caracTitulo:'Características',caracteristicas:['Luz LED integrada','Motor silencioso','Recargable USB'],imagenes:['Afeitadora_Gatos_1.png','Afeitadora_Gatos_2.png','Afeitadora_Gatos_3.png'],placeholders:['✂️','✂️','✂️']},
+  'cat-fest':{nombre:'Cat Fest Meat Sticks',precio:'$3.490',precioNum:3490,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Palitos de carne 100% natural. Sin azúcar ni cereales, con cierre zip lock. 45g.',caracTitulo:'Características',caracteristicas:['100% carne natural','Sin cereales','Cierre zip lock','45g'],variantes:[{label:'Pato',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🦆']},{label:'Cordero',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🐑']}]},
+  'cats-snack':{nombre:'Cats Snack',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Galletas crujientes por fuera, cremosas por dentro. 80g.',caracTitulo:'Características',caracteristicas:['Sin colorantes artificiales','Premio diario','80g'],variantes:[{label:'Catnip',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🌿','🐱']},{label:'Matatabi',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🌱','🐱']},{label:'Rellena Atún + Queso',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🧀','🐱']},{label:'Rellena Atún + Ostiones',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🦪','🐱']},{label:'Rellena Atún + Pollo',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🍗','🐱']}]},
+};
   'collar-findmy': { nombre:'Collar con Rastreador Apple Find My', precio:'$12.990', precioNum:12990, audience:'Perros & Gatos', categoria:'Accesorio', descripcion:'Porque tu gato sale "solo un momento" y desaparece tres horas. Este collar integra el soporte para rastreador Apple Find My, conectándose a la red de millones de dispositivos Apple para que puedas ubicarlo en tiempo real desde tu iPhone. Cinta nylon reflectante, campanilla metálica y funda de silicona en forma de huella.', caracTitulo:'Características', caracteristicas:['Compatible con rastreador Apple Find My','Cinta nylon reflectante de alta visibilidad','Funda de silicona suave con diseño de huella','Cierre de seguridad ajustable','Campanilla metálica incluida','Ajustable: cuellos de 20 a 32 cm'], imagenes:['Collar_GPS.png','Gato_con_Collar_GPS.png'], placeholders:['📍','🐱'] },
   'fuente-agua': { nombre:'Fuente de Agua Flor USB', precio:'$21.990', precioNum:21990, audience:'Para Gatos', categoria:'Accesorio', descripcion:'Tu gato se niega a tomar agua del tazón porque "el agua quieta no es digna de él". Esta fuente con circulación continua imita el agua corriente natural. El surtidor en forma de flor los atrae desde el primer segundo. Filtro incluido.', caracTitulo:'Características', caracteristicas:['Circulación continua con bomba silenciosa USB','Surtidor en forma de flor','Depósito transparente de gran capacidad','Filtro incluido','Fácil de desarmar y limpiar','Apto para gatos y perros pequeños'], imagenes:['Bebedero_Gatos_2.png','Bebedero_Gatos_1.png'], placeholders:['💧','🐱'] },
   'pajaro': { nombre:'Pájaro Interactivo', precio:'$13.990', precioNum:13990, audience:'Para Gatos', categoria:'Juguete', descripcion:'Un pájaro que se mueve solo. Tu gato va a actuar como si nunca en su vida hubiera cazado nada y esto fuera su gran oportunidad. El peluche interactivo simula el movimiento de un ave real activando el instinto cazador.', caracTitulo:'Características', caracteristicas:['Movimiento autónomo que simula aves reales','Material peluche suave y resistente','Estimula el instinto cazador natural','Promueve el ejercicio físico y mental','Apto para gatos de todas las edades'], imagenes:['Pajaro_Gatos.png','Milo_Pajaro_Gatos.png'], placeholders:['🐦','🐱'] },
@@ -541,7 +572,7 @@ const productos = {
 };
 
 /* ── STOCK ── */
-const stockInicial = { 'collar-findmy':1,'fuente-agua':1,'pajaro':1,'pelota-led':1,'pulpo':1,'paw-balm':1,'afeitadora':1,'cat-fest_Pato':1,'cat-fest_Cordero':1,'cats-snack_Catnip':1,'cats-snack_Matatabi':1,'cats-snack_Rellena Atún + Queso':1,'cats-snack_Rellena Atún + Ostiones':1,'cats-snack_Rellena Atún + Pollo':1 };
+const stockInicial = {'tubito-atun':3,'tubito-conejo':3,'tubito-cangrejo':3,'lata-leonardo-kitten':1,'lata-leonardo_Ave':1,'lata-leonardo_Pato':1,'lata-leonardo_Conejo':1,'lata-leonardo_Pescado':1,'lata-leonardo_Ternera':1,'collar-findmy':1,'fuente-agua':1,'pajaro':1,'pelota-led':2,'pulpo':1,'paw-balm':2,'afeitadora':1,'cat-fest_Pato':1,'cat-fest_Cordero':1,'cats-snack_Catnip':1,'cats-snack_Matatabi':1,'cats-snack_Rellena Atún + Queso':1,'cats-snack_Rellena Atún + Ostiones':1,'cats-snack_Rellena Atún + Pollo':1};
 function getStock() {
   try {
     const saved = localStorage.getItem('pac_stock');
@@ -750,6 +781,14 @@ if (catParam) {
 }
 
 generarTarjetas();
+
+(async () => {
+  try {
+    const r = await fetch('/api/stock-get');
+    const data = await r.json();
+    if (data.stock) { localStorage.setItem('pac_stock', JSON.stringify(data.stock)); generarTarjetas(); }
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>
