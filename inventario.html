@@ -415,21 +415,52 @@ const STOCK_KEY = 'pac_stock';
 const LOG_KEY   = 'pac_stock_log';
 
 /* ═══════════════════════════════════════
-   ESTADO
+   ESTADO — Upstash via Vercel Functions
 ═══════════════════════════════════════ */
+async function cargarStockRemoto() {
+  try {
+    const r = await fetch('/api/stock-get');
+    const data = await r.json();
+    if (data.stock) {
+      localStorage.setItem(STOCK_KEY, JSON.stringify(data.stock));
+      return data.stock;
+    }
+  } catch(e) { console.warn('Sin conexión, usando stock local'); }
+  // Fallback a localStorage
+  try {
+    const s = localStorage.getItem(STOCK_KEY);
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  const def = {};
+  SKUS.forEach(s => def[s.id] = true);
+  return def;
+}
+
+async function guardarStockRemoto(stock) {
+  // Guardar en localStorage inmediatamente (respuesta rápida)
+  localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
+  // Guardar en Upstash en segundo plano
+  try {
+    await fetch('/api/stock-set', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stock })
+    });
+  } catch(e) { console.warn('No se pudo guardar en nube, guardado solo local'); }
+}
+
 function cargarStock() {
   try {
     const s = localStorage.getItem(STOCK_KEY);
     if (s) return JSON.parse(s);
   } catch(e) {}
-  // Default: todo en stock
   const def = {};
   SKUS.forEach(s => def[s.id] = true);
   return def;
 }
 
 function guardarStock(stock) {
-  localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
+  guardarStockRemoto(stock);
 }
 
 function cargarLog() {
@@ -599,7 +630,12 @@ document.getElementById('modal-exportar').addEventListener('click', function(e) 
 });
 
 /* INIT */
-render();
+(async () => {
+  mostrarToast('⏳ Cargando stock...');
+  stock = await cargarStockRemoto();
+  render();
+  mostrarToast('✅ Stock sincronizado');
+})();
 </script>
 </body>
 </html>
