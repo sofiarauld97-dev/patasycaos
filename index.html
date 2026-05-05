@@ -567,6 +567,7 @@ function actualizarEnvio() {
 }
 
 
+async function checkout() {
   if (cart.length === 0) return;
   // Mostrar resumen en el modal
   const resumen = document.getElementById('checkoutResumen');
@@ -735,7 +736,7 @@ function agregarAlCarritoDesdeModal(){
   setTimeout(()=>{ btn.textContent='Añadir al carrito'; btn.style.background=''; cerrarModal(); },1200);
 }
 
-generarTarjetas();
+try { generarTarjetas(); } catch(e) { console.error('Error generarTarjetas:', e); }
 </script>
 </body>
 </html>
