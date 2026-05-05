@@ -140,6 +140,7 @@
     position: sticky; top: calc(68px + env(safe-area-inset-top));
     z-index: 50;
   }
+  @media (max-width: 768px) { .filters-bar { position: static; } }
   .filters-inner {
     display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
     padding: 1rem 1.25rem;
