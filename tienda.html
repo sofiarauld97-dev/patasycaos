@@ -904,13 +904,12 @@ _sb.auth.getSession().then(({data:{session}})=>{
     <p class="auth-msg" id="auth-msg"></p>
   </div>
 </div>
-<script src="/cart.js">
-// ── Persistencia carrito entre páginas ──
-(function(){
-  try{const s=localStorage.getItem('pac_cart');if(s&&cart.length===0){cart=JSON.parse(s);renderCart();}}catch(e){}
-})();
-const _rC=renderCart;
-renderCart=function(){_rC.apply(this,arguments);try{localStorage.setItem('pac_cart',JSON.stringify(cart));}catch(e){}};
+<script src="/cart.js"></script>
+<script>
+// ── Inicializar carrito desde localStorage ──
+(function(){try{const s=localStorage.getItem('pac_cart');if(s){cart=JSON.parse(s);renderCart();}}catch(e){}})();
+aplicarFiltros();
+(async()=>{try{const r=await fetch('/api/stock-get');const d=await r.json();if(d.stock){localStorage.setItem('pac_stock',JSON.stringify(d.stock));aplicarFiltros();}}catch(e){}})();
 </script>
 </body>
 </html>
