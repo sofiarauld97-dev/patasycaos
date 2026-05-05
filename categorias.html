@@ -12,6 +12,8 @@
   :root{--cream:#F5ECD7;--terracota:#C4622D;--negro:#1A1A1A;--blanco:#FFFFFF;--dark:#1C1007;--card-bg:#FAF4EA;--crema-dark:#eddfc6;--texto-suave:#6b5c4e;--borde-modal:#e0d5c5;--radio-modal:16px;--radio-sm:8px;}
   html{scroll-behavior:smooth;}
   body{font-family:'Poppins',sans-serif;background:var(--cream);color:var(--negro);overflow-x:hidden;}
+
+  /* NAV */
   nav{position:sticky;top:0;z-index:100;background:var(--cream);border-bottom:1px solid rgba(28,16,7,.08);padding:0 5%;padding-top:env(safe-area-inset-top);display:flex;align-items:center;justify-content:space-between;height:calc(68px + env(safe-area-inset-top));}
   .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
   .nav-logo img{width:44px;height:44px;object-fit:contain;}
@@ -45,6 +47,8 @@
   .mobile-menu a{text-decoration:none;color:var(--negro);font-size:1.1rem;font-weight:600;padding:8px 0;border-bottom:1px solid rgba(28,16,7,.06);transition:color .2s;}
   .mobile-menu a:hover,.mobile-menu a.activo{color:var(--terracota);}
   .mobile-menu a:last-child{border-bottom:none;}
+
+  /* CARRITO */
   .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;}
   .cart-overlay.open{opacity:1;pointer-events:all;}
   .cart-sidebar{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:95vw;background:var(--cream);z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:-8px 0 40px rgba(0,0,0,.12);}
@@ -76,6 +80,8 @@
   .btn-checkout:hover{background:#a8501f;}
   .btn-checkout:disabled{background:#ccc;cursor:not-allowed;}
   .cart-badge{position:absolute;top:-6px;right:-6px;background:var(--negro);color:var(--blanco);border-radius:50%;width:20px;height:20px;font-size:.68rem;font-weight:700;display:none;align-items:center;justify-content:center;}
+
+  /* PAGE HEADER */
   .page-header{background:var(--dark);padding:48px 5% 56px;}
   .breadcrumb{display:flex;align-items:center;gap:8px;font-size:.78rem;color:rgba(245,236,215,.4);margin-bottom:1.5rem;}
   .breadcrumb a{color:rgba(245,236,215,.4);text-decoration:none;transition:color .2s;}
@@ -83,7 +89,11 @@
   .page-header h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:900;color:var(--blanco);line-height:1.05;margin-bottom:.5rem;}
   .page-header h1 em{font-style:normal;color:var(--terracota);}
   .page-header p{font-size:.9rem;color:rgba(245,236,215,.5);}
+
+  /* LAYOUT */
   .shop-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:2rem;padding:2.5rem 5% 80px;align-items:start;}
+
+  /* SIDEBAR */
   .sidebar{background:var(--card-bg);border-radius:18px;border:1.5px solid rgba(28,16,7,.07);padding:1.5rem;position:sticky;top:calc(84px + env(safe-area-inset-top));align-self:start;z-index:1;overflow:hidden;min-width:0;max-width:240px;}
   .sidebar-section{margin-bottom:1.75rem;}
   .sidebar-section:last-child{margin-bottom:0;}
@@ -95,6 +105,8 @@
   .filter-check input[type=checkbox]:checked{background:var(--terracota);border-color:var(--terracota);}
   .filter-check input[type=checkbox]:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:.75rem;font-weight:700;}
   .filter-check .count{margin-left:auto;font-size:.75rem;color:#aaa;font-weight:400;}
+
+  /* PRICE SLIDER */
   .price-display{display:flex;align-items:center;gap:.3rem;margin-bottom:1rem;}
   .price-input{flex:1;min-width:0;border:1.5px solid rgba(28,16,7,.15);border-radius:8px;padding:7px 4px;font-family:'Poppins',sans-serif;font-size:.75rem;color:var(--negro);background:#fff;text-align:center;outline:none;transition:border-color .2s;}
   .price-input:focus{border-color:var(--terracota);}
@@ -106,12 +118,19 @@
   .range-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:var(--terracota);border:3px solid var(--blanco);box-shadow:0 2px 8px rgba(196,98,45,.35);cursor:pointer;pointer-events:all;transition:transform .15s;}
   .range-slider::-webkit-slider-thumb:hover{transform:scale(1.15);}
   .range-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--terracota);border:3px solid var(--blanco);box-shadow:0 2px 8px rgba(196,98,45,.35);cursor:pointer;pointer-events:all;}
-  #range-min{z-index:3;}#range-max{z-index:4;}
+  #range-min{z-index:3;}
+  #range-max{z-index:4;}
+
   .btn-limpiar{width:100%;background:none;border:1.5px solid rgba(28,16,7,.12);border-radius:50px;padding:9px;font-family:'Poppins',sans-serif;font-size:.8rem;font-weight:600;color:#6b5a4e;cursor:pointer;transition:all .2s;margin-top:.25rem;}
   .btn-limpiar:hover{border-color:var(--terracota);color:var(--terracota);}
+
+  /* MAIN CONTENT */
+  .shop-main{}
   .shop-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem;}
   .result-count{font-size:.85rem;color:#6b5a4e;font-weight:500;}
   .sort-select{padding:8px 14px;border-radius:50px;border:1.5px solid rgba(28,16,7,.12);background:var(--card-bg);font-family:'Poppins',sans-serif;font-size:.8rem;font-weight:600;color:var(--negro);cursor:pointer;outline:none;}
+
+  /* PROD GRID */
   .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;}
   .prod-card{cursor:pointer;background:var(--card-bg);border-radius:18px;overflow:hidden;transition:transform .2s;}
   .prod-card:hover{transform:translateY(-4px);}
@@ -129,14 +148,20 @@
   .btn-add:disabled{background:#aaa;cursor:not-allowed;}
   .prod-card.agotado{opacity:.65;}
   .prod-card.agotado .prod-img::after{content:'Agotado';position:absolute;inset:0;background:rgba(28,16,7,.45);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;}
+
+  /* CARRUSEL */
   .carr-btn{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.9);border:none;cursor:pointer;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:5;transition:background .15s,transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.15);color:var(--negro);user-select:none;}
   .carr-btn:hover{background:#fff;transform:translateY(-50%) scale(1.1);}
-  .carr-prev{left:8px;}.carr-next{right:8px;}
+  .carr-prev{left:8px;} .carr-next{right:8px;}
   .carr-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:5;}
   .carr-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:background .2s,transform .2s;}
   .carr-dot.activo{background:#fff;transform:scale(1.3);}
+
+  /* NO RESULTS */
   .no-results{grid-column:1/-1;text-align:center;padding:60px 20px;color:#6b5a4e;}
   .no-results span{font-size:3rem;display:block;margin-bottom:1rem;}
+
+  /* MODAL */
   .modal-overlay{position:fixed;inset:0;background:rgba(26,26,26,.72);backdrop-filter:blur(4px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
   .modal-overlay.activo{opacity:1;visibility:visible;}
   .modal-contenedor{background:var(--blanco);border-radius:var(--radio-modal);width:100%;max-width:900px;max-height:90vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;position:relative;box-shadow:0 24px 64px rgba(26,26,26,.2);transform:translateY(24px) scale(.97);transition:transform .35s cubic-bezier(.34,1.56,.64,1);}
@@ -174,6 +199,8 @@
   .modal-btn-carrito{margin-top:auto;padding:.9rem 1.5rem;background:var(--terracota);color:var(--blanco);border:none;border-radius:var(--radio-sm);font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .2s,transform .15s;}
   .modal-btn-carrito:hover{background:#a8501f;transform:translateY(-1px);}
   .modal-btn-carrito svg{width:18px;height:18px;flex-shrink:0;}
+
+  /* FOOTER */
   footer{background:var(--cream);border-top:1px solid rgba(28,16,7,.08);padding:48px 5% 32px;}
   .footer-bottom{text-align:center;font-size:.82rem;color:#8a7a6e;padding-top:24px;border-top:1px solid rgba(28,16,7,.08);}
   .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:40px;}
@@ -185,67 +212,20 @@
   .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.7rem;}
   .footer-col ul a{text-decoration:none;color:#6b5a4e;font-size:.87rem;transition:color .2s;}
   .footer-col ul a:hover{color:var(--terracota);}
+
+  /* MOBILE SIDEBAR TOGGLE */
   .btn-filtros-mobile{display:none;align-items:center;gap:8px;background:var(--card-bg);border:1.5px solid rgba(28,16,7,.12);border-radius:50px;padding:10px 20px;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:600;color:var(--negro);cursor:pointer;}
   .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s;}
   .sidebar-overlay.open{opacity:1;pointer-events:all;}
-  /* CHECKOUT MODAL — display:none para que NO aparezca debajo del footer */
-  .checkout-overlay{position:fixed;inset:0;background:rgba(26,26,26,.72);backdrop-filter:blur(4px);z-index:9998;display:none;align-items:center;justify-content:center;padding:1rem;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
-  .checkout-overlay.activo{display:flex;opacity:1;visibility:visible;}
-  .checkout-box{background:var(--blanco);border-radius:20px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:2rem;box-shadow:0 24px 64px rgba(26,26,26,.2);transform:translateY(24px);transition:transform .35s cubic-bezier(.34,1.56,.64,1);}
-  .checkout-overlay.activo .checkout-box{transform:translateY(0);}
-  .checkout-box h3{font-size:1.2rem;font-weight:900;margin-bottom:.3rem;}
-  .checkout-box .checkout-sub{font-size:.82rem;color:#6b5a4e;margin-bottom:1.5rem;}
-  .checkout-resumen{background:var(--cream);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;}
-  .checkout-resumen-item{display:flex;justify-content:space-between;font-size:.85rem;padding:.3rem 0;color:#4a3a2e;}
-  .checkout-resumen-total{display:flex;justify-content:space-between;font-size:1rem;font-weight:800;padding-top:.6rem;margin-top:.4rem;border-top:1px solid rgba(28,16,7,.1);color:var(--terracota);}
-  .checkout-section-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--terracota);margin-bottom:.8rem;margin-top:1.2rem;}
-  .checkout-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
-  .checkout-grid.full{grid-template-columns:1fr;}
-  .checkout-field{display:flex;flex-direction:column;gap:.3rem;}
-  .checkout-field label{font-size:.75rem;font-weight:600;color:#6b5a4e;}
-  .checkout-field input{border:1.5px solid rgba(28,16,7,.15);border-radius:10px;padding:10px 14px;font-family:'Poppins',sans-serif;font-size:.88rem;color:var(--negro);background:#fff;outline:none;transition:border-color .2s;}
-  .checkout-field input:focus{border-color:var(--terracota);}
-  .checkout-field input.error{border-color:#e74c3c;}
-  .checkout-btns{display:flex;gap:.75rem;margin-top:1.5rem;}
-  .btn-checkout-cancel{flex:1;background:none;border:1.5px solid rgba(28,16,7,.15);border-radius:50px;padding:12px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;color:#6b5a4e;transition:all .2s;}
-  .btn-checkout-cancel:hover{border-color:var(--negro);color:var(--negro);}
-  .btn-checkout-confirm{flex:2;background:#25D366;border:none;border-radius:50px;padding:12px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;}
-  .btn-checkout-confirm:hover{background:#1da851;}
-  .checkout-envio-info{display:flex;justify-content:space-between;align-items:center;background:var(--cream);border-radius:10px;padding:.75rem 1rem;margin-top:.75rem;font-size:.85rem;}
-  .checkout-envio-info span:first-child{color:#4a3a2e;}
-  .checkout-envio-info span:last-child{font-weight:700;color:var(--terracota);}
-  .checkout-envio-aviso{font-size:.75rem;color:#8a7a6e;margin-top:.4rem;font-style:italic;}
-  /* AUTH MODAL — display:none para que NO aparezca debajo del footer */
-  .auth-overlay{position:fixed;inset:0;background:rgba(26,26,26,.72);backdrop-filter:blur(4px);z-index:9998;display:none;align-items:center;justify-content:center;padding:1rem;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
-  .auth-overlay.activo{display:flex;opacity:1;visibility:visible;}
-  .auth-box{background:var(--blanco);border-radius:20px;padding:2.25rem;width:100%;max-width:400px;box-shadow:0 24px 64px rgba(26,26,26,.2);transform:translateY(16px);transition:transform .3s;position:relative;}
-  .auth-overlay.activo .auth-box{transform:translateY(0);}
-  .auth-logo{display:flex;justify-content:center;margin-bottom:1.25rem;}
-  .auth-logo img{width:48px;height:48px;object-fit:contain;}
-  .auth-box h3{font-size:1.2rem;font-weight:900;text-align:center;margin-bottom:.4rem;}
-  .auth-box p{font-size:.83rem;color:#6b5a4e;text-align:center;margin-bottom:1.5rem;line-height:1.5;}
-  .btn-google{width:100%;display:flex;align-items:center;justify-content:center;gap:.75rem;background:#fff;border:1.5px solid rgba(28,16,7,.15);border-radius:50px;padding:12px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;transition:all .2s;margin-bottom:1rem;}
-  .btn-google:hover{border-color:var(--terracota);}
-  .auth-divider{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;}
-  .auth-divider span{font-size:.75rem;color:#aaa;white-space:nowrap;}
-  .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:rgba(28,16,7,.1);}
-  .auth-field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.75rem;}
-  .auth-field label{font-size:.75rem;font-weight:600;color:#6b5a4e;}
-  .auth-field input{border:1.5px solid rgba(28,16,7,.15);border-radius:10px;padding:11px 14px;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s;width:100%;}
-  .auth-field input:focus{border-color:var(--terracota);}
-  .btn-auth{width:100%;background:var(--terracota);color:#fff;border:none;border-radius:50px;padding:13px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:background .2s;margin-top:.25rem;}
-  .btn-auth:hover{background:#a8501f;}
-  .auth-msg{font-size:.8rem;text-align:center;margin-top:.75rem;min-height:1.2rem;}
-  .auth-msg.ok{color:#2d7a3a;}
-  .auth-msg.err{color:#c0392b;}
-  .auth-close{position:absolute;top:1rem;right:1rem;width:32px;height:32px;border-radius:50%;border:none;background:var(--cream);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
+  .sidebar.mobile-open{transform:translateX(0);}
+
   @media(max-width:1024px){.prod-grid{grid-template-columns:repeat(2,1fr);}}
   @media(max-width:900px){
     .shop-layout{grid-template-columns:1fr;padding:1.5rem 5% 60px;}
-    .sidebar{position:fixed;top:0;left:0;bottom:0;width:300px;max-width:85vw;border-radius:0;z-index:301;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding-top:calc(env(safe-area-inset-top) + 1.5rem);}
+    .sidebar{position:fixed;top:0;left:0;bottom:0;width:300px;max-width:85vw;border-radius:0;z-index:301;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding-top:calc(env(safe-area-inset-top) + 1.5rem);max-width:300px;}
     .sidebar.mobile-open{transform:translateX(0);}
     .btn-filtros-mobile{display:flex;}
-    .nav-links{display:none;}.hamburger{display:flex;}.mobile-menu{display:flex;}
+    .nav-links{display:none;} .hamburger{display:flex;} .mobile-menu{display:flex;}
     .footer-grid{grid-template-columns:1fr;gap:2rem;}
     .price-display{flex-direction:column;align-items:stretch;gap:.5rem;}
     .price-sep{display:none;}
@@ -253,13 +233,48 @@
   }
   @media(max-width:500px){.prod-grid{grid-template-columns:repeat(2,1fr);gap:.75rem;}}
   @media(max-width:640px){.modal-contenedor{grid-template-columns:1fr;max-height:92vh;}.modal-galeria{border-radius:var(--radio-modal) var(--radio-modal) 0 0;position:static;padding:1.25rem;}.modal-imagen-principal{aspect-ratio:4/3;}.modal-contenido{padding:1.25rem;}.modal-nombre{font-size:1.2rem;}.modal-precio{font-size:1.35rem;}}
-  @media(max-width:600px){.nav-cart{padding:8px 12px;font-size:.78rem;}.btn-signin{padding:7px 12px;font-size:.75rem;}}
+/* CHECKOUT MODAL */
+  .checkout-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+  .checkout-overlay.activo { opacity: 1; visibility: visible; }
+  .checkout-box { background: var(--blanco); border-radius: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 2rem; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(24px); transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+  .checkout-overlay.activo .checkout-box { transform: translateY(0); }
+  .checkout-box h3 { font-size: 1.2rem; font-weight: 900; margin-bottom: .3rem; }
+  .checkout-box .checkout-sub { font-size: .82rem; color: #6b5a4e; margin-bottom: 1.5rem; }
+  .checkout-resumen { background: var(--cream); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+  .checkout-resumen-item { display: flex; justify-content: space-between; font-size: .85rem; padding: .3rem 0; color: #4a3a2e; }
+  .checkout-resumen-total { display: flex; justify-content: space-between; font-size: 1rem; font-weight: 800; padding-top: .6rem; margin-top: .4rem; border-top: 1px solid rgba(28,16,7,.1); color: var(--terracota); }
+  .checkout-section-label { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: .8rem; margin-top: 1.2rem; }
+  .checkout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+  .checkout-grid.full { grid-template-columns: 1fr; }
+  .checkout-field { display: flex; flex-direction: column; gap: .3rem; }
+  .checkout-field label { font-size: .75rem; font-weight: 600; color: #6b5a4e; }
+  .checkout-field input { border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; color: var(--negro); background: #fff; outline: none; transition: border-color .2s; }
+  .checkout-field input:focus { border-color: var(--terracota); }
+  .checkout-field input.error { border-color: #e74c3c; }
+  .checkout-btns { display: flex; gap: .75rem; margin-top: 1.5rem; }
+  .btn-checkout-cancel { flex: 1; background: none; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .88rem; cursor: pointer; color: #6b5a4e; transition: all .2s; }
+  .btn-checkout-cancel:hover { border-color: var(--negro); color: var(--negro); }
+  .btn-checkout-confirm { flex: 2; background: #25D366; border: none; border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background .2s; }
+  .btn-checkout-confirm:hover { background: #1da851; }
+  .checkout-envio-info { display: flex; justify-content: space-between; align-items: center; background: var(--cream); border-radius: 10px; padding: .75rem 1rem; margin-top: .75rem; font-size: .85rem; }
+  .checkout-envio-info span:first-child { color: #4a3a2e; }
+  .checkout-envio-info span:last-child { font-weight: 700; color: var(--terracota); }
+  .checkout-envio-aviso { font-size: .75rem; color: #8a7a6e; margin-top: .4rem; font-style: italic; }
+
+
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 2rem; } .hero-img { display: none; } .cat-grid { grid-template-columns: repeat(3, 1fr); } .prod-grid { grid-template-columns: repeat(3, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  @media (max-width: 600px) { .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; } .cat-grid { grid-template-columns: repeat(2, 1fr); } .prod-grid { grid-template-columns: repeat(2, 1fr); } .newsletter-box { padding: 36px 28px; } .newsletter-form { flex-direction: column; } .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; } .nav-cart { padding: 8px 12px; font-size: .78rem; } .btn-signin { padding: 7px 12px; font-size: .75rem; } }
+  @media (max-width: 640px) { .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; } .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; } .modal-imagen-principal { aspect-ratio: 4/3; } .modal-contenido { padding: 1.25rem; } .modal-nombre { font-size: 1.2rem; } .modal-precio { font-size: 1.35rem; } }
+
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="/" class="nav-logo"><img src="logo.png" alt="Patas & Caos"><span>Patas & Caos</span></a>
+  <a href="/" class="nav-logo">
+    <img src="logo.png" alt="Patas & Caos">
+    <span>Patas & Caos</span>
+  </a>
   <ul class="nav-links">
     <li><a href="/">Inicio</a></li><li><a href="/tienda">Tienda</a></li>
     <li><a href="/categorias" class="activo">Categorías</a></li>
@@ -271,8 +286,11 @@
     <span class="cart-badge" id="cart-badge">0</span>
   </div>
   <div id="nav-auth"></div>
-  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú"><span></span><span></span><span></span></button>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
 <div class="mobile-menu" id="mobile-menu">
   <a href="/" onclick="toggleMenu()">Inicio</a>
   <a href="/tienda" onclick="toggleMenu()">Tienda</a>
@@ -281,25 +299,39 @@
   <a href="/contacto" onclick="toggleMenu()">Contacto</a>
 </div>
 
+<!-- CARRITO -->
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
 <aside class="cart-sidebar" id="cart-sidebar">
-  <div class="cart-header"><h3>🛒 Tu carrito</h3><button class="cart-close" onclick="toggleCart()">✕</button></div>
-  <div class="cart-items" id="cart-items"><div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div></div>
+  <div class="cart-header">
+    <h3>🛒 Tu carrito</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>
+  </div>
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
     <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
-    <button class="btn-checkout" onclick="checkout()">Pagar con Mercado Pago →</button>
+    <button class="btn-checkout" onclick="window.location.href='/'">Ir a inicio para pagar</button>
   </div>
 </aside>
 
+<!-- PAGE HEADER -->
 <div class="page-header">
-  <div class="breadcrumb"><a href="/">Inicio</a><span>›</span><span>Categorías</span></div>
+  <div class="breadcrumb">
+    <a href="/">Inicio</a><span>›</span><span>Categorías</span>
+  </div>
   <h1>Explora el <em>caos</em><br>organizado.</h1>
   <p>Encuentra lo que tu peludo necesita — filtrado por categoría y precio.</p>
 </div>
 
+<!-- LAYOUT -->
 <div class="shop-layout">
+
+  <!-- SIDEBAR OVERLAY (mobile) -->
   <div class="sidebar-overlay" id="sidebar-overlay" onclick="cerrarSidebar()"></div>
+
+  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-section">
       <p class="sidebar-title">Categoría</p>
@@ -311,6 +343,7 @@
         <label class="filter-check"><input type="checkbox" value="Snacks y Golosinas" onchange="aplicarFiltros()"><span>🍪 Snacks y Golosinas</span><span class="count" id="count-Snacks">5</span></label>
       </div>
     </div>
+
     <div class="sidebar-section">
       <p class="sidebar-title">Para</p>
       <div class="filter-checks" id="filter-aud">
@@ -318,6 +351,7 @@
         <label class="filter-check"><input type="checkbox" value="Perros & Gatos" onchange="aplicarFiltros()"><span>🐶 Perros</span></label>
       </div>
     </div>
+
     <div class="sidebar-section">
       <p class="sidebar-title">Precio</p>
       <div class="price-display">
@@ -334,9 +368,11 @@
         <input class="range-slider" id="range-max" type="range" min="0" max="25990" step="100" value="25990" oninput="onRangeChange()">
       </div>
     </div>
+
     <button class="btn-limpiar" onclick="limpiarFiltros()">✕ Limpiar filtros</button>
   </aside>
 
+  <!-- MAIN -->
   <div class="shop-main">
     <div class="shop-top">
       <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
@@ -344,7 +380,7 @@
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
           Filtros
         </button>
-        <span class="result-count" id="result-count">14 productos</span>
+        <span class="result-count" id="result-count">9 productos</span>
       </div>
       <select class="sort-select" id="sort-select" onchange="aplicarFiltros()">
         <option value="default">Destacados</option>
@@ -357,33 +393,55 @@
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <div class="footer-brand-row"><img src="logo.png" alt="Patas & Caos" width="40" height="40"><span class="footer-brand-name">Patas & Caos</span></div>
+      <div class="footer-brand-row">
+        <img src="logo.png" alt="Patas & Caos" width="40" height="40">
+        <span class="footer-brand-name">Patas & Caos</span>
+      </div>
       <p>Accesorios, juguetes y comida para mascotas con personalidad.</p>
     </div>
-    <div class="footer-col"><h4>Tienda</h4><ul><li><a href="/">Inicio</a></li><li><a href="/tienda">Tienda</a></li><li><a href="/categorias">Categorías</a></li></ul></div>
-    <div class="footer-col"><h4>Ayuda</h4><ul><li><a href="#">Envíos</a></li><li><a href="/contacto">Contacto</a></li></ul></div>
+    <div class="footer-col">
+      <h4>Tienda</h4>
+      <ul><li><a href="/">Inicio</a></li><li><a href="/categorias">Categorías</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ayuda</h4>
+      <ul><li><a href="#">Envíos</a></li><li><a href="#">Contacto</a></li></ul>
+    </div>
   </div>
   <div class="footer-bottom">© 2026 Patas & Caos. Todos los ladridos reservados.</div>
 </footer>
 
+<!-- MODAL -->
 <div class="modal-overlay" id="modalProducto" onclick="cerrarModalSiFondo(event)">
   <div class="modal-contenedor" role="dialog" aria-modal="true">
     <button class="modal-cerrar" onclick="cerrarModal()" aria-label="Cerrar">✕</button>
     <div class="modal-galeria">
-      <div class="modal-imagen-principal" id="modalImagenPrincipal"><img id="modalImgTag" src="" alt="" style="display:none;"/></div>
+      <div class="modal-imagen-principal" id="modalImagenPrincipal">
+        <img id="modalImgTag" src="" alt="" style="display:none;"/>
+      </div>
       <div class="modal-thumbnails" id="modalThumbnails"></div>
     </div>
     <div class="modal-contenido">
-      <div class="modal-header-meta"><span class="modal-badge" id="modalAudience"></span><span class="modal-cat-badge" id="modalCategoria"></span></div>
+      <div class="modal-header-meta">
+        <span class="modal-badge" id="modalAudience"></span>
+        <span class="modal-cat-badge" id="modalCategoria"></span>
+      </div>
       <h2 class="modal-nombre" id="modalNombre"></h2>
       <div class="modal-precio" id="modalPrecio"></div>
-      <div class="modal-variantes" id="modalVariantes"><p class="modal-seccion-titulo">Sabor</p><div class="modal-variantes-opciones" id="modalVariantesOpciones"></div></div>
+      <div class="modal-variantes" id="modalVariantes">
+        <p class="modal-seccion-titulo">Sabor</p>
+        <div class="modal-variantes-opciones" id="modalVariantesOpciones"></div>
+      </div>
       <div class="modal-divider"></div>
       <div><p class="modal-seccion-titulo">Descripción</p><p class="modal-descripcion" id="modalDescripcion"></p></div>
-      <div><p class="modal-seccion-titulo" id="modalCaracTitulo"></p><div class="modal-caracteristicas-box"><ul class="modal-lista" id="modalCaracLista"></ul></div></div>
+      <div>
+        <p class="modal-seccion-titulo" id="modalCaracTitulo"></p>
+        <div class="modal-caracteristicas-box"><ul class="modal-lista" id="modalCaracLista"></ul></div>
+      </div>
       <button class="modal-btn-carrito" id="modalBtnCarrito" onclick="agregarAlCarritoDesdeModal()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         Añadir al carrito
@@ -392,62 +450,29 @@
   </div>
 </div>
 
-<div class="checkout-overlay" id="checkoutOverlay">
-  <div class="checkout-box">
-    <h3>¿A dónde enviamos tu pedido?</h3>
-    <p class="checkout-sub">Completa tus datos y te contactamos por WhatsApp para coordinar. 🐾</p>
-    <div class="checkout-resumen" id="checkoutResumen"></div>
-    <p class="checkout-section-label">Tus datos</p>
-    <div class="checkout-grid">
-      <div class="checkout-field"><label>Nombre completo *</label><input type="text" id="co-nombre" placeholder="Ej: María González"></div>
-      <div class="checkout-field"><label>Teléfono *</label><input type="tel" id="co-telefono" placeholder="+56 9 1234 5678"></div>
-    </div>
-    <div class="checkout-grid full" style="margin-top:.75rem"><div class="checkout-field"><label>Email *</label><input type="email" id="co-email" placeholder="tu@correo.com"></div></div>
-    <p class="checkout-section-label">Dirección de envío</p>
-    <div class="checkout-grid full"><div class="checkout-field"><label>Calle y número *</label><input type="text" id="co-direccion" placeholder="Av. Providencia 1234, Depto 5B"></div></div>
-    <div class="checkout-grid" style="margin-top:.75rem">
-      <div class="checkout-field"><label>Comuna *</label><input type="text" id="co-comuna" placeholder="Providencia" oninput="actualizarEnvio()"></div>
-      <div class="checkout-field"><label>Ciudad *</label><input type="text" id="co-ciudad" placeholder="Santiago"></div>
-    </div>
-    <div class="checkout-envio-info" id="envio-info" style="display:none"><span>🚚 Envío estimado</span><span id="envio-precio">$4.990</span></div>
-    <p class="checkout-envio-aviso" id="envio-aviso"></p>
-    <div class="checkout-grid full" style="margin-top:.75rem"><div class="checkout-field"><label>Notas adicionales (opcional)</label><input type="text" id="co-notas" placeholder="Ej: timbre no funciona, llamar al llegar"></div></div>
-    <div class="checkout-btns">
-      <button class="btn-checkout-cancel" onclick="cerrarCheckout()">Volver</button>
-      <button class="btn-checkout-confirm" onclick="confirmarCheckout()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.989.518 3.86 1.427 5.484L2.05 21.95l4.59-1.371A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 11.999 2zm0 18a7.95 7.95 0 01-4.058-1.107l-.29-.173-3.004.896.898-2.927-.19-.302A7.926 7.926 0 014 12c0-4.418 3.581-8 7.999-8C16.419 4 20 7.582 20 12s-3.581 8-8.001 8z"/></svg>
-        Confirmar y pagar
-      </button>
-    </div>
-  </div>
-</div>
-
-<div class="auth-overlay" id="auth-overlay" onclick="cerrarAuthSiFondo(event)">
-  <div class="auth-box">
-    <button class="auth-close" onclick="cerrarAuth()">✕</button>
-    <div class="auth-logo"><img src="logo.png" alt="Patas & Caos"></div>
-    <h3>Bienvenido 🐾</h3>
-    <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
-    <button class="btn-google" onclick="loginConGoogle()">
-      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
-      Continuar con Google
-    </button>
-    <div class="auth-divider"><span>o con tu email</span></div>
-    <div class="auth-field">
-      <label>Email</label>
-      <input type="email" id="auth-email" placeholder="tu@correo.com" onkeydown="if(event.key==='Enter') enviarMagicLink()">
-    </div>
-    <button class="btn-auth" onclick="enviarMagicLink()">Enviar enlace de acceso</button>
-    <p class="auth-msg" id="auth-msg"></p>
-  </div>
-</div>
-
-<script src="/cart.js"></script>
 <script>
 function toggleMenu(){document.getElementById('hamburger').classList.toggle('open');document.getElementById('mobile-menu').classList.toggle('open');}
 window.addEventListener('scroll',()=>document.querySelector('nav').classList.toggle('scrolled',window.scrollY>40));
 function abrirSidebar(){document.getElementById('sidebar').classList.add('mobile-open');document.getElementById('sidebar-overlay').classList.add('open');document.body.style.overflow='hidden';}
 function cerrarSidebar(){document.getElementById('sidebar').classList.remove('mobile-open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
+
+/* CARRITO */
+let cart=[];
+function toggleCart(){document.getElementById('cart-overlay').classList.toggle('open');document.getElementById('cart-sidebar').classList.toggle('open');document.body.style.overflow=document.getElementById('cart-sidebar').classList.contains('open')?'hidden':'';}
+function addToCart(product){const existing=cart.find(i=>i.id===product.id);if(existing){if(existing.qty>=existing.maxQty){mostrarToast('Solo quedan '+existing.maxQty+' unidades 🐾');return;}existing.qty++;}else{const s=getStock();cart.push({...product,qty:1,maxQty:s[product.id]||1});}renderCart();if(!document.getElementById('cart-sidebar').classList.contains('open'))toggleCart();}
+function changeQty(id,delta){const item=cart.find(i=>i.id===id);if(!item)return;item.qty+=delta;if(item.qty<=0)cart=cart.filter(i=>i.id!==id);renderCart();}
+function removeItem(id){cart=cart.filter(i=>i.id!==id);renderCart();}
+let toastTimer;
+function mostrarToast(msg){let t=document.getElementById('g-toast');if(!t){t=document.createElement('div');t.id='g-toast';t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--negro);color:#fff;border-radius:50px;padding:12px 24px;font-size:.85rem;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;font-family:Poppins,sans-serif;white-space:nowrap;';document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.opacity='0',2500);}
+function renderCart(){
+  const container=document.getElementById('cart-items'),footer=document.getElementById('cart-footer'),badge=document.getElementById('cart-badge');
+  const totalItems=cart.reduce((s,i)=>s+i.qty,0),totalPrice=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  badge.textContent=totalItems;badge.style.display=totalItems>0?'flex':'none';
+  if(cart.length===0){container.innerHTML='<div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>';footer.style.display='none';return;}
+  footer.style.display='block';
+  document.getElementById('cart-total').textContent='$'+totalPrice.toLocaleString('es-CL');
+  container.innerHTML=cart.map(item=>`<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty>=item.maxQty?'disabled style="opacity:.35"':''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`).join('');
+}
 
 /* STOCK */
 const stockInicial={'tubito-atun':3,'tubito-conejo':3,'tubito-cangrejo':3,'lata-leonardo-kitten':1,'lata-leonardo_Ave':1,'lata-leonardo_Pato':1,'lata-leonardo_Conejo':1,'lata-leonardo_Pescado':1,'lata-leonardo_Ternera':1,'collar-findmy':1,'fuente-agua':1,'pajaro':1,'pelota-led':2,'pulpo':1,'paw-balm':2,'afeitadora':1,'cat-fest_Pato':1,'cat-fest_Cordero':1,'cats-snack_Catnip':1,'cats-snack_Matatabi':1,'cats-snack_Rellena Atún + Queso':1,'cats-snack_Rellena Atún + Ostiones':1,'cats-snack_Rellena Atún + Pollo':1};
@@ -460,20 +485,21 @@ const ORDEN=['tubito-atun','tubito-conejo','tubito-cangrejo','lata-leonardo-kitt
 const productos={
   'tubito-atun':{nombre:'Tubito Cremoso Atún con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'El combo más letal del universo felino: atún cremoso con catnip. Cuatro tubitos de puro premio.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor atún con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['Tubito_Cremoso_Cats_Snack2.png'],placeholders:['🐟']},
   'tubito-conejo':{nombre:'Tubito Cremoso Conejo con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Conejo cremoso con catnip — una combinación que tu gato no va a poder ignorar. Pack de 4 tubitos.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor conejo con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['Tubito_Cremoso_Cats_Snack1.png'],placeholders:['🐰']},
-  'tubito-cangrejo':{nombre:'Tubito Cremoso Cangrejo con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Cangrejo cremoso con catnip — el sabor marino que hace perder la cabeza a cualquier gato. Pack de 4 tubitos.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor cangrejo con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['Tubito_Cremoso_Cats_Snack3.png'],placeholders:['🦀']},
-  'lata-leonardo-kitten':{nombre:'Lata Leonardo Kitten 200g',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Nutrición especial para gatitos en crecimiento. Leonardo Kitten fue formulada para cubrir todas las necesidades de los más pequeños de la casa — con proteína de alta calidad, sin cereales y con el estándar alemán.',caracTitulo:'Características',caracteristicas:['Formulada especialmente para gatitos','Alto contenido de proteína','Sin cereales añadidos','Formato 200g','🇩🇪 Fabricado en Alemania'],imagenes:['Lata_Leonardo_Kitten.png','Lata_Leonardo_Kitten_1.png'],placeholders:['🐱','🐱']},
-  'lata-leonardo':{nombre:'Lata Leonardo Adulto 200g',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Comida húmeda premium alemana para gatos adultos. Leonardo usa ingredientes de alta calidad, sin cereales añadidos y con alto contenido de proteína animal.',caracTitulo:'Características',caracteristicas:['Comida húmeda premium para gatos adultos','Alto contenido de proteína animal','Sin cereales añadidos','Formato 200g','5 sabores disponibles','🇩🇪 Fabricado en Alemania'],variantes:[{label:'Ave',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐔','🐱']},{label:'Pato',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🦆','🐱']},{label:'Conejo',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐰','🐱']},{label:'Pescado',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐟','🐱']},{label:'Ternera',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐄','🐱']}]},
+  'tubito-cangrejo':{nombre:'Tubito Cremoso Cangrejo con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Cangrejo cremoso con catnip — el sabor marino que hace perder la cabeza a cualquier gato.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor cangrejo con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['Tubito_Cremoso_Cats_Snack3.png'],placeholders:['🦀']},
+  'lata-leonardo-kitten':{nombre:'Lata Leonardo Kitten 200g',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Nutrición especial para gatitos en crecimiento. Leonardo Kitten fue formulada para cubrir todas las necesidades de los más pequeños de la casa — con proteína de alta calidad, sin cereales y con el estándar alemán que los hace tan especiales.',caracTitulo:'Características',caracteristicas:['Formulada especialmente para gatitos','Alto contenido de proteína para el desarrollo','Sin cereales añadidos','Formato 200g','🇩🇪 Fabricado en Alemania'],imagenes:['Lata_Leonardo_Kitten.png','Lata_Leonardo_Kitten_1.png'],placeholders:['🐱','🐱']},
+  'lata-leonardo':{nombre:'Lata Leonardo Adulto 200g',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Comida húmeda premium alemana para gatos adultos. Leonardo usa ingredientes de alta calidad, sin cereales añadidos y con alto contenido de proteína animal. Tu gato lo va a pedir a gritos — y esta vez, con razón.',caracTitulo:'Características',caracteristicas:['Comida húmeda premium para gatos adultos','Alto contenido de proteína animal','Sin cereales añadidos','Formato 200g — ideal para una porción','5 sabores disponibles','🇩🇪 Fabricado en Alemania'],variantes:[{label:'Ave',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐔','🐱']},{label:'Pato',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🦆','🐱']},{label:'Conejo',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐰','🐱']},{label:'Pescado',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐟','🐱']},{label:'Ternera',imagenes:['Latas_Leonardo_Adulto.png','Latas_Leonardo_Adulto_2.png'],placeholders:['🐄','🐱']}]},
   'collar-findmy':{nombre:'Collar con Rastreador Apple Find My',precio:'$12.990',precioNum:12990,audience:'Perros & Gatos',categoria:'Accesorio',descripcion:'Porque tu gato sale "solo un momento" y desaparece tres horas.',caracTitulo:'Características',caracteristicas:['Compatible con Apple Find My','Cinta nylon reflectante','Cierre ajustable','Campanilla incluida'],imagenes:['Collar_GPS.png','Gato_con_Collar_GPS.png'],placeholders:['📍','🐱']},
   'fuente-agua':{nombre:'Fuente de Agua Flor USB',precio:'$21.990',precioNum:21990,audience:'Para Gatos',categoria:'Accesorio',descripcion:'Tu gato se niega a tomar agua del tazón. Circulación continua, filtro incluido.',caracTitulo:'Características',caracteristicas:['Bomba silenciosa USB','Surtidor flor','Filtro incluido','Fácil de limpiar'],imagenes:['Bebedero_Gatos_2.png','Bebedero_Gatos_1.png'],placeholders:['💧','🐱']},
   'pajaro':{nombre:'Pájaro Interactivo',precio:'$13.990',precioNum:13990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Un pájaro que se mueve solo. Tu gato va a actuar como si fuera su gran oportunidad.',caracTitulo:'Características',caracteristicas:['Movimiento autónomo','Peluche suave','Estimula instinto cazador'],imagenes:['Pajaro_Gatos.png','Milo_Pajaro_Gatos.png'],placeholders:['🐦','🐱']},
   'pelota-led':{nombre:'Pelota Interactiva LED',precio:'$8.990',precioNum:8990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Brilla, rebota y arrastra cintas holográficas. Carga USB tipo C.',caracTitulo:'Características',caracteristicas:['Luz LED integrada','Cintas holográficas','Carga USB tipo C'],imagenes:['Pelota_Interactiva_Gato.png','Milo_Jugando_Pelota_Interactiva.png'],placeholders:['⚡','🐱']},
-  'pulpo':{nombre:'Masajeador Pulpo',precio:'$6.990',precioNum:6990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Sus tentáculos de silicona están diseñados para masajear y hacer perder la cordura a tu gato.',caracTitulo:'Características',caracteristicas:['Silicona suave','Tentáculos flexibles','Fácil de limpiar'],imagenes:['Pulpo_Gatos_1.png','Pulpo_Gatos_2.png'],placeholders:['🐙','🐙']},
-  'paw-balm':{nombre:'Paw Balm',precio:'$5.990',precioNum:5990,audience:'Perros & Gatos',categoria:'Aseo e Higiene',descripcion:'Crema hidratante natural para almohadillas resecas. 40g.',caracTitulo:'Ingredientes',caracteristicas:['Cera de abeja','Aceite de coco','Manteca de karité','Vitamina E','Cera de carnauba'],imagenes:['Patas_y_Paw_Balm.png','Paw_Balm.png','Ingredientes.png'],placeholders:['🐾','🐾','🌿']},
-  'afeitadora':{nombre:'Afeitadora LED para Mascotas',precio:'$9.990',precioNum:9990,audience:'Perros & Gatos',categoria:'Aseo e Higiene',descripcion:'Con luz LED para ver exactamente dónde cortas. Silenciosa y recargable.',caracTitulo:'Características',caracteristicas:['Luz LED integrada','Motor silencioso','Recargable USB'],imagenes:['Afeitadora_Gatos_1.png','Afeitadora_Gatos_2.png','Afeitadora_Gatos_3.png'],placeholders:['✂️','✂️','✂️']},
-  'cat-fest':{nombre:'Cat Fest Meat Sticks',precio:'$3.490',precioNum:3490,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Palitos de carne 100% natural. Sin azúcar ni cereales, con cierre zip lock. 45g.',caracTitulo:'Características',caracteristicas:['100% carne natural','Sin cereales','Cierre zip lock','45g'],variantes:[{label:'Pato',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🦆']},{label:'Cordero',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🐑']}]},
+  'pulpo':{nombre:'Masajeador Pulpo',precio:'$6.990',precioNum:6990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Tentáculos de silicona para masajear y hacer perder la cordura a tu gato.',caracTitulo:'Características',caracteristicas:['Silicona suave','Tentáculos flexibles','Fácil de limpiar'],imagenes:['Pulpo_Gatos_1.png','Pulpo_Gatos_2.png'],placeholders:['🐙','🐙']},
+  'paw-balm':{nombre:'Paw Balm',precio:'$5.990',precioNum:5990,audience:'Perros & Gatos',categoria:'Aseo e Higiene',descripcion:'Crema hidratante natural para almohadillas resecas. 40g.',caracTitulo:'Ingredientes',caracteristicas:['Cera de abeja','Aceite de coco','Manteca de karité','Vitamina E'],imagenes:['Patas_y_Paw_Balm.png','Paw_Balm.png','Ingredientes.png'],placeholders:['🐾','🐾','🌿']},
+  'afeitadora':{nombre:'Afeitadora LED para Mascotas',precio:'$9.990',precioNum:9990,audience:'Perros & Gatos',categoria:'Aseo e Higiene',descripcion:'Luz LED para ver exactamente dónde cortas. Silenciosa y recargable.',caracTitulo:'Características',caracteristicas:['Luz LED integrada','Motor silencioso','Recargable USB'],imagenes:['Afeitadora_Gatos_1.png','Afeitadora_Gatos_2.png','Afeitadora_Gatos_3.png'],placeholders:['✂️','✂️','✂️']},
+  'cat-fest':{nombre:'Cat Fest Meat Sticks',precio:'$3.490',precioNum:3490,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Palitos 100% carne natural. Sin azúcar ni cereales. 45g.',caracTitulo:'Características',caracteristicas:['100% carne natural','Sin cereales','Cierre zip lock','45g'],variantes:[{label:'Pato',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🦆']},{label:'Cordero',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🐑']}]},
   'cats-snack':{nombre:'Cats Snack',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Galletas crujientes por fuera, cremosas por dentro. 80g.',caracTitulo:'Características',caracteristicas:['Sin colorantes artificiales','Premio diario','80g'],variantes:[{label:'Catnip',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🌿','🐱']},{label:'Matatabi',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🌱','🐱']},{label:'Rellena Atún + Queso',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🧀','🐱']},{label:'Rellena Atún + Ostiones',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🦪','🐱']},{label:'Rellena Atún + Pollo',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🍗','🐱']}]}
 };
 
+/* SLIDER DE PRECIO */
 const PRECIO_MAX=25990;
 function onRangeChange(){
   let minV=parseInt(document.getElementById('range-min').value);
@@ -497,11 +523,13 @@ function onPriceInputChange(){
 function actualizarFill(){
   const minV=parseInt(document.getElementById('range-min').value);
   const maxV=parseInt(document.getElementById('range-max').value);
-  const pct1=minV/PRECIO_MAX*100,pct2=maxV/PRECIO_MAX*100;
+  const pct1=minV/PRECIO_MAX*100;
+  const pct2=maxV/PRECIO_MAX*100;
   document.getElementById('range-fill').style.left=pct1+'%';
   document.getElementById('range-fill').style.width=(pct2-pct1)+'%';
 }
 
+/* FILTROS */
 function aplicarFiltros(){
   const catsSel=[...document.querySelectorAll('#filter-cats input:checked')].map(i=>i.value);
   const audsSel=[...document.querySelectorAll('#filter-aud input:checked')].map(i=>i.value);
@@ -521,7 +549,8 @@ function aplicarFiltros(){
   if(sort==='az')lista.sort((a,b)=>a.p.nombre.localeCompare(b.p.nombre));
   const grid=document.getElementById('prod-grid');
   grid.innerHTML='';
-  document.getElementById('result-count').textContent=lista.length+' producto'+(lista.length!==1?'s':'');
+  const countEl=document.getElementById('result-count');
+  countEl.textContent=lista.length+' producto'+(lista.length!==1?'s':'');
   if(lista.length===0){grid.innerHTML='<div class="no-results"><span>🐾</span><p>Sin productos para esta selección.</p></div>';return;}
   lista.forEach(({id,p})=>{
     const imgs=p.variantes?p.variantes[0].imagenes:p.imagenes;
@@ -554,6 +583,7 @@ function limpiarFiltros(){
   actualizarFill();aplicarFiltros();
 }
 
+/* CARRUSEL */
 function crearCarrusel(imagenes,placeholders){
   const wrap=document.createElement('div');wrap.className='prod-img';
   const img=document.createElement('img');img.src=imagenes[0];img.alt='';img.draggable=false;
@@ -580,6 +610,7 @@ function crearCarrusel(imagenes,placeholders){
   return wrap;
 }
 
+/* MODAL */
 let productoActual=null,varianteActualIdx=0,imagenActualIdx=0;
 function abrirModal(productoId){
   const p=productos[productoId];if(!p)return;
@@ -624,63 +655,168 @@ function agregarAlCarritoDesdeModal(){
   setTimeout(()=>{btn.textContent='Añadir al carrito';btn.style.background='';cerrarModal();},1200);
 }
 
+// Check URL param ?cat=
 const urlParams=new URLSearchParams(window.location.search);
 const catParam=urlParams.get('cat');
 if(catParam){
+  // Es audiencia (Gatos / Perros)
   const audCb=document.querySelector(`#filter-aud input[value="${catParam}"]`);
-  if(audCb){audCb.checked=true;}
-  else{const catCb=document.querySelector(`#filter-cats input[value="${catParam}"]`);if(catCb)catCb.checked=true;}
+  if(audCb){ audCb.checked=true; }
+  else {
+    // Es categoría de producto
+    const catCb=document.querySelector(`#filter-cats input[value="${catParam}"]`);
+    if(catCb) catCb.checked=true;
+  }
 }
+
 actualizarFill();
 aplicarFiltros();
-(async()=>{try{const r=await fetch('/api/stock-get');const d=await r.json();if(d.stock){localStorage.setItem('pac_stock',JSON.stringify(d.stock));aplicarFiltros();}}catch(e){}})();
-(function(){try{const s=localStorage.getItem('pac_cart');if(s){cart=JSON.parse(s);renderCart();}}catch(e){}})();
 
 /* SUPABASE AUTH + WISHLIST */
 const SUPA_URL='https://xintmnshndhtqqbouxbo.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbnRtbnNobmRodHFxYm91eGJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDc2MTAsImV4cCI6MjA5MzU4MzYxMH0.Xl5eHoNoxLrb_8jK40zPL52Qa3t696QHkaAmyJEqJac';
 const _sb=window.supabase.createClient(SUPA_URL,SUPA_KEY);
 let sbToken=null,sbUser=null,wishlist=[];
+
 function updateAuthUI(){
   const el=document.getElementById('nav-auth');if(!el)return;
   if(sbUser){
     const nombre=sbUser.user_metadata?.full_name||sbUser.email?.split('@')[0]||'Mi cuenta';
     const avatar=sbUser.user_metadata?.avatar_url;
-    const avatarHTML=avatar?`<img src="${avatar}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;cursor:pointer;border:2px solid transparent" onclick="toggleUserDropdown()" alt="${nombre}">`:`<div style="width:38px;height:38px;border-radius:50%;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onclick="toggleUserDropdown()">${nombre[0].toUpperCase()}</div>`;
+    const avatarHTML=avatar
+      ?`<img src="${avatar}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;cursor:pointer;border:2px solid transparent" onclick="toggleUserDropdown()" alt="${nombre}">`
+      :`<div style="width:38px;height:38px;border-radius:50%;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onclick="toggleUserDropdown()">${nombre[0].toUpperCase()}</div>`;
     el.innerHTML=`<div class="user-wrap">${avatarHTML}<div class="user-dropdown" id="user-dropdown"><span class="user-name-dd">👋 ${nombre}</span><a href="/favoritos">❤️ Mis favoritos</a><button class="btn-signout" onclick="cerrarSesion()">Cerrar sesión</button></div></div>`;
-  }else{el.innerHTML=`<button class="btn-signin" onclick="abrirAuth()">Iniciar sesión</button>`;}
-}
-function abrirAuth(){document.getElementById('auth-overlay').classList.add('activo');document.body.style.overflow='hidden';}
-function cerrarAuth(){document.getElementById('auth-overlay').classList.remove('activo');document.body.style.overflow='';document.getElementById('auth-msg').textContent='';}
-function cerrarAuthSiFondo(e){if(e.target.id==='auth-overlay')cerrarAuth();}
-async function loginConGoogle(){await _sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin}});}
-async function enviarMagicLink(){
-  const email=document.getElementById('auth-email').value.trim();
-  const msg=document.getElementById('auth-msg');
-  if(!email){msg.textContent='Ingresa tu email';msg.className='auth-msg err';return;}
-  const{error}=await _sb.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.origin}});
-  if(error){msg.textContent='Error: '+error.message;msg.className='auth-msg err';}
-  else{msg.textContent='✅ Revisa tu email — te enviamos un enlace de acceso';msg.className='auth-msg ok';}
+  }else{
+    el.innerHTML=`<button class="btn-signin" onclick="window.location.href='/'">Iniciar sesión</button>`;
+  }
 }
 function toggleUserDropdown(){document.getElementById('user-dropdown')?.classList.toggle('open');}
 document.addEventListener('click',e=>{if(!e.target.closest('.user-wrap'))document.getElementById('user-dropdown')?.classList.remove('open');});
 async function cerrarSesion(){await _sb.auth.signOut();sbUser=null;sbToken=null;wishlist=[];updateAuthUI();actualizarWishlistUI();}
+
 async function cargarDatosUsuario(){
   if(!sbToken)return;
-  try{const r=await fetch('/api/user-data-get',{headers:{Authorization:`Bearer ${sbToken}`}});const data=await r.json();
-    if(data.cart&&Array.isArray(data.cart)&&data.cart.length>0){const local=[...cart];cart=data.cart;local.forEach(item=>{if(!cart.find(i=>i.id===item.id))cart.push(item);});renderCart();}
+  try{
+    const r=await fetch('/api/user-data-get',{headers:{Authorization:`Bearer ${sbToken}`}});
+    const data=await r.json();
     if(Array.isArray(data.wishlist)){wishlist=data.wishlist;actualizarWishlistUI();}
   }catch(e){}
 }
-async function guardarDatosUsuario({saveCart=true,saveWishlist=true}={}){
-  if(!sbToken)return;
-  const body={};if(saveCart)body.cart=cart;if(saveWishlist)body.wishlist=wishlist;
-  try{await fetch('/api/user-data-set',{method:'POST',headers:{Authorization:`Bearer ${sbToken}`,'Content-Type':'application/json'},body:JSON.stringify(body)});}catch(e){}
+
+function actualizarWishlistUI(){
+  document.querySelectorAll('.prod-heart').forEach(btn=>{
+    const id=btn.dataset.id;if(!id)return;
+    const saved=wishlist.includes(id);
+    btn.classList.toggle('saved',saved);
+    btn.textContent=saved?'❤️':'♡';
+  });
 }
-function actualizarWishlistUI(){document.querySelectorAll('.prod-heart').forEach(btn=>{const id=btn.dataset.id;if(!id)return;const saved=wishlist.includes(id);btn.classList.toggle('saved',saved);btn.textContent=saved?'❤️':'♡';});}
-function toggleWishlist(e,id){e.stopPropagation();if(!sbUser){abrirAuth();return;}const idx=wishlist.indexOf(id);if(idx>=0)wishlist.splice(idx,1);else wishlist.push(id);actualizarWishlistUI();guardarDatosUsuario({saveCart:false,saveWishlist:true});}
-_sb.auth.onAuthStateChange(async(event,session)=>{if(session){sbUser=session.user;sbToken=session.access_token;updateAuthUI();if(event==='SIGNED_IN'){cerrarAuth();await cargarDatosUsuario();}}else{sbUser=null;sbToken=null;updateAuthUI();}});
-_sb.auth.getSession().then(({data:{session}})=>{if(session){sbUser=session.user;sbToken=session.access_token;updateAuthUI();cargarDatosUsuario();}else updateAuthUI();});
+
+function toggleWishlist(e,id){
+  e.stopPropagation();
+  if(!sbUser){window.location.href='/';return;}
+  const idx=wishlist.indexOf(id);
+  if(idx>=0)wishlist.splice(idx,1);else wishlist.push(id);
+  actualizarWishlistUI();
+  fetch('/api/user-data-set',{method:'POST',headers:{Authorization:`Bearer ${sbToken}`,'Content-Type':'application/json'},body:JSON.stringify({wishlist})});
+}
+
+_sb.auth.onAuthStateChange(async(event,session)=>{
+  if(session){sbUser=session.user;sbToken=session.access_token;updateAuthUI();if(event==='SIGNED_IN')await cargarDatosUsuario();}
+  else{sbUser=null;sbToken=null;updateAuthUI();}
+});
+_sb.auth.getSession().then(({data:{session}})=>{
+  if(session){sbUser=session.user;sbToken=session.access_token;updateAuthUI();cargarDatosUsuario();}
+  else updateAuthUI();
+});
 </script>
+
+<!-- CHECKOUT MODAL -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-box">
+    <h3>¿A dónde enviamos tu pedido?</h3>
+    <p class="checkout-sub">Completa tus datos y te contactamos por WhatsApp para coordinar. 🐾</p>
+
+    <div class="checkout-resumen" id="checkoutResumen"></div>
+
+    <p class="checkout-section-label">Tus datos</p>
+    <div class="checkout-grid">
+      <div class="checkout-field">
+        <label>Nombre completo *</label>
+        <input type="text" id="co-nombre" placeholder="Ej: María González">
+      </div>
+      <div class="checkout-field">
+        <label>Teléfono *</label>
+        <input type="tel" id="co-telefono" placeholder="+56 9 1234 5678">
+      </div>
+    </div>
+    <div class="checkout-grid full" style="margin-top:.75rem">
+      <div class="checkout-field">
+        <label>Email *</label>
+        <input type="email" id="co-email" placeholder="tu@correo.com">
+      </div>
+    </div>
+
+    <p class="checkout-section-label">Dirección de envío</p>
+    <div class="checkout-grid full">
+      <div class="checkout-field">
+        <label>Calle y número *</label>
+        <input type="text" id="co-direccion" placeholder="Av. Providencia 1234, Depto 5B">
+      </div>
+    </div>
+    <div class="checkout-grid" style="margin-top:.75rem">
+      <div class="checkout-field">
+        <label>Comuna *</label>
+        <input type="text" id="co-comuna" placeholder="Providencia" oninput="actualizarEnvio()">
+      </div>
+      <div class="checkout-field">
+        <label>Ciudad *</label>
+        <input type="text" id="co-ciudad" placeholder="Santiago">
+      </div>
+    </div>
+
+    <div class="checkout-envio-info" id="envio-info" style="display:none">
+      <span>🚚 Envío estimado</span>
+      <span id="envio-precio">$4.990</span>
+    </div>
+    <p class="checkout-envio-aviso" id="envio-aviso"></p>
+    <div class="checkout-grid full" style="margin-top:.75rem">
+      <div class="checkout-field">
+        <label>Notas adicionales (opcional)</label>
+        <input type="text" id="co-notas" placeholder="Ej: timbre no funciona, llamar al llegar">
+      </div>
+    </div>
+
+    <div class="checkout-btns">
+      <button class="btn-checkout-cancel" onclick="cerrarCheckout()">Volver</button>
+      <button class="btn-checkout-confirm" onclick="confirmarCheckout()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.989.518 3.86 1.427 5.484L2.05 21.95l4.59-1.371A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 11.999 2zm0 18a7.95 7.95 0 01-4.058-1.107l-.29-.173-3.004.896.898-2.927-.19-.302A7.926 7.926 0 014 12c0-4.418 3.581-8 7.999-8C16.419 4 20 7.582 20 12s-3.581 8-8.001 8z"/></svg>
+        Confirmar y pagar
+      </button>
+    </div>
+  </div>
+</div>
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="auth-overlay" onclick="cerrarAuthSiFondo(event)">
+  <div class="auth-box">
+    <button class="auth-close" onclick="cerrarAuth()">✕</button>
+    <div class="auth-logo"><img src="logo.png" alt="Patas & Caos"></div>
+    <h3>Bienvenido 🐾</h3>
+    <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
+    <button class="btn-google" onclick="loginConGoogle()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+      Continuar con Google
+    </button>
+    <div class="auth-divider"><span>o con tu email</span></div>
+    <div class="auth-field">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="tu@correo.com" onkeydown="if(event.key==='Enter') enviarMagicLink()">
+    </div>
+    <button class="btn-auth" onclick="enviarMagicLink()">Enviar enlace de acceso</button>
+    <p class="auth-msg" id="auth-msg"></p>
+  </div>
+</div>
+<script src="/cart.js"></script>
 </body>
 </html>
