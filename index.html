@@ -55,6 +55,7 @@
   .section-label { font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota); margin-bottom: .6rem; }
   .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--negro); margin-bottom: 2.5rem; }
   .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+  @media (max-width: 900px) { .cat-grid { grid-template-columns: repeat(3, 1fr); } }
   .cat-card { background: var(--card-bg); border: 1.5px solid rgba(28,16,7,.08); border-radius: 18px; padding: 28px 24px; cursor: pointer; transition: transform .2s, box-shadow .2s; }
   .cat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(196,98,45,.12); }
   .cat-icon { width: 48px; height: 48px; background: rgba(196,98,45,.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.2rem; }
@@ -250,7 +251,7 @@
   </a>
   <ul class="nav-links">
     <li><a href="#tienda">Tienda</a></li>
-    <li><a href="#categorias">Categorías</a></li>
+    <li><a href="/categorias">Categorías</a></li>
     <li><a href="/nosotros">Nosotros</a></li>
     <li><a href="#contacto">Contacto</a></li>
   </ul>
@@ -266,7 +267,7 @@
 <!-- MENÚ MÓVIL -->
 <div class="mobile-menu" id="mobile-menu">
   <a href="#tienda" onclick="toggleMenu()">Tienda</a>
-  <a href="#categorias" onclick="toggleMenu()">Categorías</a>
+  <a href="/categorias" onclick="toggleMenu()">Categorías</a>
   <a href="/nosotros" onclick="toggleMenu()">Nosotros</a>
   <a href="#contacto" onclick="toggleMenu()">Contacto</a>
 </div>
@@ -317,10 +318,13 @@
   <p class="section-label">Categorías</p>
   <h2 class="section-title">Explora el caos organizado.</h2>
   <div class="cat-grid">
-    <div class="cat-card"><div class="cat-icon">🎀</div><h3>Accesorios</h3><p>Para no perderse en el caos</p></div>
-    <div class="cat-card"><div class="cat-icon">🎾</div><h3>Juguetes</h3><p>Pa' que rompan con estilo</p></div>
-    <div class="cat-card"><div class="cat-icon">✨</div><h3>Cuidado</h3><p>Porque también merecen spa</p></div>
-    <div class="cat-card"><div class="cat-icon">🍪</div><h3>Snacks</h3><p>Soborno legalizado</p></div>
+    <div class="cat-card" onclick="window.location.href='/categorias?cat=Para Gatos'"><div class="cat-icon">🐱</div><h3>Gatos</h3><p>Todo para el rey de la casa</p></div>
+    <div class="cat-card" onclick="window.location.href='/categorias?cat=Perros & Gatos'"><div class="cat-icon">🐶</div><h3>Perros</h3><p>Pa' que rompan con estilo</p></div>
+    <div class="cat-card" onclick="window.location.href='/categorias?cat=Accesorio'"><div class="cat-icon">🎀</div><h3>Accesorios</h3><p>Para no perderse en el caos</p></div>
+    <div class="cat-card" onclick="window.location.href='/categorias?cat=Juguete'"><div class="cat-icon">🎾</div><h3>Juguetes</h3><p>Diversión garantizada</p></div>
+    <div class="cat-card" onclick="window.location.href='/categorias?cat=Aseo e Higiene'"><div class="cat-icon">✨</div><h3>Aseo e Higiene</h3><p>Porque también merecen spa</p></div>
+    <div class="cat-card" onclick="window.location.href='/categorias?cat=Alimentos'"><div class="cat-icon">🍽️</div><h3>Alimentos</h3><p>Nutrición de verdad</p></div>
+    <div class="cat-card" onclick="window.location.href='/categorias?cat=Snacks y Golosinas'"><div class="cat-icon">🍪</div><h3>Snacks y Golosinas</h3><p>Soborno legalizado</p></div>
   </div>
 </section>
 
@@ -366,7 +370,7 @@
       <h4>Tienda</h4>
       <ul>
         <li><a href="#tienda">Todos los productos</a></li>
-        <li><a href="#categorias">Categorías</a></li>
+        <li><a href="/categorias">Categorías</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -639,10 +643,10 @@ const productos = {
   'pajaro':{nombre:'Pájaro Interactivo',precio:'$13.990',precioNum:13990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Un pájaro que se mueve solo. Tu gato va a actuar como si nunca en su vida hubiera cazado nada.',caracTitulo:'Características',caracteristicas:['Movimiento autónomo','Material peluche suave y resistente','Estimula el instinto cazador','Promueve el ejercicio físico y mental'],imagenes:['Pajaro_Gatos.png','Milo_Pajaro_Gatos.png'],placeholders:['🐦','🐱']},
   'pelota-led':{nombre:'Pelota Interactiva LED',precio:'$8.990',precioNum:8990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Brilla, rebota y arrastra cintas holográficas. Carga USB tipo C incluida.',caracTitulo:'Características',caracteristicas:['Luz LED integrada','Cuerda con cuentas y cintas holográficas','Estimula salto y persecución','Carga USB tipo C'],imagenes:['Pelota_Interactiva_Gato.png','Milo_Jugando_Pelota_Interactiva.png'],placeholders:['⚡','🐱']},
   'pulpo':{nombre:'Masajeador Pulpo',precio:'$6.990',precioNum:6990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Sus tentáculos de silicona están diseñados para masajear, atrapar y hacer perder la cordura a tu gato.',caracTitulo:'Características',caracteristicas:['Silicona suave y segura','Tentáculos flexibles','Fácil de limpiar','Colores vibrantes'],imagenes:['Pulpo_Gatos_1.png','Pulpo_Gatos_2.png'],placeholders:['🐙','🐙']},
-  'paw-balm':{nombre:'Paw Balm',precio:'$5.990',precioNum:5990,audience:'Perros & Gatos',categoria:'Cuidado',descripcion:'Fórmula suave con ingredientes naturales que repara, protege e hidrata las almohadillas resecas. 40g.',caracTitulo:'Ingredientes',caracteristicas:['Cera de abeja','Aceite de coco','Agua','Manteca de karité','Vitamina E','Cera de carnauba'],imagenes:['Patas_y_Paw_Balm.png','Paw_Balm.png','Ingredientes.png'],placeholders:['🐾','🐾','🌿']},
-  'afeitadora':{nombre:'Afeitadora LED para Mascotas',precio:'$9.990',precioNum:9990,audience:'Perros & Gatos',categoria:'Cuidado',descripcion:'Con luz LED para ver exactamente dónde estás cortando. Silenciosa y recargable vía USB.',caracTitulo:'Características',caracteristicas:['Luz LED integrada','Motor silencioso','Cuchilla de acero inoxidable','Diseño ergonómico','Recargable vía USB'],imagenes:['Afeitadora_Gatos_1.png','Afeitadora_Gatos_2.png','Afeitadora_Gatos_3.png'],placeholders:['✂️','✂️','✂️']},
-  'cat-fest':{nombre:'Cat Fest Meat Sticks',precio:'$3.490',precioNum:3490,audience:'Para Gatos',categoria:'Snack',descripcion:'Palitos de carne 100% natural. Sin azúcar ni cereales, con cierre zip lock. 45g.',caracTitulo:'Características',caracteristicas:['100% carne natural','Sin azúcar agregada','Sin cereales (grain-free)','Human Grade','Cierre zip lock','45g'],variantes:[{label:'Pato',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🦆']},{label:'Cordero',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🐑']}]},
-  'cats-snack':{nombre:'Cats Snack',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snack',descripcion:'Galletas crujientes por fuera, cremosas por dentro en las versiones rellenas. 80g.',caracTitulo:'Características',caracteristicas:['Galletas MarbenPets','Sin colorantes artificiales','Ideal como premio diario','80g'],variantes:[{label:'Catnip',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🌿','🐱']},{label:'Matatabi',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🌱','🐱']},{label:'Rellena Atún + Queso',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🧀','🐱']},{label:'Rellena Atún + Ostiones',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🦪','🐱']},{label:'Rellena Atún + Pollo',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🍗','🐱']}]}
+  'paw-balm':{nombre:'Paw Balm',precio:'$5.990',precioNum:5990,audience:'Perros & Gatos',categoria:'Aseo e Higiene',descripcion:'Fórmula suave con ingredientes naturales que repara, protege e hidrata las almohadillas resecas. 40g.',caracTitulo:'Ingredientes',caracteristicas:['Cera de abeja','Aceite de coco','Agua','Manteca de karité','Vitamina E','Cera de carnauba'],imagenes:['Patas_y_Paw_Balm.png','Paw_Balm.png','Ingredientes.png'],placeholders:['🐾','🐾','🌿']},
+  'afeitadora':{nombre:'Afeitadora LED para Mascotas',precio:'$9.990',precioNum:9990,audience:'Perros & Gatos',categoria:'Aseo e Higiene',descripcion:'Con luz LED para ver exactamente dónde estás cortando. Silenciosa y recargable vía USB.',caracTitulo:'Características',caracteristicas:['Luz LED integrada','Motor silencioso','Cuchilla de acero inoxidable','Diseño ergonómico','Recargable vía USB'],imagenes:['Afeitadora_Gatos_1.png','Afeitadora_Gatos_2.png','Afeitadora_Gatos_3.png'],placeholders:['✂️','✂️','✂️']},
+  'cat-fest':{nombre:'Cat Fest Meat Sticks',precio:'$3.490',precioNum:3490,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Palitos de carne 100% natural. Sin azúcar ni cereales, con cierre zip lock. 45g.',caracTitulo:'Características',caracteristicas:['100% carne natural','Sin azúcar agregada','Sin cereales (grain-free)','Human Grade','Cierre zip lock','45g'],variantes:[{label:'Pato',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🦆']},{label:'Cordero',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🐑']}]},
+  'cats-snack':{nombre:'Cats Snack',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Galletas crujientes por fuera, cremosas por dentro en las versiones rellenas. 80g.',caracTitulo:'Características',caracteristicas:['Galletas MarbenPets','Sin colorantes artificiales','Ideal como premio diario','80g'],variantes:[{label:'Catnip',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🌿','🐱']},{label:'Matatabi',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🌱','🐱']},{label:'Rellena Atún + Queso',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🧀','🐱']},{label:'Rellena Atún + Ostiones',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🦪','🐱']},{label:'Rellena Atún + Pollo',imagenes:['Cats_Snacks_Gato.png','Comiendo_Cats_Snacks_Gato.png'],placeholders:['🍗','🐱']}]}
 };
 
 function checkStockCard(id, stock) { const p = productos[id]; if (!p) return true; if (p.variantes) return p.variantes.some(v => stock[id+'_'+v.label]!==0); return stock[id]!==0; }
