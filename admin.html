@@ -241,15 +241,15 @@ header {
           <select id="categoria">
             <option value="Accesorio">Accesorio</option>
             <option value="Juguete">Juguete</option>
-            <option value="Cuidado">Cuidado</option>
-            <option value="Snack">Snack</option>
+            <option value="Aseo e Higiene">Aseo e Higiene</option>
+            <option value="Alimentos">Alimentos</option>
+            <option value="Snacks y Golosinas">Snacks y Golosinas</option>
           </select>
         </div>
         <div class="campo">
           <label>Audiencia *</label>
           <select id="audience">
             <option value="Para Gatos">Para Gatos</option>
-            <option value="Para Perros">Para Perros</option>
             <option value="Perros & Gatos">Perros & Gatos</option>
           </select>
         </div>
@@ -540,7 +540,7 @@ ${varStr}
 </div>`;
 
   // Preview emoji según categoría
-  const emojiMap = { Accesorio:'🎀', Juguete:'🎮', Cuidado:'✨', Snack:'🍪' };
+  const emojiMap = { Accesorio:'🎀', Juguete:'🎾', 'Aseo e Higiene':'✨', Alimentos:'🍽️', 'Snacks y Golosinas':'🍪' };
   renderOutput(jsProducto, htmlCard, { nombre, precio, categoria, tagline, imagenCard, tieneVariantes, emoji: emojiMap[categoria] || '🐾' });
 }
 
