@@ -71,7 +71,7 @@
   .products .section-title span { display: block; color: var(--terracota); }
 
   /* PROD GRID */
-  .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .prod-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.1rem; }
   .prod-card { cursor: pointer; background: var(--card-bg); border-radius: 18px; overflow: hidden; transition: transform .2s; }
   .prod-card:hover { transform: translateY(-4px); }
   .prod-img { position: relative; aspect-ratio: 4/5; background: #f0dfc0; overflow: hidden; }
@@ -237,7 +237,7 @@
   .checkout-envio-aviso { font-size: .75rem; color: #8a7a6e; margin-top: .4rem; font-style: italic; }
 
 
-  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 2rem; } .hero-img { display: none; } .cat-grid { grid-template-columns: repeat(2, 1fr); } .prod-grid { grid-template-columns: repeat(2, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 2rem; } .hero-img { display: none; } .cat-grid { grid-template-columns: repeat(3, 1fr); } .prod-grid { grid-template-columns: repeat(3, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
   @media (max-width: 600px) { .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; } .cat-grid { grid-template-columns: repeat(2, 1fr); } .prod-grid { grid-template-columns: repeat(2, 1fr); } .newsletter-box { padding: 36px 28px; } .newsletter-form { flex-direction: column; } .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; } }
   @media (max-width: 640px) { .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; } .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; } .modal-imagen-principal { aspect-ratio: 4/3; } .modal-contenido { padding: 1.25rem; } .modal-nombre { font-size: 1.2rem; } .modal-precio { font-size: 1.35rem; } }
 </style>
@@ -338,6 +338,9 @@
     </div>
   </div>
   <div class="prod-grid" id="prod-grid"></div>
+  <div style="text-align:center;margin-top:2rem">
+    <a href="/tienda" style="display:inline-block;background:transparent;border:2px solid rgba(255,255,255,.3);color:#fff;border-radius:50px;padding:12px 32px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .2s" onmouseover="this.style.borderColor='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,.3)'">Ver todos los productos →</a>
+  </div>
 </section>
 
 <!-- NEWSLETTER -->
@@ -637,7 +640,7 @@ async function confirmarCheckout() {
 }
 
 const TAGLINES = {'tubito-atun':'"Cremoso, irresistible y con catnip. Fin."','tubito-conejo':'"El tubo que tu gato va a pedir con los ojos."','tubito-cangrejo':'"Cangrejo + catnip = caos garantizado."','lata-leonardo-kitten':'"Porque los gatitos también tienen exigencias."','lata-leonardo':'"Porque tu gato se merece un menú de verdad."','collar-findmy':'"Nunca más lo pierdes."','fuente-agua':'"Hidratación con glamour."','pajaro':'"Enemigo número uno."','pelota-led':'"Brilla. Rueda. Enloquece."','pulpo':'"Masaje y caos en uno."','paw-balm':'"SPA para patitas exigentes."','afeitadora':'"Menos pelo, más sofá."','cat-fest':'"Pato o cordero. Siempre piden más."','cats-snack':'"5 sabores, 0 culpa."'};
-const ORDEN = ['tubito-atun','tubito-conejo','tubito-cangrejo','lata-leonardo-kitten','lata-leonardo','collar-findmy','fuente-agua','pajaro','pelota-led','pulpo','paw-balm','afeitadora','cat-fest','cats-snack'];
+const ORDEN = ['lata-leonardo','tubito-atun','afeitadora','paw-balm','fuente-agua'];
 const productos = {
   'tubito-atun':{nombre:'Tubito Cremoso Atún con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'El combo más letal del universo felino: atún cremoso con catnip. Estos tubitos son el snack perfecto para premiar, mimar o simplemente sobornar a tu gato. Se lamen solos, literalmente.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor atún con catnip','Pack de 4 unidades','Sin colorantes artificiales','Ideal como premio o snack diario'],imagenes:['Tubito_Cremoso_Cats_Snack2.png'],placeholders:['🐟']},
   'tubito-conejo':{nombre:'Tubito Cremoso Conejo con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Conejo cremoso con catnip — una combinación que tu gato no va a poder ignorar. Cuatro tubitos de puro premio que se convierten en el momento favorito del día (tuyo y de él).',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor conejo con catnip','Pack de 4 unidades','Sin colorantes artificiales','Ideal como premio o snack diario'],imagenes:['Tubito_Cremoso_Cats_Snack1.png'],placeholders:['🐰']},
