@@ -359,8 +359,9 @@
     <button class="filter-btn activo" onclick="filtrar('Todos', this)">Todos</button>
     <button class="filter-btn" onclick="filtrar('Accesorio', this)">🎀 Accesorios</button>
     <button class="filter-btn" onclick="filtrar('Juguete', this)">🎾 Juguetes</button>
-    <button class="filter-btn" onclick="filtrar('Cuidado', this)">✨ Cuidado</button>
-    <button class="filter-btn" onclick="filtrar('Snack', this)">🍪 Snacks</button>
+    <button class="filter-btn" onclick="filtrar('Aseo e Higiene', this)">✨ Aseo e Higiene</button>
+    <button class="filter-btn" onclick="filtrar('Alimentos', this)">🍽️ Alimentos</button>
+    <button class="filter-btn" onclick="filtrar('Snacks y Golosinas', this)">🍪 Snacks y Golosinas</button>
   </div>
 
   <!-- PRODUCT LIST -->
@@ -397,17 +398,17 @@ const SKUS = [
   { id: 'collar-findmy',                  nombre: 'Collar Find My',                      cat: 'Accesorio', precio: '$12.990', img: 'Collar_GPS.png',               emoji: '📡' },
   { id: 'fuente-agua',                    nombre: 'Fuente de Agua Flor USB',             cat: 'Accesorio', precio: '$21.990', img: 'Bebedero_Gatos_2.png',          emoji: '💧' },
   { id: 'pajaro',                         nombre: 'Pájaro Interactivo',                  cat: 'Juguete',   precio: '$13.990', img: 'Pajaro_Gatos.png',              emoji: '🐦' },
-  { id: 'pelota-led',                     nombre: 'Pelota Interactiva LED',              cat: 'Juguete',   precio: '$8.990',  img: 'Pelota_Interactiva_Gato.png',   emoji: '🔦' },
+  { id: 'pelota-led',                     nombre: 'Pelota Interactiva LED',              cat: 'Juguete',   precio: '$8.990',  img: 'Pelota_Interactiva_Gato.png',   emoji: '🔦', stock: 2 },
   { id: 'pulpo',                          nombre: 'Masajeador Pulpo',                    cat: 'Juguete',   precio: '$6.990',  img: 'Pulpo_Gatos_1.png',             emoji: '🐙' },
-  { id: 'paw-balm',                       nombre: 'Paw Balm',                            cat: 'Cuidado',   precio: '$5.990',  img: 'Patas_y_Paw_Balm.png',          emoji: '🐾' },
-  { id: 'afeitadora',                     nombre: 'Afeitadora LED',                      cat: 'Cuidado',   precio: '$9.990',  img: 'Afeitadora_Gatos_1.png',        emoji: '✂️' },
-  { id: 'cat-fest_Pato',                  nombre: 'Cat Fest Meat Sticks — Pato',         cat: 'Snack',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.png',          emoji: '🦆' },
-  { id: 'cat-fest_Cordero',               nombre: 'Cat Fest Meat Sticks — Cordero',      cat: 'Snack',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.png',          emoji: '🐑' },
-  { id: 'cats-snack_Catnip',              nombre: 'Cats Snack — Catnip',                 cat: 'Snack',     precio: '$2.990',  img: 'Cats_Snacks_Gato.png',          emoji: '🌿' },
-  { id: 'cats-snack_Matatabi',            nombre: 'Cats Snack — Matatabi',               cat: 'Snack',     precio: '$2.990',  img: 'Cats_Snacks_Gato.png',          emoji: '🌱' },
-  { id: 'cats-snack_Rellena Atún + Queso',    nombre: 'Cats Snack — Rellena Atún + Queso',    cat: 'Snack', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🧀' },
-  { id: 'cats-snack_Rellena Atún + Ostiones', nombre: 'Cats Snack — Rellena Atún + Ostiones', cat: 'Snack', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🦪' },
-  { id: 'cats-snack_Rellena Atún + Pollo',    nombre: 'Cats Snack — Rellena Atún + Pollo',    cat: 'Snack', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🍗' },
+  { id: 'paw-balm',                       nombre: 'Paw Balm',                            cat: 'Aseo e Higiene',   precio: '$5.990',  img: 'Patas_y_Paw_Balm.png',          emoji: '🐾' },
+  { id: 'afeitadora',                     nombre: 'Afeitadora LED',                      cat: 'Aseo e Higiene',   precio: '$9.990',  img: 'Afeitadora_Gatos_1.png',        emoji: '✂️' },
+  { id: 'cat-fest_Pato',                  nombre: 'Cat Fest Meat Sticks — Pato',         cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.png',          emoji: '🦆' },
+  { id: 'cat-fest_Cordero',               nombre: 'Cat Fest Meat Sticks — Cordero',      cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.png',          emoji: '🐑' },
+  { id: 'cats-snack_Catnip',              nombre: 'Cats Snack — Catnip',                 cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'Cats_Snacks_Gato.png',          emoji: '🌿' },
+  { id: 'cats-snack_Matatabi',            nombre: 'Cats Snack — Matatabi',               cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'Cats_Snacks_Gato.png',          emoji: '🌱' },
+  { id: 'cats-snack_Rellena Atún + Queso',    nombre: 'Cats Snack — Rellena Atún + Queso',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🧀' },
+  { id: 'cats-snack_Rellena Atún + Ostiones', nombre: 'Cats Snack — Rellena Atún + Ostiones', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🦪' },
+  { id: 'cats-snack_Rellena Atún + Pollo',    nombre: 'Cats Snack — Rellena Atún + Pollo',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🍗' },
 ];
 
 const STOCK_KEY = 'pac_stock';
