@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Categorías — Patas & Caos</title>
 <link rel="icon" type="image/png" href="favicon.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -23,6 +24,18 @@
   .nav-cart{display:flex;align-items:center;gap:8px;background:var(--terracota);color:var(--blanco);border:none;border-radius:50px;padding:10px 22px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;transition:background .2s;}
   .nav-cart:hover{background:#a8501f;}
   .nav-cart-wrap{position:relative;}
+  .btn-signin{background:none;border:1.5px solid rgba(28,16,7,.2);color:var(--negro);border-radius:50px;padding:9px 20px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.82rem;cursor:pointer;transition:all .2s;margin-left:.5rem;}
+  .btn-signin:hover{border-color:var(--terracota);color:var(--terracota);}
+  .user-wrap{position:relative;margin-left:.5rem;}
+  .user-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:1.5px solid rgba(28,16,7,.1);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:.75rem;min-width:180px;z-index:200;display:none;flex-direction:column;gap:.3rem;}
+  .user-dropdown.open{display:flex;}
+  .user-name-dd{font-size:.82rem;font-weight:700;padding:.4rem .6rem;color:var(--negro);border-bottom:1px solid rgba(28,16,7,.08);margin-bottom:.3rem;}
+  .user-dropdown a{display:block;padding:.5rem .6rem;font-size:.82rem;font-weight:500;color:var(--terracota);text-decoration:none;border-radius:8px;transition:background .15s;}
+  .user-dropdown a:hover{background:var(--cream);}
+  .user-dropdown button{background:none;border:none;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;padding:.5rem .6rem;border-radius:8px;text-align:left;width:100%;transition:background .15s;}
+  .user-dropdown button:hover{background:var(--cream);}
+  .btn-signout{color:#c0392b !important;}
+  .prod-heart.saved{color:#e74c3c;}
   nav.scrolled{background:rgba(245,236,215,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
   .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:102;}
   .hamburger span{display:block;width:24px;height:2px;background:var(--negro);border-radius:2px;transition:all .3s;}
@@ -239,6 +252,7 @@
     <button class="nav-cart" onclick="toggleCart()">🛒 Carrito</button>
     <span class="cart-badge" id="cart-badge">0</span>
   </div>
+  <div id="nav-auth"></div>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
     <span></span><span></span><span></span>
   </button>
@@ -513,7 +527,7 @@ function aplicarFiltros(){
     card.addEventListener('click',()=>abrirModal(id));
     const carr=crearCarrusel(imgs,phs);
     const badge=document.createElement('span');badge.className='prod-badge';badge.textContent=p.categoria;carr.appendChild(badge);
-    const heart=document.createElement('button');heart.className='prod-heart';heart.innerHTML='♡';heart.addEventListener('click',e=>e.stopPropagation());carr.appendChild(heart);
+    const heart=document.createElement('button');heart.className='prod-heart';heart.innerHTML='♡';heart.dataset.id=id;heart.addEventListener('click',e=>toggleWishlist(e,id));carr.appendChild(heart);
     const btnId='btn-'+id;
     const info=document.createElement('div');info.className='prod-info';
     info.innerHTML=`<h4>${p.nombre}</h4><p class="tagline">${TAGLINES[id]||''}</p><div class="prod-footer"><span class="prod-price">${p.precio}</span><button class="btn-add" id="${btnId}">${p.variantes?'Elegir sabor':'Añadir'}</button></div>`;
@@ -624,6 +638,65 @@ if(catParam){
 
 actualizarFill();
 aplicarFiltros();
+
+/* SUPABASE AUTH + WISHLIST */
+const SUPA_URL='https://xintmnshndhtqqbouxbo.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbnRtbnNobmRodHFxYm91eGJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDc2MTAsImV4cCI6MjA5MzU4MzYxMH0.Xl5eHoNoxLrb_8jK40zPL52Qa3t696QHkaAmyJEqJac';
+const _sb=window.supabase.createClient(SUPA_URL,SUPA_KEY);
+let sbToken=null,sbUser=null,wishlist=[];
+
+function updateAuthUI(){
+  const el=document.getElementById('nav-auth');if(!el)return;
+  if(sbUser){
+    const nombre=sbUser.user_metadata?.full_name||sbUser.email?.split('@')[0]||'Mi cuenta';
+    const avatar=sbUser.user_metadata?.avatar_url;
+    const avatarHTML=avatar
+      ?`<img src="${avatar}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;cursor:pointer;border:2px solid transparent" onclick="toggleUserDropdown()" alt="${nombre}">`
+      :`<div style="width:38px;height:38px;border-radius:50%;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onclick="toggleUserDropdown()">${nombre[0].toUpperCase()}</div>`;
+    el.innerHTML=`<div class="user-wrap">${avatarHTML}<div class="user-dropdown" id="user-dropdown"><span class="user-name-dd">👋 ${nombre}</span><a href="/favoritos">❤️ Mis favoritos</a><button class="btn-signout" onclick="cerrarSesion()">Cerrar sesión</button></div></div>`;
+  }else{
+    el.innerHTML=`<button class="btn-signin" onclick="window.location.href='/'">Iniciar sesión</button>`;
+  }
+}
+function toggleUserDropdown(){document.getElementById('user-dropdown')?.classList.toggle('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('.user-wrap'))document.getElementById('user-dropdown')?.classList.remove('open');});
+async function cerrarSesion(){await _sb.auth.signOut();sbUser=null;sbToken=null;wishlist=[];updateAuthUI();actualizarWishlistUI();}
+
+async function cargarDatosUsuario(){
+  if(!sbToken)return;
+  try{
+    const r=await fetch('/api/user-data-get',{headers:{Authorization:`Bearer ${sbToken}`}});
+    const data=await r.json();
+    if(Array.isArray(data.wishlist)){wishlist=data.wishlist;actualizarWishlistUI();}
+  }catch(e){}
+}
+
+function actualizarWishlistUI(){
+  document.querySelectorAll('.prod-heart').forEach(btn=>{
+    const id=btn.dataset.id;if(!id)return;
+    const saved=wishlist.includes(id);
+    btn.classList.toggle('saved',saved);
+    btn.textContent=saved?'❤️':'♡';
+  });
+}
+
+function toggleWishlist(e,id){
+  e.stopPropagation();
+  if(!sbUser){window.location.href='/';return;}
+  const idx=wishlist.indexOf(id);
+  if(idx>=0)wishlist.splice(idx,1);else wishlist.push(id);
+  actualizarWishlistUI();
+  fetch('/api/user-data-set',{method:'POST',headers:{Authorization:`Bearer ${sbToken}`,'Content-Type':'application/json'},body:JSON.stringify({wishlist})});
+}
+
+_sb.auth.onAuthStateChange(async(event,session)=>{
+  if(session){sbUser=session.user;sbToken=session.access_token;updateAuthUI();if(event==='SIGNED_IN')await cargarDatosUsuario();}
+  else{sbUser=null;sbToken=null;updateAuthUI();}
+});
+_sb.auth.getSession().then(({data:{session}})=>{
+  if(session){sbUser=session.user;sbToken=session.access_token;updateAuthUI();cargarDatosUsuario();}
+  else updateAuthUI();
+});
 </script>
 </body>
 </html>
