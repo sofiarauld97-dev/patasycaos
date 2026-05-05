@@ -234,8 +234,8 @@
   @media(max-width:500px){.prod-grid{grid-template-columns:repeat(2,1fr);gap:.75rem;}}
   @media(max-width:640px){.modal-contenedor{grid-template-columns:1fr;max-height:92vh;}.modal-galeria{border-radius:var(--radio-modal) var(--radio-modal) 0 0;position:static;padding:1.25rem;}.modal-imagen-principal{aspect-ratio:4/3;}.modal-contenido{padding:1.25rem;}.modal-nombre{font-size:1.2rem;}.modal-precio{font-size:1.35rem;}}
 /* CHECKOUT MODAL */
-  .checkout-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
-  .checkout-overlay.activo { opacity: 1; visibility: visible; }
+  .checkout-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: none; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+  .checkout-overlay.activo { display: flex; opacity: 1; visibility: visible; }
   .checkout-box { background: var(--blanco); border-radius: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 2rem; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(24px); transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
   .checkout-overlay.activo .checkout-box { transform: translateY(0); }
   .checkout-box h3 { font-size: 1.2rem; font-weight: 900; margin-bottom: .3rem; }
@@ -767,6 +767,13 @@ _sb.auth.getSession().then(({data:{session}})=>{
     <p class="auth-msg" id="auth-msg"></p>
   </div>
 </div>
-<script src="/cart.js"></script>
+<script src="/cart.js">
+// ── Persistencia carrito entre páginas ──
+(function(){
+  try{const s=localStorage.getItem('pac_cart');if(s&&cart.length===0){cart=JSON.parse(s);renderCart();}}catch(e){}
+})();
+const _rC=renderCart;
+renderCart=function(){_rC.apply(this,arguments);try{localStorage.setItem('pac_cart',JSON.stringify(cart));}catch(e){}};
+</script>
 </body>
 </html>
