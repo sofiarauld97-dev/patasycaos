@@ -605,8 +605,17 @@ function mostrarToastCarrito(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.style.opacity = '0', 2500);
 }
-function removeItem(id) { cart = cart.filter(i => i.id !== id); renderCart(); }
+function removeItem(id) { cart = cart.filter(i => i.id !== id); renderCart(); guardarCarritoLocal(); }
+// Cargar carrito desde localStorage al iniciar
+(function() {
+  try { const s = localStorage.getItem('pac_cart'); if (s) cart = JSON.parse(s); } catch(e) {}
+})();
+function guardarCarritoLocal() {
+  try { localStorage.setItem('pac_cart', JSON.stringify(cart)); } catch(e) {}
+}
+
 function renderCart() {
+  guardarCarritoLocal();
   const container = document.getElementById('cart-items'), footer = document.getElementById('cart-footer'), badge = document.getElementById('cart-badge');
   const totalItems = cart.reduce((s,i) => s+i.qty, 0), totalPrice = cart.reduce((s,i) => s+i.price*i.qty, 0);
   badge.textContent = totalItems; badge.style.display = totalItems > 0 ? 'flex' : 'none';
