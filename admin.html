@@ -8,237 +8,153 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --tc: #C4622D; --tc-d: #a34f22; --tc-l: #f5ebe0;
-  --ng: #1A1A1A; --cr: #F5ECD7; --bl: #ffffff;
-  --bg: #f0ebe0; --borde: #e0d4c0; --suave: #6b5c4e;
-  --verde: #2d7a3a; --radio: 14px;
+  --cream: #F5ECD7; --terracota: #C4622D; --negro: #1A1A1A;
+  --dark: #1C1007; --card: #FAF4EA; --borde: rgba(28,16,7,.1);
+  --verde: #2d7a3a; --rojo: #c0392b; --suave: #6b5a4e;
 }
-body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--ng); min-height: 100vh; }
+body { font-family: 'Poppins', sans-serif; background: var(--cream); color: var(--negro); min-height: 100vh; }
+header { background: var(--dark); padding: 0 5%; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand img { width: 34px; height: 34px; object-fit: contain; }
+.brand-text strong { display: block; color: #F5ECD7; font-size: .95rem; font-weight: 700; }
+.brand-text span { font-size: .7rem; color: rgba(245,236,215,.4); }
+.btn-ver { background: none; border: 1.5px solid rgba(245,236,215,.25); color: #F5ECD7; border-radius: 50px; padding: 7px 18px; font-family: 'Poppins', sans-serif; font-size: .8rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: all .2s; }
+.btn-ver:hover { border-color: var(--terracota); color: var(--terracota); }
+main { max-width: 860px; margin: 0 auto; padding: 2.5rem 5% 100px; }
 
-/* HEADER */
-header {
-  background: var(--ng); color: var(--bl);
-  padding: 0 5%; height: 60px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 100;
-}
-.header-brand { display: flex; align-items: center; gap: 10px; }
-.header-brand .dot { width: 28px; height: 28px; background: var(--tc); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .85rem; }
-.header-brand span { font-weight: 700; font-size: .95rem; }
-.header-sub { font-size: .75rem; color: rgba(255,255,255,.5); letter-spacing: .08em; text-transform: uppercase; }
+/* UPLOAD */
+.step-upload { background: var(--card); border: 2.5px dashed rgba(28,16,7,.18); border-radius: 22px; padding: 3rem 2rem; text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
+.step-upload:hover { border-color: var(--terracota); background: #fdf6eb; }
+.step-upload .icon { font-size: 3rem; margin-bottom: 1rem; }
+.step-upload h2 { font-size: 1.25rem; font-weight: 900; margin-bottom: .6rem; }
+.step-upload p { font-size: .85rem; color: var(--suave); line-height: 1.65; margin-bottom: 1.5rem; }
+.btn-upload { background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 12px 30px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; }
 
-/* LAYOUT */
-.layout { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: calc(100vh - 60px); }
-.panel-form { padding: 2rem 2.5rem; border-right: 1px solid var(--borde); overflow-y: auto; }
-.panel-output { padding: 2rem 2.5rem; background: var(--bl); overflow-y: auto; }
+/* FORM */
+.form-wrap { display: none; }
+.form-header { margin-bottom: 2rem; }
+.form-header h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .3rem; }
+.form-header p { font-size: .82rem; color: var(--suave); }
+.file-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(45,122,58,.12); color: var(--verde); border-radius: 50px; padding: 5px 12px; font-size: .75rem; font-weight: 600; cursor: pointer; border: none; font-family: 'Poppins', sans-serif; margin-top: .5rem; }
 
-/* SECCIONES */
-.seccion { margin-bottom: 2rem; }
-.seccion-titulo {
-  font-size: .65rem; font-weight: 700; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--tc);
-  margin-bottom: 1rem; padding-bottom: .5rem;
-  border-bottom: 1px solid var(--borde);
-}
+.card { background: var(--card); border: 1.5px solid var(--borde); border-radius: 18px; padding: 1.75rem; margin-bottom: 1.25rem; }
+.card-title { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: 1.25rem; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: .35rem; }
+.field.full { grid-column: 1 / -1; }
+label { font-size: .75rem; font-weight: 600; color: var(--suave); }
+input[type=text], input[type=number], textarea, select { border: 1.5px solid var(--borde); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; color: var(--negro); background: #fff; outline: none; transition: border-color .2s; width: 100%; }
+input:focus, textarea:focus, select:focus { border-color: var(--terracota); }
+textarea { resize: vertical; min-height: 90px; }
+.hint { font-size: .7rem; color: #bbb; }
 
-/* FORM ELEMENTS */
-.campo { margin-bottom: 1rem; }
-.campo label { display: block; font-size: .78rem; font-weight: 600; color: var(--suave); margin-bottom: .35rem; }
-.campo input[type=text],
-.campo input[type=number],
-.campo select,
-.campo textarea {
-  width: 100%; padding: .6rem .9rem;
-  border: 1.5px solid var(--borde); border-radius: 8px;
-  font-family: 'Poppins', sans-serif; font-size: .85rem;
-  background: var(--bl); color: var(--ng);
-  transition: border-color .2s;
-  outline: none;
-}
-.campo input:focus, .campo select:focus, .campo textarea:focus { border-color: var(--tc); }
-.campo textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
-.campo-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
-.campo-hint { font-size: .7rem; color: #999; margin-top: .25rem; }
+.list-items { display: flex; flex-direction: column; gap: .5rem; margin-bottom: .75rem; }
+.list-item { display: flex; gap: .5rem; align-items: center; }
+.list-item input { flex: 1; }
+.btn-x { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--borde); background: none; cursor: pointer; font-size: .85rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; color: #aaa; }
+.btn-x:hover { border-color: var(--rojo); color: var(--rojo); }
+.btn-add { background: none; border: 1.5px dashed rgba(28,16,7,.18); border-radius: 8px; padding: 8px 14px; font-family: 'Poppins', sans-serif; font-size: .8rem; color: var(--suave); cursor: pointer; transition: all .2s; width: 100%; }
+.btn-add:hover { border-color: var(--terracota); color: var(--terracota); }
 
-/* LISTA DINÁMICA */
-.lista-items { display: flex; flex-direction: column; gap: .5rem; margin-bottom: .6rem; }
-.lista-item { display: flex; gap: .5rem; align-items: center; }
-.lista-item input { flex: 1; padding: .5rem .8rem; border: 1.5px solid var(--borde); border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: .82rem; outline: none; transition: border-color .2s; }
-.lista-item input:focus { border-color: var(--tc); }
-.btn-remove {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 1.5px solid #ddd; background: none;
-  cursor: pointer; font-size: .85rem; color: #aaa;
-  display: flex; align-items: center; justify-content: center;
-  transition: all .15s; flex-shrink: 0;
-}
-.btn-remove:hover { background: #fee; border-color: #e74c3c; color: #e74c3c; }
-.btn-add-item {
-  display: flex; align-items: center; gap: .4rem;
-  background: none; border: 1.5px dashed var(--borde);
-  border-radius: 8px; padding: .45rem .9rem;
-  font-family: 'Poppins', sans-serif; font-size: .78rem;
-  color: var(--suave); cursor: pointer; width: 100%;
-  transition: all .2s;
-}
-.btn-add-item:hover { border-color: var(--tc); color: var(--tc); background: var(--tc-l); }
-
-/* VARIANTES */
 .toggle-row { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
-.toggle-label { font-size: .82rem; font-weight: 600; color: var(--suave); }
-.toggle {
-  position: relative; width: 42px; height: 24px;
-  background: #ddd; border-radius: 100px; cursor: pointer;
-  transition: background .2s; border: none; flex-shrink: 0;
-}
-.toggle.on { background: var(--tc); }
-.toggle::after {
-  content: ''; position: absolute;
-  width: 18px; height: 18px; background: white;
-  border-radius: 50%; top: 3px; left: 3px;
-  transition: transform .2s;
-}
-.toggle.on::after { transform: translateX(18px); }
+.toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+.toggle input { display: none; }
+.slider { position: absolute; inset: 0; background: #ccc; border-radius: 50px; cursor: pointer; transition: background .2s; }
+.slider::before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .2s; }
+.toggle input:checked + .slider { background: var(--terracota); }
+.toggle input:checked + .slider::before { transform: translateX(20px); }
+.toggle-text { font-size: .88rem; font-weight: 600; }
 
-.variante-card {
-  border: 1.5px solid var(--borde); border-radius: 10px;
-  padding: 1rem; margin-bottom: .75rem; background: #faf6f0;
-}
-.variante-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
-.variante-num { font-size: .72rem; font-weight: 700; color: var(--tc); text-transform: uppercase; letter-spacing: .06em; }
+.variantes-section { display: none; }
+.variante-card { background: rgba(196,98,45,.05); border: 1.5px solid rgba(196,98,45,.2); border-radius: 12px; padding: 1rem; margin-bottom: .75rem; position: relative; }
+.variante-card .btn-x { position: absolute; top: .75rem; right: .75rem; }
+.variante-card label { color: var(--terracota); }
+.btn-add-v { background: none; border: 1.5px dashed rgba(196,98,45,.3); border-radius: 8px; padding: 8px 14px; font-family: 'Poppins', sans-serif; font-size: .8rem; color: var(--terracota); cursor: pointer; transition: all .2s; width: 100%; }
+.btn-add-v:hover { background: rgba(196,98,45,.06); }
 
-/* BOTÓN PRINCIPAL */
-.btn-generar {
-  width: 100%; padding: .85rem;
-  background: var(--tc); color: var(--bl);
-  border: none; border-radius: 10px;
-  font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .95rem;
-  cursor: pointer; transition: background .2s, transform .15s;
-  display: flex; align-items: center; justify-content: center; gap: .5rem;
-}
-.btn-generar:hover { background: var(--tc-d); transform: translateY(-1px); }
-.btn-generar:active { transform: translateY(0); }
+.btn-ia { background: linear-gradient(135deg,#6366f1,#a855f7); color: #fff; border: none; border-radius: 50px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600; cursor: pointer; transition: opacity .2s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-ia:hover { opacity: .85; }
+.btn-ia:disabled { opacity: .5; cursor: not-allowed; }
+.ia-row { display: flex; justify-content: flex-end; margin-top: .75rem; }
 
-/* OUTPUT */
-.output-placeholder {
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: center; height: 100%;
-  color: #bbb; text-align: center; gap: 1rem;
-  min-height: 300px;
-}
-.output-placeholder .big { font-size: 3rem; }
-.output-placeholder p { font-size: .85rem; line-height: 1.6; max-width: 220px; }
+.prods-list { display: flex; flex-wrap: wrap; gap: .4rem; }
+.prod-chip { font-size: .72rem; font-weight: 600; padding: 4px 11px; border-radius: 50px; background: rgba(28,16,7,.06); color: var(--suave); }
 
-.codigo-bloque { margin-bottom: 1.5rem; }
-.codigo-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: .5rem;
-}
-.codigo-titulo { font-size: .72rem; font-weight: 700; color: var(--suave); text-transform: uppercase; letter-spacing: .08em; }
-.btn-copiar {
-  display: flex; align-items: center; gap: .35rem;
-  padding: .3rem .75rem; border-radius: 6px;
-  border: 1.5px solid var(--borde); background: none;
-  font-family: 'Poppins', sans-serif; font-size: .72rem; font-weight: 600;
-  color: var(--suave); cursor: pointer; transition: all .2s;
-}
-.btn-copiar:hover { border-color: var(--tc); color: var(--tc); background: var(--tc-l); }
-.btn-copiar.copiado { border-color: var(--verde); color: var(--verde); background: #edfaf0; }
-.codigo-box {
-  background: var(--ng); color: #e8d5c0;
-  border-radius: 10px; padding: 1.2rem;
-  font-family: 'Courier New', monospace; font-size: .72rem;
-  line-height: 1.7; overflow-x: auto; white-space: pre;
-  max-height: 320px; overflow-y: auto;
-}
-.codigo-box .key { color: #f0a070; }
-.codigo-box .str { color: #a8d8a0; }
-.codigo-box .num { color: #88ccff; }
+.form-footer { position: sticky; bottom: 0; background: var(--cream); border-top: 1.5px solid var(--borde); padding: 1rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.footer-hint { font-size: .78rem; color: var(--suave); line-height: 1.55; }
+.btn-publish { background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 14px 36px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: background .2s; }
+.btn-publish:hover { background: #a8501f; }
 
-/* PREVIEW */
-.preview-label { font-size: .72rem; font-weight: 700; color: var(--suave); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .75rem; }
-.preview-card {
-  background: #faf4ea; border-radius: 14px; overflow: hidden;
-  border: 1.5px solid var(--borde); max-width: 240px;
-}
-.preview-img {
-  width: 100%; aspect-ratio: 1; background: var(--cr);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 3.5rem; position: relative;
-}
-.preview-badge {
-  position: absolute; top: 10px; left: 10px;
-  background: rgba(28,16,7,.65); color: white;
-  border-radius: 50px; padding: 3px 10px; font-size: .68rem; font-weight: 600;
-}
-.preview-info { padding: 14px; }
-.preview-info h4 { font-size: .88rem; font-weight: 700; margin-bottom: .2rem; line-height: 1.3; }
-.preview-tagline { font-size: .74rem; color: var(--suave); font-style: italic; margin-bottom: .7rem; }
-.preview-footer { display: flex; align-items: center; justify-content: space-between; }
-.preview-price { font-size: 1.05rem; font-weight: 800; color: var(--tc); }
-.preview-btn {
-  background: var(--tc); color: white; border: none;
-  border-radius: 50px; padding: 6px 14px;
-  font-size: .74rem; font-weight: 600;
-}
+.toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--negro); color: #fff; border-radius: 50px; padding: 12px 24px; font-size: .85rem; font-weight: 600; z-index: 9999; opacity: 0; transition: opacity .3s; pointer-events: none; white-space: nowrap; }
+.toast.show { opacity: 1; }
 
-/* INSTRUCCIONES */
-.instrucciones {
-  background: #f0f8f0; border: 1.5px solid #c0e0c8;
-  border-radius: 10px; padding: 1rem 1.2rem; margin-top: 1.5rem;
-}
-.instrucciones h4 { font-size: .78rem; font-weight: 700; color: #2d5a3a; margin-bottom: .6rem; }
-.instrucciones ol { padding-left: 1.2rem; }
-.instrucciones li { font-size: .75rem; color: #3a5a40; line-height: 1.8; }
-
-@media (max-width: 800px) {
-  .layout { grid-template-columns: 1fr; }
-  .panel-form { border-right: none; border-bottom: 1px solid var(--borde); }
-  .campo-row { grid-template-columns: 1fr; }
-}
+@media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } .field.full { grid-column: 1; } }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-brand">
-    <div class="dot">🐾</div>
-    <span>Patas & Caos</span>
-  </div>
-  <span class="header-sub">Panel de productos</span>
+  <a href="/" class="brand">
+    <img src="logo.png" alt="Patas & Caos">
+    <div class="brand-text">
+      <strong>Patas & Caos</strong>
+      <span>Admin — Agregar productos</span>
+    </div>
+  </a>
+  <a href="/" class="btn-ver" target="_blank">↗ Ver tienda</a>
 </header>
 
-<div class="layout">
+<main>
 
-  <!-- ═══ FORMULARIO ═══ -->
-  <div class="panel-form">
+  <!-- PASO 1 -->
+  <div id="step-upload" class="step-upload" onclick="document.getElementById('file-input').click()">
+    <input type="file" id="file-input" accept=".html" onchange="cargarIndex(event)" style="display:none">
+    <div class="icon">📂</div>
+    <h2>Paso 1 — Sube tu index.html</h2>
+    <p>Descárgalo desde GitHub, súbelo aquí y el admin lee todos tus productos automáticamente.<br>Cuando agregues uno nuevo, descarga el index.html actualizado y reemplázalo en GitHub.</p>
+    <button class="btn-upload" onclick="event.stopPropagation()">Seleccionar index.html</button>
+  </div>
 
-    <!-- DATOS BÁSICOS -->
-    <div class="seccion">
-      <p class="seccion-titulo">Datos básicos</p>
+  <!-- FORMULARIO -->
+  <div id="form-wrap" class="form-wrap">
 
-      <div class="campo">
-        <label>Nombre del producto *</label>
-        <input type="text" id="nombre" placeholder="ej: Rascador Espacial" oninput="generarId()">
-      </div>
+    <div class="form-header">
+      <h2>Agregar producto nuevo</h2>
+      <p id="form-sub">index.html cargado correctamente</p>
+      <button class="file-tag" onclick="document.getElementById('file-input2').click()">
+        <input type="file" id="file-input2" accept=".html" onchange="cargarIndex(event)" style="display:none">
+        🔄 Cambiar archivo
+      </button>
+    </div>
 
-      <div class="campo-row">
-        <div class="campo">
-          <label>Precio de venta *</label>
-          <input type="number" id="precio" placeholder="9990" min="0">
-          <p class="campo-hint">Solo el número, sin puntos ni $</p>
+    <!-- PRODUCTOS ACTUALES -->
+    <div class="card" id="card-actuales">
+      <p class="card-title">Productos en la tienda ahora</p>
+      <div class="prods-list" id="prods-list"></div>
+    </div>
+
+    <!-- INFO BÁSICA -->
+    <div class="card">
+      <p class="card-title">Información básica</p>
+      <div class="grid2">
+        <div class="field full">
+          <label>Nombre del producto *</label>
+          <input type="text" id="f-nombre" placeholder="Ej: Collar Luminoso LED">
         </div>
-        <div class="campo">
-          <label>ID del producto *</label>
-          <input type="text" id="productoId" placeholder="rascador-espacial">
-          <p class="campo-hint">Generado automático, puedes editar</p>
+        <div class="field">
+          <label>Precio *</label>
+          <input type="number" id="f-precio" placeholder="9990">
+          <span class="hint">Solo el número, sin $ ni puntos</span>
         </div>
-      </div>
-
-      <div class="campo-row">
-        <div class="campo">
+        <div class="field">
+          <label>ID único *</label>
+          <input type="text" id="f-id" placeholder="collar-luminoso">
+          <span class="hint">Sin espacios, solo letras y guiones</span>
+        </div>
+        <div class="field">
           <label>Categoría *</label>
-          <select id="categoria">
+          <select id="f-categoria">
+            <option value="">Seleccionar...</option>
             <option value="Accesorio">Accesorio</option>
             <option value="Juguete">Juguete</option>
             <option value="Aseo e Higiene">Aseo e Higiene</option>
@@ -246,376 +162,292 @@ header {
             <option value="Snacks y Golosinas">Snacks y Golosinas</option>
           </select>
         </div>
-        <div class="campo">
-          <label>Audiencia *</label>
-          <select id="audience">
+        <div class="field">
+          <label>Para *</label>
+          <select id="f-audience">
+            <option value="">Seleccionar...</option>
             <option value="Para Gatos">Para Gatos</option>
             <option value="Perros & Gatos">Perros & Gatos</option>
           </select>
         </div>
-      </div>
-
-      <div class="campo">
-        <label>Tagline (frase corta para la tarjeta) *</label>
-        <input type="text" id="tagline" placeholder='ej: "El sueño de todo explorador."'>
-      </div>
-    </div>
-
-    <!-- DESCRIPCIÓN Y CARACTERÍSTICAS -->
-    <div class="seccion">
-      <p class="seccion-titulo">Descripción y características</p>
-
-      <div class="campo">
-        <label>Descripción completa *</label>
-        <textarea id="descripcion" placeholder="Descripción con el humor y estilo de Patas & Caos..."></textarea>
-      </div>
-
-      <div class="campo">
-        <label>Título de la lista (Características / Ingredientes)</label>
-        <select id="caracTitulo">
-          <option value="Características">Características</option>
-          <option value="Ingredientes">Ingredientes</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>Características / Ingredientes *</label>
-        <div class="lista-items" id="caracItems">
-          <div class="lista-item">
-            <input type="text" placeholder="ej: Material resistente a mordiscos">
-            <button class="btn-remove" onclick="removeItem(this)">✕</button>
-          </div>
+        <div class="field">
+          <label>Etiqueta características</label>
+          <select id="f-carac-titulo">
+            <option value="Características">Características</option>
+            <option value="Ingredientes">Ingredientes</option>
+          </select>
         </div>
-        <button class="btn-add-item" onclick="addCarac()">+ Agregar ítem</button>
+        <div class="field">
+          <label>Stock inicial</label>
+          <input type="number" id="f-stock" value="1" min="0" max="99">
+        </div>
       </div>
     </div>
 
-    <!-- IMÁGENES Y VARIANTES -->
-    <div class="seccion">
-      <p class="seccion-titulo">Imágenes y variantes</p>
+    <!-- DESCRIPCIÓN -->
+    <div class="card">
+      <p class="card-title">Descripción</p>
+      <div class="field" style="margin-bottom:.75rem">
+        <label>Tagline — frase corta con humor</label>
+        <input type="text" id="f-tagline" placeholder='"Porque dormir con luz es de valientes."'>
+      </div>
+      <div class="field">
+        <label>Descripción del producto</label>
+        <textarea id="f-descripcion" placeholder="Describe el producto con la voz de Patas & Caos..."></textarea>
+      </div>
+      <div class="ia-row">
+        <button class="btn-ia" id="btn-ia" onclick="generarConIA()">✨ Generar con IA</button>
+      </div>
+    </div>
 
+    <!-- CARACTERÍSTICAS -->
+    <div class="card">
+      <p class="card-title">Características / Ingredientes</p>
+      <div class="list-items" id="carac-list">
+        <div class="list-item"><input type="text" placeholder="Ej: Luz LED integrada"><button class="btn-x" onclick="quitarItem(this)">✕</button></div>
+        <div class="list-item"><input type="text" placeholder="Ej: Carga USB tipo C"><button class="btn-x" onclick="quitarItem(this)">✕</button></div>
+      </div>
+      <button class="btn-add" onclick="agregarItem('carac-list', 'Nueva característica')">+ Agregar característica</button>
+    </div>
+
+    <!-- FOTOS -->
+    <div class="card">
+      <p class="card-title">Fotos</p>
+      <p style="font-size:.8rem;color:var(--suave);margin-bottom:.75rem">Escribe los nombres exactos de las fotos que subiste a GitHub</p>
+      <div class="list-items" id="fotos-list">
+        <div class="list-item"><input type="text" placeholder="Foto_Principal.png"><button class="btn-x" onclick="quitarItem(this)">✕</button></div>
+      </div>
+      <button class="btn-add" onclick="agregarItem('fotos-list', 'Foto_2.png')">+ Agregar foto</button>
+    </div>
+
+    <!-- VARIANTES -->
+    <div class="card">
+      <p class="card-title">Sabores / Variantes</p>
       <div class="toggle-row">
-        <button class="toggle" id="toggleVariantes" onclick="toggleVariantes()" title="Activar variantes"></button>
-        <span class="toggle-label">¿Tiene variantes de sabor o color?</span>
+        <label class="toggle"><input type="checkbox" id="toggle-v" onchange="toggleVariantes()"><span class="slider"></span></label>
+        <span class="toggle-text">Este producto tiene sabores o variantes</span>
       </div>
-
-      <!-- SIN VARIANTES -->
-      <div id="bloqueImagenes">
-        <div class="campo">
-          <label>Archivos de imagen (nombres exactos en GitHub) *</label>
-          <div class="lista-items" id="imagenesItems">
-            <div class="lista-item">
-              <input type="text" placeholder="ej: Collar_GPS.png">
-              <button class="btn-remove" onclick="removeItem(this)">✕</button>
-            </div>
-          </div>
-          <button class="btn-add-item" onclick="addImagen()">+ Agregar imagen</button>
-          <p class="campo-hint">Escribe el nombre exacto del archivo, incluyendo extensión</p>
-        </div>
-      </div>
-
-      <!-- CON VARIANTES -->
-      <div id="bloqueVariantes" style="display:none;">
-        <div id="variantesContainer"></div>
-        <button class="btn-add-item" onclick="addVariante()">+ Agregar variante</button>
+      <div class="variantes-section" id="variantes-section">
+        <div id="variantes-list"></div>
+        <button class="btn-add-v" onclick="agregarVariante()">+ Agregar variante</button>
       </div>
     </div>
 
-    <!-- GENERAR -->
-    <button class="btn-generar" onclick="generar()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-      Generar código
-    </button>
-
-  </div>
-
-  <!-- ═══ OUTPUT ═══ -->
-  <div class="panel-output" id="panelOutput">
-    <div class="output-placeholder">
-      <div class="big">🐾</div>
-      <p>Completa el formulario y haz clic en <strong>Generar código</strong></p>
+    <!-- FOOTER -->
+    <div class="form-footer">
+      <div class="footer-hint">
+        Se descargará un <strong>index.html</strong> con el producto ya incluido.<br>
+        Súbelo a GitHub reemplazando el actual — listo.
+      </div>
+      <button class="btn-publish" onclick="publicar()">⬇ Publicar producto</button>
     </div>
-  </div>
 
-</div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
 
 <script>
-/* ══ TOGGLE VARIANTES ══ */
-let tieneVariantes = false;
-let varianteCount = 0;
+let indexHTML = '';
+let ordenActual = [];
 
+/* CARGAR INDEX */
+function cargarIndex(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    indexHTML = ev.target.result;
+    // Extraer ORDEN
+    const m = indexHTML.match(/const ORDEN\s*=\s*(\[[\s\S]*?\]);/);
+    if (m) {
+      try { ordenActual = JSON.parse(m[1]); } catch(ex) {}
+    }
+    document.getElementById('step-upload').style.display = 'none';
+    document.getElementById('form-wrap').style.display = 'block';
+    document.getElementById('form-sub').textContent = '✅ ' + file.name + ' cargado';
+    // Mostrar productos actuales
+    const lista = document.getElementById('prods-list');
+    lista.innerHTML = ordenActual.map(id => `<span class="prod-chip">✓ ${id}</span>`).join('');
+    mostrarToast('✅ ' + file.name + ' cargado correctamente');
+  };
+  reader.readAsText(file);
+}
+
+/* ITEMS GENÉRICOS */
+function agregarItem(listId, placeholder) {
+  const list = document.getElementById(listId);
+  const div = document.createElement('div'); div.className = 'list-item';
+  div.innerHTML = `<input type="text" placeholder="${placeholder}"><button class="btn-x" onclick="quitarItem(this)">✕</button>`;
+  list.appendChild(div);
+}
+function quitarItem(btn) {
+  const list = btn.parentElement.parentElement;
+  if (list.children.length > 1) btn.parentElement.remove();
+}
+
+/* VARIANTES */
 function toggleVariantes() {
-  tieneVariantes = !tieneVariantes;
-  const btn = document.getElementById('toggleVariantes');
-  btn.classList.toggle('on', tieneVariantes);
-  document.getElementById('bloqueImagenes').style.display = tieneVariantes ? 'none' : 'block';
-  document.getElementById('bloqueVariantes').style.display = tieneVariantes ? 'block' : 'none';
-  if (tieneVariantes && document.getElementById('variantesContainer').children.length === 0) {
-    addVariante();
-    addVariante();
+  const on = document.getElementById('toggle-v').checked;
+  document.getElementById('variantes-section').style.display = on ? 'block' : 'none';
+  if (on && !document.getElementById('variantes-list').children.length) {
+    agregarVariante(); agregarVariante();
   }
 }
-
-function addVariante() {
-  varianteCount++;
-  const n = varianteCount;
-  const container = document.getElementById('variantesContainer');
-  const div = document.createElement('div');
-  div.className = 'variante-card';
-  div.id = 'variante-' + n;
+function agregarVariante() {
+  const list = document.getElementById('variantes-list');
+  const div = document.createElement('div'); div.className = 'variante-card';
   div.innerHTML = `
-    <div class="variante-header">
-      <span class="variante-num">Variante ${n}</span>
-      <button class="btn-remove" onclick="this.closest('.variante-card').remove()" style="width:auto;padding:0 8px;border-radius:6px;font-size:.72rem;">Eliminar</button>
-    </div>
-    <div class="campo">
-      <label>Nombre del sabor / color</label>
-      <input type="text" placeholder="ej: Pato" class="v-label">
-    </div>
-    <div class="campo">
-      <label>Imágenes de esta variante</label>
-      <div class="lista-items v-imgs">
-        <div class="lista-item">
-          <input type="text" placeholder="ej: Lamb_Meat_Sticks.png">
-          <button class="btn-remove" onclick="removeItem(this)">✕</button>
-        </div>
-      </div>
-      <button class="btn-add-item" onclick="addImagenVariante(this)">+ Agregar imagen</button>
-    </div>
-  `;
-  container.appendChild(div);
+    <button class="btn-x" style="position:absolute;top:.75rem;right:.75rem" onclick="this.parentElement.remove()">✕</button>
+    <div class="grid2" style="gap:.75rem">
+      <div class="field"><label>Nombre del sabor *</label><input type="text" class="v-label" placeholder="Ej: Pato"></div>
+      <div class="field"><label>Foto del sabor</label><input type="text" class="v-img" placeholder="Ej: Duck_Sticks.png"></div>
+    </div>`;
+  list.appendChild(div);
 }
 
-function addImagenVariante(btn) {
-  const lista = btn.previousElementSibling;
-  const item = document.createElement('div');
-  item.className = 'lista-item';
-  item.innerHTML = `<input type="text" placeholder="foto.png"><button class="btn-remove" onclick="removeItem(this)">✕</button>`;
-  lista.appendChild(item);
-}
-
-/* ══ LISTAS DINÁMICAS ══ */
-function addCarac() {
-  const lista = document.getElementById('caracItems');
-  const item = document.createElement('div');
-  item.className = 'lista-item';
-  item.innerHTML = `<input type="text" placeholder="ej: Otra característica"><button class="btn-remove" onclick="removeItem(this)">✕</button>`;
-  lista.appendChild(item);
-  item.querySelector('input').focus();
-}
-
-function addImagen() {
-  const lista = document.getElementById('imagenesItems');
-  const item = document.createElement('div');
-  item.className = 'lista-item';
-  item.innerHTML = `<input type="text" placeholder="ej: Foto_Producto_2.png"><button class="btn-remove" onclick="removeItem(this)">✕</button>`;
-  lista.appendChild(item);
-  item.querySelector('input').focus();
-}
-
-function removeItem(btn) {
-  const parent = btn.closest('.lista-items');
-  if (parent && parent.children.length <= 1) return;
-  btn.closest('.lista-item').remove();
-}
-
-/* ══ GENERAR ID AUTOMÁTICO ══ */
-function generarId() {
-  const nombre = document.getElementById('nombre').value;
-  const id = nombre.toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim().replace(/\s+/g, '-');
-  document.getElementById('productoId').value = id;
-}
-
-/* ══ FORMATEAR PRECIO ══ */
-function formatPrecio(num) {
-  return '$' + parseInt(num).toLocaleString('es-CL').replace(/\./g, '.');
-}
-
-/* ══ OBTENER VALORES ══ */
-function getListItems(contenedor) {
-  return Array.from(contenedor.querySelectorAll('.lista-item input'))
-    .map(i => i.value.trim()).filter(Boolean);
-}
-
-/* ══ GENERAR CÓDIGO ══ */
-function generar() {
-  const nombre    = document.getElementById('nombre').value.trim();
-  const precioNum = parseInt(document.getElementById('precio').value) || 0;
-  const id        = document.getElementById('productoId').value.trim();
-  const categoria = document.getElementById('categoria').value;
-  const audience  = document.getElementById('audience').value;
-  const tagline   = document.getElementById('tagline').value.trim();
-  const desc      = document.getElementById('descripcion').value.trim();
-  const caracTit  = document.getElementById('caracTitulo').value;
-  const caracs    = getListItems(document.getElementById('caracItems'));
-
-  if (!nombre || !precioNum || !id || !tagline || !desc || caracs.length === 0) {
-    alert('Completa todos los campos obligatorios (*)');
-    return;
-  }
-
-  const precio = formatPrecio(precioNum);
-  let imagenCard = '';
-  let jsProducto = '';
-
-  if (!tieneVariantes) {
-    const imagenes = getListItems(document.getElementById('imagenesItems'));
-    if (imagenes.length === 0) { alert('Agrega al menos una imagen'); return; }
-    imagenCard = imagenes[0];
-
-    const caracStr = caracs.map(c => `          '${c}'`).join(',\n');
-    const imgStr   = imagenes.map(i => `'${i}'`).join(', ');
-    const phStr    = imagenes.map(() => `'🐾'`).join(', ');
-
-    jsProducto = `  '${id}': {
-    nombre: '${nombre}',
-    precio: '${precio}', precioNum: ${precioNum},
-    audience: '${audience}', categoria: '${categoria}',
-    descripcion: '${desc.replace(/'/g,"\\'")}',
-    caracTitulo: '${caracTit}',
-    caracteristicas: [
-${caracStr}
-    ],
-    imagenes: [${imgStr}],
-    placeholders: [${phStr}]
-  },`;
-  } else {
-    const varCards = document.querySelectorAll('.variante-card');
-    if (varCards.length === 0) { alert('Agrega al menos una variante'); return; }
-
-    const variantes = Array.from(varCards).map(card => {
-      const label = card.querySelector('.v-label').value.trim();
-      const imgs  = Array.from(card.querySelectorAll('.v-imgs .lista-item input')).map(i => i.value.trim()).filter(Boolean);
-      return { label, imgs };
-    }).filter(v => v.label && v.imgs.length > 0);
-
-    if (variantes.length === 0) { alert('Completa al menos una variante con nombre e imagen'); return; }
-
-    imagenCard = variantes[0].imgs[0];
-
-    const caracStr  = caracs.map(c => `          '${c}'`).join(',\n');
-    const varStr    = variantes.map(v => {
-      const imgStr = v.imgs.map(i => `'${i}'`).join(', ');
-      const phStr  = v.imgs.map(() => `'🐾'`).join(', ');
-      return `      { label: '${v.label}', imagenes: [${imgStr}], placeholders: [${phStr}] }`;
-    }).join(',\n');
-
-    jsProducto = `  '${id}': {
-    nombre: '${nombre}',
-    precio: '${precio}', precioNum: ${precioNum},
-    audience: '${audience}', categoria: '${categoria}',
-    descripcion: '${desc.replace(/'/g,"\\'")}',
-    caracTitulo: '${caracTit}',
-    caracteristicas: [
-${caracStr}
-    ],
-    variantes: [
-${varStr}
-    ]
-  },`;
-  }
-
-  // HTML de la tarjeta
-  const btnAnadir = tieneVariantes
-    ? `<button class="btn-add" onclick="event.stopPropagation(); abrirModal('${id}')">Elegir sabor</button>`
-    : `<button class="btn-add" onclick="event.stopPropagation(); addToCart({id:'${id}',name:'${nombre}',price:${precioNum},img:'${imagenCard}'})">Añadir</button>`;
-
-  const htmlCard = `<div class="prod-card" onclick="abrirModal('${id}')">
-  <div class="prod-img">
-    <img src="${imagenCard}" alt="${nombre}">
-    <span class="prod-badge">${categoria}</span>
-    <button class="prod-heart" onclick="event.stopPropagation()">♡</button>
-  </div>
-  <div class="prod-info">
-    <h4>${nombre}</h4>
-    <p class="tagline">${tagline}</p>
-    <div class="prod-footer">
-      <span class="prod-price">${precio}</span>
-      ${btnAnadir}
-    </div>
-  </div>
-</div>`;
-
-  // Preview emoji según categoría
-  const emojiMap = { Accesorio:'🎀', Juguete:'🎾', 'Aseo e Higiene':'✨', Alimentos:'🍽️', 'Snacks y Golosinas':'🍪' };
-  renderOutput(jsProducto, htmlCard, { nombre, precio, categoria, tagline, imagenCard, tieneVariantes, emoji: emojiMap[categoria] || '🐾' });
-}
-
-/* ══ RENDERIZAR OUTPUT ══ */
-function renderOutput(js, html, meta) {
-  document.getElementById('panelOutput').innerHTML = `
-
-    <div class="codigo-bloque">
-      <div class="codigo-header">
-        <span class="codigo-titulo">1 — Pegar en el objeto <code>productos</code> del JS</span>
-        <button class="btn-copiar" onclick="copiar(this, 'js-code')">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          Copiar
-        </button>
-      </div>
-      <div class="codigo-box" id="js-code">${escapeHtml(js)}</div>
-    </div>
-
-    <div class="codigo-bloque">
-      <div class="codigo-header">
-        <span class="codigo-titulo">2 — Pegar en la grilla <code>prod-grid</code> del HTML</span>
-        <button class="btn-copiar" onclick="copiar(this, 'html-code')">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          Copiar
-        </button>
-      </div>
-      <div class="codigo-box" id="html-code">${escapeHtml(html)}</div>
-    </div>
-
-    <div class="codigo-bloque">
-      <p class="preview-label">Vista previa de la tarjeta</p>
-      <div class="preview-card">
-        <div class="preview-img">
-          ${meta.imagenCard ? `<img src="${meta.imagenCard}" alt="${meta.nombre}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">` : ''}
-          <span style="position:absolute;font-size:3.5rem;">${meta.imagenCard ? '' : meta.emoji}</span>
-          <span class="preview-badge">${meta.categoria}</span>
-        </div>
-        <div class="preview-info">
-          <h4>${meta.nombre}</h4>
-          <p class="preview-tagline">${meta.tagline || '"El mejor del mercado."'}</p>
-          <div class="preview-footer">
-            <span class="preview-price">${meta.precio}</span>
-            <button class="preview-btn">${meta.tieneVariantes ? 'Elegir sabor' : 'Añadir'}</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="instrucciones">
-      <h4>📋 ¿Cómo usar estos bloques?</h4>
-      <ol>
-        <li>Copia el <strong>bloque JS</strong> y pégalo dentro del objeto <code>const productos = { ... }</code> en tu index.html, antes del cierre <code>};</code></li>
-        <li>Copia el <strong>bloque HTML</strong> y pégalo dentro de <code>&lt;div class="prod-grid"&gt;</code></li>
-        <li>Sube los cambios a GitHub → Vercel despliega automático</li>
-      </ol>
-    </div>
-  `;
-}
-
-/* ══ COPIAR AL PORTAPAPELES ══ */
-function copiar(btn, id) {
-  const texto = document.getElementById(id).textContent;
-  navigator.clipboard.writeText(texto).then(() => {
-    btn.classList.add('copiado');
-    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ¡Copiado!`;
-    setTimeout(() => {
-      btn.classList.remove('copiado');
-      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copiar`;
-    }, 2000);
+/* AUTO-ID */
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('f-nombre').addEventListener('input', function() {
+    document.getElementById('f-id').value = this.value.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-');
   });
+});
+
+/* IA */
+async function generarConIA() {
+  const nombre = document.getElementById('f-nombre').value.trim();
+  const categoria = document.getElementById('f-categoria').value;
+  if (!nombre) { mostrarToast('Escribe el nombre del producto primero'); return; }
+  const btn = document.getElementById('btn-ia');
+  btn.disabled = true; btn.textContent = '✨ Generando...';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 500,
+        messages: [{ role: 'user', content: `Eres el copywriter de Patas & Caos, tienda de mascotas chilena con humor cercano y personalidad real. Escribe para el producto "${nombre}" (categoría: ${categoria||'general'}):
+1. Tagline: máximo 7 palabras con humor, entre comillas
+2. Descripción: 2 oraciones con personalidad, en segunda persona
+
+Responde SOLO en JSON exacto sin markdown:
+{"tagline":"...","descripcion":"..."}` }]
+      })
+    });
+    const data = await res.json();
+    const parsed = JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());
+    document.getElementById('f-tagline').value = parsed.tagline || '';
+    document.getElementById('f-descripcion').value = parsed.descripcion || '';
+    mostrarToast('✨ Descripción generada con IA');
+  } catch(ex) {
+    mostrarToast('No se pudo generar. Escríbelo manualmente.');
+  } finally {
+    btn.disabled = false; btn.textContent = '✨ Generar con IA';
+  }
 }
 
-/* ══ ESCAPE HTML ══ */
-function escapeHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+/* PUBLICAR */
+function publicar() {
+  if (!indexHTML) { mostrarToast('Primero carga tu index.html'); return; }
+
+  const nombre    = document.getElementById('f-nombre').value.trim();
+  const precioNum = parseInt(document.getElementById('f-precio').value) || 0;
+  const id        = document.getElementById('f-id').value.trim().replace(/\s+/g,'-');
+  const categoria = document.getElementById('f-categoria').value;
+  const audience  = document.getElementById('f-audience').value;
+  const caracTit  = document.getElementById('f-carac-titulo').value;
+  const tagline   = document.getElementById('f-tagline').value.trim();
+  const desc      = document.getElementById('f-descripcion').value.trim();
+  const stock     = parseInt(document.getElementById('f-stock').value) || 1;
+
+  if (!nombre || !precioNum || !id || !categoria || !audience) {
+    mostrarToast('❗ Completa los campos obligatorios (*)'); return;
+  }
+  if (ordenActual.includes(id)) {
+    mostrarToast('❗ Ya existe un producto con ese ID'); return;
+  }
+
+  const caracs = [...document.querySelectorAll('#carac-list input')]
+    .map(i => i.value.trim()).filter(Boolean);
+  const fotos = [...document.querySelectorAll('#fotos-list input')]
+    .map(i => i.value.trim()).filter(Boolean);
+  if (!fotos.length) { mostrarToast('Agrega al menos una foto'); return; }
+
+  const precio = '$' + precioNum.toLocaleString('es-CL');
+  const tieneV = document.getElementById('toggle-v').checked;
+  let variantesArr = [];
+  if (tieneV) {
+    document.querySelectorAll('.variante-card').forEach(b => {
+      const label = b.querySelector('.v-label').value.trim();
+      const img   = b.querySelector('.v-img').value.trim();
+      if (label) variantesArr.push({ label, imagenes: [img || fotos[0]], placeholders: ['🐾'] });
+    });
+  }
+
+  // Construir entrada del producto
+  const placeholders = fotos.map(() => '🐾');
+  let productoEntry;
+  if (tieneV && variantesArr.length) {
+    const vStr = JSON.stringify(variantesArr);
+    productoEntry = `${JSON.stringify(id)}:{nombre:${JSON.stringify(nombre)},precio:${JSON.stringify(precio)},precioNum:${precioNum},audience:${JSON.stringify(audience)},categoria:${JSON.stringify(categoria)},descripcion:${JSON.stringify(desc)},caracTitulo:${JSON.stringify(caracTit)},caracteristicas:${JSON.stringify(caracs)},variantes:${vStr}}`;
+  } else {
+    productoEntry = `${JSON.stringify(id)}:{nombre:${JSON.stringify(nombre)},precio:${JSON.stringify(precio)},precioNum:${precioNum},audience:${JSON.stringify(audience)},categoria:${JSON.stringify(categoria)},descripcion:${JSON.stringify(desc)},caracTitulo:${JSON.stringify(caracTit)},caracteristicas:${JSON.stringify(caracs)},imagenes:${JSON.stringify(fotos)},placeholders:${JSON.stringify(placeholders)}}`;
+  }
+
+  // Stock entries
+  let stockEntries;
+  if (tieneV && variantesArr.length) {
+    stockEntries = variantesArr.map(v => `${JSON.stringify(id+'_'+v.label)}:${stock}`).join(',') + ',';
+  } else {
+    stockEntries = `${JSON.stringify(id)}:${stock},`;
+  }
+
+  // Tagline entry
+  const taglineVal = tagline ? tagline : '"' + nombre + '"';
+  const taglineEntry = `${JSON.stringify(id)}:${JSON.stringify(taglineVal)},`;
+
+  // Insertar en el HTML
+  let nuevo = indexHTML;
+
+  nuevo = nuevo.replace(
+    /const TAGLINES\s*=\s*\{/,
+    `const TAGLINES = {${taglineEntry}`
+  );
+  nuevo = nuevo.replace(
+    /const ORDEN\s*=\s*\[/,
+    `const ORDEN = [${JSON.stringify(id)},`
+  );
+  nuevo = nuevo.replace(
+    /const productos\s*=\s*\{/,
+    `const productos = {${productoEntry},`
+  );
+  nuevo = nuevo.replace(
+    /const stockInicial\s*=\s*\{/,
+    `const stockInicial = {${stockEntries}`
+  );
+
+  // Descargar
+  const blob = new Blob([nuevo], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'index.html'; a.click();
+  URL.revokeObjectURL(url);
+
+  mostrarToast('✅ index.html descargado — súbelo a GitHub');
+  ordenActual.unshift(id);
+  document.getElementById('prods-list').innerHTML =
+    ordenActual.map(i => `<span class="prod-chip">✓ ${i}</span>`).join('');
+}
+
+/* TOAST */
+let tt;
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3000);
 }
 </script>
 </body>
