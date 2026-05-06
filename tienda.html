@@ -896,6 +896,22 @@ function toggleFiltrosMovil() {
   inner.classList.toggle('open');
   btn.classList.toggle('open');
 }
+
+/* AUTH MODAL */
+function abrirAuth() { document.getElementById('auth-overlay').classList.add('activo'); document.body.style.overflow='hidden'; }
+function cerrarAuth() { document.getElementById('auth-overlay').classList.remove('activo'); document.body.style.overflow=''; document.getElementById('auth-msg').textContent=''; }
+function cerrarAuthSiFondo(e) { if(e.target.id==='auth-overlay') cerrarAuth(); }
+async function loginConGoogle() {
+  await _sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.origin } });
+}
+async function enviarMagicLink() {
+  const email = document.getElementById('auth-email').value.trim();
+  const msg = document.getElementById('auth-msg');
+  if (!email) { msg.textContent='Ingresa tu email'; msg.className='auth-msg err'; return; }
+  const { error } = await _sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: window.location.origin } });
+  if (error) { msg.textContent='Error: '+error.message; msg.className='auth-msg err'; }
+  else { msg.textContent='✅ Revisa tu email — te enviamos un enlace de acceso'; msg.className='auth-msg ok'; }
+}
 </script>
 
 <!-- AUTH MODAL -->
