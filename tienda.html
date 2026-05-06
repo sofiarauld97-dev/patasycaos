@@ -285,9 +285,9 @@
   }
   @media (max-width: 380px) { .prod-grid { grid-template-columns: 1fr; } }
   @media (max-width: 640px) {
-    .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; }
+    .modal-contenedor { grid-template-columns: 1fr; max-height: 85vh; overflow-y: auto; }
     .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: .75rem; max-height: 55vw; overflow: hidden; }
-    .modal-imagen-principal { aspect-ratio: unset; height: 48vw; max-height: 48vw; }
+    .modal-imagen-principal { aspect-ratio: 4/5; max-height: 42vw; overflow: hidden; }
     .modal-contenido { padding: 1.25rem; }
     .modal-nombre { font-size: 1.2rem; }
     .modal-precio { font-size: 1.35rem; }
@@ -353,6 +353,15 @@
     .cart-item { gap: 10px; }
     .cart-item-img { width: 60px; height: 60px; }
   }
+
+  /* CHECKOUT BTNS */
+  .btn-checkout-cancel { flex: 1; background: none; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .88rem; cursor: pointer; color: #6b5a4e; transition: all .2s; }
+  .btn-checkout-cancel:hover { border-color: var(--negro); color: var(--negro); }
+  .btn-checkout-confirm { flex: 2; background: #25D366; border: none; border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background .2s; }
+  .btn-checkout-confirm:hover { background: #1da851; }
+  .doc-btn { flex: 1; padding: 10px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; background: #fff; font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; cursor: pointer; color: #6b5a4e; transition: all .2s; }
+  .doc-btn.activo { background: var(--terracota); color: #fff; border-color: var(--terracota); }
+  .doc-btn:hover:not(.activo) { border-color: var(--terracota); color: var(--terracota); }
 </style>
 </head>
 <body>
