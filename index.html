@@ -279,6 +279,10 @@
   .checkout-envio-info span:first-child { color: #4a3a2e; }
   .checkout-envio-info span:last-child { font-weight: 700; color: var(--terracota); }
   .checkout-envio-aviso { font-size: .75rem; color: #8a7a6e; margin-top: .4rem; font-style: italic; }
+  .checkout-doc-toggle { display: flex; gap: .5rem; margin-top: .5rem; }
+  .doc-btn { flex: 1; padding: 10px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; background: #fff; font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; cursor: pointer; color: #6b5a4e; transition: all .2s; }
+  .doc-btn.activo { background: var(--terracota); color: #fff; border-color: var(--terracota); }
+  .doc-btn:hover:not(.activo) { border-color: var(--terracota); color: var(--terracota); }
 
 
   @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 2rem; } .hero-img { display: none; } .cat-grid { grid-template-columns: repeat(3, 1fr); } .prod-grid { grid-template-columns: repeat(3, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
@@ -492,6 +496,38 @@
       </div>
     </div>
 
+    <p class="checkout-section-label">Documento tributario</p>
+    <div class="checkout-doc-toggle">
+      <button class="doc-btn activo" id="btn-boleta" onclick="seleccionarDoc('boleta')">🧾 Boleta</button>
+      <button class="doc-btn" id="btn-factura" onclick="seleccionarDoc('factura')">📄 Factura</button>
+    </div>
+    <div id="factura-fields" style="display:none;margin-top:.75rem">
+      <div class="checkout-grid full">
+        <div class="checkout-field">
+          <label>RUT empresa *</label>
+          <input type="text" id="co-rut" placeholder="Ej: 76.123.456-7">
+        </div>
+      </div>
+      <div class="checkout-grid full" style="margin-top:.75rem">
+        <div class="checkout-field">
+          <label>Razón social *</label>
+          <input type="text" id="co-razon" placeholder="Ej: Empresa S.A.">
+        </div>
+      </div>
+      <div class="checkout-grid full" style="margin-top:.75rem">
+        <div class="checkout-field">
+          <label>Giro *</label>
+          <input type="text" id="co-giro" placeholder="Ej: Comercio al por menor">
+        </div>
+      </div>
+      <div class="checkout-grid full" style="margin-top:.75rem">
+        <div class="checkout-field">
+          <label>Dirección de facturación *</label>
+          <input type="text" id="co-dir-factura" placeholder="Dirección legal de la empresa">
+        </div>
+      </div>
+    </div>
+
     <div class="checkout-btns">
       <button class="btn-checkout-cancel" onclick="cerrarCheckout()">Volver</button>
       <button class="btn-checkout-confirm" onclick="confirmarCheckout()">
@@ -651,6 +687,12 @@ function actualizarEnvio() {
 }
 
 
+function seleccionarDoc(tipo) {
+  document.getElementById('btn-boleta').classList.toggle('activo', tipo === 'boleta');
+  document.getElementById('btn-factura').classList.toggle('activo', tipo === 'factura');
+  document.getElementById('factura-fields').style.display = tipo === 'factura' ? 'block' : 'none';
+}
+
 async function checkout() {
   if (cart.length === 0) return;
   // Mostrar resumen en el modal
@@ -674,6 +716,16 @@ async function confirmarCheckout() {
   const comuna   = document.getElementById('co-comuna').value.trim();
   const ciudad   = document.getElementById('co-ciudad').value.trim();
   const notas    = document.getElementById('co-notas').value.trim();
+  const esFactura = document.getElementById('btn-factura').classList.contains('activo');
+  let docInfo = '';
+  if (esFactura) {
+    const rut      = document.getElementById('co-rut').value.trim();
+    const razon    = document.getElementById('co-razon').value.trim();
+    const giro     = document.getElementById('co-giro').value.trim();
+    const dirFact  = document.getElementById('co-dir-factura').value.trim();
+    if (!rut || !razon || !giro || !dirFact) { mostrarToastCarrito('Completa todos los datos de factura'); return; }
+    docInfo = `\n\n*Factura a:*\nRUT: ${rut}\nRazón social: ${razon}\nGiro: ${giro}\nDirección: ${dirFact}`;
+  }
 
   // Validar campos obligatorios
   const campos = ['co-nombre','co-telefono','co-email','co-direccion','co-comuna','co-ciudad'];
@@ -694,7 +746,7 @@ async function confirmarCheckout() {
   const items = cart.map(i => `• ${i.name} x${i.qty} — $${(i.price*i.qty).toLocaleString('es-CL')}`).join('\n');
   const subtotal = cart.reduce((s,i) => s+i.price*i.qty, 0);
   const total = subtotal + costoEnvio;
-  const msg = `🐾 *Nuevo pedido - Patas & Caos*\n\n*Cliente:* ${nombre}\n*Teléfono:* ${telefono}\n*Email:* ${email}\n\n*Dirección:* ${direccion}\n*Comuna:* ${comuna}\n*Ciudad:* ${ciudad}${notas ? '\n*Notas:* '+notas : ''}\n\n*Productos:*\n${items}\n\n*Subtotal: $${subtotal.toLocaleString('es-CL')}*\n*Envío: ${textoEnvio}*\n*Total: $${costoEnvio > 0 ? total.toLocaleString('es-CL') : subtotal.toLocaleString('es-CL')} ${costoEnvio === 0 ? '+ envío a coordinar' : ''}*`;
+  const msg = `🐾 *Nuevo pedido - Patas & Caos*\n\n*Cliente:* ${nombre}\n*Teléfono:* ${telefono}\n*Email:* ${email}\n\n*Dirección:* ${direccion}\n*Comuna:* ${comuna}\n*Ciudad:* ${ciudad}${notas ? '\n*Notas:* '+notas : ''}${docInfo}\n\n*Productos:*\n${items}\n\n*Subtotal: $${subtotal.toLocaleString('es-CL')}*\n*Envío: ${textoEnvio}*\n*Total: $${costoEnvio > 0 ? total.toLocaleString('es-CL') : subtotal.toLocaleString('es-CL')} ${costoEnvio === 0 ? '+ envío a coordinar' : ''}*\n*Documento: ${esFactura ? 'Factura' : 'Boleta'}*`;
 
   // Abrir WhatsApp
   window.open('https://wa.me/56923997854?text=' + encodeURIComponent(msg), '_blank');
