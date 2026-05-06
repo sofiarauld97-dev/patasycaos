@@ -3,7 +3,7 @@
 
 // Stock — debe estar primero porque addToCart lo usa
 const stockInicial = {'tubito-atun':3,'tubito-conejo':3,'tubito-cangrejo':3,'lata-leonardo-kitten':1,'lata-leonardo_Ave':1,'lata-leonardo_Pato':1,'lata-leonardo_Conejo':1,'lata-leonardo_Pescado':1,'lata-leonardo_Ternera':1,'collar-findmy':1,'fuente-agua':1,'pajaro':1,'pelota-led':2,'pulpo':1,'paw-balm':2,'afeitadora':1,'cat-fest_Pato':1,'cat-fest_Cordero':1,'cats-snack_Catnip':1,'cats-snack_Matatabi':1,'cats-snack_Rellena Atún + Queso':1,'cats-snack_Rellena Atún + Ostiones':1,'cats-snack_Rellena Atún + Pollo':1};
-function getStock() { try { const s = localStorage.getItem('pac_stock'); if (!s) return {...stockInicial}; const p = JSON.parse(s); const m = {...stockInicial}; Object.keys(p).forEach(k => { m[k] = p[k]===false||p[k]===0?0:1; }); return m; } catch(e) { return {...stockInicial}; } }
+function getStock() { try { const s = localStorage.getItem('pac_stock'); if (!s) return {...stockInicial}; const p = JSON.parse(s); const m = {...stockInicial}; Object.keys(p).forEach(k => { m[k] = (p[k]===false||p[k]===0) ? 0 : (typeof p[k]==="number" ? p[k] : m[k]); }); return m; } catch(e) { return {...stockInicial}; } }
 
 let cart = [];
 
@@ -38,7 +38,7 @@ function changeQty(id, delta) {
   const item = cart.find(i => i.id === id);
   if (!item) return;
   const nuevaQty = item.qty + delta;
-  if (nuevaQty > item.maxQty) { mostrarToastCarrito('Solo queda 1 unidad disponible 🐾'); return; }
+  if (nuevaQty > item.maxQty) { mostrarToastCarrito(`Solo quedan ${item.maxQty} unidades disponibles 🐾`); return; }
   item.qty = nuevaQty;
   if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
   renderCart();
