@@ -314,7 +314,7 @@
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
     <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
-    <button class="btn-checkout" onclick="checkout()">Pagar con Mercado Pago →</button>
+    <button class="btn-checkout" onclick="try{cart=JSON.parse(localStorage.getItem('pac_cart')||'[]');}catch(e){}checkout()">Pagar con Mercado Pago →</button>
   </div>
 </aside>
 
@@ -836,30 +836,6 @@ function calcularEnvio(comuna) {
   if (!comuna) return null;
   if (esRM) return { precio: 4990, texto: '$4.990', aviso: 'Envío a Región Metropolitana' };
   return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el envío se coordina por WhatsApp' };
-}
-
-function actualizarEnvio() {
-  const comuna = document.getElementById('co-comuna').value;
-  const resultado = calcularEnvio(comuna);
-  const infoEl = document.getElementById('envio-info');
-  const precioEl = document.getElementById('envio-precio');
-  const avisoEl = document.getElementById('envio-aviso');
-  if (!resultado || !comuna) { infoEl.style.display = 'none'; avisoEl.textContent = ''; return; }
-  infoEl.style.display = 'flex';
-  precioEl.textContent = resultado.texto;
-  avisoEl.textContent = resultado.aviso;
-}
-
-function seleccionarDoc(tipo) {
-  document.getElementById('btn-boleta').classList.toggle('activo', tipo === 'boleta');
-  document.getElementById('btn-factura').classList.toggle('activo', tipo === 'factura');
-  document.getElementById('factura-fields').style.display = tipo === 'factura' ? 'block' : 'none';
-}
-
-const COMUNAS_RM = ['santiago','providencia','las condes','vitacura','lo barnechea','la reina','ñuñoa','macul','san joaquín','san joaquin','la granja','la pintana','el bosque','san ramón','san ramon','la cisterna','san miguel','pedro aguirre cerda','lo espejo','estación central','estacion central','cerrillos','maipú','maipu','pudahuel','quilicura','huechuraba','conchalí','conchali','independencia','recoleta','renca','quinta normal','cerro navia','lo prado','lampa','colina','tiltil','buin','paine','san bernardo','calera de tango','talagante','peñaflor','penaflor','el monte','isla de maipo','melipilla','alhué','alhue','curacaví','curacavi','maría pinto','maria pinto','padre hurtado','pirque','puente alto','san josé de maipo','san jose de maipo','peñalolén','penalolen','florida','la florida'];
-
-function normalizarComuna(str) {
-  return str.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 }
 </script>
 
