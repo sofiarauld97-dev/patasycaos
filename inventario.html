@@ -395,6 +395,8 @@
    CATÁLOGO DE SKUs
 ═══════════════════════════════════════ */
 const SKUS = [
+  { id: "cat-fest-pillows-schrimp-creme", nombre: "Cat Fest Pillows Schrimp Creme", cat: "Snacks y Golosinas", precio: "$1.990", img: "Cat_Fest_Pillows_Schrimp.png", emoji: "🐾" },
+  
   { id: 'cat-fest-pillows', nombre: 'Cat Fest Pillows Chicken Creme', cat: 'Snacks y Golosinas', precio: '$1.990', img: 'Cat_Fest_Pillows_Chicken.png', emoji: '🐔' },
   { id: 'tubito-atun',     nombre: 'Tubito Cremoso Atún con Catnip',     cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Tubito_Cremoso_Cats_Snack2.png', emoji: '🐟' },
   { id: 'tubito-conejo',   nombre: 'Tubito Cremoso Conejo con Catnip',   cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Tubito_Cremoso_Cats_Snack1.png', emoji: '🐰' },
@@ -605,7 +607,7 @@ function abrirExportar() {
     return `  '${sku.id}': ${val},   // ${sku.nombre}`;
   }).join('\n');
 
-  const codigo = `const stockInicial = {\n${lineas}\n};`;
+  const codigo = `const stockInicial = {"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
   document.getElementById('codigo-exportar').textContent = codigo;
   document.getElementById('modal-exportar').classList.add('open');
 }
