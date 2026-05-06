@@ -424,7 +424,7 @@ function abrirSidebar(){document.getElementById('sidebar').classList.add('mobile
 function cerrarSidebar(){document.getElementById('sidebar').classList.remove('mobile-open');document.getElementById('sidebar-overlay').classList.remove('open');document.body.style.overflow='';}
 
 /* CARRITO */
-let cart=[];
+let cart=(function(){ try{ var s=localStorage.getItem("pac_cart"); return s ? JSON.parse(s) : []; }catch(e){ return []; } })();
 function toggleCart(){document.getElementById('cart-overlay').classList.toggle('open');document.getElementById('cart-sidebar').classList.toggle('open');document.body.style.overflow=document.getElementById('cart-sidebar').classList.contains('open')?'hidden':'';}
 function addToCart(product){const existing=cart.find(i=>i.id===product.id);if(existing){if(existing.qty>=existing.maxQty){mostrarToast('Solo quedan '+existing.maxQty+' unidades 🐾');return;}existing.qty++;}else{const s=getStock();cart.push({...product,qty:1,maxQty:s[product.id]||1});}renderCart();if(!document.getElementById('cart-sidebar').classList.contains('open'))toggleCart();}
 function changeQty(id,delta){const item=cart.find(i=>i.id===id);if(!item)return;item.qty+=delta;if(item.qty<=0)cart=cart.filter(i=>i.id!==id);renderCart();}
@@ -699,8 +699,9 @@ _sb.auth.getSession().then(({data:{session}})=>{
 });
 
 // Persistencia carrito entre páginas
-(function(){try{var s=localStorage.getItem('pac_cart');if(s){var saved=JSON.parse(s);if(saved.length>0&&cart.length===0){cart=saved;renderCart();}}}catch(e){}})();
 var __rc=renderCart;renderCart=function(){__rc.apply(this,arguments);try{localStorage.setItem('pac_cart',JSON.stringify(cart));}catch(e){}};
+// Renderizar carrito cargado desde localStorage
+if(cart.length>0){renderCart();}
 </script>
 </body>
 </html>
