@@ -142,7 +142,9 @@
 /* CHECKOUT MODAL */
   .checkout-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
   .checkout-overlay.activo { opacity: 1; visibility: visible; }
-  .checkout-box { background: var(--blanco); border-radius: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 2rem; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(24px); transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+    .checkout-close { position:absolute; top:1rem; right:1rem; width:32px; height:32px; border-radius:50%; border:none; background:var(--crema-dark); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; color:var(--negro); transition:background .2s; }
+  .checkout-close:hover { background:#ddd0b8; }
+.checkout-box { position:relative; background: var(--blanco); border-radius: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 2rem; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(24px); transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
   .checkout-overlay.activo .checkout-box { transform: translateY(0); }
   .checkout-box h3 { font-size: 1.2rem; font-weight: 900; margin-bottom: .3rem; }
   .checkout-box .checkout-sub { font-size: .82rem; color: #6b5a4e; margin-bottom: 1.5rem; }
@@ -184,7 +186,8 @@
   <ul class="nav-links">
     <li><a href="/">Inicio</a></li>
     <li><a href="/tienda">Tienda</a></li>
-    <li><a href="/categorias">Categorías</a></li>
+    
+    <li><a href="/blog">Blog</a></li>
     <li><a href="/nosotros">Nosotros</a></li>
     <li><a href="/contacto">Contacto</a></li>
   </ul>
@@ -203,7 +206,8 @@
 <div class="mobile-menu" id="mobile-menu">
   <a href="/" onclick="toggleMenu()">Inicio</a>
   <a href="/tienda" onclick="toggleMenu()">Tienda</a>
-  <a href="/categorias" onclick="toggleMenu()">Categorías</a>
+  
+  <a href="/blog" onclick="toggleMenu()">Blog</a>
   <a href="/nosotros" onclick="toggleMenu()">Nosotros</a>
   <a href="/contacto" onclick="toggleMenu()">Contacto</a>
 </div>
@@ -248,7 +252,7 @@
     </div>
     <div class="footer-col">
       <h4>Tienda</h4>
-      <ul><li><a href="/tienda">Todos los productos</a></li><li><a href="/categorias">Categorías</a></li></ul>
+      <ul><li><a href="/tienda">Todos los productos</a></li></ul>
     </div>
     <div class="footer-col">
       <h4>Mi cuenta</h4>
@@ -400,6 +404,7 @@ _sb.auth.getSession().then(({data:{session}})=>{
 <!-- CHECKOUT MODAL -->
 <div class="checkout-overlay" id="checkoutOverlay">
   <div class="checkout-box">
+  <button class="checkout-close" onclick="cerrarCheckout()" aria-label="Cerrar">✕</button>
     <h3>¿A dónde enviamos tu pedido?</h3>
     <p class="checkout-sub">Completa tus datos y te contactamos por WhatsApp para coordinar. 🐾</p>
 
@@ -482,6 +487,110 @@ _sb.auth.getSession().then(({data:{session}})=>{
     <p class="auth-msg" id="auth-msg"></p>
   </div>
 </div>
-<script src="/cart.js"></script>
+<script src="/cart.js">
+let toastTimer;
+function mostrarToastCarrito(msg) {
+  let toast = document.getElementById('cart-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'cart-toast';
+    toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--negro);color:#fff;border-radius:50px;padding:12px 24px;font-size:.85rem;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;font-family:Poppins,sans-serif;white-space:nowrap;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.style.opacity = '0', 2500);
+}
+const COMUNAS_RM = ['santiago','providencia','las condes','vitacura','lo barnechea','la reina','ñuñoa','macul','san joaquín','san joaquin','la granja','la pintana','el bosque','san ramón','san ramon','la cisterna','san miguel','pedro aguirre cerda','lo espejo','estación central','estacion central','cerrillos','maipú','maipu','pudahuel','quilicura','huechuraba','conchalí','conchali','independencia','recoleta','renca','quinta normal','cerro navia','lo prado','lampa','colina','tiltil','buin','paine','san bernardo','calera de tango','talagante','peñaflor','penaflor','el monte','isla de maipo','melipilla','alhué','alhue','curacaví','curacavi','maría pinto','maria pinto','padre hurtado','pirque','puente alto','san josé de maipo','san jose de maipo','peñalolén','penalolen','florida','la florida'];
+function normalizarComuna(str) {
+  return str.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+function actualizarEnvio() {
+  const comuna = document.getElementById('co-comuna').value;
+  const resultado = calcularEnvio(comuna);
+  const infoEl = document.getElementById('envio-info');
+  const precioEl = document.getElementById('envio-precio');
+  const avisoEl = document.getElementById('envio-aviso');
+  if (!resultado || !comuna) { infoEl.style.display = 'none'; avisoEl.textContent = ''; return; }
+  infoEl.style.display = 'flex';
+  precioEl.textContent = resultado.texto;
+  avisoEl.textContent = resultado.aviso;
+}
+function seleccionarDoc(tipo) {
+  document.getElementById('btn-boleta').classList.toggle('activo', tipo === 'boleta');
+  document.getElementById('btn-factura').classList.toggle('activo', tipo === 'factura');
+  document.getElementById('factura-fields').style.display = tipo === 'factura' ? 'block' : 'none';
+}
+
+function calcularEnvio(comuna) {
+  const c = normalizarComuna(comuna);
+  const esRM = COMUNAS_RM.some(rm => normalizarComuna(rm) === c || c.includes(normalizarComuna(rm)));
+  if (!comuna) return null;
+  if (esRM) return { precio: 4990, texto: '$4.990', aviso: 'Envío a Región Metropolitana' };
+  return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el envío se coordina por WhatsApp' };
+}
+async function checkout() {
+  if (cart.length === 0) return;
+  const resumen = document.getElementById('checkoutResumen');
+  resumen.innerHTML = cart.map(i => `<div class="checkout-resumen-item"><span>${i.name} x${i.qty}</span><span>$${(i.price*i.qty).toLocaleString('es-CL')}</span></div>`).join('') +
+    `<div class="checkout-resumen-total"><span>Total</span><span>$${cart.reduce((s,i)=>s+i.price*i.qty,0).toLocaleString('es-CL')}</span></div>`;
+  document.getElementById('checkoutOverlay').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarCheckout() {
+  document.getElementById('checkoutOverlay').classList.remove('activo');
+  document.body.style.overflow = '';
+}
+async function confirmarCheckout() {
+  const nombre   = document.getElementById('co-nombre').value.trim();
+  const telefono = document.getElementById('co-telefono').value.trim();
+  const email    = document.getElementById('co-email').value.trim();
+  const direccion= document.getElementById('co-direccion').value.trim();
+  const comuna   = document.getElementById('co-comuna').value.trim();
+  const ciudad   = document.getElementById('co-ciudad').value.trim();
+  const notas    = document.getElementById('co-notas').value.trim();
+  const esFactura = document.getElementById('btn-factura').classList.contains('activo');
+  let docInfo = '';
+  if (esFactura) {
+    const rut      = document.getElementById('co-rut').value.trim();
+    const razon    = document.getElementById('co-razon').value.trim();
+    const giro     = document.getElementById('co-giro').value.trim();
+    const dirFact  = document.getElementById('co-dir-factura').value.trim();
+    if (!rut || !razon || !giro || !dirFact) { mostrarToastCarrito('Completa todos los datos de factura'); return; }
+    docInfo = `\n\n*Factura a:*\nRUT: ${rut}\nRazón social: ${razon}\nGiro: ${giro}\nDirección: ${dirFact}`;
+  }
+  const campos = ['co-nombre','co-telefono','co-email','co-direccion','co-comuna','co-ciudad'];
+  let valido = true;
+  campos.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el.value.trim()) { el.classList.add('error'); valido = false; }
+    else el.classList.remove('error');
+  });
+  if (!valido) { mostrarToastCarrito('Por favor completa todos los campos obligatorios'); return; }
+  const envio = calcularEnvio(comuna);
+  const costoEnvio = envio?.precio || 0;
+  const textoEnvio = envio?.texto || 'A coordinar';
+  const items = cart.map(i => `• ${i.name} x${i.qty} — $${(i.price*i.qty).toLocaleString('es-CL')}`).join('\n');
+  const subtotal = cart.reduce((s,i) => s+i.price*i.qty, 0);
+  const total = subtotal + costoEnvio;
+  const msg = `🐾 *Nuevo pedido - Patas & Caos*\n\n*Cliente:* ${nombre}\n*Teléfono:* ${telefono}\n*Email:* ${email}\n\n*Dirección:* ${direccion}\n*Comuna:* ${comuna}\n*Ciudad:* ${ciudad}${notas ? '\n*Notas:* '+notas : ''}${docInfo}\n\n*Productos:*\n${items}\n\n*Subtotal: $${subtotal.toLocaleString('es-CL')}*\n*Envío: ${textoEnvio}*\n*Total: $${costoEnvio > 0 ? total.toLocaleString('es-CL') : subtotal.toLocaleString('es-CL')} ${costoEnvio === 0 ? '+ envío a coordinar' : ''}*\n*Documento: ${esFactura ? 'Factura' : 'Boleta'}*`;
+  window.open('https://wa.me/56923997854?text=' + encodeURIComponent(msg), '_blank');
+  const btn = document.querySelector('.btn-checkout-confirm');
+  btn.textContent = 'Procesando...'; btn.disabled = true;
+  try {
+    const res = await fetch('/api/checkout', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ items: cart }) });
+    const data = await res.json();
+    if (data.init_point) { cerrarCheckout(); window.location.href = data.init_point; }
+    else { mostrarToastCarrito('Error al crear el pago. Intenta nuevamente.'); }
+  } catch(e) {
+    mostrarToastCarrito('Error de conexión. Intenta nuevamente.');
+  } finally {
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.989.518 3.86 1.427 5.484L2.05 21.95l4.59-1.371A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 11.999 2zm0 18a7.95 7.95 0 01-4.058-1.107l-.29-.173-3.004.896.898-2.927-.19-.302A7.926 7.926 0 014 12c0-4.418 3.581-8 7.999-8C16.419 4 20 7.582 20 12s-3.581 8-8.001 8z"/></svg> Confirmar y pagar';
+    btn.disabled = false;
+  }
+}
+
+</script>
 </body>
 </html>
