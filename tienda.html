@@ -470,7 +470,7 @@ const navEl = document.querySelector('nav');
 window.addEventListener('scroll', () => navEl.classList.toggle('scrolled', window.scrollY > 40));
 
 /* ── CARRITO ── */
-let cart = [];
+let cart = (function(){ try{ var s=localStorage.getItem("pac_cart"); return s ? JSON.parse(s) : []; }catch(e){ return []; } })();
 function toggleCart() {
   document.getElementById('cart-overlay').classList.toggle('open');
   document.getElementById('cart-sidebar').classList.toggle('open');
@@ -843,8 +843,9 @@ _sb.auth.getSession().then(({data:{session}})=>{
 });
 
 // Persistencia carrito entre páginas
-(function(){try{var s=localStorage.getItem('pac_cart');if(s){var saved=JSON.parse(s);if(saved.length>0&&cart.length===0){cart=saved;renderCart();}}}catch(e){}})();
 var __rc=renderCart;renderCart=function(){__rc.apply(this,arguments);try{localStorage.setItem('pac_cart',JSON.stringify(cart));}catch(e){}};
+// Renderizar carrito cargado desde localStorage
+if(cart.length>0){renderCart();}
 </script>
 </body>
 </html>
