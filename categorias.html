@@ -234,6 +234,31 @@
   @media(max-width:500px){.prod-grid{grid-template-columns:repeat(2,1fr);gap:.75rem;}}
   @media(max-width:640px){.modal-contenedor{grid-template-columns:1fr;max-height:92vh;}.modal-galeria{border-radius:var(--radio-modal) var(--radio-modal) 0 0;position:static;padding:1.25rem;}.modal-imagen-principal{aspect-ratio:4/3;}.modal-contenido{padding:1.25rem;}.modal-nombre{font-size:1.2rem;}.modal-precio{font-size:1.35rem;}}
   @media(max-width:600px){.nav-cart{padding:8px 12px;font-size:.78rem;}.btn-signin{padding:7px 12px;font-size:.75rem;}}
+
+  /* AUTH MODAL */
+  .auth-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+  .auth-overlay.activo { opacity: 1; visibility: visible; }
+  .auth-box { background: #fff; border-radius: 20px; padding: 2.25rem; width: 100%; max-width: 400px; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(16px); transition: transform .3s; position: relative; }
+  .auth-overlay.activo .auth-box { transform: translateY(0); }
+  .auth-logo { display: flex; justify-content: center; margin-bottom: 1.25rem; }
+  .auth-logo img { width: 48px; height: 48px; object-fit: contain; }
+  .auth-box h3 { font-size: 1.2rem; font-weight: 900; text-align: center; margin-bottom: .4rem; }
+  .auth-box p { font-size: .83rem; color: #6b5a4e; text-align: center; margin-bottom: 1.5rem; line-height: 1.5; }
+  .btn-google { width: 100%; display: flex; align-items: center; justify-content: center; gap: .75rem; background: #fff; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .88rem; cursor: pointer; transition: all .2s; margin-bottom: 1rem; }
+  .btn-google:hover { border-color: var(--terracota); }
+  .auth-divider { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+  .auth-divider span { font-size: .75rem; color: #aaa; white-space: nowrap; }
+  .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: rgba(28,16,7,.1); }
+  .auth-field { display: flex; flex-direction: column; gap: .35rem; margin-bottom: .75rem; }
+  .auth-field label { font-size: .75rem; font-weight: 600; color: #6b5a4e; }
+  .auth-field input { border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 11px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; outline: none; transition: border-color .2s; width: 100%; }
+  .auth-field input:focus { border-color: var(--terracota); }
+  .btn-auth { width: 100%; background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 13px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; transition: background .2s; margin-top: .25rem; }
+  .btn-auth:hover { background: #a8501f; }
+  .auth-msg { font-size: .8rem; text-align: center; margin-top: .75rem; min-height: 1.2rem; }
+  .auth-msg.ok { color: #2d7a3a; }
+  .auth-msg.err { color: #c0392b; }
+  .auth-close { position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--cream); cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
 </style>
 </head>
 <body>
@@ -705,5 +730,26 @@ var __rc=renderCart;renderCart=function(){__rc.apply(this,arguments);try{localSt
 // Renderizar carrito cargado desde localStorage
 if(cart.length>0){renderCart();}
 </script>
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="auth-overlay" onclick="cerrarAuthSiFondo(event)">
+  <div class="auth-box">
+    <button class="auth-close" onclick="cerrarAuth()">✕</button>
+    <div class="auth-logo"><img src="/logo.png" alt="Patas & Caos"></div>
+    <h3>Bienvenido 🐾</h3>
+    <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
+    <button class="btn-google" onclick="loginConGoogle()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+      Continuar con Google
+    </button>
+    <div class="auth-divider"><span>o con tu email</span></div>
+    <div class="auth-field">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="tu@correo.com" onkeydown="if(event.key==='Enter') enviarMagicLink()">
+    </div>
+    <button class="btn-auth" onclick="enviarMagicLink()">Enviar enlace de acceso</button>
+    <p class="auth-msg" id="auth-msg"></p>
+  </div>
+</div>
 </body>
 </html>
