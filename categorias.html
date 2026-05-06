@@ -657,7 +657,7 @@ function updateAuthUI(){
       :`<div style="width:38px;height:38px;border-radius:50%;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onclick="toggleUserDropdown()">${nombre[0].toUpperCase()}</div>`;
     el.innerHTML=`<div class="user-wrap">${avatarHTML}<div class="user-dropdown" id="user-dropdown"><span class="user-name-dd">👋 ${nombre}</span><a href="/favoritos">❤️ Mis favoritos</a><button class="btn-signout" onclick="cerrarSesion()">Cerrar sesión</button></div></div>`;
   }else{
-    el.innerHTML=`<button class="btn-signin" onclick="window.location.href='/'">Iniciar sesión</button>`;
+    el.innerHTML=`<button class="btn-signin" onclick="abrirAuth()">Iniciar sesión</button>`;
   }
 }
 function toggleUserDropdown(){document.getElementById('user-dropdown')?.classList.toggle('open');}
