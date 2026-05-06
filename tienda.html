@@ -320,9 +320,7 @@
   /* CHECKOUT */
   .checkout-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
   .checkout-overlay.activo { opacity: 1; visibility: visible; }
-  .checkout-close { position:absolute; top:1rem; right:1rem; width:32px; height:32px; border-radius:50%; border:none; background:var(--crema-dark); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; color:var(--negro); transition:background .2s; }
-  .checkout-close:hover { background:#ddd0b8; }
-  .checkout-box { position:relative; background: var(--blanco); border-radius: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 2rem; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(24px); transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+  .checkout-box { background: var(--blanco); border-radius: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 2rem; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(24px); transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
   .checkout-overlay.activo .checkout-box { transform: translateY(0); }
   .checkout-box h3 { font-size: 1.2rem; font-weight: 900; margin-bottom: .3rem; }
   .checkout-box .checkout-sub { font-size: .82rem; color: #6b5a4e; margin-bottom: 1.5rem; }
@@ -377,10 +375,9 @@
   <ul class="nav-links">
     <li><a href="/">Inicio</a></li>
     <li><a href="/tienda" class="activo">Tienda</a></li>
-    
+    <li><a href="/categorias">Categorías</a></li>
     <li><a href="/#nosotros">Nosotros</a></li>
     <li><a href="/contacto">Contacto</a></li>
-    <li><a href="/blog">Blog</a></li>
   </ul>
   <div class="nav-cart-wrap">
     <button class="nav-cart" onclick="toggleCart()">🛒 Carrito</button>
@@ -396,10 +393,9 @@
 <div class="mobile-menu" id="mobile-menu">
   <a href="/" onclick="toggleMenu()">Inicio</a>
   <a href="/tienda" class="activo" onclick="toggleMenu()">Tienda</a>
-  
+  <a href="/categorias" onclick="toggleMenu()">Categorías</a>
   <a href="/#nosotros" onclick="toggleMenu()">Nosotros</a>
   <a href="/contacto" onclick="toggleMenu()">Contacto</a>
-  <a href="/blog" onclick="toggleMenu()">Blog</a>
 </div>
 
 <!-- CARRITO -->
@@ -865,10 +861,27 @@ function agregarAlCarritoDesdeModal() {
 // Verificar si hay filtro en URL (?cat=Juguete)
 const urlParams = new URLSearchParams(window.location.search);
 const catParam = urlParams.get('cat');
+const audParam = urlParams.get('aud');
+
+// Filtro por audiencia via ?aud=Perros o ?aud=Gatos
+if (audParam) {
+  filtros.aud = audParam === 'Perros' ? 'Perros & Gatos' : 'Para Gatos';
+  const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.includes(audParam));
+  if (pill) { document.querySelectorAll('#filter-aud .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
+}
+
+// Filtro por categoría via ?cat=
 if (catParam) {
-  filtros.cat = catParam;
-  const pill = [...document.querySelectorAll('#filter-cat .filter-pill')].find(b => b.textContent.includes(catParam));
-  if (pill) { document.querySelectorAll('#filter-cat .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
+  const audValues = ['Para Gatos', 'Perros & Gatos'];
+  if (audValues.includes(catParam)) {
+    filtros.aud = catParam;
+    const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.includes('Gatos'));
+    if (pill) { document.querySelectorAll('#filter-aud .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
+  } else {
+    filtros.cat = catParam;
+    const pill = [...document.querySelectorAll('#filter-cat .filter-pill')].find(b => b.textContent.includes(catParam));
+    if (pill) { document.querySelectorAll('#filter-cat .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
+  }
 }
 
 generarTarjetas();
@@ -970,35 +983,7 @@ async function enviarMagicLink() {
 }
 
 /* CHECKOUT */
-let toastTimer;
-function mostrarToastCarrito(msg) {
-  let toast = document.getElementById('cart-toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = 'cart-toast';
-    toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--negro);color:#fff;border-radius:50px;padding:12px 24px;font-size:.85rem;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;font-family:Poppins,sans-serif;white-space:nowrap;';
-    document.body.appendChild(toast);
-  }
-  toast.textContent = msg;
-  toast.style.opacity = '1';
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.style.opacity = '0', 2500);
-}
-const COMUNAS_RM = ['santiago','providencia','las condes','vitacura','lo barnechea','la reina','ñuñoa','macul','san joaquín','san joaquin','la granja','la pintana','el bosque','san ramón','san ramon','la cisterna','san miguel','pedro aguirre cerda','lo espejo','estación central','estacion central','cerrillos','maipú','maipu','pudahuel','quilicura','huechuraba','conchalí','conchali','independencia','recoleta','renca','quinta normal','cerro navia','lo prado','lampa','colina','tiltil','buin','paine','san bernardo','calera de tango','talagante','peñaflor','penaflor','el monte','isla de maipo','melipilla','alhué','alhue','curacaví','curacavi','maría pinto','maria pinto','padre hurtado','pirque','puente alto','san josé de maipo','san jose de maipo','peñalolén','penalolen','florida','la florida'];
-function normalizarComuna(str) {
-  return str.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-}
-function actualizarEnvio() {
-  const comuna = document.getElementById('co-comuna').value;
-  const resultado = calcularEnvio(comuna);
-  const infoEl = document.getElementById('envio-info');
-  const precioEl = document.getElementById('envio-precio');
-  const avisoEl = document.getElementById('envio-aviso');
-  if (!resultado || !comuna) { infoEl.style.display = 'none'; avisoEl.textContent = ''; return; }
-  infoEl.style.display = 'flex';
-  precioEl.textContent = resultado.texto;
-  avisoEl.textContent = resultado.aviso;
-}
+async 
 
 function cerrarCheckout() {
   document.getElementById('checkoutOverlay').classList.remove('activo');
@@ -1076,7 +1061,6 @@ function calcularEnvio(comuna) {
 <!-- CHECKOUT MODAL -->
 <div class="checkout-overlay" id="checkoutOverlay">
   <div class="checkout-box">
-    <button class="checkout-close" onclick="cerrarCheckout()" aria-label="Cerrar">✕</button>
     <h3>¿A dónde enviamos tu pedido?</h3>
     <p class="checkout-sub">Completa tus datos y te contactamos por WhatsApp para coordinar. 🐾</p>
 
