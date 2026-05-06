@@ -314,7 +314,7 @@
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
     <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
-    <button class="btn-checkout" onclick="checkout()">Pagar con Mercado Pago →</button>
+    <button class="btn-checkout" onclick="try{cart=JSON.parse(localStorage.getItem('pac_cart')||'[]');}catch(e){}checkout()">Pagar con Mercado Pago →</button>
   </div>
 </aside>
 
@@ -759,6 +759,11 @@ async function enviarMagicLink() {
 async function checkout() {
   try { cart = JSON.parse(localStorage.getItem('pac_cart') || '[]'); } catch(e) { cart = []; }
   if (cart.length === 0) return;
+  localStorage.setItem('pac_cart', JSON.stringify(cart));
+  checkoutModal();
+}
+function checkoutModal() {
+  if (cart.length === 0) return;
   const resumen = document.getElementById('checkoutResumen');
   if (!resumen) return;
   resumen.innerHTML = cart.map(i => `<div class="checkout-resumen-item"><span>${i.name} x${i.qty}</span><span>$${(i.price*i.qty).toLocaleString('es-CL')}</span></div>`).join('') +
@@ -766,6 +771,10 @@ async function checkout() {
   const overlay = document.getElementById('checkoutOverlay');
   if (!overlay) return;
   overlay.classList.add('activo');
+  document.body.style.overflow = 'hidden';
+} x${i.qty}</span><span>$${(i.price*i.qty).toLocaleString('es-CL')}</span></div>`).join('') +
+    `<div class="checkout-resumen-total"><span>Total</span><span>$${cart.reduce((s,i)=>s+i.price*i.qty,0).toLocaleString('es-CL')}</span></div>`;
+  document.getElementById('checkoutOverlay').classList.add('activo');
   document.body.style.overflow = 'hidden';
 }
 
