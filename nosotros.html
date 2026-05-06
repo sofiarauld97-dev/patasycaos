@@ -550,9 +550,10 @@ function toggleMenu(){document.getElementById('hamburger').classList.toggle('ope
 window.addEventListener('scroll',()=>document.querySelector('nav').classList.toggle('scrolled',window.scrollY>40));
 
 // ── Persistencia carrito entre páginas ──
-document.addEventListener('DOMContentLoaded', function() {
-  try { renderCart(); } catch(e) {}
-});
+(function waitRender(n) {
+  if (typeof renderCart === 'function') { renderCart(); }
+  else if (n > 0) { setTimeout(function(){ waitRender(n-1); }, 100); }
+})(20);
 const _rC=renderCart;
 renderCart=function(){_rC.apply(this,arguments);try{localStorage.setItem('pac_cart',JSON.stringify(cart));}catch(e){}};
 </script>
