@@ -279,7 +279,7 @@
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
     <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
-    <button class="btn-checkout" onclick="window.location.href='/'">Ir a inicio para pagar</button>
+    <button class="btn-checkout" onclick="localStorage.setItem('pac_cart',JSON.stringify(cart));window.location.href='/?pagar=1'">Ir a pagar</button>
   </div>
 </aside>
 
