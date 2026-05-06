@@ -258,9 +258,9 @@
   </a>
   <ul class="nav-links">
     <li><a href="/">Inicio</a></li><li><a href="/tienda">Tienda</a></li>
-    <li><a href="/categorias">Categorías</a></li>
     <li><a href="/nosotros">Nosotros</a></li>
     <li><a href="/contacto" class="activo">Contacto</a></li>
+    <li><a href="/blog">Blog</a></li>
   </ul>
   <div class="nav-cart-wrap">
     <button class="nav-cart" onclick="toggleCart()">🛒 Carrito</button>
@@ -275,9 +275,9 @@
 <div class="mobile-menu" id="mobile-menu">
   <a href="/" onclick="toggleMenu()">Inicio</a>
   <a href="/tienda" onclick="toggleMenu()">Tienda</a>
-  <a href="/categorias" onclick="toggleMenu()">Categorías</a>
   <a href="/nosotros" onclick="toggleMenu()">Nosotros</a>
   <a href="/contacto" class="activo" onclick="toggleMenu()">Contacto</a>
+  <a href="/blog" onclick="toggleMenu()">Blog</a>
 </div>
 
 <!-- HERO -->
@@ -495,7 +495,78 @@ window.addEventListener('scroll', () => document.querySelector('nav').classList.
 
 <script src="/cart.js"></script>
 <script>
+
+/* ══ SUPABASE AUTH ══ */
+const SUPA_URL = 'https://xintmnshndhtqqbouxbo.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbnRtbnNobmRodHFxYm91eGJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDc2MTAsImV4cCI6MjA5MzU4MzYxMH0.Xl5eHoNoxLrb_8jK40zPL52Qa3t696QHkaAmyJEqJac';
+const _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+let sbToken = null, sbUser = null, wishlist = [];
+
+function abrirAuth() { document.getElementById('auth-overlay').classList.add('activo'); document.body.style.overflow='hidden'; }
+function cerrarAuth() { document.getElementById('auth-overlay').classList.remove('activo'); document.body.style.overflow=''; document.getElementById('auth-msg').textContent=''; }
+function cerrarAuthSiFondo(e) { if(e.target.id==='auth-overlay') cerrarAuth(); }
+
+async function loginConGoogle() {
+  await _sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.origin } });
+}
+async function enviarMagicLink() {
+  const email = document.getElementById('auth-email').value.trim();
+  const msg = document.getElementById('auth-msg');
+  if (!email) { msg.textContent='Ingresa tu email'; msg.className='auth-msg err'; return; }
+  const { error } = await _sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: window.location.origin } });
+  if (error) { msg.textContent='Error: '+error.message; msg.className='auth-msg err'; }
+  else { msg.textContent='✅ Revisa tu email — te enviamos un enlace de acceso'; msg.className='auth-msg ok'; }
+}
+function updateAuthUI() {
+  const el = document.getElementById('nav-auth');
+  if (!el) return;
+  if (sbUser) {
+    const nombre = sbUser.user_metadata?.full_name || sbUser.email?.split('@')[0] || 'Mi cuenta';
+    const avatar = sbUser.user_metadata?.avatar_url;
+    const avatarHTML = avatar
+      ? `<img src="${avatar}" class="user-avatar" style="width:38px;height:38px;border-radius:50%;object-fit:cover;cursor:pointer" onclick="toggleUserDropdown()" alt="${nombre}">`
+      : `<div class="user-avatar" style="width:38px;height:38px;border-radius:50%;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onclick="toggleUserDropdown()">${nombre[0].toUpperCase()}</div>`;
+    el.innerHTML = `<div class="user-wrap">${avatarHTML}<div class="user-dropdown" id="user-dropdown"><span class="user-name-dd">👋 ${nombre}</span><button class="btn-signout" onclick="cerrarSesion()">Cerrar sesión</button></div></div>`;
+  } else {
+    el.innerHTML = `<button class="btn-signin" onclick="abrirAuth()">Iniciar sesión</button>`;
+  }
+}
+async function cerrarSesion() {
+  await _sb.auth.signOut();
+  sbUser=null; sbToken=null; cart=[]; wishlist=[];
+  if(typeof renderCart==='function') renderCart(); updateAuthUI();
+}
+function toggleUserDropdown() { document.getElementById('user-dropdown')?.classList.toggle('open'); }
+document.addEventListener('click', e => { if(!e.target.closest('.user-wrap')) document.getElementById('user-dropdown')?.classList.remove('open'); });
+
+async function cargarDatosUsuario() {
+  if (!sbToken) return;
+  try {
+    const r = await fetch('/api/user-data-get', { headers:{ Authorization:`Bearer ${sbToken}` } });
+    const data = await r.json();
+    if (data.cart && Array.isArray(data.cart) && data.cart.length > 0) {
+      const local = [...cart];
+      data.cart.forEach(item => { if (!local.find(i=>i.id===item.id)) local.push(item); });
+      cart = local; guardarCarritoLocal(); if(typeof renderCart==='function') renderCart();
+    }
+    if (Array.isArray(data.wishlist)) { wishlist = data.wishlist; }
+  } catch(e) {}
+}
+
+_sb.auth.onAuthStateChange(async (event, session) => {
+  if (session) {
+    sbUser = session.user; sbToken = session.access_token;
+    updateAuthUI();
+    if (event === 'SIGNED_IN') { cerrarAuth(); await cargarDatosUsuario(); }
+  } else { sbUser=null; sbToken=null; updateAuthUI(); }
+});
+_sb.auth.getSession().then(({ data:{ session } }) => {
+  if (session) { sbUser = session.user; sbToken = session.access_token; updateAuthUI(); cargarDatosUsuario(); }
+  else { updateAuthUI(); }
+});
+
 function toggleMenu(){document.getElementById('hamburger').classList.toggle('open');document.getElementById('mobile-menu').classList.toggle('open');}
+function toggleCart(){document.getElementById('cart-overlay').classList.toggle('open');document.getElementById('cart-sidebar').classList.toggle('open');document.body.style.overflow=document.getElementById('cart-sidebar').classList.contains('open')?'hidden':'';}
 window.addEventListener('scroll',()=>document.querySelector('nav').classList.toggle('scrolled',window.scrollY>40));
 
 // ── Persistencia carrito entre páginas ──
