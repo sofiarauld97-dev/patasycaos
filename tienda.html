@@ -609,9 +609,15 @@ function renderCart() {
   `).join('');
 }
 function checkout() {
+  try { cart = JSON.parse(localStorage.getItem('pac_cart') || '[]'); } catch(e) { cart = []; }
   if (cart.length === 0) return;
   localStorage.setItem('pac_cart', JSON.stringify(cart));
-  checkout();
+  const resumen = document.getElementById('checkoutResumen');
+  if (!resumen) return;
+  resumen.innerHTML = cart.map(i => `<div class="checkout-resumen-item"><span>${i.name} x${i.qty}</span><span>$${(i.price*i.qty).toLocaleString('es-CL')}</span></div>`).join('') +
+    `<div class="checkout-resumen-total"><span>Total</span><span>$${cart.reduce((s,i)=>s+i.price*i.qty,0).toLocaleString('es-CL')}</span></div>`;
+  document.getElementById('checkoutOverlay').classList.add('activo');
+  document.body.style.overflow = 'hidden';
 }
 
 /* ── CATÁLOGO ── */
@@ -960,15 +966,7 @@ async function enviarMagicLink() {
 }
 
 /* CHECKOUT */
-async function checkout() {
-  if (cart.length === 0) return;
-  // Mostrar resumen en el modal
-  const resumen = document.getElementById('checkoutResumen');
-  resumen.innerHTML = cart.map(i => `<div class="checkout-resumen-item"><span>${i.name} x${i.qty}</span><span>$${(i.price*i.qty).toLocaleString('es-CL')}</span></div>`).join('') +
-    `<div class="checkout-resumen-total"><span>Total</span><span>$${cart.reduce((s,i)=>s+i.price*i.qty,0).toLocaleString('es-CL')}</span></div>`;
-  document.getElementById('checkoutOverlay').classList.add('activo');
-  document.body.style.overflow = 'hidden';
-}
+async 
 
 function cerrarCheckout() {
   document.getElementById('checkoutOverlay').classList.remove('activo');
