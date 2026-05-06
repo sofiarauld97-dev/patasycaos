@@ -96,7 +96,7 @@
   .cart-empty span { font-size: 3rem; display: block; margin-bottom: 1rem; }
   .cart-item { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid rgba(28,16,7,.06); }
   .cart-item-img { width: 72px; height: 72px; border-radius: 12px; object-fit: cover; background: #f0dfc0; flex-shrink: 0; }
-  .cart-item-info { flex: 1; }
+  .cart-item-info { flex: 1; min-width: 0; overflow: hidden; }
   .cart-item-info h4 { font-size: .88rem; font-weight: 700; margin-bottom: .25rem; line-height: 1.3; }
   .cart-item-info .price { font-size: .92rem; font-weight: 800; color: var(--terracota); }
   .cart-item-qty { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
@@ -272,7 +272,7 @@
   .filters-toggle.open .arrow { transform: rotate(180deg); }
   @media (max-width: 900px) { .prod-grid { grid-template-columns: repeat(2, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; .nav-cart { padding: 8px 12px; font-size: .78rem; }.btn-signin { padding: 7px 12px; font-size: .75rem; }} .filters-inner { gap: .75rem; } .filter-divider { display: none; } }
   @media (max-width: 600px) {
-    .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; }
+    .nav-links { display: none;  .cart-items { padding: 16px; } .cart-header { padding: 18px 16px; } .cart-footer { padding: 16px; } .cart-item-info { min-width: 0; } } .hamburger { display: flex; } .mobile-menu { display: flex; }
     .prod-grid { grid-template-columns: repeat(2, 1fr); gap: .75rem; }
     .filters-inner { flex-direction: column; align-items: flex-start; }
     .filters-inner:not(.open) { display: none; }
@@ -287,7 +287,7 @@
   @media (max-width: 640px) {
     .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; }
     .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; }
-    .modal-imagen-principal { aspect-ratio: 4/3; }
+    .modal-imagen-principal { aspect-ratio: 3/2; max-height: 45vw; }
     .modal-contenido { padding: 1.25rem; }
     .modal-nombre { font-size: 1.2rem; }
     .modal-precio { font-size: 1.35rem; }
