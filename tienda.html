@@ -548,6 +548,7 @@ const TAGLINES = {
 const ORDEN = ['tubito-atun','tubito-conejo','tubito-cangrejo','lata-leonardo-kitten','lata-leonardo','collar-findmy','fuente-agua','pajaro','pelota-led','pulpo','paw-balm','afeitadora','cat-fest','cats-snack'];
 
 const productos = {
+  'cat-fest-pillows':{nombre:'Cat Fest Pillows Chicken Creme',precio:'$1.990',precioNum:1990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Pillows crujientes por fuera y cremosos por dentro con sabor a pollo.',caracTitulo:'Características',caracteristicas:['Relleno cremoso sabor pollo','Cáscara crujiente irresistible','Sin colorantes artificiales'],imagenes:['Cat_Fest_Pillows_Chicken.png'],placeholders:['🐔']},
   'tubito-atun':{nombre:'Tubito Cremoso Atún con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'El combo más letal del universo felino: atún cremoso con catnip. Pack de 4 tubitos de puro premio.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor atún con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['Tubito_Cremoso_Cats_Snack2.png'],placeholders:['🐟']},
   'tubito-conejo':{nombre:'Tubito Cremoso Conejo con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Conejo cremoso con catnip — una combinación que tu gato no va a poder ignorar. Pack de 4 tubitos.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor conejo con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['Tubito_Cremoso_Cats_Snack1.png'],placeholders:['🐰']},
   'tubito-cangrejo':{nombre:'Tubito Cremoso Cangrejo con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Cangrejo cremoso con catnip — el sabor marino que hace perder la cabeza a cualquier gato. Pack de 4 tubitos.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor cangrejo con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['Tubito_Cremoso_Cats_Snack3.png'],placeholders:['🦀']},
@@ -565,7 +566,7 @@ const productos = {
 };
 
 /* ── STOCK ── */
-const stockInicial = {'tubito-atun':3,'tubito-conejo':3,'tubito-cangrejo':3,'lata-leonardo-kitten':1,'lata-leonardo_Ave':1,'lata-leonardo_Pato':1,'lata-leonardo_Conejo':1,'lata-leonardo_Pescado':1,'lata-leonardo_Ternera':1,'collar-findmy':1,'fuente-agua':1,'pajaro':1,'pelota-led':2,'pulpo':1,'paw-balm':2,'afeitadora':1,'cat-fest_Pato':1,'cat-fest_Cordero':1,'cats-snack_Catnip':1,'cats-snack_Matatabi':1,'cats-snack_Rellena Atún + Queso':1,'cats-snack_Rellena Atún + Ostiones':1,'cats-snack_Rellena Atún + Pollo':1};
+const stockInicial = {'cat-fest-pillows':1,'tubito-atun':3,'tubito-conejo':3,'tubito-cangrejo':3,'lata-leonardo-kitten':1,'lata-leonardo_Ave':1,'lata-leonardo_Pato':1,'lata-leonardo_Conejo':1,'lata-leonardo_Pescado':1,'lata-leonardo_Ternera':1,'collar-findmy':1,'fuente-agua':1,'pajaro':1,'pelota-led':2,'pulpo':1,'paw-balm':2,'afeitadora':1,'cat-fest_Pato':1,'cat-fest_Cordero':1,'cats-snack_Catnip':1,'cats-snack_Matatabi':1,'cats-snack_Rellena Atún + Queso':1,'cats-snack_Rellena Atún + Ostiones':1,'cats-snack_Rellena Atún + Pollo':1};
 function getStock() {
   try {
     const saved = localStorage.getItem('pac_stock');
