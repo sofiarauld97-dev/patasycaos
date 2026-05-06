@@ -608,7 +608,7 @@ function mostrarToastCarrito(msg) {
 function removeItem(id) { cart = cart.filter(i => i.id !== id); renderCart(); guardarCarritoLocal(); }
 // Cargar carrito desde localStorage al iniciar
 (function() {
-  try { const s = localStorage.getItem('pac_cart'); if (s) cart = JSON.parse(s); } catch(e) {}
+  try { const s = localStorage.getItem('pac_cart'); if (s) { cart = JSON.parse(s); } } catch(e) {}
 })();
 function guardarCarritoLocal() {
   try { localStorage.setItem('pac_cart', JSON.stringify(cart)); } catch(e) {}
@@ -826,6 +826,7 @@ function agregarAlCarritoDesdeModal(){
 }
 
 try { generarTarjetas(); } catch(e) { console.error('Error generarTarjetas:', e); }
+renderCart(); // Mostrar carrito cargado desde localStorage
 
 // Si viene desde tienda/categorias con ?pagar=1, abrir checkout
 if (new URLSearchParams(window.location.search).get('pagar') === '1' && cart.length > 0) {
@@ -880,10 +881,15 @@ async function cargarDatosUsuario() {
     const r = await fetch('/api/user-data-get', { headers:{ Authorization:`Bearer ${sbToken}` } });
     const data = await r.json();
     if (data.cart && Array.isArray(data.cart) && data.cart.length > 0) {
-      const local = [...cart];
-      cart = data.cart;
-      local.forEach(item => { if (!cart.find(i=>i.id===item.id)) cart.push(item); });
+      // Combinar carrito de Supabase con localStorage (localStorage tiene prioridad para items nuevos)
+      const local = [...cart]; // cart ya tiene los items de localStorage
+      data.cart.forEach(item => { if (!local.find(i=>i.id===item.id)) local.push(item); });
+      cart = local;
+      guardarCarritoLocal();
       renderCart();
+    } else if (cart.length > 0) {
+      // Hay items en localStorage pero no en Supabase, guardar en Supabase
+      guardarDatosUsuario({ saveCart: true, saveWishlist: false });
     }
     if (Array.isArray(data.wishlist)) { wishlist = data.wishlist; actualizarWishlistUI(); }
   } catch(e) {}
