@@ -522,16 +522,10 @@ function renderCart() {
     </div>
   `).join('');
 }
-async function checkout() {
-  const btn = document.querySelector('.btn-checkout');
-  btn.disabled = true; btn.textContent = 'Procesando...';
-  try {
-    const res = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: cart }) });
-    const data = await res.json();
-    if (data.init_point) window.location.href = data.init_point;
-    else alert('Error al crear el pago. Intenta nuevamente.');
-  } catch(e) { alert('Error de conexión. Intenta nuevamente.'); }
-  finally { btn.disabled = false; btn.textContent = 'Pagar con Mercado Pago →'; }
+function checkout() {
+  if (cart.length === 0) return;
+  localStorage.setItem('pac_cart', JSON.stringify(cart));
+  window.location.href = '/?pagar=1';
 }
 
 /* ── CATÁLOGO ── */
