@@ -140,16 +140,6 @@
     position: sticky; top: calc(68px + env(safe-area-inset-top));
     z-index: 50;
   }
-  .filters-toggle {
-    display: none;
-    width: 100%; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
-    border-radius: 10px; padding: 10px 16px; color: #F5ECD7;
-    font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600;
-    cursor: pointer; text-align: left; justify-content: space-between; align-items: center;
-    margin-bottom: .75rem;
-  }
-  .filters-toggle .arrow { transition: transform .25s; font-style: normal; }
-  .filters-toggle.open .arrow { transform: rotate(180deg); }
   .filters-inner {
     display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
     padding: 1rem 1.25rem;
@@ -270,17 +260,24 @@
   .footer-bottom { border-top: 1px solid rgba(28,16,7,.08); padding-top: 24px; text-align: center; font-size: .82rem; color: #8a7a6e; }
 
   /* RESPONSIVE */
-  @media (max-width: 900px) { .prod-grid { grid-template-columns: repeat(2, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; } .filters-inner { gap: .75rem; } .filter-divider { display: none; } }
-  @media (max-width: 600px) {
-    .filters-toggle { display: flex; }
-    .filters-inner { display: none; }
-    .filters-inner.open { display: flex; }
-    .filters-bar { padding-bottom: .75rem; }
+  .filters-toggle {
+    display: none;
+    width: 100%; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+    border-radius: 10px; padding: 10px 16px; color: #F5ECD7;
+    font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600;
+    cursor: pointer; text-align: left; align-items: center; justify-content: space-between;
+    margin-bottom: .5rem;
   }
+  .filters-toggle .arrow { transition: transform .25s; display: inline-block; }
+  .filters-toggle.open .arrow { transform: rotate(180deg); }
+  @media (max-width: 900px) { .prod-grid { grid-template-columns: repeat(2, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; } .filters-inner { gap: .75rem; } .filter-divider { display: none; } }
   @media (max-width: 600px) {
     .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; }
     .prod-grid { grid-template-columns: repeat(2, 1fr); gap: .75rem; }
     .filters-inner { flex-direction: column; align-items: flex-start; }
+    .filters-inner:not(.open) { display: none; }
+    .filters-toggle { display: flex; }
+    .filters-bar { padding-bottom: .5rem; }
     .tienda-count { margin-left: 0; }
     .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
   }
@@ -359,10 +356,8 @@
 
 <!-- FILTROS (sticky) -->
 <div class="filters-bar">
-  <button class="filters-toggle" id="filters-toggle" onclick="toggleFiltrosMovil()">
-        🔍 Filtros y orden <i class="arrow">▾</i>
-      </button>
-      <div class="filters-inner" id="filters-inner">
+  <button class="filters-toggle" id="filters-toggle" onclick="toggleFiltrosMovil()">🔍 Filtros y orden <span class="arrow">▾</span></button>
+  <div class="filters-inner" id="filters-inner">
     <div class="filter-group">
       <span class="filter-label">Categoría</span>
       <div class="filter-pills" id="filter-cat">
@@ -867,6 +862,14 @@ _sb.auth.getSession().then(({data:{session}})=>{
 var __rc=renderCart;renderCart=function(){__rc.apply(this,arguments);try{localStorage.setItem('pac_cart',JSON.stringify(cart));}catch(e){}};
 // Renderizar carrito cargado desde localStorage
 if(cart.length>0){renderCart();}
+
+/* FILTROS MÓVIL */
+function toggleFiltrosMovil() {
+  const inner = document.getElementById('filters-inner');
+  const btn   = document.getElementById('filters-toggle');
+  inner.classList.toggle('open');
+  btn.classList.toggle('open');
+}
 </script>
 </body>
 </html>
