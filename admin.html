@@ -8,273 +8,390 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --cream: #F5ECD7; --terracota: #C4622D; --negro: #1A1A1A;
-  --dark: #1C1007; --card: #FAF4EA; --borde: rgba(28,16,7,.1);
-  --verde: #2d7a3a; --rojo: #c0392b; --suave: #6b5a4e;
+  --terracota: #C4622D;
+  --cream: #F5ECD7;
+  --negro: #1A1A1A;
+  --dark: #1C1007;
+  --card-bg: #FAF4EA;
+  --borde: rgba(28,16,7,.1);
+  --texto-suave: #6b5a4e;
+  --verde: #2d7a3a;
 }
 body { font-family: 'Poppins', sans-serif; background: var(--cream); color: var(--negro); min-height: 100vh; }
-header { background: var(--dark); padding: 0 5%; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.brand img { width: 34px; height: 34px; object-fit: contain; }
-.brand-text strong { display: block; color: #F5ECD7; font-size: .95rem; font-weight: 700; }
-.brand-text span { font-size: .7rem; color: rgba(245,236,215,.4); }
-.btn-ver { background: none; border: 1.5px solid rgba(245,236,215,.25); color: #F5ECD7; border-radius: 50px; padding: 7px 18px; font-family: 'Poppins', sans-serif; font-size: .8rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: all .2s; }
-.btn-ver:hover { border-color: var(--terracota); color: var(--terracota); }
-main { max-width: 860px; margin: 0 auto; padding: 2.5rem 5% 100px; }
 
-/* UPLOAD */
-.step-upload { background: var(--card); border: 2.5px dashed rgba(28,16,7,.18); border-radius: 22px; padding: 3rem 2rem; text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
-.step-upload:hover { border-color: var(--terracota); background: #fdf6eb; }
-.step-upload .icon { font-size: 3rem; margin-bottom: 1rem; }
-.step-upload h2 { font-size: 1.25rem; font-weight: 900; margin-bottom: .6rem; }
-.step-upload p { font-size: .85rem; color: var(--suave); line-height: 1.65; margin-bottom: 1.5rem; }
-.btn-upload { background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 12px 30px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; }
+/* HEADER */
+header {
+  background: var(--dark); padding: 0 5%; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand strong { color: #F5ECD7; font-size: .95rem; }
+.brand span { color: rgba(245,236,215,.45); font-size: .72rem; }
+.header-tag { background: var(--terracota); color: #fff; border-radius: 50px; padding: 4px 14px; font-size: .75rem; font-weight: 700; }
+
+main { max-width: 860px; margin: 0 auto; padding: 2.5rem 5%; }
+
+h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
+.subtitle { color: var(--texto-suave); font-size: .88rem; margin-bottom: 2rem; }
+
+/* STEP */
+.step-title {
+  font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--texto-suave);
+  margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem;
+}
+.step-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--terracota); color: #fff;
+  font-size: .68rem; font-weight: 900;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+
+/* UPLOAD GRID */
+.upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.upload-card {
+  background: var(--card-bg); border: 2px dashed var(--borde);
+  border-radius: 16px; padding: 1.5rem 1rem;
+  text-align: center; cursor: pointer;
+  transition: border-color .2s, background .2s;
+  position: relative;
+}
+.upload-card:hover { border-color: var(--terracota); }
+.upload-card.loaded { border-style: solid; border-color: var(--verde); background: #f0faf2; }
+.upload-card input[type=file] { display: none; }
+.upload-icon { font-size: 2rem; margin-bottom: .5rem; display: block; }
+.upload-name { font-weight: 700; font-size: .85rem; margin-bottom: .25rem; }
+.upload-status { font-size: .72rem; color: var(--texto-suave); }
+.upload-card.loaded .upload-status { color: var(--verde); font-weight: 600; }
 
 /* FORM */
-.form-wrap { display: none; }
-.form-header { margin-bottom: 2rem; }
-.form-header h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .3rem; }
-.form-header p { font-size: .82rem; color: var(--suave); }
-.file-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(45,122,58,.12); color: var(--verde); border-radius: 50px; padding: 5px 12px; font-size: .75rem; font-weight: 600; cursor: pointer; border: none; font-family: 'Poppins', sans-serif; margin-top: .5rem; }
-
-.card { background: var(--card); border: 1.5px solid var(--borde); border-radius: 18px; padding: 1.75rem; margin-bottom: 1.25rem; }
-.card-title { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: 1.25rem; }
+.form-card {
+  background: var(--card-bg); border: 1.5px solid var(--borde);
+  border-radius: 20px; padding: 2rem; margin-bottom: 1.5rem;
+}
+.form-card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1.25rem; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .field { display: flex; flex-direction: column; gap: .35rem; }
-.field.full { grid-column: 1 / -1; }
-label { font-size: .75rem; font-weight: 600; color: var(--suave); }
-input[type=text], input[type=number], textarea, select { border: 1.5px solid var(--borde); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; color: var(--negro); background: #fff; outline: none; transition: border-color .2s; width: 100%; }
-input:focus, textarea:focus, select:focus { border-color: var(--terracota); }
-textarea { resize: vertical; min-height: 90px; }
-.hint { font-size: .7rem; color: #bbb; }
+.field label { font-size: .75rem; font-weight: 700; color: var(--texto-suave); text-transform: uppercase; letter-spacing: .04em; }
+.field label span { color: var(--terracota); }
+.field input, .field select, .field textarea {
+  background: #fff; border: 1.5px solid var(--borde);
+  border-radius: 10px; padding: 10px 14px;
+  font-family: 'Poppins', sans-serif; font-size: .85rem; color: var(--negro);
+  transition: border-color .2s; width: 100%;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--terracota);
+}
+.field textarea { resize: vertical; min-height: 80px; }
+.field-full { grid-column: 1 / -1; }
+.hint { font-size: .7rem; color: #aaa; margin-top: .2rem; }
 
-.list-items { display: flex; flex-direction: column; gap: .5rem; margin-bottom: .75rem; }
-.list-item { display: flex; gap: .5rem; align-items: center; }
+/* LIST ITEMS */
+.list-item { display: flex; gap: .5rem; margin-bottom: .5rem; }
 .list-item input { flex: 1; }
-.btn-x { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--borde); background: none; cursor: pointer; font-size: .85rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; color: #aaa; }
-.btn-x:hover { border-color: var(--rojo); color: var(--rojo); }
-.btn-add { background: none; border: 1.5px dashed rgba(28,16,7,.18); border-radius: 8px; padding: 8px 14px; font-family: 'Poppins', sans-serif; font-size: .8rem; color: var(--suave); cursor: pointer; transition: all .2s; width: 100%; }
-.btn-add:hover { border-color: var(--terracota); color: var(--terracota); }
+.btn-x {
+  background: none; border: 1.5px solid var(--borde); border-radius: 8px;
+  width: 34px; height: 34px; cursor: pointer; font-size: .9rem;
+  color: var(--texto-suave); transition: all .2s; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-x:hover { border-color: #c0392b; color: #c0392b; }
+.btn-add-item {
+  background: none; border: 1.5px dashed var(--borde); border-radius: 8px;
+  padding: 6px 14px; font-family: 'Poppins', sans-serif;
+  font-size: .78rem; font-weight: 600; color: var(--texto-suave);
+  cursor: pointer; transition: all .2s; margin-top: .25rem;
+}
+.btn-add-item:hover { border-color: var(--terracota); color: var(--terracota); }
 
+/* VARIANTES */
+.variante-card {
+  background: #fff; border: 1.5px solid var(--borde);
+  border-radius: 12px; padding: 1rem; margin-bottom: .75rem;
+  position: relative;
+}
 .toggle-row { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
-.toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
-.toggle input { display: none; }
-.slider { position: absolute; inset: 0; background: #ccc; border-radius: 50px; cursor: pointer; transition: background .2s; }
-.slider::before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .2s; }
-.toggle input:checked + .slider { background: var(--terracota); }
-.toggle input:checked + .slider::before { transform: translateX(20px); }
-.toggle-text { font-size: .88rem; font-weight: 600; }
+.toggle-label-txt { font-size: .82rem; font-weight: 600; }
+.toggle-sw { position: relative; width: 44px; height: 24px; }
+.toggle-sw input { opacity: 0; width: 0; height: 0; }
+.sw-slider {
+  position: absolute; inset: 0; background: #ccc;
+  border-radius: 50px; cursor: pointer; transition: background .25s;
+}
+.sw-slider::before {
+  content: ''; position: absolute; width: 18px; height: 18px;
+  left: 3px; top: 3px; background: #fff; border-radius: 50%;
+  transition: transform .25s;
+}
+.toggle-sw input:checked + .sw-slider { background: var(--terracota); }
+.toggle-sw input:checked + .sw-slider::before { transform: translateX(20px); }
 
-.variantes-section { display: none; }
-.variante-card { background: rgba(196,98,45,.05); border: 1.5px solid rgba(196,98,45,.2); border-radius: 12px; padding: 1rem; margin-bottom: .75rem; position: relative; }
-.variante-card .btn-x { position: absolute; top: .75rem; right: .75rem; }
-.variante-card label { color: var(--terracota); }
-.btn-add-v { background: none; border: 1.5px dashed rgba(196,98,45,.3); border-radius: 8px; padding: 8px 14px; font-family: 'Poppins', sans-serif; font-size: .8rem; color: var(--terracota); cursor: pointer; transition: all .2s; width: 100%; }
-.btn-add-v:hover { background: rgba(196,98,45,.06); }
+/* EMOJI PICKER */
+.emoji-grid { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .5rem; }
+.emoji-btn {
+  width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid var(--borde);
+  background: #fff; cursor: pointer; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .2s;
+}
+.emoji-btn.sel { border-color: var(--terracota); background: rgba(196,98,45,.08); }
 
-.btn-ia { background: linear-gradient(135deg,#6366f1,#a855f7); color: #fff; border: none; border-radius: 50px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600; cursor: pointer; transition: opacity .2s; display: inline-flex; align-items: center; gap: 6px; }
-.btn-ia:hover { opacity: .85; }
+/* BOTONES ACCIÓN */
+.btn-ia {
+  background: var(--dark); color: #F5ECD7; border: none; border-radius: 50px;
+  padding: 10px 22px; font-family: 'Poppins', sans-serif; font-weight: 600;
+  font-size: .82rem; cursor: pointer; transition: background .2s;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-ia:hover { background: #2d1f0a; }
 .btn-ia:disabled { opacity: .5; cursor: not-allowed; }
-.ia-row { display: flex; justify-content: flex-end; margin-top: .75rem; }
 
-.prods-list { display: flex; flex-wrap: wrap; gap: .4rem; }
-.prod-chip { font-size: .72rem; font-weight: 600; padding: 4px 11px; border-radius: 50px; background: rgba(28,16,7,.06); color: var(--suave); }
+.btn-publicar {
+  width: 100%; background: var(--terracota); color: #fff; border: none;
+  border-radius: 14px; padding: 16px; font-family: 'Poppins', sans-serif;
+  font-weight: 700; font-size: 1rem; cursor: pointer;
+  transition: background .2s; margin-top: 1.5rem;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-publicar:hover { background: #a8501f; }
+.btn-publicar:disabled { background: #ccc; cursor: not-allowed; }
 
-.form-footer { position: sticky; bottom: 0; background: var(--cream); border-top: 1.5px solid var(--borde); padding: 1rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-.footer-hint { font-size: .78rem; color: var(--suave); line-height: 1.55; }
-.btn-publish { background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 14px 36px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: background .2s; }
-.btn-publish:hover { background: #a8501f; }
+/* RESULTADO */
+.resultado-card {
+  background: #f0faf2; border: 2px solid var(--verde);
+  border-radius: 20px; padding: 2rem; margin-top: 2rem;
+  display: none;
+}
+.resultado-card.visible { display: block; }
+.resultado-card h3 { font-size: 1rem; font-weight: 700; color: var(--verde); margin-bottom: 1rem; }
+.download-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+.download-btn {
+  background: var(--verde); color: #fff; border: none; border-radius: 12px;
+  padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600;
+  font-size: .82rem; cursor: pointer; transition: background .2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.download-btn:hover { background: #1f5c2b; }
+.instrucciones { margin-top: 1.25rem; background: #fff; border-radius: 12px; padding: 1rem 1.25rem; }
+.instrucciones p { font-size: .82rem; color: var(--texto-suave); line-height: 1.7; }
+.instrucciones strong { color: var(--negro); }
 
-.toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--negro); color: #fff; border-radius: 50px; padding: 12px 24px; font-size: .85rem; font-weight: 600; z-index: 9999; opacity: 0; transition: opacity .3s; pointer-events: none; white-space: nowrap; }
-.toast.show { opacity: 1; }
+/* TOAST */
+.toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--dark); color: #F5ECD7; border-radius: 50px;
+  padding: 12px 24px; font-size: .85rem; font-weight: 600;
+  z-index: 999; transition: transform .3s; pointer-events: none;
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
 
-@media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } .field.full { grid-column: 1; } }
+@media (max-width: 700px) {
+  .upload-grid, .grid2, .download-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
 <header>
   <a href="/" class="brand">
-    <img src="logo.png" alt="Patas & Caos">
-    <div class="brand-text">
-      <strong>Patas & Caos</strong>
-      <span>Admin — Agregar productos</span>
-    </div>
+    <strong>Patas & Caos</strong>
+    <span>·</span>
+    <span>Panel Admin</span>
   </a>
-  <a href="/" class="btn-ver" target="_blank">↗ Ver tienda</a>
+  <span class="header-tag">🐾 Agregar Producto</span>
 </header>
 
 <main>
+  <h1>Agregar producto nuevo</h1>
+  <p class="subtitle">Completa el formulario y descarga los 3 archivos listos para subir a GitHub.</p>
 
-  <!-- PASO 1 -->
-  <div id="step-upload" class="step-upload" onclick="document.getElementById('file-input').click()">
-    <input type="file" id="file-input" accept=".html" onchange="cargarIndex(event)" style="display:none">
-    <div class="icon">📂</div>
-    <h2>Paso 1 — Sube tu index.html</h2>
-    <p>Descárgalo desde GitHub, súbelo aquí y el admin lee todos tus productos automáticamente.<br>Cuando agregues uno nuevo, descarga el index.html actualizado y reemplázalo en GitHub.</p>
-    <button class="btn-upload" onclick="event.stopPropagation()">Seleccionar index.html</button>
+  <!-- PASO 1: CARGAR ARCHIVOS -->
+  <div class="step-title"><span class="step-num">1</span> Carga los 3 archivos de tu repo</div>
+  <div class="upload-grid">
+    <label class="upload-card" id="card-tienda" onclick="document.getElementById('file-tienda').click()">
+      <input type="file" id="file-tienda" accept=".html" onchange="cargarArchivo('tienda', this)">
+      <span class="upload-icon">🏪</span>
+      <div class="upload-name">tienda.html</div>
+      <div class="upload-status" id="st-tienda">Haz clic para subir</div>
+    </label>
+    <label class="upload-card" id="card-categorias" onclick="document.getElementById('file-categorias').click()">
+      <input type="file" id="file-categorias" accept=".html" onchange="cargarArchivo('categorias', this)">
+      <span class="upload-icon">📂</span>
+      <div class="upload-name">categorias.html</div>
+      <div class="upload-status" id="st-categorias">Haz clic para subir</div>
+    </label>
+    <label class="upload-card" id="card-inventario" onclick="document.getElementById('file-inventario').click()">
+      <input type="file" id="file-inventario" accept=".html" onchange="cargarArchivo('inventario', this)">
+      <span class="upload-icon">📦</span>
+      <div class="upload-name">inventario.html</div>
+      <div class="upload-status" id="st-inventario">Haz clic para subir</div>
+    </label>
   </div>
 
-  <!-- FORMULARIO -->
-  <div id="form-wrap" class="form-wrap">
+  <!-- PASO 2: FORMULARIO -->
+  <div class="step-title"><span class="step-num">2</span> Datos del producto</div>
 
-    <div class="form-header">
-      <h2>Agregar producto nuevo</h2>
-      <p id="form-sub">index.html cargado correctamente</p>
-      <button class="file-tag" onclick="document.getElementById('file-input2').click()">
-        <input type="file" id="file-input2" accept=".html" onchange="cargarIndex(event)" style="display:none">
-        🔄 Cambiar archivo
-      </button>
-    </div>
-
-    <!-- PRODUCTOS ACTUALES -->
-    <div class="card" id="card-actuales">
-      <p class="card-title">Productos en la tienda ahora</p>
-      <div class="prods-list" id="prods-list"></div>
-    </div>
-
-    <!-- INFO BÁSICA -->
-    <div class="card">
-      <p class="card-title">Información básica</p>
-      <div class="grid2">
-        <div class="field full">
-          <label>Nombre del producto *</label>
-          <input type="text" id="f-nombre" placeholder="Ej: Collar Luminoso LED">
-        </div>
-        <div class="field">
-          <label>Precio *</label>
-          <input type="number" id="f-precio" placeholder="9990">
-          <span class="hint">Solo el número, sin $ ni puntos</span>
-        </div>
-        <div class="field">
-          <label>ID único *</label>
-          <input type="text" id="f-id" placeholder="collar-luminoso">
-          <span class="hint">Sin espacios, solo letras y guiones</span>
-        </div>
-        <div class="field">
-          <label>Categoría *</label>
-          <select id="f-categoria">
-            <option value="">Seleccionar...</option>
-            <option value="Accesorio">Accesorio</option>
-            <option value="Juguete">Juguete</option>
-            <option value="Aseo e Higiene">Aseo e Higiene</option>
-            <option value="Alimentos">Alimentos</option>
-            <option value="Snacks y Golosinas">Snacks y Golosinas</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Para *</label>
-          <select id="f-audience">
-            <option value="">Seleccionar...</option>
-            <option value="Para Gatos">Para Gatos</option>
-            <option value="Perros & Gatos">Perros & Gatos</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Etiqueta características</label>
-          <select id="f-carac-titulo">
-            <option value="Características">Características</option>
-            <option value="Ingredientes">Ingredientes</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Stock inicial</label>
-          <input type="number" id="f-stock" value="1" min="0" max="99">
-        </div>
-      </div>
-    </div>
-
-    <!-- DESCRIPCIÓN -->
-    <div class="card">
-      <p class="card-title">Descripción</p>
-      <div class="field" style="margin-bottom:.75rem">
-        <label>Tagline — frase corta con humor</label>
-        <input type="text" id="f-tagline" placeholder='"Porque dormir con luz es de valientes."'>
+  <div class="form-card">
+    <h2>Información básica</h2>
+    <div class="grid2">
+      <div class="field">
+        <label>Nombre <span>*</span></label>
+        <input type="text" id="f-nombre" placeholder="Ej: Collar Luminoso LED">
       </div>
       <div class="field">
-        <label>Descripción del producto</label>
-        <textarea id="f-descripcion" placeholder="Describe el producto con la voz de Patas & Caos..."></textarea>
+        <label>ID (auto)</label>
+        <input type="text" id="f-id" placeholder="collar-luminoso-led">
       </div>
-      <div class="ia-row">
-        <button class="btn-ia" id="btn-ia" onclick="generarConIA()">✨ Generar con IA</button>
+      <div class="field">
+        <label>Precio en CLP <span>*</span></label>
+        <input type="number" id="f-precio" placeholder="9990">
       </div>
-    </div>
-
-    <!-- CARACTERÍSTICAS -->
-    <div class="card">
-      <p class="card-title">Características / Ingredientes</p>
-      <div class="list-items" id="carac-list">
-        <div class="list-item"><input type="text" placeholder="Ej: Luz LED integrada"><button class="btn-x" onclick="quitarItem(this)">✕</button></div>
-        <div class="list-item"><input type="text" placeholder="Ej: Carga USB tipo C"><button class="btn-x" onclick="quitarItem(this)">✕</button></div>
+      <div class="field">
+        <label>Stock inicial</label>
+        <input type="number" id="f-stock" placeholder="1" value="1">
       </div>
-      <button class="btn-add" onclick="agregarItem('carac-list', 'Nueva característica')">+ Agregar característica</button>
-    </div>
-
-    <!-- FOTOS -->
-    <div class="card">
-      <p class="card-title">Fotos</p>
-      <p style="font-size:.8rem;color:var(--suave);margin-bottom:.75rem">Escribe los nombres exactos de las fotos que subiste a GitHub</p>
-      <div class="list-items" id="fotos-list">
-        <div class="list-item"><input type="text" placeholder="Foto_Principal.png"><button class="btn-x" onclick="quitarItem(this)">✕</button></div>
+      <div class="field">
+        <label>Categoría <span>*</span></label>
+        <select id="f-categoria">
+          <option value="">Selecciona...</option>
+          <option value="Accesorio">Accesorio</option>
+          <option value="Juguete">Juguete</option>
+          <option value="Aseo e Higiene">Aseo e Higiene</option>
+          <option value="Alimentos">Alimentos</option>
+          <option value="Snacks y Golosinas">Snacks y Golosinas</option>
+        </select>
       </div>
-      <button class="btn-add" onclick="agregarItem('fotos-list', 'Foto_2.png')">+ Agregar foto</button>
-    </div>
-
-    <!-- VARIANTES -->
-    <div class="card">
-      <p class="card-title">Sabores / Variantes</p>
-      <div class="toggle-row">
-        <label class="toggle"><input type="checkbox" id="toggle-v" onchange="toggleVariantes()"><span class="slider"></span></label>
-        <span class="toggle-text">Este producto tiene sabores o variantes</span>
-      </div>
-      <div class="variantes-section" id="variantes-section">
-        <div id="variantes-list"></div>
-        <button class="btn-add-v" onclick="agregarVariante()">+ Agregar variante</button>
+      <div class="field">
+        <label>Para <span>*</span></label>
+        <select id="f-audience">
+          <option value="">Selecciona...</option>
+          <option value="Para Gatos">Para Gatos</option>
+          <option value="Perros & Gatos">Perros & Gatos</option>
+        </select>
       </div>
     </div>
+  </div>
 
-    <!-- FOOTER -->
-    <div class="form-footer">
-      <div class="footer-hint">
-        Se descargará un <strong>index.html</strong> con el producto ya incluido.<br>
-        Súbelo a GitHub reemplazando el actual — listo.
+  <div class="form-card">
+    <h2>Textos <button class="btn-ia" id="btn-ia" onclick="generarConIA()">✨ Generar con IA</button></h2>
+    <div class="grid2">
+      <div class="field field-full">
+        <label>Tagline</label>
+        <input type="text" id="f-tagline" placeholder='"Sin croquetas. Sin paz."'>
+        <span class="hint">Máximo 7 palabras, con humor. Se muestra bajo el nombre en la tienda.</span>
       </div>
-      <button class="btn-publish" onclick="publicar()">⬇ Publicar producto</button>
+      <div class="field field-full">
+        <label>Descripción</label>
+        <textarea id="f-descripcion" placeholder="Descripción del producto para el modal..."></textarea>
+      </div>
+      <div class="field">
+        <label>Título características</label>
+        <input type="text" id="f-carac-titulo" value="Características" placeholder="Características">
+      </div>
     </div>
+    <div class="field" style="margin-top:1rem">
+      <label>Características</label>
+      <div id="carac-list">
+        <div class="list-item">
+          <input type="text" placeholder="Ej: Resistente al agua">
+          <button class="btn-x" onclick="quitarItem(this)">✕</button>
+        </div>
+      </div>
+      <button class="btn-add-item" onclick="agregarItem('carac-list','Característica')">+ Agregar</button>
+    </div>
+  </div>
 
+  <div class="form-card">
+    <h2>Imágenes y emoji</h2>
+    <div class="field" style="margin-bottom:1rem">
+      <label>Nombre(s) de archivo de foto <span>*</span></label>
+      <div id="fotos-list">
+        <div class="list-item">
+          <input type="text" placeholder="Ej: Collar_LED_Gatos.png">
+          <button class="btn-x" onclick="quitarItem(this)">✕</button>
+        </div>
+      </div>
+      <button class="btn-add-item" onclick="agregarItem('fotos-list','Nombre del archivo')">+ Agregar foto</button>
+      <span class="hint">Nombre exacto del archivo que subiste a GitHub (incluye extensión)</span>
+    </div>
+    <div class="field">
+      <label>Emoji para inventario</label>
+      <div class="emoji-grid" id="emoji-grid">
+        🐱🐶🐾🦴🐟🐔🦆🐰🐑🐄🦀🦪🌿🌱💧🎾🧸✂️💊🌸⭐🍪🐙🔦📡
+      </div>
+      <input type="text" id="f-emoji" value="🐾" placeholder="🐾" style="margin-top:.5rem;width:80px;text-align:center;font-size:1.3rem">
+    </div>
+  </div>
+
+  <div class="form-card">
+    <h2>¿Tiene variantes (sabores)?</h2>
+    <div class="toggle-row">
+      <label class="toggle-sw">
+        <input type="checkbox" id="toggle-v" onchange="toggleVariantes()">
+        <span class="sw-slider"></span>
+      </label>
+      <span class="toggle-label-txt">Sí, tiene variantes</span>
+    </div>
+    <div id="variantes-section" style="display:none">
+      <div id="variantes-list"></div>
+      <button class="btn-add-item" onclick="agregarVariante()">+ Agregar variante</button>
+    </div>
+  </div>
+
+  <button class="btn-publicar" id="btn-publicar" onclick="publicar()">
+    📦 Generar los 3 archivos
+  </button>
+
+  <!-- RESULTADO -->
+  <div class="resultado-card" id="resultado">
+    <h3>✅ ¡Archivos generados! Descarga y sube a GitHub</h3>
+    <div class="download-grid">
+      <button class="download-btn" id="dl-tienda" onclick="descargar('tienda')">⬇️ tienda.html</button>
+      <button class="download-btn" id="dl-categorias" onclick="descargar('categorias')">⬇️ categorias.html</button>
+      <button class="download-btn" id="dl-inventario" onclick="descargar('inventario')">⬇️ inventario.html</button>
+    </div>
+    <div class="instrucciones">
+      <p>
+        <strong>Pasos:</strong> Descarga los 3 archivos →
+        Ve a GitHub → <strong>Add file → Upload files</strong> →
+        Arrastra los 3 archivos → <strong>Commit changes</strong>.
+        Vercel los publica automáticamente en ~30 segundos.
+      </p>
+    </div>
   </div>
 </main>
 
 <div class="toast" id="toast"></div>
 
 <script>
-let indexHTML = '';
-let ordenActual = [];
+/* ─── ESTADO ─── */
+const archivos = { tienda: null, categorias: null, inventario: null };
+const archivosModificados = { tienda: null, categorias: null, inventario: null };
 
-/* CARGAR INDEX */
-function cargarIndex(e) {
-  const file = e.target.files[0];
+/* ─── CARGAR ARCHIVOS ─── */
+function cargarArchivo(nombre, input) {
+  const file = input.files[0];
   if (!file) return;
   const reader = new FileReader();
   reader.onload = (ev) => {
-    indexHTML = ev.target.result;
-    // Extraer ORDEN
-    const m = indexHTML.match(/const ORDEN\s*=\s*(\[[\s\S]*?\]);/);
-    if (m) {
-      try { ordenActual = JSON.parse(m[1]); } catch(ex) {}
-    }
-    document.getElementById('step-upload').style.display = 'none';
-    document.getElementById('form-wrap').style.display = 'block';
-    document.getElementById('form-sub').textContent = '✅ ' + file.name + ' cargado';
-    // Mostrar productos actuales
-    const lista = document.getElementById('prods-list');
-    lista.innerHTML = ordenActual.map(id => `<span class="prod-chip">✓ ${id}</span>`).join('');
-    mostrarToast('✅ ' + file.name + ' cargado correctamente');
+    archivos[nombre] = ev.target.result;
+    document.getElementById('card-' + nombre).classList.add('loaded');
+    document.getElementById('st-' + nombre).textContent = '✅ ' + file.name;
+    mostrarToast('✅ ' + file.name + ' cargado');
+    verificarArchivos();
   };
   reader.readAsText(file);
 }
 
-/* ITEMS GENÉRICOS */
+function verificarArchivos() {
+  const todos = archivos.tienda && archivos.categorias && archivos.inventario;
+  if (todos) mostrarToast('✅ Los 3 archivos cargados — completa el formulario');
+}
+
+/* ─── ITEMS GENÉRICOS ─── */
 function agregarItem(listId, placeholder) {
   const list = document.getElementById(listId);
   const div = document.createElement('div'); div.className = 'list-item';
@@ -286,7 +403,7 @@ function quitarItem(btn) {
   if (list.children.length > 1) btn.parentElement.remove();
 }
 
-/* VARIANTES */
+/* ─── VARIANTES ─── */
 function toggleVariantes() {
   const on = document.getElementById('toggle-v').checked;
   document.getElementById('variantes-section').style.display = on ? 'block' : 'none';
@@ -301,13 +418,30 @@ function agregarVariante() {
     <button class="btn-x" style="position:absolute;top:.75rem;right:.75rem" onclick="this.parentElement.remove()">✕</button>
     <div class="grid2" style="gap:.75rem">
       <div class="field"><label>Nombre del sabor *</label><input type="text" class="v-label" placeholder="Ej: Pato"></div>
-      <div class="field"><label>Foto del sabor</label><input type="text" class="v-img" placeholder="Ej: Duck_Sticks.png"></div>
+      <div class="field"><label>Foto del sabor</label><input type="text" class="v-img" placeholder="Ej: Pato_Sticks.png"></div>
     </div>`;
   list.appendChild(div);
 }
 
-/* AUTO-ID */
+/* ─── EMOJI PICKER ─── */
 document.addEventListener('DOMContentLoaded', () => {
+  const grid = document.getElementById('emoji-grid');
+  const emojis = grid.textContent.trim().split('');
+  grid.innerHTML = '';
+  emojis.forEach(em => {
+    if (em.trim()) {
+      const btn = document.createElement('button');
+      btn.className = 'emoji-btn'; btn.textContent = em;
+      btn.onclick = () => {
+        document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+        document.getElementById('f-emoji').value = em;
+      };
+      grid.appendChild(btn);
+    }
+  });
+
+  /* AUTO-ID */
   document.getElementById('f-nombre').addEventListener('input', function() {
     document.getElementById('f-id').value = this.value.toLowerCase()
       .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
@@ -315,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* IA */
+/* ─── IA ─── */
 async function generarConIA() {
   const nombre = document.getElementById('f-nombre').value.trim();
   const categoria = document.getElementById('f-categoria').value;
@@ -329,19 +463,14 @@ async function generarConIA() {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 500,
-        messages: [{ role: 'user', content: `Eres el copywriter de Patas & Caos, tienda de mascotas chilena con humor cercano y personalidad real. Escribe para el producto "${nombre}" (categoría: ${categoria||'general'}):
-1. Tagline: máximo 7 palabras con humor, entre comillas
-2. Descripción: 2 oraciones con personalidad, en segunda persona
-
-Responde SOLO en JSON exacto sin markdown:
-{"tagline":"...","descripcion":"..."}` }]
+        messages: [{ role: 'user', content: `Eres el copywriter de Patas & Caos, tienda de mascotas chilena con humor cercano y personalidad real. Escribe para el producto "${nombre}" (categoría: ${categoria||'general'}):\n1. Tagline: máximo 7 palabras con humor, entre comillas dobles\n2. Descripción: 2 oraciones con personalidad, en segunda persona\n\nResponde SOLO en JSON exacto sin markdown:\n{"tagline":"...","descripcion":"..."}` }]
       })
     });
     const data = await res.json();
     const parsed = JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());
     document.getElementById('f-tagline').value = parsed.tagline || '';
     document.getElementById('f-descripcion').value = parsed.descripcion || '';
-    mostrarToast('✨ Descripción generada con IA');
+    mostrarToast('✨ Textos generados con IA');
   } catch(ex) {
     mostrarToast('No se pudo generar. Escríbelo manualmente.');
   } finally {
@@ -349,32 +478,31 @@ Responde SOLO en JSON exacto sin markdown:
   }
 }
 
-/* PUBLICAR */
+/* ─── PUBLICAR ─── */
 function publicar() {
-  if (!indexHTML) { mostrarToast('Primero carga tu index.html'); return; }
-
+  if (!archivos.tienda || !archivos.categorias || !archivos.inventario) {
+    mostrarToast('❗ Primero carga los 3 archivos HTML'); return;
+  }
   const nombre    = document.getElementById('f-nombre').value.trim();
   const precioNum = parseInt(document.getElementById('f-precio').value) || 0;
   const id        = document.getElementById('f-id').value.trim().replace(/\s+/g,'-');
   const categoria = document.getElementById('f-categoria').value;
   const audience  = document.getElementById('f-audience').value;
-  const caracTit  = document.getElementById('f-carac-titulo').value;
+  const caracTit  = document.getElementById('f-carac-titulo').value || 'Características';
   const tagline   = document.getElementById('f-tagline').value.trim();
   const desc      = document.getElementById('f-descripcion').value.trim();
   const stock     = parseInt(document.getElementById('f-stock').value) || 1;
+  const emoji     = document.getElementById('f-emoji').value.trim() || '🐾';
 
   if (!nombre || !precioNum || !id || !categoria || !audience) {
     mostrarToast('❗ Completa los campos obligatorios (*)'); return;
-  }
-  if (ordenActual.includes(id)) {
-    mostrarToast('❗ Ya existe un producto con ese ID'); return;
   }
 
   const caracs = [...document.querySelectorAll('#carac-list input')]
     .map(i => i.value.trim()).filter(Boolean);
   const fotos = [...document.querySelectorAll('#fotos-list input')]
     .map(i => i.value.trim()).filter(Boolean);
-  if (!fotos.length) { mostrarToast('Agrega al menos una foto'); return; }
+  if (!fotos.length) { mostrarToast('❗ Agrega al menos una foto'); return; }
 
   const precio = '$' + precioNum.toLocaleString('es-CL');
   const tieneV = document.getElementById('toggle-v').checked;
@@ -383,21 +511,21 @@ function publicar() {
     document.querySelectorAll('.variante-card').forEach(b => {
       const label = b.querySelector('.v-label').value.trim();
       const img   = b.querySelector('.v-img').value.trim();
-      if (label) variantesArr.push({ label, imagenes: [img || fotos[0]], placeholders: ['🐾'] });
+      if (label) variantesArr.push({ label, imagenes: [img || fotos[0]], placeholders: [emoji] });
     });
   }
 
-  // Construir entrada del producto
-  const placeholders = fotos.map(() => '🐾');
+  const placeholders = fotos.map(() => emoji);
+
+  /* Entrada del producto (tienda + categorias) */
   let productoEntry;
   if (tieneV && variantesArr.length) {
-    const vStr = JSON.stringify(variantesArr);
-    productoEntry = `${JSON.stringify(id)}:{nombre:${JSON.stringify(nombre)},precio:${JSON.stringify(precio)},precioNum:${precioNum},audience:${JSON.stringify(audience)},categoria:${JSON.stringify(categoria)},descripcion:${JSON.stringify(desc)},caracTitulo:${JSON.stringify(caracTit)},caracteristicas:${JSON.stringify(caracs)},variantes:${vStr}}`;
+    productoEntry = `${JSON.stringify(id)}:{nombre:${JSON.stringify(nombre)},precio:${JSON.stringify(precio)},precioNum:${precioNum},audience:${JSON.stringify(audience)},categoria:${JSON.stringify(categoria)},descripcion:${JSON.stringify(desc)},caracTitulo:${JSON.stringify(caracTit)},caracteristicas:${JSON.stringify(caracs)},variantes:${JSON.stringify(variantesArr)}}`;
   } else {
     productoEntry = `${JSON.stringify(id)}:{nombre:${JSON.stringify(nombre)},precio:${JSON.stringify(precio)},precioNum:${precioNum},audience:${JSON.stringify(audience)},categoria:${JSON.stringify(categoria)},descripcion:${JSON.stringify(desc)},caracTitulo:${JSON.stringify(caracTit)},caracteristicas:${JSON.stringify(caracs)},imagenes:${JSON.stringify(fotos)},placeholders:${JSON.stringify(placeholders)}}`;
   }
 
-  // Stock entries
+  /* Stock entries (tienda + categorias) */
   let stockEntries;
   if (tieneV && variantesArr.length) {
     stockEntries = variantesArr.map(v => `${JSON.stringify(id+'_'+v.label)}:${stock}`).join(',') + ',';
@@ -405,44 +533,93 @@ function publicar() {
     stockEntries = `${JSON.stringify(id)}:${stock},`;
   }
 
-  // Tagline entry
-  const taglineVal = tagline ? tagline : '"' + nombre + '"';
+  /* Tagline */
+  const taglineVal = tagline || `"${nombre}"`;
   const taglineEntry = `${JSON.stringify(id)}:${JSON.stringify(taglineVal)},`;
 
-  // Insertar en el HTML
-  let nuevo = indexHTML;
+  /* Entrada SKUS para inventario */
+  const skuEntry = `{ id: ${JSON.stringify(id)}, nombre: ${JSON.stringify(nombre)}, cat: ${JSON.stringify(categoria)}, precio: ${JSON.stringify(precio)}, img: ${JSON.stringify(fotos[0])}, emoji: ${JSON.stringify(emoji)} },\n  `;
 
-  nuevo = nuevo.replace(
+  /* ── MODIFICAR TIENDA.HTML ── */
+  let nuevoTienda = archivos.tienda;
+  nuevoTienda = nuevoTienda.replace(
     /const TAGLINES\s*=\s*\{/,
     `const TAGLINES = {${taglineEntry}`
   );
-  nuevo = nuevo.replace(
+  nuevoTienda = nuevoTienda.replace(
     /const ORDEN\s*=\s*\[/,
     `const ORDEN = [${JSON.stringify(id)},`
   );
-  nuevo = nuevo.replace(
+  nuevoTienda = nuevoTienda.replace(
     /const productos\s*=\s*\{/,
     `const productos = {${productoEntry},`
   );
-  nuevo = nuevo.replace(
+  nuevoTienda = nuevoTienda.replace(
     /const stockInicial\s*=\s*\{/,
     `const stockInicial = {${stockEntries}`
   );
+  archivosModificados.tienda = nuevoTienda;
 
-  // Descargar
-  const blob = new Blob([nuevo], { type: 'text/html;charset=utf-8' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url; a.download = 'index.html'; a.click();
-  URL.revokeObjectURL(url);
+  /* ── MODIFICAR CATEGORIAS.HTML ── */
+  let nuevoCategorias = archivos.categorias;
+  nuevoCategorias = nuevoCategorias.replace(
+    /const TAGLINES\s*=\s*\{/,
+    `const TAGLINES = {${taglineEntry}`
+  );
+  nuevoCategorias = nuevoCategorias.replace(
+    /const ORDEN\s*=?\s*\[/,
+    `const ORDEN=[${JSON.stringify(id)},`
+  );
+  nuevoCategorias = nuevoCategorias.replace(
+    /const productos\s*=\s*\{/,
+    `const productos = {${productoEntry},`
+  );
+  nuevoCategorias = nuevoCategorias.replace(
+    /const stockInicial\s*=\s*\{/,
+    `const stockInicial = {${stockEntries}`
+  );
+  archivosModificados.categorias = nuevoCategorias;
 
-  mostrarToast('✅ index.html descargado — súbelo a GitHub');
-  ordenActual.unshift(id);
-  document.getElementById('prods-list').innerHTML =
-    ordenActual.map(i => `<span class="prod-chip">✓ ${i}</span>`).join('');
+  /* ── MODIFICAR INVENTARIO.HTML ── */
+  let nuevoInventario = archivos.inventario;
+  nuevoInventario = nuevoInventario.replace(
+    /const SKUS\s*=\s*\[/,
+    `const SKUS = [\n  ${skuEntry}`
+  );
+  nuevoInventario = nuevoInventario.replace(
+    /const stockInicial\s*=\s*\{/,
+    `const stockInicial = {${stockEntries}`
+  );
+  archivosModificados.inventario = nuevoInventario;
+
+  /* Verificar que los reemplazos funcionaron */
+  const ok = [
+    archivosModificados.tienda.includes(`'${id}'`) || archivosModificados.tienda.includes(`"${id}"`),
+    archivosModificados.categorias.includes(`'${id}'`) || archivosModificados.categorias.includes(`"${id}"`),
+    archivosModificados.inventario.includes(id),
+  ];
+  if (!ok.every(Boolean)) {
+    mostrarToast('⚠️ Revisa que los archivos sean los correctos');
+  }
+
+  document.getElementById('resultado').classList.add('visible');
+  document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+  mostrarToast('✅ Archivos generados — descárgalos');
 }
 
-/* TOAST */
+/* ─── DESCARGAR ─── */
+function descargar(nombre) {
+  const contenido = archivosModificados[nombre];
+  if (!contenido) { mostrarToast('Primero genera los archivos'); return; }
+  const blob = new Blob([contenido], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = nombre + '.html'; a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('⬇️ ' + nombre + '.html descargado');
+}
+
+/* ─── TOAST ─── */
 let tt;
 function mostrarToast(msg) {
   const t = document.getElementById('toast');
