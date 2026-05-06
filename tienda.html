@@ -286,8 +286,8 @@
   @media (max-width: 380px) { .prod-grid { grid-template-columns: 1fr; } }
   @media (max-width: 640px) {
     .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; }
-    .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; }
-    .modal-imagen-principal { aspect-ratio: 3/2; max-height: 45vw; }
+    .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: .75rem; max-height: 55vw; overflow: hidden; }
+    .modal-imagen-principal { aspect-ratio: unset; height: 48vw; max-height: 48vw; }
     .modal-contenido { padding: 1.25rem; }
     .modal-nombre { font-size: 1.2rem; }
     .modal-precio { font-size: 1.35rem; }
@@ -329,6 +329,7 @@
   .checkout-resumen-total { display: flex; justify-content: space-between; font-size: 1rem; font-weight: 800; padding-top: .6rem; margin-top: .4rem; border-top: 1px solid rgba(28,16,7,.1); color: var(--terracota); }
   .checkout-section-label { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: .8rem; margin-top: 1.2rem; }
   .checkout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+  @media (max-width: 500px) { .checkout-grid { grid-template-columns: 1fr; } }
   .checkout-grid.full { grid-template-columns: 1fr; }
   .checkout-field { display: flex; flex-direction: column; gap: .3rem; }
   .checkout-field label { font-size: .75rem; font-weight: 600; color: #6b5a4e; }
