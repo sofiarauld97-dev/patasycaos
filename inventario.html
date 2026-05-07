@@ -425,6 +425,8 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
    CATÁLOGO DE SKUs
 ═══════════════════════════════════════ */
 const SKUS = [
+  { id: "prueba", nombre: "Prueba", cat: "Accesorio", precio: "$1", img: "Collar_LED_Gatos.png", emoji: "🌿" },
+  
   { id: "pack-consulta-flor-de-bach", nombre: "Pack Consulta + Flor de Bach", cat: "Flores de Bach", precio: "$29.990", img: "pack_floral_perros_gatos.png", emoji: "🌿" },
   
   { id: "flores-de-bach---rescue-y-alivio", nombre: "Flores de Bach - Rescue y Alivio", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Rescue_y_Alivio.png", emoji: "🌿" },
@@ -647,7 +649,7 @@ function abrirExportar() {
     return `  '${sku.id}': ${val},   // ${sku.nombre}`;
   }).join('\n');
 
-  const codigo = `const stockInicial = {"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
+  const codigo = `const stockInicial = {"prueba":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
   document.getElementById('codigo-exportar').textContent = codigo;
   document.getElementById('modal-exportar').classList.add('open');
 }
