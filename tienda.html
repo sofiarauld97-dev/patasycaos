@@ -439,6 +439,7 @@
         <button class="filter-pill" onclick="setFiltro('cat','Aseo e Higiene',this)">✨ Aseo e Higiene</button>
         <button class="filter-pill" onclick="setFiltro('cat','Alimentos',this)">🍽️ Alimentos</button>
         <button class="filter-pill" onclick="setFiltro('cat','Snacks y Golosinas',this)">🍪 Snacks y Golosinas</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Flores de Bach',this)">🌿 Flores de Bach</button>
       </div>
     </div>
     <div class="filter-divider"></div>
@@ -447,7 +448,8 @@
       <div class="filter-pills" id="filter-aud">
         <button class="filter-pill activo" onclick="setFiltro('aud','todos',this)">Todos</button>
         <button class="filter-pill" onclick="setFiltro('aud','Para Gatos',this)">🐱 Gatos</button>
-        <button class="filter-pill" onclick="setFiltro('aud','Perros & Gatos',this)">🐶 Perros</button>
+        <button class="filter-pill" onclick="setFiltro('aud','Para Perros',this)">🐶 Perros</button>
+        <button class="filter-pill" onclick="setFiltro('aud','Perros & Gatos',this)">🐾 Perros & Gatos</button>
       </div>
     </div>
     <div class="filter-divider"></div>
@@ -739,7 +741,11 @@ function generarTarjetas() {
   let lista = ORDEN.map(id => ({ id, p: productos[id] })).filter(({ p }) => {
     if (!p) return false;
     if (filtros.cat !== 'todos' && p.categoria !== filtros.cat) return false;
-    if (filtros.aud !== 'todos' && p.audience !== filtros.aud) return false;
+    if (filtros.aud !== 'todos') {
+      const aud = p.audience || '';
+      const match = aud === filtros.aud || aud === 'Perros & Gatos';
+      if (!match) return false;
+    }
     return true;
   });
   if (filtros.sort === 'price-asc') lista.sort((a, b) => a.p.precioNum - b.p.precioNum);
