@@ -49,7 +49,7 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
 }
 
 /* UPLOAD GRID */
-.upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
 .upload-card {
   background: var(--card-bg); border: 2px dashed var(--borde);
   border-radius: 16px; padding: 1.5rem 1rem;
@@ -209,19 +209,13 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
   <p class="subtitle">Completa el formulario y descarga los 3 archivos listos para subir a GitHub.</p>
 
   <!-- PASO 1: CARGAR ARCHIVOS -->
-  <div class="step-title"><span class="step-num">1</span> Carga los 3 archivos de tu repo</div>
+  <div class="step-title"><span class="step-num">1</span> Carga tienda.html e inventario.html de tu repo</div>
   <div class="upload-grid">
     <label class="upload-card" id="card-tienda" onclick="document.getElementById('file-tienda').click()">
       <input type="file" id="file-tienda" accept=".html" onchange="cargarArchivo('tienda', this)">
       <span class="upload-icon">🏪</span>
       <div class="upload-name">tienda.html</div>
       <div class="upload-status" id="st-tienda">Haz clic para subir</div>
-    </label>
-    <label class="upload-card" id="card-categorias" onclick="document.getElementById('file-categorias').click()">
-      <input type="file" id="file-categorias" accept=".html" onchange="cargarArchivo('categorias', this)">
-      <span class="upload-icon">📂</span>
-      <div class="upload-name">categorias.html</div>
-      <div class="upload-status" id="st-categorias">Haz clic para subir</div>
     </label>
     <label class="upload-card" id="card-inventario" onclick="document.getElementById('file-inventario').click()">
       <input type="file" id="file-inventario" accept=".html" onchange="cargarArchivo('inventario', this)">
@@ -262,6 +256,7 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
           <option value="Aseo e Higiene">Aseo e Higiene</option>
           <option value="Alimentos">Alimentos</option>
           <option value="Snacks y Golosinas">Snacks y Golosinas</option>
+          <option value="Flores de Bach">Flores de Bach</option>
         </select>
       </div>
       <div class="field">
@@ -342,22 +337,21 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
   </div>
 
   <button class="btn-publicar" id="btn-publicar" onclick="publicar()">
-    📦 Generar los 3 archivos
+    📦 Generar los 2 archivos
   </button>
 
   <!-- RESULTADO -->
   <div class="resultado-card" id="resultado">
     <h3>✅ ¡Archivos generados! Descarga y sube a GitHub</h3>
-    <div class="download-grid">
+    <div class="download-grid" style="grid-template-columns: 1fr 1fr;">
       <button class="download-btn" id="dl-tienda" onclick="descargar('tienda')">⬇️ tienda.html</button>
-      <button class="download-btn" id="dl-categorias" onclick="descargar('categorias')">⬇️ categorias.html</button>
       <button class="download-btn" id="dl-inventario" onclick="descargar('inventario')">⬇️ inventario.html</button>
     </div>
     <div class="instrucciones">
       <p>
-        <strong>Pasos:</strong> Descarga los 3 archivos →
-        Ve a GitHub → <strong>Add file → Upload files</strong> →
-        Arrastra los 3 archivos → <strong>Commit changes</strong>.
+        <strong>Pasos:</strong> Descarga los 2 archivos (tienda.html e inventario.html) →
+        En <strong>GitHub Desktop</strong> cópialos a la carpeta del repo →
+        <strong>Commit + Push</strong>.
         Vercel los publica automáticamente en ~30 segundos.
       </p>
     </div>
@@ -387,8 +381,7 @@ function cargarArchivo(nombre, input) {
 }
 
 function verificarArchivos() {
-  const todos = archivos.tienda && archivos.categorias && archivos.inventario;
-  if (todos) mostrarToast('✅ Los 3 archivos cargados — completa el formulario');
+  if (archivos.tienda && archivos.inventario) mostrarToast('✅ Archivos cargados — completa el formulario');
 }
 
 /* ─── ITEMS GENÉRICOS ─── */
@@ -480,8 +473,8 @@ async function generarConIA() {
 
 /* ─── PUBLICAR ─── */
 function publicar() {
-  if (!archivos.tienda || !archivos.categorias || !archivos.inventario) {
-    mostrarToast('❗ Primero carga los 3 archivos HTML'); return;
+  if (!archivos.tienda || !archivos.inventario) {
+    mostrarToast('❗ Primero carga tienda.html e inventario.html'); return;
   }
   const nombre    = document.getElementById('f-nombre').value.trim();
   const precioNum = parseInt(document.getElementById('f-precio').value) || 0;
@@ -560,27 +553,8 @@ function publicar() {
   );
   archivosModificados.tienda = nuevoTienda;
 
-  /* ── MODIFICAR CATEGORIAS.HTML ── */
-  let nuevoCategorias = archivos.categorias;
-  nuevoCategorias = nuevoCategorias.replace(
-    /const TAGLINES\s*=\s*\{/,
-    `const TAGLINES = {${taglineEntry}`
-  );
-  nuevoCategorias = nuevoCategorias.replace(
-    /const ORDEN\s*=?\s*\[/,
-    `const ORDEN=[${JSON.stringify(id)},`
-  );
-  nuevoCategorias = nuevoCategorias.replace(
-    /const productos\s*=\s*\{/,
-    `const productos = {${productoEntry},`
-  );
-  nuevoCategorias = nuevoCategorias.replace(
-    /const stockInicial\s*=\s*\{/,
-    `const stockInicial = {${stockEntries}`
-  );
-  archivosModificados.categorias = nuevoCategorias;
-
   /* ── MODIFICAR INVENTARIO.HTML ── */
+  const skuEntry = `{ id: ${JSON.stringify(id)}, nombre: ${JSON.stringify(nombre)}, cat: ${JSON.stringify(categoria)}, precio: ${JSON.stringify(precio)}, img: ${JSON.stringify(fotos[0])}, emoji: ${JSON.stringify(emoji)} },\n  `;
   let nuevoInventario = archivos.inventario;
   nuevoInventario = nuevoInventario.replace(
     /const SKUS\s*=\s*\[/,
@@ -592,14 +566,10 @@ function publicar() {
   );
   archivosModificados.inventario = nuevoInventario;
 
-  /* Verificar que los reemplazos funcionaron */
-  const ok = [
-    archivosModificados.tienda.includes(`'${id}'`) || archivosModificados.tienda.includes(`"${id}"`),
-    archivosModificados.categorias.includes(`'${id}'`) || archivosModificados.categorias.includes(`"${id}"`),
-    archivosModificados.inventario.includes(id),
-  ];
-  if (!ok.every(Boolean)) {
-    mostrarToast('⚠️ Revisa que los archivos sean los correctos');
+  /* Verificar */
+  const ok = archivosModificados.tienda.includes(`'${id}'`) || archivosModificados.tienda.includes(`"${id}"`);
+  if (!ok) {
+    mostrarToast('⚠️ Revisa que el archivo sea el correcto');
   }
 
   document.getElementById('resultado').classList.add('visible');
