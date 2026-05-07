@@ -1,13 +1,8 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { items } = req.body;
-
-  if (!items || items.length === 0) {
-    return res.status(400).json({ error: 'No items in cart' });
-  }
+  const { items, cliente } = req.body;
+  if (!items || items.length === 0) return res.status(400).json({ error: 'No items in cart' });
 
   const mpItems = items.map(item => ({
     title: item.name,
@@ -32,17 +27,28 @@ export default async function handler(req, res) {
         },
         auto_return: 'approved',
         statement_descriptor: 'PATAS & CAOS',
+        notification_url: 'https://patasycaos.cl/api/webhook',
       }),
     });
 
     const data = await response.json();
+    if (!response.ok) return res.status(500).json({ error: 'Error al crear preferencia de pago' });
 
-    if (!response.ok) {
-      return res.status(500).json({ error: 'Error al crear preferencia de pago' });
+    // Guardar datos del cliente en Redis con expiración de 24h
+    if (cliente && data.id) {
+      await fetch(`${process.env.KV_REST_API_URL}/pipeline`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([
+          ['SET', `order:${data.id}`, JSON.stringify({ ...cliente, items }), 'EX', 86400]
+        ]),
+      });
     }
 
     return res.status(200).json({ init_point: data.init_point });
-
   } catch (error) {
     return res.status(500).json({ error: 'Error interno del servidor' });
   }
