@@ -985,11 +985,17 @@ function actualizarWishlistUI(){
 
 function toggleWishlist(e,id){
   e.stopPropagation();
-  if(!sbUser){window.location.href='/';return;}
+  if(!sbUser){ abrirAuth(); return; }
+  if(!sbToken){ mostrarToastCarrito('Sesión expirada, vuelve a iniciar sesión'); return; }
   const idx=wishlist.indexOf(id);
   if(idx>=0)wishlist.splice(idx,1);else wishlist.push(id);
   actualizarWishlistUI();
-  fetch('/api/user-data-set',{method:'POST',headers:{Authorization:`Bearer ${sbToken}`,'Content-Type':'application/json'},body:JSON.stringify({wishlist})});
+  fetch('/api/user-data-set',{
+    method:'POST',
+    headers:{Authorization:`Bearer ${sbToken}`,'Content-Type':'application/json'},
+    body:JSON.stringify({wishlist})
+  }).then(r=>{ if(!r.ok) mostrarToastCarrito('Error al guardar favorito (' + r.status + ')'); })
+    .catch(()=>{ mostrarToastCarrito('Error de conexión al guardar favorito'); });
 }
 
 _sb.auth.onAuthStateChange(async(event,session)=>{
