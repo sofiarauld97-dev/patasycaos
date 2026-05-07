@@ -480,6 +480,39 @@ _sb.auth.getSession().then(({data:{session}})=>{
       </div>
     </div>
 
+
+    <p class="checkout-section-label">Documento tributario</p>
+    <div class="checkout-doc-toggle">
+      <button class="doc-btn activo" id="btn-boleta" onclick="seleccionarDoc('boleta')">🧾 Boleta</button>
+      <button class="doc-btn" id="btn-factura" onclick="seleccionarDoc('factura')">📄 Factura</button>
+    </div>
+    <div id="factura-fields" style="display:none;margin-top:.75rem">
+      <div class="checkout-grid full">
+        <div class="checkout-field">
+          <label>RUT empresa *</label>
+          <input type="text" id="co-rut" placeholder="Ej: 76.123.456-7">
+        </div>
+      </div>
+      <div class="checkout-grid full" style="margin-top:.75rem">
+        <div class="checkout-field">
+          <label>Razón social *</label>
+          <input type="text" id="co-razon" placeholder="Ej: Empresa S.A.">
+        </div>
+      </div>
+      <div class="checkout-grid full" style="margin-top:.75rem">
+        <div class="checkout-field">
+          <label>Giro *</label>
+          <input type="text" id="co-giro" placeholder="Ej: Comercio al por menor">
+        </div>
+      </div>
+      <div class="checkout-grid full" style="margin-top:.75rem">
+        <div class="checkout-field">
+          <label>Dirección de facturación *</label>
+          <input type="text" id="co-dir-factura" placeholder="Dirección legal de la empresa">
+        </div>
+      </div>
+    </div>
+
     <div class="checkout-btns">
       <button class="btn-checkout-cancel" onclick="cerrarCheckout()">Volver</button>
       <button class="btn-checkout-confirm" onclick="confirmarCheckout()">
