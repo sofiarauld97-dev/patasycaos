@@ -32,7 +32,7 @@
   .nav-cart:hover { background: #a8501f; }
   .nav-cart-wrap { position: relative; }
   nav.scrolled { background: rgba(245,236,215,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: rgba(28,16,7,.05); transition: background .3s, backdrop-filter .3s; }
-  .btn-signin { background: transparent; color: var(--negro); border: 1.5px solid rgba(28,16,7,.2); border-radius: 50px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .82rem; cursor: pointer; transition: all .2s; white-space: nowrap; }
+  .btn-signin { background: transparent; color: var(--negro); border: 1.5px solid rgba(28,16,7,.2); border-radius: 50px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .82rem; cursor: pointer; transition: all .2s; }
   .btn-signin:hover { border-color: var(--terracota); color: var(--terracota); }
   .cart-badge { position: absolute; top: -6px; right: -6px; background: var(--negro); color: var(--blanco); width: 20px; height: 20px; border-radius: 50%; font-size: .68rem; font-weight: 700; display: flex; align-items: center; justify-content: center; pointer-events: none; }
   .cart-badge[data-count="0"] { display: none; }
@@ -121,7 +121,7 @@
   .btn-google:hover { border-color: #bbb; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
   .auth-divider { display: flex; align-items: center; gap: 1rem; margin: 1.2rem 0; }
   .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: #e8ddd0; }
-  .auth-divider span { font-size: .78rem; color: #9a8878; white-space: nowrap; }
+  .auth-divider span { font-size: .78rem; color: #9a8878; }
   .auth-field label { display: block; font-size: .78rem; font-weight: 600; margin-bottom: .4rem; }
   .auth-field input { width: 100%; padding: 10px 14px; border: 1.5px solid #e0d5c5; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: .88rem; outline: none; transition: border-color .2s; background: var(--blanco); }
   .auth-field input:focus { border-color: var(--terracota); }
@@ -394,7 +394,7 @@ function updateAuthUI() {
       : `<div class="user-avatar" style="width:38px;height:38px;border-radius:50%;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onclick="toggleUserDropdown()">${nombre[0].toUpperCase()}</div>`;
     el.innerHTML = `<div class="user-wrap">${avatarHTML}<div class="user-dropdown" id="user-dropdown"><span class="user-name-dd">👋 ${nombre}</span><a href="/favoritos" style="display:block;padding:.5rem .6rem;font-size:.82rem;font-weight:500;color:var(--terracota);text-decoration:none;border-radius:8px;transition:background .15s" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='none'">❤️ Mis favoritos</a><button class="btn-signout" onclick="cerrarSesion()">Cerrar sesión</button></div></div>`;
   } else {
-    el.innerHTML = `<button class="btn-signin" onclick="abrirAuth()">Iniciar sesión</button>`;
+    el.innerHTML = `<button class="btn-signin" onclick="abrirAuth()">Iniciar<br>sesión</button>`;
   }
 }
 
