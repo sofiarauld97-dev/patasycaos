@@ -68,18 +68,23 @@ function renderCart() {
   document.getElementById('cart-total').textContent = '$' + totalPrice.toLocaleString('es-CL');
   container.innerHTML = cart.map(item => `<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`).join('');
 }
-const COMUNAS_RM = ['santiago','providencia','las condes','vitacura','lo barnechea','la reina','ñuñoa','macul','san joaquín','san joaquin','la granja','la pintana','el bosque','san ramón','san ramon','la cisterna','san miguel','pedro aguirre cerda','lo espejo','estación central','estacion central','cerrillos','maipú','maipu','pudahuel','quilicura','huechuraba','conchalí','conchali','independencia','recoleta','renca','quinta normal','cerro navia','lo prado','lampa','colina','tiltil','buin','paine','san bernardo','calera de tango','talagante','peñaflor','penaflor','el monte','isla de maipo','melipilla','alhué','alhue','curacaví','curacavi','maría pinto','maria pinto','padre hurtado','pirque','puente alto','san josé de maipo','san jose de maipo','peñalolén','penalolen','florida','la florida'];
+const COMUNAS_TRAMO1 = ['cerrillos','cerro navia','conchali','conchalí','el bosque','estacion central','estación central','independencia','la cisterna','la florida','la granja','la reina','las condes','lo espejo','lo prado','macul','nunoa','ñuñoa','pedro aguirre cerda','penalolen','peñalolén','providencia','quinta normal','recoleta','renca','san joaquin','san joaquín','san miguel','san ramon','san ramón','santiago','vitacura'];
+const COMUNAS_TRAMO2 = ['lo barnechea','maipu','maípu','quilicura','san bernardo','colina','la pintana','chicureo','puente alto','huechuraba','pudahuel'];
 
 function normalizarComuna(str) {
   return str.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 }
 
 function calcularEnvio(comuna) {
-  const c = normalizarComuna(comuna);
-  const esRM = COMUNAS_RM.some(rm => normalizarComuna(rm) === c || c.includes(normalizarComuna(rm)));
   if (!comuna) return null;
-  if (esRM) return { precio: 4990, texto: '$4.990', aviso: 'Envío a Región Metropolitana' };
-  return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el envío se coordina por WhatsApp' };
+  const c = normalizarComuna(comuna);
+  const esTramo1 = COMUNAS_TRAMO1.some(rm => normalizarComuna(rm) === c);
+  const esTramo2 = COMUNAS_TRAMO2.some(rm => normalizarComuna(rm) === c);
+  const horaActual = new Date().getHours();
+  const entregaHoy = horaActual < 10 ? ' \u2022 Entrega hoy si compras antes de las 10:00 AM \ud83d\ude80' : '';
+  if (esTramo1) return { precio: 4847, texto: '$4.847', aviso: 'Env\u00edo a Santiago centro y comunas cercanas' + entregaHoy };
+  if (esTramo2) return { precio: 5593, texto: '$5.593', aviso: 'Env\u00edo a comunas perif\u00e9ricas de la RM' + entregaHoy };
+  return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el env\u00edo se coordina por WhatsApp' };
 }
 
 function actualizarEnvio() {
