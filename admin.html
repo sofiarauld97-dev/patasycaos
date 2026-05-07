@@ -121,7 +121,7 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
   <h1>Agregar producto nuevo</h1>
   <p class="subtitle">Completa el formulario y descarga los 2 archivos listos para subir.</p>
 
-  <div class="step-title"><span class="step-num">1</span> Carga tienda.html e inventario.html de tu repo</div>
+  <div class="step-title"><span class="step-num">1</span> Carga tienda.html, inventario.html y favoritos.html de tu repo</div>
   <div class="upload-grid">
     <div class="upload-card" id="card-tienda" onclick="document.getElementById('file-tienda').click()">
       <input type="file" id="file-tienda" accept=".html" style="display:none">
@@ -134,6 +134,12 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
       <span class="upload-icon">📦</span>
       <div class="upload-name">inventario.html</div>
       <div class="upload-status" id="st-inventario">Haz clic para subir</div>
+    </div>
+    <div class="upload-card" id="card-favoritos" onclick="document.getElementById('file-favoritos').click()">
+      <input type="file" id="file-favoritos" accept=".html" style="display:none">
+      <span class="upload-icon">❤️</span>
+      <div class="upload-name">favoritos.html</div>
+      <div class="upload-status" id="st-favoritos">Haz clic para subir</div>
     </div>
   </div>
 
@@ -221,6 +227,7 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
     <div class="download-grid">
       <button class="download-btn" type="button" onclick="descargar('tienda')">⬇️ tienda.html</button>
       <button class="download-btn" type="button" onclick="descargar('inventario')">⬇️ inventario.html</button>
+      <button class="download-btn" type="button" onclick="descargar('favoritos')">⬇️ favoritos.html</button>
     </div>
     <div class="instrucciones">
       <p><strong>Pasos:</strong> Descarga los 2 archivos → En <strong>GitHub Desktop</strong> cópialos a la carpeta del repo → <strong>Commit + Push</strong>. Vercel los publica en ~30 segundos.</p>
@@ -232,8 +239,8 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
 
 <script>
 const PW = '290966';
-const archivos = { tienda: null, inventario: null };
-const archivosModificados = { tienda: null, inventario: null };
+const archivos = { tienda: null, inventario: null, favoritos: null };
+const archivosModificados = { tienda: null, inventario: null, favoritos: null };
 
 /* LOCK */
 document.getElementById('lock-btn').addEventListener('click', checkPw);
@@ -262,6 +269,9 @@ window.addEventListener('DOMContentLoaded', function() {
   });
   document.getElementById('file-inventario').addEventListener('change', function() {
     leerArchivo('inventario', this);
+  });
+  document.getElementById('file-favoritos').addEventListener('change', function() {
+    leerArchivo('favoritos', this);
   });
 
   /* AUTO-ID */
@@ -358,7 +368,7 @@ async function generarConIA() {
 
 /* PUBLICAR */
 function publicar() {
-  if (!archivos.tienda || !archivos.inventario) { mostrarToast('❗ Primero carga los 2 archivos'); return; }
+  if (!archivos.tienda || !archivos.inventario) { mostrarToast('❗ Primero carga tienda.html e inventario.html'); return; }
   var nombre    = document.getElementById('f-nombre').value.trim();
   var precioNum = parseInt(document.getElementById('f-precio').value) || 0;
   var id        = document.getElementById('f-id').value.trim().replace(/\s+/g,'-');
@@ -420,6 +430,17 @@ function publicar() {
   nuevoInventario = nuevoInventario.replace(/const SKUS\s*=\s*\[/, 'const SKUS = [\n  ' + skuEntry);
   nuevoInventario = nuevoInventario.replace(/const stockInicial\s*=\s*\{/, 'const stockInicial = {' + stockEntries);
   archivosModificados.inventario = nuevoInventario;
+
+  // Actualizar favoritos.html si fue cargado
+  if (archivos.favoritos) {
+    var favEntry;
+    var favImg = (tieneV && variantesArr.length) ? variantesArr[0].imagenes[0] : (fotos[0] || '');
+    favEntry = JSON.stringify(id) + ':{nombre:' + JSON.stringify(nombre) + ',precio:' + JSON.stringify(precio) + ',precioNum:' + precioNum + ',categoria:' + JSON.stringify(categoria) + ',imagenes:' + JSON.stringify([favImg]) + ',placeholders:' + JSON.stringify([emoji]) + '}';
+    var nuevoFavoritos = archivos.favoritos;
+    nuevoFavoritos = nuevoFavoritos.replace(/const TAGLINES\s*=\s*\{/, 'const TAGLINES = {' + taglineEntry);
+    nuevoFavoritos = nuevoFavoritos.replace(/const productos\s*=\s*\{/, 'const productos = {' + favEntry + ',');
+    archivosModificados.favoritos = nuevoFavoritos;
+  }
 
   document.getElementById('resultado').classList.add('visible');
   document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
