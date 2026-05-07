@@ -556,8 +556,6 @@ function calcularEnvio(comuna) {
   if (esTramo1) return { precio: 4847, texto: '$4.847', aviso: 'Envío a Santiago centro y comunas cercanas' + entregaHoy };
   if (esTramo2) return { precio: 5593, texto: '$5.593', aviso: 'Envío a comunas periféricas de la RM' + entregaHoy };
   return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el envío se coordina por WhatsApp' };
-};
-  return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el envío se coordina por WhatsApp' };
 }
 async function checkout() {
   if (cart.length === 0) return;
