@@ -425,6 +425,8 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
    CATÁLOGO DE SKUs
 ═══════════════════════════════════════ */
 const SKUS = [
+  { id: "flores-de-bach---ansiedad-y-calma", nombre: "Flores de Bach - Ansiedad y Calma", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Ansiedad_y_Calma.png", emoji: "🌿" },
+  
   { id: "cat-fest-pillows-schrimp-creme", nombre: "Cat Fest Pillows Schrimp Creme", cat: "Snacks y Golosinas", precio: "$1.990", img: "Cat_Fest_Pillows_Schrimp.png", emoji: "🐾" },
   
   { id: 'cat-fest-pillows', nombre: 'Cat Fest Pillows Chicken Creme', cat: 'Snacks y Golosinas', precio: '$1.990', img: 'Cat_Fest_Pillows_Chicken.png', emoji: '🐔' },
@@ -637,7 +639,7 @@ function abrirExportar() {
     return `  '${sku.id}': ${val},   // ${sku.nombre}`;
   }).join('\n');
 
-  const codigo = `const stockInicial = {"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
+  const codigo = `const stockInicial = {"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
   document.getElementById('codigo-exportar').textContent = codigo;
   document.getElementById('modal-exportar').classList.add('open');
 }
