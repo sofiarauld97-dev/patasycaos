@@ -641,6 +641,46 @@ function guardarCarritoLocal() {
   try { localStorage.setItem('pac_cart', JSON.stringify(cart)); } catch(e) {}
 }
 
+let toastTimer;
+function mostrarToastCarrito(msg) {
+  let toast = document.getElementById('cart-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'cart-toast';
+    toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--negro);color:#fff;border-radius:50px;padding:12px 24px;font-size:.85rem;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;font-family:Poppins,sans-serif;white-space:nowrap;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.style.opacity = '0', 2500);
+}
+const COMUNAS_TRAMO1 = ['cerrillos','cerro navia','conchali','conchalí','el bosque','estacion central','estación central','independencia','la cisterna','la florida','la granja','la reina','las condes','lo espejo','lo prado','macul','nunoa','ñuñoa','pedro aguirre cerda','penalolen','peñalolén','providencia','quinta normal','recoleta','renca','san joaquin','san joaquín','san miguel','san ramon','san ramón','santiago','vitacura'];
+const COMUNAS_TRAMO2 = ['lo barnechea','maipu','maípu','quilicura','san bernardo','colina','la pintana','chicureo','puente alto','huechuraba','pudahuel'];
+function normalizarComuna(str) { return str.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+function calcularEnvio(comuna) {
+  if (!comuna) return null;
+  const c = normalizarComuna(comuna);
+  const esTramo1 = COMUNAS_TRAMO1.some(rm => normalizarComuna(rm) === c);
+  const esTramo2 = COMUNAS_TRAMO2.some(rm => normalizarComuna(rm) === c);
+  const horaActual = new Date().getHours();
+  const entregaHoy = horaActual < 10 ? ' • Entrega hoy si compras antes de las 10:00 AM 🚀' : '';
+  if (esTramo1) return { precio: 4847, texto: '$4.847', aviso: 'Envío a Santiago centro y comunas cercanas' + entregaHoy };
+  if (esTramo2) return { precio: 5593, texto: '$5.593', aviso: 'Envío a comunas periféricas de la RM' + entregaHoy };
+  return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el envío se coordina por WhatsApp' };
+}
+function actualizarEnvio() {
+  const comuna = document.getElementById('co-comuna').value;
+  const resultado = calcularEnvio(comuna);
+  const infoEl = document.getElementById('envio-info');
+  const precioEl = document.getElementById('envio-precio');
+  const avisoEl = document.getElementById('envio-aviso');
+  if (!resultado || !comuna) { infoEl.style.display = 'none'; avisoEl.textContent = ''; return; }
+  infoEl.style.display = 'flex';
+  precioEl.textContent = resultado.texto;
+  avisoEl.textContent = resultado.aviso;
+}
+
 function renderCart() {
   guardarCarritoLocal();
   const container = document.getElementById('cart-items'), footer = document.getElementById('cart-footer'), badge = document.getElementById('cart-badge');
