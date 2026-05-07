@@ -546,6 +546,7 @@
   </div>
 </div>
 
+<script src="cart.js"></script>
 <script>
 /* ── NAV & MENU ── */
 function toggleMenu() {
@@ -1049,13 +1050,6 @@ async function confirmarCheckout() {
   }
 }
 
-function calcularEnvio(comuna) {
-  const c = normalizarComuna(comuna);
-  const esRM = COMUNAS_RM.some(rm => normalizarComuna(rm) === c || c.includes(normalizarComuna(rm)));
-  if (!comuna) return null;
-  if (esRM) return { precio: 4990, texto: '$4.990', aviso: 'Envío a Región Metropolitana' };
-  return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el envío se coordina por WhatsApp' };
-}
 </script>
 
 <!-- CHECKOUT MODAL -->
