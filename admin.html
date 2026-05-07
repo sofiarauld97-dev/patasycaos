@@ -194,6 +194,37 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
 </style>
 </head>
 <body>
+<!-- LOGIN ADMIN -->
+<div id="admin-lock" style="position:fixed;inset:0;background:#1C1007;display:flex;align-items:center;justify-content:center;z-index:99999;flex-direction:column;gap:1.5rem;">
+  <img src="/logo.png" style="width:56px;opacity:.9">
+  <div style="background:#FAF4EA;border-radius:20px;padding:2rem;width:100%;max-width:340px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.3);">
+    <h3 style="font-family:Poppins,sans-serif;font-weight:900;font-size:1.1rem;margin-bottom:.5rem;color:#1A1A1A;">Panel Admin</h3>
+    <p style="font-family:Poppins,sans-serif;font-size:.82rem;color:#6b5a4e;margin-bottom:1.25rem;">Ingresa la contraseña para continuar</p>
+    <input type="password" id="admin-pw" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPw()"
+      style="width:100%;border:1.5px solid rgba(28,16,7,.15);border-radius:10px;padding:11px 14px;font-family:Poppins,sans-serif;font-size:.9rem;outline:none;margin-bottom:.75rem;box-sizing:border-box;">
+    <button onclick="checkPw()" style="width:100%;background:#C4622D;color:#fff;border:none;border-radius:50px;padding:13px;font-family:Poppins,sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;">Entrar</button>
+    <p id="pw-error" style="font-family:Poppins,sans-serif;font-size:.78rem;color:#c0392b;margin-top:.5rem;min-height:1rem;"></p>
+  </div>
+</div>
+<script>
+function checkPw() {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw === '290966') {
+    document.getElementById('admin-lock').style.display = 'none';
+    sessionStorage.setItem('admin_ok', '1');
+  } else {
+    document.getElementById('pw-error').textContent = 'Contraseña incorrecta';
+    document.getElementById('admin-pw').value = '';
+    document.getElementById('admin-pw').focus();
+  }
+}
+// Si ya autenticó en esta sesión, mostrar directo
+if (sessionStorage.getItem('admin_ok') === '1') {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('admin-lock').style.display = 'none';
+  });
+}
+</script>
 
 <header>
   <a href="/" class="brand">
