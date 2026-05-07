@@ -219,11 +219,11 @@ function checkPw() {
   }
 }
 // Si ya autenticó en esta sesión, mostrar directo
-if (sessionStorage.getItem('admin_ok') === '1') {
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('admin_ok') === '1') {
     document.getElementById('admin-lock').style.display = 'none';
-  });
-}
+  }
+});
 </script>
 
 <header>
@@ -242,13 +242,13 @@ if (sessionStorage.getItem('admin_ok') === '1') {
   <!-- PASO 1: CARGAR ARCHIVOS -->
   <div class="step-title"><span class="step-num">1</span> Carga tienda.html e inventario.html de tu repo</div>
   <div class="upload-grid">
-    <label class="upload-card" id="card-tienda" onclick="document.getElementById('file-tienda').click()">
+    <label class="upload-card" id="card-tienda" for="file-tienda">
       <input type="file" id="file-tienda" accept=".html" onchange="cargarArchivo('tienda', this)">
       <span class="upload-icon">🏪</span>
       <div class="upload-name">tienda.html</div>
       <div class="upload-status" id="st-tienda">Haz clic para subir</div>
     </label>
-    <label class="upload-card" id="card-inventario" onclick="document.getElementById('file-inventario').click()">
+    <label class="upload-card" id="card-inventario" for="file-inventario">
       <input type="file" id="file-inventario" accept=".html" onchange="cargarArchivo('inventario', this)">
       <span class="upload-icon">📦</span>
       <div class="upload-name">inventario.html</div>
@@ -393,8 +393,8 @@ if (sessionStorage.getItem('admin_ok') === '1') {
 
 <script>
 /* ─── ESTADO ─── */
-const archivos = { tienda: null, categorias: null, inventario: null };
-const archivosModificados = { tienda: null, categorias: null, inventario: null };
+const archivos = { tienda: null, inventario: null };
+const archivosModificados = { tienda: null, inventario: null };
 
 /* ─── CARGAR ARCHIVOS ─── */
 function cargarArchivo(nombre, input) {
