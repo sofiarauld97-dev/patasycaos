@@ -210,7 +210,7 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
 function checkPw() {
   const pw = document.getElementById('admin-pw').value;
   if (pw === '290966') {
-    document.getElementById('admin-lock').style.display = 'none';
+    document.getElementById('admin-lock').remove();
     sessionStorage.setItem('admin_ok', '1');
   } else {
     document.getElementById('pw-error').textContent = 'Contraseña incorrecta';
@@ -221,7 +221,7 @@ function checkPw() {
 // Si ya autenticó en esta sesión, mostrar directo
 document.addEventListener('DOMContentLoaded', () => {
   if (sessionStorage.getItem('admin_ok') === '1') {
-    document.getElementById('admin-lock').style.display = 'none';
+    document.getElementById('admin-lock').remove();
   }
 });
 </script>
