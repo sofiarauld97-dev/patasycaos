@@ -466,7 +466,7 @@ _sb.auth.getSession().then(({data:{session}})=>{
 
     <div class="checkout-envio-info" id="envio-info" style="display:none">
       <span>🚚 Envío estimado</span>
-      <span id="envio-precio">$4.990</span>
+      <span id="envio-precio">A coordinar</span>
     </div>
     <p class="checkout-envio-aviso" id="envio-aviso"></p>
     <div class="checkout-grid full" style="margin-top:.75rem">
@@ -520,7 +520,8 @@ function mostrarToastCarrito(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.style.opacity = '0', 2500);
 }
-const COMUNAS_RM = ['santiago','providencia','las condes','vitacura','lo barnechea','la reina','ñuñoa','macul','san joaquín','san joaquin','la granja','la pintana','el bosque','san ramón','san ramon','la cisterna','san miguel','pedro aguirre cerda','lo espejo','estación central','estacion central','cerrillos','maipú','maipu','pudahuel','quilicura','huechuraba','conchalí','conchali','independencia','recoleta','renca','quinta normal','cerro navia','lo prado','lampa','colina','tiltil','buin','paine','san bernardo','calera de tango','talagante','peñaflor','penaflor','el monte','isla de maipo','melipilla','alhué','alhue','curacaví','curacavi','maría pinto','maria pinto','padre hurtado','pirque','puente alto','san josé de maipo','san jose de maipo','peñalolén','penalolen','florida','la florida'];
+const COMUNAS_TRAMO1 = ['cerrillos','cerro navia','conchali','conchalí','el bosque','estacion central','estación central','independencia','la cisterna','la florida','la granja','la reina','las condes','lo espejo','lo prado','macul','nunoa','ñuñoa','pedro aguirre cerda','penalolen','peñalolén','providencia','quinta normal','recoleta','renca','san joaquin','san joaquín','san miguel','san ramon','san ramón','santiago','vitacura'];
+const COMUNAS_TRAMO2 = ['lo barnechea','maipu','maípu','quilicura','san bernardo','colina','la pintana','chicureo','puente alto','huechuraba','pudahuel'];
 function normalizarComuna(str) {
   return str.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 }
@@ -542,10 +543,16 @@ function seleccionarDoc(tipo) {
 }
 
 function calcularEnvio(comuna) {
-  const c = normalizarComuna(comuna);
-  const esRM = COMUNAS_RM.some(rm => normalizarComuna(rm) === c || c.includes(normalizarComuna(rm)));
   if (!comuna) return null;
-  if (esRM) return { precio: 4990, texto: '$4.990', aviso: 'Envío a Región Metropolitana' };
+  const c = normalizarComuna(comuna);
+  const esTramo1 = COMUNAS_TRAMO1.some(rm => normalizarComuna(rm) === c);
+  const esTramo2 = COMUNAS_TRAMO2.some(rm => normalizarComuna(rm) === c);
+  const horaActual = new Date().getHours();
+  const entregaHoy = horaActual < 10 ? ' • Entrega hoy si compras antes de las 10:00 AM 🚀' : '';
+  if (esTramo1) return { precio: 4847, texto: '$4.847', aviso: 'Envío a Santiago centro y comunas cercanas' + entregaHoy };
+  if (esTramo2) return { precio: 5593, texto: '$5.593', aviso: 'Envío a comunas periféricas de la RM' + entregaHoy };
+  return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el envío se coordina por WhatsApp' };
+};
   return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el envío se coordina por WhatsApp' };
 }
 async function checkout() {
