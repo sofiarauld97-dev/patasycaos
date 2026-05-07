@@ -160,11 +160,15 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
       </div>
       <div class="field">
         <label>Para <span>*</span></label>
-        <select id="f-audience">
-          <option value="">Selecciona...</option>
-          <option value="Para Gatos">Para Gatos</option>
-          <option value="Perros & Gatos">Perros & Gatos</option>
-        </select>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.25rem;">
+          <label style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:500;text-transform:none;letter-spacing:0;cursor:pointer;">
+            <input type="checkbox" id="aud-gatos" value="Para Gatos" style="width:16px;height:16px;accent-color:var(--terracota);cursor:pointer;"> 🐱 Para Gatos
+          </label>
+          <label style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:500;text-transform:none;letter-spacing:0;cursor:pointer;">
+            <input type="checkbox" id="aud-perros" value="Para Perros" style="width:16px;height:16px;accent-color:var(--terracota);cursor:pointer;"> 🐶 Para Perros
+          </label>
+        </div>
+        <p style="font-size:.7rem;color:#aaa;margin-top:.3rem;">Selecciona uno o ambos. Si marcas los dos se guarda como "Perros & Gatos".</p>
       </div>
     </div>
   </div>
@@ -359,14 +363,16 @@ function publicar() {
   var precioNum = parseInt(document.getElementById('f-precio').value) || 0;
   var id        = document.getElementById('f-id').value.trim().replace(/\s+/g,'-');
   var categoria = document.getElementById('f-categoria').value;
-  var audience  = document.getElementById('f-audience').value;
+  var audGatos  = document.getElementById('aud-gatos').checked;
+  var audPerros = document.getElementById('aud-perros').checked;
+  var audience  = (audGatos && audPerros) ? 'Perros & Gatos' : audGatos ? 'Para Gatos' : audPerros ? 'Para Perros' : '';
   var caracTit  = document.getElementById('f-carac-titulo').value || 'Características';
   var tagline   = document.getElementById('f-tagline').value.trim();
   var desc      = document.getElementById('f-descripcion').value.trim();
   var stock     = parseInt(document.getElementById('f-stock').value) || 1;
   var emoji     = document.getElementById('f-emoji').value.trim() || '🐾';
 
-  if (!nombre || !precioNum || !id || !categoria || !audience) { mostrarToast('❗ Completa los campos obligatorios (*)'); return; }
+  if (!nombre || !precioNum || !id || !categoria || !audience) { mostrarToast('❗ Completa los campos obligatorios — incluyendo "Para"'); return; }
 
   var caracs = [...document.querySelectorAll('#carac-list input')].map(function(i){ return i.value.trim(); }).filter(Boolean);
   var fotos  = [...document.querySelectorAll('#fotos-list input')].map(function(i){ return i.value.trim(); }).filter(Boolean);
