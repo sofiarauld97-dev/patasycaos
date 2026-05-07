@@ -85,6 +85,25 @@
 
   .loading { padding: 3rem; text-align: center; color: #8a7a6e; font-size: .9rem; }
 
+
+  /* MODAL NUEVO PEDIDO */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: none; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.activo { display: flex; }
+  .modal-box { background: var(--blanco); border-radius: 20px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; }
+  .modal-box h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: 1.5rem; }
+  .modal-close { position: absolute; top: 1rem; right: 1rem; background: var(--cream); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: .75rem; }
+  .form-grid.full { grid-template-columns: 1fr; }
+  .form-field { display: flex; flex-direction: column; gap: .3rem; }
+  .form-field label { font-size: .75rem; font-weight: 600; color: #6b5a4e; }
+  .form-field input, .form-field select, .form-field textarea { border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; color: var(--negro); background: #fff; outline: none; transition: border-color .2s; }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--terracota); }
+  .form-field textarea { resize: vertical; min-height: 70px; }
+  .modal-btns { display: flex; gap: .75rem; margin-top: 1.5rem; }
+  .btn-guardar { flex: 2; background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; transition: background .2s; }
+  .btn-guardar:hover { background: #a8501f; }
+  .btn-cancelar { flex: 1; background: none; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .88rem; cursor: pointer; color: #6b5a4e; }
+
   @media (max-width: 768px) {
     th:nth-child(4), td:nth-child(4),
     th:nth-child(5), td:nth-child(5) { display: none; }
@@ -143,6 +162,10 @@
       <button class="filtro-btn" onclick="filtrar('entregado', this)">Entregados</button>
     </div>
 
+    <div style="margin-bottom:1.5rem; display:flex; justify-content:flex-end;">
+      <button class="filtro-btn" style="background:var(--terracota);border-color:var(--terracota);color:#fff;padding:8px 20px;" onclick="abrirNuevoPedido()">+ Nuevo pedido</button>
+    </div>
+
     <div class="tabla-wrap">
       <div class="tabla-header">
         <h2>Pedidos</h2>
@@ -156,6 +179,76 @@
       </div>
     </div>
   </main>
+</div>
+
+
+<!-- MODAL NUEVO PEDIDO -->
+<div class="modal-overlay" id="modal-nuevo">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarNuevoPedido()">✕</button>
+    <h3>Nuevo pedido manual</h3>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Nombre</label>
+        <input type="text" id="np-nombre" placeholder="María González">
+      </div>
+      <div class="form-field">
+        <label>Teléfono</label>
+        <input type="tel" id="np-telefono" placeholder="+56 9 1234 5678">
+      </div>
+    </div>
+    <div class="form-grid full">
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" id="np-email" placeholder="tu@correo.com">
+      </div>
+    </div>
+    <div class="form-grid full">
+      <div class="form-field">
+        <label>Dirección</label>
+        <input type="text" id="np-direccion" placeholder="Av. Providencia 1234, Depto 5B">
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Comuna</label>
+        <input type="text" id="np-comuna" placeholder="Providencia">
+      </div>
+      <div class="form-field">
+        <label>Ciudad</label>
+        <input type="text" id="np-ciudad" placeholder="Santiago">
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-top:.75rem">
+      <div class="form-field">
+        <label>Productos</label>
+        <textarea id="np-productos" placeholder="Collar FindMy x1, Paw Balm x2"></textarea>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Total ($)</label>
+        <input type="number" id="np-total" placeholder="12990">
+      </div>
+      <div class="form-field">
+        <label>Documento</label>
+        <select id="np-documento">
+          <option value="Boleta">Boleta</option>
+          <option value="Factura">Factura</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-top:.75rem">
+      <div class="form-field">
+        <label>Notas</label>
+        <input type="text" id="np-notas" placeholder="Pedido por WhatsApp, pago por transferencia...">
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancelar" onclick="cerrarNuevoPedido()">Cancelar</button>
+      <button class="btn-guardar" onclick="guardarNuevoPedido()">Guardar pedido</button>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -275,6 +368,46 @@ async function cambiarEstado(id, nuevoEstado) {
   const pedido = todosLosPedidos.find(p => p.id === id);
   if (pedido) pedido.estado = nuevoEstado;
   actualizarStats();
+}
+
+function abrirNuevoPedido() {
+  document.getElementById('modal-nuevo').classList.add('activo');
+}
+function cerrarNuevoPedido() {
+  document.getElementById('modal-nuevo').classList.remove('activo');
+  ['np-nombre','np-telefono','np-email','np-direccion','np-comuna','np-ciudad','np-productos','np-total','np-notas'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+async function guardarNuevoPedido() {
+  const total = parseInt(document.getElementById('np-total').value) || 0;
+  const btn = document.querySelector('.btn-guardar');
+  btn.textContent = 'Guardando...'; btn.disabled = true;
+  try {
+    const { error } = await _sb.from('Pedidos').insert([{
+      nombre: document.getElementById('np-nombre').value || '',
+      telefono: document.getElementById('np-telefono').value || '',
+      email: document.getElementById('np-email').value || '',
+      direccion: document.getElementById('np-direccion').value || '',
+      comuna: document.getElementById('np-comuna').value || '',
+      ciudad: document.getElementById('np-ciudad').value || '',
+      productos: document.getElementById('np-productos').value || '',
+      total,
+      subtotal: total,
+      costo_envio: 0,
+      documento: document.getElementById('np-documento').value,
+      notas: document.getElementById('np-notas').value || '',
+      estado: 'pendiente'
+    }]);
+    if (error) throw error;
+    cerrarNuevoPedido();
+    await cargarPedidos();
+  } catch(e) {
+    alert('Error al guardar el pedido. Intenta de nuevo.');
+  } finally {
+    btn.textContent = 'Guardar pedido'; btn.disabled = false;
+  }
 }
 </script>
 </body>
