@@ -8,276 +8,144 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --terracota: #C4622D;
-  --cream: #F5ECD7;
-  --negro: #1A1A1A;
-  --dark: #1C1007;
-  --card-bg: #FAF4EA;
-  --borde: rgba(28,16,7,.1);
-  --texto-suave: #6b5a4e;
-  --verde: #2d7a3a;
+  --terracota: #C4622D; --cream: #F5ECD7; --negro: #1A1A1A;
+  --dark: #1C1007; --card-bg: #FAF4EA; --borde: rgba(28,16,7,.1);
+  --suave: #6b5a4e; --verde: #2d7a3a;
 }
 body { font-family: 'Poppins', sans-serif; background: var(--cream); color: var(--negro); min-height: 100vh; }
 
-/* HEADER */
-header {
-  background: var(--dark); padding: 0 5%; height: 64px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 100;
+#admin-lock {
+  position: fixed; inset: 0; background: var(--dark);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 99999; flex-direction: column; gap: 1.5rem;
 }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.brand strong { color: #F5ECD7; font-size: .95rem; }
-.brand span { color: rgba(245,236,215,.45); font-size: .72rem; }
+.lock-box { background: #fff; border-radius: 20px; padding: 2rem; width: 100%; max-width: 340px; text-align: center; box-shadow: 0 24px 64px rgba(0,0,0,.3); }
+.lock-box h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: .4rem; }
+.lock-box p { font-size: .82rem; color: var(--suave); margin-bottom: 1.25rem; }
+.lock-input { width: 100%; border: 1.5px solid var(--borde); border-radius: 10px; padding: 11px 14px; font-family: 'Poppins', sans-serif; font-size: .9rem; outline: none; margin-bottom: .75rem; }
+.lock-input:focus { border-color: var(--terracota); }
+.lock-btn { width: 100%; background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 13px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; }
+.lock-error { font-size: .78rem; color: #c0392b; margin-top: .5rem; min-height: 1rem; }
+
+header { background: var(--dark); padding: 0 5%; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.brand { color: #F5ECD7; font-size: .95rem; font-weight: 700; }
 .header-tag { background: var(--terracota); color: #fff; border-radius: 50px; padding: 4px 14px; font-size: .75rem; font-weight: 700; }
 
 main { max-width: 860px; margin: 0 auto; padding: 2.5rem 5%; }
-
 h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
-.subtitle { color: var(--texto-suave); font-size: .88rem; margin-bottom: 2rem; }
+.subtitle { color: var(--suave); font-size: .88rem; margin-bottom: 2rem; }
 
-/* STEP */
-.step-title {
-  font-size: .72rem; font-weight: 700; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--texto-suave);
-  margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem;
-}
-.step-num {
-  width: 22px; height: 22px; border-radius: 50%;
-  background: var(--terracota); color: #fff;
-  font-size: .68rem; font-weight: 900;
-  display: inline-flex; align-items: center; justify-content: center;
-}
+.step-title { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--suave); margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+.step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--terracota); color: #fff; font-size: .68rem; font-weight: 900; display: inline-flex; align-items: center; justify-content: center; }
 
-/* UPLOAD GRID */
 .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
-.upload-card {
-  background: var(--card-bg); border: 2px dashed var(--borde);
-  border-radius: 16px; padding: 1.5rem 1rem;
-  text-align: center; cursor: pointer;
-  transition: border-color .2s, background .2s;
-  position: relative;
-}
+.upload-card { background: var(--card-bg); border: 2px dashed var(--borde); border-radius: 16px; padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: border-color .2s, background .2s; display: block; }
 .upload-card:hover { border-color: var(--terracota); }
 .upload-card.loaded { border-style: solid; border-color: var(--verde); background: #f0faf2; }
-.upload-card input[type=file] { display: none; }
 .upload-icon { font-size: 2rem; margin-bottom: .5rem; display: block; }
 .upload-name { font-weight: 700; font-size: .85rem; margin-bottom: .25rem; }
-.upload-status { font-size: .72rem; color: var(--texto-suave); }
+.upload-status { font-size: .72rem; color: var(--suave); }
 .upload-card.loaded .upload-status { color: var(--verde); font-weight: 600; }
 
-/* FORM */
-.form-card {
-  background: var(--card-bg); border: 1.5px solid var(--borde);
-  border-radius: 20px; padding: 2rem; margin-bottom: 1.5rem;
-}
+.form-card { background: var(--card-bg); border: 1.5px solid var(--borde); border-radius: 20px; padding: 2rem; margin-bottom: 1.5rem; }
 .form-card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1.25rem; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .field { display: flex; flex-direction: column; gap: .35rem; }
-.field label { font-size: .75rem; font-weight: 700; color: var(--texto-suave); text-transform: uppercase; letter-spacing: .04em; }
+.field label { font-size: .75rem; font-weight: 700; color: var(--suave); text-transform: uppercase; letter-spacing: .04em; }
 .field label span { color: var(--terracota); }
-.field input, .field select, .field textarea {
-  background: #fff; border: 1.5px solid var(--borde);
-  border-radius: 10px; padding: 10px 14px;
-  font-family: 'Poppins', sans-serif; font-size: .85rem; color: var(--negro);
-  transition: border-color .2s; width: 100%;
-}
-.field input:focus, .field select:focus, .field textarea:focus {
-  outline: none; border-color: var(--terracota);
-}
+.field input, .field select, .field textarea { background: #fff; border: 1.5px solid var(--borde); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .85rem; color: var(--negro); transition: border-color .2s; width: 100%; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--terracota); }
 .field textarea { resize: vertical; min-height: 80px; }
 .field-full { grid-column: 1 / -1; }
 .hint { font-size: .7rem; color: #aaa; margin-top: .2rem; }
 
-/* LIST ITEMS */
 .list-item { display: flex; gap: .5rem; margin-bottom: .5rem; }
 .list-item input { flex: 1; }
-.btn-x {
-  background: none; border: 1.5px solid var(--borde); border-radius: 8px;
-  width: 34px; height: 34px; cursor: pointer; font-size: .9rem;
-  color: var(--texto-suave); transition: all .2s; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-}
+.btn-x { background: none; border: 1.5px solid var(--borde); border-radius: 8px; width: 34px; height: 34px; cursor: pointer; font-size: .9rem; color: var(--suave); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 .btn-x:hover { border-color: #c0392b; color: #c0392b; }
-.btn-add-item {
-  background: none; border: 1.5px dashed var(--borde); border-radius: 8px;
-  padding: 6px 14px; font-family: 'Poppins', sans-serif;
-  font-size: .78rem; font-weight: 600; color: var(--texto-suave);
-  cursor: pointer; transition: all .2s; margin-top: .25rem;
-}
+.btn-add-item { background: none; border: 1.5px dashed var(--borde); border-radius: 8px; padding: 6px 14px; font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600; color: var(--suave); cursor: pointer; margin-top: .25rem; }
 .btn-add-item:hover { border-color: var(--terracota); color: var(--terracota); }
 
-/* VARIANTES */
-.variante-card {
-  background: #fff; border: 1.5px solid var(--borde);
-  border-radius: 12px; padding: 1rem; margin-bottom: .75rem;
-  position: relative;
-}
 .toggle-row { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
-.toggle-label-txt { font-size: .82rem; font-weight: 600; }
 .toggle-sw { position: relative; width: 44px; height: 24px; }
 .toggle-sw input { opacity: 0; width: 0; height: 0; }
-.sw-slider {
-  position: absolute; inset: 0; background: #ccc;
-  border-radius: 50px; cursor: pointer; transition: background .25s;
-}
-.sw-slider::before {
-  content: ''; position: absolute; width: 18px; height: 18px;
-  left: 3px; top: 3px; background: #fff; border-radius: 50%;
-  transition: transform .25s;
-}
+.sw-slider { position: absolute; inset: 0; background: #ccc; border-radius: 50px; cursor: pointer; transition: background .25s; }
+.sw-slider::before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .25s; }
 .toggle-sw input:checked + .sw-slider { background: var(--terracota); }
 .toggle-sw input:checked + .sw-slider::before { transform: translateX(20px); }
+.variante-card { background: #fff; border: 1.5px solid var(--borde); border-radius: 12px; padding: 1rem; margin-bottom: .75rem; position: relative; }
 
-/* EMOJI PICKER */
 .emoji-grid { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .5rem; }
-.emoji-btn {
-  width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid var(--borde);
-  background: #fff; cursor: pointer; font-size: 1.1rem;
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color .2s;
-}
+.emoji-btn { width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid var(--borde); background: #fff; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
 .emoji-btn.sel { border-color: var(--terracota); background: rgba(196,98,45,.08); }
 
-/* BOTONES ACCIÓN */
-.btn-ia {
-  background: var(--dark); color: #F5ECD7; border: none; border-radius: 50px;
-  padding: 10px 22px; font-family: 'Poppins', sans-serif; font-weight: 600;
-  font-size: .82rem; cursor: pointer; transition: background .2s;
-  display: inline-flex; align-items: center; gap: 6px;
-}
-.btn-ia:hover { background: #2d1f0a; }
+.btn-ia { background: var(--dark); color: #F5ECD7; border: none; border-radius: 50px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .78rem; cursor: pointer; margin-left: .75rem; }
 .btn-ia:disabled { opacity: .5; cursor: not-allowed; }
 
-.btn-publicar {
-  width: 100%; background: var(--terracota); color: #fff; border: none;
-  border-radius: 14px; padding: 16px; font-family: 'Poppins', sans-serif;
-  font-weight: 700; font-size: 1rem; cursor: pointer;
-  transition: background .2s; margin-top: 1.5rem;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
+.btn-publicar { width: 100%; background: var(--terracota); color: #fff; border: none; border-radius: 14px; padding: 16px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 1.5rem; }
 .btn-publicar:hover { background: #a8501f; }
-.btn-publicar:disabled { background: #ccc; cursor: not-allowed; }
 
-/* RESULTADO */
-.resultado-card {
-  background: #f0faf2; border: 2px solid var(--verde);
-  border-radius: 20px; padding: 2rem; margin-top: 2rem;
-  display: none;
-}
+.resultado-card { background: #f0faf2; border: 2px solid var(--verde); border-radius: 20px; padding: 2rem; margin-top: 2rem; display: none; }
 .resultado-card.visible { display: block; }
 .resultado-card h3 { font-size: 1rem; font-weight: 700; color: var(--verde); margin-bottom: 1rem; }
-.download-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
-.download-btn {
-  background: var(--verde); color: #fff; border: none; border-radius: 12px;
-  padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600;
-  font-size: .82rem; cursor: pointer; transition: background .2s;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-}
-.download-btn:hover { background: #1f5c2b; }
+.download-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.download-btn { background: var(--verde); color: #fff; border: none; border-radius: 12px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .82rem; cursor: pointer; }
 .instrucciones { margin-top: 1.25rem; background: #fff; border-radius: 12px; padding: 1rem 1.25rem; }
-.instrucciones p { font-size: .82rem; color: var(--texto-suave); line-height: 1.7; }
-.instrucciones strong { color: var(--negro); }
+.instrucciones p { font-size: .82rem; color: var(--suave); line-height: 1.7; }
 
-/* TOAST */
-.toast {
-  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px);
-  background: var(--dark); color: #F5ECD7; border-radius: 50px;
-  padding: 12px 24px; font-size: .85rem; font-weight: 600;
-  z-index: 999; transition: transform .3s; pointer-events: none;
-  white-space: nowrap;
-}
+.toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--dark); color: #F5ECD7; border-radius: 50px; padding: 12px 24px; font-size: .85rem; font-weight: 600; z-index: 999; transition: transform .3s; pointer-events: none; white-space: nowrap; }
 .toast.show { transform: translateX(-50%) translateY(0); }
 
-@media (max-width: 700px) {
-  .upload-grid, .grid2, .download-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 600px) { .upload-grid, .grid2, .download-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<!-- LOGIN ADMIN -->
-<div id="admin-lock" style="position:fixed;inset:0;background:#1C1007;display:flex;align-items:center;justify-content:center;z-index:99999;flex-direction:column;gap:1.5rem;">
-  <img src="/logo.png" style="width:56px;opacity:.9">
-  <div style="background:#FAF4EA;border-radius:20px;padding:2rem;width:100%;max-width:340px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.3);">
-    <h3 style="font-family:Poppins,sans-serif;font-weight:900;font-size:1.1rem;margin-bottom:.5rem;color:#1A1A1A;">Panel Admin</h3>
-    <p style="font-family:Poppins,sans-serif;font-size:.82rem;color:#6b5a4e;margin-bottom:1.25rem;">Ingresa la contraseña para continuar</p>
-    <input type="password" id="admin-pw" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPw()"
-      style="width:100%;border:1.5px solid rgba(28,16,7,.15);border-radius:10px;padding:11px 14px;font-family:Poppins,sans-serif;font-size:.9rem;outline:none;margin-bottom:.75rem;box-sizing:border-box;">
-    <button onclick="checkPw()" style="width:100%;background:#C4622D;color:#fff;border:none;border-radius:50px;padding:13px;font-family:Poppins,sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;">Entrar</button>
-    <p id="pw-error" style="font-family:Poppins,sans-serif;font-size:.78rem;color:#c0392b;margin-top:.5rem;min-height:1rem;"></p>
+
+<div id="admin-lock">
+  <img src="/logo.png" style="width:56px;opacity:.9" onerror="this.style.display='none'">
+  <div class="lock-box">
+    <h3>Panel Admin 🐾</h3>
+    <p>Ingresa la contraseña para continuar</p>
+    <input class="lock-input" type="password" id="admin-pw" placeholder="Contraseña">
+    <button class="lock-btn" id="lock-btn">Entrar</button>
+    <p class="lock-error" id="pw-error"></p>
   </div>
 </div>
-<script>
-function checkPw() {
-  const pw = document.getElementById('admin-pw').value;
-  if (pw === '290966') {
-    document.getElementById('admin-lock').remove();
-    sessionStorage.setItem('admin_ok', '1');
-  } else {
-    document.getElementById('pw-error').textContent = 'Contraseña incorrecta';
-    document.getElementById('admin-pw').value = '';
-    document.getElementById('admin-pw').focus();
-  }
-}
-// Si ya autenticó en esta sesión, mostrar directo
-document.addEventListener('DOMContentLoaded', () => {
-  if (sessionStorage.getItem('admin_ok') === '1') {
-    document.getElementById('admin-lock').remove();
-  }
-});
-</script>
 
 <header>
-  <a href="/" class="brand">
-    <strong>Patas & Caos</strong>
-    <span>·</span>
-    <span>Panel Admin</span>
-  </a>
+  <span class="brand">Patas & Caos</span>
   <span class="header-tag">🐾 Agregar Producto</span>
 </header>
 
 <main>
   <h1>Agregar producto nuevo</h1>
-  <p class="subtitle">Completa el formulario y descarga los 3 archivos listos para subir a GitHub.</p>
+  <p class="subtitle">Completa el formulario y descarga los 2 archivos listos para subir.</p>
 
-  <!-- PASO 1: CARGAR ARCHIVOS -->
   <div class="step-title"><span class="step-num">1</span> Carga tienda.html e inventario.html de tu repo</div>
   <div class="upload-grid">
-    <label class="upload-card" id="card-tienda" for="file-tienda">
-      <input type="file" id="file-tienda" accept=".html" onchange="cargarArchivo('tienda', this)">
+    <div class="upload-card" id="card-tienda" onclick="document.getElementById('file-tienda').click()">
+      <input type="file" id="file-tienda" accept=".html" style="display:none">
       <span class="upload-icon">🏪</span>
       <div class="upload-name">tienda.html</div>
       <div class="upload-status" id="st-tienda">Haz clic para subir</div>
-    </label>
-    <label class="upload-card" id="card-inventario" for="file-inventario">
-      <input type="file" id="file-inventario" accept=".html" onchange="cargarArchivo('inventario', this)">
+    </div>
+    <div class="upload-card" id="card-inventario" onclick="document.getElementById('file-inventario').click()">
+      <input type="file" id="file-inventario" accept=".html" style="display:none">
       <span class="upload-icon">📦</span>
       <div class="upload-name">inventario.html</div>
       <div class="upload-status" id="st-inventario">Haz clic para subir</div>
-    </label>
+    </div>
   </div>
 
-  <!-- PASO 2: FORMULARIO -->
   <div class="step-title"><span class="step-num">2</span> Datos del producto</div>
 
   <div class="form-card">
     <h2>Información básica</h2>
     <div class="grid2">
-      <div class="field">
-        <label>Nombre <span>*</span></label>
-        <input type="text" id="f-nombre" placeholder="Ej: Collar Luminoso LED">
-      </div>
-      <div class="field">
-        <label>ID (auto)</label>
-        <input type="text" id="f-id" placeholder="collar-luminoso-led">
-      </div>
-      <div class="field">
-        <label>Precio en CLP <span>*</span></label>
-        <input type="number" id="f-precio" placeholder="9990">
-      </div>
-      <div class="field">
-        <label>Stock inicial</label>
-        <input type="number" id="f-stock" placeholder="1" value="1">
-      </div>
+      <div class="field"><label>Nombre <span>*</span></label><input type="text" id="f-nombre" placeholder="Ej: Collar Luminoso LED"></div>
+      <div class="field"><label>ID (auto)</label><input type="text" id="f-id" placeholder="collar-luminoso-led"></div>
+      <div class="field"><label>Precio en CLP <span>*</span></label><input type="number" id="f-precio" placeholder="9990"></div>
+      <div class="field"><label>Stock inicial</label><input type="number" id="f-stock" value="1"></div>
       <div class="field">
         <label>Categoría <span>*</span></label>
         <select id="f-categoria">
@@ -302,31 +170,16 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 
   <div class="form-card">
-    <h2>Textos <button class="btn-ia" id="btn-ia" onclick="generarConIA()">✨ Generar con IA</button></h2>
+    <h2>Textos <button class="btn-ia" id="btn-ia" type="button">✨ Generar con IA</button></h2>
     <div class="grid2">
-      <div class="field field-full">
-        <label>Tagline</label>
-        <input type="text" id="f-tagline" placeholder='"Sin croquetas. Sin paz."'>
-        <span class="hint">Máximo 7 palabras, con humor. Se muestra bajo el nombre en la tienda.</span>
-      </div>
-      <div class="field field-full">
-        <label>Descripción</label>
-        <textarea id="f-descripcion" placeholder="Descripción del producto para el modal..."></textarea>
-      </div>
-      <div class="field">
-        <label>Título características</label>
-        <input type="text" id="f-carac-titulo" value="Características" placeholder="Características">
-      </div>
+      <div class="field field-full"><label>Tagline</label><input type="text" id="f-tagline" placeholder='"Sin croquetas. Sin paz."'><span class="hint">Máximo 7 palabras con humor.</span></div>
+      <div class="field field-full"><label>Descripción</label><textarea id="f-descripcion" placeholder="Descripción del producto..."></textarea></div>
+      <div class="field"><label>Título características</label><input type="text" id="f-carac-titulo" value="Características"></div>
     </div>
     <div class="field" style="margin-top:1rem">
       <label>Características</label>
-      <div id="carac-list">
-        <div class="list-item">
-          <input type="text" placeholder="Ej: Resistente al agua">
-          <button class="btn-x" onclick="quitarItem(this)">✕</button>
-        </div>
-      </div>
-      <button class="btn-add-item" onclick="agregarItem('carac-list','Característica')">+ Agregar</button>
+      <div id="carac-list"><div class="list-item"><input type="text" placeholder="Ej: Resistente al agua"><button class="btn-x" type="button" onclick="quitarItem(this)">✕</button></div></div>
+      <button class="btn-add-item" type="button" onclick="agregarItem('carac-list','Característica')">+ Agregar</button>
     </div>
   </div>
 
@@ -334,57 +187,39 @@ document.addEventListener('DOMContentLoaded', () => {
     <h2>Imágenes y emoji</h2>
     <div class="field" style="margin-bottom:1rem">
       <label>Nombre(s) de archivo de foto <span>*</span></label>
-      <div id="fotos-list">
-        <div class="list-item">
-          <input type="text" placeholder="Ej: Collar_LED_Gatos.png">
-          <button class="btn-x" onclick="quitarItem(this)">✕</button>
-        </div>
-      </div>
-      <button class="btn-add-item" onclick="agregarItem('fotos-list','Nombre del archivo')">+ Agregar foto</button>
-      <span class="hint">Nombre exacto del archivo que subiste a GitHub (incluye extensión)</span>
+      <div id="fotos-list"><div class="list-item"><input type="text" placeholder="Ej: Collar_LED_Gatos.png"><button class="btn-x" type="button" onclick="quitarItem(this)">✕</button></div></div>
+      <button class="btn-add-item" type="button" onclick="agregarItem('fotos-list','Nombre del archivo')">+ Agregar foto</button>
+      <span class="hint">Nombre exacto del archivo subido a GitHub (con extensión)</span>
     </div>
     <div class="field">
       <label>Emoji para inventario</label>
-      <div class="emoji-grid" id="emoji-grid">
-        🐱🐶🐾🦴🐟🐔🦆🐰🐑🐄🦀🦪🌿🌱💧🎾🧸✂️💊🌸⭐🍪🐙🔦📡
-      </div>
-      <input type="text" id="f-emoji" value="🐾" placeholder="🐾" style="margin-top:.5rem;width:80px;text-align:center;font-size:1.3rem">
+      <div class="emoji-grid" id="emoji-grid">🐱🐶🐾🦴🐟🐔🦆🐰🐑🐄🦀🦪🌿🌱💧🎾🧸✂️💊🌸⭐🍪🐙🔦📡</div>
+      <input type="text" id="f-emoji" value="🐾" style="margin-top:.5rem;width:80px;text-align:center;font-size:1.3rem;border:1.5px solid var(--borde);border-radius:8px;padding:6px;">
     </div>
   </div>
 
   <div class="form-card">
     <h2>¿Tiene variantes (sabores)?</h2>
     <div class="toggle-row">
-      <label class="toggle-sw">
-        <input type="checkbox" id="toggle-v" onchange="toggleVariantes()">
-        <span class="sw-slider"></span>
-      </label>
-      <span class="toggle-label-txt">Sí, tiene variantes</span>
+      <label class="toggle-sw"><input type="checkbox" id="toggle-v" onchange="toggleVariantes()"><span class="sw-slider"></span></label>
+      <span>Sí, tiene variantes</span>
     </div>
     <div id="variantes-section" style="display:none">
       <div id="variantes-list"></div>
-      <button class="btn-add-item" onclick="agregarVariante()">+ Agregar variante</button>
+      <button class="btn-add-item" type="button" onclick="agregarVariante()">+ Agregar variante</button>
     </div>
   </div>
 
-  <button class="btn-publicar" id="btn-publicar" onclick="publicar()">
-    📦 Generar los 2 archivos
-  </button>
+  <button class="btn-publicar" type="button" onclick="publicar()">📦 Generar los 2 archivos</button>
 
-  <!-- RESULTADO -->
   <div class="resultado-card" id="resultado">
     <h3>✅ ¡Archivos generados! Descarga y sube a GitHub</h3>
-    <div class="download-grid" style="grid-template-columns: 1fr 1fr;">
-      <button class="download-btn" id="dl-tienda" onclick="descargar('tienda')">⬇️ tienda.html</button>
-      <button class="download-btn" id="dl-inventario" onclick="descargar('inventario')">⬇️ inventario.html</button>
+    <div class="download-grid">
+      <button class="download-btn" type="button" onclick="descargar('tienda')">⬇️ tienda.html</button>
+      <button class="download-btn" type="button" onclick="descargar('inventario')">⬇️ inventario.html</button>
     </div>
     <div class="instrucciones">
-      <p>
-        <strong>Pasos:</strong> Descarga los 2 archivos (tienda.html e inventario.html) →
-        En <strong>GitHub Desktop</strong> cópialos a la carpeta del repo →
-        <strong>Commit + Push</strong>.
-        Vercel los publica automáticamente en ~30 segundos.
-      </p>
+      <p><strong>Pasos:</strong> Descarga los 2 archivos → En <strong>GitHub Desktop</strong> cópialos a la carpeta del repo → <strong>Commit + Push</strong>. Vercel los publica en ~30 segundos.</p>
     </div>
   </div>
 </main>
@@ -392,77 +227,37 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="toast" id="toast"></div>
 
 <script>
-/* ─── ESTADO ─── */
+const PW = '290966';
 const archivos = { tienda: null, inventario: null };
 const archivosModificados = { tienda: null, inventario: null };
 
-/* ─── CARGAR ARCHIVOS ─── */
-function cargarArchivo(nombre, input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    archivos[nombre] = ev.target.result;
-    document.getElementById('card-' + nombre).classList.add('loaded');
-    document.getElementById('st-' + nombre).textContent = '✅ ' + file.name;
-    mostrarToast('✅ ' + file.name + ' cargado');
-    verificarArchivos();
-  };
-  reader.readAsText(file);
-}
+/* LOCK */
+document.getElementById('lock-btn').addEventListener('click', checkPw);
+document.getElementById('admin-pw').addEventListener('keydown', function(e) { if (e.key === 'Enter') checkPw(); });
 
-function verificarArchivos() {
-  if (archivos.tienda && archivos.inventario) mostrarToast('✅ Archivos cargados — completa el formulario');
-}
-
-/* ─── ITEMS GENÉRICOS ─── */
-function agregarItem(listId, placeholder) {
-  const list = document.getElementById(listId);
-  const div = document.createElement('div'); div.className = 'list-item';
-  div.innerHTML = `<input type="text" placeholder="${placeholder}"><button class="btn-x" onclick="quitarItem(this)">✕</button>`;
-  list.appendChild(div);
-}
-function quitarItem(btn) {
-  const list = btn.parentElement.parentElement;
-  if (list.children.length > 1) btn.parentElement.remove();
-}
-
-/* ─── VARIANTES ─── */
-function toggleVariantes() {
-  const on = document.getElementById('toggle-v').checked;
-  document.getElementById('variantes-section').style.display = on ? 'block' : 'none';
-  if (on && !document.getElementById('variantes-list').children.length) {
-    agregarVariante(); agregarVariante();
+function checkPw() {
+  if (document.getElementById('admin-pw').value === PW) {
+    document.getElementById('admin-lock').remove();
+    sessionStorage.setItem('admin_ok', '1');
+  } else {
+    document.getElementById('pw-error').textContent = 'Contraseña incorrecta';
+    document.getElementById('admin-pw').value = '';
+    document.getElementById('admin-pw').focus();
   }
 }
-function agregarVariante() {
-  const list = document.getElementById('variantes-list');
-  const div = document.createElement('div'); div.className = 'variante-card';
-  div.innerHTML = `
-    <button class="btn-x" style="position:absolute;top:.75rem;right:.75rem" onclick="this.parentElement.remove()">✕</button>
-    <div class="grid2" style="gap:.75rem">
-      <div class="field"><label>Nombre del sabor *</label><input type="text" class="v-label" placeholder="Ej: Pato"></div>
-      <div class="field"><label>Foto del sabor</label><input type="text" class="v-img" placeholder="Ej: Pato_Sticks.png"></div>
-    </div>`;
-  list.appendChild(div);
-}
 
-/* ─── EMOJI PICKER ─── */
-document.addEventListener('DOMContentLoaded', () => {
-  const grid = document.getElementById('emoji-grid');
-  const emojis = grid.textContent.trim().split('');
-  grid.innerHTML = '';
-  emojis.forEach(em => {
-    if (em.trim()) {
-      const btn = document.createElement('button');
-      btn.className = 'emoji-btn'; btn.textContent = em;
-      btn.onclick = () => {
-        document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('sel'));
-        btn.classList.add('sel');
-        document.getElementById('f-emoji').value = em;
-      };
-      grid.appendChild(btn);
-    }
+window.addEventListener('DOMContentLoaded', function() {
+  if (sessionStorage.getItem('admin_ok') === '1') {
+    var lock = document.getElementById('admin-lock');
+    if (lock) lock.remove();
+  }
+
+  /* UPLOAD listeners */
+  document.getElementById('file-tienda').addEventListener('change', function() {
+    leerArchivo('tienda', this);
+  });
+  document.getElementById('file-inventario').addEventListener('change', function() {
+    leerArchivo('inventario', this);
   });
 
   /* AUTO-ID */
@@ -471,161 +266,178 @@ document.addEventListener('DOMContentLoaded', () => {
       .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
       .replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-');
   });
+
+  /* EMOJIS */
+  var grid = document.getElementById('emoji-grid');
+  var emojis = [...grid.textContent.trim()];
+  grid.innerHTML = '';
+  emojis.forEach(function(em) {
+    if (em.trim()) {
+      var btn = document.createElement('button');
+      btn.className = 'emoji-btn'; btn.textContent = em; btn.type = 'button';
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.emoji-btn').forEach(function(b) { b.classList.remove('sel'); });
+        btn.classList.add('sel');
+        document.getElementById('f-emoji').value = em;
+      });
+      grid.appendChild(btn);
+    }
+  });
+
+  /* IA */
+  document.getElementById('btn-ia').addEventListener('click', generarConIA);
 });
 
-/* ─── IA ─── */
+/* UPLOAD */
+function leerArchivo(nombre, input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    archivos[nombre] = ev.target.result;
+    document.getElementById('card-' + nombre).classList.add('loaded');
+    document.getElementById('st-' + nombre).textContent = '✅ ' + file.name;
+    mostrarToast('✅ ' + file.name + ' cargado');
+  };
+  reader.readAsText(file);
+}
+
+/* ITEMS */
+function agregarItem(listId, placeholder) {
+  var list = document.getElementById(listId);
+  var div = document.createElement('div'); div.className = 'list-item';
+  div.innerHTML = '<input type="text" placeholder="' + placeholder + '"><button class="btn-x" type="button" onclick="quitarItem(this)">✕</button>';
+  list.appendChild(div);
+}
+function quitarItem(btn) {
+  var list = btn.parentElement.parentElement;
+  if (list.children.length > 1) btn.parentElement.remove();
+}
+
+/* VARIANTES */
+function toggleVariantes() {
+  var on = document.getElementById('toggle-v').checked;
+  document.getElementById('variantes-section').style.display = on ? 'block' : 'none';
+  if (on && !document.getElementById('variantes-list').children.length) { agregarVariante(); agregarVariante(); }
+}
+function agregarVariante() {
+  var list = document.getElementById('variantes-list');
+  var div = document.createElement('div'); div.className = 'variante-card';
+  div.innerHTML = '<button class="btn-x" type="button" style="position:absolute;top:.75rem;right:.75rem" onclick="this.parentElement.remove()">✕</button><div class="grid2" style="gap:.75rem"><div class="field"><label>Nombre del sabor *</label><input type="text" class="v-label" placeholder="Ej: Pato"></div><div class="field"><label>Foto del sabor</label><input type="text" class="v-img" placeholder="Ej: Pato_Sticks.png"></div></div>';
+  list.appendChild(div);
+}
+
+/* IA */
 async function generarConIA() {
-  const nombre = document.getElementById('f-nombre').value.trim();
-  const categoria = document.getElementById('f-categoria').value;
+  var nombre = document.getElementById('f-nombre').value.trim();
+  var categoria = document.getElementById('f-categoria').value;
   if (!nombre) { mostrarToast('Escribe el nombre del producto primero'); return; }
-  const btn = document.getElementById('btn-ia');
+  var btn = document.getElementById('btn-ia');
   btn.disabled = true; btn.textContent = '✨ Generando...';
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    var res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 500,
-        messages: [{ role: 'user', content: `Eres el copywriter de Patas & Caos, tienda de mascotas chilena con humor cercano y personalidad real. Escribe para el producto "${nombre}" (categoría: ${categoria||'general'}):\n1. Tagline: máximo 7 palabras con humor, entre comillas dobles\n2. Descripción: 2 oraciones con personalidad, en segunda persona\n\nResponde SOLO en JSON exacto sin markdown:\n{"tagline":"...","descripcion":"..."}` }]
-      })
+      headers: { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 500, messages: [{ role: 'user', content: 'Eres el copywriter de Patas & Caos, tienda de mascotas chilena con humor cercano. Escribe para "' + nombre + '" (categoría: ' + (categoria||'general') + '):\n1. Tagline: máximo 7 palabras con humor, entre comillas dobles\n2. Descripción: 2 oraciones con personalidad, segunda persona\n\nResponde SOLO en JSON sin markdown:\n{"tagline":"...","descripcion":"..."}' }] })
     });
-    const data = await res.json();
-    const parsed = JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());
+    var data = await res.json();
+    var parsed = JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());
     document.getElementById('f-tagline').value = parsed.tagline || '';
     document.getElementById('f-descripcion').value = parsed.descripcion || '';
-    mostrarToast('✨ Textos generados con IA');
+    mostrarToast('✨ Textos generados');
   } catch(ex) {
-    mostrarToast('No se pudo generar. Escríbelo manualmente.');
+    mostrarToast('No se pudo generar — escríbelo manualmente');
   } finally {
     btn.disabled = false; btn.textContent = '✨ Generar con IA';
   }
 }
 
-/* ─── PUBLICAR ─── */
+/* PUBLICAR */
 function publicar() {
-  if (!archivos.tienda || !archivos.inventario) {
-    mostrarToast('❗ Primero carga tienda.html e inventario.html'); return;
-  }
-  const nombre    = document.getElementById('f-nombre').value.trim();
-  const precioNum = parseInt(document.getElementById('f-precio').value) || 0;
-  const id        = document.getElementById('f-id').value.trim().replace(/\s+/g,'-');
-  const categoria = document.getElementById('f-categoria').value;
-  const audience  = document.getElementById('f-audience').value;
-  const caracTit  = document.getElementById('f-carac-titulo').value || 'Características';
-  const tagline   = document.getElementById('f-tagline').value.trim();
-  const desc      = document.getElementById('f-descripcion').value.trim();
-  const stock     = parseInt(document.getElementById('f-stock').value) || 1;
-  const emoji     = document.getElementById('f-emoji').value.trim() || '🐾';
+  if (!archivos.tienda || !archivos.inventario) { mostrarToast('❗ Primero carga los 2 archivos'); return; }
+  var nombre    = document.getElementById('f-nombre').value.trim();
+  var precioNum = parseInt(document.getElementById('f-precio').value) || 0;
+  var id        = document.getElementById('f-id').value.trim().replace(/\s+/g,'-');
+  var categoria = document.getElementById('f-categoria').value;
+  var audience  = document.getElementById('f-audience').value;
+  var caracTit  = document.getElementById('f-carac-titulo').value || 'Características';
+  var tagline   = document.getElementById('f-tagline').value.trim();
+  var desc      = document.getElementById('f-descripcion').value.trim();
+  var stock     = parseInt(document.getElementById('f-stock').value) || 1;
+  var emoji     = document.getElementById('f-emoji').value.trim() || '🐾';
 
-  if (!nombre || !precioNum || !id || !categoria || !audience) {
-    mostrarToast('❗ Completa los campos obligatorios (*)'); return;
-  }
+  if (!nombre || !precioNum || !id || !categoria || !audience) { mostrarToast('❗ Completa los campos obligatorios (*)'); return; }
 
-  const caracs = [...document.querySelectorAll('#carac-list input')]
-    .map(i => i.value.trim()).filter(Boolean);
-  const fotos = [...document.querySelectorAll('#fotos-list input')]
-    .map(i => i.value.trim()).filter(Boolean);
+  var caracs = [...document.querySelectorAll('#carac-list input')].map(function(i){ return i.value.trim(); }).filter(Boolean);
+  var fotos  = [...document.querySelectorAll('#fotos-list input')].map(function(i){ return i.value.trim(); }).filter(Boolean);
   if (!fotos.length) { mostrarToast('❗ Agrega al menos una foto'); return; }
 
-  const precio = '$' + precioNum.toLocaleString('es-CL');
-  const tieneV = document.getElementById('toggle-v').checked;
-  let variantesArr = [];
+  var precio = '$' + precioNum.toLocaleString('es-CL');
+  var tieneV = document.getElementById('toggle-v').checked;
+  var variantesArr = [];
   if (tieneV) {
-    document.querySelectorAll('.variante-card').forEach(b => {
-      const label = b.querySelector('.v-label').value.trim();
-      const img   = b.querySelector('.v-img').value.trim();
-      if (label) variantesArr.push({ label, imagenes: [img || fotos[0]], placeholders: [emoji] });
+    document.querySelectorAll('.variante-card').forEach(function(b) {
+      var label = b.querySelector('.v-label').value.trim();
+      var img   = b.querySelector('.v-img').value.trim();
+      if (label) variantesArr.push({ label: label, imagenes: [img || fotos[0]], placeholders: [emoji] });
     });
   }
 
-  const placeholders = fotos.map(() => emoji);
+  var placeholders = fotos.map(function(){ return emoji; });
+  var taglineVal   = tagline || '"' + nombre + '"';
+  var taglineEntry = JSON.stringify(id) + ':' + JSON.stringify(taglineVal) + ',';
 
-  /* Entrada del producto (tienda + categorias) */
-  let productoEntry;
+  var productoEntry;
   if (tieneV && variantesArr.length) {
-    productoEntry = `${JSON.stringify(id)}:{nombre:${JSON.stringify(nombre)},precio:${JSON.stringify(precio)},precioNum:${precioNum},audience:${JSON.stringify(audience)},categoria:${JSON.stringify(categoria)},descripcion:${JSON.stringify(desc)},caracTitulo:${JSON.stringify(caracTit)},caracteristicas:${JSON.stringify(caracs)},variantes:${JSON.stringify(variantesArr)}}`;
+    productoEntry = JSON.stringify(id) + ':{nombre:' + JSON.stringify(nombre) + ',precio:' + JSON.stringify(precio) + ',precioNum:' + precioNum + ',audience:' + JSON.stringify(audience) + ',categoria:' + JSON.stringify(categoria) + ',descripcion:' + JSON.stringify(desc) + ',caracTitulo:' + JSON.stringify(caracTit) + ',caracteristicas:' + JSON.stringify(caracs) + ',variantes:' + JSON.stringify(variantesArr) + '}';
   } else {
-    productoEntry = `${JSON.stringify(id)}:{nombre:${JSON.stringify(nombre)},precio:${JSON.stringify(precio)},precioNum:${precioNum},audience:${JSON.stringify(audience)},categoria:${JSON.stringify(categoria)},descripcion:${JSON.stringify(desc)},caracTitulo:${JSON.stringify(caracTit)},caracteristicas:${JSON.stringify(caracs)},imagenes:${JSON.stringify(fotos)},placeholders:${JSON.stringify(placeholders)}}`;
+    productoEntry = JSON.stringify(id) + ':{nombre:' + JSON.stringify(nombre) + ',precio:' + JSON.stringify(precio) + ',precioNum:' + precioNum + ',audience:' + JSON.stringify(audience) + ',categoria:' + JSON.stringify(categoria) + ',descripcion:' + JSON.stringify(desc) + ',caracTitulo:' + JSON.stringify(caracTit) + ',caracteristicas:' + JSON.stringify(caracs) + ',imagenes:' + JSON.stringify(fotos) + ',placeholders:' + JSON.stringify(placeholders) + '}';
   }
 
-  /* Stock entries (tienda + categorias) */
-  let stockEntries;
+  var stockEntries;
   if (tieneV && variantesArr.length) {
-    stockEntries = variantesArr.map(v => `${JSON.stringify(id+'_'+v.label)}:${stock}`).join(',') + ',';
+    stockEntries = variantesArr.map(function(v){ return JSON.stringify(id+'_'+v.label) + ':' + stock; }).join(',') + ',';
   } else {
-    stockEntries = `${JSON.stringify(id)}:${stock},`;
+    stockEntries = JSON.stringify(id) + ':' + stock + ',';
   }
 
-  /* Tagline */
-  const taglineVal = tagline || `"${nombre}"`;
-  const taglineEntry = `${JSON.stringify(id)}:${JSON.stringify(taglineVal)},`;
+  var skuEntry = '{ id: ' + JSON.stringify(id) + ', nombre: ' + JSON.stringify(nombre) + ', cat: ' + JSON.stringify(categoria) + ', precio: ' + JSON.stringify(precio) + ', img: ' + JSON.stringify(fotos[0]) + ', emoji: ' + JSON.stringify(emoji) + ' },\n  ';
 
-  /* Entrada SKUS para inventario */
-  const skuEntry = `{ id: ${JSON.stringify(id)}, nombre: ${JSON.stringify(nombre)}, cat: ${JSON.stringify(categoria)}, precio: ${JSON.stringify(precio)}, img: ${JSON.stringify(fotos[0])}, emoji: ${JSON.stringify(emoji)} },\n  `;
-
-  /* ── MODIFICAR TIENDA.HTML ── */
-  let nuevoTienda = archivos.tienda;
-  nuevoTienda = nuevoTienda.replace(
-    /const TAGLINES\s*=\s*\{/,
-    `const TAGLINES = {${taglineEntry}`
-  );
-  nuevoTienda = nuevoTienda.replace(
-    /const ORDEN\s*=\s*\[/,
-    `const ORDEN = [${JSON.stringify(id)},`
-  );
-  nuevoTienda = nuevoTienda.replace(
-    /const productos\s*=\s*\{/,
-    `const productos = {${productoEntry},`
-  );
-  nuevoTienda = nuevoTienda.replace(
-    /const stockInicial\s*=\s*\{/,
-    `const stockInicial = {${stockEntries}`
-  );
+  var nuevoTienda = archivos.tienda;
+  nuevoTienda = nuevoTienda.replace(/const TAGLINES\s*=\s*\{/, 'const TAGLINES = {' + taglineEntry);
+  nuevoTienda = nuevoTienda.replace(/const ORDEN\s*=\s*\[/, 'const ORDEN = [' + JSON.stringify(id) + ',');
+  nuevoTienda = nuevoTienda.replace(/const productos\s*=\s*\{/, 'const productos = {' + productoEntry + ',');
+  nuevoTienda = nuevoTienda.replace(/const stockInicial\s*=\s*\{/, 'const stockInicial = {' + stockEntries);
   archivosModificados.tienda = nuevoTienda;
 
-  /* ── MODIFICAR INVENTARIO.HTML ── */
-  const skuEntry = `{ id: ${JSON.stringify(id)}, nombre: ${JSON.stringify(nombre)}, cat: ${JSON.stringify(categoria)}, precio: ${JSON.stringify(precio)}, img: ${JSON.stringify(fotos[0])}, emoji: ${JSON.stringify(emoji)} },\n  `;
-  let nuevoInventario = archivos.inventario;
-  nuevoInventario = nuevoInventario.replace(
-    /const SKUS\s*=\s*\[/,
-    `const SKUS = [\n  ${skuEntry}`
-  );
-  nuevoInventario = nuevoInventario.replace(
-    /const stockInicial\s*=\s*\{/,
-    `const stockInicial = {${stockEntries}`
-  );
+  var nuevoInventario = archivos.inventario;
+  nuevoInventario = nuevoInventario.replace(/const SKUS\s*=\s*\[/, 'const SKUS = [\n  ' + skuEntry);
+  nuevoInventario = nuevoInventario.replace(/const stockInicial\s*=\s*\{/, 'const stockInicial = {' + stockEntries);
   archivosModificados.inventario = nuevoInventario;
-
-  /* Verificar */
-  const ok = archivosModificados.tienda.includes(`'${id}'`) || archivosModificados.tienda.includes(`"${id}"`);
-  if (!ok) {
-    mostrarToast('⚠️ Revisa que el archivo sea el correcto');
-  }
 
   document.getElementById('resultado').classList.add('visible');
   document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
   mostrarToast('✅ Archivos generados — descárgalos');
 }
 
-/* ─── DESCARGAR ─── */
+/* DESCARGAR */
 function descargar(nombre) {
-  const contenido = archivosModificados[nombre];
+  var contenido = archivosModificados[nombre];
   if (!contenido) { mostrarToast('Primero genera los archivos'); return; }
-  const blob = new Blob([contenido], { type: 'text/html;charset=utf-8' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
+  var blob = new Blob([contenido], { type: 'text/html;charset=utf-8' });
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
   a.href = url; a.download = nombre + '.html'; a.click();
   URL.revokeObjectURL(url);
   mostrarToast('⬇️ ' + nombre + '.html descargado');
 }
 
-/* ─── TOAST ─── */
-let tt;
+/* TOAST */
+var tt;
 function mostrarToast(msg) {
-  const t = document.getElementById('toast');
+  var t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
-  clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3000);
+  clearTimeout(tt); tt = setTimeout(function(){ t.classList.remove('show'); }, 3000);
 }
 </script>
 </body>
