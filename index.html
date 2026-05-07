@@ -599,7 +599,6 @@
   </div>
 </div>
 
-<script src="cart.js"></script>
 <script>
 function toggleMenu() { document.getElementById('hamburger').classList.toggle('open'); document.getElementById('mobile-menu').classList.toggle('open'); }
 window.addEventListener('scroll', () => document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40));
@@ -871,7 +870,9 @@ if (new URLSearchParams(window.location.search).get('pagar') === '1' && cart.len
 const SUPA_URL = 'https://xintmnshndhtqqbouxbo.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbnRtbnNobmRodHFxYm91eGJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDc2MTAsImV4cCI6MjA5MzU4MzYxMH0.Xl5eHoNoxLrb_8jK40zPL52Qa3t696QHkaAmyJEqJac';
 
-// sbToken y sbUser los declara cart.js — no redeclarar acá
+const _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+let sbToken  = null;
+let sbUser   = null;
 let wishlist = [];
 
 /* AUTH MODAL */
