@@ -176,6 +176,14 @@
   .btn-checkout-confirm { flex: 2; background: #C4622D; border: none; border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; }
   .checkout-envio-info { display: flex; justify-content: space-between; align-items: center; background: var(--cream); border-radius: 10px; padding: .75rem 1rem; margin-top: .75rem; font-size: .85rem; }
   .checkout-envio-aviso { font-size: .75rem; color: #8a7a6e; margin-top: .4rem; font-style: italic; }
+  .checkout-doc-toggle { display: flex; gap: .5rem; margin-top: .5rem; }
+  .doc-btn { flex: 1; padding: 10px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; background: #fff; font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; cursor: pointer; color: #6b5a4e; transition: all .2s; }
+  .doc-btn.activo { background: var(--terracota); color: #fff; border-color: var(--terracota); }
+  .doc-btn:hover:not(.activo) { border-color: var(--terracota); color: var(--terracota); }
+  @media (max-width: 480px) {
+    .checkout-box { border-radius: 16px 16px 0 0; max-height: 95vh; padding: 1.25rem; }
+    .checkout-overlay { align-items: flex-end; padding: 0; }
+  }
 
   @media (max-width: 600px) {
     .nav-links { display: none; }
@@ -371,6 +379,18 @@
     <div class="checkout-grid full" style="margin-top:.75rem">
       <div class="checkout-field"><label>Notas adicionales (opcional)</label><input type="text" id="co-notas" placeholder="Ej: timbre no funciona"></div>
     </div>
+    <p class="checkout-section-label">Documento tributario</p>
+    <div class="checkout-doc-toggle">
+      <button class="doc-btn activo" id="btn-boleta" onclick="seleccionarDoc('boleta')">🧾 Boleta</button>
+      <button class="doc-btn" id="btn-factura" onclick="seleccionarDoc('factura')">📄 Factura</button>
+    </div>
+    <div id="factura-fields" style="display:none;margin-top:.75rem">
+      <div class="checkout-grid full"><div class="checkout-field"><label>RUT empresa *</label><input type="text" id="co-rut" placeholder="Ej: 76.123.456-7"></div></div>
+      <div class="checkout-grid full" style="margin-top:.75rem"><div class="checkout-field"><label>Razón social *</label><input type="text" id="co-razon" placeholder="Ej: Empresa S.A."></div></div>
+      <div class="checkout-grid full" style="margin-top:.75rem"><div class="checkout-field"><label>Giro *</label><input type="text" id="co-giro" placeholder="Ej: Comercio al por menor"></div></div>
+      <div class="checkout-grid full" style="margin-top:.75rem"><div class="checkout-field"><label>Dirección de facturación *</label><input type="text" id="co-dir-factura" placeholder="Dirección legal de la empresa"></div></div>
+    </div>
+
     <div class="checkout-btns">
       <button class="btn-checkout-cancel" onclick="cerrarCheckout()">Volver</button>
       <button class="btn-checkout-confirm" onclick="confirmarCheckout()">
@@ -404,6 +424,11 @@
 
 <script src="cart.js"></script>
 <script>
+function seleccionarDoc(tipo) {
+  document.getElementById('btn-boleta').classList.toggle('activo', tipo === 'boleta');
+  document.getElementById('btn-factura').classList.toggle('activo', tipo === 'factura');
+  document.getElementById('factura-fields').style.display = tipo === 'factura' ? 'block' : 'none';
+}
 function toggleMenu() { document.getElementById('hamburger').classList.toggle('open'); document.getElementById('mobile-menu').classList.toggle('open'); }
 window.addEventListener('scroll', () => document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40));
 function toggleCart() { document.getElementById('cart-overlay').classList.toggle('open'); document.getElementById('cart-sidebar').classList.toggle('open'); document.body.style.overflow = document.getElementById('cart-sidebar').classList.contains('open') ? 'hidden' : ''; }
