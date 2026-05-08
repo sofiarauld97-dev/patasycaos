@@ -1121,6 +1121,11 @@ function actualizarEnvio() {
   if (!resultado || !comuna) { infoEl.style.display = 'none'; avisoEl.textContent = ''; return; }
   infoEl.style.display = 'flex'; precioEl.textContent = resultado.texto; avisoEl.textContent = resultado.aviso;
 }
+function seleccionarDoc(tipo) {
+  document.getElementById('btn-boleta').classList.toggle('activo', tipo === 'boleta');
+  document.getElementById('btn-factura').classList.toggle('activo', tipo === 'factura');
+  document.getElementById('factura-fields').style.display = tipo === 'factura' ? 'block' : 'none';
+}
 </script>
 
 <!-- CHECKOUT MODAL -->
