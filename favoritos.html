@@ -151,6 +151,27 @@
 /* CHECKOUT MODAL */
   .auth-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
   .auth-overlay.activo { opacity: 1; visibility: visible; }
+  .auth-box { background: #fff; border-radius: 20px; padding: 2.25rem; width: 100%; max-width: 400px; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(16px); transition: transform .3s; position: relative; }
+  .auth-overlay.activo .auth-box { transform: translateY(0); }
+  .auth-logo { display: flex; justify-content: center; margin-bottom: 1.25rem; }
+  .auth-logo img { width: 48px; height: 48px; object-fit: contain; }
+  .auth-box h3 { font-size: 1.2rem; font-weight: 900; text-align: center; margin-bottom: .4rem; }
+  .auth-box p { font-size: .83rem; color: #6b5a4e; text-align: center; margin-bottom: 1.5rem; line-height: 1.5; }
+  .btn-google { width: 100%; display: flex; align-items: center; justify-content: center; gap: .75rem; background: #fff; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .88rem; cursor: pointer; transition: all .2s; margin-bottom: 1rem; }
+  .btn-google:hover { border-color: var(--terracota); }
+  .auth-divider { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+  .auth-divider span { font-size: .75rem; color: #aaa; white-space: nowrap; }
+  .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: rgba(28,16,7,.1); }
+  .auth-field { display: flex; flex-direction: column; gap: .35rem; margin-bottom: .75rem; }
+  .auth-field label { font-size: .75rem; font-weight: 600; color: #6b5a4e; }
+  .auth-field input { border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 11px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; outline: none; transition: border-color .2s; width: 100%; }
+  .auth-field input:focus { border-color: var(--terracota); }
+  .btn-auth { width: 100%; background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 13px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; transition: background .2s; margin-top: .25rem; }
+  .btn-auth:hover { background: #a8501f; }
+  .auth-msg { font-size: .8rem; text-align: center; margin-top: .75rem; min-height: 1.2rem; }
+  .auth-msg.ok { color: #2d7a3a; }
+  .auth-msg.err { color: #c0392b; }
+  .auth-close { position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--cream); cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
   .checkout-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
   .checkout-overlay.activo { opacity: 1; visibility: visible; }
     .checkout-close { position:absolute; top:1rem; right:1rem; width:32px; height:32px; border-radius:50%; border:none; background:var(--crema-dark); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; color:var(--negro); transition:background .2s; }
@@ -554,6 +575,18 @@ _sb.auth.getSession().then(({data:{session}})=>{
   </div>
 </div>
 <script>
+function abrirAuth(){ document.getElementById('auth-overlay').classList.add('activo'); document.body.style.overflow='hidden'; }
+function cerrarAuth(){ document.getElementById('auth-overlay').classList.remove('activo'); document.body.style.overflow=''; document.getElementById('auth-msg').textContent=''; }
+function cerrarAuthSiFondo(e){ if(e.target.id==='auth-overlay') cerrarAuth(); }
+async function loginConGoogle(){ await _sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.origin } }); }
+async function enviarMagicLink(){
+  const email=document.getElementById('auth-email').value.trim();
+  const msg=document.getElementById('auth-msg');
+  if(!email){msg.textContent='Ingresa tu email';msg.className='auth-msg err';return;}
+  const{error}=await _sb.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.origin}});
+  if(error){msg.textContent='Error: '+error.message;msg.className='auth-msg err';}
+  else{msg.textContent='✅ Revisa tu email — te enviamos un enlace de acceso';msg.className='auth-msg ok';}
+}
 let toastTimer;
 function mostrarToastCarrito(msg) {
   let toast = document.getElementById('cart-toast');
