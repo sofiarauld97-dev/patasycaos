@@ -231,6 +231,7 @@
   .checkout-section-label { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: .8rem; margin-top: 1.2rem; }
   .checkout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
   .checkout-grid.full { grid-template-columns: 1fr; }
+  @media (max-width: 500px) { .checkout-grid { grid-template-columns: 1fr; } }
   .checkout-field { display: flex; flex-direction: column; gap: .3rem; }
   .checkout-field label { font-size: .75rem; font-weight: 600; color: #6b5a4e; }
   .checkout-field input { border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; color: var(--negro); background: #fff; outline: none; transition: border-color .2s; }
