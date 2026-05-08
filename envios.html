@@ -206,8 +206,9 @@
   .doc-btn { flex: 1; padding: 10px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; background: #fff; font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; cursor: pointer; color: #6b5a4e; transition: all .2s; }
   .doc-btn.activo { background: var(--terracota); color: #fff; border-color: var(--terracota); }
   .doc-btn:hover:not(.activo) { border-color: var(--terracota); color: var(--terracota); }
+  @media (max-width: 500px) { .checkout-grid { grid-template-columns: 1fr; } }
   @media (max-width: 480px) {
-    .checkout-box { border-radius: 16px 16px 0 0; max-height: 95vh; padding: 1.25rem; }
+    .checkout-box { border-radius: 16px 16px 0 0; max-height: 95vh; padding: 1.25rem; overflow-x: hidden; }
     .checkout-overlay { align-items: flex-end; padding: 0; }
   }
   .cart-item { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid rgba(28,16,7,.06); }
