@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Patas & Caos <onboarding@resend.dev>',
+        from: 'Patas & Caos <contacto@patasycaos.cl>',
         to: ['contacto@patasycaos.cl'],
         subject: '🐾 Nueva suscripción al newsletter',
         text: `Nueva persona suscrita al newsletter de Patas & Caos:\n\nEmail: ${email}\n`,
