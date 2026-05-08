@@ -86,15 +86,15 @@
 
   /* BLOG GRID */
   .blog-section { padding: 2rem 5% 6rem; max-width: 1200px; margin: 0 auto; }
-  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
   .blog-card { background: var(--card-bg); border-radius: 16px; overflow: hidden; transition: transform .2s, box-shadow .2s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
   .blog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(28,16,7,.1); }
-  .blog-card-img { width: 100%; aspect-ratio: 16/9; background: var(--crema-dark); display: flex; align-items: center; justify-content: center; font-size: 3rem; overflow: hidden; }
+  .blog-card-img { width: 100%; aspect-ratio: 16/9; background: var(--crema-dark); display: flex; align-items: center; justify-content: center; font-size: 3rem; overflow: hidden; max-height: 160px; }
   .blog-card-img img { width: 100%; height: 100%; object-fit: cover; }
-  .blog-card-body { padding: 1.25rem; }
+  .blog-card-body { padding: 1rem; }
   .blog-card-tag { display: inline-block; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--terracota); background: var(--cream); border: 1px solid #f0e0d4; border-radius: 100px; padding: .2rem .7rem; margin-bottom: .75rem; }
-  .blog-card-title { font-size: 1rem; font-weight: 700; line-height: 1.35; margin-bottom: .5rem; }
-  .blog-card-excerpt { font-size: .83rem; color: var(--texto-suave); line-height: 1.6; }
+  .blog-card-title { font-size: .9rem; font-weight: 700; line-height: 1.35; margin-bottom: .4rem; }
+  .blog-card-excerpt { font-size: .78rem; color: var(--texto-suave); line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .blog-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; padding-top: .75rem; border-top: 1px solid var(--crema-dark); }
   .blog-card-date { font-size: .75rem; color: #9a8878; }
   .blog-card-read { font-size: .75rem; font-weight: 600; color: var(--terracota); }
@@ -257,24 +257,14 @@
 
 <!-- POSTS -->
 <div class="blog-section">
-
-  <!-- Cuando haya posts, reemplazar esta sección por el grid de posts -->
-  <div class="blog-coming-soon">
-    <div class="icon">🐾</div>
-    <h2>Pronto viene el contenido</h2>
-    <p>Estamos preparando los primeros artículos. Vuelve pronto — o mientras tanto, dale un vistazo a la tienda.</p>
-    <a href="/tienda" class="btn-tienda">Ver productos →</a>
-  </div>
-
-  <!-- TEMPLATE COMENTADO — descomenta y duplica cuando tengas posts reales:
   <div class="blog-grid">
 
-    <a class="blog-card" href="/blog/nombre-del-post">
-      <div class="blog-card-img">🐱</div>
+    <a class="blog-card" href="/blog-alimentacion">
+      <div class="blog-card-img"><img src="view-cat-eating-food-from-bowl.jpg" alt="Guía de alimentación felina"></div>
       <div class="blog-card-body">
-        <span class="blog-card-tag">Para Gatos</span>
-        <h2 class="blog-card-title">Título del artículo aquí</h2>
-        <p class="blog-card-excerpt">Descripción corta del artículo. Dos o tres líneas que enganchen al lector para que quiera seguir leyendo.</p>
+        <span class="blog-card-tag">Nutrición</span>
+        <h2 class="blog-card-title">¿Qué come tu gato en realidad? Guía de alimentación felina</h2>
+        <p class="blog-card-excerpt">Todo lo que necesitas saber sobre comida seca, húmeda y snacks — y qué mirar en las etiquetas para no caer en productos de relleno.</p>
         <div class="blog-card-footer">
           <span class="blog-card-date">Mayo 2026</span>
           <span class="blog-card-read">Leer →</span>
@@ -283,8 +273,6 @@
     </a>
 
   </div>
-  -->
-
 </div>
 
 <!-- FOOTER -->
