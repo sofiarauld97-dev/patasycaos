@@ -39,8 +39,13 @@
   .mobile-menu a:last-child{border-bottom:none;}
 
   /* USER NAV */
-  .btn-signin{background:none;border:1.5px solid rgba(28,16,7,.2);color:var(--negro);border-radius:50px;padding:9px 20px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.82rem;cursor:pointer;transition:all .2s;}
+  .btn-signin{background:none;border:1.5px solid rgba(28,16,7,.2);color:var(--negro);border-radius:50px;padding:9px 20px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.82rem;cursor:pointer;transition:all .2s;white-space:nowrap;margin-left:.5rem;}
   .btn-signin:hover{border-color:var(--terracota);color:var(--terracota);}
+  .nav-ig-desktop { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; color: var(--negro); text-decoration: none; transition: all .2s; margin-left: .5rem; flex-shrink: 0; }
+  .nav-ig-desktop:hover { border-color: var(--terracota); color: var(--terracota); }
+  .nav-ig-desktop svg, .nav-ig-mobile svg { width: 16px; height: 16px; fill: currentColor; }
+  .nav-ig-mobile { display: none; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; color: var(--negro); text-decoration: none; transition: all .2s; margin-right: .25rem; flex-shrink: 0; }
+  .nav-ig-mobile:hover { border-color: var(--terracota); color: var(--terracota); }
   .user-wrap{position:relative;}
   .user-avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;cursor:pointer;border:2px solid transparent;transition:border-color .2s;}
   .user-avatar:hover{border-color:var(--terracota);}
@@ -181,7 +186,7 @@
 
 
   @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 2rem; } .hero-img { display: none; } .cat-grid { grid-template-columns: repeat(3, 1fr); } .prod-grid { grid-template-columns: repeat(3, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
-  @media (max-width: 600px) { .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; } .cat-grid { grid-template-columns: repeat(2, 1fr); } .prod-grid { grid-template-columns: repeat(2, 1fr); } .newsletter-box { padding: 36px 28px; } .newsletter-form { flex-direction: column; } .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; } .nav-cart { padding: 8px 12px; font-size: .78rem; } .btn-signin { padding: 7px 12px; font-size: .75rem; } }
+  @media (max-width: 600px) { .nav-logo span { display: none; } .nav-ig-desktop { display: none; } .nav-ig-mobile { display: flex; } .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; } .cat-grid { grid-template-columns: repeat(2, 1fr); } .prod-grid { grid-template-columns: repeat(2, 1fr); } .newsletter-box { padding: 36px 28px; } .newsletter-form { flex-direction: column; } .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; } .nav-cart { padding: 8px 12px; font-size: .78rem; } .btn-signin { padding: 7px 12px; font-size: .75rem; } }
   @media (max-width: 640px) { .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; } .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; } .modal-imagen-principal { aspect-ratio: 4/3; } .modal-contenido { padding: 1.25rem; } .modal-nombre { font-size: 1.2rem; } .modal-precio { font-size: 1.35rem; } }
 
 </style>
@@ -341,7 +346,7 @@ function updateAuthUI(){
       `<div style="width:38px;height:38px;border-radius:50%;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onclick="toggleUserDropdown()">${nombre[0].toUpperCase()}</div>`;
     el.innerHTML=`<div class="user-wrap">${avatarHTML}<div class="user-dropdown" id="user-dropdown"><span class="user-name-dd">👋 ${nombre}</span><a href="/favoritos" style="display:block;padding:.5rem .6rem;font-size:.82rem;font-weight:500;color:var(--terracota);text-decoration:none;border-radius:8px">❤️ Mis favoritos</a><button class="btn-signout" onclick="cerrarSesion()">Cerrar sesión</button></div></div>`;
   }else{
-    el.innerHTML=`<button class="btn-signin" onclick="abrirAuth()">Iniciar<br>sesión</button>`;
+    el.innerHTML=`<button class="btn-signin" onclick="abrirAuth()">Iniciar sesión</button>`;
   }
 }
 
