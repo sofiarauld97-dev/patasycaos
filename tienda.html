@@ -589,16 +589,24 @@ function toggleCart() {
   document.body.style.overflow = document.getElementById('cart-sidebar').classList.contains('open') ? 'hidden' : '';
 }
 function addToCart(product) {
+  const stock = getStock();
+  const maxQty = stock[product.id] ?? 1;
   const existing = cart.find(i => i.id === product.id);
-  if (existing) existing.qty++;
-  else cart.push({ ...product, qty: 1 });
+  if (existing) {
+    if (existing.qty >= maxQty) { mostrarToastCarrito(`Solo quedan ${maxQty} unidades disponibles 🐾`); if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart(); return; }
+    existing.qty++;
+  } else {
+    cart.push({ ...product, qty: 1, maxQty });
+  }
   renderCart();
   if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart();
 }
 function changeQty(id, delta) {
   const item = cart.find(i => i.id === id);
   if (!item) return;
-  item.qty += delta;
+  const nuevaQty = item.qty + delta;
+  if (nuevaQty > (item.maxQty ?? 99)) { mostrarToastCarrito(`Solo quedan ${item.maxQty} unidades disponibles 🐾`); return; }
+  item.qty = nuevaQty;
   if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
   renderCart();
 }
@@ -692,7 +700,7 @@ function getStock() {
     if (!saved) return { ...stockInicial };
     const parsed = JSON.parse(saved);
     const merged = { ...stockInicial };
-    Object.keys(parsed).forEach(k => { merged[k] = parsed[k] === false || parsed[k] === 0 ? 0 : 1; });
+    Object.keys(parsed).forEach(k => { merged[k] = (parsed[k] === false || parsed[k] === 0) ? 0 : (typeof parsed[k] === "number" ? parsed[k] : merged[k]); });
     return merged;
   } catch(e) { return { ...stockInicial }; }
 }
