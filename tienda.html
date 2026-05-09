@@ -635,7 +635,7 @@ function renderCart() {
         <div class="cart-item-qty">
           <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
           <span class="qty-num">${item.qty}</span>
-          <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+          <button class="qty-btn" onclick="changeQty('${item.id}', 1)" ${item.qty >= (item.maxQty ?? 99) ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button>
         </div>
       </div>
       <button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button>

@@ -718,7 +718,7 @@ function changeQty(id, delta) {
   const item = cart.find(i => i.id === id);
   if (!item) return;
   const nuevaQty = item.qty + delta;
-  if (nuevaQty > item.maxQty) { mostrarToastCarrito('Solo queda 1 unidad disponible 🐾'); return; }
+  if (nuevaQty > item.maxQty) { mostrarToastCarrito(`Solo quedan ${item.maxQty} unidades disponibles 🐾`); return; }
   item.qty = nuevaQty;
   if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
   renderCart();
