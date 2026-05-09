@@ -15,24 +15,14 @@ export default async function handler(req, res) {
     let stock = null;
     if (data.result !== null && data.result !== undefined) {
       let val = data.result;
-      // Deshacer todas las capas de serialización
       let intentos = 0;
       while (typeof val === 'string' && intentos < 10) {
-        try {
-          const parsed = JSON.parse(val);
-          if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)) {
-            // Verificar que tiene claves que parecen stock (true/false)
-            const keys = Object.keys(parsed);
-            if (keys.length > 0 && (parsed[keys[0]] === true || parsed[keys[0]] === false)) {
-              stock = parsed;
-              break;
-            }
-          }
-          val = parsed;
-        } catch(e) { break; }
+        try { val = JSON.parse(val); } catch(e) { break; }
         intentos++;
       }
-      if (!stock && typeof val === 'object' && val !== null) stock = val;
+      if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
+        stock = val;
+      }
     }
 
     res.status(200).json({ stock });
