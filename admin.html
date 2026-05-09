@@ -121,7 +121,7 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
   <h1>Agregar producto nuevo</h1>
   <p class="subtitle">Completa el formulario y descarga los 2 archivos listos para subir.</p>
 
-  <div class="step-title"><span class="step-num">1</span> Carga tienda.html, inventario.html y favoritos.html de tu repo</div>
+  <div class="step-title"><span class="step-num">1</span> Carga tienda.html, inventario.html, favoritos.html e index.html de tu repo</div>
   <div class="upload-grid">
     <div class="upload-card" id="card-tienda" onclick="document.getElementById('file-tienda').click()">
       <input type="file" id="file-tienda" accept=".html" style="display:none">
@@ -140,6 +140,12 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
       <span class="upload-icon">❤️</span>
       <div class="upload-name">favoritos.html</div>
       <div class="upload-status" id="st-favoritos">Haz clic para subir</div>
+    </div>
+    <div class="upload-card" id="card-index" onclick="document.getElementById('file-index').click()">
+      <input type="file" id="file-index" accept=".html" style="display:none">
+      <span style="font-size:2rem">🏠</span>
+      <div class="upload-name">index.html</div>
+      <div class="upload-status" id="st-index">Haz clic para subir</div>
     </div>
   </div>
 
@@ -220,7 +226,7 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
     </div>
   </div>
 
-  <button class="btn-publicar" type="button" onclick="publicar()">📦 Generar los 2 archivos</button>
+  <button class="btn-publicar" type="button" onclick="publicar()">📦 Generar los 4 archivos</button>
 
   <div class="resultado-card" id="resultado">
     <h3>✅ ¡Archivos generados! Descarga y sube a GitHub</h3>
@@ -228,6 +234,7 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
       <button class="download-btn" type="button" onclick="descargar('tienda')">⬇️ tienda.html</button>
       <button class="download-btn" type="button" onclick="descargar('inventario')">⬇️ inventario.html</button>
       <button class="download-btn" type="button" onclick="descargar('favoritos')">⬇️ favoritos.html</button>
+      <button class="download-btn" type="button" onclick="descargar('index')">⬇️ index.html</button>
     </div>
     <div class="instrucciones">
       <p><strong>Pasos:</strong> Descarga los 2 archivos → En <strong>GitHub Desktop</strong> cópialos a la carpeta del repo → <strong>Commit + Push</strong>. Vercel los publica en ~30 segundos.</p>
@@ -239,8 +246,8 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
 
 <script>
 const PW = '290966';
-const archivos = { tienda: null, inventario: null, favoritos: null };
-const archivosModificados = { tienda: null, inventario: null, favoritos: null };
+const archivos = { tienda: null, inventario: null, favoritos: null, index: null };
+const archivosModificados = { tienda: null, inventario: null, favoritos: null, index: null };
 
 /* LOCK */
 document.getElementById('lock-btn').addEventListener('click', checkPw);
@@ -272,6 +279,9 @@ window.addEventListener('DOMContentLoaded', function() {
   });
   document.getElementById('file-favoritos').addEventListener('change', function() {
     leerArchivo('favoritos', this);
+  });
+  document.getElementById('file-index').addEventListener('change', function() {
+    leerArchivo('index', this);
   });
 
   /* AUTO-ID */
@@ -440,6 +450,16 @@ function publicar() {
     nuevoFavoritos = nuevoFavoritos.replace(/const TAGLINES\s*=\s*\{/, 'const TAGLINES = {' + taglineEntry);
     nuevoFavoritos = nuevoFavoritos.replace(/const productos\s*=\s*\{/, 'const productos = {' + favEntry + ',');
     archivosModificados.favoritos = nuevoFavoritos;
+  }
+
+  // Actualizar index.html si fue cargado
+  if (archivos.index) {
+    var nuevoIndex = archivos.index;
+    nuevoIndex = nuevoIndex.replace(/const TAGLINES\s*=\s*\{/, 'const TAGLINES = {' + taglineEntry);
+    nuevoIndex = nuevoIndex.replace(/const ORDEN\s*=\s*\[/, 'const ORDEN = [' + JSON.stringify(id) + ',');
+    nuevoIndex = nuevoIndex.replace(/const productos\s*=\s*\{/, 'const productos = {' + productoEntry + ',');
+    nuevoIndex = nuevoIndex.replace(/const stockInicialIdx\s*=\s*\{/, 'const stockInicialIdx = {' + stockEntries);
+    archivosModificados.index = nuevoIndex;
   }
 
   document.getElementById('resultado').classList.add('visible');
