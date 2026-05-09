@@ -617,7 +617,9 @@ function renderLog() {
    ACCIONES
 ═══════════════════════════════════════ */
 function cambiarCantidad(id, delta) {
-  const current = typeof stock[id] === 'number' ? stock[id] : (stock[id] === false ? 0 : 1);
+  const safeId = id.replace(/[^a-z0-9]/gi,'_');
+  const qtyInput = document.getElementById('qty-' + safeId);
+  const current = qtyInput ? parseInt(qtyInput.value)||0 : (typeof stock[id] === 'number' ? stock[id] : (stock[id] === false ? 0 : 1));
   const nueva = Math.max(0, current + delta);
   setCantidad(id, nueva);
 }
@@ -634,7 +636,14 @@ function setCantidad(id, cantidad) {
     hora: new Date().toLocaleString('es-CL', { dateStyle: 'short', timeStyle: 'short' })
   });
   guardarLog(log);
-  render();
+  // Actualizar solo el label y la fila sin re-renderizar todo
+  const safeId = id.replace(/[^a-z0-9]/gi,'_');
+  const lbl = document.getElementById('lbl-' + safeId);
+  const qtyInput = document.getElementById('qty-' + safeId);
+  if (lbl) { lbl.textContent = cantidad > 0 ? 'En stock' : 'Agotado'; lbl.className = 'toggle-label ' + (cantidad > 0 ? 'en-stock' : 'agotado-lbl'); }
+  if (qtyInput) qtyInput.value = cantidad;
+  actualizarSummary();
+  renderLog();
   mostrarToast(cantidad > 0 ? `✅ ${sku?.nombre} → ${cantidad} en stock` : `🚫 ${sku?.nombre} → Agotado`);
 }
 
