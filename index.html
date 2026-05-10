@@ -292,6 +292,9 @@
   .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
   .blog-card { background: var(--blanco); border-radius: 18px; overflow: hidden; border: 1px solid rgba(28,16,7,.07); text-decoration: none; color: var(--negro); transition: transform .2s, box-shadow .2s; display: block; }
   .blog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(28,16,7,.1); }
+  .blog-dots { display: none; justify-content: center; gap: 6px; margin-top: 1.2rem; }
+  .blog-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(28,16,7,.18); cursor: pointer; transition: background .2s, transform .2s; border: none; padding: 0; }
+  .blog-dot.activo { background: var(--terracota); transform: scale(1.3); }
   .blog-card-img { height: 160px; background: var(--card-bg); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
   .blog-card-body { padding: 1.2rem; }
   .blog-cat { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: .5rem; }
@@ -301,7 +304,13 @@
   .blog-ver-mas a { display: inline-block; border: 2px solid var(--terracota); color: var(--terracota); border-radius: 50px; padding: 12px 32px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .9rem; text-decoration: none; transition: all .2s; }
   .blog-ver-mas a:hover { background: var(--terracota); color: #fff; }
   @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) {
+    .blog-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; gap: 1rem; padding-bottom: 4px; cursor: grab; }
+    .blog-grid::-webkit-scrollbar { display: none; }
+    .blog-grid.grabbing { cursor: grabbing; }
+    .blog-card { flex: 0 0 82vw; scroll-snap-align: start; }
+    .blog-dots { display: flex; }
+  }
 
   /* CHECKOUT MODAL */
   .checkout-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
@@ -465,7 +474,7 @@
 <section class="blog-section" id="blog">
   <p class="section-label">Blog</p>
   <h2 class="section-title">Consejos para el<span>caos peludo.</span></h2>
-  <div class="blog-grid">
+  <div class="blog-grid" id="blog-grid">
     <a href="/blog-alimentacion" class="blog-card">
       <div class="blog-card-img"><img src="view-cat-eating-food-from-bowl.jpg" alt="Guía alimentación felina" style="width:100%;height:100%;object-fit:cover;"></div>
       <div class="blog-card-body">
@@ -490,6 +499,11 @@
         <p>Cómo mantener a tu mascota activa y entretenida sin que destruya el sofá.</p>
       </div>
     </a>
+  </div>
+  <div class="blog-dots" id="blog-dots">
+    <button class="blog-dot activo" onclick="blogScrollTo(0)"></button>
+    <button class="blog-dot" onclick="blogScrollTo(1)"></button>
+    <button class="blog-dot" onclick="blogScrollTo(2)"></button>
   </div>
   <div class="blog-ver-mas"><a href="/blog">Ver todos los artículos →</a></div>
 </section>
@@ -1101,7 +1115,36 @@ async function enviarMagicLink() {
   else { msg.textContent='✅ Revisa tu email — te enviamos un enlace de acceso'; msg.className='auth-msg ok'; }
 }
 
-/* USER DATA */
+/* BLOG CARRUSEL MOBILE */
+(function(){
+  const grid = document.getElementById('blog-grid');
+  const dots = document.querySelectorAll('.blog-dot');
+  if (!grid) return;
+
+  function updateDots() {
+    const cards = grid.querySelectorAll('.blog-card');
+    const scrollLeft = grid.scrollLeft;
+    const cardW = cards[0] ? cards[0].offsetWidth + 16 : 1;
+    const idx = Math.round(scrollLeft / cardW);
+    dots.forEach((d,i) => d.classList.toggle('activo', i === idx));
+  }
+
+  window.blogScrollTo = function(idx) {
+    const cards = grid.querySelectorAll('.blog-card');
+    if (!cards[idx]) return;
+    grid.scrollTo({ left: cards[idx].offsetLeft, behavior: 'smooth' });
+  };
+
+  grid.addEventListener('scroll', updateDots, { passive: true });
+
+  // Drag-to-scroll
+  let isDown=false, startX, scrollL;
+  grid.addEventListener('mousedown', e => { isDown=true; grid.classList.add('grabbing'); startX=e.pageX-grid.offsetLeft; scrollL=grid.scrollLeft; });
+  grid.addEventListener('mouseleave', () => { isDown=false; grid.classList.remove('grabbing'); });
+  grid.addEventListener('mouseup', () => { isDown=false; grid.classList.remove('grabbing'); });
+  grid.addEventListener('mousemove', e => { if(!isDown) return; e.preventDefault(); const x=e.pageX-grid.offsetLeft; grid.scrollLeft=scrollL-(x-startX); });
+})();
+
 async function cargarDatosUsuario() {
   if (!sbToken) return;
   try {
