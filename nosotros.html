@@ -24,8 +24,9 @@
   .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a { text-decoration: none; color: var(--negro); font-size: .9rem; font-weight: 500; transition: color .2s; }
   .nav-links a:hover, .nav-links a.activo { color: var(--terracota); }
-  .nav-cart { display: flex; align-items: center; gap: 8px; background: var(--terracota); color: var(--blanco); border: none; border-radius: 50px; padding: 10px 22px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .9rem; cursor: pointer; transition: background .2s; text-decoration: none; }
-  .nav-cart:hover { background: #a8501f; }
+    .nav-cart { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: none; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; cursor: pointer; transition: all .2s; color: var(--negro); padding: 0; }
+  .nav-cart:hover { border-color: var(--terracota); color: var(--terracota); }
+  .nav-cart svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
   nav.scrolled { background: rgba(245,236,215,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: rgba(28,16,7,.05); transition: background .3s; }
 
   /* HAMBURGER */
@@ -212,8 +213,9 @@
   .auth-close { position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--cream); cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
 
   /* USER NAV */
-  .btn-signin { background: none; border: 1.5px solid rgba(28,16,7,.2); color: var(--negro); border-radius: 50px; padding: 9px 20px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .82rem; cursor: pointer; transition: all .2s; margin-left: .5rem; }
+    .btn-signin { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: none; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; cursor: pointer; transition: all .2s; color: var(--negro); margin-left: .5rem; padding: 0; }
   .btn-signin:hover { border-color: var(--terracota); color: var(--terracota); }
+  .btn-signin svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
   .nav-ig-desktop { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; color: var(--negro); text-decoration: none; transition: all .2s; margin-left: .5rem; flex-shrink: 0; }
   .nav-ig-desktop:hover { border-color: var(--terracota); color: var(--terracota); }
   .nav-ig-desktop svg, .nav-ig-mobile svg { width: 16px; height: 16px; fill: currentColor; }
@@ -310,7 +312,7 @@
 
 
   @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 2rem; } .hero-img { display: none; } .cat-grid { grid-template-columns: repeat(3, 1fr); } .prod-grid { grid-template-columns: repeat(3, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
-  @media (max-width: 600px) { .nav-logo span { display: none; } .nav-ig-desktop { display: none; } .nav-ig-mobile { display: flex; } .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; } .cat-grid { grid-template-columns: repeat(2, 1fr); } .prod-grid { grid-template-columns: repeat(2, 1fr); } .newsletter-box { padding: 36px 28px; } .newsletter-form { flex-direction: column; } .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; } .nav-cart { padding: 8px 12px; font-size: .78rem; } .btn-signin { padding: 7px 12px; font-size: .75rem; } }
+  @media (max-width: 600px) { .nav-logo span { display: none; } .nav-ig-desktop { display: none; } .nav-ig-mobile { display: flex; } .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; } .cat-grid { grid-template-columns: repeat(2, 1fr); } .prod-grid { grid-template-columns: repeat(2, 1fr); } .newsletter-box { padding: 36px 28px; } .newsletter-form { flex-direction: column; } .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; } }
   @media (max-width: 640px) { .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; } .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; } .modal-imagen-principal { aspect-ratio: 4/3; } .modal-contenido { padding: 1.25rem; } .modal-nombre { font-size: 1.2rem; } .modal-precio { font-size: 1.35rem; } }
 
 </style>
@@ -331,7 +333,9 @@
     <li><a href="/blog">Blog</a></li>
   </ul>
   <div class="nav-cart-wrap">
-    <button class="nav-cart" onclick="toggleCart()">🛒 Carrito</button>
+        <button class="nav-cart" onclick="toggleCart()" aria-label="Carrito">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    </button>
     <span class="cart-badge" id="cart-badge">0</span>
   </div>
   <div id="nav-auth"></div>
@@ -640,7 +644,7 @@ function updateAuthUI() {
       : `<div class="user-avatar" style="width:38px;height:38px;border-radius:50%;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onclick="toggleUserDropdown()">${nombre[0].toUpperCase()}</div>`;
     el.innerHTML = `<div class="user-wrap">${avatarHTML}<div class="user-dropdown" id="user-dropdown"><span class="user-name-dd">👋 ${nombre}</span><button class="btn-signout" onclick="cerrarSesion()">Cerrar sesión</button></div></div>`;
   } else {
-    el.innerHTML = `<button class="btn-signin" onclick="abrirAuth()">Iniciar sesión</button>`;
+    el.innerHTML = `<button class="btn-signin" onclick="abrirAuth()" aria-label="Iniciar sesión"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></button>`;
   }
 }
 async function cerrarSesion() {
