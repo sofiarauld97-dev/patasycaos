@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Cambios y devoluciones — Patas & Caos</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #F5ECD7; --terracota: #C4622D; --negro: #1A1A1A;
+    --dark: #1C1007; --card-bg: #FAF4EA; --blanco: #fff;
+    --crema-dark: #EDE0C4;
+  }
+  body { font-family: 'Poppins', sans-serif; background: var(--cream); color: var(--negro); min-height: 100vh; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); padding: 0 5%; padding-top: env(safe-area-inset-top); display: flex; align-items: center; justify-content: space-between; height: calc(68px + env(safe-area-inset-top)); }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo img { width: 44px; height: 44px; object-fit: contain; }
+  .nav-logo span { font-weight: 700; font-size: 1.1rem; color: var(--negro); letter-spacing: -.02em; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--negro); font-size: .9rem; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.activo { color: var(--terracota); }
+  .nav-right { display: flex; align-items: center; gap: 6px; }
+  .nav-cart { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: none; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; cursor: pointer; transition: all .2s; color: var(--negro); padding: 0; }
+  .nav-cart:hover { border-color: var(--terracota); color: var(--terracota); }
+  .nav-cart svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-cart-wrap { position: relative; }
+  .cart-badge { position: absolute; top: -6px; right: -6px; background: var(--negro); color: var(--blanco); width: 20px; height: 20px; border-radius: 50%; font-size: .68rem; font-weight: 700; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+  .cart-badge[data-count="0"] { display: none; }
+  .btn-signin { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: none; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; cursor: pointer; transition: all .2s; color: var(--negro); padding: 0; }
+  .btn-signin:hover { border-color: var(--terracota); color: var(--terracota); }
+  .btn-signin svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-ig-desktop { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; color: var(--negro); text-decoration: none; transition: all .2s; flex-shrink: 0; }
+  .nav-ig-desktop:hover { border-color: var(--terracota); color: var(--terracota); }
+  .nav-ig-desktop svg, .nav-ig-mobile svg { width: 16px; height: 16px; fill: currentColor; }
+  .nav-ig-mobile { display: none; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; color: var(--negro); text-decoration: none; transition: all .2s; flex-shrink: 0; }
+  .nav-ig-mobile:hover { border-color: var(--terracota); color: var(--terracota); }
+  nav.scrolled { background: rgba(245,236,215,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: rgba(28,16,7,.05); transition: background .3s, backdrop-filter .3s; }
+
+  /* HAMBURGER */
+  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 102; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--negro); border-radius: 2px; transition: all .3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { position: fixed; top: 0; left: 0; right: 0; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); padding: 24px 5%; padding-top: calc(68px + env(safe-area-inset-top) + 16px); display: none; flex-direction: column; gap: 1.2rem; z-index: 99; transform: translateY(-100%); transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+  .mobile-menu.open { transform: translateY(0); }
+  .mobile-menu a { text-decoration: none; color: var(--negro); font-size: 1.1rem; font-weight: 600; padding: 8px 0; border-bottom: 1px solid rgba(28,16,7,.06); transition: color .2s; }
+  .mobile-menu a:hover { color: var(--terracota); }
+  .mobile-menu a:last-child { border-bottom: none; }
+
+  /* CARRITO */
+  .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+  .cart-sidebar { position: fixed; top: 0; right: 0; height: 100%; width: 380px; max-width: 95vw; background: var(--blanco); z-index: 201; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: -8px 0 40px rgba(0,0,0,.12); }
+  .cart-sidebar.open { transform: translateX(0); }
+  .cart-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid #f0e6d6; }
+  .cart-header h3 { font-size: 1.1rem; font-weight: 700; }
+  .cart-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--negro); padding: 4px; }
+  .cart-items { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .cart-empty { text-align: center; padding: 2rem 0; color: rgba(26,26,26,.5); font-size: .9rem; line-height: 1.8; }
+  .cart-empty span { display: block; font-size: 2.5rem; margin-bottom: 1rem; }
+  .cart-footer { padding: 20px 24px; border-top: 1px solid #f0e6d6; }
+  .cart-subtotal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: .95rem; }
+  .cart-shipping { font-size: .78rem; color: rgba(26,26,26,.5); margin-bottom: 16px; }
+  .btn-checkout { width: 100%; padding: 14px; background: var(--terracota); color: var(--blanco); border: none; border-radius: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: background .2s; }
+  .btn-checkout:hover { background: #a8501f; }
+  .cart-item { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid rgba(28,16,7,.06); }
+  .cart-item-img { width: 72px; height: 72px; border-radius: 12px; object-fit: cover; background: #f0dfc0; flex-shrink: 0; }
+  .cart-item-info { flex: 1; }
+  .cart-item-info h4 { font-size: .88rem; font-weight: 700; margin-bottom: .25rem; line-height: 1.3; }
+  .cart-item-info .price { font-size: .92rem; font-weight: 800; color: var(--terracota); }
+  .cart-item-qty { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .qty-btn { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid rgba(28,16,7,.2); background: none; cursor: pointer; font-size: .9rem; display: flex; align-items: center; justify-content: center; transition: all .2s; font-weight: 700; }
+  .qty-btn:hover { background: var(--negro); color: var(--blanco); border-color: var(--negro); }
+  .qty-num { font-weight: 700; font-size: .9rem; min-width: 20px; text-align: center; }
+  .cart-item-remove { background: none; border: none; cursor: pointer; color: #aaa; font-size: 1.1rem; padding: 4px; transition: color .2s; flex-shrink: 0; }
+  .cart-item-remove:hover { color: #e74c3c; }
+
+  /* AUTH */
+  .auth-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+  .auth-overlay.activo { opacity: 1; visibility: visible; }
+  .auth-box { background: var(--blanco); border-radius: 20px; padding: 2rem; width: 100%; max-width: 380px; position: relative; }
+  .auth-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.1rem; cursor: pointer; }
+  .auth-logo { text-align: center; margin-bottom: 1rem; }
+  .auth-logo img { width: 48px; height: 48px; object-fit: contain; }
+  .auth-box h3 { text-align: center; font-size: 1.3rem; margin-bottom: .4rem; }
+  .auth-box p { text-align: center; font-size: .85rem; color: rgba(26,26,26,.6); margin-bottom: 1.2rem; }
+  .btn-google { width: 100%; padding: 11px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; background: var(--blanco); font-family: 'Poppins', sans-serif; font-size: .9rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: border-color .2s; margin-bottom: 1rem; }
+  .btn-google:hover { border-color: var(--terracota); }
+  .auth-divider { text-align: center; font-size: .78rem; color: rgba(26,26,26,.4); margin-bottom: 1rem; position: relative; }
+  .auth-divider::before, .auth-divider::after { content:''; position:absolute; top:50%; width:40%; height:1px; background:rgba(28,16,7,.1); }
+  .auth-divider::before { left:0; } .auth-divider::after { right:0; }
+  .auth-field { margin-bottom: .8rem; }
+  .auth-field label { display: block; font-size: .8rem; font-weight: 600; margin-bottom: .3rem; }
+  .auth-field input { width: 100%; padding: 10px 12px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: .88rem; outline: none; transition: border-color .2s; }
+  .auth-field input:focus { border-color: var(--terracota); }
+  .btn-auth { width: 100%; margin-top: 1rem; padding: 11px; background: var(--terracota); color: var(--blanco); border: none; border-radius: 10px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; transition: background .2s; }
+  .btn-auth:hover { background: #a8501f; }
+  .auth-msg { text-align: center; font-size: .8rem; margin-top: .6rem; min-height: 1.2em; }
+  .auth-msg.err { color: #c0392b; } .auth-msg.ok { color: #27ae60; }
+  .btn-signout { width: 100%; padding: .5rem .6rem; background: none; border: none; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: .82rem; font-weight: 500; color: #c0392b; cursor: pointer; text-align: left; transition: background .15s; }
+  .btn-signout:hover { background: #fff0f0; }
+  .user-wrap { position: relative; }
+  .user-dropdown { position: absolute; top: calc(100% + 10px); right: 0; background: var(--blanco); border: 1.5px solid rgba(28,16,7,.1); border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.12); padding: .75rem; min-width: 180px; z-index: 200; display: none; flex-direction: column; gap: .3rem; }
+  .user-dropdown.open { display: flex; }
+  .user-name-dd { font-size: .82rem; font-weight: 700; padding: .3rem .6rem; color: var(--negro); }
+
+  /* HERO */
+  .dev-hero { padding: 4rem 5% 3rem; }
+  .breadcrumb { font-size: .78rem; color: rgba(26,26,26,.45); margin-bottom: 1.2rem; }
+  .breadcrumb a { color: inherit; text-decoration: none; }
+  .breadcrumb a:hover { color: var(--terracota); }
+  .breadcrumb span { margin: 0 .4rem; }
+  .dev-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; line-height: 1.15; letter-spacing: -.03em; margin-bottom: .8rem; }
+  .dev-hero h1 em { font-style: italic; color: var(--terracota); }
+  .dev-hero p { font-size: 1rem; color: rgba(26,26,26,.65); line-height: 1.7; max-width: 520px; }
+
+  /* CONTENIDO */
+  .dev-content { padding: 0 5% 5rem; display: flex; flex-direction: column; gap: 2rem; }
+  .dev-card { background: var(--card-bg); border-radius: 20px; padding: 2rem 2.2rem; border: 1px solid rgba(28,16,7,.07); }
+  .dev-card-header { display: flex; align-items: center; gap: .9rem; margin-bottom: 1.4rem; }
+  .dev-card-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--terracota); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+  .dev-card-header h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -.01em; }
+  .info-row { display: flex; align-items: flex-start; gap: 1rem; padding: .9rem 0; border-bottom: 1px solid rgba(28,16,7,.06); }
+  .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .info-row-icon { font-size: 1.1rem; margin-top: 1px; flex-shrink: 0; }
+  .info-row-text { font-size: .9rem; color: rgba(26,26,26,.75); line-height: 1.6; }
+  .info-row-text strong { color: var(--negro); font-weight: 600; display: block; margin-bottom: .1rem; }
+  .dev-nota { display: flex; align-items: flex-start; gap: .7rem; background: rgba(196,98,45,.08); border-radius: 12px; padding: 1rem 1.2rem; font-size: .84rem; color: rgba(26,26,26,.75); line-height: 1.6; margin-top: 1rem; }
+  .dev-nota strong { color: var(--terracota); }
+  .dev-nota-red { background: rgba(192,57,43,.07); }
+  .dev-nota-red strong { color: #c0392b; }
+  .tipo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .tipo-box { background: var(--blanco); border-radius: 14px; padding: 1.2rem 1.4rem; border: 1px solid rgba(28,16,7,.07); }
+  .tipo-box .tipo-titulo { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: rgba(26,26,26,.5); margin-bottom: .5rem; }
+  .tipo-box p { font-size: .85rem; color: rgba(26,26,26,.7); line-height: 1.6; }
+
+  /* WHATSAPP BANNER */
+  .wsp-banner { background: var(--dark); border-radius: 20px; padding: 2rem 2.2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+  .wsp-banner-text h3 { color: var(--cream); font-size: 1.05rem; font-weight: 700; margin-bottom: .3rem; }
+  .wsp-banner-text p { color: rgba(245,236,215,.6); font-size: .86rem; line-height: 1.6; }
+  .btn-wsp { display: inline-flex; align-items: center; gap: .6rem; background: #25D366; color: #fff; border: none; border-radius: 50px; padding: 12px 24px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; text-decoration: none; transition: background .2s; white-space: nowrap; }
+  .btn-wsp:hover { background: #1ebe5a; }
+  .btn-email { display: inline-flex; align-items: center; gap: .6rem; background: transparent; color: var(--cream); border: 1.5px solid rgba(245,236,215,.3); border-radius: 50px; padding: 12px 24px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .9rem; cursor: pointer; text-decoration: none; transition: all .2s; white-space: nowrap; }
+  .btn-email:hover { border-color: var(--cream); }
+  .banner-btns { display: flex; gap: .8rem; flex-wrap: wrap; }
+
+  /* FOOTER */
+  footer { background: var(--cream); border-top: 1px solid rgba(28,16,7,.08); padding: 56px 5% 32px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 48px; }
+  .footer-brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: .8rem; }
+  .footer-brand-row img { width: 40px; height: 40px; object-fit: contain; }
+  .footer-brand-name { font-weight: 700; font-size: 1rem; }
+  .footer-brand p { font-size: .85rem; color: #6b5a4e; line-height: 1.6; max-width: 260px; margin-bottom: 1.4rem; }
+  .footer-socials { display: flex; gap: .8rem; }
+  .footer-socials a { width: 38px; height: 38px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: var(--negro); transition: all .2s; }
+  .footer-socials a:hover { border-color: var(--terracota); color: var(--terracota); }
+  .footer-socials svg { width: 16px; height: 16px; fill: currentColor; }
+  .footer-col h4 { font-weight: 700; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--negro); margin-bottom: 1.2rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+  .footer-col ul a { text-decoration: none; color: #6b5a4e; font-size: .87rem; transition: color .2s; }
+  .footer-col ul a:hover, .footer-col ul a.activo { color: var(--terracota); }
+  .footer-bottom { border-top: 1px solid rgba(28,16,7,.08); padding-top: 24px; text-align: center; font-size: .82rem; color: #8a7a6e; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .nav-logo span { display: none; } .nav-ig-desktop { display: none; } .nav-ig-mobile { display: flex; }
+    .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; }
+    .dev-hero { padding: 2.5rem 5% 2rem; }
+    .tipo-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .wsp-banner { flex-direction: column; align-items: flex-start; }
+    .dev-card { padding: 1.4rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="logo.png" alt="Patas & Caos" width="44" height="44">
+    <span>Patas & Caos</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/tienda">Tienda</a></li>
+    <li><a href="/nosotros">Nosotros</a></li>
+    <li><a href="/contacto">Contacto</a></li>
+    <li><a href="/blog">Blog</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-cart-wrap">
+      <button class="nav-cart" onclick="toggleCart()" aria-label="Carrito">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      </button>
+      <span class="cart-badge" id="cart-badge">0</span>
+    </div>
+    <div id="nav-auth"></div>
+    <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" class="nav-ig-desktop" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" class="nav-ig-mobile" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/" onclick="toggleMenu()">Inicio</a>
+  <a href="/tienda" onclick="toggleMenu()">Tienda</a>
+  <a href="/nosotros" onclick="toggleMenu()">Nosotros</a>
+  <a href="/contacto" onclick="toggleMenu()">Contacto</a>
+  <a href="/blog" onclick="toggleMenu()">Blog</a>
+</div>
+
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header">
+    <h3>🛒 Tu carrito</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
+    <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
+    <button class="btn-checkout" onclick="checkout()">Pagar con Mercado Pago →</button>
+  </div>
+</aside>
+
+<!-- HERO -->
+<section class="dev-hero">
+  <div class="breadcrumb">
+    <a href="/">Inicio</a><span>›</span><a href="#">Ayuda</a><span>›</span>Cambios y devoluciones
+  </div>
+  <h1>Cambios y <em>devoluciones</em></h1>
+  <p>Queremos que tú y tu mascota estén felices. Si algo no resultó como esperabas, te ayudamos a resolverlo.</p>
+</section>
+
+<div class="dev-content">
+
+  <!-- PLAZOS Y CONDICIONES -->
+  <div class="dev-card">
+    <div class="dev-card-header">
+      <div class="dev-card-icon">📋</div>
+      <h2>Plazos y condiciones</h2>
+    </div>
+    <div class="info-row">
+      <div class="info-row-icon">📅</div>
+      <div class="info-row-text"><strong>Plazo legal</strong>De acuerdo a la Ley del Consumidor (Ley 19.496), tienes <strong>10 días hábiles</strong> desde que recibes el producto para solicitar un cambio o devolución por arrepentimiento en compras online.</div>
+    </div>
+    <div class="info-row">
+      <div class="info-row-icon">📦</div>
+      <div class="info-row-text"><strong>Estado del producto</strong>El producto debe estar sin uso, en perfectas condiciones y con su embalaje original intacto.</div>
+    </div>
+    <div class="info-row">
+      <div class="info-row-icon">🧾</div>
+      <div class="info-row-text"><strong>Comprobante de compra</strong>Es obligatorio presentar la boleta o factura para gestionar cualquier cambio o devolución.</div>
+    </div>
+    <div class="dev-nota">
+      ⚡ <span><strong>Fallas de fábrica:</strong> Si el producto presenta un defecto de fabricación, el plazo se extiende a <strong>3 meses</strong> desde la compra, independiente del tipo de producto.</span>
+    </div>
+  </div>
+
+  <!-- TIPOS DE CASO -->
+  <div class="dev-card">
+    <div class="dev-card-header">
+      <div class="dev-card-icon">🔄</div>
+      <h2>Tipos de caso</h2>
+    </div>
+    <div class="tipo-grid">
+      <div class="tipo-box">
+        <div class="tipo-titulo">Arrepentimiento</div>
+        <p>Cambiaste de opinión o el producto no era lo que esperabas. Aplica dentro de los 10 días hábiles desde la recepción, con producto sin uso y embalaje original.</p>
+      </div>
+      <div class="tipo-box">
+        <div class="tipo-titulo">Falla de fábrica</div>
+        <p>El producto llegó dañado o presentó un defecto de fabricación. En este caso aceptamos el cambio o devolución sin costo adicional para ti, hasta 3 meses desde la compra.</p>
+      </div>
+    </div>
+    <div class="dev-nota dev-nota-red">
+      🚫 <span><strong>No aplica devolución</strong> en alimentos y snacks que hayan sido abiertos, por razones de higiene y seguridad alimentaria. Si llegaron dañados o en mal estado, contáctanos de inmediato.</span>
+    </div>
+  </div>
+
+  <!-- CÓMO SOLICITARLO -->
+  <div class="dev-card">
+    <div class="dev-card-header">
+      <div class="dev-card-icon">💬</div>
+      <h2>¿Cómo solicitarlo?</h2>
+    </div>
+    <div class="info-row">
+      <div class="info-row-icon">1️⃣</div>
+      <div class="info-row-text"><strong>Contáctanos</strong>Escríbenos por WhatsApp al <strong>+56 9 2399 7854</strong> o al email <strong>contacto@patasycaos.cl</strong> indicando tu número de pedido, el producto y el motivo de la solicitud.</div>
+    </div>
+    <div class="info-row">
+      <div class="info-row-icon">2️⃣</div>
+      <div class="info-row-text"><strong>Devuelve el producto</strong>Puedes traerlo personalmente a <strong>Gath y Chaves 2452, depto. 702, Providencia</strong> (coordina horario con nosotros) o enviarlo por tu cuenta a la misma dirección. El costo del despacho de devolución corre por tu cuenta, salvo en casos de falla de fábrica.</div>
+    </div>
+    <div class="info-row">
+      <div class="info-row-icon">3️⃣</div>
+      <div class="info-row-text"><strong>Revisamos y resolvemos</strong>Una vez recibido el producto, lo revisamos y te confirmamos la resolución en un plazo máximo de 5 días hábiles.</div>
+    </div>
+  </div>
+
+  <!-- QUÉ OFRECEMOS -->
+  <div class="dev-card">
+    <div class="dev-card-header">
+      <div class="dev-card-icon">✅</div>
+      <h2>¿Qué ofrecemos?</h2>
+    </div>
+    <div class="info-row">
+      <div class="info-row-icon">🔁</div>
+      <div class="info-row-text"><strong>Cambio de producto</strong>Puedes cambiar por otro producto de igual o mayor valor (abonando la diferencia).</div>
+    </div>
+    <div class="info-row">
+      <div class="info-row-icon">💸</div>
+      <div class="info-row-text"><strong>Reembolso</strong>Si prefieres la devolución del dinero, la realizamos por transferencia bancaria directa al titular de la compra, en un plazo de hasta 5 días hábiles desde que confirmamos la resolución.</div>
+    </div>
+    <div class="dev-nota">
+      🐾 <span>La elección es tuya — te consultamos cuál prefieres antes de proceder con cualquier gestión.</span>
+    </div>
+  </div>
+
+  <!-- BANNER CONTACTO -->
+  <div class="wsp-banner">
+    <div class="wsp-banner-text">
+      <h3>¿Tienes dudas sobre tu cambio o devolución?</h3>
+      <p>Escríbenos y te respondemos en minutos. Sin vueltas.</p>
+    </div>
+    <div class="banner-btns">
+      <a href="https://wa.me/56923997854" target="_blank" rel="noopener" class="btn-wsp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a href="mailto:contacto@patasycaos.cl" class="btn-email">
+        contacto@patasycaos.cl
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-row">
+        <img src="logo.png" alt="Patas & Caos" width="40" height="40">
+        <span class="footer-brand-name">Patas & Caos</span>
+      </div>
+      <p>Accesorios, juguetes y comida para mascotas con personalidad. Hechos para humanos que aman el desorden peludo.</p>
+      <div class="footer-socials">
+        <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Tienda</h4>
+      <ul>
+        <li><a href="/tienda">Todos los productos</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ayuda</h4>
+      <ul>
+        <li><a href="/envios">Envíos</a></li>
+        <li><a href="/devoluciones" class="activo">Cambios y devoluciones</a></li>
+        <li><a href="/contacto">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Patas & Caos. Todos los ladridos reservados.</div>
+</footer>
+
+<div class="auth-overlay" id="auth-overlay" onclick="cerrarAuthSiFondo(event)">
+  <div class="auth-box">
+    <button class="auth-close" onclick="cerrarAuth()">✕</button>
+    <div class="auth-logo"><img src="logo.png" alt="Patas & Caos"></div>
+    <h3>Bienvenido 🐾</h3>
+    <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
+    <button class="btn-google" onclick="loginConGoogle()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+      Continuar con Google
+    </button>
+    <div class="auth-divider"><span>o con tu email</span></div>
+    <div class="auth-field">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="tu@correo.com" onkeydown="if(event.key==='Enter') enviarMagicLink()">
+    </div>
+    <button class="btn-auth" onclick="enviarMagicLink()">Enviar enlace de acceso</button>
+    <p class="auth-msg" id="auth-msg"></p>
+  </div>
+</div>
+
+<script src="cart.js"></script>
+<script>
+function toggleMenu() { document.getElementById('hamburger').classList.toggle('open'); document.getElementById('mobile-menu').classList.toggle('open'); }
+window.addEventListener('scroll', () => document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40));
+function toggleCart() { document.getElementById('cart-overlay').classList.toggle('open'); document.getElementById('cart-sidebar').classList.toggle('open'); document.body.style.overflow = document.getElementById('cart-sidebar').classList.contains('open') ? 'hidden' : ''; }
+window.addEventListener('load', function() { if (typeof renderCart === 'function') renderCart(); });
+
+function abrirAuth() { document.getElementById('auth-overlay').classList.add('activo'); document.body.style.overflow='hidden'; }
+function cerrarAuth() { document.getElementById('auth-overlay').classList.remove('activo'); document.body.style.overflow=''; document.getElementById('auth-msg').textContent=''; }
+function cerrarAuthSiFondo(e) { if(e.target.id==='auth-overlay') cerrarAuth(); }
+
+async function loginConGoogle() {
+  await _sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.origin } });
+}
+async function enviarMagicLink() {
+  const email = document.getElementById('auth-email').value.trim();
+  const msg = document.getElementById('auth-msg');
+  if (!email) { msg.textContent='Ingresa tu email'; msg.className='auth-msg err'; return; }
+  const { error } = await _sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: window.location.origin } });
+  if (error) { msg.textContent='Error: '+error.message; msg.className='auth-msg err'; }
+  else { msg.textContent='✅ Revisa tu email — te enviamos un enlace de acceso'; msg.className='auth-msg ok'; }
+}
+async function cargarDatosUsuario() {
+  if (!sbToken) return;
+  try {
+    const r = await fetch('/api/user-data-get', { headers:{ Authorization:`Bearer ${sbToken}` } });
+    const data = await r.json();
+    if (data.cart && Array.isArray(data.cart) && data.cart.length > 0) {
+      const local = [...cart]; data.cart.forEach(item => { if (!local.find(i=>i.id===item.id)) local.push(item); });
+      cart = local; guardarCarritoLocal(); renderCart();
+    }
+  } catch(e) {}
+}
+function updateAuthUI() {
+  const el = document.getElementById('nav-auth');
+  if (!el) return;
+  if (sbUser) {
+    const nombre = sbUser.user_metadata?.full_name || sbUser.email?.split('@')[0] || 'Mi cuenta';
+    const avatar = sbUser.user_metadata?.avatar_url;
+    const avatarHTML = avatar
+      ? `<img src="${avatar}" class="user-avatar" style="width:38px;height:38px;border-radius:50%;object-fit:cover;cursor:pointer;border:2px solid transparent" onclick="toggleUserDropdown()" alt="${nombre}">`
+      : `<div class="user-avatar" style="width:38px;height:38px;border-radius:50%;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onclick="toggleUserDropdown()">${nombre[0].toUpperCase()}</div>`;
+    el.innerHTML = `<div class="user-wrap">${avatarHTML}<div class="user-dropdown" id="user-dropdown"><span class="user-name-dd">👋 ${nombre}</span><a href="/favoritos" style="display:block;padding:.5rem .6rem;font-size:.82rem;font-weight:500;color:var(--terracota);text-decoration:none;border-radius:8px;transition:background .15s" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='none'">❤️ Mis favoritos</a><button class="btn-signout" onclick="cerrarSesion()">Cerrar sesión</button></div></div>`;
+  } else {
+    el.innerHTML = `<button class="btn-signin" onclick="abrirAuth()" aria-label="Iniciar sesión"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></button>`;
+  }
+}
+async function cerrarSesion() {
+  await _sb.auth.signOut();
+  sbUser=null; sbToken=null; cart=[]; wishlist=[];
+  renderCart(); updateAuthUI();
+}
+function toggleUserDropdown() { document.getElementById('user-dropdown')?.classList.toggle('open'); }
+document.addEventListener('click', e => { if(!e.target.closest('.user-wrap')) document.getElementById('user-dropdown')?.classList.remove('open'); });
+
+_sb.auth.onAuthStateChange(async (event, session) => {
+  if (session) {
+    sbUser = session.user; sbToken = session.access_token;
+    updateAuthUI();
+    if (event === 'SIGNED_IN') { cerrarAuth(); await cargarDatosUsuario(); }
+  } else { sbUser=null; sbToken=null; updateAuthUI(); }
+});
+_sb.auth.getSession().then(({ data:{ session } }) => {
+  if (session) { sbUser = session.user; sbToken = session.access_token; updateAuthUI(); cargarDatosUsuario(); }
+  else { updateAuthUI(); }
+});
+</script>
+</body>
+</html>
