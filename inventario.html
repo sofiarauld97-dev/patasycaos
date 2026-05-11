@@ -425,6 +425,9 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
    CATÁLOGO DE SKUs
 ═══════════════════════════════════════ */
 const SKUS = [
+  { id: "pack-calma-total", nombre: "Pack Calma Total", cat: "Flores de Bach", precio: "$15.990", img: "pack_calma_total.png", emoji: "🎁" },
+  { id: "pack-sos-mascota", nombre: "Pack SOS Mascota", cat: "Flores de Bach", precio: "$18.990", img: "pack_sos_mascota.png", emoji: "🎁" },
+  { id: "pack-rutina-sana", nombre: "Pack Rutina Sana", cat: "Flores de Bach", precio: "$33.990", img: "pack_rutina_sana.png", emoji: "🎁" },
   { id: "comedero-lento-slow-feeder---catstages", nombre: "Comedero Lento Slow Feeder - Catstages", cat: "Accesorio", precio: "$7.990", img: "Plato_con_Comida.png", emoji: "🐱" },
   
   
@@ -683,7 +686,7 @@ function abrirExportar() {
     return `  '${sku.id}': ${val},   // ${sku.nombre}`;
   }).join('\n');
 
-  const codigo = `const stockInicial = {"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
+  const codigo = `const stockInicial = {"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
   document.getElementById('codigo-exportar').textContent = codigo;
   document.getElementById('modal-exportar').classList.add('open');
 }
