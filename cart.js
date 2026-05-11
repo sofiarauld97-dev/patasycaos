@@ -508,4 +508,5 @@ _sb.auth.getSession().then(({ data:{ session } }) => {
 // Restaurar carrito al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
   if (cart.length > 0) renderCart();
+  updateAuthUI();
 });
