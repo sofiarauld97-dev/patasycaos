@@ -483,13 +483,6 @@ async function enviarMagicLink() {
   if (error) { msg.textContent='Error: '+error.message; msg.className='auth-msg err'; }
   else { msg.textContent='✅ Revisa tu email — te enviamos un enlace de acceso'; msg.className='auth-msg ok'; }
 }
-function updateAuthUI() {
-  const el = document.getElementById('nav-auth'); if (!el) return;
-  if (sbUser) {
-    const nombre = sbUser.user_metadata?.full_name || sbUser.email?.split('@')[0] || 'Mi cuenta';
-    el.innerHTML = `<button class="btn-signin" onclick="cerrarSesion()">Cerrar sesión</button>`;
-  } else { el.innerHTML = `<button class="btn-signin" onclick="abrirAuth()" aria-label="Iniciar sesión"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></button>`; }
-}
 async function cerrarSesion() { await _sb.auth.signOut(); sbUser=null; sbToken=null; cart=[]; renderCart(); updateAuthUI(); }
 _sb.auth.onAuthStateChange(async (event, session) => {
   if (session) { sbUser = session.user; sbToken = session.access_token; updateAuthUI(); if (event==='SIGNED_IN') cerrarAuth(); }
