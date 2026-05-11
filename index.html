@@ -942,6 +942,7 @@ function generarTarjetas() {
     card.addEventListener('click',()=>abrirModal(id));
     const carr = crearCarrusel(imgs, phs);
     const badge = document.createElement('span'); badge.className='prod-badge'; badge.textContent=p.categoria; carr.appendChild(badge);
+    if(p.ahorro){const ab=document.createElement('span');ab.className='badge-ahorro';ab.textContent='Ahorras $'+p.ahorro.toLocaleString('es-CL');carr.appendChild(ab);}
     const heart = document.createElement('button'); heart.className='prod-heart'; heart.innerHTML='♡'; heart.dataset.id=id; heart.addEventListener('click',(e)=>toggleWishlist(e,id)); carr.appendChild(heart);
     const btnId = 'btn-'+id;
     const info = document.createElement('div'); info.className='prod-info';
@@ -969,6 +970,7 @@ function generarCarrusel() {
     card.addEventListener('click', () => abrirModal(id));
     const carr = crearCarrusel(imgs, phs);
     const badge = document.createElement('span'); badge.className = 'prod-badge'; badge.textContent = p.categoria; carr.appendChild(badge);
+    const ab2 = document.createElement('span'); if(p.ahorro){ab2.className='badge-ahorro';ab2.textContent='Ahorras $'+p.ahorro.toLocaleString('es-CL');carr.appendChild(ab2);}
     const heart = document.createElement('button'); heart.className = 'prod-heart'; heart.innerHTML = '♡'; heart.dataset.id = id; heart.addEventListener('click', (e) => toggleWishlist(e, id)); carr.appendChild(heart);
     const btnId = 'carr-btn-' + id;
     const info = document.createElement('div'); info.className = 'prod-info';
