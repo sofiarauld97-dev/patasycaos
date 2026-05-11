@@ -88,12 +88,29 @@ function calcularEnvio(comuna) {
 }
 
 function actualizarEnvio() {
-  const comuna = document.getElementById('co-comuna').value;
-  const resultado = calcularEnvio(comuna);
+  const metodoEl = document.querySelector('input[name="metodo-envio"]:checked');
+  const metodo = metodoEl ? metodoEl.value : 'despacho';
+  const camposEnvio = document.getElementById('campos-envio');
+  const retiroInfo = document.getElementById('retiro-info');
   const infoEl = document.getElementById('envio-info');
   const precioEl = document.getElementById('envio-precio');
   const avisoEl = document.getElementById('envio-aviso');
-  if (!resultado || !comuna) { infoEl.style.display = 'none'; avisoEl.textContent = ''; return; }
+  // Actualizar estilo del toggle
+  document.querySelectorAll('.metodo-btn').forEach(l => l.classList.remove('activo'));
+  const lblActivo = document.getElementById(metodo === 'retiro' ? 'lbl-retiro' : 'lbl-despacho');
+  if (lblActivo) lblActivo.classList.add('activo');
+  if (metodo === 'retiro') {
+    if (camposEnvio) camposEnvio.style.display = 'none';
+    if (retiroInfo) retiroInfo.style.display = 'block';
+    if (infoEl) infoEl.style.display = 'none';
+    if (avisoEl) avisoEl.textContent = '';
+    return;
+  }
+  if (camposEnvio) camposEnvio.style.display = 'block';
+  if (retiroInfo) retiroInfo.style.display = 'none';
+  const comuna = document.getElementById('co-comuna').value;
+  const resultado = calcularEnvio(comuna);
+  if (!resultado || !comuna) { if(infoEl) infoEl.style.display = 'none'; if(avisoEl) avisoEl.textContent = ''; return; }
   infoEl.style.display = 'flex';
   precioEl.textContent = resultado.texto;
   avisoEl.textContent = resultado.aviso;
@@ -135,7 +152,11 @@ async function confirmarCheckout() {
   }
 
   // Validar campos obligatorios
-  const campos = ['co-nombre','co-telefono','co-email','co-direccion','co-comuna','co-ciudad'];
+  const metodoEnvio = document.querySelector('input[name="metodo-envio"]:checked')?.value || 'despacho';
+  const esRetiro = metodoEnvio === 'retiro';
+  const campos = esRetiro
+    ? ['co-nombre','co-telefono','co-email']
+    : ['co-nombre','co-telefono','co-email','co-direccion','co-comuna','co-ciudad'];
   let valido = true;
   campos.forEach(id => {
     const el = document.getElementById(id);
@@ -145,14 +166,14 @@ async function confirmarCheckout() {
   if (!valido) { mostrarToastCarrito('Por favor completa todos los campos obligatorios'); return; }
 
   // Calcular envío
-  const envio = calcularEnvio(comuna);
-  const costoEnvio = envio?.precio || 0;
+  const envio = esRetiro ? null : calcularEnvio(comuna);
+  const costoEnvio = esRetiro ? 0 : (envio?.precio || 0);
 
   // Ir directo a Mercado Pago
   const btn = document.querySelector('.btn-checkout-confirm');
   btn.textContent = 'Procesando...'; btn.disabled = true;
   try {
-    const cliente = { nombre, telefono, email, direccion, comuna, ciudad, notas, costoEnvio, documento: esFactura ? 'Factura' : 'Boleta', ...docInfo };
+    const cliente = { nombre, telefono, email, direccion: esRetiro ? 'Retiro en tienda' : direccion, comuna: esRetiro ? 'Providencia' : comuna, ciudad: esRetiro ? 'Santiago' : ciudad, notas, costoEnvio, metodoEntrega: esRetiro ? 'Retiro en tienda — Gath y Chaves 2452, dpto. 702, Providencia' : 'Despacho a domicilio', documento: esFactura ? 'Factura' : 'Boleta', ...docInfo };
     const res = await fetch('/api/checkout', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ items: cart, cliente }) });
     const data = await res.json();
     if (data.init_point) { cerrarCheckout(); window.location.href = data.init_point; }
