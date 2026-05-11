@@ -191,7 +191,7 @@ const COMUNAS_CHILE = [
   // Aysén
   {c:'Coyhaique',city:'Coyhaique'},{c:'Lago Verde',city:'Coyhaique'},{c:'Aysén',city:'Aysén'},
   {c:'Cisnes',city:'Aysén'},{c:'Guaitecas',city:'Aysén'},{c:'Cochrane',city:'Cochrane'},
-  {c:'O'Higgins',city:'Cochrane'},{c:'Tortel',city:'Cochrane'},{c:'Chile Chico',city:'Chile Chico'},
+  {c:'O\u2019Higgins',city:'Cochrane'},{c:'Tortel',city:'Cochrane'},{c:'Chile Chico',city:'Chile Chico'},
   {c:'Río Ibáñez',city:'Chile Chico'},
   // Magallanes
   {c:'Punta Arenas',city:'Punta Arenas'},{c:'Laguna Blanca',city:'Punta Arenas'},
@@ -508,5 +508,4 @@ _sb.auth.getSession().then(({ data:{ session } }) => {
 // Restaurar carrito al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
   if (cart.length > 0) renderCart();
-  updateAuthUI();
 });
