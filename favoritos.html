@@ -638,12 +638,28 @@ function normalizarComuna(str) {
   return str.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 }
 function actualizarEnvio() {
-  const comuna = document.getElementById('co-comuna').value;
-  const resultado = calcularEnvio(comuna);
+  const metodoEl = document.querySelector('input[name="metodo-envio"]:checked');
+  const metodo = metodoEl ? metodoEl.value : 'despacho';
+  const camposEnvio = document.getElementById('campos-envio');
+  const retiroInfo = document.getElementById('retiro-info');
   const infoEl = document.getElementById('envio-info');
   const precioEl = document.getElementById('envio-precio');
   const avisoEl = document.getElementById('envio-aviso');
-  if (!resultado || !comuna) { infoEl.style.display = 'none'; avisoEl.textContent = ''; return; }
+  document.querySelectorAll('.metodo-btn').forEach(l => l.classList.remove('activo'));
+  const lblActivo = document.getElementById(metodo === 'retiro' ? 'lbl-retiro' : 'lbl-despacho');
+  if (lblActivo) lblActivo.classList.add('activo');
+  if (metodo === 'retiro') {
+    if (camposEnvio) camposEnvio.style.display = 'none';
+    if (retiroInfo) retiroInfo.style.display = 'block';
+    if (infoEl) infoEl.style.display = 'none';
+    if (avisoEl) avisoEl.textContent = '';
+    return;
+  }
+  if (camposEnvio) camposEnvio.style.display = 'block';
+  if (retiroInfo) retiroInfo.style.display = 'none';
+  const comuna = document.getElementById('co-comuna').value;
+  const resultado = calcularEnvio(comuna);
+  if (!resultado || !comuna) { if(infoEl) infoEl.style.display = 'none'; if(avisoEl) avisoEl.textContent = ''; return; }
   infoEl.style.display = 'flex';
   precioEl.textContent = resultado.texto;
   avisoEl.textContent = resultado.aviso;
@@ -695,7 +711,11 @@ async function confirmarCheckout() {
     if (!rut || !razon || !giro || !dirFact) { mostrarToastCarrito('Completa todos los datos de factura'); return; }
     docInfo = { rut, razon, giro, dirFact };
   }
-  const campos = ['co-nombre','co-telefono','co-email','co-direccion','co-comuna','co-ciudad'];
+  const metodoEnvio = document.querySelector('input[name="metodo-envio"]:checked')?.value || 'despacho';
+  const esRetiro = metodoEnvio === 'retiro';
+  const campos = esRetiro
+    ? ['co-nombre','co-telefono','co-email']
+    : ['co-nombre','co-telefono','co-email','co-direccion','co-comuna','co-ciudad'];
   let valido = true;
   campos.forEach(id => {
     const el = document.getElementById(id);
@@ -703,8 +723,8 @@ async function confirmarCheckout() {
     else el.classList.remove('error');
   });
   if (!valido) { mostrarToastCarrito('Por favor completa todos los campos obligatorios'); return; }
-  const envio = calcularEnvio(comuna);
-  const costoEnvio = envio?.precio || 0;
+  const envio = esRetiro ? null : calcularEnvio(comuna);
+  const costoEnvio = esRetiro ? 0 : (envio?.precio || 0);
   const btn = document.querySelector('.btn-checkout-confirm');
   btn.textContent = 'Procesando...'; btn.disabled = true;
   try {

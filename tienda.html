@@ -1094,7 +1094,11 @@ async function confirmarCheckout() {
   }
 
   // Validar campos obligatorios
-  const campos = ['co-nombre','co-telefono','co-email','co-direccion','co-comuna','co-ciudad'];
+  const metodoEnvio = document.querySelector('input[name="metodo-envio"]:checked')?.value || 'despacho';
+  const esRetiro = metodoEnvio === 'retiro';
+  const campos = esRetiro
+    ? ['co-nombre','co-telefono','co-email']
+    : ['co-nombre','co-telefono','co-email','co-direccion','co-comuna','co-ciudad'];
   let valido = true;
   campos.forEach(id => {
     const el = document.getElementById(id);
@@ -1104,8 +1108,8 @@ async function confirmarCheckout() {
   if (!valido) { mostrarToastCarrito('Por favor completa todos los campos obligatorios'); return; }
 
   // Calcular envío
-  const envio = calcularEnvio(comuna);
-  const costoEnvio = envio?.precio || 0;
+  const envio = esRetiro ? null : calcularEnvio(comuna);
+  const costoEnvio = esRetiro ? 0 : (envio?.precio || 0);
 
   // Ir directo a Mercado Pago
   const btn = document.querySelector('.btn-checkout-confirm');
