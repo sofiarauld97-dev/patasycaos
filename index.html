@@ -902,7 +902,37 @@ function abrirModal(productoId) {
   } else { variantesEl.classList.remove('visible'); construirGaleria(p); }
   document.getElementById('modalProducto').classList.add('activo'); document.body.style.overflow='hidden';
 }
-function seleccionarVariante(idx){ varianteActualIdx=idx; imagenActualIdx=0; document.querySelectorAll('.modal-variante-btn').forEach((b,i)=>b.classList.toggle('activo',i===idx)); construirGaleria(productoActual.variantes[idx]); }
+
+function seleccionarTabModal(tab) {
+  const caracBox = document.getElementById('modalCaracBox');
+  const ingrBox = document.getElementById('modalIngredientesBox');
+  const caracTitulo = document.getElementById('modalCaracTitulo');
+  if (document.getElementById('tab-carac')) document.getElementById('tab-carac').classList.toggle('activo', tab === 'carac');
+  if (document.getElementById('tab-ingr')) document.getElementById('tab-ingr').classList.toggle('activo', tab === 'ingr');
+  if (caracBox) caracBox.style.display = tab === 'carac' ? 'block' : 'none';
+  if (caracTitulo) caracTitulo.style.display = 'none';
+  if (ingrBox) ingrBox.style.display = tab === 'ingr' ? 'block' : 'none';
+}
+function actualizarIngredientesModal(p, varianteLabel) {
+  const tabs = document.getElementById('modalTabs');
+  const ingrText = document.getElementById('modalIngredientesText');
+  if (!tabs || !ingrText) return;
+  let ingr = null;
+  if (p.ingredientes) ingr = p.ingredientes;
+  else if (p.ingredientesVariantes && varianteLabel) ingr = p.ingredientesVariantes[varianteLabel] || null;
+  if (ingr) {
+    tabs.style.display = 'flex';
+    ingrText.textContent = ingr;
+  } else {
+    tabs.style.display = 'none';
+    const caracBox = document.getElementById('modalCaracBox');
+    const ingrBox = document.getElementById('modalIngredientesBox');
+    if (caracBox) caracBox.style.display = 'block';
+    if (ingrBox) ingrBox.style.display = 'none';
+  }
+  seleccionarTabModal('carac');
+}
+function seleccionarVariante(idx){ varianteActualIdx=idx; imagenActualIdx=0; document.querySelectorAll('.modal-variante-btn').forEach((b,i)=>b.classList.toggle('activo',i===idx)); construirGaleria(productoActual.variantes[idx]); actualizarIngredientesModal(productoActual, productoActual.variantes[idx].label); }
 function construirGaleria(fuente){
   const thumbsEl=document.getElementById('modalThumbnails'); thumbsEl.innerHTML=''; actualizarImagenPrincipal(fuente,0);
   if(fuente.imagenes.length>1){ fuente.imagenes.forEach((src,idx)=>{ const t=document.createElement('div'); t.className='modal-thumb'+(idx===0?' activo':''); t.onclick=()=>cambiarImagen(idx,fuente); const ie=document.createElement('img'); ie.src=src; ie.alt=''; ie.onerror=()=>{ t.innerHTML=''; t.textContent=fuente.placeholders?.[idx]||'📷'; t.style.fontSize='1.4rem'; }; t.appendChild(ie); thumbsEl.appendChild(t); }); }
