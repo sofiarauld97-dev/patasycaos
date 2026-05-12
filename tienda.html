@@ -802,7 +802,7 @@ function abrirModal(productoId) {
   const ahorroEl = document.getElementById('modalAhorro'); if(ahorroEl){ if(p.ahorro){ ahorroEl.textContent='Ahorras $'+p.ahorro.toLocaleString('es-CL'); ahorroEl.style.display='inline-block'; } else { ahorroEl.style.display='none'; } }
   document.getElementById('modalCategoria').textContent = p.categoria;
   document.getElementById('modalDescripcion').textContent = p.descripcion;
-  document.getElementById('modalCaracTitulo').textContent = p.caracTitulo;
+  const caracTituloEl = document.getElementById('modalCaracTitulo'); if(caracTituloEl){ caracTituloEl.textContent = p.caracTitulo; caracTituloEl.style.display='none'; }
   const lista = document.getElementById('modalCaracLista'); lista.innerHTML = '';
   p.caracteristicas.forEach(item => { const li = document.createElement('li'); li.textContent = item; lista.appendChild(li); });
   const primerVariante = p.variantes ? p.variantes[0]?.label : null;
@@ -835,7 +835,7 @@ function seleccionarTabModal(tab) {
   document.getElementById('tab-carac').classList.toggle('activo', tab === 'carac');
   document.getElementById('tab-ingr').classList.toggle('activo', tab === 'ingr');
   caracBox.style.display = tab === 'carac' ? 'block' : 'none';
-  caracTitulo.style.display = tab === 'carac' ? 'block' : 'none';
+  if (caracTitulo) caracTitulo.style.display = 'none';
   ingrBox.style.display = tab === 'ingr' ? 'block' : 'none';
 }
 function actualizarIngredientesModal(p, varianteLabel) {
@@ -854,7 +854,7 @@ function actualizarIngredientesModal(p, varianteLabel) {
     const caracTitulo = document.getElementById('modalCaracTitulo');
     const ingrBox = document.getElementById('modalIngredientesBox');
     if (caracBox) caracBox.style.display = 'block';
-    if (caracTitulo) caracTitulo.style.display = 'block';
+    if (caracTitulo) caracTitulo.style.display = 'none';
     if (ingrBox) ingrBox.style.display = 'none';
   }
   seleccionarTabModal('carac');
