@@ -974,6 +974,8 @@ generarTarjetas();
 // Abrir producto directo por ?producto= — ej: patasycaos.cl/tienda?producto=paw-balm
 const productoParam = urlParams.get('producto');
 if (productoParam && productos[productoParam]) setTimeout(() => abrirModal(productoParam), 400);
+
+(async () => {
   try {
     const r = await fetch('/api/stock-get');
     const data = await r.json();
