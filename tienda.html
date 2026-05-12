@@ -891,6 +891,7 @@ function abrirModal(productoId) {
   } else { variantesEl.classList.remove('visible'); construirGaleria(p); }
   document.getElementById('modalProducto').classList.add('activo');
   document.body.style.overflow = 'hidden';
+  history.replaceState(null, '', '#' + productoId);
 }
 function seleccionarVariante(idx) {
   varianteActualIdx = idx; imagenActualIdx = 0;
@@ -924,7 +925,7 @@ function cambiarImagen(idx, fuente) {
   imagenActualIdx = idx; actualizarImagenPrincipal(fuente, idx);
   document.querySelectorAll('.modal-thumb').forEach((el, i) => el.classList.toggle('activo', i === idx));
 }
-function cerrarModal() { document.getElementById('modalProducto').classList.remove('activo'); document.body.style.overflow = ''; }
+function cerrarModal() { document.getElementById('modalProducto').classList.remove('activo'); document.body.style.overflow = ''; history.replaceState(null, '', window.location.pathname + window.location.search); }
 function cerrarModalSiFondo(e) { if (e.target.id === 'modalProducto') cerrarModal(); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
 function agregarAlCarritoDesdeModal() {
@@ -971,7 +972,11 @@ if (catParam) {
 
 generarTarjetas();
 
-(async () => {
+// Abrir producto directo por hash — ej: patasycaos.cl/tienda#paw-balm
+(function() {
+  const hash = window.location.hash.replace('#', '');
+  if (hash && productos[hash]) setTimeout(() => abrirModal(hash), 300);
+})();
   try {
     const r = await fetch('/api/stock-get');
     const data = await r.json();
