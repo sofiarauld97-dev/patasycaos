@@ -2,7 +2,7 @@
 // Este archivo es cargado por todas las páginas
 
 // Stock — debe estar primero porque addToCart lo usa
-const stockInicial = {'tubito-atun':3,'tubito-conejo':3,'tubito-cangrejo':3,'lata-leonardo-kitten':1,'lata-leonardo_Ave':1,'lata-leonardo_Pato':1,'lata-leonardo_Conejo':1,'lata-leonardo_Pescado':1,'lata-leonardo_Ternera':1,'collar-findmy':1,'fuente-agua':1,'pajaro':1,'pelota-led':2,'pulpo':1,'paw-balm':2,'afeitadora':1,'cat-fest_Pato':1,'cat-fest_Cordero':1,'cats-snack_Catnip':1,'cats-snack_Matatabi':1,'cats-snack_Rellena Atún + Queso':1,'cats-snack_Rellena Atún + Ostiones':1,'cats-snack_Rellena Atún + Pollo':1};
+let stockInicial = {"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,'cat-fest-pillows':1,'tubito-atun':3,'tubito-conejo':3,'tubito-cangrejo':3,'lata-leonardo-kitten':1,'lata-leonardo_Ave':1,'lata-leonardo_Pato':1,'lata-leonardo_Conejo':1,'lata-leonardo_Pescado':1,'lata-leonardo_Ternera':1,'collar-findmy':1,'fuente-agua':1,'pajaro':1,'pelota-led':2,'pulpo':1,'paw-balm':2,'afeitadora':1,'cat-fest_Pato':1,'cat-fest_Cordero':1,'cats-snack_Catnip':1,'cats-snack_Matatabi':1,"cats-snack_Rellena Atún + Queso":1,"cats-snack_Rellena Atún + Ostiones":1,"cats-snack_Rellena Atún + Pollo":1};
 function getStock() { try { const s = localStorage.getItem('pac_stock'); if (!s) return {...stockInicial}; const p = JSON.parse(s); const m = {...stockInicial}; Object.keys(p).forEach(k => { m[k] = (p[k]===false||p[k]===0) ? 0 : (typeof p[k]==="number" ? p[k] : m[k]); }); return m; } catch(e) { return {...stockInicial}; } }
 
 let cart = [];
@@ -314,6 +314,12 @@ function cerrarCheckout() {
   document.getElementById('checkoutOverlay').classList.remove('activo');
   document.body.style.overflow = '';
 }
+function seleccionarDoc(tipo) {
+  document.getElementById('btn-boleta').classList.toggle('activo', tipo === 'boleta');
+  document.getElementById('btn-factura').classList.toggle('activo', tipo === 'factura');
+  document.getElementById('factura-fields').style.display = tipo === 'factura' ? 'block' : 'none';
+}
+
 
 async function confirmarCheckout() {
   const nombre   = document.getElementById('co-nombre').value.trim();
@@ -412,7 +418,7 @@ async function cargarDatosUsuario() {
       guardarCarritoLocal();
       renderCart();
     }
-    if (Array.isArray(data.wishlist)) { wishlist = data.wishlist; actualizarWishlistUI(); }
+    if (Array.isArray(data.wishlist)) { wishlist = data.wishlist; actualizarWishlistUI(); if (typeof renderFavoritos === 'function') renderFavoritos(); }
   } catch(e) {}
 }
 
@@ -493,8 +499,9 @@ _sb.auth.onAuthStateChange(async (event, session) => {
     updateAuthUI();
     if (event === 'SIGNED_IN') { cerrarAuth(); await cargarDatosUsuario(); }
   } else {
-    sbUser=null; sbToken=null;
+    sbUser=null; sbToken=null; wishlist=[];
     updateAuthUI();
+    if (typeof renderFavoritos === 'function') renderFavoritos();
   }
 });
 

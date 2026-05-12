@@ -327,24 +327,10 @@
   <div class="footer-bottom">© 2026 Patas & Caos. Todos los ladridos reservados.</div>
 </footer>
 
+<script src="cart.js"></script>
 <script>
 function toggleMenu(){document.getElementById('hamburger').classList.toggle('open');document.getElementById('mobile-menu').classList.toggle('open');}
 window.addEventListener('scroll',()=>document.querySelector('nav').classList.toggle('scrolled',window.scrollY>40));
-
-let cart=[];
-function toggleCart(){document.getElementById('cart-overlay').classList.toggle('open');document.getElementById('cart-sidebar').classList.toggle('open');document.body.style.overflow=document.getElementById('cart-sidebar').classList.contains('open')?'hidden':'';}
-function addToCart(product){const existing=cart.find(i=>i.id===product.id);if(existing)existing.qty++;else cart.push({...product,qty:1});renderCart();if(!document.getElementById('cart-sidebar').classList.contains('open'))toggleCart();}
-function changeQty(id,delta){const item=cart.find(i=>i.id===id);if(!item)return;item.qty+=delta;if(item.qty<=0)cart=cart.filter(i=>i.id!==id);renderCart();}
-function removeItem(id){cart=cart.filter(i=>i.id!==id);renderCart();}
-function renderCart(){
-  const container=document.getElementById('cart-items'),footer=document.getElementById('cart-footer'),badge=document.getElementById('cart-badge');
-  const totalItems=cart.reduce((s,i)=>s+i.qty,0),totalPrice=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  badge.textContent=totalItems;badge.style.display=totalItems>0?'flex':'none';
-  if(cart.length===0){container.innerHTML='<div class="cart-empty"><span>🐾</span>Tu carrito está vacío.</div>';footer.style.display='none';return;}
-  footer.style.display='block';
-  document.getElementById('cart-total').textContent='$'+totalPrice.toLocaleString('es-CL');
-  container.innerHTML=cart.map(item=>`<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`).join('');
-}
 
 /* CATÁLOGO */
 const TAGLINES = {"pack-calma-total":"\"Porque el mundo da un poco de miedo — pero los snacks ayudan.\"","pack-sos-mascota":"\"Para el susto que no vio venir — y las patitas que lo aguantaron.\"","pack-rutina-sana":"\"Hidratación, nutrición y calma. Todo lo que tu gato necesita.\"","pack-bienvenido-a-casa":"\"Porque llegar a casa nueva da un poco de miedo — y estos tres ayudan.\"","pack-juega-y-relaja":"\"Para el gato que necesita cansarse — y la calma que viene después.\"" ,"comedero-lento-slow-feeder---catstages":"\"Para el gato que come como si no hubiera mañana.\"","pack-consulta-flor-de-bach":"\"Para la mascota que necesita más que un frasco.\"","flores-de-bach---rescue-y-alivio":"\"Para el susto que no vio venir.\"","flores-de-bach---energia-y-animo":"\"Para los días sin ganas de nada.\"",'tubito-atun':'"Cremoso, irresistible y con catnip. Fin."','tubito-conejo':'"El tubo que tu gato va a pedir con los ojos."','tubito-cangrejo':'"Cangrejo + catnip = caos garantizado."','lata-leonardo-kitten':'"Porque los gatitos también tienen exigencias."','lata-leonardo':'"Porque tu gato se merece un menú de verdad."','collar-findmy':'"Nunca más lo pierdes."','fuente-agua':'"Hidratación con glamour."','pajaro':'"Enemigo número uno."','pelota-led':'"Brilla. Rueda. Enloquece."','pulpo':'"Masaje y caos en uno."','paw-balm':'"SPA para patitas exigentes."','afeitadora':'"Menos pelo, más sofá."','cat-fest':'"Pato o cordero. Siempre piden más."','cats-snack':'"5 sabores, 0 culpa."'};
@@ -368,29 +354,6 @@ const productos = {"pack-calma-total":{"nombre": "Pack Calma Total", "precio": "
   'cat-fest':{nombre:'Cat Fest Meat Sticks',precio:'$3.490',precioNum:3490,categoria:'Snacks y Golosinas',imagenes:['Lamb_Meat_Sticks.png'],placeholders:['🥩']},
   'cats-snack':{nombre:'Cats Snack',precio:'$2.990',precioNum:2990,categoria:'Snacks y Golosinas',imagenes:['Cats_Snacks_Gato.png'],placeholders:['🍪']},
 };
-
-/* SUPABASE */
-const SUPA_URL='https://xintmnshndhtqqbouxbo.supabase.co';
-const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbnRtbnNobmRodHFxYm91eGJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDc2MTAsImV4cCI6MjA5MzU4MzYxMH0.Xl5eHoNoxLrb_8jK40zPL52Qa3t696QHkaAmyJEqJac';
-const _sb=window.supabase.createClient(SUPA_URL,SUPA_KEY);
-let sbToken=null,sbUser=null,wishlist=[];
-
-
-function toggleUserDropdown(){document.getElementById('user-dropdown')?.classList.toggle('open');}
-document.addEventListener('click',e=>{if(!e.target.closest('.user-wrap'))document.getElementById('user-dropdown')?.classList.remove('open');});
-
-async function cerrarSesion(){await _sb.auth.signOut();sbUser=null;sbToken=null;updateAuthUI();renderFavoritos();}
-
-async function cargarFavoritos(){
-  if(!sbToken){renderFavoritos();return;}
-  try{
-    const r=await fetch('/api/user-data-get',{headers:{Authorization:`Bearer ${sbToken}`}});
-    const data=await r.json();
-    wishlist=Array.isArray(data.wishlist)?data.wishlist:[];
-    if(Array.isArray(data.cart)&&data.cart.length>0){cart=data.cart;renderCart();}
-  }catch(e){}
-  renderFavoritos();
-}
 
 async function quitarFavorito(id){
   wishlist=wishlist.filter(w=>w!==id);
@@ -446,16 +409,6 @@ async function limpiarTodo(){
   renderFavoritos();
 }
 
-/* INIT */
-_sb.auth.onAuthStateChange(async(event,session)=>{
-  if(session){sbUser=session.user;sbToken=session.access_token;updateAuthUI();if(event==='SIGNED_IN')await cargarFavoritos();}
-  else{sbUser=null;sbToken=null;updateAuthUI();renderFavoritos();}
-});
-
-_sb.auth.getSession().then(({data:{session}})=>{
-  if(session){sbUser=session.user;sbToken=session.access_token;updateAuthUI();cargarFavoritos();}
-  else{updateAuthUI();renderFavoritos();}
-});
 </script>
 
 <!-- CHECKOUT MODAL -->
@@ -599,146 +552,5 @@ _sb.auth.getSession().then(({data:{session}})=>{
     <p class="auth-msg" id="auth-msg"></p>
   </div>
 </div>
-<script>
-function abrirAuth(){ document.getElementById('auth-overlay').classList.add('activo'); document.body.style.overflow='hidden'; }
-function cerrarAuth(){ document.getElementById('auth-overlay').classList.remove('activo'); document.body.style.overflow=''; document.getElementById('auth-msg').textContent=''; }
-function cerrarAuthSiFondo(e){ if(e.target.id==='auth-overlay') cerrarAuth(); }
-async function loginConGoogle(){ await _sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.origin } }); }
-async function enviarMagicLink(){
-  const email=document.getElementById('auth-email').value.trim();
-  const msg=document.getElementById('auth-msg');
-  if(!email){msg.textContent='Ingresa tu email';msg.className='auth-msg err';return;}
-  const{error}=await _sb.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.origin}});
-  if(error){msg.textContent='Error: '+error.message;msg.className='auth-msg err';}
-  else{msg.textContent='✅ Revisa tu email — te enviamos un enlace de acceso';msg.className='auth-msg ok';}
-}
-let toastTimer;
-function mostrarToastCarrito(msg) {
-  let toast = document.getElementById('cart-toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = 'cart-toast';
-    toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--negro);color:#fff;border-radius:50px;padding:12px 24px;font-size:.85rem;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;font-family:Poppins,sans-serif;white-space:nowrap;';
-    document.body.appendChild(toast);
-  }
-  toast.textContent = msg;
-  toast.style.opacity = '1';
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.style.opacity = '0', 2500);
-}
-const COMUNAS_TRAMO1 = ['cerrillos','cerro navia','conchali','conchalí','el bosque','estacion central','estación central','independencia','la cisterna','la florida','la granja','la reina','las condes','lo espejo','lo prado','macul','nunoa','ñuñoa','pedro aguirre cerda','penalolen','peñalolén','providencia','quinta normal','recoleta','renca','san joaquin','san joaquín','san miguel','san ramon','san ramón','santiago','vitacura'];
-const COMUNAS_TRAMO2 = ['lo barnechea','maipu','maípu','quilicura','san bernardo','colina','la pintana','chicureo','puente alto','huechuraba','pudahuel'];
-function normalizarComuna(str) {
-  return str.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-}
-function actualizarEnvio() {
-  const metodoEl = document.querySelector('input[name="metodo-envio"]:checked');
-  const metodo = metodoEl ? metodoEl.value : 'despacho';
-  const camposEnvio = document.getElementById('campos-envio');
-  const retiroInfo = document.getElementById('retiro-info');
-  const infoEl = document.getElementById('envio-info');
-  const precioEl = document.getElementById('envio-precio');
-  const avisoEl = document.getElementById('envio-aviso');
-  document.querySelectorAll('.metodo-btn').forEach(l => l.classList.remove('activo'));
-  const lblActivo = document.getElementById(metodo === 'retiro' ? 'lbl-retiro' : 'lbl-despacho');
-  if (lblActivo) lblActivo.classList.add('activo');
-  if (metodo === 'retiro') {
-    if (camposEnvio) camposEnvio.style.display = 'none';
-    if (retiroInfo) retiroInfo.style.display = 'block';
-    if (infoEl) infoEl.style.display = 'none';
-    if (avisoEl) avisoEl.textContent = '';
-    return;
-  }
-  if (camposEnvio) camposEnvio.style.display = 'block';
-  if (retiroInfo) retiroInfo.style.display = 'none';
-  const comuna = document.getElementById('co-comuna').value;
-  const resultado = calcularEnvio(comuna);
-  if (!resultado || !comuna) { if(infoEl) infoEl.style.display = 'none'; if(avisoEl) avisoEl.textContent = ''; return; }
-  infoEl.style.display = 'flex';
-  const subtotalActual = cart.reduce((s,i) => s + i.price * i.qty, 0);
-  const esGratis = subtotalActual >= 40000;
-  precioEl.textContent = esGratis ? '¡Gratis!' : resultado.texto;
-  precioEl.style.color = esGratis ? '#3B6D11' : '';
-  avisoEl.textContent = esGratis ? '🎉 Tu pedido tiene envío gratis' : resultado.aviso;
-}
-function seleccionarDoc(tipo) {
-  document.getElementById('btn-boleta').classList.toggle('activo', tipo === 'boleta');
-  document.getElementById('btn-factura').classList.toggle('activo', tipo === 'factura');
-  document.getElementById('factura-fields').style.display = tipo === 'factura' ? 'block' : 'none';
-}
-
-function calcularEnvio(comuna) {
-  if (!comuna) return null;
-  const c = normalizarComuna(comuna);
-  const esTramo1 = COMUNAS_TRAMO1.some(rm => normalizarComuna(rm) === c);
-  const esTramo2 = COMUNAS_TRAMO2.some(rm => normalizarComuna(rm) === c);
-  const horaActual = new Date().getHours();
-  const entregaHoy = horaActual < 10 ? ' • Entrega hoy si compras antes de las 10:00 AM 🚀' : '';
-  if (esTramo1) return { precio: 4847, texto: '$4.847', aviso: 'Envío a Santiago centro y comunas cercanas' + entregaHoy };
-  if (esTramo2) return { precio: 5593, texto: '$5.593', aviso: 'Envío a comunas periféricas de la RM' + entregaHoy };
-  return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el envío se coordina por WhatsApp' };
-}
-async function checkout() {
-  if (cart.length === 0) return;
-  const resumen = document.getElementById('checkoutResumen');
-  resumen.innerHTML = cart.map(i => `<div class="checkout-resumen-item"><span>${i.name} x${i.qty}</span><span>$${(i.price*i.qty).toLocaleString('es-CL')}</span></div>`).join('') +
-    `<div class="checkout-resumen-total"><span>Total</span><span>$${cart.reduce((s,i)=>s+i.price*i.qty,0).toLocaleString('es-CL')}</span></div>`;
-  document.getElementById('checkoutOverlay').classList.add('activo');
-  document.body.style.overflow = 'hidden';
-}
-function cerrarCheckout() {
-  document.getElementById('checkoutOverlay').classList.remove('activo');
-  document.body.style.overflow = '';
-}
-async function confirmarCheckout() {
-  const nombre   = document.getElementById('co-nombre').value.trim();
-  const telefono = document.getElementById('co-telefono').value.trim();
-  const email    = document.getElementById('co-email').value.trim();
-  const direccion= document.getElementById('co-direccion').value.trim();
-  const comuna   = document.getElementById('co-comuna').value.trim();
-  const ciudad   = document.getElementById('co-ciudad').value.trim();
-  const notas    = document.getElementById('co-notas').value.trim();
-  const esFactura = document.getElementById('btn-factura').classList.contains('activo');
-  let docInfo = {};
-  if (esFactura) {
-    const rut     = document.getElementById('co-rut').value.trim();
-    const razon   = document.getElementById('co-razon').value.trim();
-    const giro    = document.getElementById('co-giro').value.trim();
-    const dirFact = document.getElementById('co-dir-factura').value.trim();
-    if (!rut || !razon || !giro || !dirFact) { mostrarToastCarrito('Completa todos los datos de factura'); return; }
-    docInfo = { rut, razon, giro, dirFact };
-  }
-  const metodoEnvio = document.querySelector('input[name="metodo-envio"]:checked')?.value || 'despacho';
-  const esRetiro = metodoEnvio === 'retiro';
-  const campos = esRetiro
-    ? ['co-nombre','co-telefono','co-email']
-    : ['co-nombre','co-telefono','co-email','co-direccion','co-comuna','co-ciudad'];
-  let valido = true;
-  campos.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el.value.trim()) { el.classList.add('error'); valido = false; }
-    else el.classList.remove('error');
-  });
-  if (!valido) { mostrarToastCarrito('Por favor completa todos los campos obligatorios'); return; }
-  const subtotalEnvio = cart.reduce((s,i) => s + i.price * i.qty, 0);
-  const envio = esRetiro ? null : calcularEnvio(comuna);
-  const costoEnvio = esRetiro ? 0 : (subtotalEnvio >= 40000 ? 0 : (envio?.precio || 0));
-  const btn = document.querySelector('.btn-checkout-confirm');
-  btn.textContent = 'Procesando...'; btn.disabled = true;
-  try {
-    const cliente = { nombre, telefono, email, direccion, comuna, ciudad, notas, costoEnvio, documento: esFactura ? 'Factura' : 'Boleta', ...docInfo };
-    const res = await fetch('/api/checkout', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ items: cart, cliente }) });
-    const data = await res.json();
-    if (data.init_point) { cerrarCheckout(); window.location.href = data.init_point; }
-    else { mostrarToastCarrito('Error al crear el pago. Intenta nuevamente.'); }
-  } catch(e) {
-    mostrarToastCarrito('Error de conexión. Intenta nuevamente.');
-  } finally {
-    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><\/svg> Confirmar y pagar';
-    btn.disabled = false;
-  }
-}
-
-</script>
 </body>
 </html>
