@@ -655,8 +655,11 @@ function actualizarEnvio() {
   const resultado = calcularEnvio(comuna);
   if (!resultado || !comuna) { if(infoEl) infoEl.style.display = 'none'; if(avisoEl) avisoEl.textContent = ''; return; }
   infoEl.style.display = 'flex';
-  precioEl.textContent = resultado.texto;
-  avisoEl.textContent = resultado.aviso;
+  const subtotalActual = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  const esGratis = subtotalActual >= 40000;
+  precioEl.textContent = esGratis ? '¡Gratis!' : resultado.texto;
+  precioEl.style.color = esGratis ? '#3B6D11' : '';
+  avisoEl.textContent = esGratis ? '🎉 Tu pedido tiene envío gratis' : resultado.aviso;
 }
 function seleccionarDoc(tipo) {
   document.getElementById('btn-boleta').classList.toggle('activo', tipo === 'boleta');
@@ -717,8 +720,9 @@ async function confirmarCheckout() {
     else el.classList.remove('error');
   });
   if (!valido) { mostrarToastCarrito('Por favor completa todos los campos obligatorios'); return; }
+  const subtotalEnvio = cart.reduce((s,i) => s + i.price * i.qty, 0);
   const envio = esRetiro ? null : calcularEnvio(comuna);
-  const costoEnvio = esRetiro ? 0 : (envio?.precio || 0);
+  const costoEnvio = esRetiro ? 0 : (subtotalEnvio >= 40000 ? 0 : (envio?.precio || 0));
   const btn = document.querySelector('.btn-checkout-confirm');
   btn.textContent = 'Procesando...'; btn.disabled = true;
   try {

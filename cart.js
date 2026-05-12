@@ -288,11 +288,14 @@ function actualizarEnvio() {
   if (camposEnvio) camposEnvio.style.display = 'block';
   if (retiroInfo) retiroInfo.style.display = 'none';
   const comuna = document.getElementById('co-comuna').value;
+  const subtotalActual = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  const esGratis = subtotalActual >= 40000;
   const resultado = calcularEnvio(comuna);
   if (!resultado || !comuna) { if(infoEl) infoEl.style.display = 'none'; if(avisoEl) avisoEl.textContent = ''; return; }
   infoEl.style.display = 'flex';
-  precioEl.textContent = resultado.texto;
-  avisoEl.textContent = resultado.aviso;
+  precioEl.textContent = esGratis ? '¡Gratis!' : resultado.texto;
+  precioEl.style.color = esGratis ? '#3B6D11' : '';
+  avisoEl.textContent = esGratis ? '🎉 Tu pedido tiene envío gratis' : resultado.aviso;
 }
 
 
@@ -346,8 +349,9 @@ async function confirmarCheckout() {
   if (!valido) { mostrarToastCarrito('Por favor completa todos los campos obligatorios'); return; }
 
   // Calcular envío
+  const subtotalActual = cart.reduce((s,i) => s + i.price * i.qty, 0);
   const envio = esRetiro ? null : calcularEnvio(comuna);
-  const costoEnvio = esRetiro ? 0 : (envio?.precio || 0);
+  const costoEnvio = esRetiro ? 0 : (subtotalActual >= 40000 ? 0 : (envio?.precio || 0));
 
   // Ir directo a Mercado Pago
   const btn = document.querySelector('.btn-checkout-confirm');
