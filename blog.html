@@ -537,6 +537,7 @@ async function checkout() {
     `<div class="checkout-resumen-total"><span>Total</span><span>$${cart.reduce((s,i)=>s+i.price*i.qty,0).toLocaleString('es-CL')}</span></div>`;
   document.getElementById('checkoutOverlay').classList.add('activo');
   document.body.style.overflow = 'hidden';
+  setTimeout(initComunaAutocomplete, 50);
 }
 function cerrarCheckout() { document.getElementById('checkoutOverlay').classList.remove('activo'); document.body.style.overflow = ''; }
 async function confirmarCheckout() {
