@@ -177,7 +177,7 @@
     .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; }
     .blog-grid { grid-template-columns: 1fr; }
     .blog-hero { padding: 3rem 5% 2rem; }
-  }
+   .anuncio-bar { position: sticky; top: 0; z-index: 101; } nav { top: 36px; } .mobile-menu { padding-top: calc(104px + env(safe-area-inset-top) + 16px) !important; }}
 
   .checkout-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
   .checkout-overlay.activo { opacity: 1; visibility: visible; }
@@ -388,7 +388,22 @@
 
 <script src="cart.js"></script>
 <script>
-function toggleMenu() { document.getElementById('hamburger').classList.toggle('open'); document.getElementById('mobile-menu').classList.toggle('open'); }
+function toggleMenu() {
+  const hamburger = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  const isOpen = menu.classList.toggle('open');
+  hamburger.classList.toggle('open');
+  let bd = document.getElementById('menu-backdrop');
+  if (!bd) {
+    bd = document.createElement('div');
+    bd.id = 'menu-backdrop';
+    bd.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:98;display:none;';
+    bd.onclick = toggleMenu;
+    document.body.appendChild(bd);
+  }
+  bd.style.display = isOpen ? 'block' : 'none';
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
 window.addEventListener('scroll', () => document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40));
 function toggleCart() { document.getElementById('cart-overlay').classList.toggle('open'); document.getElementById('cart-sidebar').classList.toggle('open'); document.body.style.overflow = document.getElementById('cart-sidebar').classList.contains('open') ? 'hidden' : ''; }
 window.addEventListener('load', function() { if (typeof renderCart === 'function') renderCart(); });

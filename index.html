@@ -207,7 +207,7 @@
   .nav-ig-desktop svg, .nav-ig-mobile svg { width: 16px; height: 16px; fill: currentColor; }
   .nav-ig-mobile { display: none; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; color: var(--negro); text-decoration: none; transition: all .2s; flex-shrink: 0; }
   .nav-ig-mobile:hover { border-color: var(--terracota); color: var(--terracota); }
-  @media (max-width: 600px) { .nav-logo span { display: none; } .nav-ig-desktop { display: none; } .nav-ig-mobile { display: flex; } }
+  @media (max-width: 600px) { .nav-logo span { display: none; } .nav-ig-desktop { display: none; } .nav-ig-mobile { display: flex; }  .anuncio-bar { position: sticky; top: 0; z-index: 101; } nav { top: 36px; } .mobile-menu { padding-top: calc(104px + env(safe-area-inset-top) + 16px) !important; }}
   .user-wrap { position: relative; margin-left: .5rem; }
   .user-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; cursor: pointer; border: 2px solid transparent; transition: border-color .2s; background: var(--terracota); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: .9rem; }
   .user-avatar:hover { border-color: var(--terracota); }
@@ -762,7 +762,22 @@
 
 <script src="cart.js"></script>
 <script>
-function toggleMenu() { document.getElementById('hamburger').classList.toggle('open'); document.getElementById('mobile-menu').classList.toggle('open'); }
+function toggleMenu() {
+  const hamburger = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  const isOpen = menu.classList.toggle('open');
+  hamburger.classList.toggle('open');
+  let bd = document.getElementById('menu-backdrop');
+  if (!bd) {
+    bd = document.createElement('div');
+    bd.id = 'menu-backdrop';
+    bd.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:98;display:none;';
+    bd.onclick = toggleMenu;
+    document.body.appendChild(bd);
+  }
+  bd.style.display = isOpen ? 'block' : 'none';
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
 window.addEventListener('scroll', () => document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40));
 
 const TAGLINES = {"pack-calma-total":"\"Porque el mundo da un poco de miedo — pero los snacks ayudan.\"","pack-sos-mascota":"\"Para el susto que no vio venir — y las patitas que lo aguantaron.\"","pack-rutina-sana":"\"Hidratación, nutrición y calma. Todo lo que tu gato necesita.\"","pack-bienvenido-a-casa":"\"Porque llegar a casa nueva da un poco de miedo — y estos tres ayudan.\"","pack-cuidado-total":"Patitas hidratadas, pelo impecable. El pack que tu mascota necesita.","pack-juega-y-relaja":"\"Para el gato que necesita cansarse — y la calma que viene después.\"" ,"pack-consulta-flor-de-bach":"\"Para la mascota que necesita más que un frasco.\"","flores-de-bach---rescue-y-alivio":"\"Para el susto que no vio venir.\"","flores-de-bach---energia-y-animo":"\"Para los días sin ganas de nada.\"","flores-de-bach---equilibrio":"\"Cuando tu peludo está en modo raro\"","flores-de-bach---ansiedad-y-calma":"\"Porque el mundo da un poco de miedo\"","cat-fest-pillows-schrimp-creme":"\"Crujiente por fuera, cremoso por dentro. No hay defensa.\"","cat-fest-pillows":"\"Crujiente por fuera, cremoso por dentro. No hay defensa.\"","tubito-atun":"\"Cremoso, irresistible y con catnip. Fin.\"","tubito-conejo":"\"El tubo que tu gato va a pedir con los ojos.\"","tubito-cangrejo":"\"Cangrejo + catnip = caos garantizado.\"","lata-leonardo-kitten":"\"Porque los gatitos también tienen exigencias.\"","lata-leonardo":"\"Porque tu gato se merece un menú de verdad.\"","collar-findmy":"\"Nunca más lo pierdes.\"","fuente-agua":"\"Hidratación con glamour.\"","pajaro":"\"Enemigo número uno.\"","pelota-led":"\"Brilla. Rueda. Enloquece.\"","pulpo":"\"Masaje y caos en uno.\"","paw-balm":"\"SPA para patitas exigentes.\"","afeitadora":"\"Menos pelo, más sofá.\"","cat-fest":"\"Pato o cordero. Siempre piden más.\"","cats-snack":"\"5 sabores, 0 culpa.\"","comedero-lento-slow-feeder---catstages":"\"Para el gato que come como si no hubiera mañana.\""};
