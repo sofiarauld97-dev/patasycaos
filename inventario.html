@@ -427,6 +427,7 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
 const SKUS = [
   { id: "pack-calma-total", nombre: "Pack Calma Total", cat: "Flores de Bach", precio: "$15.990", img: "pack_calma_total.png", emoji: "🎁" },
   { id: "pack-bienvenido-a-casa", nombre: "Pack Bienvenido a Casa", cat: "Flores de Bach", precio: "$21.990", img: "pack_bienveido_a_casa.png", emoji: "🎁" },
+  { id: "pack-cuidado-total", nombre: "Pack Cuidado Total", cat: "Aseo e Higiene", precio: "$12.990", img: "pack_cuidado_total.png", emoji: "🐾" },
   { id: "pack-juega-y-relaja", nombre: "Pack Juega y Relaja", cat: "Flores de Bach", precio: "$28.990", img: "pack_relaja_y_juega.png", emoji: "🎁" },
   { id: "pack-sos-mascota", nombre: "Pack SOS Mascota", cat: "Flores de Bach", precio: "$18.990", img: "pack_sos_mascota.png", emoji: "🎁" },
   { id: "pack-rutina-sana", nombre: "Pack Rutina Sana", cat: "Flores de Bach", precio: "$33.990", img: "pack_rutina_sana.png", emoji: "🎁" },
@@ -509,7 +510,7 @@ async function guardarStockRemoto(stock) {
   } catch(e) { console.warn('No se pudo guardar en nube, guardado solo local'); }
 }
 
-const STOCK_DEFAULTS = {"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,"cat-fest-pillows":1,"tubito-atun":3,"tubito-conejo":3,"tubito-cangrejo":3,"lata-leonardo-kitten":1,"lata-leonardo_Ave":1,"lata-leonardo_Pato":1,"lata-leonardo_Conejo":1,"lata-leonardo_Pescado":1,"lata-leonardo_Ternera":1,"collar-findmy":1,"fuente-agua":1,"pajaro":1,"pelota-led":2,"pulpo":1,"paw-balm":2,"afeitadora":1,"cat-fest_Pato":1,"cat-fest_Cordero":1,"cats-snack_Catnip":1,"cats-snack_Matatabi":1,"cats-snack_Rellena Atún + Queso":1,"cats-snack_Rellena Atún + Ostiones":1,"cats-snack_Rellena Atún + Pollo":1};
+const STOCK_DEFAULTS = {"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-cuidado-total":5,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,"cat-fest-pillows":1,"tubito-atun":3,"tubito-conejo":3,"tubito-cangrejo":3,"lata-leonardo-kitten":1,"lata-leonardo_Ave":1,"lata-leonardo_Pato":1,"lata-leonardo_Conejo":1,"lata-leonardo_Pescado":1,"lata-leonardo_Ternera":1,"collar-findmy":1,"fuente-agua":1,"pajaro":1,"pelota-led":2,"pulpo":1,"paw-balm":2,"afeitadora":1,"cat-fest_Pato":1,"cat-fest_Cordero":1,"cats-snack_Catnip":1,"cats-snack_Matatabi":1,"cats-snack_Rellena Atún + Queso":1,"cats-snack_Rellena Atún + Ostiones":1,"cats-snack_Rellena Atún + Pollo":1};
 
 function cargarStock() {
   try {
