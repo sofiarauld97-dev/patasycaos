@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Preguntas frecuentes — Patas & Caos</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #F5ECD7; --terracota: #C4622D; --negro: #1A1A1A;
+    --dark: #1C1007; --card-bg: #FAF4EA; --blanco: #fff;
+    --crema-dark: #EDE0C4;
+  }
+  body { font-family: 'Poppins', sans-serif; background: var(--cream); color: var(--negro); min-height: 100vh; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); padding: 0 5%; padding-top: env(safe-area-inset-top); display: flex; align-items: center; justify-content: space-between; height: calc(68px + env(safe-area-inset-top)); }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo img { width: 44px; height: 44px; object-fit: contain; }
+  .nav-logo span { font-weight: 700; font-size: 1.1rem; color: var(--negro); letter-spacing: -.02em; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--negro); font-size: .9rem; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.activo { color: var(--terracota); }
+  .nav-right { display: flex; align-items: center; gap: 6px; }
+  .nav-cart { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: none; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; cursor: pointer; transition: all .2s; color: var(--negro); padding: 0; }
+  .nav-cart:hover { border-color: var(--terracota); color: var(--terracota); }
+  .nav-cart svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-cart-wrap { position: relative; }
+  .cart-badge { position: absolute; top: -6px; right: -6px; background: var(--negro); color: var(--blanco); width: 20px; height: 20px; border-radius: 50%; font-size: .68rem; font-weight: 700; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+  .btn-signin { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: none; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; cursor: pointer; transition: all .2s; color: var(--negro); padding: 0; }
+  .btn-signin:hover { border-color: var(--terracota); color: var(--terracota); }
+  .btn-signin svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-ig-desktop { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; color: var(--negro); text-decoration: none; transition: all .2s; flex-shrink: 0; }
+  .nav-ig-desktop:hover { border-color: var(--terracota); color: var(--terracota); }
+  .nav-ig-desktop svg, .nav-ig-mobile svg { width: 16px; height: 16px; fill: currentColor; }
+  .nav-ig-mobile { display: none; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; color: var(--negro); text-decoration: none; transition: all .2s; flex-shrink: 0; }
+  .nav-ig-mobile:hover { border-color: var(--terracota); color: var(--terracota); }
+  nav.scrolled { background: rgba(245,236,215,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: rgba(28,16,7,.05); transition: background .3s; }
+
+  /* HAMBURGER */
+  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 102; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--negro); border-radius: 2px; transition: all .3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { position: fixed; top: 0; left: 0; right: 0; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); padding: 24px 5%; padding-top: calc(68px + env(safe-area-inset-top) + 16px); display: none; flex-direction: column; gap: 1.2rem; z-index: 99; transform: translateY(-100%); transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+  .mobile-menu.open { transform: translateY(0); }
+  .mobile-menu a { text-decoration: none; color: var(--negro); font-size: 1.1rem; font-weight: 600; padding: 8px 0; border-bottom: 1px solid rgba(28,16,7,.06); transition: color .2s; }
+  .mobile-menu a:hover, .mobile-menu a.activo { color: var(--terracota); }
+  .mobile-menu a:last-child { border-bottom: none; }
+
+  /* HERO */
+  .faq-hero { background: var(--dark); padding: 72px 5% 80px; text-align: center; }
+  .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: .78rem; color: rgba(245,236,215,.4); margin-bottom: 1.8rem; }
+  .breadcrumb a { color: rgba(245,236,215,.4); text-decoration: none; transition: color .2s; }
+  .breadcrumb a:hover { color: var(--terracota); }
+  .faq-hero h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: var(--blanco); margin-bottom: 1rem; line-height: 1.05; }
+  .faq-hero h1 em { font-style: normal; color: var(--terracota); }
+  .faq-hero p { font-size: 1rem; color: rgba(245,236,215,.6); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+  /* CONTENIDO */
+  .faq-wrap { max-width: 760px; margin: 0 auto; padding: 64px 5% 80px; }
+
+  /* SECCIÓN */
+  .faq-seccion { margin-bottom: 48px; }
+  .faq-seccion-titulo { display: flex; align-items: center; gap: 10px; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota); margin-bottom: 1.2rem; }
+  .faq-seccion-titulo .faq-icon { font-size: 1.1rem; }
+
+  /* ACCORDION */
+  .faq-item { border: 1.5px solid rgba(28,16,7,.1); border-radius: 14px; overflow: hidden; margin-bottom: 10px; background: var(--blanco); transition: border-color .2s; }
+  .faq-item.open { border-color: var(--terracota); }
+  .faq-pregunta { width: 100%; background: none; border: none; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; text-align: left; font-family: 'Poppins', sans-serif; font-size: .92rem; font-weight: 600; color: var(--negro); gap: 12px; transition: color .2s; }
+  .faq-item.open .faq-pregunta { color: var(--terracota); }
+  .faq-chevron { flex-shrink: 0; width: 20px; height: 20px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all .3s; }
+  .faq-item.open .faq-chevron { background: var(--terracota); border-color: var(--terracota); transform: rotate(180deg); }
+  .faq-chevron svg { width: 10px; height: 10px; stroke: var(--negro); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: stroke .3s; }
+  .faq-item.open .faq-chevron svg { stroke: var(--blanco); }
+  .faq-respuesta { max-height: 0; overflow: hidden; transition: max-height .35s cubic-bezier(.4,0,.2,1), padding .35s; }
+  .faq-item.open .faq-respuesta { max-height: 400px; }
+  .faq-respuesta-inner { padding: 0 20px 18px; font-size: .87rem; color: #5a4a3a; line-height: 1.75; }
+  .faq-respuesta-inner strong { color: var(--negro); }
+  .faq-respuesta-inner a { color: var(--terracota); text-decoration: none; }
+  .faq-respuesta-inner a:hover { text-decoration: underline; }
+
+  /* CTA FINAL */
+  .faq-cta { background: var(--dark); border-radius: 20px; padding: 48px 40px; text-align: center; margin-top: 16px; }
+  .faq-cta h3 { font-size: 1.5rem; font-weight: 900; color: var(--blanco); margin-bottom: .6rem; }
+  .faq-cta p { color: rgba(245,236,215,.6); font-size: .9rem; margin-bottom: 1.8rem; line-height: 1.6; }
+  .faq-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-cta-blanco { background: var(--blanco); color: var(--dark); border: none; border-radius: 50px; padding: 12px 28px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .88rem; cursor: pointer; text-decoration: none; transition: all .2s; }
+  .btn-cta-blanco:hover { background: var(--terracota); color: var(--blanco); }
+  .btn-cta-outline { background: none; color: var(--blanco); border: 1.5px solid rgba(245,236,215,.3); border-radius: 50px; padding: 12px 28px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .88rem; cursor: pointer; text-decoration: none; transition: all .2s; }
+  .btn-cta-outline:hover { border-color: var(--blanco); }
+
+  /* FOOTER */
+  footer { background: var(--cream); border-top: 1px solid rgba(28,16,7,.08); padding: 48px 5% 32px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 40px; }
+  .footer-brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: .8rem; }
+  .footer-brand-row img { width: 40px; height: 40px; object-fit: contain; }
+  .footer-brand-name { font-weight: 700; font-size: 1rem; }
+  .footer-brand p { font-size: .85rem; color: #6b5a4e; line-height: 1.6; max-width: 260px; }
+  .footer-socials { display: flex; gap: .8rem; margin-top: 1rem; }
+  .footer-socials a { width: 38px; height: 38px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: var(--negro); transition: all .2s; }
+  .footer-socials a:hover { border-color: var(--terracota); color: var(--terracota); }
+  .footer-socials svg { width: 16px; height: 16px; fill: currentColor; }
+  .footer-col h4 { font-weight: 700; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--negro); margin-bottom: 1.2rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+  .footer-col ul a { text-decoration: none; color: #6b5a4e; font-size: .87rem; transition: color .2s; }
+  .footer-col ul a:hover, .footer-col ul a.activo { color: var(--terracota); }
+  .footer-bottom { border-top: 1px solid rgba(28,16,7,.08); padding-top: 24px; font-size: .8rem; color: #8a7a6e; text-align: center; }
+
+  /* CART */
+  .cart-overlay { position: fixed; inset: 0; background: rgba(28,16,7,.5); z-index: 300; opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+  .cart-sidebar { position: fixed; top: 0; right: 0; height: 100%; width: 380px; max-width: 95vw; background: var(--cream); z-index: 301; transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; box-shadow: -4px 0 32px rgba(0,0,0,.15); }
+  .cart-sidebar.open { transform: translateX(0); }
+  .cart-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid rgba(28,16,7,.08); }
+  .cart-header h3 { font-size: 1rem; font-weight: 700; }
+  .cart-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--negro); padding: 4px; }
+  .cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; }
+  .cart-empty { text-align: center; padding: 48px 0; color: #8a7a6e; }
+  .cart-empty span { display: block; font-size: 2.5rem; margin-bottom: 12px; }
+  .cart-footer { padding: 16px 24px 24px; border-top: 1px solid rgba(28,16,7,.08); }
+  .cart-subtotal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .cart-subtotal strong { font-size: 1.2rem; font-weight: 800; }
+  .cart-shipping { font-size: .78rem; color: #8a7a6e; margin-bottom: 14px; }
+  .btn-checkout { width: 100%; background: var(--terracota); color: var(--blanco); border: none; border-radius: 50px; padding: 16px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .95rem; cursor: pointer; transition: background .2s; }
+  .btn-checkout:hover { background: #a8501f; }
+
+  /* CHECKOUT MODAL */
+  .checkout-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+  .checkout-overlay.activo { opacity: 1; visibility: visible; }
+  .checkout-box { position: relative; background: var(--blanco); border-radius: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 2rem; box-shadow: 0 24px 64px rgba(26,26,26,.2); }
+  .checkout-box h3 { font-size: 1.2rem; font-weight: 900; margin-bottom: .3rem; }
+  .modal-cerrar { position: absolute; top: 1rem; right: 1rem; background: var(--cream); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+  .checkout-sub { font-size: .83rem; color: #8a7a6e; margin-bottom: 1.5rem; }
+  .checkout-resumen-item { display: flex; justify-content: space-between; font-size: .85rem; padding: 6px 0; border-bottom: 1px solid rgba(28,16,7,.06); }
+  .checkout-resumen-total { display: flex; justify-content: space-between; font-weight: 700; padding: 10px 0 16px; }
+  .checkout-section-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #8a7a6e; margin: 1.2rem 0 .6rem; }
+  .checkout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+  .checkout-grid.full { grid-template-columns: 1fr; }
+  .checkout-field { display: flex; flex-direction: column; gap: .3rem; }
+  .checkout-field label { font-size: .75rem; font-weight: 600; color: #6b5a4e; }
+  .checkout-field input { border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; color: var(--negro); background: #fff; outline: none; transition: border-color .2s; }
+  .checkout-field input:focus { border-color: var(--terracota); }
+  .checkout-field input.error { border-color: #e74c3c; }
+  .checkout-btns { display: flex; gap: .75rem; margin-top: 1.5rem; }
+  .btn-checkout-cancel { flex: 1; background: none; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .88rem; cursor: pointer; color: #6b5a4e; }
+  .btn-checkout-confirm { flex: 2; background: #C4622D; border: none; border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .checkout-envio-info { display: flex; justify-content: space-between; align-items: center; background: var(--cream); border-radius: 10px; padding: .75rem 1rem; margin-top: .75rem; font-size: .85rem; }
+  .checkout-envio-aviso { font-size: .75rem; color: #8a7a6e; margin-top: .4rem; font-style: italic; }
+  .checkout-metodo-toggle { display: flex; gap: .5rem; margin-top: .5rem; }
+  .metodo-btn { flex: 1; padding: 10px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; background: #fff; font-family: 'Poppins', sans-serif; font-size: .82rem; font-weight: 600; cursor: pointer; color: #6b5a4e; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all .2s; }
+  .metodo-btn.activo { background: var(--terracota); color: #fff; border-color: var(--terracota); }
+  .checkout-doc-toggle { display: flex; gap: .5rem; margin-top: .5rem; }
+  .doc-btn { flex: 1; padding: 10px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; background: #fff; font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; cursor: pointer; color: #6b5a4e; transition: all .2s; }
+  .doc-btn.activo { background: var(--terracota); color: #fff; border-color: var(--terracota); }
+  @media (max-width: 500px) { .checkout-grid { grid-template-columns: 1fr !important; } .checkout-box { border-radius: 16px 16px 0 0; max-height: 95vh; } .checkout-overlay { align-items: flex-end; padding: 0; } }
+
+  /* AUTH MODAL */
+  .auth-overlay { position: fixed; inset: 0; background: rgba(28,16,7,.6); backdrop-filter: blur(4px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+  .auth-overlay.activo { opacity: 1; visibility: visible; }
+  .auth-box { background: var(--blanco); border-radius: 24px; padding: 2.5rem 2rem; width: 100%; max-width: 400px; position: relative; box-shadow: 0 24px 64px rgba(0,0,0,.2); }
+  .auth-close { position: absolute; top: 1rem; right: 1rem; background: var(--cream); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+  .auth-logo { text-align: center; margin-bottom: 1.5rem; }
+  .auth-logo img { width: 56px; height: 56px; object-fit: contain; }
+  .auth-box h3 { font-size: 1.3rem; font-weight: 900; text-align: center; margin-bottom: .4rem; }
+  .auth-box > p { font-size: .85rem; color: #8a7a6e; text-align: center; margin-bottom: 1.5rem; }
+  .btn-google { width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 12px; background: #fff; font-family: 'Poppins', sans-serif; font-size: .9rem; font-weight: 600; cursor: pointer; margin-bottom: 1rem; transition: all .2s; }
+  .btn-google:hover { border-color: var(--terracota); }
+  .auth-divider { display: flex; align-items: center; gap: 12px; margin: 1rem 0; color: #c0b0a0; font-size: .78rem; }
+  .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: rgba(28,16,7,.1); }
+  .auth-field { margin-bottom: .8rem; }
+  .auth-field label { display: block; font-size: .75rem; font-weight: 600; color: #6b5a4e; margin-bottom: .3rem; }
+  .auth-field input { width: 100%; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; outline: none; transition: border-color .2s; }
+  .auth-field input:focus { border-color: var(--terracota); }
+  .btn-auth { width: 100%; background: var(--terracota); color: #fff; border: none; border-radius: 12px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; margin-top: .5rem; transition: background .2s; }
+  .btn-auth:hover { background: #a8501f; }
+  .auth-msg { font-size: .8rem; text-align: center; margin-top: .8rem; min-height: 1.2rem; }
+  .auth-msg.err { color: #e74c3c; }
+  .auth-msg.ok { color: #27ae60; }
+
+  /* TOAST */
+  #cart-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: var(--negro); color: #fff; border-radius: 50px; padding: 12px 24px; font-size: .85rem; font-weight: 600; z-index: 9999; opacity: 0; transition: opacity .3s; pointer-events: none; white-space: nowrap; }
+
+  /* USER DROPDOWN */
+  .user-wrap { position: relative; }
+  .user-dropdown { position: absolute; top: calc(100% + 10px); right: 0; background: #fff; border: 1.5px solid rgba(28,16,7,.1); border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.12); padding: .75rem; min-width: 180px; z-index: 200; display: none; flex-direction: column; gap: .3rem; }
+  .user-dropdown.open { display: flex; }
+  .user-name { font-size: .82rem; font-weight: 600; padding: .4rem .6rem; color: var(--negro); }
+  .user-dropdown a, .user-dropdown button { display: block; padding: .5rem .6rem; font-size: .82rem; color: #5a4a3e; text-decoration: none; background: none; border: none; cursor: pointer; font-family: inherit; text-align: left; border-radius: 8px; transition: background .15s; }
+  .user-dropdown a:hover, .user-dropdown button:hover { background: var(--cream); color: var(--terracota); }
+
+  /* ANUNCIO BAR */
+  .anuncio-bar { background: #1A1A1A; color: #fff; overflow: hidden; white-space: nowrap; height: 36px; display: flex; align-items: center; }
+  .anuncio-track { display: inline-block; animation: marquee 22s linear infinite; font-size: 13px; font-weight: 500; letter-spacing: .04em; }
+  @keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .nav-logo span { display: none; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+    .nav-ig-desktop { display: none; }
+    .nav-ig-mobile { display: flex; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .faq-cta { padding: 36px 24px; }
+    .faq-cta-btns { flex-direction: column; }
+    .btn-cta-blanco, .btn-cta-outline { width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="anuncio-bar">
+  <div class="anuncio-track">
+    <span>✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000</span>
+  </div>
+</div>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="logo.png" alt="Patas & Caos" width="44" height="44">
+    <span>Patas & Caos</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/tienda">Tienda</a></li>
+    <li><a href="/nosotros">Nosotros</a></li>
+    <li><a href="/contacto">Contacto</a></li>
+    <li><a href="/blog">Blog</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-cart-wrap">
+      <button class="nav-cart" onclick="toggleCart()" aria-label="Carrito">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      </button>
+      <span class="cart-badge" id="cart-badge">0</span>
+    </div>
+    <div id="nav-auth"><button class="btn-signin" onclick="abrirAuth()" aria-label="Iniciar sesión"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></button></div>
+    <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" class="nav-ig-desktop" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" class="nav-ig-mobile" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/" onclick="toggleMenu()">Inicio</a>
+  <a href="/tienda" onclick="toggleMenu()">Tienda</a>
+  <a href="/nosotros" onclick="toggleMenu()">Nosotros</a>
+  <a href="/contacto" onclick="toggleMenu()">Contacto</a>
+  <a href="/blog" onclick="toggleMenu()">Blog</a>
+</div>
+
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header">
+    <h3>🛒 Tu carrito</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
+    <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
+    <button class="btn-checkout" onclick="checkout()">Pagar con Mercado Pago →</button>
+  </div>
+</aside>
+
+<!-- HERO -->
+<section class="faq-hero">
+  <div class="breadcrumb">
+    <a href="/">Inicio</a><span>›</span><a href="#">Ayuda</a><span>›</span>Preguntas frecuentes
+  </div>
+  <h1>Preguntas <em>frecuentes</em></h1>
+  <p>Todo lo que necesitas saber sobre envíos, productos y Flores de Bach. Si no encuentras tu respuesta, escríbenos.</p>
+</section>
+
+<!-- CONTENIDO -->
+<div class="faq-wrap">
+
+  <!-- ENVÍOS -->
+  <div class="faq-seccion">
+    <div class="faq-seccion-titulo"><span class="faq-icon">🚚</span>Envíos y tiempos de entrega</div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Cuánto cuesta el envío?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        El envío a <strong>Santiago centro y comunas cercanas</strong> tiene un costo de $4.847. Para <strong>comunas periféricas de la Región Metropolitana</strong> es de $5.593. Para <strong>regiones</strong>, el costo se coordina directamente por WhatsApp.<br><br>
+        Además, el envío es <strong>completamente gratis</strong> en pedidos sobre $40.000.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Cuándo llega mi pedido?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Si haces tu compra <strong>antes de las 10:00 AM</strong>, despachamos el mismo día. Para pedidos después de esa hora, el despacho es al día siguiente hábil. Los tiempos de entrega varían entre 1 y 3 días hábiles según tu ubicación.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Puedo retirar en tienda?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Sí, puedes retirar sin costo en nuestra dirección: <strong>Gath y Chaves 2452, departamento 702, Providencia</strong>. Estamos disponibles <strong>lunes a domingo de 11:00 a 20:00</strong>. El pedido estará listo en 1 a 2 días hábiles y te avisaremos por email cuando puedas venir a buscarlo.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Despachan a regiones?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Sí, pero el envío a regiones se coordina directamente. Escríbenos al <a href="https://wa.me/56923997854" target="_blank">+56 9 2399 7854</a> o a <a href="mailto:contacto@patasycaos.cl">contacto@patasycaos.cl</a> con tu dirección y te cotizamos el envío.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- CAMBIOS Y DEVOLUCIONES -->
+  <div class="faq-seccion">
+    <div class="faq-seccion-titulo"><span class="faq-icon">🔄</span>Cambios y devoluciones</div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Cuánto tiempo tengo para devolver un producto?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Según la <strong>Ley del Consumidor (Ley 19.496)</strong>, tienes <strong>10 días hábiles</strong> desde que recibes el producto para solicitar un cambio o devolución en compras online. Si el producto tiene una falla de fábrica, el plazo se extiende a <strong>3 meses</strong>.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Qué condiciones debe tener el producto para devolverlo?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        El producto debe estar <strong>sin uso</strong>, en perfectas condiciones y con su <strong>embalaje original intacto</strong>. También necesitas la boleta o factura de compra para gestionar el trámite.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Cómo inicio un cambio o devolución?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Escríbenos a <a href="mailto:contacto@patasycaos.cl">contacto@patasycaos.cl</a> o por <a href="https://wa.me/56923997854" target="_blank">WhatsApp</a> indicando tu número de pedido y el motivo. Te responderemos en máximo 48 horas hábiles con los pasos a seguir. También puedes revisar nuestra <a href="/devoluciones">página de devoluciones</a> para más detalles.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Me devuelven el dinero o hacen un cambio?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Puedes elegir entre un <strong>cambio por otro producto</strong> de igual o mayor valor (pagando la diferencia) o una <strong>devolución por transferencia</strong> al monto original pagado. El plazo de resolución es de máximo 10 días hábiles desde que recibimos el producto.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- FLORES DE BACH -->
+  <div class="faq-seccion">
+    <div class="faq-seccion-titulo"><span class="faq-icon">🌿</span>Flores de Bach</div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Qué son las Flores de Bach?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Las Flores de Bach son <strong>esencias florales naturales</strong> desarrolladas por el Dr. Edward Bach en los años 30. Trabajan sobre el <strong>equilibrio emocional</strong> del animal, ayudando a manejar el miedo, la ansiedad, el estrés y otros desequilibrios emocionales. No contienen alcohol ni principios activos farmacológicos.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Son seguras para mi mascota?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Sí. Nuestras fórmulas están preparadas <strong>sin alcohol</strong> y son completamente seguras para perros y gatos. No producen sedación, no tienen efectos secundarios conocidos y no interactúan con medicamentos convencionales. Están formuladas por una <strong>terapeuta floral con más de 20 años de experiencia</strong>.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Cómo se administran?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Tienes dos opciones: <strong>4 gotas directo en el hocico</strong>, 4 veces al día — o <strong>16 gotas en el agua</strong> del día, asegurándote que tu mascota la tome. La segunda opción es más cómoda para gatos que no toleran bien la manipulación.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Cuándo veo resultados?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Los resultados varían según cada animal y la intensidad del desequilibrio emocional. Algunos notan cambios en los primeros días, otros en 2 a 3 semanas. Para situaciones de emergencia (como el Rescue), el efecto puede ser casi inmediato. Se recomienda usar el frasco completo para evaluar bien los resultados.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Cómo sé qué fórmula le sirve a mi mascota?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Tenemos 4 fórmulas según la necesidad: <strong>Ansiedad y Calma</strong> (miedos, tormentas, viajes), <strong>Equilibrio</strong> (cambios de ambiente, irritabilidad), <strong>Energía & Ánimo</strong> (apatía, decaimiento) y <strong>Rescue & Alivio</strong> (emergencias, susto repentino). Si tienes dudas, puedes agendar una <a href="/tienda?producto=pack-consulta-flor-de-bach">consulta personalizada</a> con nuestra terapeuta.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <div class="faq-seccion">
+    <div class="faq-seccion-titulo"><span class="faq-icon">🐾</span>Productos</div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Los productos tienen garantía?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Sí. Todos los productos tienen la garantía legal establecida por la <strong>Ley del Consumidor chilena</strong>. Si recibes un producto defectuoso o que no corresponde a lo comprado, contáctanos y lo resolvemos sin problema.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Los alimentos son seguros para mi gato?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Todos los alimentos que ofrecemos están seleccionados cuidadosamente. Las latas Leonardo son fabricadas en Alemania con estándares premium, sin cereales añadidos y con alto contenido de proteína animal. Los snacks y tubitos están formulados especialmente para gatos y tienen sus ingredientes disponibles en cada producto de la tienda.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Los packs tienen descuento respecto a los productos individuales?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Sí. Todos los packs tienen un ahorro real respecto a comprar los productos por separado. Además de la conveniencia de recibir todo junto, están presentados en una bolsa Patas & Caos, perfectos también para regalar.
+      </div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-pregunta" onclick="toggleFaq(this)">
+        ¿Tienen productos para perros?
+        <span class="faq-chevron"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+      </button>
+      <div class="faq-respuesta"><div class="faq-respuesta-inner">
+        Algunos productos como las Flores de Bach, el Paw Balm y ciertos packs están indicados para perros y gatos. Actualmente nuestro catálogo está principalmente orientado a gatos, pero seguimos incorporando productos para perros. Puedes filtrar por "Perros & Gatos" en la tienda para ver las opciones disponibles.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="faq-cta">
+    <h3>¿No encontraste tu respuesta?</h3>
+    <p>Escríbenos por WhatsApp o email — te respondemos rápido.</p>
+    <div class="faq-cta-btns">
+      <a href="https://wa.me/56923997854" target="_blank" class="btn-cta-blanco">WhatsApp</a>
+      <a href="/contacto" class="btn-cta-outline">Formulario de contacto</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-row">
+        <img src="logo.png" alt="Patas & Caos" width="40" height="40">
+        <span class="footer-brand-name">Patas & Caos</span>
+      </div>
+      <p>Accesorios, juguetes y comida para mascotas con personalidad. Hechos para humanos que aman el desorden peludo.</p>
+      <div class="footer-socials">
+        <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Tienda</h4>
+      <ul>
+        <li><a href="/tienda">Todos los productos</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ayuda</h4>
+      <ul>
+        <li><a href="/envios">Envíos</a></li>
+        <li><a href="/devoluciones">Cambios y devoluciones</a></li>
+        <li><a href="/contacto">Contacto</a></li>
+        <li><a href="/faq" class="activo">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Patas & Caos. Todos los ladridos reservados.</div>
+</footer>
+
+<!-- CHECKOUT MODAL -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-box">
+    <button class="modal-cerrar" onclick="cerrarCheckout()" aria-label="Cerrar">✕</button>
+    <h3>¿A dónde enviamos tu pedido?</h3>
+    <p class="checkout-sub">Completa tus datos y paga de forma segura con Mercado Pago. 🐾</p>
+    <div id="checkoutResumen"></div>
+    <p class="checkout-section-label">Tus datos</p>
+    <div class="checkout-grid">
+      <div class="checkout-field"><label>Nombre completo *</label><input type="text" id="co-nombre" placeholder="Tu nombre"></div>
+      <div class="checkout-field"><label>Teléfono *</label><input type="tel" id="co-telefono" placeholder="+56 9 1234 5678"></div>
+    </div>
+    <div class="checkout-grid full" style="margin-top:.75rem">
+      <div class="checkout-field"><label>Email *</label><input type="email" id="co-email" placeholder="tu@correo.com"></div>
+    </div>
+    <p class="checkout-section-label">Método de entrega</p>
+    <div class="checkout-metodo-toggle">
+      <label class="metodo-btn activo" id="lbl-despacho"><input type="radio" name="metodo-envio" value="despacho" checked onchange="actualizarEnvio()">🚚 Despacho a domicilio</label>
+      <label class="metodo-btn" id="lbl-retiro"><input type="radio" name="metodo-envio" value="retiro" onchange="actualizarEnvio()">🏠 Retiro en tienda</label>
+    </div>
+    <div id="campos-envio">
+      <p class="checkout-section-label" style="margin-top:1rem">Dirección de envío</p>
+      <div class="checkout-grid full"><div class="checkout-field"><label>Calle y número *</label><input type="text" id="co-direccion" placeholder="Av. Providencia 1234, Depto 5B"></div></div>
+      <div class="checkout-grid" style="margin-top:.75rem">
+        <div class="checkout-field"><label>Comuna *</label><input type="text" id="co-comuna" placeholder="Providencia" oninput="actualizarEnvio()"></div>
+        <div class="checkout-field"><label>Ciudad *</label><input type="text" id="co-ciudad" placeholder="Santiago"></div>
+      </div>
+      <div class="checkout-envio-info" id="envio-info" style="display:none"><span>🚚 Envío estimado</span><span id="envio-precio">$4.990</span></div>
+      <p class="checkout-envio-aviso" id="envio-aviso"></p>
+    </div>
+    <div id="retiro-info" style="display:none;background:var(--cream);border-radius:12px;padding:1rem 1.2rem;margin-top:.75rem;font-size:.85rem;line-height:1.7;color:#4a3a2e">
+      <div style="font-weight:700;margin-bottom:.3rem;color:var(--terracota)">📦 Retiro gratuito — $0</div>
+      <div>📍 <strong>Gath y Chaves 2452, depto. 702, Providencia</strong></div>
+      <div>🕐 Lunes a domingo, 11:00 a 20:00</div>
+      <div>⏱ Listo en 1 a 2 días hábiles</div>
+    </div>
+    <div class="checkout-grid full" style="margin-top:.75rem"><div class="checkout-field"><label>Notas (opcional)</label><input type="text" id="co-notas" placeholder="Ej: timbre no funciona"></div></div>
+    <p class="checkout-section-label">Documento tributario</p>
+    <div class="checkout-doc-toggle">
+      <button class="doc-btn activo" id="btn-boleta" onclick="seleccionarDoc('boleta')">🧾 Boleta</button>
+      <button class="doc-btn" id="btn-factura" onclick="seleccionarDoc('factura')">📄 Factura</button>
+    </div>
+    <div id="factura-fields" style="display:none;margin-top:.75rem">
+      <div class="checkout-grid full"><div class="checkout-field"><label>RUT empresa *</label><input type="text" id="co-rut" placeholder="Ej: 76.123.456-7"></div></div>
+      <div class="checkout-grid full" style="margin-top:.75rem"><div class="checkout-field"><label>Razón social *</label><input type="text" id="co-razon" placeholder="Ej: Empresa S.A."></div></div>
+      <div class="checkout-grid full" style="margin-top:.75rem"><div class="checkout-field"><label>Giro *</label><input type="text" id="co-giro" placeholder="Ej: Comercio al por menor"></div></div>
+      <div class="checkout-grid full" style="margin-top:.75rem"><div class="checkout-field"><label>Dirección de facturación *</label><input type="text" id="co-dir-factura" placeholder="Dirección legal de la empresa"></div></div>
+    </div>
+    <div class="checkout-btns">
+      <button class="btn-checkout-cancel" onclick="cerrarCheckout()">Volver</button>
+      <button class="btn-checkout-confirm" onclick="confirmarCheckout()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Confirmar y pagar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="auth-overlay" onclick="cerrarAuthSiFondo(event)">
+  <div class="auth-box">
+    <button class="auth-close" onclick="cerrarAuth()">✕</button>
+    <div class="auth-logo"><img src="logo.png" alt="Patas & Caos"></div>
+    <h3>Bienvenido 🐾</h3>
+    <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
+    <button class="btn-google" onclick="loginConGoogle()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+      Continuar con Google
+    </button>
+    <div class="auth-divider"><span>o con tu email</span></div>
+    <div class="auth-field">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="tu@correo.com" onkeydown="if(event.key==='Enter') enviarMagicLink()">
+    </div>
+    <button class="btn-auth" onclick="enviarMagicLink()">Enviar enlace de acceso</button>
+    <p class="auth-msg" id="auth-msg"></p>
+  </div>
+</div>
+
+<script src="cart.js"></script>
+<script>
+function toggleMenu() { document.getElementById('hamburger').classList.toggle('open'); document.getElementById('mobile-menu').classList.toggle('open'); }
+window.addEventListener('scroll', () => document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40));
+window.addEventListener('load', function() { if (typeof renderCart === 'function') renderCart(); });
+
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  // Cerrar todos
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  // Abrir el clickeado si estaba cerrado
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
