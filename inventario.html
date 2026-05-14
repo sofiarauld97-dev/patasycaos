@@ -380,7 +380,7 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
     </div>
     <div class="sum-card terracota">
       <div class="label">Categorías</div>
-      <div class="value">4</div>
+      <div class="value">7</div>
     </div>
   </div>
 
@@ -392,6 +392,8 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
     <button class="filter-btn" onclick="filtrar('Aseo e Higiene', this)">✨ Aseo e Higiene</button>
     <button class="filter-btn" onclick="filtrar('Alimentos', this)">🍽️ Alimentos</button>
     <button class="filter-btn" onclick="filtrar('Snacks y Golosinas', this)">🍪 Snacks y Golosinas</button>
+    <button class="filter-btn" onclick="filtrar('Flores de Bach', this)">🌿 Flores de Bach</button>
+    <button class="filter-btn" onclick="filtrar('Insumos Veterinarios', this)">💊 Insumos Veterinarios</button>>
   </div>
 
   <!-- PRODUCT LIST -->
@@ -470,6 +472,7 @@ const SKUS = [
   { id: 'cats-snack_Rellena Atún + Queso',    nombre: 'Cats Snack — Rellena Atún + Queso',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🧀' },
   { id: 'cats-snack_Rellena Atún + Ostiones', nombre: 'Cats Snack — Rellena Atún + Ostiones', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🦪' },
   { id: 'cats-snack_Rellena Atún + Pollo',    nombre: 'Cats Snack — Rellena Atún + Pollo',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🍗' },
+  { id: 'suero-fisiologico',                  nombre: 'Suero Fisiológico — Cloruro de Sodio 0.9%', cat: 'Insumos Veterinarios', precio: '$2.590', img: 'suero_fisiologico_cloruro_de_sodio.png', emoji: '💊' },
 ];
 
 const STOCK_KEY = 'pac_stock';
@@ -510,7 +513,7 @@ async function guardarStockRemoto(stock) {
   } catch(e) { console.warn('No se pudo guardar en nube, guardado solo local'); }
 }
 
-const STOCK_DEFAULTS = {"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-cuidado-total":5,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,"cat-fest-pillows":1,"tubito-atun":3,"tubito-conejo":3,"tubito-cangrejo":3,"lata-leonardo-kitten":1,"lata-leonardo_Ave":1,"lata-leonardo_Pato":1,"lata-leonardo_Conejo":1,"lata-leonardo_Pescado":1,"lata-leonardo_Ternera":1,"collar-findmy":1,"fuente-agua":1,"pajaro":1,"pelota-led":2,"pulpo":1,"paw-balm":2,"afeitadora":1,"cat-fest_Pato":1,"cat-fest_Cordero":1,"cats-snack_Catnip":1,"cats-snack_Matatabi":1,"cats-snack_Rellena Atún + Queso":1,"cats-snack_Rellena Atún + Ostiones":1,"cats-snack_Rellena Atún + Pollo":1};
+const STOCK_DEFAULTS = {"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-cuidado-total":5,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,"cat-fest-pillows":1,"tubito-atun":3,"tubito-conejo":3,"tubito-cangrejo":3,"lata-leonardo-kitten":1,"lata-leonardo_Ave":1,"lata-leonardo_Pato":1,"lata-leonardo_Conejo":1,"lata-leonardo_Pescado":1,"lata-leonardo_Ternera":1,"collar-findmy":1,"fuente-agua":1,"pajaro":1,"pelota-led":2,"pulpo":1,"paw-balm":2,"afeitadora":1,"cat-fest_Pato":1,"cat-fest_Cordero":1,"cats-snack_Catnip":1,"cats-snack_Matatabi":1,"cats-snack_Rellena Atún + Queso":1,"cats-snack_Rellena Atún + Ostiones":1,"cats-snack_Rellena Atún + Pollo":1,"suero-fisiologico":5};
 
 function cargarStock() {
   try {
