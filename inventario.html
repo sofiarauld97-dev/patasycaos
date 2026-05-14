@@ -380,13 +380,15 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
     </div>
     <div class="sum-card terracota">
       <div class="label">Categorías</div>
-      <div class="value">7</div>
+      <div class="value">9</div>
     </div>
   </div>
 
   <!-- FILTERS -->
   <div class="filters" id="filters">
-    <button class="filter-btn activo" onclick="filtrar('Todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filtrar('Todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filtrarAudiencia('Para Gatos', this)">🐱 Gatos</button>
+    <button class="filter-btn" onclick="filtrarAudiencia('Para Perros', this)">🐶 Perros</button>
     <button class="filter-btn" onclick="filtrar('Accesorio', this)">🎀 Accesorios</button>
     <button class="filter-btn" onclick="filtrar('Juguete', this)">🎾 Juguetes</button>
     <button class="filter-btn" onclick="filtrar('Aseo e Higiene', this)">✨ Aseo e Higiene</button>
@@ -427,52 +429,52 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
    CATÁLOGO DE SKUs
 ═══════════════════════════════════════ */
 const SKUS = [
-  { id: "pack-calma-total", nombre: "Pack Calma Total", cat: "Flores de Bach", precio: "$15.990", img: "pack_calma_total.png", emoji: "🎁" },
-  { id: "pack-bienvenido-a-casa", nombre: "Pack Bienvenido a Casa", cat: "Flores de Bach", precio: "$21.990", img: "pack_bienveido_a_casa.png", emoji: "🎁" },
-  { id: "pack-cuidado-total", nombre: "Pack Cuidado Total", cat: "Aseo e Higiene", precio: "$12.990", img: "pack_cuidado_total.png", emoji: "🐾" },
-  { id: "pack-juega-y-relaja", nombre: "Pack Juega y Relaja", cat: "Flores de Bach", precio: "$28.990", img: "pack_relaja_y_juega.png", emoji: "🎁" },
-  { id: "pack-sos-mascota", nombre: "Pack SOS Mascota", cat: "Flores de Bach", precio: "$18.990", img: "pack_sos_mascota.png", emoji: "🎁" },
-  { id: "pack-rutina-sana", nombre: "Pack Rutina Sana", cat: "Flores de Bach", precio: "$33.990", img: "pack_rutina_sana.png", emoji: "🎁" },
-  { id: "comedero-lento-slow-feeder---catstages", nombre: "Comedero Lento Slow Feeder - Catstages", cat: "Accesorio", precio: "$7.990", img: "Plato_con_Comida.png", emoji: "🐱" },
+  { id: "pack-calma-total", nombre: "Pack Calma Total", cat: "Flores de Bach", precio: "$15.990", img: "pack_calma_total.png", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "pack-bienvenido-a-casa", nombre: "Pack Bienvenido a Casa", cat: "Flores de Bach", precio: "$21.990", img: "pack_bienveido_a_casa.png", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "pack-cuidado-total", nombre: "Pack Cuidado Total", cat: "Aseo e Higiene", precio: "$12.990", img: "pack_cuidado_total.png", emoji: "🐾" , audience: 'Perros & Gatos' },
+  { id: "pack-juega-y-relaja", nombre: "Pack Juega y Relaja", cat: "Flores de Bach", precio: "$28.990", img: "pack_relaja_y_juega.png", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "pack-sos-mascota", nombre: "Pack SOS Mascota", cat: "Flores de Bach", precio: "$18.990", img: "pack_sos_mascota.png", emoji: "🎁" , audience: 'Perros & Gatos' },
+  { id: "pack-rutina-sana", nombre: "Pack Rutina Sana", cat: "Flores de Bach", precio: "$33.990", img: "pack_rutina_sana.png", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "comedero-lento-slow-feeder---catstages", nombre: "Comedero Lento Slow Feeder - Catstages", cat: "Accesorio", precio: "$7.990", img: "Plato_con_Comida.png", emoji: "🐱" , audience: 'Para Gatos' },
   
   
-  { id: "pack-consulta-flor-de-bach", nombre: "Pack Consulta + Flor de Bach", cat: "Flores de Bach", precio: "$29.990", img: "pack_floral_perros_gatos.png", emoji: "🌿" },
+  { id: "pack-consulta-flor-de-bach", nombre: "Pack Consulta + Flor de Bach", cat: "Flores de Bach", precio: "$29.990", img: "pack_floral_perros_gatos.png", emoji: "🌿" , audience: 'Perros & Gatos' },
   
-  { id: "flores-de-bach---rescue-y-alivio", nombre: "Flores de Bach - Rescue y Alivio", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Rescue_y_Alivio.png", emoji: "🌿" },
+  { id: "flores-de-bach---rescue-y-alivio", nombre: "Flores de Bach - Rescue y Alivio", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Rescue_y_Alivio.png", emoji: "🌿" , audience: 'Perros & Gatos' },
   
-  { id: "flores-de-bach---energia-y-animo", nombre: "Flores de Bach - Energía y Ánimo", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Energia_y_Animo.png", emoji: "🌿" },
+  { id: "flores-de-bach---energia-y-animo", nombre: "Flores de Bach - Energía y Ánimo", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Energia_y_Animo.png", emoji: "🌿" , audience: 'Perros & Gatos' },
   
-  { id: "flores-de-bach---equilibrio", nombre: "Flores de Bach - Equilibrio", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Equilibrio.png", emoji: "🌿" },
+  { id: "flores-de-bach---equilibrio", nombre: "Flores de Bach - Equilibrio", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Equilibrio.png", emoji: "🌿" , audience: 'Para Gatos' },
   
-  { id: "flores-de-bach---ansiedad-y-calma", nombre: "Flores de Bach - Ansiedad y Calma", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Ansiedad_y_Calma.png", emoji: "🌿" },
+  { id: "flores-de-bach---ansiedad-y-calma", nombre: "Flores de Bach - Ansiedad y Calma", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Ansiedad_y_Calma.png", emoji: "🌿" , audience: 'Perros & Gatos' },
   
-  { id: "cat-fest-pillows-schrimp-creme", nombre: "Cat Fest Pillows Schrimp Creme", cat: "Snacks y Golosinas", precio: "$1.990", img: "Cat_Fest_Pillows_Schrimp.png", emoji: "🐾" },
+  { id: "cat-fest-pillows-schrimp-creme", nombre: "Cat Fest Pillows Schrimp Creme", cat: "Snacks y Golosinas", precio: "$1.990", img: "Cat_Fest_Pillows_Schrimp.png", emoji: "🐾" , audience: 'Para Gatos' },
   
-  { id: 'cat-fest-pillows', nombre: 'Cat Fest Pillows Chicken Creme', cat: 'Snacks y Golosinas', precio: '$1.990', img: 'Cat_Fest_Pillows_Chicken.png', emoji: '🐔' },
-  { id: 'tubito-atun',     nombre: 'Tubito Cremoso Atún con Catnip',     cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Tubito_Cremoso_Cats_Snack2.png', emoji: '🐟' },
-  { id: 'tubito-conejo',   nombre: 'Tubito Cremoso Conejo con Catnip',   cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Tubito_Cremoso_Cats_Snack1.png', emoji: '🐰' },
-  { id: 'tubito-cangrejo', nombre: 'Tubito Cremoso Cangrejo con Catnip', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Tubito_Cremoso_Cats_Snack3.png', emoji: '🦀' },
-  { id: 'lata-leonardo-kitten',  nombre: 'Lata Leonardo Kitten 200g',      cat: 'Alimentos', precio: '$3.790', img: 'Lata_Leonardo_Kitten.png', emoji: '🐱' },
-  { id: 'lata-leonardo_Ave',     nombre: 'Lata Leonardo Adulto — Ave',     cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.png',  emoji: '🐔' },
-  { id: 'lata-leonardo_Pato',    nombre: 'Lata Leonardo Adulto — Pato',    cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.png',  emoji: '🦆' },
-  { id: 'lata-leonardo_Conejo',  nombre: 'Lata Leonardo Adulto — Conejo',  cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.png',  emoji: '🐰' },
-  { id: 'lata-leonardo_Pescado', nombre: 'Lata Leonardo Adulto — Pescado', cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.png',  emoji: '🐟' },
-  { id: 'lata-leonardo_Ternera', nombre: 'Lata Leonardo Adulto — Ternera', cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.png',  emoji: '🐄' },
-  { id: 'collar-findmy',                  nombre: 'Collar Find My',                      cat: 'Accesorio', precio: '$12.990', img: 'Collar_GPS.png',               emoji: '📡' },
-  { id: 'fuente-agua',                    nombre: 'Fuente de Agua Flor USB',             cat: 'Accesorio', precio: '$21.990', img: 'Bebedero_Gatos_2.png',          emoji: '💧' },
-  { id: 'pajaro',                         nombre: 'Pájaro Interactivo',                  cat: 'Juguete',   precio: '$13.990', img: 'Pajaro_Gatos.png',              emoji: '🐦' },
-  { id: 'pelota-led',                     nombre: 'Pelota Interactiva LED',              cat: 'Juguete',   precio: '$8.990',  img: 'Pelota_Interactiva_Gato.png',   emoji: '🔦', stock: 2 },
-  { id: 'pulpo',                          nombre: 'Masajeador Pulpo',                    cat: 'Juguete',   precio: '$6.990',  img: 'Pulpo_Gatos_1.png',             emoji: '🐙' },
-  { id: 'paw-balm',                       nombre: 'Paw Balm',                            cat: 'Aseo e Higiene',   precio: '$5.990',  img: 'Patas_y_Paw_Balm.png',          emoji: '🐾' },
-  { id: 'afeitadora',                     nombre: 'Afeitadora LED',                      cat: 'Aseo e Higiene',   precio: '$9.990',  img: 'Afeitadora_Gatos_1.png',        emoji: '✂️' },
-  { id: 'cat-fest_Pato',                  nombre: 'Cat Fest Meat Sticks — Pato',         cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.png',          emoji: '🦆' },
-  { id: 'cat-fest_Cordero',               nombre: 'Cat Fest Meat Sticks — Cordero',      cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.png',          emoji: '🐑' },
-  { id: 'cats-snack_Catnip',              nombre: 'Cats Snack — Catnip',                 cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'Cats_Snacks_Gato.png',          emoji: '🌿' },
-  { id: 'cats-snack_Matatabi',            nombre: 'Cats Snack — Matatabi',               cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'Cats_Snacks_Gato.png',          emoji: '🌱' },
-  { id: 'cats-snack_Rellena Atún + Queso',    nombre: 'Cats Snack — Rellena Atún + Queso',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🧀' },
-  { id: 'cats-snack_Rellena Atún + Ostiones', nombre: 'Cats Snack — Rellena Atún + Ostiones', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🦪' },
-  { id: 'cats-snack_Rellena Atún + Pollo',    nombre: 'Cats Snack — Rellena Atún + Pollo',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🍗' },
-  { id: 'suero-fisiologico',                  nombre: 'Suero Fisiológico — Cloruro de Sodio 0.9%', cat: 'Insumos Veterinarios', precio: '$2.590', img: 'suero_fisiologico_cloruro_de_sodio.png', emoji: '💊' },
+  { id: 'cat-fest-pillows', nombre: 'Cat Fest Pillows Chicken Creme', cat: 'Snacks y Golosinas', precio: '$1.990', img: 'Cat_Fest_Pillows_Chicken.png', emoji: '🐔', audience: 'Para Gatos' },
+  { id: 'tubito-atun',     nombre: 'Tubito Cremoso Atún con Catnip',     cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Tubito_Cremoso_Cats_Snack2.png', emoji: '🐟', audience: 'Para Gatos' },
+  { id: 'tubito-conejo',   nombre: 'Tubito Cremoso Conejo con Catnip',   cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Tubito_Cremoso_Cats_Snack1.png', emoji: '🐰', audience: 'Para Gatos' },
+  { id: 'tubito-cangrejo', nombre: 'Tubito Cremoso Cangrejo con Catnip', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Tubito_Cremoso_Cats_Snack3.png', emoji: '🦀', audience: 'Para Gatos' },
+  { id: 'lata-leonardo-kitten',  nombre: 'Lata Leonardo Kitten 200g',      cat: 'Alimentos', precio: '$3.790', img: 'Lata_Leonardo_Kitten.png', emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'lata-leonardo_Ave',     nombre: 'Lata Leonardo Adulto — Ave',     cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.png',  emoji: '🐔', audience: 'Para Gatos' },
+  { id: 'lata-leonardo_Pato',    nombre: 'Lata Leonardo Adulto — Pato',    cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.png',  emoji: '🦆', audience: 'Para Gatos' },
+  { id: 'lata-leonardo_Conejo',  nombre: 'Lata Leonardo Adulto — Conejo',  cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.png',  emoji: '🐰', audience: 'Para Gatos' },
+  { id: 'lata-leonardo_Pescado', nombre: 'Lata Leonardo Adulto — Pescado', cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.png',  emoji: '🐟', audience: 'Para Gatos' },
+  { id: 'lata-leonardo_Ternera', nombre: 'Lata Leonardo Adulto — Ternera', cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.png',  emoji: '🐄', audience: 'Para Gatos' },
+  { id: 'collar-findmy',                  nombre: 'Collar Find My',                      cat: 'Accesorio', precio: '$12.990', img: 'Collar_GPS.png',               emoji: '📡', audience: 'Perros & Gatos' },
+  { id: 'fuente-agua',                    nombre: 'Fuente de Agua Flor USB',             cat: 'Accesorio', precio: '$21.990', img: 'Bebedero_Gatos_2.png',          emoji: '💧', audience: 'Para Gatos' },
+  { id: 'pajaro',                         nombre: 'Pájaro Interactivo',                  cat: 'Juguete',   precio: '$13.990', img: 'Pajaro_Gatos.png',              emoji: '🐦', audience: 'Para Gatos' },
+  { id: 'pelota-led',                     nombre: 'Pelota Interactiva LED',              cat: 'Juguete',   precio: '$8.990',  img: 'Pelota_Interactiva_Gato.png',   emoji: '🔦', stock: 2, audience: 'Para Gatos' },
+  { id: 'pulpo',                          nombre: 'Masajeador Pulpo',                    cat: 'Juguete',   precio: '$6.990',  img: 'Pulpo_Gatos_1.png',             emoji: '🐙', audience: 'Para Gatos' },
+  { id: 'paw-balm',                       nombre: 'Paw Balm',                            cat: 'Aseo e Higiene',   precio: '$5.990',  img: 'Patas_y_Paw_Balm.png',          emoji: '🐾', audience: 'Perros & Gatos' },
+  { id: 'afeitadora',                     nombre: 'Afeitadora LED',                      cat: 'Aseo e Higiene',   precio: '$9.990',  img: 'Afeitadora_Gatos_1.png',        emoji: '✂️', audience: 'Perros & Gatos' },
+  { id: 'cat-fest_Pato',                  nombre: 'Cat Fest Meat Sticks — Pato',         cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.png',          emoji: '🦆', audience: 'Para Gatos' },
+  { id: 'cat-fest_Cordero',               nombre: 'Cat Fest Meat Sticks — Cordero',      cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.png',          emoji: '🐑', audience: 'Para Gatos' },
+  { id: 'cats-snack_Catnip',              nombre: 'Cats Snack — Catnip',                 cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'Cats_Snacks_Gato.png',          emoji: '🌿', audience: 'Para Gatos' },
+  { id: 'cats-snack_Matatabi',            nombre: 'Cats Snack — Matatabi',               cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'Cats_Snacks_Gato.png',          emoji: '🌱', audience: 'Para Gatos' },
+  { id: 'cats-snack_Rellena Atún + Queso',    nombre: 'Cats Snack — Rellena Atún + Queso',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🧀', audience: 'Para Gatos' },
+  { id: 'cats-snack_Rellena Atún + Ostiones', nombre: 'Cats Snack — Rellena Atún + Ostiones', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🦪', audience: 'Para Gatos' },
+  { id: 'cats-snack_Rellena Atún + Pollo',    nombre: 'Cats Snack — Rellena Atún + Pollo',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Cats_Snacks_Gato.png',      emoji: '🍗', audience: 'Para Gatos' },
+  { id: 'suero-fisiologico',                  nombre: 'Suero Fisiológico — Cloruro de Sodio 0.9%', cat: 'Insumos Veterinarios', precio: '$2.590', img: 'suero_fisiologico_cloruro_de_sodio.png', emoji: '💊', audience: 'Perros & Gatos' },
 ];
 
 const STOCK_KEY = 'pac_stock';
@@ -542,6 +544,7 @@ function guardarLog(log) {
 
 let stock = cargarStock();
 let filtroActual = 'Todos';
+let filtroAudiencia = null;
 
 /* ═══════════════════════════════════════
    RENDER
@@ -562,9 +565,9 @@ function actualizarSummary() {
 
 function renderLista() {
   const lista = document.getElementById('prod-list');
-  const skusFiltrados = filtroActual === 'Todos'
-    ? SKUS
-    : SKUS.filter(s => s.cat === filtroActual);
+  const skusFiltrados = filtroAudiencia
+    ? SKUS.filter(s => s.audience && (s.audience === filtroAudiencia || s.audience === 'Perros & Gatos'))
+    : (filtroActual === 'Todos' ? SKUS : SKUS.filter(s => s.cat === filtroActual));
 
   lista.innerHTML = '';
   skusFiltrados.forEach(sku => {
@@ -680,6 +683,14 @@ function cambiarStock(id, enStock) {
 
 function filtrar(cat, btn) {
   filtroActual = cat;
+  filtroAudiencia = null;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
+  renderLista();
+}
+function filtrarAudiencia(aud, btn) {
+  filtroActual = 'Todos';
+  filtroAudiencia = aud;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('activo'));
   btn.classList.add('activo');
   renderLista();

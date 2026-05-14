@@ -58,8 +58,26 @@
   .categories { padding: 80px 5%; }
   .section-label { font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota); margin-bottom: .6rem; }
   .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--negro); margin-bottom: 2.5rem; }
-  .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
-  @media (max-width: 900px) { .cat-grid { grid-template-columns: repeat(3, 1fr); } }
+  .cat-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+  .cat-arrows { display: flex; gap: .5rem; flex-shrink: 0; }
+  .cat-arrow { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(28,16,7,.2); background: var(--blanco); cursor: pointer; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; color: var(--negro); transition: all .2s; line-height: 1; }
+  .cat-arrow:hover { background: var(--terracota); color: #fff; border-color: var(--terracota); }
+  .cat-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding-bottom: .5rem;
+    scrollbar-width: none;
+  }
+  .cat-grid::-webkit-scrollbar { display: none; }
+  .cat-card {
+    flex: 0 0 calc(25% - .75rem);
+    scroll-snap-align: start;
+    min-width: 0;
+  }
+  @media (max-width: 900px) { .cat-card { flex: 0 0 calc(33.333% - .67rem); } }
   .cat-card { background: var(--card-bg); border: 1.5px solid rgba(28,16,7,.08); border-radius: 18px; padding: 28px 24px; cursor: pointer; transition: transform .2s, box-shadow .2s; }
   .cat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(196,98,45,.12); }
   .cat-icon { width: 48px; height: 48px; background: rgba(196,98,45,.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.2rem; }
@@ -361,8 +379,8 @@
   .doc-btn:hover:not(.activo) { border-color: var(--terracota); color: var(--terracota); }
 
 
-  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 2rem; } .hero-img { display: none; } .cat-grid { grid-template-columns: repeat(3, 1fr); } .prod-grid { grid-template-columns: repeat(3, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
-  @media (max-width: 600px) { .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { pointer-events: none; } .cat-grid { grid-template-columns: repeat(2, 1fr); } .prod-grid { grid-template-columns: repeat(2, 1fr); } .newsletter-box { padding: 36px 28px; } .newsletter-form { flex-direction: column; } .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; } .cart-items { padding: 16px; } .cart-header { padding: 18px 16px; } .cart-footer { padding: 16px; } .cart-item-info { min-width: 0; } }
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 2rem; } .hero-img { display: none; } .cat-card { flex: 0 0 calc(33.333% - .67rem); } .prod-grid { grid-template-columns: repeat(3, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  @media (max-width: 600px) { .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { pointer-events: none; } .cat-card { flex: 0 0 calc(44% - .5rem); } .prod-grid { grid-template-columns: repeat(2, 1fr); } .newsletter-box { padding: 36px 28px; } .newsletter-form { flex-direction: column; } .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; } .cart-items { padding: 16px; } .cart-header { padding: 18px 16px; } .cart-footer { padding: 16px; } .cart-item-info { min-width: 0; } }
   @media (max-width: 640px) { .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; } .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; } .modal-imagen-principal { aspect-ratio: unset; height: 320px; } .modal-contenido { padding: 1.25rem; } .modal-nombre { font-size: 1.2rem; } .modal-precio { font-size: 1.35rem; } }
   @media (max-width: 500px) { .checkout-grid { grid-template-columns: 1fr !important; } .cart-items { padding: 12px 16px; } .cart-header { padding: 16px; } .cart-footer { padding: 12px 16px; } .cart-item-info { min-width: 0; overflow: hidden; } }
   .nav-right { display: flex; align-items: center; gap: 6px; }
@@ -477,8 +495,14 @@
 <!-- CATEGORIES -->
 <section class="categories" id="categorias">
   <p class="section-label">Categorías</p>
-  <h2 class="section-title">Explora el caos organizado.</h2>
-  <div class="cat-grid">
+  <div class="cat-header">
+    <h2 class="section-title" style="margin-bottom:0">Explora el caos organizado.</h2>
+    <div class="cat-arrows">
+      <button class="cat-arrow" onclick="moverCat(-1)" aria-label="Anterior">‹</button>
+      <button class="cat-arrow" onclick="moverCat(1)" aria-label="Siguiente">›</button>
+    </div>
+  </div>
+  <div class="cat-grid" id="cat-grid">
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Para Gatos'"><div class="cat-icon">🐱</div><h3>Gatos</h3><p>Todo para el rey de la casa</p></div>
     <div class="cat-card" onclick="window.location.href='/tienda?aud=Perros'"><div class="cat-icon">🐶</div><h3>Perros</h3><p>Pa' que rompan con estilo</p></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Accesorio'"><div class="cat-icon">🎀</div><h3>Accesorios</h3><p>Para no perderse en el caos</p></div>
@@ -487,6 +511,7 @@
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Alimentos'"><div class="cat-icon">🍽️</div><h3>Alimentos</h3><p>Nutrición de verdad</p></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Snacks y Golosinas'"><div class="cat-icon">🍪</div><h3>Snacks y Golosinas</h3><p>Soborno legalizado</p></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Flores de Bach'"><div class="cat-icon">🌿</div><h3>Flores de Bach</h3><p>Bienestar natural para tu mascota</p></div>
+    <div class="cat-card" onclick="window.location.href='/tienda?cat=Insumos Veterinarios'"><div class="cat-icon">💊</div><h3>Insumos Vet.</h3><p>Cuidado médico en casa</p></div>
   </div>
 </section>
 
@@ -763,6 +788,12 @@
 
 <script src="cart.js"></script>
 <script>
+function moverCat(dir) {
+  const grid = document.getElementById('cat-grid');
+  const card = grid.querySelector('.cat-card');
+  const cardW = card.offsetWidth + 16; // gap 1rem = 16px
+  grid.scrollBy({ left: dir * cardW * 2, behavior: 'smooth' });
+}
 function toggleMenu() {
   const hamburger = document.getElementById('hamburger');
   const menu = document.getElementById('mobile-menu');
