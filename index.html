@@ -890,7 +890,7 @@ function generarCarrusel() {
   if (!track) return;
   track.innerHTML = '';
   const stock = getStock();
-  const todosIds = Object.keys(productos);
+  const todosIds = ORDEN.filter(id => productos[id]);
   todosIds.forEach(id => {
     const p = productos[id]; if (!p) return;
     const imgs = p.variantes ? p.variantes[0].imagenes : p.imagenes;
