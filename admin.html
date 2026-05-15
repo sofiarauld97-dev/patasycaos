@@ -198,6 +198,10 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
       <div id="carac-list"><div class="list-item"><input type="text" placeholder="Ej: Resistente al agua"><button class="btn-x" type="button" onclick="quitarItem(this)">✕</button></div></div>
       <button class="btn-add-item" type="button" onclick="agregarItem('carac-list','Característica')">+ Agregar</button>
     </div>
+    <div class="field" style="margin-top:1rem">
+      <label>Ingredientes <span class="hint" style="font-weight:400">(opcional — solo para snacks/alimentos)</span></label>
+      <textarea id="f-ingredientes" placeholder="Ej: Pulmón de cordero deshidratado 100%." rows="3"></textarea>
+    </div>
   </div>
 
   <div class="form-card">
@@ -396,6 +400,7 @@ function publicar() {
   if (!nombre || !precioNum || !id || !categoria || !audience) { mostrarToast('❗ Completa los campos obligatorios — incluyendo "Para"'); return; }
 
   var caracs = [...document.querySelectorAll('#carac-list input')].map(function(i){ return i.value.trim(); }).filter(Boolean);
+  var ingredientes = document.getElementById('f-ingredientes').value.trim();
   var fotos  = [...document.querySelectorAll('#fotos-list input')].map(function(i){ return i.value.trim(); }).filter(Boolean);
   if (!fotos.length) { mostrarToast('❗ Agrega al menos una foto'); return; }
 
@@ -416,9 +421,9 @@ function publicar() {
 
   var productoEntry;
   if (tieneV && variantesArr.length) {
-    productoEntry = JSON.stringify(id) + ':{nombre:' + JSON.stringify(nombre) + ',precio:' + JSON.stringify(precio) + ',precioNum:' + precioNum + ',audience:' + JSON.stringify(audience) + ',categoria:' + JSON.stringify(categoria) + ',descripcion:' + JSON.stringify(desc) + ',caracTitulo:' + JSON.stringify(caracTit) + ',caracteristicas:' + JSON.stringify(caracs) + ',variantes:' + JSON.stringify(variantesArr) + '}';
+    productoEntry = JSON.stringify(id) + ':{nombre:' + JSON.stringify(nombre) + ',precio:' + JSON.stringify(precio) + ',precioNum:' + precioNum + ',audience:' + JSON.stringify(audience) + ',categoria:' + JSON.stringify(categoria) + ',descripcion:' + JSON.stringify(desc) + ',caracTitulo:' + JSON.stringify(caracTit) + ',caracteristicas:' + JSON.stringify(caracs) + (ingredientes ? ',ingredientes:' + JSON.stringify(ingredientes) : '') + ',variantes:' + JSON.stringify(variantesArr) + '}';
   } else {
-    productoEntry = JSON.stringify(id) + ':{nombre:' + JSON.stringify(nombre) + ',precio:' + JSON.stringify(precio) + ',precioNum:' + precioNum + ',audience:' + JSON.stringify(audience) + ',categoria:' + JSON.stringify(categoria) + ',descripcion:' + JSON.stringify(desc) + ',caracTitulo:' + JSON.stringify(caracTit) + ',caracteristicas:' + JSON.stringify(caracs) + ',imagenes:' + JSON.stringify(fotos) + ',placeholders:' + JSON.stringify(placeholders) + '}';
+    productoEntry = JSON.stringify(id) + ':{nombre:' + JSON.stringify(nombre) + ',precio:' + JSON.stringify(precio) + ',precioNum:' + precioNum + ',audience:' + JSON.stringify(audience) + ',categoria:' + JSON.stringify(categoria) + ',descripcion:' + JSON.stringify(desc) + ',caracTitulo:' + JSON.stringify(caracTit) + ',caracteristicas:' + JSON.stringify(caracs) + (ingredientes ? ',ingredientes:' + JSON.stringify(ingredientes) : '') + ',imagenes:' + JSON.stringify(fotos) + ',placeholders:' + JSON.stringify(placeholders) + '}';
   }
 
   var stockEntries;
