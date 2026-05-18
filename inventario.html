@@ -510,6 +510,8 @@ async function cargarStockRemoto() {
 async function guardarStockRemoto(stock) {
   // Guardar en localStorage inmediatamente (respuesta rápida)
   localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
+  // Pequeño delay para evitar rate limit en Upstash
+  await new Promise(r => setTimeout(r, 300));
   // Guardar en Upstash en segundo plano
   try {
     await fetch('/api/stock-set', {
