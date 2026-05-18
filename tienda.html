@@ -682,6 +682,11 @@ function setFiltro(tipo, valor, btn) {
   document.querySelectorAll(`#${grupo} .filter-pill`).forEach(b => b.classList.remove('activo'));
   btn.classList.add('activo');
   generarTarjetas();
+  // En móvil: cerrar el panel al seleccionar un filtro
+  if (window.innerWidth <= 600) {
+    document.getElementById('filters-inner').classList.remove('open');
+    document.getElementById('filters-toggle').classList.remove('open');
+  }
 }
 function aplicarFiltros() { filtros.sort = document.getElementById('sort-select')?.value || 'default'; paginaActual = 1; generarTarjetas(); }
 
