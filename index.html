@@ -879,7 +879,7 @@ function generarTarjetas() {
     info.innerHTML = `<h4>${p.nombre}</h4><p class="tagline">${TAGLINES[id]||''}</p><div class="prod-footer"><span class="prod-price">${p.precio}</span><button class="btn-add" id="${btnId}">${p.variantes?'Elegir sabor':'Añadir'}</button></div>`;
     card.appendChild(carr); card.appendChild(info); grid.appendChild(card);
     const btn = document.getElementById(btnId);
-    if(btn){ if(!enStock){btn.textContent='Agotado';btn.disabled=true;} else if(p.variantes) btn.addEventListener('click',(e)=>{e.stopPropagation();abrirModal(id);}); else btn.addEventListener('click',(e)=>{e.stopPropagation();addToCart({id,name:p.nombre,price:p.precioNum,img:imgs[0]});}); }
+    if(btn){ if(!enStock){btn.textContent='Agotado';btn.disabled=true;} else if(p.variantes) btn.addEventListener('click',(e)=>{e.stopPropagation();abrirModal(id);}); else btn.addEventListener('click',(e)=>{e.stopPropagation();addToCart({id,name:p.nombre,price:p.precioNum,img:'/'+imgs[0]});}); }
   });
 }
 
@@ -994,7 +994,7 @@ function agregarAlCarritoDesdeModal(){
   if(productoActual.variantes){ const v=productoActual.variantes[varianteActualIdx]; nombre+=' — '+v.label; fuente=v; sku=productoActual.id+'_'+v.label; }
   const stock=getStock();
   if(stock[sku]===0){ const btn=document.getElementById('modalBtnCarrito'); btn.textContent='Agotado 😢'; btn.style.background='#c0392b'; setTimeout(()=>{ btn.textContent='Añadir al carrito'; btn.style.background=''; },2000); return; }
-  addToCart({id:productoActual.id+(productoActual.variantes?'-'+varianteActualIdx:''),name:nombre,price:productoActual.precioNum,img:fuente.imagenes?.[0]||''});
+  addToCart({id:productoActual.id+(productoActual.variantes?'-'+varianteActualIdx:''),name:nombre,price:productoActual.precioNum,img:fuente.imagenes?.[0]?'/'+fuente.imagenes[0]:''});
   const btn=document.getElementById('modalBtnCarrito'); btn.textContent='✓ ¡Añadido!'; btn.style.background='#2d7a3a';
   setTimeout(()=>{ btn.textContent='Añadir al carrito'; btn.style.background=''; cerrarModal(); },1200);
 }

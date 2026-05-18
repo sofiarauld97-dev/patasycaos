@@ -800,7 +800,7 @@ function generarTarjetas() {
     if (btn) {
       if (!enStock) { btn.textContent = 'Agotado'; btn.disabled = true; }
       else if (p.variantes) btn.addEventListener('click', (e) => { e.stopPropagation(); abrirModal(id); });
-      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: imagenes[0] }); });
+      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: '/' + imagenes[0] }); });
     }
   });
 }
@@ -920,7 +920,7 @@ function agregarAlCarritoDesdeModal() {
   const stock = getStock();
   if (stock[skuKey] === 0) { const btn = document.getElementById('modalBtnCarrito'); btn.textContent = 'Agotado 😢'; btn.style.background = '#c0392b'; setTimeout(() => { btn.textContent = 'Añadir al carrito'; btn.style.background = ''; }, 2000); return; }
   const imgCarrito = fuenteActual.imagenes?.[0] || '';
-  addToCart({ id: productoActual.id + (productoActual.variantes ? '-' + varianteActualIdx : ''), name: nombreCompleto, price: productoActual.precioNum, img: imgCarrito });
+  addToCart({ id: productoActual.id + (productoActual.variantes ? '-' + varianteActualIdx : ''), name: nombreCompleto, price: productoActual.precioNum, img: imgCarrito.startsWith('/') ? imgCarrito : '/' + imgCarrito });
   const btn = document.getElementById('modalBtnCarrito');
   btn.textContent = '✓ ¡Añadido!'; btn.style.background = '#2d7a3a';
   setTimeout(() => { btn.textContent = 'Añadir al carrito'; btn.style.background = ''; cerrarModal(); }, 1200);
