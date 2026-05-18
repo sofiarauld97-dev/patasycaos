@@ -580,7 +580,10 @@ function render() {
 
 function actualizarSummary() {
   const total = SKUS.length;
-  const enStock = SKUS.filter(s => stock[s.id] !== false).length;
+  const enStock = SKUS.filter(s => {
+    const qty = typeof stock[s.id] === 'number' ? stock[s.id] : (stock[s.id] === false ? 0 : (STOCK_DEFAULTS[s.id] || 1));
+    return qty > 0;
+  }).length;
   document.getElementById('sum-total').textContent = total;
   document.getElementById('sum-stock').textContent = enStock;
   document.getElementById('sum-agotados').textContent = total - enStock;
