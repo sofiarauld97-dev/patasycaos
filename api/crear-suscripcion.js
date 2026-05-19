@@ -1,8 +1,8 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { nombre, email, telefono, comuna, tipo, plan, sabor } = req.body;
-  if (!nombre || !email || !telefono || !comuna || !tipo || !plan || !sabor) {
+  const { nombre, email, telefono, comuna, ciudad, direccion, notas, tipo, plan, sabor } = req.body;
+  if (!nombre || !email || !telefono || !comuna || !direccion || !tipo || !plan || !sabor) {
     return res.status(400).json({ error: 'Faltan datos requeridos' });
   }
 
@@ -75,7 +75,10 @@ export default async function handler(req, res) {
         nombre,
         email,
         telefono,
+        direccion,
         comuna,
+        ciudad: ciudad || 'Santiago',
+        notas: notas || '',
         tipo,
         plan,
         sabor,
@@ -106,6 +109,11 @@ Comuna: ${comuna}
 Plan: ${nombrePlan}
 Sabor: ${sabor}
 Precio mensual: $${precio.toLocaleString('es-CL')}
+
+Dirección: ${direccion}
+Comuna: ${comuna}
+Ciudad: ${ciudad || 'Santiago'}
+Notas: ${notas || 'Sin notas'}
 
 Estado: Pendiente de pago
 MP Preapproval ID: ${data.id}`,
