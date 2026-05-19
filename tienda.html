@@ -719,10 +719,10 @@ function crearCarrusel(imagenes, placeholders) {
     wrap.appendChild(prev); wrap.appendChild(next); wrap.appendChild(dotsWrap);
     let startX = 0, dragging = false, moved = false;
     wrap.addEventListener('mousedown', (e) => { startX = e.clientX; dragging = true; moved = false; });
-    wrap.addEventListener('mousemove', (e) => { if (dragging && Math.abs(e.clientX - startX) > 8) moved = true; });
-    wrap.addEventListener('mouseup', (e) => { if (!dragging) return; dragging = false; const diff = e.clientX - startX; if (Math.abs(diff) > 40) actualizarImg(diff < 0 ? idx + 1 : idx - 1); });
-    wrap.addEventListener('mouseleave', () => { dragging = false; });
-    wrap.addEventListener('click', (e) => { if (moved) e.stopPropagation(); moved = false; });
+    wrap.addEventListener('mousemove', (e) => { if (dragging && Math.abs(e.clientX - startX) > 10) moved = true; });
+    wrap.addEventListener('mouseup', (e) => { if (!dragging) return; dragging = false; const diff = e.clientX - startX; if (Math.abs(diff) > 40) { actualizarImg(diff < 0 ? idx + 1 : idx - 1); moved = true; } else { moved = false; } });
+    wrap.addEventListener('mouseleave', () => { dragging = false; moved = false; });
+    wrap.addEventListener('click', (e) => { if (moved) { e.stopPropagation(); } moved = false; });
     wrap.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
     wrap.addEventListener('touchend', (e) => { const diffX = e.changedTouches[0].clientX - startX; if (Math.abs(diffX) > 40) actualizarImg(diffX < 0 ? idx + 1 : idx - 1); }, { passive: true });
     img.style.transition = 'opacity .15s';
