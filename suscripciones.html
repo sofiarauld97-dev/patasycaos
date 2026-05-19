@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Suscripciones — Patas & Caos</title>
+<meta name="description" content="Suscríbete y recibe cada mes lo que tu gato necesita: alimento Bravery premium, arena sanitaria y sorpresas. Despacho incluido a Santiago.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #F5ECD7; --terracota: #C4622D; --negro: #1A1A1A;
+  --blanco: #FFFFFF; --dark: #1C1007; --card-bg: #FAF4EA;
+  --crema-dark: #eddfc6; --texto-suave: #6b5c4e;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Poppins', sans-serif; background-color: var(--cream); color: var(--negro); overflow-x: hidden; }
+
+/* NAV */
+nav { position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); padding: 0 5%; padding-top: env(safe-area-inset-top); display: flex; align-items: center; justify-content: space-between; height: calc(68px + env(safe-area-inset-top)); }
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo img { width: 44px; height: 44px; object-fit: contain; }
+.nav-logo span { font-weight: 700; font-size: 1.1rem; color: var(--negro); letter-spacing: -.02em; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--negro); font-size: .9rem; font-weight: 500; transition: color .2s; }
+.nav-links a:hover, .nav-links a.activo { color: var(--terracota); }
+.nav-cart { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: none; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; cursor: pointer; transition: all .2s; color: var(--negro); padding: 0; }
+.nav-cart:hover { border-color: var(--terracota); color: var(--terracota); }
+.nav-cart svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--negro); border-radius: 2px; transition: all .3s; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu { position: fixed; top: 0; left: 0; right: 0; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); padding: 24px 5%; padding-top: calc(68px + env(safe-area-inset-top) + 16px); display: flex; flex-direction: column; gap: 1.2rem; z-index: 99; transform: translateY(-100%); pointer-events: none; visibility: hidden; transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+.mobile-menu.open { transform: translateY(0); pointer-events: all; visibility: visible; }
+.mobile-menu a { text-decoration: none; color: var(--negro); font-size: 1.1rem; font-weight: 600; padding: 8px 0; border-bottom: 1px solid rgba(28,16,7,.06); transition: color .2s; }
+.mobile-menu a:hover { color: var(--terracota); }
+
+/* HERO */
+.hero-sus { background: var(--dark); padding: 80px 5% 100px; text-align: center; }
+.hero-sus .section-label { font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota); margin-bottom: .8rem; }
+.hero-sus h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; color: var(--blanco); line-height: 1.05; margin-bottom: 1.2rem; }
+.hero-sus h1 em { font-style: normal; color: var(--terracota); }
+.hero-sus p { font-size: 1rem; color: rgba(255,255,255,.75); max-width: 560px; margin: 0 auto 2.5rem; line-height: 1.7; }
+.hero-pills { display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap; }
+.hero-pill { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 50px; padding: 8px 18px; font-size: .82rem; color: rgba(255,255,255,.85); }
+
+/* TOGGLE */
+.toggle-section { padding: 56px 5% 0; text-align: center; }
+.toggle-wrap { display: inline-flex; background: var(--card-bg); border: 1.5px solid rgba(28,16,7,.1); border-radius: 50px; padding: 5px; gap: 4px; }
+.toggle-btn { background: none; border: none; border-radius: 50px; padding: 10px 28px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .88rem; cursor: pointer; transition: all .25s; color: var(--texto-suave); }
+.toggle-btn.activo { background: var(--terracota); color: var(--blanco); }
+
+/* PLANS */
+.plans-section { padding: 48px 5% 80px; }
+.plans-intro { text-align: center; margin-bottom: 40px; }
+.section-label { font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota); margin-bottom: .6rem; }
+.plans-intro h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; color: var(--negro); margin-bottom: .6rem; }
+.plans-intro p { font-size: .92rem; color: var(--texto-suave); max-width: 500px; margin: 0 auto; }
+.plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; max-width: 960px; margin: 0 auto; }
+.plan-card { background: var(--card-bg); border: 1.5px solid rgba(28,16,7,.08); border-radius: 20px; padding: 2rem; position: relative; transition: transform .2s, box-shadow .2s; }
+.plan-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(196,98,45,.12); }
+.plan-card.popular { border-color: var(--terracota); border-width: 2px; }
+.popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--terracota); color: var(--blanco); font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 5px 18px; border-radius: 50px; white-space: nowrap; }
+.plan-name { font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: .5rem; }
+.plan-price { font-size: 2.4rem; font-weight: 900; color: var(--negro); line-height: 1; margin-bottom: .3rem; }
+.plan-price sup { font-size: 1rem; font-weight: 700; vertical-align: super; }
+.plan-sub { font-size: .78rem; color: var(--texto-suave); margin-bottom: 1.6rem; }
+.plan-divider { border: none; border-top: 1px solid rgba(28,16,7,.08); margin: 1.4rem 0; }
+.plan-includes { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--texto-suave); margin-bottom: .9rem; }
+.plan-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: .75rem; font-size: .85rem; color: var(--negro); }
+.plan-item svg { flex-shrink: 0; margin-top: 2px; }
+.check { color: #3B6D11; }
+.cross-item { color: #bbb; }
+.plan-item.disabled { color: #bbb; }
+.plan-btn { width: 100%; margin-top: 1.6rem; background: var(--terracota); color: var(--blanco); border: none; border-radius: 50px; padding: 14px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .92rem; cursor: pointer; transition: background .2s; text-align: center; text-decoration: none; display: block; }
+.plan-btn:hover { background: #a8501f; }
+.plan-btn.outline { background: transparent; color: var(--negro); border: 2px solid rgba(28,16,7,.2); }
+.plan-btn.outline:hover { background: var(--negro); color: var(--blanco); border-color: var(--negro); }
+.plan-margin { margin-top: 1rem; background: rgba(28,16,7,.04); border-radius: 10px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; }
+.plan-margin span { font-size: .75rem; color: var(--texto-suave); }
+.plan-margin strong { font-size: .82rem; font-weight: 700; color: var(--negro); }
+
+/* FLAVOR SELECTOR */
+.flavor-section { padding: 0 5% 60px; }
+.flavor-box { max-width: 960px; margin: 0 auto; background: var(--dark); border-radius: 20px; padding: 2rem 2.5rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+.flavor-box h3 { font-size: 1.1rem; font-weight: 700; color: var(--blanco); flex-shrink: 0; }
+.flavor-box p { font-size: .85rem; color: rgba(255,255,255,.65); flex: 1; min-width: 200px; }
+.flavor-pills { display: flex; gap: .8rem; flex-wrap: wrap; }
+.flavor-pill { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); border-radius: 50px; padding: 8px 18px; font-size: .82rem; color: var(--blanco); font-weight: 600; }
+
+/* HOW IT WORKS */
+.how { padding: 80px 5%; background: var(--dark); }
+.how .section-label { color: var(--terracota); text-align: center; }
+.how h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; color: var(--blanco); text-align: center; margin-bottom: 3rem; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+.step { text-align: center; }
+.step-num { width: 48px; height: 48px; background: var(--terracota); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 900; color: var(--blanco); margin: 0 auto 1rem; }
+.step h4 { font-size: .92rem; font-weight: 700; color: var(--blanco); margin-bottom: .4rem; }
+.step p { font-size: .8rem; color: rgba(255,255,255,.55); line-height: 1.6; }
+
+/* FAQ */
+.faq { padding: 80px 5%; }
+.faq .section-label { text-align: center; }
+.faq h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; color: var(--negro); text-align: center; margin-bottom: 2.5rem; }
+.faq-list { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: .8rem; }
+.faq-item { background: var(--card-bg); border: 1.5px solid rgba(28,16,7,.08); border-radius: 14px; overflow: hidden; }
+.faq-q { width: 100%; background: none; border: none; padding: 1.1rem 1.4rem; font-family: 'Poppins', sans-serif; font-size: .9rem; font-weight: 600; color: var(--negro); text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.faq-q span { transition: transform .25s; font-size: 1.1rem; }
+.faq-q.open span { transform: rotate(45deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+.faq-a p { padding: 0 1.4rem 1.1rem; font-size: .86rem; color: var(--texto-suave); line-height: 1.7; }
+
+/* CTA */
+.cta { padding: 80px 5%; }
+.cta-box { background: var(--terracota); border-radius: 24px; padding: 56px 64px; max-width: 680px; margin: 0 auto; text-align: center; }
+.cta-box h2 { font-size: 2rem; font-weight: 900; color: var(--blanco); margin-bottom: .7rem; }
+.cta-box p { color: rgba(255,255,255,.85); font-size: .92rem; line-height: 1.6; margin-bottom: 1.8rem; }
+.cta-box a { display: inline-block; background: var(--negro); color: var(--blanco); border: none; border-radius: 50px; padding: 14px 36px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .95rem; text-decoration: none; transition: background .2s; }
+.cta-box a:hover { background: #333; }
+
+/* FOOTER */
+footer { background: var(--cream); border-top: 1px solid rgba(28,16,7,.08); padding: 56px 5% 32px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 48px; }
+.footer-brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: .8rem; }
+.footer-brand-row img { width: 40px; height: 40px; object-fit: contain; }
+.footer-brand-name { font-weight: 700; font-size: 1rem; }
+.footer-brand p { font-size: .85rem; color: #6b5a4e; line-height: 1.6; max-width: 260px; margin-bottom: 1.4rem; }
+.footer-socials { display: flex; gap: .8rem; }
+.footer-socials a { width: 38px; height: 38px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: var(--negro); transition: all .2s; }
+.footer-socials a:hover { border-color: var(--terracota); color: var(--terracota); }
+.footer-socials svg { width: 16px; height: 16px; fill: currentColor; }
+.footer-col h4 { font-weight: 700; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--negro); margin-bottom: 1.2rem; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+.footer-col ul a { text-decoration: none; color: #6b5a4e; font-size: .87rem; transition: color .2s; }
+.footer-col ul a:hover { color: var(--terracota); }
+.footer-bottom { border-top: 1px solid rgba(28,16,7,.08); padding-top: 24px; text-align: center; font-size: .82rem; color: #8a7a6e; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .plans-grid { grid-template-columns: 1fr; max-width: 420px; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .cta-box { padding: 40px 28px; }
+  .flavor-box { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .hero-sus { padding: 60px 5% 80px; }
+}
+@media (max-width: 480px) {
+  .steps { grid-template-columns: 1fr 1fr; }
+  .toggle-btn { padding: 10px 18px; font-size: .82rem; }
+}
+
+/* HIDDEN */
+.plans-felina, .plans-indoor { transition: opacity .25s; }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="/" class="nav-logo">
+    <img src="logo.png" alt="Patas & Caos" width="44" height="44">
+    <span>Patas & Caos</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/tienda">Tienda</a></li>
+    <li><a href="/suscripciones" class="activo">Suscripciones</a></li>
+    <li><a href="/nosotros">Nosotros</a></li>
+    <li><a href="/contacto">Contacto</a></li>
+    <li><a href="/blog">Blog</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:.8rem;">
+    <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" aria-label="Instagram" style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:1.5px solid rgba(28,16,7,.2);border-radius:50%;color:var(--negro);transition:all .2s;text-decoration:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/" onclick="toggleMenu()">Inicio</a>
+  <a href="/tienda" onclick="toggleMenu()">Tienda</a>
+  <a href="/suscripciones" onclick="toggleMenu()">Suscripciones</a>
+  <a href="/nosotros" onclick="toggleMenu()">Nosotros</a>
+  <a href="/contacto" onclick="toggleMenu()">Contacto</a>
+  <a href="/blog" onclick="toggleMenu()">Blog</a>
+</div>
+
+<!-- HERO -->
+<section class="hero-sus">
+  <p class="section-label">Suscripciones mensuales</p>
+  <h1>Todo lo que tu gato necesita,<br><em>sin que tengas que recordarlo.</em></h1>
+  <p>Alimento premium Bravery, arena sanitaria y sorpresas cada mes. Despacho incluido a todo Santiago. Cancela cuando quieras.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">🐟 Bravery Salmon o Pollo Sterilized</span>
+    <span class="hero-pill">📦 Despacho incluido</span>
+    <span class="hero-pill">✨ Sorpresas cada mes</span>
+    <span class="hero-pill">🔓 Sin permanencia</span>
+  </div>
+</section>
+
+<!-- TOGGLE -->
+<div class="toggle-section">
+  <div class="toggle-wrap">
+    <button class="toggle-btn activo" id="btn-felina" onclick="mostrar('felina')">🐱 Gato outdoor</button>
+    <button class="toggle-btn" id="btn-indoor" onclick="mostrar('indoor')">🏠 Gato indoor</button>
+  </div>
+  <p style="font-size:.82rem;color:var(--texto-suave);margin-top:.8rem;">Indoor incluye arena sanitaria 10kg · Outdoor sin arena</p>
+</div>
+
+<!-- PLANES FELINA -->
+<section class="plans-section plans-felina" id="planes-felina">
+  <div class="plans-intro">
+    <p class="section-label">Caja Caótica Felina</p>
+    <h2>Para el gato que sale al mundo 🐱</h2>
+    <p>Alimento premium + snacks y accesorios sorpresa cada mes.</p>
+  </div>
+  <div class="plans-grid">
+
+    <div class="plan-card">
+      <p class="plan-name">Básico</p>
+      <div class="plan-price"><sup>$</sup>29.990</div>
+      <p class="plan-sub">/ mes · despacho incluido</p>
+      <hr class="plan-divider">
+      <p class="plan-includes">Incluye cada mes</p>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Bravery Sterilized 2kg (salmón o pollo)
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 snack sorpresa
+      </div>
+      <div class="plan-item disabled">
+        <svg class="cross-item" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Accesorio sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Despacho incluido (Santiago)
+      </div>
+      <button class="plan-btn outline" onclick="abrirModal('felina','basico')">Suscribirme</button>
+    </div>
+
+    <div class="plan-card popular">
+      <span class="popular-badge">⭐ Más popular</span>
+      <p class="plan-name">Premium</p>
+      <div class="plan-price"><sup>$</sup>39.990</div>
+      <p class="plan-sub">/ mes · despacho incluido</p>
+      <hr class="plan-divider">
+      <p class="plan-includes">Incluye cada mes</p>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Bravery Sterilized 2kg (salmón o pollo)
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 snack sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 accesorio sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Despacho incluido (Santiago)
+      </div>
+      <button class="plan-btn" onclick="abrirModal('felina','premium')">Suscribirme</button>
+    </div>
+
+    <div class="plan-card">
+      <p class="plan-name">VIP</p>
+      <div class="plan-price"><sup>$</sup>54.990</div>
+      <p class="plan-sub">/ mes · despacho incluido</p>
+      <hr class="plan-divider">
+      <p class="plan-includes">Incluye cada mes</p>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Bravery Sterilized 2kg (salmón o pollo)
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 snack sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 lata Leonardo sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 accesorio premium sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Despacho incluido (Santiago)
+      </div>
+      <button class="plan-btn outline" onclick="abrirModal('felina','vip')">Suscribirme</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- PLANES INDOOR -->
+<section class="plans-section plans-indoor hidden" id="planes-indoor">
+  <div class="plans-intro">
+    <p class="section-label">Caja Caótica Indoor</p>
+    <h2>Para el gato de interior 🏠</h2>
+    <p>Todo lo del Felina más arena sanitaria 10kg incluida.</p>
+  </div>
+  <div class="plans-grid">
+
+    <div class="plan-card">
+      <p class="plan-name">Básico</p>
+      <div class="plan-price"><sup>$</sup>34.990</div>
+      <p class="plan-sub">/ mes · despacho incluido</p>
+      <hr class="plan-divider">
+      <p class="plan-includes">Incluye cada mes</p>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Bravery Sterilized 2kg (salmón o pollo)
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Arena Fit Formula 10kg
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 snack sorpresa
+      </div>
+      <div class="plan-item disabled">
+        <svg class="cross-item" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Accesorio sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Despacho incluido (Santiago)
+      </div>
+      <button class="plan-btn outline" onclick="abrirModal('indoor','basico')">Suscribirme</button>
+    </div>
+
+    <div class="plan-card popular">
+      <span class="popular-badge">⭐ Más popular</span>
+      <p class="plan-name">Premium</p>
+      <div class="plan-price"><sup>$</sup>44.990</div>
+      <p class="plan-sub">/ mes · despacho incluido</p>
+      <hr class="plan-divider">
+      <p class="plan-includes">Incluye cada mes</p>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Bravery Sterilized 2kg (salmón o pollo)
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Arena Fit Formula 10kg
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 snack sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 accesorio sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Despacho incluido (Santiago)
+      </div>
+      <button class="plan-btn" onclick="abrirModal('indoor','premium')">Suscribirme</button>
+    </div>
+
+    <div class="plan-card">
+      <p class="plan-name">VIP</p>
+      <div class="plan-price"><sup>$</sup>59.990</div>
+      <p class="plan-sub">/ mes · despacho incluido</p>
+      <hr class="plan-divider">
+      <p class="plan-includes">Incluye cada mes</p>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Bravery Sterilized 2kg (salmón o pollo)
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Arena Fit Formula 10kg
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 snack sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 lata Leonardo sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        1 accesorio premium sorpresa
+      </div>
+      <div class="plan-item">
+        <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Despacho incluido (Santiago)
+      </div>
+      <button class="plan-btn outline" onclick="abrirModal('indoor','vip')">Suscribirme</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- SABOR -->
+<div class="flavor-section">
+  <div class="flavor-box">
+    <h3>🐟 Elige el sabor de tu gato</h3>
+    <p>Al suscribirte nos indicas qué prefiere tu gato. Cada mes recibe siempre el mismo — porque los gatos son mañosos y eso lo entendemos.</p>
+    <div class="flavor-pills">
+      <span class="flavor-pill">🐟 Salmon Sterilized</span>
+      <span class="flavor-pill">🍗 Chicken Sterilized</span>
+    </div>
+  </div>
+</div>
+
+<!-- CÓMO FUNCIONA -->
+<section class="how">
+  <p class="section-label">¿Cómo funciona?</p>
+  <h2>Cuatro pasos y listo 🐾</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4>Elige tu plan</h4>
+      <p>Básico, Premium o VIP — Indoor o Felina según si tu gato usa arena.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4>Cuéntanos tu gato</h4>
+      <p>Nombre, sabor preferido (salmón o pollo) y tu dirección en Santiago.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4>Paga cada mes</h4>
+      <p>Te enviamos un link de pago los primeros días de cada mes. Sin sorpresas.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h4>Recibe la caja</h4>
+      <p>Despacho incluido a Santiago. Abre y sorpréndete con lo que traemos este mes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <p class="section-label">Preguntas frecuentes</p>
+  <h2>Todo lo que necesitas saber</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿Puedo cancelar cuando quiera? <span>+</span></button>
+      <div class="faq-a"><p>Sí, sin permanencia ni costos de cancelación. Solo avísanos antes del día 25 del mes para no generar el cobro del mes siguiente.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿Cuándo llega la caja cada mes? <span>+</span></button>
+      <div class="faq-a"><p>Despachamos entre el 1 y el 5 de cada mes. Una vez que pagás, coordinamos la entrega por WhatsApp.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿Solo despachan a Santiago? <span>+</span></button>
+      <div class="faq-a"><p>Por ahora sí — solo Santiago con despacho incluido en el precio. Tramo 1 (comunas centrales) y Tramo 2 (comunas periféricas). Próximamente regiones.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿Puedo cambiar de plan? <span>+</span></button>
+      <div class="faq-a"><p>Claro. Escríbenos por WhatsApp antes del día 25 y el cambio aplica desde el mes siguiente.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿El alimento realmente alcanza el mes completo? <span>+</span></button>
+      <div class="faq-a"><p>Sí. El Bravery Sterilized 2kg está formulado para gatos adultos esterilizados — un gato promedio come ~55g/día, por lo que las 2kg duran aproximadamente 36 días.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿Puedo elegir los snacks y accesorios sorpresa? <span>+</span></button>
+      <div class="faq-a"><p>No — la gracia es la sorpresa. Rotamos entre todos los productos de la tienda para que cada mes sea distinto. Si tu gato tiene alguna alergia o restricción, avísanos y lo consideramos.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-box">
+    <h2>¿Lista para el caos organizado? 🐾</h2>
+    <p>Tu gato merece lo mejor cada mes, sin que tengas que acordarte de nada. Elige tu plan y empieza hoy.</p>
+    <button onclick="abrirModal('felina','premium')" style="background:var(--negro);color:var(--blanco);border:none;border-radius:50px;padding:14px 36px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;transition:background .2s;">Suscribirme ahora</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-row">
+        <img src="logo.png" alt="Patas & Caos" width="40" height="40">
+        <span class="footer-brand-name">Patas & Caos</span>
+      </div>
+      <p>Accesorios, juguetes y comida para mascotas con personalidad. Hechos para humanos que aman el desorden peludo.</p>
+      <div class="footer-socials">
+        <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Tienda</h4>
+      <ul>
+        <li><a href="/tienda">Todos los productos</a></li>
+        <li><a href="/suscripciones">Suscripciones</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ayuda</h4>
+      <ul>
+        <li><a href="/envios">Envíos</a></li>
+        <li><a href="/devoluciones">Cambios y devoluciones</a></li>
+        <li><a href="/contacto">Contacto</a></li>
+        <li><a href="/faq">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Patas & Caos. Todos los ladridos reservados.</div>
+</footer>
+<!-- MODAL SUSCRIPCIÓN -->
+<div class="sus-overlay" id="sus-overlay" onclick="cerrarModal()"></div>
+<div class="sus-modal" id="sus-modal">
+  <button class="sus-close" onclick="cerrarModal()" aria-label="Cerrar">✕</button>
+  <p class="sus-label" id="sus-label">Caja Caótica Felina — Premium</p>
+  <h3 class="sus-title">¡Vamos a conocer a tu gato! 🐾</h3>
+  <p class="sus-sub">Completa tus datos y te redirigimos a pagar de forma segura con Mercado Pago.</p>
+  <div class="sus-grid">
+    <div class="sus-field">
+      <label>Nombre completo *</label>
+      <input type="text" id="sus-nombre" placeholder="Ej: María González">
+    </div>
+    <div class="sus-field">
+      <label>Teléfono *</label>
+      <input type="tel" id="sus-telefono" placeholder="+56 9 1234 5678">
+    </div>
+  </div>
+  <div class="sus-field" style="margin-bottom:.75rem">
+    <label>Email *</label>
+    <input type="email" id="sus-email" placeholder="tu@correo.com">
+  </div>
+  <div class="sus-field" style="margin-bottom:.75rem">
+    <label>Comuna *</label>
+    <select id="sus-comuna">
+      <option value="">Selecciona tu comuna</option>
+      <optgroup label="Tramo 1 — $4.847">
+        <option>Cerrillos</option><option>Cerro Navia</option><option>Conchalí</option>
+        <option>El Bosque</option><option>Estación Central</option><option>Independencia</option>
+        <option>La Cisterna</option><option>La Florida</option><option>La Granja</option>
+        <option>La Reina</option><option>Las Condes</option><option>Lo Espejo</option>
+        <option>Lo Prado</option><option>Macul</option><option>Ñuñoa</option>
+        <option>Pedro Aguirre Cerda</option><option>Peñalolén</option><option>Providencia</option>
+        <option>Quinta Normal</option><option>Recoleta</option><option>Renca</option>
+        <option>San Joaquín</option><option>San Miguel</option><option>San Ramón</option>
+        <option>Santiago</option><option>Vitacura</option>
+      </optgroup>
+      <optgroup label="Tramo 2 — $5.593">
+        <option>Lo Barnechea</option><option>Maipú</option><option>Quilicura</option>
+        <option>San Bernardo</option><option>Colina</option><option>La Pintana</option>
+        <option>Chicureo</option><option>Puente Alto</option><option>Huechuraba</option>
+        <option>Pudahuel</option>
+      </optgroup>
+    </select>
+  </div>
+  <div class="sus-field" style="margin-bottom:1.4rem">
+    <label>Sabor preferido de tu gato *</label>
+    <div class="sus-sabores">
+      <button class="sabor-btn activo" id="sabor-salmon" onclick="elegirSabor('salmon')">🐟 Salmon Sterilized</button>
+      <button class="sabor-btn" id="sabor-pollo" onclick="elegirSabor('pollo')">🍗 Chicken Sterilized</button>
+    </div>
+  </div>
+  <div id="sus-error" style="display:none;font-size:.82rem;color:#c0392b;margin-bottom:.8rem;"></div>
+  <button class="sus-btn" id="sus-btn" onclick="enviarSuscripcion()">Ir a pagar con Mercado Pago</button>
+  <p style="font-size:.75rem;color:var(--texto-suave);text-align:center;margin-top:.8rem;">🔒 Pago seguro · Cancela cuando quieras · Sin permanencia</p>
+</div>
+
+<style>
+.sus-overlay{position:fixed;inset:0;background:rgba(26,16,7,.65);z-index:300;opacity:0;pointer-events:none;transition:opacity .3s;}
+.sus-overlay.open{opacity:1;pointer-events:all;}
+.sus-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-44%);width:calc(100% - 2rem);max-width:480px;background:var(--blanco);border-radius:20px;padding:2rem;z-index:301;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;max-height:90vh;overflow-y:auto;}
+.sus-modal.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%);}
+.sus-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(28,16,7,.15);background:none;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.sus-close:hover{background:var(--negro);color:var(--blanco);border-color:var(--negro);}
+.sus-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--terracota);margin-bottom:.4rem;}
+.sus-title{font-size:1.3rem;font-weight:900;color:var(--negro);margin-bottom:.4rem;}
+.sus-sub{font-size:.83rem;color:var(--texto-suave);margin-bottom:1.4rem;line-height:1.6;}
+.sus-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem;}
+.sus-field label{display:block;font-size:.78rem;font-weight:600;color:var(--negro);margin-bottom:.3rem;}
+.sus-field input,.sus-field select{width:100%;border:1.5px solid rgba(28,16,7,.15);border-radius:10px;padding:10px 14px;font-family:'Poppins',sans-serif;font-size:.88rem;color:var(--negro);background:var(--cream);outline:none;transition:border-color .2s;}
+.sus-field input:focus,.sus-field select:focus{border-color:var(--terracota);}
+.sus-sabores{display:flex;gap:.6rem;flex-wrap:wrap;}
+.sabor-btn{background:var(--card-bg);border:1.5px solid rgba(28,16,7,.12);border-radius:50px;padding:8px 18px;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--negro);}
+.sabor-btn.activo{background:var(--terracota);color:var(--blanco);border-color:var(--terracota);}
+.sus-btn{width:100%;background:var(--terracota);color:var(--blanco);border:none;border-radius:50px;padding:14px;font-family:'Poppins',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;transition:background .2s;}
+.sus-btn:hover{background:#a8501f;}
+.sus-btn:disabled{background:#ccc;cursor:not-allowed;}
+@media(max-width:480px){.sus-grid{grid-template-columns:1fr;}.sus-modal{padding:1.5rem;}}
+</style>
+
+
+<script>
+
+let _planActual = { tipo: 'felina', plan: 'premium' };
+let _saborActual = 'salmon';
+
+const NOMBRES_PLAN = {
+  'felina-basico':'Caja Caótica Felina — Básico',
+  'felina-premium':'Caja Caótica Felina — Premium',
+  'felina-vip':'Caja Caótica Felina — VIP',
+  'indoor-basico':'Caja Caótica Indoor — Básico',
+  'indoor-premium':'Caja Caótica Indoor — Premium',
+  'indoor-vip':'Caja Caótica Indoor — VIP',
+};
+
+function abrirModal(tipo, plan) {
+  _planActual = { tipo, plan };
+  document.getElementById('sus-label').textContent = NOMBRES_PLAN[`${tipo}-${plan}`] || '';
+  document.getElementById('sus-error').style.display = 'none';
+  document.getElementById('sus-overlay').classList.add('open');
+  document.getElementById('sus-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarModal() {
+  document.getElementById('sus-overlay').classList.remove('open');
+  document.getElementById('sus-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function elegirSabor(sabor) {
+  _saborActual = sabor;
+  document.getElementById('sabor-salmon').classList.toggle('activo', sabor === 'salmon');
+  document.getElementById('sabor-pollo').classList.toggle('activo', sabor === 'pollo');
+}
+
+async function enviarSuscripcion() {
+  const nombre = document.getElementById('sus-nombre').value.trim();
+  const email = document.getElementById('sus-email').value.trim();
+  const telefono = document.getElementById('sus-telefono').value.trim();
+  const comuna = document.getElementById('sus-comuna').value;
+  const errorEl = document.getElementById('sus-error');
+  const btn = document.getElementById('sus-btn');
+
+  if (!nombre || !email || !telefono || !comuna) {
+    errorEl.textContent = 'Por favor completa todos los campos.';
+    errorEl.style.display = 'block';
+    return;
+  }
+  if (!email.includes('@')) {
+    errorEl.textContent = 'Ingresa un email válido.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  errorEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Procesando...';
+
+  try {
+    const res = await fetch('/api/crear-suscripcion', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nombre,
+        email,
+        telefono,
+        comuna,
+        tipo: _planActual.tipo,
+        plan: _planActual.plan,
+        sabor: _saborActual,
+      }),
+    });
+    const data = await res.json();
+    if (data.init_point) {
+      window.location.href = data.init_point;
+    } else {
+      throw new Error(data.error || 'Error desconocido');
+    }
+  } catch (e) {
+    errorEl.textContent = 'Hubo un error. Por favor intenta de nuevo.';
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Ir a pagar con Mercado Pago';
+  }
+}
+
+function toggleMenu() {
+  const h = document.getElementById('hamburger');
+  const m = document.getElementById('mobile-menu');
+  h.classList.toggle('open');
+  m.classList.toggle('open');
+}
+
+function mostrar(tipo) {
+  const felina = document.getElementById('planes-felina');
+  const indoor = document.getElementById('planes-indoor');
+  const btnF = document.getElementById('btn-felina');
+  const btnI = document.getElementById('btn-indoor');
+  if (tipo === 'felina') {
+    felina.classList.remove('hidden');
+    indoor.classList.add('hidden');
+    btnF.classList.add('activo');
+    btnI.classList.remove('activo');
+  } else {
+    indoor.classList.remove('hidden');
+    felina.classList.add('hidden');
+    btnI.classList.add('activo');
+    btnF.classList.remove('activo');
+  }
+}
+
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  document.querySelectorAll('.faq-q').forEach(b => {
+    b.classList.remove('open');
+    b.nextElementSibling.style.maxHeight = '0';
+  });
+  if (!isOpen) {
+    btn.classList.add('open');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+  }
+}
+
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+</script>
+</body>
+</html>
