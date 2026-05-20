@@ -488,54 +488,21 @@ const LOG_KEY   = 'pac_stock_log';
 /* ═══════════════════════════════════════
    ESTADO — Upstash via Vercel Functions
 ═══════════════════════════════════════ */
-async function cargarStockRemoto() {
-  try {
-    const r = await fetch('/api/stock-get');
-    const data = await r.json();
-    if (data.stock) {
-      localStorage.setItem(STOCK_KEY, JSON.stringify(data.stock));
-      return data.stock;
-    }
-  } catch(e) { console.warn('Sin conexión, usando stock local'); }
-  // Fallback a localStorage
+function cargarStockRemoto() {
+  // Sin Upstash — solo localStorage
   try {
     const s = localStorage.getItem(STOCK_KEY);
-    if (s) return JSON.parse(s);
+    if (s) {
+      const parsed = JSON.parse(s);
+      if (Object.keys(parsed).length > 0) return parsed;
+    }
   } catch(e) {}
-  const def = {};
-  SKUS.forEach(s => def[s.id] = true);
-  return def;
+  return {...STOCK_DEFAULTS};
 }
 
-async function guardarStockRemoto(stock) {
-  // Guardar en localStorage inmediatamente (respuesta rápida)
+function guardarStockRemoto(stock) {
+  // Solo localStorage
   localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
-  // Pequeño delay para evitar rate limit en Upstash
-  await new Promise(r => setTimeout(r, 300));
-  // Guardar en Upstash en segundo plano
-  try {
-    await fetch('/api/stock-set', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ stock })
-    });
-  } catch(e) { 
-    console.warn('No se pudo guardar en nube, guardado solo local');
-    mostrarToast('⚠️ Error al sincronizar con la nube. Reintentando...');
-    // Reintentar una vez después de 3 segundos
-    setTimeout(async () => {
-      try {
-        await fetch('/api/stock-set', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ stock })
-        });
-        mostrarToast('✅ Stock sincronizado correctamente');
-      } catch(e2) {
-        mostrarToast('❌ No se pudo guardar en la nube. Verifica tu conexión.');
-      }
-    }, 3000);
-  }
 }
 
 const STOCK_DEFAULTS = {"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-cuidado-total":5,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,"cat-fest-pillows":1,"tubito-atun":3,"tubito-conejo":3,"tubito-cangrejo":3,"lata-leonardo-kitten":1,"lata-leonardo_Ave":1,"lata-leonardo_Pato":1,"lata-leonardo_Conejo":1,"lata-leonardo_Pescado":1,"lata-leonardo_Ternera":1,"collar-findmy":1,"fuente-agua":1,"pajaro":1,"pelota-led":2,"pulpo":1,"paw-balm":2,"afeitadora":1,"cat-fest_Pato":1,"cat-fest_Cordero":1,"cats-snack_Catnip":1,"cats-snack_Matatabi":1,"cats-snack_Rellena Atún + Queso":1,"cats-snack_Rellena Atún + Ostiones":1,"cats-snack_Rellena Atún + Pollo":1,"suero-fisiologico":5,"pulmon-cordero-rahue":2,"traquea-vacuno-rahue":2,"garra-pollo-rahue":2,"oreja-cerdo-rahue":2,"femur-cerdo-tasty":2};
@@ -556,7 +523,7 @@ function cargarStock() {
 }
 
 function guardarStock(stock) {
-  guardarStockRemoto(stock);
+  localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
 }
 
 function cargarLog() {
@@ -771,12 +738,8 @@ document.getElementById('modal-exportar').addEventListener('click', function(e) 
 });
 
 /* INIT */
-(async () => {
-  mostrarToast('⏳ Cargando stock...');
-  stock = await cargarStockRemoto();
-  render();
-  mostrarToast('✅ Stock sincronizado');
-})();
+stock = cargarStockRemoto();
+render();
 </script>
 </body>
 </html>
