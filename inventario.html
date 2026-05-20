@@ -491,7 +491,7 @@ const PASS      = '290966';
 ═══════════════════════════════════════ */
 async function cargarStockRemoto() {
   try {
-    const r = await fetch('/api/stock-get');
+    const r = await fetch('/api/stock-get?t=' + Date.now());
     const data = await r.json();
     if (data.stock && Object.keys(data.stock).length > 0) {
       localStorage.setItem(STOCK_KEY, JSON.stringify(data.stock));
@@ -559,7 +559,7 @@ let filtroAudiencia = null;
 // Cargar stock desde Upstash al iniciar — siempre
 (async () => {
   try {
-    const r = await fetch('/api/stock-get');
+    const r = await fetch('/api/stock-get?t=' + Date.now());
     const data = await r.json();
     // data.stock puede venir como string o como objeto
     let s = data.stock;
