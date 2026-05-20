@@ -6,69 +6,60 @@
 </head>
 <body>
 <h2>Reset Stock Patas & Caos</h2>
-<button onclick="resetear()" style="padding:16px 32px;background:#C4622D;color:white;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">
-  Resetear stock a valores por defecto
+<div id="resultado" style="margin:1rem 0;font-size:1rem;"></div>
+<button id="btn" onclick="resetear()" style="padding:16px 32px;background:#C4622D;color:white;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">
+  Resetear stock
 </button>
-<pre id="resultado" style="margin-top:1rem;"></pre>
+<pre id="log" style="margin-top:1rem;font-size:.8rem;background:#f5f5f5;padding:1rem;"></pre>
 <script>
 async function resetear() {
-  const stock = {
-    "pack-calma-total": 10,
-    "pack-sos-mascota": 10,
-    "pack-rutina-sana": 10,
-    "pack-bienvenido-a-casa": 10,
-    "pack-juega-y-relaja": 10,
-    "pack-cuidado-total": 5,
-    "comedero-lento-slow-feeder---catstages": 1,
-    "pack-consulta-flor-de-bach": 200,
-    "flores-de-bach---rescue-y-alivio": 20,
-    "flores-de-bach---energia-y-animo": 20,
-    "flores-de-bach---equilibrio": 20,
-    "flores-de-bach---ansiedad-y-calma": 20,
-    "cat-fest-pillows-schrimp-creme": 1,
-    "cat-fest-pillows": 1,
-    "tubito-atun": 3,
-    "tubito-conejo": 3,
-    "tubito-cangrejo": 3,
-    "lata-leonardo-kitten": 1,
-    "lata-leonardo_Ave": 1,
-    "lata-leonardo_Pato": 1,
-    "lata-leonardo_Conejo": 1,
-    "lata-leonardo_Pescado": 1,
-    "lata-leonardo_Ternera": 1,
-    "collar-findmy": 1,
-    "fuente-agua": 1,
-    "pajaro": 1,
-    "pelota-led": 2,
-    "pulpo": 1,
-    "paw-balm": 2,
-    "afeitadora": 1,
-    "cat-fest_Pato": 1,
-    "cat-fest_Cordero": 1,
-    "cats-snack_Catnip": 1,
-    "cats-snack_Matatabi": 1,
-    "cats-snack_Rellena Atu\u00f1 + Queso": 1,
-    "cats-snack_Rellena Atu\u00f1 + Ostiones": 1,
-    "cats-snack_Rellena Atu\u00f1 + Pollo": 1,
-    "suero-fisiologico": 5,
-    "pulmon-cordero-rahue": 2,
-    "traquea-vacuno-rahue": 2,
-    "garra-pollo-rahue": 2,
-    "oreja-cerdo-rahue": 2,
-    "femur-cerdo-tasty": 2
-  };
-
   document.getElementById('resultado').textContent = 'Reseteando...';
+  const stock = {};
+  const ids = [
+    ["pack-calma-total",10],["pack-sos-mascota",10],["pack-rutina-sana",10],
+    ["pack-bienvenido-a-casa",10],["pack-juega-y-relaja",10],["pack-cuidado-total",5],
+    ["comedero-lento-slow-feeder---catstages",1],["pack-consulta-flor-de-bach",200],
+    ["flores-de-bach---rescue-y-alivio",20],["flores-de-bach---energia-y-animo",20],
+    ["flores-de-bach---equilibrio",20],["flores-de-bach---ansiedad-y-calma",20],
+    ["cat-fest-pillows-schrimp-creme",1],["cat-fest-pillows",1],
+    ["tubito-atun",3],["tubito-conejo",3],["tubito-cangrejo",3],
+    ["lata-leonardo-kitten",1],["lata-leonardo_Ave",1],["lata-leonardo_Pato",1],
+    ["lata-leonardo_Conejo",1],["lata-leonardo_Pescado",1],["lata-leonardo_Ternera",1],
+    ["collar-findmy",1],["fuente-agua",1],["pajaro",1],["pelota-led",2],
+    ["pulpo",1],["paw-balm",2],["afeitadora",1],
+    ["cat-fest_Pato",1],["cat-fest_Cordero",1],
+    ["cats-snack_Catnip",1],["cats-snack_Matatabi",1],
+    ["suero-fisiologico",5],
+    ["pulmon-cordero-rahue",2],["traquea-vacuno-rahue",2],
+    ["garra-pollo-rahue",2],["oreja-cerdo-rahue",2],["femur-cerdo-tasty",2]
+  ];
+  ids.forEach(([k,v]) => stock[k] = v);
+
+  // Agregar snacks con tildes por separado
+  stock["cats-snack_Rellena Atuñ + Queso"] = 1;
+  stock["cats-snack_Rellena Atuñ + Ostiones"] = 1;
+  stock["cats-snack_Rellena Atuñ + Pollo"] = 1;
+
+  document.getElementById('log').textContent = 'Stock a enviar: ' + JSON.stringify(stock, null, 2);
+
   try {
     const res = await fetch('/api/stock-set', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ stock })
     });
-    const data = await res.json();
-    document.getElementById('resultado').textContent = data.ok ? '✅ Stock reseteado correctamente. Ya puedes ir al inventario.' : '❌ Error: ' + JSON.stringify(data);
+    const txt = await res.text();
+    document.getElementById('log').textContent += '\n\nRespuesta API: ' + txt;
+    let data;
+    try { data = JSON.parse(txt); } catch(e) { data = {error: txt}; }
+    if (data.ok) {
+      document.getElementById('resultado').textContent = 'Stock reseteado. Ve al inventario.';
+    } else {
+      document.getElementById('resultado').textContent = 'Error: ' + JSON.stringify(data);
+    }
   } catch(e) {
-    document.getElementById('resultado').textContent = '❌ Error: ' + e.message;
+    document.getElementById('resultado').textContent = 'Error fetch: ' + e.message;
+    document.getElementById('log').textContent += '\nError: ' + e.message;
   }
 }
 </script>
