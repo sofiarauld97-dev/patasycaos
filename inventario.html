@@ -489,7 +489,7 @@ const PASS      = '290966';
 /* ═══════════════════════════════════════
    ESTADO — Upstash via Vercel Functions
 ═══════════════════════════════════════ */
-function cargarStockRemoto() {
+async function cargarStockRemoto() {
   try {
     const r = await fetch('/api/stock-get');
     const data = await r.json();
@@ -526,11 +526,9 @@ function cargarStock() {
     const s = localStorage.getItem(STOCK_KEY);
     if (s) {
       const parsed = JSON.parse(s);
-      // Solo usar si tiene datos reales (no está vacío)
       if (Object.keys(parsed).length > 0) return parsed;
     }
   } catch(e) {}
-  // Fallback a STOCK_DEFAULTS como números
   const def = {};
   SKUS.forEach(s => def[s.id] = typeof STOCK_DEFAULTS[s.id] === 'number' ? STOCK_DEFAULTS[s.id] : 1);
   return def;
@@ -554,6 +552,19 @@ function guardarLog(log) {
 let stock = cargarStock();
 let filtroActual = 'Todos';
 let filtroAudiencia = null;
+
+// Cargar stock desde Upstash al iniciar
+(async () => {
+  try {
+    const r = await fetch('/api/stock-get');
+    const data = await r.json();
+    if (data.stock && Object.keys(data.stock).length > 0) {
+      stock = data.stock;
+      localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
+      render();
+    }
+  } catch(e) {}
+})();
 
 /* ═══════════════════════════════════════
    RENDER
