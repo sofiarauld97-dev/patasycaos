@@ -1,31 +1,44 @@
-import { Redis } from '@upstash/redis';
-
-const redis = new Redis({
-  url: process.env.KV_REST_API_URL,
-  token: process.env.KV_REST_API_TOKEN,
-});
-
 export default async function handler(req, res) {
-  // Headers ANTES de cualquier await, por si Vercel cachea en edge
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Surrogate-Control', 'no-store');
 
+  if (req.method === 'OPTIONS') return res.status(200).end();
+
+  const UPSTASH_URL   = process.env.KV_REST_API_URL;
+  const UPSTASH_TOKEN = process.env.KV_REST_API_TOKEN;
+
   try {
-    let stock = await redis.get('pac_stock');
+    const r = await fetch(`${UPSTASH_URL}/get/pac_stock`, {
+      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
+      cache: 'no-store'
+    });
 
-    // El SDK parsea automáticamente, pero si fue guardado como string doble, llega como string
-    if (typeof stock === 'string') {
-      try { stock = JSON.parse(stock); } catch(e) { stock = {}; }
+    const data = await r.json();
+
+    // data.result puede ser string, objeto, o null
+    if (data.result === null || data.result === undefined) {
+      return res.status(200).json({ stock: {} });
     }
 
-    // Verificación mínima
-    if (!stock || typeof stock !== 'object' || Array.isArray(stock)) {
-      stock = {};
+    let val = data.result;
+
+    // Desanidar si viene serializado como string (doble JSON)
+    let intentos = 0;
+    while (typeof val === 'string' && intentos < 5) {
+      try { val = JSON.parse(val); } catch(e) { break; }
+      intentos++;
     }
 
-    res.status(200).json({ stock });
+    const stock = (typeof val === 'object' && val !== null && !Array.isArray(val))
+      ? val
+      : {};
+
+    return res.status(200).json({ stock });
+
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    return res.status(500).json({ error: e.message });
   }
 }
