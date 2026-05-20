@@ -412,6 +412,7 @@
 .btn-cancelar-sus:hover { background: #c0392b; color: #fff; border-color: #c0392b; }
 .empty-state { text-align: center; padding: 2rem; color: var(--texto-suave); font-size: .88rem; }
 .loading { text-align: center; padding: 2rem; color: var(--texto-suave); font-size: .88rem; }
+@keyframes spin { to { transform: rotate(360deg); } }
 .login-aviso { text-align: center; padding: 3rem 1rem; }
 .login-aviso h2 { font-size: 1.4rem; font-weight: 700; color: var(--negro); margin-bottom: .6rem; }
 .login-aviso p { font-size: .9rem; color: var(--texto-suave); margin-bottom: 1.4rem; }
@@ -505,6 +506,11 @@
 
 <!-- CUENTA -->
 <div class="cuenta-wrap">
+  <div id="cuenta-cargando" style="text-align:center;padding:4rem 1rem;">
+    <div style="width:32px;height:32px;border:3px solid rgba(196,98,45,.2);border-top-color:var(--terracota);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem;"></div>
+    <p style="font-size:.88rem;color:var(--texto-suave);">Verificando sesión...</p>
+  </div>
+
   <div id="cuenta-login-aviso" class="login-aviso" style="display:none;">
     <h2>Inicia sesión para ver tu cuenta</h2>
     <p>Necesitas iniciar sesión para ver tus pedidos y suscripciones.</p>
@@ -618,25 +624,25 @@ const PLAN_NOMBRES = {
 };
 
 // Esperar a que cart.js inicialice el usuario
-let intentos = 0;
-const esperarUsuario = setInterval(async () => {
-  intentos++;
-  const sesion = await _sb.auth.getSession();
-  const user = sesion?.data?.session?.user;
+_sb.auth.onAuthStateChange((event, session) => {
+  const cargando = document.getElementById('cuenta-cargando');
+  const loginAviso = document.getElementById('cuenta-login-aviso');
+  const contenido = document.getElementById('cuenta-contenido');
 
-  if (user) {
-    clearInterval(esperarUsuario);
-    document.getElementById('cuenta-login-aviso').style.display = 'none';
-    document.getElementById('cuenta-contenido').style.display = 'block';
-    const nombre = user.user_metadata?.full_name || user.email;
+  if (session?.user) {
+    cargando.style.display = 'none';
+    loginAviso.style.display = 'none';
+    contenido.style.display = 'block';
+    const nombre = session.user.user_metadata?.full_name || session.user.email;
     document.getElementById('cuenta-bienvenida').textContent = `Hola, ${nombre} 👋`;
-    cargarSuscripcion(user.email);
-    cargarPedidos(user.email);
-  } else if (intentos > 10) {
-    clearInterval(esperarUsuario);
-    document.getElementById('cuenta-login-aviso').style.display = 'block';
+    cargarSuscripcion(session.user.email);
+    cargarPedidos(session.user.email);
+  } else if (event === 'SIGNED_OUT' || event === 'INITIAL_SESSION') {
+    cargando.style.display = 'none';
+    contenido.style.display = 'none';
+    loginAviso.style.display = 'block';
   }
-}, 300);
+});
 
 async function cargarSuscripcion(email) {
   try {
