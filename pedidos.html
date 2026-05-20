@@ -204,6 +204,10 @@
           <div class="stat-label">Despachos hoy</div>
           <div class="stat-value" id="sus-stat-hoy">—</div>
         </div>
+        <div class="stat-card">
+          <div class="stat-label">Pagos fallidos</div>
+          <div class="stat-value" style="color:#c0392b;" id="sus-stat-fallidos">—</div>
+        </div>
       </div>
 
       <div class="filtros">
@@ -211,6 +215,7 @@
         <button class="filtro-btn" onclick="filtrarSus('activa', this)">Activas</button>
         <button class="filtro-btn" onclick="filtrarSus('pendiente', this)">Pendientes</button>
         <button class="filtro-btn" onclick="filtrarSus('cancelada', this)">Canceladas</button>
+        <button class="filtro-btn" onclick="filtrarSus('pago_fallido', this)" style="color:#c0392b;border-color:#c0392b;">⚠️ Pago fallido</button>
       </div>
 
       <div class="tabla-wrap" style="margin-top:1rem;">
@@ -338,6 +343,7 @@ function actualizarStatsSus() {
     const dia = new Date(s.created_at).getDate();
     return dia === hoy && s.estado === 'activa';
   }).length;
+  document.getElementById('sus-stat-fallidos').textContent = todasLasSus.filter(s => s.estado === 'pago_fallido').length;
 }
 
 function filtrarSus(estado, btn) {
@@ -369,12 +375,13 @@ function renderSus() {
   const rows = sus.map(s => {
     const diaDespacho = new Date(s.created_at).getDate();
     const esHoy = diaDespacho === hoy && s.estado === 'activa';
+    const esFallido = s.estado === 'pago_fallido';
     const planLabel = {
       'felina-basico': 'Felina Básico', 'felina-premium': 'Felina Premium', 'felina-vip': 'Felina VIP',
       'indoor-basico': 'Indoor Básico', 'indoor-premium': 'Indoor Premium', 'indoor-vip': 'Indoor VIP',
     }[`${s.tipo}-${s.plan}`] || `${s.tipo} ${s.plan}`;
 
-    return `<tr style="${esHoy ? 'background:rgba(196,98,45,.06);' : ''}">
+    return `<tr style="${esHoy ? 'background:rgba(196,98,45,.06);' : esFallido ? 'background:rgba(192,57,43,.06);' : ''}">
       <td style="font-weight:700;font-size:1.4rem;text-align:center;color:${esHoy ? 'var(--terracota)' : 'var(--negro)'};">
         ${diaDespacho}
         ${esHoy ? '<div style="font-size:.65rem;font-weight:700;color:var(--terracota);">HOY</div>' : ''}
@@ -398,6 +405,7 @@ function renderSus() {
           <option value="pendiente" ${s.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
           <option value="activa" ${s.estado === 'activa' ? 'selected' : ''}>✅ Activa</option>
           <option value="cancelada" ${s.estado === 'cancelada' ? 'selected' : ''}>❌ Cancelada</option>
+          <option value="pago_fallido" ${s.estado === 'pago_fallido' ? 'selected' : ''}>⚠️ Pago fallido</option>
         </select>
       </td>
     </tr>`;
@@ -658,6 +666,7 @@ function actualizarStatsSus() {
     const dia = new Date(s.created_at).getDate();
     return dia === hoy && s.estado === 'activa';
   }).length;
+  document.getElementById('sus-stat-fallidos').textContent = todasLasSus.filter(s => s.estado === 'pago_fallido').length;
 }
 
 function filtrarSus(estado, btn) {
@@ -689,12 +698,13 @@ function renderSus() {
   const rows = sus.map(s => {
     const diaDespacho = new Date(s.created_at).getDate();
     const esHoy = diaDespacho === hoy && s.estado === 'activa';
+    const esFallido = s.estado === 'pago_fallido';
     const planLabel = {
       'felina-basico': 'Felina Básico', 'felina-premium': 'Felina Premium', 'felina-vip': 'Felina VIP',
       'indoor-basico': 'Indoor Básico', 'indoor-premium': 'Indoor Premium', 'indoor-vip': 'Indoor VIP',
     }[`${s.tipo}-${s.plan}`] || `${s.tipo} ${s.plan}`;
 
-    return `<tr style="${esHoy ? 'background:rgba(196,98,45,.06);' : ''}">
+    return `<tr style="${esHoy ? 'background:rgba(196,98,45,.06);' : esFallido ? 'background:rgba(192,57,43,.06);' : ''}">
       <td style="font-weight:700;font-size:1.4rem;text-align:center;color:${esHoy ? 'var(--terracota)' : 'var(--negro)'};">
         ${diaDespacho}
         ${esHoy ? '<div style="font-size:.65rem;font-weight:700;color:var(--terracota);">HOY</div>' : ''}
@@ -718,6 +728,7 @@ function renderSus() {
           <option value="pendiente" ${s.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
           <option value="activa" ${s.estado === 'activa' ? 'selected' : ''}>✅ Activa</option>
           <option value="cancelada" ${s.estado === 'cancelada' ? 'selected' : ''}>❌ Cancelada</option>
+          <option value="pago_fallido" ${s.estado === 'pago_fallido' ? 'selected' : ''}>⚠️ Pago fallido</option>
         </select>
       </td>
     </tr>`;
