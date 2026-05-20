@@ -419,6 +419,38 @@ function renderSus() {
 }
 
 async function cambiarEstadoSus(id, nuevoEstado) {
+  // Si se cancela, hay que cancelar también en MP
+  if (nuevoEstado === 'cancelada') {
+    const sus = todasLasSus.find(s => s.id === id);
+    if (!sus) return;
+
+    const confirmar = confirm(`¿Confirmas cancelar la suscripción de ${sus.nombre}? Esto detendrá el cobro automático en Mercado Pago.`);
+    if (!confirmar) {
+      // Revertir el select visualmente
+      renderSus();
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/cancelar-suscripcion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, mp_preapproval_id: sus.mp_preapproval_id }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Error desconocido');
+      sus.estado = 'cancelada';
+      actualizarStatsSus();
+      renderSus();
+      alert(`✅ Suscripción de ${sus.nombre} cancelada correctamente en MP y en el sistema.`);
+    } catch (e) {
+      alert('❌ Error al cancelar: ' + e.message);
+      renderSus();
+    }
+    return;
+  }
+
+  // Para otros cambios de estado (pendiente → activa, etc.)
   const { error } = await _sb
     .from('Suscripciones')
     .update({ estado: nuevoEstado })
@@ -707,6 +739,38 @@ function renderSus() {
 }
 
 async function cambiarEstadoSus(id, nuevoEstado) {
+  // Si se cancela, hay que cancelar también en MP
+  if (nuevoEstado === 'cancelada') {
+    const sus = todasLasSus.find(s => s.id === id);
+    if (!sus) return;
+
+    const confirmar = confirm(`¿Confirmas cancelar la suscripción de ${sus.nombre}? Esto detendrá el cobro automático en Mercado Pago.`);
+    if (!confirmar) {
+      // Revertir el select visualmente
+      renderSus();
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/cancelar-suscripcion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, mp_preapproval_id: sus.mp_preapproval_id }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Error desconocido');
+      sus.estado = 'cancelada';
+      actualizarStatsSus();
+      renderSus();
+      alert(`✅ Suscripción de ${sus.nombre} cancelada correctamente en MP y en el sistema.`);
+    } catch (e) {
+      alert('❌ Error al cancelar: ' + e.message);
+      renderSus();
+    }
+    return;
+  }
+
+  // Para otros cambios de estado (pendiente → activa, etc.)
   const { error } = await _sb
     .from('Suscripciones')
     .update({ estado: nuevoEstado })
