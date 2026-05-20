@@ -1,9 +1,7 @@
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
   res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Surrogate-Control', 'no-store');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -16,27 +14,20 @@ export default async function handler(req, res) {
       cache: 'no-store'
     });
 
-    const data = await r.json();
+    const raw = await r.text(); // texto crudo antes de parsear
+    let data;
+    try { data = JSON.parse(raw); } catch(e) { data = null; }
 
-    // data.result puede ser string, objeto, o null
-    if (data.result === null || data.result === undefined) {
-      return res.status(200).json({ stock: {} });
-    }
-
-    let val = data.result;
-
-    // Desanidar si viene serializado como string (doble JSON)
-    let intentos = 0;
-    while (typeof val === 'string' && intentos < 5) {
-      try { val = JSON.parse(val); } catch(e) { break; }
-      intentos++;
-    }
-
-    const stock = (typeof val === 'object' && val !== null && !Array.isArray(val))
-      ? val
-      : {};
-
-    return res.status(200).json({ stock });
+    // DEBUG TEMPORAL — sacar esto una vez resuelto
+    return res.status(200).json({
+      _debug: {
+        url_definida: !!UPSTASH_URL,
+        token_definido: !!UPSTASH_TOKEN,
+        upstash_status: r.status,
+        raw_recibido: raw.slice(0, 500), // primeros 500 chars
+        result_type: data ? typeof data.result : 'data_nula',
+      }
+    });
 
   } catch (e) {
     return res.status(500).json({ error: e.message });
