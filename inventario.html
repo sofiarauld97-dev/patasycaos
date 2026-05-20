@@ -549,21 +549,27 @@ function guardarLog(log) {
   localStorage.setItem(LOG_KEY, JSON.stringify(log.slice(0, 20)));
 }
 
-let stock = cargarStock();
+// Limpiar localStorage para forzar carga desde Upstash
+localStorage.removeItem(STOCK_KEY);
+
+let stock = {...STOCK_DEFAULTS};
 let filtroActual = 'Todos';
 let filtroAudiencia = null;
 
-// Cargar stock desde Upstash al iniciar
+// Cargar stock desde Upstash al iniciar — siempre
 (async () => {
   try {
     const r = await fetch('/api/stock-get');
     const data = await r.json();
-    if (data.stock && Object.keys(data.stock).length > 0) {
-      stock = data.stock;
+    // data.stock puede venir como string o como objeto
+    let s = data.stock;
+    if (typeof s === 'string') { try { s = JSON.parse(s); } catch(e) {} }
+    if (s && typeof s === 'object' && Object.keys(s).length > 0) {
+      stock = s;
       localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
-      render();
     }
   } catch(e) {}
+  render();
 })();
 
 /* ═══════════════════════════════════════
