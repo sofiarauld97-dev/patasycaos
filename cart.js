@@ -28,7 +28,14 @@ async function addToCart(product) {
     const data = await res.json();
     const stockRemoto = data.stock || {};
     const val = stockRemoto[product.id];
-    maxQty = (val === false || val === 0) ? 0 : (typeof val === 'number' ? val : (stockInicial[product.id] ?? 0));
+    if (val === false || val === 0) {
+      maxQty = 0;
+    } else if (typeof val === 'number') {
+      maxQty = val;
+    } else {
+      // No está en Upstash — usar stockInicial o asumir 1
+      maxQty = stockInicial[product.id] ?? 1;
+    }
     // Actualizar localStorage con el stock fresco
     localStorage.setItem('pac_stock', JSON.stringify(stockRemoto));
   } catch(e) {
