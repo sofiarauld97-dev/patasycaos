@@ -2,7 +2,7 @@
 // Este archivo es cargado por todas las páginas
 
 // Stock — debe estar primero porque addToCart lo usa
-let stockInicial = {"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"pack-cuidado-total":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,'cat-fest-pillows':1,'tubito-atun':3,'tubito-conejo':3,'tubito-cangrejo':3,'lata-leonardo-kitten':1,'lata-leonardo_Ave':1,'lata-leonardo_Pato':1,'lata-leonardo_Conejo':1,'lata-leonardo_Pescado':1,'lata-leonardo_Ternera':1,'collar-findmy':1,'fuente-agua':1,'pajaro':1,'pelota-led':2,'pulpo':1,'paw-balm':2,'afeitadora':1,'cat-fest_Pato':1,'cat-fest_Cordero':1,'cats-snack_Catnip':1,'cats-snack_Matatabi':1,"cats-snack_Rellena Atún + Queso":1,"cats-snack_Rellena Atún + Ostiones":1,"cats-snack_Rellena Atún + Pollo":1,"suero-fisiologico":5};
+let stockInicial = {"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"pack-cuidado-total":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,'cat-fest-pillows':1,'tubito-atun':3,'tubito-conejo':3,'tubito-cangrejo':3,'lata-leonardo-kitten':1,'lata-leonardo_Ave':1,'lata-leonardo_Pato':1,'lata-leonardo_Conejo':1,'lata-leonardo_Pescado':1,'lata-leonardo_Ternera':1,'collar-findmy':1,'fuente-agua':1,'pajaro':1,'pelota-led':2,'pulpo':1,'paw-balm':2,'afeitadora':1,'cat-fest_Pato':1,'cat-fest_Cordero':1,'cats-snack_Catnip':1,'cats-snack_Matatabi':1,"cats-snack_Rellena Atún + Queso":1,"cats-snack_Rellena Atún + Ostiones":1,"cats-snack_Rellena Atún + Pollo":1,"suero-fisiologico":5,"pulmon-cordero-rahue":2,"traquea-vacuno-rahue":2,"garra-pollo-rahue":2,"oreja-cerdo-rahue":2,"femur-cerdo-tasty":2};
 function getStock() { try { const s = localStorage.getItem('pac_stock'); if (!s) return {...stockInicial}; const p = JSON.parse(s); const m = {...stockInicial}; Object.keys(p).forEach(k => { m[k] = (p[k]===false||p[k]===0) ? 0 : (typeof p[k]==="number" ? p[k] : m[k]); }); return m; } catch(e) { return {...stockInicial}; } }
 
 let cart = [];
@@ -20,37 +20,13 @@ function guardarCarritoLocal() {
 }
 
 function toggleCart() { document.getElementById('cart-overlay').classList.toggle('open'); document.getElementById('cart-sidebar').classList.toggle('open'); document.body.style.overflow = document.getElementById('cart-sidebar').classList.contains('open') ? 'hidden' : ''; }
-async function addToCart(product) {
-  // Sincronizar stock desde Upstash primero
-  try {
-    const res = await fetch('/api/stock-get');
-    const data = await res.json();
-    if (data.stock && Object.keys(data.stock).length > 0) {
-      localStorage.setItem('pac_stock', JSON.stringify(data.stock));
-    }
-  } catch(e) {
-    console.warn('No se pudo sincronizar stock, usando local');
-  }
-
-  // Leer stock actualizado
+function addToCart(product) {
   const stock = getStock();
-  const val = stock[product.id];
-  const maxQty = (val === false || val === 0) ? 0 : (typeof val === 'number' ? val : (stockInicial[product.id] ?? 1));
-
-  if (maxQty <= 0) {
-    mostrarToastCarrito('Lo sentimos, este producto está agotado 🐾');
-    return;
-  }
-
+  const maxQty = stock[product.id] ?? 1;
   const existing = cart.find(i => i.id === product.id);
   if (existing) {
-    if (existing.qty >= maxQty) {
-      mostrarToastCarrito(\`Solo quedan \${maxQty} unidades disponibles 🐾\`);
-      if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart();
-      return;
-    }
+    if (existing.qty >= existing.maxQty) { mostrarToastCarrito(`Solo quedan ${existing.maxQty} unidades disponibles 🐾`); if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart(); return; }
     existing.qty++;
-    existing.maxQty = maxQty;
     renderCart();
     return;
   }
