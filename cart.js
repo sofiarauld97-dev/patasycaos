@@ -21,28 +21,21 @@ function guardarCarritoLocal() {
 
 function toggleCart() { document.getElementById('cart-overlay').classList.toggle('open'); document.getElementById('cart-sidebar').classList.toggle('open'); document.body.style.overflow = document.getElementById('cart-sidebar').classList.contains('open') ? 'hidden' : ''; }
 async function addToCart(product) {
-  // Consultar stock real desde Upstash antes de agregar
-  let maxQty = 0;
+  // Sincronizar stock desde Upstash primero
   try {
     const res = await fetch('/api/stock-get');
     const data = await res.json();
-    const stockRemoto = data.stock || {};
-    const val = stockRemoto[product.id];
-    if (val === false || val === 0) {
-      maxQty = 0;
-    } else if (typeof val === 'number') {
-      maxQty = val;
-    } else {
-      // No está en Upstash — usar stockInicial o asumir 1
-      maxQty = stockInicial[product.id] ?? 1;
+    if (data.stock && Object.keys(data.stock).length > 0) {
+      localStorage.setItem('pac_stock', JSON.stringify(data.stock));
     }
-    // Actualizar localStorage con el stock fresco
-    localStorage.setItem('pac_stock', JSON.stringify(stockRemoto));
   } catch(e) {
-    // Si falla Upstash, usar localStorage como fallback
-    const stockLocal = getStock();
-    maxQty = stockLocal[product.id] ?? 0;
+    console.warn('No se pudo sincronizar stock, usando local');
   }
+
+  // Leer stock actualizado
+  const stock = getStock();
+  const val = stock[product.id];
+  const maxQty = (val === false || val === 0) ? 0 : (typeof val === 'number' ? val : (stockInicial[product.id] ?? 1));
 
   if (maxQty <= 0) {
     mostrarToastCarrito('Lo sentimos, este producto está agotado 🐾');
@@ -52,7 +45,7 @@ async function addToCart(product) {
   const existing = cart.find(i => i.id === product.id);
   if (existing) {
     if (existing.qty >= maxQty) {
-      mostrarToastCarrito(`Solo quedan ${maxQty} unidades disponibles 🐾`);
+      mostrarToastCarrito(\`Solo quedan \${maxQty} unidades disponibles 🐾\`);
       if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart();
       return;
     }
