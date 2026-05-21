@@ -21,8 +21,8 @@ export default async function handler(req, res) {
     const userData = await userRes.json();
     const userId = userData.id;
 
-    const URL   = process.env.KV_REST_API_URL;
-    const TOKEN = process.env.KV_REST_API_TOKEN;
+    const URL   = process.env.UPSTASH_REDIS_REST_URL;
+    const TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
     const { cart, wishlist } = req.body;
 
     const cmds = [];

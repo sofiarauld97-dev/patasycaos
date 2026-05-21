@@ -14,8 +14,8 @@ export default async function handler(req, res) {
     if (payment.status !== 'approved') return res.status(200).end();
 
     // 2. Obtener datos del cliente desde Redis
-    const redisRes = await fetch(`${process.env.KV_REST_API_URL}/get/order:${payment.preference_id}`, {
-      headers: { Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}` },
+    const redisRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/order:${payment.preference_id}`, {
+      headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
     });
     const redisData = await redisRes.json();
     if (!redisData.result) return res.status(200).end();

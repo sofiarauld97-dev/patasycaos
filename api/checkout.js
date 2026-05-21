@@ -36,10 +36,10 @@ export default async function handler(req, res) {
 
     // Guardar datos del cliente en Redis con expiración de 24h
     if (cliente && data.id) {
-      await fetch(`${process.env.KV_REST_API_URL}/pipeline`, {
+      await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}`,
+          Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify([
