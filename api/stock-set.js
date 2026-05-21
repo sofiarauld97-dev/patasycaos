@@ -5,23 +5,21 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const URL   = process.env.KV_REST_API_URL;
-  const TOKEN = process.env.KV_REST_API_TOKEN;
+  const UPSTASH_URL   = process.env.UPSTASH_REDIS_REST_URL;
+  const UPSTASH_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 
   try {
     let { stock } = req.body;
     if (!stock) return res.status(400).json({ error: 'stock requerido' });
 
-    // Asegurarse de que es objeto
     if (typeof stock === 'string') {
       try { stock = JSON.parse(stock); } catch(e) {}
     }
 
-    // Usar pipeline para SET con valor raw (evita el wrapping de Upstash)
     const stockStr = JSON.stringify(stock);
-    const r = await fetch(`${URL}/pipeline`, {
+    const r = await fetch(`${UPSTASH_URL}/pipeline`, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
+      headers: { Authorization: `Bearer ${UPSTASH_TOKEN}`, 'Content-Type': 'application/json' },
       body: JSON.stringify([['SET', 'pac_stock', stockStr]])
     });
     const data = await r.json();
