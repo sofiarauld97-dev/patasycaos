@@ -1,7 +1,9 @@
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
   res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Surrogate-Control', 'no-store');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -14,20 +16,25 @@ export default async function handler(req, res) {
       cache: 'no-store'
     });
 
-    const raw = await r.text();
-    let data;
-    try { data = JSON.parse(raw); } catch(e) { data = null; }
+    const data = await r.json();
 
-    // DEBUG TEMPORAL
-    return res.status(200).json({
-      _debug: {
-        url_definida: !!UPSTASH_URL,
-        token_definido: !!UPSTASH_TOKEN,
-        upstash_status: r.status,
-        raw_recibido: raw.slice(0, 500),
-        result_type: data ? typeof data.result : 'data_nula',
-      }
-    });
+    if (data.result === null || data.result === undefined) {
+      return res.status(200).json({ stock: {} });
+    }
+
+    // El valor viene como string JSON — desanidar hasta obtener objeto
+    let val = data.result;
+    let intentos = 0;
+    while (typeof val === 'string' && intentos < 5) {
+      try { val = JSON.parse(val); } catch(e) { break; }
+      intentos++;
+    }
+
+    const stock = (typeof val === 'object' && val !== null && !Array.isArray(val))
+      ? val
+      : {};
+
+    return res.status(200).json({ stock });
 
   } catch (e) {
     return res.status(500).json({ error: e.message });
