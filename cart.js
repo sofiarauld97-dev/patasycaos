@@ -314,9 +314,57 @@ async function checkout() {
   const resumen = document.getElementById('checkoutResumen');
   resumen.innerHTML = cart.map(i => `<div class="checkout-resumen-item"><span>${i.name} x${i.qty}</span><span>$${(i.price*i.qty).toLocaleString('es-CL')}</span></div>`).join('') +
     `<div class="checkout-resumen-total"><span>Total</span><span>$${cart.reduce((s,i)=>s+i.price*i.qty,0).toLocaleString('es-CL')}</span></div>`;
+
+  // Inyectar selector de método de pago si no existe
+  if (!document.getElementById('pago-metodo-wrap')) {
+    const btns = document.querySelector('.checkout-btns');
+    if (btns) {
+      const wrap = document.createElement('div');
+      wrap.id = 'pago-metodo-wrap';
+      wrap.style.marginTop = '1rem';
+      wrap.innerHTML = `
+        <p class="checkout-section-label">Método de pago</p>
+        <div class="checkout-metodo-toggle">
+          <label class="metodo-btn activo" id="lbl-mp">
+            <input type="radio" name="metodo-pago" value="mercadopago" checked onchange="togglePagoUI()">
+            💳 Mercado Pago
+          </label>
+          <label class="metodo-btn" id="lbl-transfer">
+            <input type="radio" name="metodo-pago" value="transferencia" onchange="togglePagoUI()">
+            🏦 Transferencia bancaria
+          </label>
+        </div>
+        <div id="transfer-info" style="display:none;background:#f5ecd7;border-radius:12px;padding:1rem 1.2rem;margin-top:.75rem;font-size:.85rem;line-height:1.9;color:#4a3a2e">
+          <div style="font-weight:700;margin-bottom:.3rem;color:#C4622D">🏦 Datos para transferir</div>
+          <div><strong>Banco:</strong> Santander</div>
+          <div><strong>Tipo de cuenta:</strong> Corriente</div>
+          <div><strong>N° de cuenta:</strong> 75925395</div>
+          <div><strong>RUT:</strong> 19.636.805-1</div>
+          <div><strong>Nombre:</strong> Sofía Rauld Lagos</div>
+          <div><strong>Email:</strong> contacto@patasycaos.cl</div>
+          <div style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(28,16,7,.1);font-size:.8rem">
+            📸 Envía el comprobante al email o por WhatsApp. Tu pedido se prepara una vez confirmado el pago.
+          </div>
+        </div>`;
+      btns.parentNode.insertBefore(wrap, btns);
+    }
+  }
+
   document.getElementById('checkoutOverlay').classList.add('activo');
   document.body.style.overflow = 'hidden';
   setTimeout(initComunaAutocomplete, 50);
+}
+
+function togglePagoUI() {
+  const metodo = document.querySelector('input[name="metodo-pago"]:checked')?.value;
+  const transferInfo = document.getElementById('transfer-info');
+  const btnConfirm = document.querySelector('.btn-checkout-confirm');
+  document.getElementById('lbl-mp')?.classList.toggle('activo', metodo === 'mercadopago');
+  document.getElementById('lbl-transfer')?.classList.toggle('activo', metodo === 'transferencia');
+  if (transferInfo) transferInfo.style.display = metodo === 'transferencia' ? 'block' : 'none';
+  if (btnConfirm) btnConfirm.innerHTML = metodo === 'transferencia'
+    ? '🏦 Confirmar pedido'
+    : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Confirmar y pagar';
 }
 
 function cerrarCheckout() {
@@ -368,11 +416,22 @@ async function confirmarCheckout() {
   const envio = esRetiro ? null : calcularEnvio(comuna);
   const costoEnvio = esRetiro ? 0 : (subtotalActual >= 40000 ? 0 : (envio?.precio || 0));
 
-  // Ir directo a Mercado Pago
   const btn = document.querySelector('.btn-checkout-confirm');
   btn.textContent = 'Procesando...'; btn.disabled = true;
+
+  const cliente = { nombre, telefono, email, direccion: esRetiro ? 'Retiro en tienda' : direccion, comuna: esRetiro ? 'Providencia' : comuna, ciudad: esRetiro ? 'Santiago' : ciudad, notas, costoEnvio, metodoEntrega: esRetiro ? 'Retiro en tienda — Gath y Chaves 2452, dpto. 702, Providencia' : 'Despacho a domicilio', documento: esFactura ? 'Factura' : 'Boleta', ...docInfo };
+
+  const metodoPago = document.querySelector('input[name="metodo-pago"]:checked')?.value || 'mercadopago';
+
+  if (metodoPago === 'transferencia') {
+    await confirmarTransferencia(cliente);
+    btn.innerHTML = '🏦 Confirmar pedido';
+    btn.disabled = false;
+    return;
+  }
+
+  // Mercado Pago
   try {
-    const cliente = { nombre, telefono, email, direccion: esRetiro ? 'Retiro en tienda' : direccion, comuna: esRetiro ? 'Providencia' : comuna, ciudad: esRetiro ? 'Santiago' : ciudad, notas, costoEnvio, metodoEntrega: esRetiro ? 'Retiro en tienda — Gath y Chaves 2452, dpto. 702, Providencia' : 'Despacho a domicilio', documento: esFactura ? 'Factura' : 'Boleta', ...docInfo };
     const res = await fetch('/api/checkout', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ items: cart, cliente }) });
     const data = await res.json();
     if (data.init_point) { cerrarCheckout(); window.location.href = data.init_point; }
@@ -382,6 +441,46 @@ async function confirmarCheckout() {
   } finally {
     btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><\/svg> Confirmar y pagar';
     btn.disabled = false;
+  }
+}
+
+async function confirmarTransferencia(cliente) {
+  try {
+    const res = await fetch('/api/checkout-transferencia', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: cart, cliente })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      const total = cart.reduce((s,i) => s+i.price*i.qty, 0) + (cliente.costoEnvio || 0);
+      const box = document.querySelector('.checkout-box');
+      box.innerHTML = `
+        <div style="text-align:center;padding:2rem 1rem">
+          <div style="font-size:3rem;margin-bottom:1rem">🐾</div>
+          <h3 style="color:#C4622D;margin-bottom:.5rem">¡Pedido recibido!</h3>
+          <p style="font-size:.9rem;color:#4a3a2e;line-height:1.7;margin-bottom:1.5rem">
+            Transfiere <strong>$${total.toLocaleString('es-CL')}</strong> a esta cuenta y envía el comprobante a <strong>contacto@patasycaos.cl</strong>
+          </p>
+          <div style="background:#f5ecd7;border-radius:12px;padding:1.2rem;text-align:left;font-size:.88rem;line-height:2;color:#4a3a2e;margin-bottom:1.5rem">
+            <div><strong>Banco:</strong> Santander</div>
+            <div><strong>Tipo de cuenta:</strong> Corriente</div>
+            <div><strong>N° de cuenta:</strong> 75925395</div>
+            <div><strong>RUT:</strong> 19.636.805-1</div>
+            <div><strong>Nombre:</strong> Sofía Rauld Lagos</div>
+            <div><strong>Email:</strong> contacto@patasycaos.cl</div>
+          </div>
+          <p style="font-size:.8rem;color:#888;line-height:1.5">Tu pedido se prepara una vez que confirmemos la transferencia.<br>¡Gracias por tu confianza, Caótico! 🐾</p>
+          <button onclick="cerrarCheckout()" style="margin-top:1.5rem;background:#C4622D;color:#fff;border:none;border-radius:50px;padding:12px 32px;font-family:Poppins,sans-serif;font-weight:700;font-size:.9rem;cursor:pointer">Cerrar</button>
+        </div>`;
+      cart = [];
+      guardarCarritoLocal();
+      renderCart();
+    } else {
+      mostrarToastCarrito('Error al procesar el pedido. Intenta nuevamente.');
+    }
+  } catch(e) {
+    mostrarToastCarrito('Error de conexión. Intenta nuevamente.');
   }
 }
 
