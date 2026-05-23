@@ -429,6 +429,8 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
    CATÁLOGO DE SKUs
 ═══════════════════════════════════════ */
 const SKUS = [
+  { id: "arena-sanitaria-ciudad-animal-8kg", nombre: "Arena Sanitaria Ciudad Animal 8kg", cat: "Aseo e Higiene", precio: "$8.990", img: "arena-sanitaria-ciudad-animal-8k.jpg", emoji: "🐱" },
+  
   { id: "brit-care-sterilized-weigh-control-2kg---duck-turkey", nombre: "Brit Care Sterilized Weigh Control 2kg - Duck & Turkey", cat: "Alimentos", precio: "$24.990", img: "brit-care-sterilized-duck.jpg", emoji: "🦆" },
   
   { id: "pack-calma-total", nombre: "Pack Calma Total", cat: "Flores de Bach", precio: "$15.990", img: "pack_calma_total.jpg", emoji: "🎁" , audience: 'Para Gatos' },
@@ -736,7 +738,7 @@ function abrirExportar() {
     return `  '${sku.id}': ${val},   // ${sku.nombre}`;
   }).join('\n');
 
-  const codigo = `const stockInicial = {"brit-care-sterilized-weigh-control-2kg---duck-turkey":3,"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
+  const codigo = `const stockInicial = {"arena-sanitaria-ciudad-animal-8kg":4,"brit-care-sterilized-weigh-control-2kg---duck-turkey":3,"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
   document.getElementById('codigo-exportar').textContent = codigo;
   document.getElementById('modal-exportar').classList.add('open');
 }
