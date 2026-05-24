@@ -373,7 +373,7 @@
   .nav-right { display: flex; align-items: center; gap: 6px; }
 
   /* ── NAV 3 FILAS ── */
-  nav { display: block !important; flex-direction: unset !important; align-items: unset !important; justify-content: unset !important; height: auto !important; padding: 0 !important; position: sticky; top: 36px; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); }
+  nav { display: block !important; flex-direction: unset !important; align-items: unset !important; justify-content: unset !important; height: auto !important; padding: 0 !important; position: static; z-index: auto; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); }
   .nav-top { display: flex; align-items: center; gap: 1.2rem; padding: 10px 5%; border-bottom: 1px solid rgba(28,16,7,.06); }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
   .nav-logo img { width: 42px; height: 42px; object-fit: contain; }
@@ -435,7 +435,8 @@
   .s-precio { font-size:.76rem;color:var(--terracota);font-weight:700; }
   .s-empty { font-size:.83rem;color:#999;padding:.3rem .8rem; }
   @media (max-width: 768px) { .nav-bottom { display:none; } .hamburger { display:flex; } .nav-logo span { display:none; } }
-  nav.scrolled { background: rgba(245,236,215,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: rgba(28,16,7,.05); transition: background .3s, backdrop-filter .3s; }
+  .site-header.scrolled { background: rgba(245,236,215,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: rgba(28,16,7,.05); transition: background .3s, backdrop-filter .3s; }
+  .site-header.scrolled .anuncio-bar { opacity: 0; height: 0; overflow: hidden; transition: all .3s; }
   @media (max-width: 600px) { .anuncio-bar { position: sticky; top: 0; z-index: 101; } nav { top: 36px; } .mobile-menu { padding-top: calc(92px + env(safe-area-inset-top) + 16px) !important; } }
 
   /* ── MOBILE MENU CANONICAL ── */
@@ -443,6 +444,9 @@
   .mobile-menu a { font-size: 1rem !important; font-weight: 600 !important; padding: 6px 0 !important; }
   .mobile-accordion-btn { font-size: 1rem; padding: 10px 0; }
   .mobile-cat-link { font-size: .88rem !important; font-weight: 400 !important; padding-left: 12px !important; }
+  /* ── SITE HEADER STICKY ── */
+  .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); }
+  .anuncio-bar { position: static; }
 </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
@@ -453,6 +457,7 @@
 <body>
 
 <!-- NAV -->
+<header class="site-header">
 <div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000</span></div></div>
 <nav>
   <!-- FILA 2: Logo + Buscador + Íconos -->
@@ -490,6 +495,7 @@
     </ul>
   </div>
 </nav>
+</header>
 
 <!-- MENÚ MÓVIL -->
 <div class="mobile-menu" id="mobile-menu">
@@ -924,7 +930,7 @@ function toggleMenu() {
   bd.style.display = isOpen ? 'block' : 'none';
   document.body.style.overflow = isOpen ? 'hidden' : '';
 }
-window.addEventListener('scroll', () => document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40));
+window.addEventListener('scroll', () => { const sh = document.querySelector('.site-header'); if(sh) sh.classList.toggle('scrolled', window.scrollY > 40); });
 
 const TAGLINES = {"pelota-snack-interactiva":"\"Premio adentro, caos afuera 🐶\"","dispensador-de-bolsas---diseno-cafe":"\"El dispensador más cool del parque ☕🐶\"","calming-collar---perros":"\"Menos drama, más calma 💜\"","calming-collar---gatos":"\"Calma natural para el felino más dramático de la casa 💜\"","botella-portatil-para-perros":"\"Paseo largo, cero sed 💧\"","arena-sanitaria-ciudad-animal-8kg":"\"Porque el baño de tu gato también merece lo mejor 💜\"","brit-care-sterilized-weigh-control-2kg---duck-turkey":"\"Porque los gatos esterilizados merecen comer como reyes 👑\"","pack-calma-total":"\"Porque el mundo da un poco de miedo — pero los snacks ayudan.\"","pack-sos-mascota":"\"Para el susto que no vio venir — y las patitas que lo aguantaron.\"","pack-rutina-sana":"\"Hidratación, nutrición y calma. Todo lo que tu gato necesita.\"","pack-bienvenido-a-casa":"\"Porque llegar a casa nueva da un poco de miedo — y estos tres ayudan.\"","pack-cuidado-total":"Patitas hidratadas, pelo impecable. El pack que tu mascota necesita.","pack-juega-y-relaja":"\"Para el gato que necesita cansarse — y la calma que viene después.\"" ,"pack-consulta-flor-de-bach":"\"Para la mascota que necesita más que un frasco.\"","flores-de-bach---rescue-y-alivio":"\"Para el susto que no vio venir.\"","flores-de-bach---energia-y-animo":"\"Para los días sin ganas de nada.\"","flores-de-bach---equilibrio":"\"Cuando tu peludo está en modo raro\"","flores-de-bach---ansiedad-y-calma":"\"Porque el mundo da un poco de miedo\"","cat-fest-pillows-schrimp-creme":"\"Crujiente por fuera, cremoso por dentro. No hay defensa.\"","cat-fest-pillows":"\"Crujiente por fuera, cremoso por dentro. No hay defensa.\"","tubito-atun":"\"Cremoso, irresistible y con catnip. Fin.\"","tubito-conejo":"\"El tubo que tu gato va a pedir con los ojos.\"","tubito-cangrejo":"\"Cangrejo + catnip = caos garantizado.\"","lata-leonardo-kitten":"\"Porque los gatitos también tienen exigencias.\"","lata-leonardo":"\"Porque tu gato se merece un menú de verdad.\"","collar-findmy":"\"Nunca más lo pierdes.\"","fuente-agua":"\"Hidratación con glamour.\"","pajaro":"\"Enemigo número uno.\"","pelota-led":"\"Brilla. Rueda. Enloquece.\"","pulpo":"\"Masaje y caos en uno.\"","paw-balm":"\"SPA para patitas exigentes.\"","afeitadora":"\"Menos pelo, más sofá.\"","cat-fest":"\"Pato o cordero. Siempre piden más.\"","cats-snack":"\"5 sabores, 0 culpa.\"","comedero-lento-slow-feeder---catstages":"\"Para el gato que come como si no hubiera mañana.\"",'pulmon-cordero-rahue':'"Del sur de Chile directo a su hocico."','traquea-vacuno-rahue':'"Mastica, relájate, repite."','garra-pollo-rahue':'"Crujiente por fuera, nutritivo por dentro."','oreja-cerdo-rahue':'"El clásico que nunca falla."','femur-cerdo-tasty':'"Para el perro que muerde todo. Dáselo a él."'
 };
