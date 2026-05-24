@@ -429,7 +429,8 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
    CATÁLOGO DE SKUs
 ═══════════════════════════════════════ */
 const SKUS = [
-  { id: "botella-portatil-para-perros", nombre: "Botella Portátil para Perros", cat: "Accesorio", precio: "$14.990", img: "botella-de-agua-rosada.jpg", emoji: "🐶" },
+  { id: "botella-portatil-para-perros_Rosada", nombre: "Botella Portátil para Perros — Rosada", cat: "Accesorio", precio: "$14.990", img: "botella-de-agua-rosada.jpg", emoji: "🌸", audience: "Para Perros" },
+  { id: "botella-portatil-para-perros_Calipso", nombre: "Botella Portátil para Perros — Calipso", cat: "Accesorio", precio: "$14.990", img: "botella-de-agua-calipso.jpg", emoji: "🩵", audience: "Para Perros" },
   
   { id: "arena-sanitaria-ciudad-animal-8kg", nombre: "Arena Sanitaria Ciudad Animal 8kg", cat: "Aseo e Higiene", precio: "$8.990", img: "arena-sanitaria-ciudad-animal-8k.jpg", emoji: "🐱" },
   
@@ -742,7 +743,7 @@ function abrirExportar() {
     return `  '${sku.id}': ${val},   // ${sku.nombre}`;
   }).join('\n');
 
-  const codigo = `const stockInicial = {"botella-portatil-para-perros_Rosado":1,"botella-portatil-para-perros_Calipso":1,"arena-sanitaria-ciudad-animal-8kg":4,"brit-care-sterilized-weigh-control-2kg---duck-turkey":3,"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
+  const codigo = `const stockInicial = {"botella-portatil-para-perros_Rosada":1,"botella-portatil-para-perros_Calipso":1,"arena-sanitaria-ciudad-animal-8kg":4,"brit-care-sterilized-weigh-control-2kg---duck-turkey":3,"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
   document.getElementById('codigo-exportar').textContent = codigo;
   document.getElementById('modal-exportar').classList.add('open');
 }
