@@ -19,10 +19,10 @@
     --borde-modal: #e0d5c5; --radio-modal: 16px; --radio-sm: 8px;
   }
   html { scroll-behavior: smooth; }
-  body { font-family: 'Poppins', sans-serif; background-color: var(--cream); color: var(--negro); overflow-x: hidden; }
+  body { font-family: 'Poppins', sans-serif; background-color: var(--cream); color: var(--negro); overflow-x: clip; }
 
   /* ── NAV 3 FILAS ── */
-  nav { all: unset; display: block; position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); }
+  nav { display: block !important; flex-direction: unset !important; align-items: unset !important; justify-content: unset !important; height: auto !important; padding: 0 !important; background: transparent; border-bottom: 1px solid rgba(28,16,7,.08); }
   .nav-top { display: flex; align-items: center; gap: 1.2rem; padding: 10px 5%; border-bottom: 1px solid rgba(28,16,7,.06); }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
   .nav-logo img { width: 42px; height: 42px; object-fit: contain; }
@@ -216,8 +216,7 @@
     .nav-logo span { display: none; } .nav-ig-desktop { display: none; } .nav-ig-mobile { display: flex; }
     .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; }
     .blog-grid { grid-template-columns: 1fr; }
-    .blog-hero { padding: 3rem 5% 2rem; }
-   .anuncio-bar { position: sticky; top: 0; z-index: 101; } nav { top: 36px; } .mobile-menu { padding-top: calc(104px + env(safe-area-inset-top) + 16px) !important; }}
+    .blog-hero { padding: 3rem 5% 2rem; } nav { top: 36px; } .mobile-menu { padding-top: calc(104px + env(safe-area-inset-top) + 16px) !important; }}
 
   .checkout-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
   .checkout-overlay.activo { opacity: 1; visibility: visible; }
@@ -254,6 +253,10 @@
   .doc-btn.activo { background: var(--terracota); border-color: var(--terracota); color: #fff; }
   @media (max-width: 500px) { .checkout-grid { grid-template-columns: 1fr; } }
   .nav-right { display: flex; align-items: center; gap: 6px; }
+  /* ── SITE HEADER ── */
+  .anuncio-bar { position: static; }
+  .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s; }
+  .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
 </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
@@ -297,6 +300,7 @@ function runSearch(q) {
 <body>
 
 <!-- NAV -->
+<header class="site-header">
 <div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000</span></div></div>
 <nav>
   <div class="nav-top">
@@ -332,6 +336,7 @@ function runSearch(q) {
     </ul>
   </div>
 </nav>
+</header>
 
 <!-- MENÚ MÓVIL -->
 <div class="mobile-menu" id="mobile-menu">
@@ -510,7 +515,7 @@ function toggleMenu() {
   bd.style.display = isOpen ? 'block' : 'none';
   document.body.style.overflow = isOpen ? 'hidden' : '';
 }
-window.addEventListener('scroll', () => document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40));
+window.addEventListener('scroll', () => { const sh = document.querySelector('.site-header'); if(sh) sh.classList.toggle('scrolled', window.scrollY > 40); });
 function runSearch(q) {
   const drop = document.getElementById('nav-drop');
   if (!drop) return;
