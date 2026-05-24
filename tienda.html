@@ -83,7 +83,9 @@
   .s-precio { font-size:.76rem;color:var(--terracota);font-weight:700; }
   .s-empty { font-size:.83rem;color:#999;padding:.3rem .8rem; }
   @media (max-width: 768px) { .nav-bottom { display:none; } .hamburger { display:flex; } .nav-logo span { display:none; } }
-  @media (max-width: 600px) { .anuncio-bar { position: sticky; top: 0; z-index: 101; } nav { top: 36px; } .mobile-menu { padding-top: calc(104px + env(safe-area-inset-top) + 16px) !important; } .nav-icon-btn.ig { display: none; } }
+  #nav-auth { display: flex; align-items: center; }
+  #nav-auth button, #nav-auth a { display: flex !important; align-items: center; justify-content: center; }
+  @media (max-width: 600px) { .anuncio-bar { position: sticky; top: 0; z-index: 101; } nav { top: 36px; } .mobile-menu { padding-top: calc(104px + env(safe-area-inset-top) + 16px) !important; } }
   /* USER NAV */
   .btn-signin { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: none; border: 1.5px solid rgba(28,16,7,.18); border-radius: 50%; cursor: pointer; color: var(--negro); padding: 0; transition: all .2s; }
   .btn-signin:hover { border-color: var(--terracota); color: var(--terracota); }
