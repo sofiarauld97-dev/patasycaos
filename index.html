@@ -435,7 +435,7 @@
   .s-precio { font-size:.76rem;color:var(--terracota);font-weight:700; }
   .s-empty { font-size:.83rem;color:#999;padding:.3rem .8rem; }
   @media (max-width: 768px) { .nav-bottom { display:none; } .hamburger { display:flex; } .nav-logo span { display:none; } }
-  .site-header.scrolled { background: rgba(245,236,215,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: rgba(28,16,7,.05); transition: background .3s, backdrop-filter .3s; }
+  .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: rgba(28,16,7,.05); transition: background .3s; }
   @media (max-width: 600px) { nav { top: 36px; } .mobile-menu { padding-top: calc(92px + env(safe-area-inset-top) + 16px) !important; } }
 
   /* ── MOBILE MENU CANONICAL ── */
@@ -444,7 +444,7 @@
   .mobile-accordion-btn { font-size: 1rem; padding: 10px 0; }
   .mobile-cat-link { font-size: .88rem !important; font-weight: 400 !important; padding-left: 12px !important; }
   /* ── SITE HEADER STICKY ── */
-  .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); transition: background .3s, backdrop-filter .3s; }
+  .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s, backdrop-filter .3s; }
 </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
