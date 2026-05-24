@@ -602,8 +602,8 @@ function renderFavoritos(){
   const grid=document.getElementById('fav-grid');
   items.forEach(id=>{
     const p=productos[id];if(!p)return;
-    const img=p.imagenes?.[0]||'';
-    const emoji=p.placeholders?.[0]||'🐾';
+    const img=p.imagenes?.[0]||p.variantes?.[0]?.imagenes?.[0]||'';
+    const emoji=p.placeholders?.[0]||p.variantes?.[0]?.placeholders?.[0]||'🐾';
     const card=document.createElement('div');card.className='prod-card';
     card.innerHTML=`
       <div class="prod-img">
