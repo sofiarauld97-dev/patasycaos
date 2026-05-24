@@ -692,7 +692,7 @@ function runSearch(q) {
   if (!q.trim()) { drop.innerHTML=''; drop.style.display='none'; return; }
   const prods = typeof productos !== 'undefined' ? productos : {};
   const q2 = q.toLowerCase();
-  const matches = Object.entries(prods).filter(([id,p])=>p.nombre.toLowerCase().includes(q2)||(p.descripcion||'').toLowerCase().includes(q2)).slice(0,6);
+  const matches = Object.entries(prods).filter(([id,p])=>p && p.nombre && (p.nombre.toLowerCase().includes(q2)||(p.descripcion||'').toLowerCase().includes(q2))).slice(0,6);
   if (!matches.length) { drop.innerHTML='<p class="s-empty">Sin resultados</p>'; drop.style.display='block'; return; }
   drop.innerHTML = matches.map(([id,p])=>{
     const img = p.variantes ? p.variantes[0].imagenes[0] : (p.imagenes ? p.imagenes[0] : '');
