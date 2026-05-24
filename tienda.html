@@ -576,7 +576,7 @@
       <h2 class="modal-nombre" id="modalNombre"></h2>
       <div class="modal-precio" id="modalPrecio"></div>
       <div class="modal-variantes" id="modalVariantes">
-        <p class="modal-seccion-titulo">Sabor</p>
+        <p class="modal-seccion-titulo" id="modalVariantesLabel">Sabor</p>
         <div class="modal-variantes-opciones" id="modalVariantesOpciones"></div>
       </div>
       <div class="modal-divider"></div>
@@ -800,7 +800,7 @@ function generarTarjetas() {
     carrusel.appendChild(heart);
     const btnId = 'btn-' + id;
     const info = document.createElement('div'); info.className = 'prod-info';
-    info.innerHTML = `<h4>${p.nombre}</h4><p class="tagline">${TAGLINES[id] || ''}</p><div class="prod-footer"><span class="prod-price">${p.precio}</span><button class="btn-add" id="${btnId}">${p.variantes ? 'Elegir sabor' : 'Añadir'}</button></div>`;
+    info.innerHTML = `<h4>${p.nombre}</h4><p class="tagline">${TAGLINES[id] || ''}</p><div class="prod-footer"><span class="prod-price">${p.precio}</span><button class="btn-add" id="${btnId}">${p.variantes ? ((['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c => id.startsWith(c))) ? 'Elegir color' : 'Elegir sabor') : 'Añadir'}</button></div>`;
     card.appendChild(carrusel); card.appendChild(info); grid.appendChild(card);
     const btn = document.getElementById(btnId);
     if (btn) {
@@ -829,6 +829,9 @@ function abrirModal(productoId) {
   actualizarIngredientesModal(p, primerVariante);
   const variantesEl = document.getElementById('modalVariantes');
   const opcionesEl = document.getElementById('modalVariantesOpciones'); opcionesEl.innerHTML = '';
+  const labelEl = document.getElementById('modalVariantesLabel');
+  const esColor = ['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c => productoId.startsWith(c));
+  if (labelEl) labelEl.textContent = esColor ? 'Color' : 'Sabor';
   if (p.variantes && p.variantes.length > 0) {
     variantesEl.classList.add('visible');
     const stock = getStock();
