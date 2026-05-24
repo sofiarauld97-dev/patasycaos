@@ -1097,20 +1097,25 @@
 
 <script src="cart.js"></script>
 <script>
-/* HAMBURGER */
+/* ── NAV & MENU ── */
 function toggleAccordion(btn) {
   const body = btn.nextElementSibling;
   const isOpen = body.classList.toggle('open');
   btn.setAttribute('aria-expanded', isOpen);
   document.querySelectorAll('.mobile-accordion-body.open').forEach(b => {
-    if (b !== body) { b.classList.remove('open'); b.previousElementSibling.setAttribute('aria-expanded', 'false'); }
+    if (b !== body) { b.classList.remove('open'); b.previousElementSibling.setAttribute('aria-expanded','false'); }
   });
 }
-function toggleMenu() {() {
+function toggleMenu() {
   const hamburger = document.getElementById('hamburger');
   const menu = document.getElementById('mobile-menu');
+  const isOpen = menu.classList.toggle('open');
+  if (!isOpen) { document.querySelectorAll('.mobile-accordion-body.open').forEach(b => { b.classList.remove('open'); b.previousElementSibling.setAttribute('aria-expanded','false'); }); }
   hamburger.classList.toggle('open');
-  menu.classList.toggle('open');
+  let bd = document.getElementById('menu-backdrop');
+  if (!bd) { bd = document.createElement('div'); bd.id = 'menu-backdrop'; bd.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:98;display:none;'; bd.onclick = toggleMenu; document.body.appendChild(bd); }
+  bd.style.display = isOpen ? 'block' : 'none';
+  document.body.style.overflow = isOpen ? 'hidden' : '';
 }
 
 /* TOGGLE PLANES */
