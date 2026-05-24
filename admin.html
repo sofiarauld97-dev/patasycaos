@@ -471,6 +471,45 @@ function publicar() {
   document.getElementById('resultado').classList.add('visible');
   document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
   mostrarToast('✅ Archivos generados — descárgalos');
+
+  // Actualizar stock en Upstash automáticamente
+  actualizarStockUpstash(stockEntries);
+}
+
+async function actualizarStockUpstash(stockEntries) {
+  try {
+    // Obtener stock actual desde la API
+    const r = await fetch('/api/stock-get');
+    const data = await r.json();
+    const stockActual = data.stock || {};
+
+    // Parsear las nuevas claves desde el string de stockEntries
+    // formato: "id":valor, o "id_variante":valor,
+    const nuevasClaves = {};
+    const regex = /"([^"]+)":(\d+)/g;
+    let match;
+    while ((match = regex.exec(stockEntries)) !== null) {
+      nuevasClaves[match[1]] = parseInt(match[2]);
+    }
+
+    // Fusionar stock actual con las nuevas claves
+    const stockFinal = { ...stockActual, ...nuevasClaves };
+
+    // Guardar en Upstash
+    const res = await fetch('/api/stock-set', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stock: stockFinal })
+    });
+    const result = await res.json();
+    if (result.ok) {
+      mostrarToast('✅ Stock actualizado en Upstash automáticamente');
+    } else {
+      mostrarToast('⚠️ Archivos OK pero no se pudo actualizar Upstash — hazlo manualmente');
+    }
+  } catch(e) {
+    mostrarToast('⚠️ Archivos OK pero no se pudo actualizar Upstash — hazlo manualmente');
+  }
 }
 
 /* DESCARGAR */
