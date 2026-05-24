@@ -427,8 +427,16 @@
   .mobile-menu.open { transform: translateY(0); pointer-events: all; visibility: visible; }
   .mobile-menu a { text-decoration: none; color: var(--negro); font-size: 1rem; font-weight: 600; padding: 6px 0; border-bottom: 1px solid rgba(28,16,7,.06); transition: color .2s; }
   .mobile-menu a:hover { color: var(--terracota); }
-  .mobile-cat-title { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); padding: 8px 0 2px; }
-  .mobile-cat-link { font-size: .88rem !important; font-weight: 400 !important; padding-left: 10px !important; color: #666 !important; }
+  .mobile-cat-link { font-size: .88rem !important; font-weight: 400 !important; padding-left: 12px !important; color: #666 !important; border-bottom: 1px solid rgba(28,16,7,.04) !important; }
+  /* ACORDEÓN MÓVIL */
+  .mobile-accordion { border-bottom: 1px solid rgba(28,16,7,.06); }
+  .mobile-accordion-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; background: none; border: none; font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600; color: var(--negro); padding: 10px 0; cursor: pointer; text-align: left; transition: color .2s; }
+  .mobile-accordion-btn:hover { color: var(--terracota); }
+  .mobile-acc-arrow { font-size: .75rem; transition: transform .3s cubic-bezier(.4,0,.2,1); display: inline-block; }
+  .mobile-accordion-btn[aria-expanded="true"] .mobile-acc-arrow { transform: rotate(-180deg); }
+  .mobile-accordion-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s cubic-bezier(.4,0,.2,1); overflow: hidden; }
+  .mobile-accordion-body.open { grid-template-rows: 1fr; }
+  .mobile-accordion-body > a:last-child { border-bottom: none !important; padding-bottom: 8px; }
   /* BÚSQUEDA */
   .s-item { display:flex;align-items:center;gap:.6rem;padding:.45rem .8rem;text-decoration:none;color:var(--negro);transition:background .15s; }
   .s-item:hover { background: var(--cream); }
@@ -489,18 +497,35 @@
 <div class="mobile-menu" id="mobile-menu">
   <a href="/" onclick="toggleMenu()">Inicio</a>
   <a href="/tienda" onclick="toggleMenu()">Tienda</a>
-  <span class="mobile-cat-title">Perros</span>
-  <a href="/tienda?aud=Perros&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
-  <a href="/tienda?aud=Perros&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
-  <a href="/tienda?aud=Perros&cat=Accesorio" onclick="toggleMenu()" class="mobile-cat-link">Accesorios</a>
-  <a href="/tienda?aud=Perros&cat=Aseo e Higiene" onclick="toggleMenu()" class="mobile-cat-link">Cuidado e Higiene</a>
-  <a href="/tienda?aud=Perros&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
-  <span class="mobile-cat-title">Gatos</span>
-  <a href="/tienda?aud=Gatos&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
-  <a href="/tienda?aud=Gatos&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
-  <a href="/tienda?aud=Gatos&cat=Accesorio" onclick="toggleMenu()" class="mobile-cat-link">Accesorios</a>
-  <a href="/tienda?aud=Gatos&cat=Aseo e Higiene" onclick="toggleMenu()" class="mobile-cat-link">Cuidado e Higiene</a>
-  <a href="/tienda?aud=Gatos&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
+
+  <!-- ACORDEÓN PERROS -->
+  <div class="mobile-accordion">
+    <button class="mobile-accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">
+      Perros <span class="mobile-acc-arrow">▾</span>
+    </button>
+    <div class="mobile-accordion-body">
+      <a href="/tienda?aud=Perros&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
+      <a href="/tienda?aud=Perros&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
+      <a href="/tienda?aud=Perros&cat=Accesorio" onclick="toggleMenu()" class="mobile-cat-link">Accesorios</a>
+      <a href="/tienda?aud=Perros&cat=Aseo e Higiene" onclick="toggleMenu()" class="mobile-cat-link">Cuidado e Higiene</a>
+      <a href="/tienda?aud=Perros&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
+    </div>
+  </div>
+
+  <!-- ACORDEÓN GATOS -->
+  <div class="mobile-accordion">
+    <button class="mobile-accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">
+      Gatos <span class="mobile-acc-arrow">▾</span>
+    </button>
+    <div class="mobile-accordion-body">
+      <a href="/tienda?aud=Gatos&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
+      <a href="/tienda?aud=Gatos&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
+      <a href="/tienda?aud=Gatos&cat=Accesorio" onclick="toggleMenu()" class="mobile-cat-link">Accesorios</a>
+      <a href="/tienda?aud=Gatos&cat=Aseo e Higiene" onclick="toggleMenu()" class="mobile-cat-link">Cuidado e Higiene</a>
+      <a href="/tienda?aud=Gatos&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
+    </div>
+  </div>
+
   <a href="/suscripciones" onclick="toggleMenu()">Suscripciones</a>
   <a href="/blog" onclick="toggleMenu()">Blog</a>
 </div>
@@ -876,10 +901,19 @@ function moverCat(dir) {
   const cardW = card.offsetWidth + 16; // gap 1rem = 16px
   grid.scrollBy({ left: dir * cardW * 2, behavior: 'smooth' });
 }
+function toggleAccordion(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = body.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+  document.querySelectorAll('.mobile-accordion-body.open').forEach(b => {
+    if (b !== body) { b.classList.remove('open'); b.previousElementSibling.setAttribute('aria-expanded', 'false'); }
+  });
+}
 function toggleMenu() {
   const hamburger = document.getElementById('hamburger');
   const menu = document.getElementById('mobile-menu');
   const isOpen = menu.classList.toggle('open');
+  if (!isOpen) { document.querySelectorAll('.mobile-accordion-body.open').forEach(b => { b.classList.remove('open'); b.previousElementSibling.setAttribute('aria-expanded','false'); }); }
   hamburger.classList.toggle('open');
   let bd = document.getElementById('menu-backdrop');
   if (!bd) {
