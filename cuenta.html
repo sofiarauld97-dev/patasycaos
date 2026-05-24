@@ -31,10 +31,10 @@
     --borde-modal: #e0d5c5; --radio-modal: 16px; --radio-sm: 8px;
   }
   html { scroll-behavior: smooth; }
-  body { font-family: 'Poppins', sans-serif; background-color: var(--cream); color: var(--negro); overflow-x: hidden; }
+  body { font-family: 'Poppins', sans-serif; background-color: var(--cream); color: var(--negro); overflow-x: clip; }
 
   /* ── NAV 3 FILAS ── */
-  nav { display: block; position: sticky; top: 36px; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); }
+  nav { display: block; background: transparent; border-bottom: 1px solid rgba(28,16,7,.08); }
   .nav-top { display: flex; align-items: center; gap: 1.2rem; padding: 10px 5%; border-bottom: 1px solid rgba(28,16,7,.06); }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
   .nav-logo img { width: 42px; height: 42px; object-fit: contain; }
@@ -95,7 +95,6 @@
   .s-precio { font-size:.76rem;color:var(--terracota);font-weight:700; }
   .s-empty { font-size:.83rem;color:#999;padding:.3rem .8rem; }
   @media (max-width: 768px) { .nav-bottom { display:none; } .hamburger { display:flex; } .nav-logo span { display:none; } }
-  nav.scrolled { background: rgba(245,236,215,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: rgba(28,16,7,.05); transition: background .3s, backdrop-filter .3s; }
   @media (max-width: 900px) { .cat-card { flex: 0 0 calc(33.333% - .67rem); } }
   .cat-card { background: var(--card-bg); border: 1.5px solid rgba(28,16,7,.08); border-radius: 18px; padding: 28px 24px; cursor: pointer; transition: transform .2s, box-shadow .2s; }
   .cat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(196,98,45,.12); }
@@ -413,6 +412,10 @@
   .mobile-menu a { font-size: 1rem !important; font-weight: 600 !important; padding: 6px 0 !important; }
   .mobile-accordion-btn { font-size: 1rem; padding: 10px 0; }
   .mobile-cat-link { font-size: .88rem !important; font-weight: 400 !important; padding-left: 12px !important; }
+  /* ── SITE HEADER ── */
+  .anuncio-bar { position: static; }
+  .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s; }
+  .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
 </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
@@ -487,6 +490,7 @@ function runSearch(q) {
 <body>
 
 <!-- NAV -->
+<header class="site-header">
 <div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000</span></div></div>
 <nav>
   <!-- FILA 2: Logo + Buscador + Íconos -->
@@ -524,6 +528,7 @@ function runSearch(q) {
     </ul>
   </div>
 </nav>
+</header>
 
 <!-- MENÚ MÓVIL -->
 <div class="mobile-menu" id="mobile-menu">
@@ -710,7 +715,7 @@ function toggleMenu() {
   document.body.style.overflow = isOpen ? 'hidden' : '';
 }
 
-window.addEventListener('scroll', () => document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40));
+window.addEventListener('scroll', () => { const sh = document.querySelector('.site-header'); if(sh) sh.classList.toggle('scrolled', window.scrollY > 40); });
 
 const PLAN_NOMBRES = {
   'felina-basico':'Suscripción Felina Outdoor — Básico',

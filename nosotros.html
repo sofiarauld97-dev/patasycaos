@@ -15,10 +15,10 @@
     --blanco: #FFFFFF; --dark: #1C1007; --card-bg: #FAF4EA;
   }
   html { scroll-behavior: smooth; }
-  body { font-family: 'Poppins', sans-serif; background-color: var(--cream); color: var(--negro); overflow-x: hidden; }
+  body { font-family: 'Poppins', sans-serif; background-color: var(--cream); color: var(--negro); overflow-x: clip; }
 
     /* ── NAV 3 FILAS ── */
-  nav { all: unset; display: block; position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); }
+  nav { display: block !important; flex-direction: unset !important; align-items: unset !important; justify-content: unset !important; height: auto !important; padding: 0 !important; background: transparent; border-bottom: 1px solid rgba(28,16,7,.08); }
   .nav-top { display: flex; align-items: center; gap: 1.2rem; padding: 10px 5%; border-bottom: 1px solid rgba(28,16,7,.06); }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
   .nav-logo img { width: 42px; height: 42px; object-fit: contain; }
@@ -369,6 +369,10 @@
   @media (max-width: 640px) { .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; } .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; } .modal-imagen-principal { aspect-ratio: 4/3; } .modal-contenido { padding: 1.25rem; } .modal-nombre { font-size: 1.2rem; } .modal-precio { font-size: 1.35rem; } }
 
   .nav-right { display: flex; align-items: center; gap: 6px; }
+  /* ── SITE HEADER ── */
+  .anuncio-bar { position: static; }
+  .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s; }
+  .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
@@ -414,6 +418,7 @@ function runSearch(q) {
 <body>
 
 <!-- NAV -->
+<header class="site-header">
 <div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000</span></div></div>
 <nav>
   <div class="nav-top">
@@ -449,6 +454,7 @@ function runSearch(q) {
     </ul>
   </div>
 </nav>
+</header>
 
 <!-- MENÚ MÓVIL -->
 <div class="mobile-menu" id="mobile-menu">
@@ -607,7 +613,7 @@ function toggleMenu() {
   bd.style.display = isOpen ? 'block' : 'none';
   document.body.style.overflow = isOpen ? 'hidden' : '';
 }
-window.addEventListener('scroll', () => document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 40));
+window.addEventListener('scroll', () => { const sh = document.querySelector('.site-header'); if(sh) sh.classList.toggle('scrolled', window.scrollY > 40); });
 async function enviarMagicLink() {
   const email = document.getElementById('auth-email').value.trim();
   const msg = document.getElementById('auth-msg');

@@ -15,7 +15,7 @@
   body{font-family:'Poppins',sans-serif;background:var(--cream);color:var(--negro);overflow-x:hidden;}
 
   /* ── NAV 3 FILAS ── */
-  nav { all: unset; display: block; position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); }
+  nav { display: block !important; flex-direction: unset !important; align-items: unset !important; justify-content: unset !important; height: auto !important; padding: 0 !important; background: transparent; border-bottom: 1px solid rgba(28,16,7,.08); }
   .nav-top { display: flex; align-items: center; gap: 1.2rem; padding: 10px 5%; border-bottom: 1px solid rgba(28,16,7,.06); }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
   .nav-logo img { width: 42px; height: 42px; object-fit: contain; }
@@ -189,8 +189,7 @@
     .contact-card { flex-direction: column; text-align: center; gap: 1rem; }
     .contact-arrow { display: none; }
     .horario-card { padding: 1.5rem; }
-    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-   .anuncio-bar { position: sticky; top: 0; z-index: 101; } nav { top: 36px; } .mobile-menu { padding-top: calc(104px + env(safe-area-inset-top) + 16px) !important; }}
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; } nav { top: 36px; } .mobile-menu { padding-top: calc(104px + env(safe-area-inset-top) + 16px) !important; }}
   /* CARRITO */
   .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .3s; }
   .cart-overlay.open { opacity: 1; pointer-events: all; }
@@ -357,6 +356,10 @@
   @media (max-width: 640px) { .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; } .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; } .modal-imagen-principal { aspect-ratio: 4/3; } .modal-contenido { padding: 1.25rem; } .modal-nombre { font-size: 1.2rem; } .modal-precio { font-size: 1.35rem; } }
 
   .nav-right { display: flex; align-items: center; gap: 6px; }
+  /* ── SITE HEADER ── */
+  .anuncio-bar { position: static; }
+  .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s; }
+  .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
 </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
@@ -381,6 +384,7 @@ function runSearch(q) {
 <body>
 
 <!-- NAV -->
+<header class="site-header">
 <div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000</span></div></div>
 <nav>
   <!-- FILA 2: Logo + Buscador + Íconos -->
@@ -418,6 +422,7 @@ function runSearch(q) {
     </ul>
   </div>
 </nav>
+</header>
 
 <!-- MENÚ MÓVIL -->
 <div class="mobile-menu" id="mobile-menu">
@@ -553,7 +558,7 @@ function toggleMenu() {
   bd.style.display = isOpen ? 'block' : 'none';
   document.body.style.overflow = isOpen ? 'hidden' : '';
 }
-window.addEventListener('scroll',()=>document.querySelector('nav').classList.toggle('scrolled',window.scrollY>40));
+window.addEventListener('scroll', () => { const sh = document.querySelector('.site-header'); if(sh) sh.classList.toggle('scrolled', window.scrollY > 40); });
 
 /* CATÁLOGO */
 const TAGLINES = {"pelota-snack-interactiva":"\"Premio adentro, caos afuera 🐶\"","dispensador-de-bolsas---diseno-cafe":"\"El dispensador más cool del parque ☕🐶\"","calming-collar---perros":"\"Menos drama, más calma 💜\"","calming-collar---gatos":"\"Calma natural para el felino más dramático de la casa 💜\"","botella-portatil-para-perros":"\"Paseo largo, cero sed 💧\"","arena-sanitaria-ciudad-animal-8kg":"\"Porque el baño de tu gato también merece lo mejor 💜\"","brit-care-sterilized-weigh-control-2kg---duck-turkey":"\"Porque los gatos esterilizados merecen comer como reyes 👑\"","pack-calma-total":"\"Porque el mundo da un poco de miedo — pero los snacks ayudan.\"","pack-sos-mascota":"\"Para el susto que no vio venir — y las patitas que lo aguantaron.\"","pack-rutina-sana":"\"Hidratación, nutrición y calma. Todo lo que tu gato necesita.\"","pack-bienvenido-a-casa":"\"Porque llegar a casa nueva da un poco de miedo — y estos tres ayudan.\"","pack-juega-y-relaja":"\"Para el gato que necesita cansarse — y la calma que viene después.\"" ,"comedero-lento-slow-feeder---catstages":"\"Para el gato que come como si no hubiera mañana.\"","pack-consulta-flor-de-bach":"\"Para la mascota que necesita más que un frasco.\"","flores-de-bach---rescue-y-alivio":"\"Para el susto que no vio venir.\"","flores-de-bach---energia-y-animo":"\"Para los días sin ganas de nada.\"",'tubito-atun':'"Cremoso, irresistible y con catnip. Fin."','tubito-conejo':'"El tubo que tu gato va a pedir con los ojos."','tubito-cangrejo':'"Cangrejo + catnip = caos garantizado."','lata-leonardo-kitten':'"Porque los gatitos también tienen exigencias."','lata-leonardo':'"Porque tu gato se merece un menú de verdad."','collar-findmy_Turquesa':'"Nunca más lo pierdes."','collar-findmy_Negro':'"Nunca más lo pierdes."','collar-findmy_Azul':'"Nunca más lo pierdes."','fuente-agua':'"Hidratación con glamour."','pajaro':'"Enemigo número uno."','pelota-led':'"Brilla. Rueda. Enloquece."','pulpo':'"Masaje y caos en uno."','paw-balm':'"SPA para patitas exigentes."','afeitadora':'"Menos pelo, más sofá."','cat-fest':'"Pato o cordero. Siempre piden más."','cats-snack':'"5 sabores, 0 culpa."','suero-fisiologico':'"Para cuando tu mascota necesita un poco de cuidado extra."','pulmon-cordero-rahue':'"Del sur de Chile directo a su hocico."','traquea-vacuno-rahue':'"Mastica, relájate, repite."','garra-pollo-rahue':'"Crujiente por fuera, nutritivo por dentro."','oreja-cerdo-rahue':'"El clásico que nunca falla."','femur-cerdo-tasty':'"Para el perro que muerde todo. Dáselo a él."'};
