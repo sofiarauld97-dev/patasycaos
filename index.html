@@ -19,10 +19,9 @@
     --borde-modal: #e0d5c5; --radio-modal: 16px; --radio-sm: 8px;
   }
   html { scroll-behavior: smooth; }
-  body { font-family: 'Poppins', sans-serif; background-color: var(--cream); color: var(--negro); overflow-x: hidden; }
+  body { font-family: 'Poppins', sans-serif; background-color: var(--cream); color: var(--negro); overflow-x: clip; }
 
   /* NAV */
-  nav { position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); padding: 0 5%; padding-top: env(safe-area-inset-top); display: flex; align-items: center; justify-content: space-between; height: calc(68px + env(safe-area-inset-top)); }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
   .nav-logo img { width: 44px; height: 44px; object-fit: contain; }
   .nav-logo span { font-weight: 700; font-size: 1.1rem; color: var(--negro); letter-spacing: -.02em; }
@@ -33,7 +32,6 @@
   .nav-cart:hover { border-color: var(--terracota); color: var(--terracota); }
   .nav-cart svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
   .nav-cart-wrap { position: relative; }
-  nav.scrolled { background: rgba(245,236,215,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: rgba(28,16,7,.05); transition: background .3s, backdrop-filter .3s; }
 
   /* HERO */
   .hero { min-height: calc(100vh - 68px); padding: 5% 5%; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4rem; }
@@ -148,16 +146,6 @@
   .footer-bottom { border-top: 1px solid rgba(28,16,7,.08); padding-top: 24px; text-align: center; font-size: .82rem; color: #8a7a6e; }
 
   /* HAMBURGER */
-  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 102; }
-  .hamburger span { display: block; width: 24px; height: 2px; background: var(--negro); border-radius: 2px; transition: all .3s; }
-  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  .mobile-menu { position: fixed; top: 0; left: 0; right: 0; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); padding: 24px 5%; padding-top: calc(68px + env(safe-area-inset-top) + 16px); display: flex; flex-direction: column; gap: 1.2rem; z-index: 99; transform: translateY(-100%); pointer-events: none; visibility: hidden; transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
-  .mobile-menu.open { transform: translateY(0); pointer-events: all; visibility: visible; }
-  .mobile-menu a { text-decoration: none; color: var(--negro); font-size: 1.1rem; font-weight: 600; padding: 8px 0; border-bottom: 1px solid rgba(28,16,7,.06); transition: color .2s; }
-  .mobile-menu a:hover { color: var(--terracota); }
-  .mobile-menu a:last-child { border-bottom: none; }
 
   /* CARRITO */
   .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .3s; }
@@ -385,7 +373,7 @@
   .nav-right { display: flex; align-items: center; gap: 6px; }
 
   /* ── NAV 3 FILAS ── */
-  nav { display: block; position: sticky; top: 36px; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); }
+  nav { display: block !important; flex-direction: unset !important; align-items: unset !important; justify-content: unset !important; height: auto !important; padding: 0 !important; position: sticky; top: 36px; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); }
   .nav-top { display: flex; align-items: center; gap: 1.2rem; padding: 10px 5%; border-bottom: 1px solid rgba(28,16,7,.06); }
   .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
   .nav-logo img { width: 42px; height: 42px; object-fit: contain; }
