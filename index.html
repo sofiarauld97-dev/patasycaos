@@ -383,7 +383,57 @@
   @media (max-width: 640px) { .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; } .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; } .modal-imagen-principal { aspect-ratio: unset; height: 320px; } .modal-contenido { padding: 1.25rem; } .modal-nombre { font-size: 1.2rem; } .modal-precio { font-size: 1.35rem; } }
   @media (max-width: 500px) { .checkout-grid { grid-template-columns: 1fr !important; } .cart-items { padding: 12px 16px; } .cart-header { padding: 16px; } .cart-footer { padding: 12px 16px; } .cart-item-info { min-width: 0; overflow: hidden; } }
   .nav-right { display: flex; align-items: center; gap: 6px; }
-</style>
+
+  /* ── NAV 3 FILAS ── */
+  .nav-wrapper { position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); }
+  .nav-top { display: flex; align-items: center; gap: 1.2rem; padding: 10px 5%; border-bottom: 1px solid rgba(28,16,7,.06); }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+  .nav-logo img { width: 40px; height: 40px; object-fit: contain; }
+  .nav-logo span { font-weight: 700; font-size: 1rem; color: var(--negro); letter-spacing: -.02em; white-space: nowrap; }
+  .nav-search-bar-wrap { flex: 1; position: relative; max-width: 480px; margin: 0 auto; }
+  .nav-search-bar { width: 100%; padding: 9px 16px 9px 38px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; font-family: "Poppins",sans-serif; font-size: .87rem; background: #fff; outline: none; transition: border-color .2s; box-sizing: border-box; }
+  .nav-search-bar:focus { border-color: var(--terracota); }
+  .nav-search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #aaa; display: flex; pointer-events: none; }
+  .nav-search-icon svg { width: 15px; height: 15px; }
+  .nav-search-drop { display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.12); z-index: 300; max-height: 300px; overflow-y: auto; }
+  .nav-icons { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: none; border: 1.5px solid rgba(28,16,7,.18); border-radius: 50%; cursor: pointer; color: var(--negro); text-decoration: none; padding: 0; transition: all .2s; }
+  .nav-icon-btn:hover { border-color: var(--terracota); color: var(--terracota); }
+  .nav-icon-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-icon-btn.ig svg { stroke: none; fill: currentColor; }
+  .nav-cart-wrap { position: relative; }
+  .cart-badge { position: absolute; top: -4px; right: -4px; background: var(--terracota); color: #fff; font-size: .58rem; font-weight: 700; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+  .nav-bottom { display: flex; padding: 0 5%; }
+  .nav-links { display: flex; list-style: none; margin: 0; padding: 0; }
+  .nav-links > li > a { display: flex; align-items: center; gap: 3px; text-decoration: none; color: var(--negro); font-size: .87rem; font-weight: 500; padding: 11px 14px; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
+  .nav-links > li > a:hover, .nav-links > li > a.activo { color: var(--terracota); border-bottom-color: var(--terracota); }
+  .nav-item { position: relative; }
+  .nav-item > a::after { content: "▾"; font-size: .65rem; margin-left: 2px; }
+  .mega-menu { display: none; position: absolute; top: 100%; left: 0; background: #fff; border-radius: 0 0 14px 14px; box-shadow: 0 8px 32px rgba(0,0,0,.12); padding: 1.4rem 1.8rem; min-width: 540px; z-index: 200; }
+  .nav-item:hover .mega-menu { display: grid; grid-template-columns: repeat(5,1fr); gap: 1.2rem; }
+  .mega-col h4 { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: .6rem; white-space: nowrap; }
+  .mega-col a { display: block; font-size: .8rem; color: var(--negro); text-decoration: none; padding: 2px 0; transition: color .2s; }
+  .mega-col a:hover { color: var(--terracota); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--negro); border-radius: 2px; transition: all .3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { position: fixed; top: 0; left: 0; right: 0; background: var(--cream); border-bottom: 1px solid rgba(28,16,7,.08); padding: 80px 5% 24px; display: flex; flex-direction: column; gap: .9rem; z-index: 99; transform: translateY(-100%); pointer-events: none; visibility: hidden; transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: 0 8px 24px rgba(0,0,0,.08); max-height: 92vh; overflow-y: auto; }
+  .mobile-menu.open { transform: translateY(0); pointer-events: all; visibility: visible; }
+  .mobile-menu a { text-decoration: none; color: var(--negro); font-size: 1rem; font-weight: 600; padding: 6px 0; border-bottom: 1px solid rgba(28,16,7,.06); transition: color .2s; }
+  .mobile-menu a:hover { color: var(--terracota); }
+  .mobile-cat-title { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); padding: 8px 0 2px; }
+  .mobile-cat-link { font-size: .88rem !important; font-weight: 400 !important; padding-left: 10px !important; color: #666 !important; }
+  .search-result-item { display: flex; align-items: center; gap: .6rem; padding: .45rem .9rem; text-decoration: none; color: var(--negro); transition: background .15s; }
+  .search-result-item:hover { background: var(--cream); }
+  .search-result-img { width: 34px; height: 34px; border-radius: 6px; object-fit: cover; background: #f5f5f5; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; overflow: hidden; }
+  .search-result-nombre { font-size: .83rem; font-weight: 600; }
+  .search-result-precio { font-size: .76rem; color: var(--terracota); font-weight: 700; }
+  .search-empty { font-size: .83rem; color: #999; padding: .4rem .9rem; }
+  @media (max-width: 768px) { .nav-bottom { display: none; } .hamburger { display: flex; } .nav-logo span { display: none; } }
+  @media (max-width: 480px) { .nav-top { gap: .5rem; padding: 8px 4%; } .nav-search-bar { font-size: .8rem; } }
+  </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
 .anuncio-track{display:inline-block;animation:marquee 22s linear infinite;font-size:13px;font-weight:500;letter-spacing:.04em;}
@@ -393,36 +443,40 @@
 <body>
 
 <!-- NAV -->
-<div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000</span></div></div>
-<nav>
-  <a href="/" class="nav-logo">
-    <img src="logo.png" alt="Patas & Caos" width="44" height="44">
-    <span>Patas & Caos</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="/" class="activo">Inicio</a></li><li><a href="/tienda">Tienda</a></li><li><a href="/suscripciones">Suscripciones</a></li>
-    
-    <li><a href="/nosotros">Nosotros</a></li>
-    <li><a href="/contacto">Contacto</a></li>
-    <li><a href="/blog">Blog</a></li>
-  </ul>
-  <div class="nav-right">
-  <div class="nav-cart-wrap">
-    <button class="nav-cart" onclick="toggleCart()" aria-label="Carrito">
-      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-    </button>
-    <span class="cart-badge" id="cart-badge">0</span>
+<div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000</span></div>
+</div>
+<nav class="nav-wrapper">
+  <div class="nav-top">
+    <a href="/" class="nav-logo">
+      <img src="logo.png" alt="Patas & Caos" width="44" height="44">
+      <span>Patas & Caos</span>
+    </a>
+    <div class="nav-search-bar-wrap">
+      <span class="nav-search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+      <input type="text" class="nav-search-bar" id="nav-search-input" placeholder="Buscar productos..." oninput="buscarProductos(this.value)" onfocus="document.getElementById('nav-search-drop').style.display='block'" onblur="setTimeout(()=>document.getElementById('nav-search-drop').style.display='none',200)">
+      <div class="nav-search-drop" id="nav-search-drop"></div>
+    </div>
+    <div class="nav-icons">
+      <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" class="nav-icon-btn ig" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+      <div id="nav-auth"><button class="nav-icon-btn" onclick="abrirAuth()" aria-label="Cuenta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></button></div>
+      <div class="nav-cart-wrap">
+        <button class="nav-icon-btn" onclick="toggleCart()" aria-label="Carrito"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+        <span class="cart-badge" id="cart-badge">0</span>
+      </div>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
-  <div id="nav-auth"><button class="btn-signin" onclick="abrirAuth()" aria-label="Iniciar sesión"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></button></div>
-  <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" class="nav-ig-desktop" aria-label="Instagram">
-    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-  </a>
-  <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" class="nav-ig-mobile" aria-label="Instagram">
-    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-  </a>
-  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-bottom">
+    <ul class="nav-links">
+    <li><a href="/" class="activo">Inicio</a></li>
+    <li><a href="/tienda">Tienda</a></li>
+    <li class="nav-item"><a href="/tienda?aud=Perros">🐶 Perros</a><div class="mega-menu"><div class="mega-col"><h4>Alimentos</h4><a href="/tienda?aud=Perros&cat=Alimentos">Ver todo</a></div><div class="mega-col"><h4>Snacks</h4><a href="/tienda?aud=Perros&cat=Snacks y Golosinas">Ver todo</a></div><div class="mega-col"><h4>Accesorios</h4><a href="/tienda?aud=Perros&cat=Accesorio">Ver todo</a></div><div class="mega-col"><h4>Cuidado e Higiene</h4><a href="/tienda?aud=Perros&cat=Aseo e Higiene">Ver todo</a></div><div class="mega-col"><h4>Bienestar Natural</h4><a href="/tienda?aud=Perros&cat=Flores de Bach">Ver todo</a></div></div></li>
+    <li class="nav-item"><a href="/tienda?aud=Gatos">🐱 Gatos</a><div class="mega-menu"><div class="mega-col"><h4>Alimentos</h4><a href="/tienda?aud=Gatos&cat=Alimentos">Ver todo</a></div><div class="mega-col"><h4>Snacks</h4><a href="/tienda?aud=Gatos&cat=Snacks y Golosinas">Ver todo</a></div><div class="mega-col"><h4>Accesorios</h4><a href="/tienda?aud=Gatos&cat=Accesorio">Ver todo</a></div><div class="mega-col"><h4>Cuidado e Higiene</h4><a href="/tienda?aud=Gatos&cat=Aseo e Higiene">Ver todo</a></div><div class="mega-col"><h4>Bienestar Natural</h4><a href="/tienda?aud=Gatos&cat=Flores de Bach">Ver todo</a></div></div></li>
+    <li><a href="/suscripciones">Suscripciones</a></li>
+    <li><a href="/blog">Blog</a></li>
+    </ul>
   </div>
 </nav>
 
@@ -430,10 +484,19 @@
 <div class="mobile-menu" id="mobile-menu">
   <a href="/" onclick="toggleMenu()">Inicio</a>
   <a href="/tienda" onclick="toggleMenu()">Tienda</a>
+  <span class="mobile-cat-title">🐶 Perros</span>
+  <a href="/tienda?aud=Perros&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
+  <a href="/tienda?aud=Perros&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
+  <a href="/tienda?aud=Perros&cat=Accesorio" onclick="toggleMenu()" class="mobile-cat-link">Accesorios</a>
+  <a href="/tienda?aud=Perros&cat=Aseo e Higiene" onclick="toggleMenu()" class="mobile-cat-link">Cuidado e Higiene</a>
+  <a href="/tienda?aud=Perros&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
+  <span class="mobile-cat-title">🐱 Gatos</span>
+  <a href="/tienda?aud=Gatos&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
+  <a href="/tienda?aud=Gatos&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
+  <a href="/tienda?aud=Gatos&cat=Accesorio" onclick="toggleMenu()" class="mobile-cat-link">Accesorios</a>
+  <a href="/tienda?aud=Gatos&cat=Aseo e Higiene" onclick="toggleMenu()" class="mobile-cat-link">Cuidado e Higiene</a>
+  <a href="/tienda?aud=Gatos&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
   <a href="/suscripciones" onclick="toggleMenu()">Suscripciones</a>
-  
-  <a href="/nosotros" onclick="toggleMenu()">Nosotros</a>
-  <a href="/contacto" onclick="toggleMenu()">Contacto</a>
   <a href="/blog" onclick="toggleMenu()">Blog</a>
 </div>
 
