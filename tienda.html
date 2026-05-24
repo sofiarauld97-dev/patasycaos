@@ -689,16 +689,17 @@ window.addEventListener('scroll', () => document.querySelector('nav').classList.
 function runSearch(q) {
   const drop = document.getElementById('nav-drop');
   if (!drop) return;
-  if (!q.trim()) { drop.innerHTML=''; return; }
+  if (!q.trim()) { drop.innerHTML=''; drop.style.display='none'; return; }
   const prods = typeof productos !== 'undefined' ? productos : {};
   const q2 = q.toLowerCase();
   const matches = Object.entries(prods).filter(([id,p])=>p.nombre.toLowerCase().includes(q2)||(p.descripcion||'').toLowerCase().includes(q2)).slice(0,6);
-  if (!matches.length) { drop.innerHTML='<p class="s-empty">Sin resultados</p>'; return; }
+  if (!matches.length) { drop.innerHTML='<p class="s-empty">Sin resultados</p>'; drop.style.display='block'; return; }
   drop.innerHTML = matches.map(([id,p])=>{
     const img = p.variantes ? p.variantes[0].imagenes[0] : (p.imagenes ? p.imagenes[0] : '');
     const ph = p.variantes ? p.variantes[0].placeholders[0] : (p.placeholders ? p.placeholders[0] : '🐾');
     return `<a class="s-item" href="/tienda?producto=${id}"><div class="s-img">${img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover">':ph}</div><div><div class="s-nombre">${p.nombre}</div><div class="s-precio">${p.precio}</div></div></a>`;
   }).join('');
+  drop.style.display='block';
 }
 
 /* ── CATÁLOGO ── */
