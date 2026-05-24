@@ -11,16 +11,18 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js">function runSearch(q) {
   const drop = document.getElementById('nav-drop');
   if (!drop) return;
-  if (!q.trim()) { drop.innerHTML=''; return; }
-  const prods = typeof productos !== 'undefined' ? productos : {};
+  if (!q.trim()) { drop.innerHTML=''; drop.style.display='none'; return; }
+  const prods = typeof productos !== 'undefined' ? productos : null;
+  if (!prods) {
+    drop.innerHTML = '<a class="s-item" href="/tienda" style="display:flex;align-items:center;gap:.75rem;padding:.8rem 1rem;text-decoration:none;color:var(--negro);font-weight:600;"><div class="s-img">&#128269;</div><div><div class="s-nombre">Buscar en la tienda</div><div class="s-precio">Ver todos los productos &#x2192;</div></div></a>';
+    drop.style.display = 'block';
+    return;
+  }
   const q2 = q.toLowerCase();
-  const matches = Object.entries(prods).filter(([id,p])=>p.nombre.toLowerCase().includes(q2)||(p.descripcion||'').toLowerCase().includes(q2)).slice(0,6);
-  if (!matches.length) { drop.innerHTML='<p class="s-empty">Sin resultados</p>'; return; }
-  drop.innerHTML = matches.map(([id,p])=>{
-    const img = p.variantes ? p.variantes[0].imagenes[0] : (p.imagenes ? p.imagenes[0] : '');
-    const ph = p.variantes ? p.variantes[0].placeholders[0] : (p.placeholders ? p.placeholders[0] : '🐾');
-    return `<a class="s-item" href="/tienda?producto=${id}"><div class="s-img">${img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover">':ph}</div><div><div class="s-nombre">${p.nombre}</div><div class="s-precio">${p.precio}</div></div></a>`;
-  }).join('');
+  const matches = Object.entries(prods).filter(([id,p])=>p&&p.nombre&&(p.nombre.toLowerCase().includes(q2)||(p.descripcion||'').toLowerCase().includes(q2))).slice(0,6);
+  if (!matches.length) { drop.innerHTML='<p class="s-empty">Sin resultados</p>'; drop.style.display='block'; return; }
+  drop.innerHTML = matches.map(([id,p])=>{ const img=p.variantes?p.variantes[0].imagenes[0]:(p.imagenes?p.imagenes[0]:''); const ph=p.variantes?p.variantes[0].placeholders[0]:(p.placeholders?p.placeholders[0]:''); return '<a class="s-item" href="/tienda?producto='+id+'"><div class="s-img">'+(img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover">':ph)+'</div><div><div class="s-nombre">'+p.nombre+'</div><div class="s-precio">'+p.precio+'</div></div></a>'; }).join('');
+  drop.style.display='block';
 }
 </script>
 <style>
@@ -55,7 +57,7 @@
   .cart-badge { position: absolute; top: -4px; right: -4px; background: var(--terracota); color: #fff; font-size: .58rem; font-weight: 700; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; pointer-events: none; }
   /* FILA 3 */
   .nav-bottom { display: flex; justify-content: center; padding: 0 5%; }
-  .nav-links { display: flex; list-style: none; margin: 0; padding: 0; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
   .nav-links > li > a { display: flex; align-items: center; gap: 3px; text-decoration: none; color: var(--negro); font-size: .87rem; font-weight: 500; padding: 11px 14px; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
   .nav-links > li > a:hover, .nav-links > li > a.activo { color: var(--terracota); border-bottom-color: var(--terracota); }
   /* MEGA MENÚ */
@@ -541,11 +543,11 @@
   <!-- FILA 3: Menú -->
   <div class="nav-bottom">
     <ul class="nav-links">
-      <li><a href="/" class="activo">Inicio</a></li>
+      <li><a href="/">Inicio</a></li>
       <li><a href="/tienda">Tienda</a></li>
       <li class="nav-item"><a href="/tienda?aud=Perros">Perros</a><div class="mega-menu"><div class="mega-col"><h4>Alimentos</h4><a href="/tienda?aud=Perros&cat=Alimentos">Ver todo</a></div><div class="mega-col"><h4>Snacks</h4><a href="/tienda?aud=Perros&cat=Snacks y Golosinas">Ver todo</a></div><div class="mega-col"><h4>Accesorios</h4><a href="/tienda?aud=Perros&cat=Accesorio">Ver todo</a></div><div class="mega-col"><h4>Cuidado e Higiene</h4><a href="/tienda?aud=Perros&cat=Aseo e Higiene">Ver todo</a></div><div class="mega-col"><h4>Bienestar Natural</h4><a href="/tienda?aud=Perros&cat=Flores de Bach">Ver todo</a></div></div></li>
       <li class="nav-item"><a href="/tienda?aud=Gatos">Gatos</a><div class="mega-menu"><div class="mega-col"><h4>Alimentos</h4><a href="/tienda?aud=Gatos&cat=Alimentos">Ver todo</a></div><div class="mega-col"><h4>Snacks</h4><a href="/tienda?aud=Gatos&cat=Snacks y Golosinas">Ver todo</a></div><div class="mega-col"><h4>Accesorios</h4><a href="/tienda?aud=Gatos&cat=Accesorio">Ver todo</a></div><div class="mega-col"><h4>Cuidado e Higiene</h4><a href="/tienda?aud=Gatos&cat=Aseo e Higiene">Ver todo</a></div><div class="mega-col"><h4>Bienestar Natural</h4><a href="/tienda?aud=Gatos&cat=Flores de Bach">Ver todo</a></div></div></li>
-      <li><a href="/suscripciones">Suscripciones</a></li>
+      <li><a href="/suscripciones" class="activo">Suscripciones</a></li>
       <li><a href="/blog">Blog</a></li>
     </ul>
   </div>
@@ -584,7 +586,7 @@
     </div>
   </div>
 
-  <a href="/suscripciones" onclick="toggleMenu()">Suscripciones</a>
+  <a href="/suscripciones" onclick="toggleMenu()" class="activo">Suscripciones</a>
   <a href="/blog" onclick="toggleMenu()">Blog</a>
 </div>
 
