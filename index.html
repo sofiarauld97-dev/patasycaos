@@ -447,6 +447,8 @@
   .s-precio { font-size:.76rem;color:var(--terracota);font-weight:700; }
   .s-empty { font-size:.83rem;color:#999;padding:.3rem .8rem; }
   @media (max-width: 768px) { .nav-bottom { display:none; } .hamburger { display:flex; } .nav-logo span { display:none; } }
+  nav.scrolled { background: rgba(245,236,215,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: rgba(28,16,7,.05); transition: background .3s, backdrop-filter .3s; }
+  @media (max-width: 600px) { .anuncio-bar { position: sticky; top: 0; z-index: 101; } nav { top: 36px; } .mobile-menu { padding-top: calc(92px + env(safe-area-inset-top) + 16px) !important; } }
 </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
