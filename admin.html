@@ -332,6 +332,13 @@ function leerArchivo(nombre, input) {
 }
 
 /* ITEMS */
+function agregarFotoVariante(btn) {
+  var list = btn.previousElementSibling;
+  var div = document.createElement('div'); div.className = 'list-item';
+  div.innerHTML = '<input type="text" class="v-img" placeholder="Ej: Collar_en_uso.png"><button class="btn-x" type="button" onclick="quitarItem(this)">✕</button>';
+  list.appendChild(div);
+}
+
 function agregarItem(listId, placeholder) {
   var list = document.getElementById(listId);
   var div = document.createElement('div'); div.className = 'list-item';
@@ -352,7 +359,10 @@ function toggleVariantes() {
 function agregarVariante() {
   var list = document.getElementById('variantes-list');
   var div = document.createElement('div'); div.className = 'variante-card';
-  div.innerHTML = '<button class="btn-x" type="button" style="position:absolute;top:.75rem;right:.75rem" onclick="this.parentElement.remove()">✕</button><div class="grid2" style="gap:.75rem"><div class="field"><label>Nombre del sabor *</label><input type="text" class="v-label" placeholder="Ej: Pato"></div><div class="field"><label>Foto del sabor</label><input type="text" class="v-img" placeholder="Ej: Pato_Sticks.png"></div></div>';
+  div.innerHTML = '<button class="btn-x" type="button" style="position:absolute;top:.75rem;right:.75rem" onclick="this.parentElement.remove()">✕</button>' +
+    '<div class="field" style="margin-bottom:.75rem"><label>Nombre del sabor / color *</label><input type="text" class="v-label" placeholder="Ej: Pato"></div>' +
+    '<div class="field"><label>Fotos de esta variante (una por línea)</label><div class="v-fotos-list"><div class="list-item"><input type="text" class="v-img" placeholder="Ej: Pato_Sticks.png (foto principal)"><button class="btn-x" type="button" onclick="quitarItem(this)">✕</button></div></div>' +
+    '<button class="btn-add-item" type="button" onclick="agregarFotoVariante(this)">+ Agregar foto extra (uso, detalle, etc.)</button></div>';
   list.appendChild(div);
 }
 
@@ -410,8 +420,10 @@ function publicar() {
   if (tieneV) {
     document.querySelectorAll('.variante-card').forEach(function(b) {
       var label = b.querySelector('.v-label').value.trim();
-      var img   = b.querySelector('.v-img').value.trim();
-      if (label) variantesArr.push({ label: label, imagenes: [img || fotos[0]], placeholders: [emoji] });
+      var imgs  = [...b.querySelectorAll('.v-img')].map(function(i){ return i.value.trim(); }).filter(Boolean);
+      if (!imgs.length) imgs = [fotos[0]]; // fallback a foto principal
+      var placeholdersV = imgs.map(function(){ return emoji; });
+      if (label) variantesArr.push({ label: label, imagenes: imgs, placeholders: placeholdersV });
     });
   }
 
