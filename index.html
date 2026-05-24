@@ -891,7 +891,7 @@ function generarTarjetas() {
     const heart = document.createElement('button'); heart.className='prod-heart'; heart.innerHTML='♡'; heart.dataset.id=id; heart.addEventListener('click',(e)=>toggleWishlist(e,id)); carr.appendChild(heart);
     const btnId = 'btn-'+id;
     const info = document.createElement('div'); info.className='prod-info';
-    info.innerHTML = `<h4>${p.nombre}</h4><p class="tagline">${TAGLINES[id]||''}</p><div class="prod-footer"><span class="prod-price">${p.precio}</span><button class="btn-add" id="${btnId}">${p.variantes?'Elegir sabor':'Añadir'}</button></div>`;
+    info.innerHTML = `<h4>${p.nombre}</h4><p class="tagline">${TAGLINES[id]||''}</p><div class="prod-footer"><span class="prod-price">${p.precio}</span><button class="btn-add" id="${btnId}">${p.variantes?((['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c=>id.startsWith(c)))?'Elegir color':'Elegir sabor'):'Añadir'}</button></div>`;
     card.appendChild(carr); card.appendChild(info); grid.appendChild(card);
     const btn = document.getElementById(btnId);
     if(btn){ if(!enStock){btn.textContent='Agotado';btn.disabled=true;} else if(p.variantes) btn.addEventListener('click',(e)=>{e.stopPropagation();abrirModal(id);}); else btn.addEventListener('click',(e)=>{e.stopPropagation();addToCart({id,name:p.nombre,price:p.precioNum,img:'/'+imgs[0]});}); }
@@ -956,6 +956,8 @@ function abrirModal(productoId) {
   const primerVariante = p.variantes ? p.variantes[0]?.label : null;
   actualizarIngredientesModal(p, primerVariante);
   const variantesEl=document.getElementById('modalVariantes'), opcionesEl=document.getElementById('modalVariantesOpciones'); opcionesEl.innerHTML='';
+  const labelEl=document.getElementById('modalVariantesLabel');
+  if(labelEl) labelEl.textContent=['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c=>productoId.startsWith(c))?'Color':'Sabor';
   if(p.variantes&&p.variantes.length>0){
     variantesEl.classList.add('visible'); const stock=getStock();
     p.variantes.forEach((v,idx)=>{ const btn=document.createElement('button'); const sk=productoId+'_'+v.label; const en=stock[sk]!==0; btn.className='modal-variante-btn'+(idx===0?' activo':''); btn.textContent=en?v.label:v.label+' — Agotado'; btn.disabled=!en; btn.onclick=()=>{ if(en) seleccionarVariante(idx); }; opcionesEl.appendChild(btn); });
