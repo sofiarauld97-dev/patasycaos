@@ -434,8 +434,8 @@
   .mobile-accordion-btn:hover { color: var(--terracota); }
   .mobile-acc-arrow { font-size: .75rem; transition: transform .3s cubic-bezier(.4,0,.2,1); display: inline-block; }
   .mobile-accordion-btn[aria-expanded="true"] .mobile-acc-arrow { transform: rotate(-180deg); }
-  .mobile-accordion-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s cubic-bezier(.4,0,.2,1); overflow: hidden; }
-  .mobile-accordion-body.open { grid-template-rows: 1fr; }
+  .mobile-accordion-body { max-height: 0; overflow: hidden; transition: max-height .35s cubic-bezier(.4,0,.2,1); }
+  .mobile-accordion-body.open { max-height: 400px; }
   .mobile-accordion-body > a:last-child { border-bottom: none !important; padding-bottom: 8px; }
   /* BÚSQUEDA */
   .s-item { display:flex;align-items:center;gap:.6rem;padding:.45rem .8rem;text-decoration:none;color:var(--negro);transition:background .15s; }
