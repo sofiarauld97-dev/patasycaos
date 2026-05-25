@@ -155,6 +155,8 @@
   .filters-bar {
     background: var(--dark);
     padding: 0 5% 1.5rem;
+    position: sticky; top: calc(136px + env(safe-area-inset-top));
+    z-index: 50;
   }
   .filters-inner {
     display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
@@ -309,7 +311,7 @@
   @media (max-width: 600px) {
     .prod-info { padding: 12px; }
     .prod-price { font-size: 1rem; }
-    .btn-add { padding: 7px 12px; font-size: .72rem; }
+    .btn-add { padding: 6px 10px; font-size: .68rem; white-space: nowrap; }
     .prod-info h4 { font-size: .85rem; }
     .prod-info .tagline { font-size: .72rem; margin-bottom: .5rem; }
   }
@@ -414,7 +416,7 @@
   .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s; }
   .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
 
-
+  @media (max-width: 768px) { .filters-bar { top: calc(92px + env(safe-area-inset-top)); } }
 </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
