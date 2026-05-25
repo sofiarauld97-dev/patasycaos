@@ -763,7 +763,11 @@ function checkStockCard(id, stock) {
 
 /* ── FILTROS ── */
 const filtros = { cat: 'todos', aud: 'todos', sort: 'default' };
-let PRODUCTOS_POR_PAGINA = window.innerWidth <= 768 ? 6 : 9;
+let PRODUCTOS_POR_PAGINA = window.innerWidth <= 768 ? 8 : 9;
+window.addEventListener('resize', () => {
+  const pp = window.innerWidth <= 768 ? 8 : 9;
+  if (pp !== PRODUCTOS_POR_PAGINA) { PRODUCTOS_POR_PAGINA = pp; paginaActual = 1; generarTarjetas(); }
+});
 let paginaActual = 1;
 function setFiltro(tipo, valor, btn) {
   filtros[tipo] = valor;
@@ -778,10 +782,6 @@ function setFiltro(tipo, valor, btn) {
     document.getElementById('filters-toggle').classList.remove('open');
   }
 }
-window.addEventListener('resize', () => {
-  const pp = window.innerWidth <= 768 ? 6 : 9;
-  if (pp !== PRODUCTOS_POR_PAGINA) { PRODUCTOS_POR_PAGINA = pp; paginaActual = 1; generarTarjetas(); }
-});
 function aplicarFiltros() { filtros.sort = document.getElementById('sort-select')?.value || 'default'; paginaActual = 1; generarTarjetas(); }
 
 /* ── CARRUSEL ── */
