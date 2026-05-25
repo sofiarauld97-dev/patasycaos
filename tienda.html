@@ -155,7 +155,7 @@
   .filters-bar {
     background: var(--dark);
     padding: 0 5% 1.5rem;
-    position: sticky; top: calc(136px + env(safe-area-inset-top));
+    position: sticky; top: var(--nav-h, 106px);
     z-index: 50;
   }
   .filters-inner {
@@ -416,7 +416,7 @@
   .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s; }
   .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
 
-  @media (max-width: 768px) { .filters-bar { top: calc(92px + env(safe-area-inset-top)); } }
+  @media (max-width: 768px) { /* filters-bar top se actualiza via JS */ }
 </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
@@ -1066,6 +1066,17 @@ function toggleFiltrosMovil() {
   btn.classList.toggle('open');
 }
 
+
+// Actualizar altura nav para filtros sticky
+function updateNavH() {
+  const bar = document.querySelector('.anuncio-bar');
+  const nav = document.querySelector('nav');
+  const barH = (bar && getComputedStyle(bar).position === 'sticky') ? (bar.offsetHeight || 0) : 0;
+  const navH = nav ? nav.offsetHeight : 0;
+  document.documentElement.style.setProperty('--nav-h', (barH + navH) + 'px');
+}
+updateNavH();
+window.addEventListener('resize', updateNavH);
 </script>
 
 <!-- CHECKOUT MODAL -->
