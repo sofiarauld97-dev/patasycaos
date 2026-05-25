@@ -271,7 +271,7 @@
 
 
   /* CARRUSEL HORIZONTAL DE PRODUCTOS */
-  .all-products { padding: 56px 5% 40px; background: var(--dark); }
+  .all-products { padding: 56px 5% 80px; background: var(--dark); }
   .all-products .section-label { font-size: .72rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--terracota); margin-bottom: .5rem; }
   .all-products .section-title { font-size: 2rem; font-weight: 900; line-height: 1.15; margin-bottom: 1.8rem; color: var(--cream); }
   .all-products .section-title span { display: block; color: var(--terracota); font-style: italic; }
@@ -567,19 +567,6 @@
 
 
 <!-- CARRUSEL TODOS LOS PRODUCTOS -->
-<section class="all-products">
-  <p class="section-label">Catálogo completo</p>
-  <h2 class="section-title">Todo lo que<span>necesitan.</span></h2>
-  <div class="carousel-wrap">
-    <button class="carr-arrow left" onclick="moverCarrusel(-1)" aria-label="Anterior">‹</button>
-    <div class="carousel-track" id="carousel-track"></div>
-    <button class="carr-arrow right" onclick="moverCarrusel(1)" aria-label="Siguiente">›</button>
-  </div>
-  <div style="text-align:center;margin-top:2rem">
-    <a href="/tienda" style="display:inline-block;border:2px solid rgba(255,255,255,.3);color:var(--cream);border-radius:50px;padding:12px 32px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .2s" onmouseover="this.style.borderColor='var(--cream)'" onmouseout="this.style.borderColor='rgba(255,255,255,.3)'">Ver toda la tienda →</a>
-  </div>
-</section>
-
 <!-- CATEGORIES -->
 <section class="categories" id="categorias">
   <p class="section-label">Categorías</p>
@@ -601,6 +588,19 @@
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Snacks y Golosinas'"><div class="cat-icon">🍪</div><h3>Snacks y Golosinas</h3><p>Soborno legalizado</p></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Flores de Bach'"><div class="cat-icon">🌿</div><h3>Flores de Bach</h3><p>Bienestar natural para tu mascota</p></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Insumos Veterinarios'"><div class="cat-icon">💊</div><h3>Insumos Vet.</h3><p>Cuidado médico en casa</p></div>
+  </div>
+</section>
+
+<section class="all-products">
+  <p class="section-label">Catálogo completo</p>
+  <h2 class="section-title">Todo lo que<span>necesitan.</span></h2>
+  <div class="carousel-wrap">
+    <button class="carr-arrow left" onclick="moverCarrusel(-1)" aria-label="Anterior">‹</button>
+    <div class="carousel-track" id="carousel-track"></div>
+    <button class="carr-arrow right" onclick="moverCarrusel(1)" aria-label="Siguiente">›</button>
+  </div>
+  <div style="text-align:center;margin-top:2rem">
+    <a href="/tienda" style="display:inline-block;border:2px solid rgba(255,255,255,.3);color:var(--cream);border-radius:50px;padding:12px 32px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .2s" onmouseover="this.style.borderColor='var(--cream)'" onmouseout="this.style.borderColor='rgba(255,255,255,.3)'">Ver toda la tienda →</a>
   </div>
 </section>
 
