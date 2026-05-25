@@ -12,7 +12,7 @@
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   :root{--cream:#F5ECD7;--terracota:#C4622D;--negro:#1A1A1A;--blanco:#FFFFFF;--dark:#1C1007;--card-bg:#FAF4EA;--suave:#6b5a4e;}
   html{scroll-behavior:smooth;}
-  body{font-family:'Poppins',sans-serif;background:var(--cream);color:var(--negro);overflow-x:hidden;}
+  body{font-family:'Poppins',sans-serif;background:var(--cream);color:var(--negro);overflow-x: clip;}
 
   /* ── NAV 3 FILAS ── */
   nav { display: block !important; flex-direction: unset !important; align-items: unset !important; justify-content: unset !important; height: auto !important; padding: 0 !important; background: transparent; border-bottom: 1px solid rgba(28,16,7,.08); }
@@ -518,6 +518,7 @@ function runSearch(q) {
       <h4>Tienda</h4>
       <ul>
         <li><a href="/tienda">Todos los productos</a></li>
+        <li><a href="/nosotros">Nosotros</a></li>
       </ul>
     </div>
     <div class="footer-col">
