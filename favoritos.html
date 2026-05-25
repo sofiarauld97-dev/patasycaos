@@ -360,6 +360,10 @@
   .anuncio-bar { position: static; }
   .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s; }
   .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
+  /* ── SITE HEADER ── */
+  .anuncio-bar { position: static; }
+  .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s; }
+  .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
 </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
@@ -384,6 +388,7 @@ function runSearch(q) {
 <body>
 
 <!-- NAV -->
+<header class="site-header">
 <header class="site-header">
 <div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000</span></div></div>
 <nav>
@@ -422,6 +427,7 @@ function runSearch(q) {
     </ul>
   </div>
 </nav>
+</header>
 </header>
 
 <!-- MENÚ MÓVIL -->
@@ -516,6 +522,7 @@ function runSearch(q) {
       <h4>Tienda</h4>
       <ul>
         <li><a href="/tienda">Todos los productos</a></li>
+        <li><a href="/nosotros">Nosotros</a></li>
       </ul>
     </div>
     <div class="footer-col">
