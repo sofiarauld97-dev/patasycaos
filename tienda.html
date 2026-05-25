@@ -155,10 +155,9 @@
   .filters-bar {
     background: var(--dark);
     padding: 0 5% 1.5rem;
-    position: fixed; top: var(--nav-h, 106px); left: 0; right: 0;
+    position: sticky; top: 0;
     z-index: 50;
   }
-  .filters-spacer { height: var(--filters-h, 120px); }
   .filters-inner {
     display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
     padding: 1rem 1.25rem;
@@ -575,7 +574,6 @@
 </div>
 
 <!-- GRID -->
-<div class="filters-spacer" id="filters-spacer"></div>
 <div class="shop-body">
   <div class="prod-grid" id="prod-grid"></div>
   <div class="no-results" id="no-results" style="display:none">
@@ -1069,23 +1067,15 @@ function toggleFiltrosMovil() {
 }
 
 
-function updateFixedPositions() {
-  const bar = document.querySelector('.anuncio-bar');
-  const nav = document.querySelector('nav');
-  const filtersBar = document.querySelector('.filters-bar');
-  const spacer = document.getElementById('filters-spacer');
-  const barH = (bar && getComputedStyle(bar).position === 'sticky') ? bar.offsetHeight : 0;
-  const navH = nav ? nav.offsetHeight : 0;
-  const totalNavH = barH + navH;
-  document.documentElement.style.setProperty('--nav-h', totalNavH + 'px');
-  if (filtersBar && spacer) {
-    const filtersH = filtersBar.offsetHeight;
-    document.documentElement.style.setProperty('--filters-h', filtersH + 'px');
-    spacer.style.height = filtersH + 'px';
+(function() {
+  function setFiltersTop() {
+    var nav = document.querySelector('nav');
+    var fb  = document.querySelector('.filters-bar');
+    if (nav && fb) fb.style.top = nav.getBoundingClientRect().height + 'px';
   }
-}
-updateFixedPositions();
-window.addEventListener('resize', updateFixedPositions);
+  setFiltersTop();
+  window.addEventListener('resize', setFiltersTop);
+})();
 </script>
 
 <!-- CHECKOUT MODAL -->
