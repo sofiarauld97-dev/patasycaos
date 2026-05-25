@@ -425,7 +425,7 @@
 .plans-intro p { font-size: .92rem; color: var(--texto-suave); max-width: 500px; margin: 0 auto; }
 .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; max-width: 960px; margin: 0 auto; }
 @media (max-width: 768px) { .plans-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 1rem; padding: 1.2rem 5% .5rem; max-width: 100%; } .plans-grid::-webkit-scrollbar { display: none; } .plan-card { flex: 0 0 80vw; scroll-snap-align: start; min-width: 0; } }
-.plan-card { background: var(--card-bg); border: 1.5px solid rgba(28,16,7,.08); border-radius: 20px; padding: 2rem; position: relative; transition: transform .2s, box-shadow .2s; }
+.plan-card { background: var(--card-bg); border: 1.5px solid rgba(28,16,7,.08); border-radius: 20px; padding: 2rem; position: relative; transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column; }
 .plan-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(196,98,45,.12); }
 .plan-card.popular { border-color: var(--terracota); border-width: 2px; }
 .popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--terracota); color: var(--blanco); font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 5px 18px; border-radius: 50px; white-space: nowrap; }
@@ -440,7 +440,7 @@
 .plan-item.disabled { color: #bbb; }
 .check-color { color: #3B6D11; }
 .cross-color { color: #bbb; }
-.plan-btn { width: 100%; margin-top: 1.6rem; background: var(--terracota); color: var(--blanco); border: none; border-radius: 50px; padding: 14px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .92rem; cursor: pointer; transition: background .2s; text-align: center; display: block; }
+.plan-btn { width: 100%; margin-top: auto; padding-top: 1.6rem; background: var(--terracota); color: var(--blanco); border: none; border-radius: 50px; padding: 14px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .92rem; cursor: pointer; transition: background .2s; text-align: center; display: block; }
 .plan-btn:hover { background: #a8501f; }
 .plan-btn.outline { background: transparent; color: #4A7C59; border: 2px solid #4A7C59; }
 .plan-btn.outline:hover { background: #4A7C59; color: var(--blanco); border-color: #4A7C59; }
