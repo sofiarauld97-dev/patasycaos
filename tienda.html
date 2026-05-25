@@ -155,9 +155,10 @@
   .filters-bar {
     background: var(--dark);
     padding: 0 5% 1.5rem;
-    position: sticky; top: var(--nav-h, 106px);
+    position: fixed; top: var(--nav-h, 106px); left: 0; right: 0;
     z-index: 50;
   }
+  .filters-spacer { height: var(--filters-h, 120px); }
   .filters-inner {
     display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
     padding: 1rem 1.25rem;
@@ -416,7 +417,7 @@
   .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s; }
   .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
 
-  @media (max-width: 768px) { /* filters-bar top se actualiza via JS */ }
+
 </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
@@ -574,6 +575,7 @@
 </div>
 
 <!-- GRID -->
+<div class="filters-spacer" id="filters-spacer"></div>
 <div class="shop-body">
   <div class="prod-grid" id="prod-grid"></div>
   <div class="no-results" id="no-results" style="display:none">
@@ -1067,16 +1069,23 @@ function toggleFiltrosMovil() {
 }
 
 
-// Actualizar altura nav para filtros sticky
-function updateNavH() {
+function updateFixedPositions() {
   const bar = document.querySelector('.anuncio-bar');
   const nav = document.querySelector('nav');
-  const barH = (bar && getComputedStyle(bar).position === 'sticky') ? (bar.offsetHeight || 0) : 0;
+  const filtersBar = document.querySelector('.filters-bar');
+  const spacer = document.getElementById('filters-spacer');
+  const barH = (bar && getComputedStyle(bar).position === 'sticky') ? bar.offsetHeight : 0;
   const navH = nav ? nav.offsetHeight : 0;
-  document.documentElement.style.setProperty('--nav-h', (barH + navH) + 'px');
+  const totalNavH = barH + navH;
+  document.documentElement.style.setProperty('--nav-h', totalNavH + 'px');
+  if (filtersBar && spacer) {
+    const filtersH = filtersBar.offsetHeight;
+    document.documentElement.style.setProperty('--filters-h', filtersH + 'px');
+    spacer.style.height = filtersH + 'px';
+  }
 }
-updateNavH();
-window.addEventListener('resize', updateNavH);
+updateFixedPositions();
+window.addEventListener('resize', updateFixedPositions);
 </script>
 
 <!-- CHECKOUT MODAL -->
