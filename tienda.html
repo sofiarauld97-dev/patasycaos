@@ -155,8 +155,6 @@
   .filters-bar {
     background: var(--dark);
     padding: 0 5% 1.5rem;
-    position: sticky; top: 0;
-    z-index: 50;
   }
   .filters-inner {
     display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
@@ -1066,16 +1064,6 @@ function toggleFiltrosMovil() {
   btn.classList.toggle('open');
 }
 
-
-(function() {
-  function setFiltersTop() {
-    var nav = document.querySelector('nav');
-    var fb  = document.querySelector('.filters-bar');
-    if (nav && fb) fb.style.top = nav.getBoundingClientRect().height + 'px';
-  }
-  setFiltersTop();
-  window.addEventListener('resize', setFiltersTop);
-})();
 </script>
 
 <!-- CHECKOUT MODAL -->
