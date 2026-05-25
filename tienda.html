@@ -155,7 +155,7 @@
   .filters-bar {
     background: var(--dark);
     padding: 0 5% 1.5rem;
-    position: sticky; top: calc(68px + env(safe-area-inset-top));
+    position: sticky; top: calc(136px + env(safe-area-inset-top));
     z-index: 50;
   }
   .filters-inner {
@@ -415,6 +415,8 @@
   .anuncio-bar { position: static; }
   .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s; }
   .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
+
+  @media (max-width: 768px) { .filters-bar { top: calc(92px + env(safe-area-inset-top)); } }
 </style>
 <style>
 .anuncio-bar{background:#1A1A1A;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
