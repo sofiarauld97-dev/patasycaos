@@ -405,11 +405,11 @@
 
   /* PAGINACIÓN */
   .pagination { display: flex; align-items: center; justify-content: center; gap: .5rem; padding: 2rem 0 1rem; }
-  .page-btn { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.15); background: transparent; color: rgba(245,236,215,.7); font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; }
+  .page-btn { width: 36px; height: 36px; min-width: 36px; min-height: 36px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.15); background: transparent; color: rgba(245,236,215,.7); font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; }
   .page-btn:hover { border-color: var(--terracota); color: var(--terracota); }
   .page-btn.activo { background: var(--terracota); border-color: var(--terracota); color: #fff; }
   .page-btn:disabled { opacity: .3; cursor: not-allowed; }
-  .page-btn.prev-next { width: auto; padding: 0 16px; border-radius: 50px; }
+  .page-btn.prev-next { width: auto; min-width: auto; padding: 0 14px; border-radius: 50px; font-size: .78rem; }
   .nav-right { display: flex; align-items: center; gap: 6px; }
   /* ── SITE HEADER ── */
   .anuncio-bar { position: static; }
