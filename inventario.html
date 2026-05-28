@@ -429,6 +429,8 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
    CATÁLOGO DE SKUs
 ═══════════════════════════════════════ */
 const SKUS = [
+  { id: "collar-isabelino-donut-rosada---talla-s", nombre: "Collar Isabelino Donut Rosada - Talla S", cat: "Insumos Veterinarios", precio: "$6.990", img: "collar-isabelino-donut-gatos.jpg", emoji: "🐱" },
+  
   { id: "pelota-snack-interactiva_Roja", nombre: "Pelota Snack Interactiva — Roja", cat: "Juguete", precio: "$6.990", img: "pelota-snack-perro-roja.jpg", emoji: "🔴", audience: "Para Perros" },
   { id: "pelota-snack-interactiva_Azul", nombre: "Pelota Snack Interactiva — Azul", cat: "Juguete", precio: "$6.990", img: "pelota-snack-perro-azul.jpg", emoji: "🔵", audience: "Para Perros" },
   
@@ -752,7 +754,7 @@ function abrirExportar() {
     return `  '${sku.id}': ${val},   // ${sku.nombre}`;
   }).join('\n');
 
-  const codigo = `const stockInicial = {"pelota-snack-interactiva_Roja":2,"pelota-snack-interactiva_Azul":2,"dispensador-de-bolsas---diseno-cafe":2,"calming-collar---perros":1,"calming-collar---gatos":1,"botella-portatil-para-perros_Rosada":1,"botella-portatil-para-perros_Calipso":1,"arena-sanitaria-ciudad-animal-8kg":4,"brit-care-sterilized-weigh-control-2kg---duck-turkey":3,"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
+  const codigo = `const stockInicial = {"collar-isabelino-donut-rosada---talla-s":1,"pelota-snack-interactiva_Roja":2,"pelota-snack-interactiva_Azul":2,"dispensador-de-bolsas---diseno-cafe":2,"calming-collar---perros":1,"calming-collar---gatos":1,"botella-portatil-para-perros_Rosada":1,"botella-portatil-para-perros_Calipso":1,"arena-sanitaria-ciudad-animal-8kg":4,"brit-care-sterilized-weigh-control-2kg---duck-turkey":3,"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
   document.getElementById('codigo-exportar').textContent = codigo;
   document.getElementById('modal-exportar').classList.add('open');
 }
