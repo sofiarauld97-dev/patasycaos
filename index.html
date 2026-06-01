@@ -1260,58 +1260,49 @@ function runSearch(q) {
 // CARRUSEL CYBER - DESCUENTOS
 // ============================
 const CYBER_PRODUCTOS = [
-  { id: "pulmon-cordero-rahue",                    pOrig: 3990, pDesc: 3392 },
-  { id: "garra-pollo-rahue",                       pOrig: 3490, pDesc: 2967 },
-  { id: "oreja-cerdo-rahue",                       pOrig: 4290, pDesc: 3647 },
-  { id: "traquea-vacuno-rahue",                    pOrig: 3990, pDesc: 3392 },
-  { id: "femur-cerdo-tasty",                       pOrig: 4990, pDesc: 4242 },
-  { id: "cat-fest-pillows-schrimp-creme",          pOrig: 1990, pDesc: 1692 },
-  { id: "cats-snack",                              pOrig: 2990, pDesc: 2542 },
-  { id: "tubito-atun",                             pOrig: 2990, pDesc: 2542 },
-  { id: "tubito-camaron",                          pOrig: 2990, pDesc: 2542 },
-  { id: "tubito-cangrejo",                         pOrig: 2990, pDesc: 2542 },
-  { id: "paw-balm",                                pOrig: 5990, pDesc: 5391 },
-  { id: "comedero-lento-slow-feeder---catstages",  pOrig: 7990, pDesc: 6792 },
-  { id: "pelota-snack-interactiva",                pOrig: 6990, pDesc: 5592 },
-  { id: "pajaro",                                  pOrig: 13990, pDesc: 11192 },
-  { id: "pulpo",                                   pOrig: 6990, pDesc: 5592 },
-  { id: "collar-findmy",                           pOrig: 12990, pDesc: 11042 },
-  { id: "collar-isabelino-donut-rosada---talla-s", pOrig: 6990, pDesc: 5942 },
-  { id: "afeitadora",                              pOrig: 9990, pDesc: 8492 },
-  { id: "fuente-agua",                             pOrig: 21990, pDesc: 18692 },
+  { id:"pulmon-cordero-rahue",                    nombre:"Pulmón de Cordero 50g",          img:"pulmon_de_cordero_perros.jpg",           emoji:"🐑", pOrig:3990,  pDesc:3392  },
+  { id:"garra-pollo-rahue",                       nombre:"Garra de Pollo 65g",             img:"garras_de_pollo_perros.jpg",             emoji:"🐔", pOrig:3490,  pDesc:2967  },
+  { id:"oreja-cerdo-rahue",                       nombre:"Recorte Oreja de Cerdo",         img:"orejas_cerdo_perros.jpg",                emoji:"🐷", pOrig:4290,  pDesc:3647  },
+  { id:"traquea-vacuno-rahue",                    nombre:"Tráquea de Vacuno",              img:"traquea_de_vacuno_perros.jpg",           emoji:"🐄", pOrig:3990,  pDesc:3392  },
+  { id:"femur-cerdo-tasty",                       nombre:"Fémur de Cerdo",                 img:"femur_perros.jpg",                       emoji:"🦴", pOrig:4990,  pDesc:4242  },
+  { id:"cat-fest-pillows-schrimp-creme",          nombre:"Cat Fest Pillows Schrimp",       img:"Cat_Fest_Pillows_Schrimp.jpg",           emoji:"🐾", pOrig:1990,  pDesc:1692  },
+  { id:"cats-snack",                              nombre:"Cats Snack",                     img:"Cats_Snacks_Gato.jpg",                   emoji:"🐾", pOrig:2990,  pDesc:2542  },
+  { id:"tubito-atun",                             nombre:"Tubito Cremoso Atún",            img:"Tubito_Cremoso_Cats_Snack2.jpg",         emoji:"🐟", pOrig:2990,  pDesc:2542  },
+  { id:"tubito-camaron",                          nombre:"Tubito Cremoso Camarón",         img:"cats-snack-tubito-camaron.jpg",          emoji:"🦐", pOrig:2990,  pDesc:2542  },
+  { id:"tubito-cangrejo",                         nombre:"Tubito Cremoso Cangrejo",        img:"Tubito_Cremoso_Cats_Snack3.jpg",         emoji:"🦀", pOrig:2990,  pDesc:2542  },
+  { id:"paw-balm",                                nombre:"Paw Balm",                       img:"Patas_y_Paw_Balm.jpg",                   emoji:"🐾", pOrig:5990,  pDesc:5391  },
+  { id:"comedero-lento-slow-feeder---catstages",  nombre:"Comedero Lento Slow Feeder",     img:"Plato_con_Comida.jpg",                   emoji:"🐱", pOrig:7990,  pDesc:6792  },
+  { id:"pelota-snack-interactiva",                nombre:"Pelota Snack Interactiva",       img:"pelota-snack-perro-roja.jpg",            emoji:"🐾", pOrig:6990,  pDesc:5592  },
+  { id:"pajaro",                                  nombre:"Pájaro Interactivo",             img:"Pajaro_Gatos.jpg",                       emoji:"🐦", pOrig:13990, pDesc:11192 },
+  { id:"pulpo",                                   nombre:"Masajeador Pulpo",               img:"pulpo_para_gatos_masajeador.jpg",        emoji:"🐙", pOrig:6990,  pDesc:5592  },
+  { id:"collar-findmy",                           nombre:"Collar Find My",                 img:"collar-find-my-turquesa.jpg",            emoji:"📡", pOrig:12990, pDesc:11042 },
+  { id:"collar-isabelino-donut-rosada---talla-s", nombre:"Collar Isabelino Donut",         img:"collar-isabelino-donut-gatos.jpg",       emoji:"🐱", pOrig:6990,  pDesc:5942  },
+  { id:"afeitadora",                              nombre:"Afeitadora LED",                 img:"Afeitadora_Gatos_1.jpg",                 emoji:"✂️", pOrig:9990,  pDesc:8492  },
+  { id:"fuente-agua",                             nombre:"Fuente de Agua Flor USB",        img:"Bebedero_Gatos_2.jpg",                   emoji:"💧", pOrig:21990, pDesc:18692 },
 ];
 
-function formatPrecio(n) {
-  return '$' + n.toLocaleString('es-CL');
-}
+function fmtCLP(n) { return '$' + n.toLocaleString('es-CL'); }
 
 function generarCyberCarrusel() {
   const carrusel = document.getElementById('cyber-carrusel');
   if (!carrusel) return;
+  const stock = typeof getStock === 'function' ? getStock() : {};
 
-  CYBER_PRODUCTOS.forEach(({ id, pOrig, pDesc }) => {
-    const prod = productos[id];
-    if (!prod) return;
-
+  CYBER_PRODUCTOS.forEach(({ id, nombre, img, emoji, pOrig, pDesc }) => {
+    if (stock[id] === 0) return; // Ocultar si agotado
     const descPct = Math.round((1 - pDesc / pOrig) * 100);
-    const img = prod.imagenes && prod.imagenes[0] ? prod.imagenes[0] : null;
-    const ph = prod.placeholders && prod.placeholders[0] ? prod.placeholders[0] : '🐾';
-    const imgHtml = img
-      ? `<img src="${img}" alt="${prod.nombre}" onerror="this.style.display='none';this.parentElement.querySelector('.ph').style.display='flex'">`
-      : '';
-
     carrusel.innerHTML += `
       <div class="cyber-card" onclick="abrirModal('${id}')">
         <div class="cyber-card-img">
           <div class="cyber-badge">-${descPct}%</div>
-          ${imgHtml}
-          <div class="ph" style="${img ? 'display:none;' : 'display:flex;'} align-items:center;justify-content:center;font-size:3rem;width:100%;height:100%;position:absolute;top:0;left:0;">${ph}</div>
+          <img src="${img}" alt="${nombre}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;align-items:center;justify-content:center;font-size:3rem;width:100%;height:100%;position:absolute;top:0;left:0;background:#f0dfc0">${emoji}</div>
         </div>
         <div class="cyber-card-info">
-          <div class="cyber-card-nombre">${prod.nombre}</div>
+          <div class="cyber-card-nombre">${nombre}</div>
           <div class="cyber-precios">
-            <span class="cyber-precio-antes">${formatPrecio(pOrig)}</span>
-            <span class="cyber-precio-ahora">${formatPrecio(pDesc)}</span>
+            <span class="cyber-precio-antes">${fmtCLP(pOrig)}</span>
+            <span class="cyber-precio-ahora">${fmtCLP(pDesc)}</span>
           </div>
         </div>
       </div>`;
