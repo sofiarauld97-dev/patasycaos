@@ -1289,12 +1289,13 @@ function generarCyberCarrusel() {
   const stock = typeof getStock === 'function' ? getStock() : {};
 
   CYBER_PRODUCTOS.forEach(({ id, nombre, img, emoji, pOrig, pDesc }) => {
-    if (stock[id] === 0) return; // Ocultar si agotado
+    const agotado = stock[id] === 0;
     const descPct = Math.round((1 - pDesc / pOrig) * 100);
     carrusel.innerHTML += `
-      <div class="cyber-card" onclick="abrirModal('${id}')">
+      <div class="cyber-card${agotado ? ' agotado' : ''}" onclick="abrirModal('${id}')">
         <div class="cyber-card-img">
           <div class="cyber-badge">-${descPct}%</div>
+          ${agotado ? '<div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);z-index:3;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.8rem;letter-spacing:.05em">AGOTADO</div>' : ''}
           <img src="${img}" alt="${nombre}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div style="display:none;align-items:center;justify-content:center;font-size:3rem;width:100%;height:100%;position:absolute;top:0;left:0;background:#f0dfc0">${emoji}</div>
         </div>
@@ -1302,7 +1303,7 @@ function generarCyberCarrusel() {
           <div class="cyber-card-nombre">${nombre}</div>
           <div class="cyber-precios">
             <span class="cyber-precio-antes">${fmtCLP(pOrig)}</span>
-            <span class="cyber-precio-ahora">${fmtCLP(pDesc)}</span>
+            <span class="cyber-precio-ahora" style="${agotado ? 'color:#999' : ''}">${fmtCLP(pDesc)}</span>
           </div>
         </div>
       </div>`;
