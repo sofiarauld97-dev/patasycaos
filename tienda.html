@@ -939,12 +939,23 @@ function generarTarjetas() {
     card.className = 'prod-card' + (enStock ? '' : ' agotado');
     card.addEventListener('click', () => abrirModal(id));
     const carrusel = crearCarrusel(imagenes, placeholders);
-    // Badge: si es Cyber mostrar % descuento, si no mostrar categoría
-    if (p.categoria === 'Cyber' && p.precioOriginalNum) {
-      const descPct = Math.round((1 - p.precioNum / p.precioOriginalNum) * 100);
+    // Badge y precio: detectar si es Cyber por categoría o por precioOriginalNum
+    const pOrigNum = p.precioOriginalNum || 0;
+    const esCyber = p.categoria === 'Cyber';
+    if (esCyber && pOrigNum > p.precioNum) {
+      const descPct = Math.round((1 - p.precioNum / pOrigNum) * 100);
       const badgeCyber = document.createElement('span');
       badgeCyber.className = 'prod-badge-cyber';
-      badgeCyber.textContent = `-${descPct}%`;
+      badgeCyber.textContent = '-' + descPct + '%';
+      carrusel.appendChild(badgeCyber);
+    } else if (esCyber) {
+      // Cyber sin precioOriginalNum: mostrar badge % fijo calculado desde CYBER_PRECIOS
+      const CYBER_PRECIOS = {"collar-isabelino-donut-rosada---talla-s":6990,"pelota-snack-interactiva":6990,"comedero-lento-slow-feeder---catstages":7990,"cat-fest-pillows-schrimp-creme":1990,"paw-balm":5990,"fuente-agua":21990,"pajaro":13990,"pulpo":6990,"afeitadora":9990,"collar-findmy":12990,"cats-snack":2990,"tubito-atun":2990,"tubito-camaron":2990,"tubito-cangrejo":2990,"pulmon-cordero-rahue":3990,"garra-pollo-rahue":3490,"oreja-cerdo-rahue":4290,"traquea-vacuno-rahue":3990,"femur-cerdo-tasty":4990};
+      const pO = CYBER_PRECIOS[id] || p.precioNum;
+      const descPct = Math.round((1 - p.precioNum / pO) * 100);
+      const badgeCyber = document.createElement('span');
+      badgeCyber.className = 'prod-badge-cyber';
+      badgeCyber.textContent = '-' + descPct + '%';
       carrusel.appendChild(badgeCyber);
     } else {
       const badge = document.createElement('span'); badge.className = 'prod-badge'; badge.textContent = p.categoria;
@@ -956,11 +967,17 @@ function generarTarjetas() {
     carrusel.appendChild(heart);
     const btnId = 'btn-' + id;
     const info = document.createElement('div'); info.className = 'prod-info';
-    // Precio: si es Cyber mostrar original tachado + descuento en terracota
-    const precioHTML = (p.categoria === 'Cyber' && p.precioOriginalNum)
-      ? `<span class="prod-precio-original">${p.precioOriginal}</span><span class="prod-price">${p.precio}</span>`
-      : `<span class="prod-price">${p.precio}</span>`;
-    info.innerHTML = `<h4>${p.nombre}</h4><p class="tagline">${TAGLINES[id] || ''}</p><div class="prod-footer">${precioHTML}<button class="btn-add" id="${btnId}">${p.variantes ? ((['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c => id.startsWith(c))) ? 'Elegir color' : 'Elegir sabor') : 'Añadir'}</button></div>`;
+    // Precio: si es Cyber mostrar original tachado + precio con descuento en terracota
+    const CYBER_PRECIOS_2 = {"collar-isabelino-donut-rosada---talla-s":6990,"pelota-snack-interactiva":6990,"comedero-lento-slow-feeder---catstages":7990,"cat-fest-pillows-schrimp-creme":1990,"paw-balm":5990,"fuente-agua":21990,"pajaro":13990,"pulpo":6990,"afeitadora":9990,"collar-findmy":12990,"cats-snack":2990,"tubito-atun":2990,"tubito-camaron":2990,"tubito-cangrejo":2990,"pulmon-cordero-rahue":3990,"garra-pollo-rahue":3490,"oreja-cerdo-rahue":4290,"traquea-vacuno-rahue":3990,"femur-cerdo-tasty":4990};
+    let precioMostrar;
+    if (esCyber) {
+      const pOrigFinal = pOrigNum > p.precioNum ? pOrigNum : (CYBER_PRECIOS_2[id] || 0);
+      const pOrigStr = pOrigFinal > 0 ? '$' + pOrigFinal.toLocaleString('es-CL') : '';
+      precioMostrar = (pOrigStr ? '<span class="prod-precio-original">' + pOrigStr + '</span>' : '') + '<span class="prod-price">' + p.precio + '</span>';
+    } else {
+      precioMostrar = '<span class="prod-price">' + p.precio + '</span>';
+    }
+    info.innerHTML = '<h4>' + p.nombre + '</h4><p class="tagline">' + (TAGLINES[id] || '') + '</p><div class="prod-footer">' + precioMostrar + '<button class="btn-add" id="' + btnId + '">' + (p.variantes ? ((['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c => id.startsWith(c))) ? 'Elegir color' : 'Elegir sabor') : 'Añadir') + '</button></div>';
     card.appendChild(carrusel); card.appendChild(info); grid.appendChild(card);
     const btn = document.getElementById(btnId);
     if (btn) {
