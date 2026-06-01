@@ -52,54 +52,27 @@
   .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
   .hero-tag { position: absolute; bottom: 32px; left: 0; background: var(--negro); color: var(--blanco); border-radius: 50px; padding: 10px 20px; font-size: .85rem; font-style: italic; font-weight: 500; }
 
-  /* BANNER CYBER */
-  .cyber-banner {
-    position: relative;
-    overflow: hidden;
-    border-radius: 16px;
-    height: 280px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 60px;
-    background: linear-gradient(135deg, #C4622D 0%, #4A7C59 100%);
-    box-shadow: 0 20px 60px rgba(196, 98, 45, 0.3);
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin: 60px 5%;
-  }
-  .cyber-banner:hover { transform: translateY(-4px); box-shadow: 0 30px 80px rgba(196, 98, 45, 0.4); }
-  .banner-content { position: relative; z-index: 2; color: white; max-width: 100%; }
-  .banner-title { font-size: 56px; font-weight: 800; line-height: 1.1; margin-bottom: 16px; }
-  .banner-subtitle { font-size: 18px; font-weight: 400; line-height: 1.6; opacity: 0.95; margin-bottom: 32px; }
-  .banner-btn { display: inline-block; background: white; color: #C4622D; padding: 16px 40px; border-radius: 50px; font-weight: 700; font-size: 16px; text-decoration: none; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); }
-  .banner-btn:hover { background: #F5ECD7; transform: scale(1.05); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); }
-  
-  /* CARRUSEL DESCUENTOS */
-  .descuentos-section { padding: 60px 5%; background: #f0f0f0; }
-  .descuentos-title { font-size: 2rem; font-weight: 900; margin-bottom: 2rem; color: var(--negro); }
-  .descuentos-carrusel { display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 8px; }
-  .descuentos-carrusel::-webkit-scrollbar { display: none; }
-  .desc-card { flex: 0 0 calc(20% - 1rem); scroll-snap-align: start; min-width: 0; }
-  .desc-card-inner { background: white; border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
-  .desc-card-inner:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0,0,0,.12); }
-  .desc-img { width: 100%; aspect-ratio: 4/5; background: #f0dfc0; display: flex; align-items: center; justify-content: center; font-size: 3rem; overflow: hidden; position: relative; }
-  .desc-img img { width: 100%; height: 100%; object-fit: contain; }
-  .desc-badge { position: absolute; top: 12px; left: 12px; background: #4A7C59; color: white; padding: 6px 12px; border-radius: 50px; font-size: .75rem; font-weight: 700; }
-  .desc-info { padding: 16px; }
-  .desc-nombre { font-weight: 700; font-size: .9rem; margin-bottom: 8px; line-height: 1.3; }
-  .desc-precio { display: flex; gap: 8px; align-items: center; }
-  .desc-precio-original { text-decoration: line-through; color: #999; font-size: .85rem; }
-  .desc-precio-final { font-size: 1.3rem; font-weight: 800; color: var(--terracota); }
-  
-  @media (max-width: 1200px) { .desc-card { flex: 0 0 calc(25% - 1rem); } }
-  @media (max-width: 768px) {
-    .cyber-banner { height: auto; padding: 40px; margin: 40px 5%; }
-    .banner-title { font-size: 40px; }
-    .banner-subtitle { font-size: 16px; }
-    .descuentos-section { padding: 40px 5%; }
-    .desc-card { flex: 0 0 calc(50% - 1rem); }
-  }
+  /* CARRUSEL DESCUENTOS CYBER */
+  .cyber-section { background: #F0F0F0; padding: 50px 5%; }
+  .cyber-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+  .cyber-section-title { font-size: 1.6rem; font-weight: 900; color: var(--negro); }
+  .cyber-section-title span { color: var(--terracota); }
+  .cyber-ver-mas { font-size: .85rem; font-weight: 600; color: var(--terracota); text-decoration: none; border: 1.5px solid var(--terracota); border-radius: 50px; padding: 8px 20px; transition: all .2s; }
+  .cyber-ver-mas:hover { background: var(--terracota); color: #fff; }
+  .cyber-carrusel { display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 8px; }
+  .cyber-carrusel::-webkit-scrollbar { display: none; }
+  .cyber-card { flex: 0 0 calc(20% - 1rem); scroll-snap-align: start; min-width: 200px; background: #fff; border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform .2s, box-shadow .2s; }
+  .cyber-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,.12); }
+  .cyber-card-img { position: relative; width: 100%; aspect-ratio: 4/5; background: #f0dfc0; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+  .cyber-card-img img { width: 100%; height: 100%; object-fit: contain; }
+  .cyber-badge { position: absolute; top: 10px; left: 10px; background: #4A7C59; color: #fff; font-size: .72rem; font-weight: 700; padding: 5px 11px; border-radius: 20px; z-index: 2; }
+  .cyber-card-info { padding: 14px 16px; }
+  .cyber-card-nombre { font-weight: 700; font-size: .88rem; line-height: 1.3; margin-bottom: 8px; color: var(--negro); }
+  .cyber-precios { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .cyber-precio-antes { text-decoration: line-through; color: #999; font-size: .82rem; }
+  .cyber-precio-ahora { font-size: 1.25rem; font-weight: 800; color: var(--terracota); }
+  @media (max-width: 900px) { .cyber-card { flex: 0 0 calc(33% - 1rem); } }
+  @media (max-width: 600px) { .cyber-card { flex: 0 0 calc(50% - .6rem); min-width: 160px; } }
 
   /* CATEGORIES */
   .categories { padding: 40px 5%; }
@@ -614,22 +587,15 @@
   </div>
 </section>
 
-<!-- CARRUSEL DESCUENTOS -->
-<section class="descuentos-section" id="descuentos-cyber">
-  <div style="padding: 0 5%;">
-    <h2 class="descuentos-title">🔥 Ofertas Cyber</h2>
-  </div>
-  <div class="descuentos-carrusel" id="carrusel-descuentos"></div>
-</section>
 
-<!-- BANNER CYBER -->
-<div class="cyber-banner" onclick="window.location.href='/tienda?cat=Cyber'">
-  <div class="banner-content">
-    <h2 class="banner-title">CYBER<br>PATAS & CAOS</h2>
-    <p class="banner-subtitle">Descuentos hasta 20% en snacks, golosinas y accesorios para tu peludo</p>
-    <a href="/tienda?cat=Cyber" class="banner-btn">VER TODAS LAS OFERTAS →</a>
+<!-- CARRUSEL DESCUENTOS CYBER -->
+<section class="cyber-section">
+  <div class="cyber-section-header">
+    <h2 class="cyber-section-title">🔥 Descuentos <span>Cyber Day</span></h2>
+    <a href="/tienda?cat=Cyber" class="cyber-ver-mas">Ver todos →</a>
   </div>
-</div>
+  <div class="cyber-carrusel" id="cyber-carrusel"></div>
+</section>
 
 <!-- CARRUSEL TODOS LOS PRODUCTOS -->
 <!-- CATEGORIES -->
@@ -643,7 +609,6 @@
     </div>
   </div>
   <div class="cat-grid" id="cat-grid">
-    <div class="cat-card" onclick="window.location.href='/tienda?cat=Cyber'"><img class="cat-img" src="categoria-cyber.jpg" alt="Cyber" loading="lazy"></div>
     <div class="cat-card" onclick="window.location.href='/suscripciones'"><img class="cat-img" src="categoria-suscripciones.jpg" alt="Suscripciones" loading="lazy"></div>
     <div class="cat-card" onclick="window.location.href='/tienda?aud=Perros'"><img class="cat-img" src="categoria-perros.jpg" alt="Perros" loading="lazy"></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Para Gatos'"><img class="cat-img" src="categoria-gatos.jpg" alt="Gatos" loading="lazy"></div>
@@ -1289,88 +1254,71 @@ function runSearch(q) {
   }).join('');
 }
 </script>
+
 <script>
-// Productos con descuento Cyber
-const PRODUCTOS_CYBER = [
-  "pulmon-cordero-rahue",
-  "garra-pollo-rahue",
-  "oreja-cerdo-rahue",
-  "traquea-vacuno-rahue",
-  "femur-cerdo-tasty",
-  "cat-fest-pillows-schrimp-creme",
-  "cats-snack",
-  "tubito-atun",
-  "tubito-camaron",
-  "tubito-cangrejo",
-  "paw-balm",
-  "comedero-lento-slow-feeder---catstages",
-  "pelota-snack-interactiva",
-  "pajaro",
-  "pulpo",
-  "collar-findmy",
-  "collar-isabelino-donut-rosada---talla-s",
-  "afeitadora",
-  "fuente-agua"
+// ============================
+// CARRUSEL CYBER - DESCUENTOS
+// ============================
+const CYBER_PRODUCTOS = [
+  { id: "pulmon-cordero-rahue",                    pOrig: 3990, pDesc: 3392 },
+  { id: "garra-pollo-rahue",                       pOrig: 3490, pDesc: 2967 },
+  { id: "oreja-cerdo-rahue",                       pOrig: 4290, pDesc: 3647 },
+  { id: "traquea-vacuno-rahue",                    pOrig: 3990, pDesc: 3392 },
+  { id: "femur-cerdo-tasty",                       pOrig: 4990, pDesc: 4242 },
+  { id: "cat-fest-pillows-schrimp-creme",          pOrig: 1990, pDesc: 1692 },
+  { id: "cats-snack",                              pOrig: 2990, pDesc: 2542 },
+  { id: "tubito-atun",                             pOrig: 2990, pDesc: 2542 },
+  { id: "tubito-camaron",                          pOrig: 2990, pDesc: 2542 },
+  { id: "tubito-cangrejo",                         pOrig: 2990, pDesc: 2542 },
+  { id: "paw-balm",                                pOrig: 5990, pDesc: 5391 },
+  { id: "comedero-lento-slow-feeder---catstages",  pOrig: 7990, pDesc: 6792 },
+  { id: "pelota-snack-interactiva",                pOrig: 6990, pDesc: 5592 },
+  { id: "pajaro",                                  pOrig: 13990, pDesc: 11192 },
+  { id: "pulpo",                                   pOrig: 6990, pDesc: 5592 },
+  { id: "collar-findmy",                           pOrig: 12990, pDesc: 11042 },
+  { id: "collar-isabelino-donut-rosada---talla-s", pOrig: 6990, pDesc: 5942 },
+  { id: "afeitadora",                              pOrig: 9990, pDesc: 8492 },
+  { id: "fuente-agua",                             pOrig: 21990, pDesc: 18692 },
 ];
 
-// Precios originales (antes de descuento)
-const PRECIOS_ORIGINALES = {
-  "pulmon-cordero-rahue": 4190,
-  "garra-pollo-rahue": 3490,
-  "oreja-cerdo-rahue": 4290,
-  "traquea-vacuno-rahue": 3990,
-  "femur-cerdo-tasty": 4990,
-  "cat-fest-pillows-schrimp-creme": 1990,
-  "cats-snack": 2990,
-  "tubito-atun": 2990,
-  "tubito-camaron": 2990,
-  "tubito-cangrejo": 2990,
-  "paw-balm": 5990,
-  "comedero-lento-slow-feeder---catstages": 7990,
-  "pelota-snack-interactiva": 6990,
-  "pajaro": 13990,
-  "pulpo": 6990,
-  "collar-findmy": 12990,
-  "collar-isabelino-donut-rosada---talla-s": 6990,
-  "afeitadora": 9990,
-  "fuente-agua": 21990
-};
+function formatPrecio(n) {
+  return '$' + n.toLocaleString('es-CL');
+}
 
-// Generar HTML del carrusel
-function generarCarruselDescuentos() {
-  const carrusel = document.getElementById('carrusel-descuentos');
+function generarCyberCarrusel() {
+  const carrusel = document.getElementById('cyber-carrusel');
   if (!carrusel) return;
-  
-  PRODUCTOS_CYBER.forEach(prodId => {
-    const prod = productos[prodId];
+
+  CYBER_PRODUCTOS.forEach(({ id, pOrig, pDesc }) => {
+    const prod = productos[id];
     if (!prod) return;
-    
-    const precioOrig = PRECIOS_ORIGINALES[prodId] || prod.precioNum;
-    const descuentoPct = Math.round(((precioOrig - prod.precioNum) / precioOrig) * 100);
-    
-    const html = `
-      <div class="desc-card">
-        <div class="desc-card-inner" onclick="abrirModal('${prodId}')">
-          <div class="desc-img">
-            <div class="desc-badge">-${descuentoPct}%</div>
-            <img src="${prod.imagenes ? prod.imagenes[0] : ''}" alt="${prod.nombre}" onerror="this.parentElement.textContent='${prod.placeholders ? prod.placeholders[0] : '🐾'}'">
-          </div>
-          <div class="desc-info">
-            <div class="desc-nombre">${prod.nombre}</div>
-            <div class="desc-precio">
-              <span class="desc-precio-original">$${precioOrig.toLocaleString('es-CL')}</span>
-              <span class="desc-precio-final">${prod.precio}</span>
-            </div>
+
+    const descPct = Math.round((1 - pDesc / pOrig) * 100);
+    const img = prod.imagenes && prod.imagenes[0] ? prod.imagenes[0] : null;
+    const ph = prod.placeholders && prod.placeholders[0] ? prod.placeholders[0] : '🐾';
+    const imgHtml = img
+      ? `<img src="${img}" alt="${prod.nombre}" onerror="this.style.display='none';this.parentElement.querySelector('.ph').style.display='flex'">`
+      : '';
+
+    carrusel.innerHTML += `
+      <div class="cyber-card" onclick="abrirModal('${id}')">
+        <div class="cyber-card-img">
+          <div class="cyber-badge">-${descPct}%</div>
+          ${imgHtml}
+          <div class="ph" style="${img ? 'display:none;' : 'display:flex;'} align-items:center;justify-content:center;font-size:3rem;width:100%;height:100%;position:absolute;top:0;left:0;">${ph}</div>
+        </div>
+        <div class="cyber-card-info">
+          <div class="cyber-card-nombre">${prod.nombre}</div>
+          <div class="cyber-precios">
+            <span class="cyber-precio-antes">${formatPrecio(pOrig)}</span>
+            <span class="cyber-precio-ahora">${formatPrecio(pDesc)}</span>
           </div>
         </div>
-      </div>
-    `;
-    carrusel.innerHTML += html;
+      </div>`;
   });
 }
 
-// Ejecutar cuando cargue la página
-document.addEventListener('DOMContentLoaded', generarCarruselDescuentos);
+document.addEventListener('DOMContentLoaded', generarCyberCarrusel);
 </script>
 </body>
 </html>
