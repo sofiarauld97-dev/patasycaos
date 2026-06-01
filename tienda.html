@@ -1271,6 +1271,41 @@ function toggleFiltrosMovil() {
     <p class="auth-msg" id="auth-msg"></p>
   </div>
 </div>
+<script>
+// PRODUCTOS CON DESCUENTO CYBER
+const PRODUCTOS_CYBER = [
+  "collar-isabelino-donut-rosada---talla-s",
+  "pelota-snack-interactiva",
+  "pajaro",
+  "pulpo",
+  "paw-balm",
+  "afeitadora",
+  "fuente-agua",
+  "collar-findmy",
+  "comedero-lento-slow-feeder---catstages",
+  "cat-fest-pillows-schrimp-creme",
+  "cats-snack",
+  "tubito-atun",
+  "tubito-camaron",
+  "tubito-cangrejo",
+  "pulmon-cordero-rahue",
+  "garra-pollo-rahue",
+  "oreja-cerdo-rahue",
+  "traquea-vacuno-rahue",
+  "femur-cerdo-tasty"
+];
+
+// Si la URL contiene ?cat=Cyber, filtrar productos
+const params = new URLSearchParams(window.location.search);
+if (params.get('cat') === 'Cyber') {
+  const productosFiltrados = {};
+  PRODUCTOS_CYBER.forEach(id => {
+    if (productos[id]) productosFiltrados[id] = productos[id];
+  });
+  Object.keys(productos).forEach(id => delete productos[id]);
+  Object.assign(productos, productosFiltrados);
+}
+</script>
 </body>
 </html>
 
