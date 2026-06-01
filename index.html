@@ -57,10 +57,10 @@
     position: relative;
     overflow: hidden;
     border-radius: 16px;
-    height: 400px;
+    height: 280px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 60px;
     background: linear-gradient(135deg, #C4622D 0%, #4A7C59 100%);
     box-shadow: 0 20px 60px rgba(196, 98, 45, 0.3);
@@ -69,19 +69,36 @@
     margin: 60px 5%;
   }
   .cyber-banner:hover { transform: translateY(-4px); box-shadow: 0 30px 80px rgba(196, 98, 45, 0.4); }
-  .banner-content { position: relative; z-index: 2; color: white; max-width: 55%; }
+  .banner-content { position: relative; z-index: 2; color: white; max-width: 100%; }
   .banner-title { font-size: 56px; font-weight: 800; line-height: 1.1; margin-bottom: 16px; }
   .banner-subtitle { font-size: 18px; font-weight: 400; line-height: 1.6; opacity: 0.95; margin-bottom: 32px; }
   .banner-btn { display: inline-block; background: white; color: #C4622D; padding: 16px 40px; border-radius: 50px; font-weight: 700; font-size: 16px; text-decoration: none; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); }
   .banner-btn:hover { background: #F5ECD7; transform: scale(1.05); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); }
-  .banner-visual { position: absolute; right: 0; top: 0; width: 45%; height: 100%; overflow: hidden; }
-  .banner-visual img { width: 100%; height: 100%; object-fit: cover; }
+  
+  /* CARRUSEL DESCUENTOS */
+  .descuentos-section { padding: 60px 5%; background: #f0f0f0; }
+  .descuentos-title { font-size: 2rem; font-weight: 900; margin-bottom: 2rem; color: var(--negro); }
+  .descuentos-carrusel { display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 8px; }
+  .descuentos-carrusel::-webkit-scrollbar { display: none; }
+  .desc-card { flex: 0 0 calc(20% - 1rem); scroll-snap-align: start; min-width: 0; }
+  .desc-card-inner { background: white; border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+  .desc-card-inner:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0,0,0,.12); }
+  .desc-img { width: 100%; aspect-ratio: 4/5; background: #f0dfc0; display: flex; align-items: center; justify-content: center; font-size: 3rem; overflow: hidden; position: relative; }
+  .desc-img img { width: 100%; height: 100%; object-fit: contain; }
+  .desc-badge { position: absolute; top: 12px; left: 12px; background: #4A7C59; color: white; padding: 6px 12px; border-radius: 50px; font-size: .75rem; font-weight: 700; }
+  .desc-info { padding: 16px; }
+  .desc-nombre { font-weight: 700; font-size: .9rem; margin-bottom: 8px; line-height: 1.3; }
+  .desc-precio { display: flex; gap: 8px; align-items: center; }
+  .desc-precio-original { text-decoration: line-through; color: #999; font-size: .85rem; }
+  .desc-precio-final { font-size: 1.3rem; font-weight: 800; color: var(--terracota); }
+  
+  @media (max-width: 1200px) { .desc-card { flex: 0 0 calc(25% - 1rem); } }
   @media (max-width: 768px) {
-    .cyber-banner { height: 300px; padding: 40px; flex-direction: column; text-align: center; margin: 40px 5%; }
-    .banner-content { max-width: 100%; }
+    .cyber-banner { height: auto; padding: 40px; margin: 40px 5%; }
     .banner-title { font-size: 40px; }
     .banner-subtitle { font-size: 16px; }
-    .banner-visual { position: relative; width: 100%; height: 150px; margin-top: 20px; }
+    .descuentos-section { padding: 40px 5%; }
+    .desc-card { flex: 0 0 calc(50% - 1rem); }
   }
 
   /* CATEGORIES */
@@ -597,16 +614,20 @@
   </div>
 </section>
 
+<!-- CARRUSEL DESCUENTOS -->
+<section class="descuentos-section" id="descuentos-cyber">
+  <div style="padding: 0 5%;">
+    <h2 class="descuentos-title">🔥 Ofertas Cyber</h2>
+  </div>
+  <div class="descuentos-carrusel" id="carrusel-descuentos"></div>
+</section>
+
 <!-- BANNER CYBER -->
 <div class="cyber-banner" onclick="window.location.href='/tienda?cat=Cyber'">
   <div class="banner-content">
     <h2 class="banner-title">CYBER<br>PATAS & CAOS</h2>
     <p class="banner-subtitle">Descuentos hasta 20% en snacks, golosinas y accesorios para tu peludo</p>
-    <a href="/tienda?cat=Cyber" class="banner-btn">VER OFERTAS →</a>
-  </div>
-  <div class="banner-visual">
-    <img src="banner-cyber-patasycaos.jpg" alt="Cyber Patas & Caos - Desktop" class="banner-img-desktop">
-    <img src="banner-cyber-patasycaos-mobile.jpg" alt="Cyber Patas & Caos - Mobile" class="banner-img-mobile" style="display:none;">
+    <a href="/tienda?cat=Cyber" class="banner-btn">VER TODAS LAS OFERTAS →</a>
   </div>
 </div>
 
@@ -1267,6 +1288,89 @@ function runSearch(q) {
     return `<a class="s-item" href="/tienda?producto=${id}"><div class="s-img">${img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover">':ph}</div><div><div class="s-nombre">${p.nombre}</div><div class="s-precio">${p.precio}</div></div></a>`;
   }).join('');
 }
+</script>
+<script>
+// Productos con descuento Cyber
+const PRODUCTOS_CYBER = [
+  "pulmon-cordero-rahue",
+  "garra-pollo-rahue",
+  "oreja-cerdo-rahue",
+  "traquea-vacuno-rahue",
+  "femur-cerdo-tasty",
+  "cat-fest-pillows-schrimp-creme",
+  "cats-snack",
+  "tubito-atun",
+  "tubito-camaron",
+  "tubito-cangrejo",
+  "paw-balm",
+  "comedero-lento-slow-feeder---catstages",
+  "pelota-snack-interactiva",
+  "pajaro",
+  "pulpo",
+  "collar-findmy",
+  "collar-isabelino-donut-rosada---talla-s",
+  "afeitadora",
+  "fuente-agua"
+];
+
+// Precios originales (antes de descuento)
+const PRECIOS_ORIGINALES = {
+  "pulmon-cordero-rahue": 4190,
+  "garra-pollo-rahue": 3490,
+  "oreja-cerdo-rahue": 4290,
+  "traquea-vacuno-rahue": 3990,
+  "femur-cerdo-tasty": 4990,
+  "cat-fest-pillows-schrimp-creme": 1990,
+  "cats-snack": 2990,
+  "tubito-atun": 2990,
+  "tubito-camaron": 2990,
+  "tubito-cangrejo": 2990,
+  "paw-balm": 5990,
+  "comedero-lento-slow-feeder---catstages": 7990,
+  "pelota-snack-interactiva": 6990,
+  "pajaro": 13990,
+  "pulpo": 6990,
+  "collar-findmy": 12990,
+  "collar-isabelino-donut-rosada---talla-s": 6990,
+  "afeitadora": 9990,
+  "fuente-agua": 21990
+};
+
+// Generar HTML del carrusel
+function generarCarruselDescuentos() {
+  const carrusel = document.getElementById('carrusel-descuentos');
+  if (!carrusel) return;
+  
+  PRODUCTOS_CYBER.forEach(prodId => {
+    const prod = productos[prodId];
+    if (!prod) return;
+    
+    const precioOrig = PRECIOS_ORIGINALES[prodId] || prod.precioNum;
+    const descuentoPct = Math.round(((precioOrig - prod.precioNum) / precioOrig) * 100);
+    
+    const html = `
+      <div class="desc-card">
+        <div class="desc-card-inner" onclick="abrirModal('${prodId}')">
+          <div class="desc-img">
+            <div class="desc-badge">-${descuentoPct}%</div>
+            <img src="${prod.imagenes ? prod.imagenes[0] : ''}" alt="${prod.nombre}" onerror="this.parentElement.textContent='${prod.placeholders ? prod.placeholders[0] : '🐾'}'">
+          </div>
+          <div class="desc-info">
+            <div class="desc-nombre">${prod.nombre}</div>
+            <div class="desc-precio">
+              <span class="desc-precio-original">$${precioOrig.toLocaleString('es-CL')}</span>
+              <span class="desc-precio-final">${prod.precio}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    carrusel.innerHTML += html;
+  });
+}
+
+// Ejecutar cuando cargue la página
+document.addEventListener('DOMContentLoaded', generarCarruselDescuentos);
 </script>
 </body>
 </html>
