@@ -1183,10 +1183,9 @@ async function guardarEditarPedido() {
     const idx = todosLosPedidos.findIndex(p => p.id === id);
     if (idx !== -1) todosLosPedidos[idx] = { ...todosLosPedidos[idx], ...updates };
     cerrarEditarPedido();
-    renderizarPedidos(todosLosPedidos);
+    renderTabla();
   } catch(e) {
-    console.error('guardarEditarPedido error:', e);
-    alert('Error al guardar: ' + (e?.message || e?.details || JSON.stringify(e)));
+    alert('Error al guardar. Intenta de nuevo.');
   } finally {
     btn.textContent = 'Guardar cambios'; btn.disabled = false;
   }
