@@ -1,3 +1,16 @@
 {
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.patasycaos.cl"
+        }
+      ],
+      "destination": "https://patasycaos.cl/:path*",
+      "permanent": true
+    }
+  ]
 }
