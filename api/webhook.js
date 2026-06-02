@@ -10,6 +10,7 @@ export default async function handler(req, res) {
       headers: { Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}` },
     });
     const payment = await mpRes.json();
+    console.log('[webhook] payment.status:', payment.status, '| preference_id:', payment.preference_id);
 
     if (payment.status !== 'approved') return res.status(200).end();
 
@@ -18,6 +19,7 @@ export default async function handler(req, res) {
       headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
     });
     const redisData = await redisRes.json();
+    console.log('[webhook] redisData.result:', redisData.result ? 'OK' : 'VACÍO');
     if (!redisData.result) return res.status(200).end();
 
     const order = JSON.parse(redisData.result);
@@ -28,8 +30,41 @@ export default async function handler(req, res) {
     const total = subtotal + costoEnvio;
     const productosTexto = order.items.map(i => `${i.name} x${i.qty}`).join(', ');
 
-    // 4. Guardar pedido en Supabase
-    await fetch(`${process.env.SUPABASE_URL}/rest/v1/Pedidos`, {
+    // 4. Descontar stock en Redis
+    const stockRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/pac_stock`, {
+      headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
+    });
+    const stockData = await stockRes.json();
+    let stock = {};
+    if (stockData.result) {
+      let val = stockData.result;
+      let intentos = 0;
+      while (typeof val === 'string' && intentos < 5) {
+        try { val = JSON.parse(val); } catch(e) { break; }
+        intentos++;
+      }
+      if (typeof val === 'object' && val !== null) stock = val;
+    }
+
+    for (const item of order.items) {
+      if (item.id && typeof stock[item.id] === 'number') {
+        stock[item.id] = Math.max(0, stock[item.id] - item.qty);
+        console.log(`[webhook] stock ${item.id}: -${item.qty} → ${stock[item.id]}`);
+      }
+    }
+
+    await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([['SET', 'pac_stock', JSON.stringify(stock)]]),
+    });
+    console.log('[webhook] stock actualizado');
+
+    // 5. Guardar pedido en Supabase
+    const supaRes = await fetch(`${process.env.SUPABASE_URL}/rest/v1/Pedidos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,13 +89,14 @@ export default async function handler(req, res) {
         mp_preference_id: payment.preference_id,
       }),
     });
+    console.log('[webhook] Supabase status:', supaRes.status);
 
-    // 5. Enviar email de notificación via Resend
+    // 6. Enviar email de notificación via Resend
     const productosEmail = order.items
       .map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toLocaleString('es-CL')}`)
       .join('\n');
 
-    await fetch('https://api.resend.com/emails', {
+    const emailRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -92,10 +128,11 @@ Documento: ${order.documento || 'Boleta'}
 Estado: Pendiente`,
       }),
     });
+    console.log('[webhook] Resend status:', emailRes.status);
 
     return res.status(200).end();
   } catch (e) {
-    console.error('Webhook error:', e);
+    console.error('[webhook] ERROR:', e);
     return res.status(500).end();
   }
 }
