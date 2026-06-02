@@ -99,6 +99,14 @@
   .form-field input, .form-field select, .form-field textarea { border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; color: var(--negro); background: #fff; outline: none; transition: border-color .2s; }
   .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--terracota); }
   .form-field textarea { resize: vertical; min-height: 70px; }
+  .btn-agregar-item { background: none; border: 1.5px dashed var(--terracota); color: var(--terracota); border-radius: 8px; padding: 6px 14px; font-size: .8rem; font-weight: 600; cursor: pointer; margin-top: 8px; width: 100%; transition: background .15s; }
+  .btn-agregar-item:hover { background: rgba(196,98,45,.07); }
+  .item-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .item-row select { flex: 1; padding: 7px 10px; border: 1.5px solid var(--borde); border-radius: 8px; font-family: inherit; font-size: .8rem; background: #fff; }
+  .item-row input[type=number] { width: 64px; padding: 7px 8px; border: 1.5px solid var(--borde); border-radius: 8px; font-family: inherit; font-size: .8rem; text-align: center; }
+  .item-row .btn-quitar { background: none; border: none; color: #c0392b; font-size: 1.1rem; cursor: pointer; padding: 0 4px; line-height: 1; }
+  .item-row .item-dcto { width: 72px; padding: 7px 8px; border: 1.5px solid var(--borde); border-radius: 8px; font-family: inherit; font-size: .8rem; text-align: center; }
+  .item-row .item-precio { font-size: .78rem; color: var(--terracota); font-weight: 700; min-width: 64px; text-align: right; white-space: nowrap; }
   .modal-btns { display: flex; gap: .75rem; margin-top: 1.5rem; }
   .btn-guardar { flex: 2; background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; transition: background .2s; }
   .btn-guardar:hover { background: #a8501f; }
@@ -276,12 +284,13 @@
     <div class="form-grid full" style="margin-top:.75rem">
       <div class="form-field">
         <label>Productos</label>
-        <textarea id="np-productos" placeholder="Collar FindMy x1, Paw Balm x2"></textarea>
+        <div id="np-items-lista"></div>
+        <button type="button" class="btn-agregar-item" onclick="agregarItemPedido()">+ Agregar producto</button>
       </div>
     </div>
     <div class="form-grid">
       <div class="form-field">
-        <label>Total ($)</label>
+        <label>Total ($) <span id="np-total-calculado" style="color:var(--terracota);font-size:.8rem"></span></label>
         <input type="number" id="np-total" placeholder="12990">
       </div>
       <div class="form-field">
@@ -598,37 +607,179 @@ async function cambiarEstado(id, nuevoEstado) {
   actualizarStats();
 }
 
+const CATALOGO = [
+  { id: "rascador-maxi-caja-de-leche---brnx", nombre: "Rascador Maxi Caja de Leche - Brnx", precio: 13990 },
+  { id: "collar-isabelino-donut-rosada---talla-s", nombre: "Collar Isabelino Donut Rosada - Talla S", precio: 6990 },
+  { id: "pelota-snack-interactiva_Roja", nombre: "Pelota Snack Interactiva — Roja", precio: 6990 },
+  { id: "pelota-snack-interactiva_Azul", nombre: "Pelota Snack Interactiva — Azul", precio: 6990 },
+  { id: "dispensador-de-bolsas---diseno-cafe", nombre: "Dispensador de Bolsas - Diseño Café", precio: 5990 },
+  { id: "calming-collar---perros", nombre: "Calming Collar - Perros", precio: 7990 },
+  { id: "calming-collar---gatos", nombre: "Calming Collar - Gatos", precio: 7990 },
+  { id: "botella-portatil-para-perros_Rosada", nombre: "Botella Portátil para Perros — Rosada", precio: 14990 },
+  { id: "botella-portatil-para-perros_Calipso", nombre: "Botella Portátil para Perros — Calipso", precio: 14990 },
+  { id: "arena-sanitaria-ciudad-animal-8kg", nombre: "Arena Sanitaria Ciudad Animal 8kg", precio: 8990 },
+  { id: "brit-care-sterilized-weigh-control-2kg---duck-turkey", nombre: "Brit Care Sterilized Weigh Control 2kg", precio: 24990 },
+  { id: "pack-calma-total", nombre: "Pack Calma Total", precio: 15990 },
+  { id: "pack-bienvenido-a-casa", nombre: "Pack Bienvenido a Casa", precio: 21990 },
+  { id: "pack-cuidado-total", nombre: "Pack Cuidado Total", precio: 12990 },
+  { id: "pack-juega-y-relaja", nombre: "Pack Juega y Relaja", precio: 28990 },
+  { id: "pack-sos-mascota", nombre: "Pack SOS Mascota", precio: 18990 },
+  { id: "pack-rutina-sana", nombre: "Pack Rutina Sana", precio: 33990 },
+  { id: "comedero-lento-slow-feeder---catstages", nombre: "Comedero Lento Slow Feeder - Catstages", precio: 7990 },
+  { id: "pack-consulta-flor-de-bach", nombre: "Pack Consulta + Flor de Bach", precio: 29990 },
+  { id: "flores-de-bach---rescue-y-alivio", nombre: "Flores de Bach - Rescue y Alivio", precio: 12990 },
+  { id: "flores-de-bach---energia-y-animo", nombre: "Flores de Bach - Energía y Ánimo", precio: 12990 },
+  { id: "flores-de-bach---equilibrio", nombre: "Flores de Bach - Equilibrio", precio: 12990 },
+  { id: "flores-de-bach---ansiedad-y-calma", nombre: "Flores de Bach - Ansiedad y Calma", precio: 12990 },
+  { id: "cat-fest-pillows-schrimp-creme", nombre: "Cat Fest Pillows Schrimp Creme", precio: 1990 },
+  { id: "cat-fest-pillows", nombre: "Cat Fest Pillows Chicken Creme", precio: 1990 },
+  { id: "tubito-atun", nombre: "Tubito Cremoso Atún con Catnip", precio: 2990 },
+  { id: "tubito-camaron", nombre: "Tubito Cremoso Camarón con Catnip", precio: 2990 },
+  { id: "tubito-cangrejo", nombre: "Tubito Cremoso Cangrejo con Catnip", precio: 2990 },
+  { id: "lata-leonardo-kitten", nombre: "Lata Leonardo Kitten 200g", precio: 3790 },
+  { id: "lata-leonardo_Ave", nombre: "Lata Leonardo Adulto — Ave", precio: 3790 },
+  { id: "lata-leonardo_Pato", nombre: "Lata Leonardo Adulto — Pato", precio: 3790 },
+  { id: "lata-leonardo_Conejo", nombre: "Lata Leonardo Adulto — Conejo", precio: 3790 },
+  { id: "lata-leonardo_Pescado", nombre: "Lata Leonardo Adulto — Pescado", precio: 3790 },
+  { id: "lata-leonardo_Ternera", nombre: "Lata Leonardo Adulto — Ternera", precio: 3790 },
+  { id: "collar-findmy_Turquesa", nombre: "Collar Find My — Turquesa", precio: 12990 },
+  { id: "collar-findmy_Negro", nombre: "Collar Find My — Negro", precio: 12990 },
+  { id: "collar-findmy_Azul", nombre: "Collar Find My — Azul", precio: 12990 },
+  { id: "fuente-agua", nombre: "Fuente de Agua Flor USB", precio: 21990 },
+  { id: "pajaro", nombre: "Pájaro Interactivo", precio: 13990 },
+  { id: "pelota-led", nombre: "Pelota Interactiva LED", precio: 8990 },
+  { id: "pulpo", nombre: "Masajeador Pulpo", precio: 6990 },
+  { id: "paw-balm", nombre: "Paw Balm", precio: 5990 },
+  { id: "afeitadora", nombre: "Afeitadora LED", precio: 9990 },
+  { id: "cat-fest_Pato", nombre: "Cat Fest Meat Sticks — Pato", precio: 3490 },
+  { id: "cat-fest_Cordero", nombre: "Cat Fest Meat Sticks — Cordero", precio: 3490 },
+  { id: "cats-snack_Catnip", nombre: "Cats Snack — Catnip", precio: 2990 },
+  { id: "cats-snack_Matatabi", nombre: "Cats Snack — Matatabi", precio: 2990 },
+  { id: "cats-snack_Rellena Atún + Queso", nombre: "Cats Snack — Rellena Atún + Queso", precio: 2990 },
+  { id: "cats-snack_Rellena Atún + Ostiones", nombre: "Cats Snack — Rellena Atún + Ostiones", precio: 2990 },
+  { id: "cats-snack_Rellena Atún + Pollo", nombre: "Cats Snack — Rellena Atún + Pollo", precio: 2990 },
+  { id: "suero-fisiologico", nombre: "Suero Fisiológico 0.9%", precio: 2590 },
+  { id: "pulmon-cordero-rahue", nombre: "Pulmón de Cordero 50g - Rahue", precio: 3990 },
+  { id: "traquea-vacuno-rahue", nombre: "Tráquea de Vacuno - Rahue", precio: 3990 },
+  { id: "garra-pollo-rahue", nombre: "Garra de Pollo 65g - Rahue", precio: 3490 },
+  { id: "oreja-cerdo-rahue", nombre: "Recorte Oreja de Cerdo 100g - Rahue", precio: 4290 },
+  { id: "femur-cerdo-tasty", nombre: "Fémur de Cerdo - Tasty Farm", precio: 4990 },
+];
+
+function opcionesSelect() {
+  return CATALOGO.map(p => `<option value="${p.id}">${p.nombre} — $${p.precio.toLocaleString('es-CL')}</option>`).join('');
+}
+
+function recalcularTotal() {
+  const rows = document.querySelectorAll('#np-items-lista .item-row');
+  let total = 0;
+  rows.forEach(row => {
+    const sel = row.querySelector('select');
+    const qty = parseInt(row.querySelector('input[type=number]').value) || 1;
+    const dctoInput = row.querySelector('.item-dcto');
+    const dcto = parseFloat(dctoInput ? dctoInput.value : 0) || 0;
+    const prod = CATALOGO.find(p => p.id === sel.value);
+    if (prod) {
+      const precioConDcto = Math.round(prod.precio * (1 - dcto / 100));
+      const subtotalItem = precioConDcto * qty;
+      total += subtotalItem;
+      const precioEl = row.querySelector('.item-precio');
+      if (precioEl) precioEl.textContent = dcto > 0
+        ? `$${precioConDcto.toLocaleString('es-CL')} x${qty} = $${subtotalItem.toLocaleString('es-CL')}`
+        : `$${(prod.precio * qty).toLocaleString('es-CL')}`;
+    }
+  });
+  document.getElementById('np-total').value = total || '';
+  document.getElementById('np-total-calculado').textContent = total ? `= $${total.toLocaleString('es-CL')}` : '';
+}
+
+function agregarItemPedido() {
+  const lista = document.getElementById('np-items-lista');
+  const div = document.createElement('div');
+  div.className = 'item-row';
+  div.innerHTML = `
+    <select onchange="recalcularTotal()">${opcionesSelect()}</select>
+    <input type="number" value="1" min="1" title="Cantidad" onchange="recalcularTotal()">
+    <input type="number" value="0" min="0" max="100" class="item-dcto" title="Descuento %" placeholder="% dto" onchange="recalcularTotal()">
+    <span class="item-precio"></span>
+    <button class="btn-quitar" onclick="this.parentElement.remove(); recalcularTotal()">✕</button>
+  `;
+  lista.appendChild(div);
+  recalcularTotal();
+}
+
 function abrirNuevoPedido() {
+  document.getElementById('np-items-lista').innerHTML = '';
+  agregarItemPedido();
   document.getElementById('modal-nuevo').classList.add('activo');
 }
+
 function cerrarNuevoPedido() {
   document.getElementById('modal-nuevo').classList.remove('activo');
-  ['np-nombre','np-telefono','np-email','np-direccion','np-comuna','np-ciudad','np-productos','np-total','np-notas'].forEach(id => {
+  ['np-nombre','np-telefono','np-email','np-direccion','np-comuna','np-ciudad','np-total','np-notas'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
+  document.getElementById('np-items-lista').innerHTML = '';
 }
+
 async function guardarNuevoPedido() {
-  const total = parseInt(document.getElementById('np-total').value) || 0;
-  const btn = document.querySelector('.btn-guardar');
+  const btn = document.querySelector('#modal-nuevo .btn-guardar');
   btn.textContent = 'Guardando...'; btn.disabled = true;
   try {
+    // Construir lista de productos
+    const rows = document.querySelectorAll('#np-items-lista .item-row');
+    const itemsSeleccionados = [];
+    rows.forEach(row => {
+      const sel = row.querySelector('select');
+      const qty = parseInt(row.querySelector('input[type=number]').value) || 1;
+      const dcto = parseFloat(row.querySelector('.item-dcto').value) || 0;
+      const prod = CATALOGO.find(p => p.id === sel.value);
+      if (prod) {
+        const precioFinal = Math.round(prod.precio * (1 - dcto / 100));
+        itemsSeleccionados.push({ id: prod.id, nombre: prod.nombre, precio: precioFinal, precioOriginal: prod.precio, dcto, qty });
+      }
+    });
+
+    if (!itemsSeleccionados.length) { alert('Agrega al menos un producto.'); return; }
+
+    const productosTexto = itemsSeleccionados.map(i => i.dcto > 0 ? `${i.nombre} x${i.qty} (-${i.dcto}%)` : `${i.nombre} x${i.qty}`).join(', ');
+    const subtotal = itemsSeleccionados.reduce((s, i) => s + i.precio * i.qty, 0);
+    const total = parseInt(document.getElementById('np-total').value) || subtotal;
+
+    // Guardar pedido en Supabase
     const { error } = await _sb.from('Pedidos').insert([{
-      nombre: document.getElementById('np-nombre').value || '',
-      telefono: document.getElementById('np-telefono').value || '',
-      email: document.getElementById('np-email').value || '',
+      nombre:    document.getElementById('np-nombre').value || '',
+      telefono:  document.getElementById('np-telefono').value || '',
+      email:     document.getElementById('np-email').value || '',
       direccion: document.getElementById('np-direccion').value || '',
-      comuna: document.getElementById('np-comuna').value || '',
-      ciudad: document.getElementById('np-ciudad').value || '',
-      productos: document.getElementById('np-productos').value || '',
+      comuna:    document.getElementById('np-comuna').value || '',
+      ciudad:    document.getElementById('np-ciudad').value || '',
+      productos: productosTexto,
       total,
-      subtotal: total,
+      subtotal,
       costo_envio: 0,
       documento: document.getElementById('np-documento').value,
-      notas: document.getElementById('np-notas').value || '',
-      estado: 'pendiente'
+      notas:     document.getElementById('np-notas').value || '',
+      estado:    'pendiente'
     }]);
     if (error) throw error;
+
+    // Descontar stock en Redis
+    const stockRes = await fetch('/api/stock-get');
+    const stockData = await stockRes.json();
+    const stock = stockData.stock || {};
+    for (const item of itemsSeleccionados) {
+      if (typeof stock[item.id] === 'number') {
+        stock[item.id] = Math.max(0, stock[item.id] - item.qty);
+      }
+    }
+    await fetch('/api/stock-set', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stock })
+    });
+
     cerrarNuevoPedido();
     await cargarPedidos();
   } catch(e) {
