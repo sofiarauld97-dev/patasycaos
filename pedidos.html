@@ -69,6 +69,8 @@
   .badge-despachado { background: #d1ecf1; color: #0c5460; }
   .badge-entregado { background: #d4edda; color: #155724; }
 
+  .btn-editar-pedido { margin-top: 6px; width: 100%; background: none; border: 1.5px solid var(--terracota); color: var(--terracota); border-radius: 8px; padding: 4px 10px; font-size: .75rem; font-weight: 600; cursor: pointer; transition: background .15s, color .15s; }
+  .btn-editar-pedido:hover { background: var(--terracota); color: #fff; }
   .estado-select { border: 1.5px solid rgba(28,16,7,.12); border-radius: 8px; padding: 4px 8px; font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600; cursor: pointer; background: #fff; outline: none; transition: border-color .2s; }
   .estado-select:focus { border-color: var(--terracota); }
 
@@ -245,6 +247,75 @@
 
 
 <!-- MODAL NUEVO PEDIDO -->
+<div class="modal-overlay" id="modal-editar">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarEditarPedido()">✕</button>
+    <h3>Editar pedido</h3>
+    <input type="hidden" id="ep-id">
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Nombre</label>
+        <input type="text" id="ep-nombre">
+      </div>
+      <div class="form-field">
+        <label>Teléfono</label>
+        <input type="tel" id="ep-telefono">
+      </div>
+    </div>
+    <div class="form-grid full">
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" id="ep-email">
+      </div>
+    </div>
+    <div class="form-grid full">
+      <div class="form-field">
+        <label>Dirección</label>
+        <input type="text" id="ep-direccion">
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Comuna</label>
+        <input type="text" id="ep-comuna">
+      </div>
+      <div class="form-field">
+        <label>Ciudad</label>
+        <input type="text" id="ep-ciudad">
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-top:.75rem">
+      <div class="form-field">
+        <label>Productos</label>
+        <textarea id="ep-productos" rows="3" placeholder="Collar FindMy x1, Paw Balm x2"></textarea>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Total ($)</label>
+        <input type="number" id="ep-total">
+      </div>
+      <div class="form-field">
+        <label>Documento</label>
+        <select id="ep-documento">
+          <option value="Boleta">Boleta</option>
+          <option value="Factura">Factura</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-top:.75rem">
+      <div class="form-field">
+        <label>Notas</label>
+        <input type="text" id="ep-notas" placeholder="Notas adicionales...">
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancelar" onclick="cerrarEditarPedido()">Cancelar</button>
+      <button class="btn-guardar" id="btn-guardar-editar" onclick="guardarEditarPedido()">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modal-nuevo">
   <div class="modal-box">
     <button class="modal-close" onclick="cerrarNuevoPedido()">✕</button>
@@ -572,6 +643,7 @@ function renderTabla() {
           <option value="despachado" ${p.estado === 'despachado' ? 'selected' : ''}>🚚 Despachado</option>
           <option value="entregado" ${p.estado === 'entregado' ? 'selected' : ''}>✅ Entregado</option>
         </select>
+        <button class="btn-editar-pedido" onclick="abrirEditarPedido(${p.id})">✏️ Editar</button>
       </td>
     </tr>`;
   }).join('');
@@ -959,6 +1031,57 @@ async function cambiarEstadoSus(id, nuevoEstado) {
   if (sus) sus.estado = nuevoEstado;
   actualizarStatsSus();
   renderSus();
+}
+
+function abrirEditarPedido(id) {
+  const p = todosLosPedidos.find(p => p.id === id);
+  if (!p) return;
+  document.getElementById('ep-id').value = id;
+  document.getElementById('ep-nombre').value = p.nombre || '';
+  document.getElementById('ep-telefono').value = p.telefono || '';
+  document.getElementById('ep-email').value = p.email || '';
+  document.getElementById('ep-direccion').value = p.direccion || '';
+  document.getElementById('ep-comuna').value = p.comuna || '';
+  document.getElementById('ep-ciudad').value = p.ciudad || '';
+  document.getElementById('ep-productos').value = p.productos || '';
+  document.getElementById('ep-total').value = p.total || '';
+  document.getElementById('ep-documento').value = p.documento || 'Boleta';
+  document.getElementById('ep-notas').value = p.notas || '';
+  document.getElementById('modal-editar').classList.add('activo');
+}
+
+function cerrarEditarPedido() {
+  document.getElementById('modal-editar').classList.remove('activo');
+}
+
+async function guardarEditarPedido() {
+  const id = parseInt(document.getElementById('ep-id').value);
+  const btn = document.getElementById('btn-guardar-editar');
+  btn.textContent = 'Guardando...'; btn.disabled = true;
+  const updates = {
+    nombre:    document.getElementById('ep-nombre').value,
+    telefono:  document.getElementById('ep-telefono').value,
+    email:     document.getElementById('ep-email').value,
+    direccion: document.getElementById('ep-direccion').value,
+    comuna:    document.getElementById('ep-comuna').value,
+    ciudad:    document.getElementById('ep-ciudad').value,
+    productos: document.getElementById('ep-productos').value,
+    total:     parseFloat(document.getElementById('ep-total').value) || 0,
+    documento: document.getElementById('ep-documento').value,
+    notas:     document.getElementById('ep-notas').value,
+  };
+  try {
+    const { error } = await _sb.from('Pedidos').update(updates).eq('id', id);
+    if (error) throw error;
+    const idx = todosLosPedidos.findIndex(p => p.id === id);
+    if (idx !== -1) todosLosPedidos[idx] = { ...todosLosPedidos[idx], ...updates };
+    cerrarEditarPedido();
+    renderizarPedidos(todosLosPedidos);
+  } catch(e) {
+    alert('Error al guardar. Intenta de nuevo.');
+  } finally {
+    btn.textContent = 'Guardar cambios'; btn.disabled = false;
+  }
 }
 
 </script>
