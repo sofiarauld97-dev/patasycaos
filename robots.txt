@@ -2,4 +2,5 @@ User-agent: *
 Disallow: /api/
 Disallow: /admin
 
-Sitemap: https://www.patasycaos.cl/sitemap.xml
+Sitemap: https://patasycaos.cl/sitemap.xml
+Host: patasycaos.cl
