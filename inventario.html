@@ -429,6 +429,8 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
    CATÁLOGO DE SKUs
 ═══════════════════════════════════════ */
 const SKUS = [
+  { id: "donut-colagepet-xl-pato", nombre: "Donut Colagepet XL - Pato", cat: "Snacks y Golosinas", precio: "$2.990", img: "colagepet_donut_pato.jpg", emoji: "🐶" },
+  
   { id: "donut-colagepet-xl-carne", nombre: "Donut Colagepet XL - Carne", cat: "Snacks y Golosinas", precio: "$2.990", img: "colagepet_donut_carne.jpg", emoji: "🐶" },
   
   { id: "rascador-maxi-caja-de-leche---brnx", nombre: "Rascador Maxi Caja de Leche - Brnx", cat: "Accesorio", precio: "$13.990", img: "rascador-forma-de-leche.jpg", emoji: "🐱" },
@@ -758,7 +760,7 @@ function abrirExportar() {
     return `  '${sku.id}': ${val},   // ${sku.nombre}`;
   }).join('\n');
 
-  const codigo = `const stockInicial = {"donut-colagepet-xl-carne":1,"rascador-maxi-caja-de-leche---brnx":2,"collar-isabelino-donut-rosada---talla-s":1,"pelota-snack-interactiva_Roja":2,"pelota-snack-interactiva_Azul":2,"dispensador-de-bolsas---diseno-cafe":2,"calming-collar---perros":1,"calming-collar---gatos":1,"botella-portatil-para-perros_Rosada":1,"botella-portatil-para-perros_Calipso":1,"arena-sanitaria-ciudad-animal-8kg":4,"brit-care-sterilized-weigh-control-2kg---duck-turkey":3,"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
+  const codigo = `const stockInicial = {"donut-colagepet-xl-pato":1,"donut-colagepet-xl-carne":1,"rascador-maxi-caja-de-leche---brnx":2,"collar-isabelino-donut-rosada---talla-s":1,"pelota-snack-interactiva_Roja":2,"pelota-snack-interactiva_Azul":2,"dispensador-de-bolsas---diseno-cafe":2,"calming-collar---perros":1,"calming-collar---gatos":1,"botella-portatil-para-perros_Rosada":1,"botella-portatil-para-perros_Calipso":1,"arena-sanitaria-ciudad-animal-8kg":4,"brit-care-sterilized-weigh-control-2kg---duck-turkey":3,"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
   document.getElementById('codigo-exportar').textContent = codigo;
   document.getElementById('modal-exportar').classList.add('open');
 }
