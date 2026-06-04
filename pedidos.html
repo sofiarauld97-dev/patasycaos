@@ -692,6 +692,19 @@ async function cambiarEstado(id, nuevoEstado) {
   const pedido = todosLosPedidos.find(p => p.id === id);
   if (pedido) pedido.estado = nuevoEstado;
   actualizarStats();
+
+  // Enviar email al cliente según el nuevo estado
+  if ((nuevoEstado === 'despachado' || nuevoEstado === 'entregado') && pedido?.email) {
+    try {
+      await fetch('/api/send-status-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pedidoId: id, estado: nuevoEstado }),
+      });
+    } catch(e) {
+      console.error('Error enviando email de estado:', e);
+    }
+  }
 }
 
 const CATALOGO = [
