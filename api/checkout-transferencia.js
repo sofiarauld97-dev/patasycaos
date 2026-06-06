@@ -1,3 +1,5 @@
+import { emailTransferencia } from '../email_templates.js';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -9,23 +11,24 @@ export default async function handler(req, res) {
     const costoEnvio = cliente.costoEnvio || 0;
     const total      = subtotal + costoEnvio;
     const productosTexto = items.map(i => `${i.name} x${i.qty}`).join(', ');
+    const esRetiro   = cliente.metodoEntrega === 'retiro';
 
-    // 1. Guardar pedido en Supabase con estado pendiente_transferencia
-    await fetch(`${process.env.SUPABASE_URL}/rest/v1/Pedidos`, {
+    // 1. Guardar pedido en Supabase y obtener el ID generado
+    const supaRes = await fetch(`${process.env.SUPABASE_URL}/rest/v1/Pedidos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         apikey: process.env.SUPABASE_ANON_KEY,
         Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}`,
-        Prefer: 'return=minimal',
+        Prefer: 'return=representation', // para obtener el ID
       },
       body: JSON.stringify({
         nombre:      cliente.nombre,
         email:       cliente.email,
         telefono:    cliente.telefono,
-        direccion:   cliente.direccion,
-        comuna:      cliente.comuna,
-        ciudad:      cliente.ciudad,
+        direccion:   cliente.direccion || '',
+        comuna:      cliente.comuna || '',
+        ciudad:      cliente.ciudad || '',
         notas:       cliente.notas || '',
         productos:   productosTexto,
         subtotal,
@@ -36,51 +39,57 @@ export default async function handler(req, res) {
       }),
     });
 
-    // 2. Notificar a Sofía por email
+    const pedidoData = await supaRes.json();
+    const numeroPedido = pedidoData?.[0]?.id || Date.now();
+    console.log('[checkout-transferencia] Pedido creado ID:', numeroPedido);
+
+    // 2. Notificar a Sofía
     const productosEmail = items
       .map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toLocaleString('es-CL')}`)
       .join('\n');
 
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-      },
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
       body: JSON.stringify({
         from: 'Patas & Caos <contacto@patasycaos.cl>',
         to: [process.env.NOTIFY_EMAIL],
-        subject: `🏦 Pedido por transferencia — ${cliente.nombre}`,
-        text: `PEDIDO POR TRANSFERENCIA — PATAS & CAOS
-
-⚠️ Este pedido está pendiente de confirmación de pago.
-
-Cliente: ${cliente.nombre}
-Email: ${cliente.email}
-Teléfono: ${cliente.telefono}
-
-Dirección: ${cliente.direccion}
-Comuna: ${cliente.comuna}
-Ciudad: ${cliente.ciudad}
-Entrega: ${cliente.metodoEntrega}
-Notas: ${cliente.notas || 'Sin notas'}
-
-Productos:
-${productosEmail}
-
-Subtotal: $${subtotal.toLocaleString('es-CL')}
-Envío: $${costoEnvio > 0 ? costoEnvio.toLocaleString('es-CL') : 'Gratis'}
-Total a transferir: $${total.toLocaleString('es-CL')}
-
-Documento: ${cliente.documento || 'Boleta'}
-
-🐾 Confirma el pago antes de preparar el pedido.`,
+        subject: `🏦 Pedido PAC-${String(numeroPedido).padStart(5,'0')} por transferencia — ${cliente.nombre}`,
+        text: `PEDIDO POR TRANSFERENCIA — PAC-${String(numeroPedido).padStart(5,'0')}\n\n⚠️ Pendiente de confirmación de pago (48h)\n\nCliente: ${cliente.nombre}\nEmail: ${cliente.email}\nTeléfono: ${cliente.telefono}\nDirección: ${cliente.direccion || 'Retiro en tienda'}\nComuna: ${cliente.comuna || '-'}\nCiudad: ${cliente.ciudad || '-'}\nNotas: ${cliente.notas || 'Sin notas'}\n\nProductos:\n${productosEmail}\n\nSubtotal: $${subtotal.toLocaleString('es-CL')}\nEnvío: $${costoEnvio > 0 ? costoEnvio.toLocaleString('es-CL') : 'Gratis'}\nTotal: $${total.toLocaleString('es-CL')}\n\nDocumento: ${cliente.documento || 'Boleta'}`,
       }),
     });
 
-    return res.status(200).json({ ok: true });
+    // 3. Email al cliente con datos bancarios y número de pedido
+    if (cliente.email) {
+      const { subject, html } = emailTransferencia({
+        nombre: cliente.nombre,
+        items,
+        subtotal,
+        costoEnvio,
+        total,
+        direccion: cliente.direccion || '',
+        comuna: cliente.comuna || '',
+        ciudad: cliente.ciudad || '',
+        esRetiro,
+        numeroPedido,
+      });
+
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
+        body: JSON.stringify({
+          from: 'Patas & Caos <contacto@patasycaos.cl>',
+          to: [cliente.email],
+          subject,
+          html,
+        }),
+      });
+      console.log('[checkout-transferencia] Email cliente enviado');
+    }
+
+    return res.status(200).json({ ok: true, numeroPedido });
   } catch (e) {
-    console.error('checkout-transferencia error:', e);
+    console.error('[checkout-transferencia] ERROR:', e);
     return res.status(500).json({ error: e.message });
   }
 }

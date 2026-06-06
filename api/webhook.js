@@ -1,4 +1,4 @@
-import { emailConfirmacion } from './email_templates.js';
+import { emailConfirmacion } from '../email_templates.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
