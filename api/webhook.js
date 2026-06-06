@@ -1,8 +1,46 @@
-import { emailConfirmacion } from '../email_templates.js';
+import { emailConfirmacion, emailDespacho, emailEntregado } from '../email_templates.js';
 
 export default async function handler(req, res) {
+  // Manejar tanto notificaciones de pago MP como cambios de estado desde el panel
   if (req.method !== 'POST') return res.status(405).end();
 
+  // === CAMBIO DE ESTADO (despachado/entregado) ===
+  const { pedidoId, estado } = req.body || {};
+  if (pedidoId && ['despachado', 'entregado'].includes(estado)) {
+    try {
+      const supaRes = await fetch(
+        `${process.env.SUPABASE_URL}/rest/v1/Pedidos?id=eq.${pedidoId}&select=*`,
+        { headers: { apikey: process.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}` } }
+      );
+      const pedidos = await supaRes.json();
+      const pedido = pedidos?.[0];
+      if (!pedido?.email) return res.status(200).json({ ok: true, msg: 'Sin email' });
+
+      const items = (pedido.productos || '').split(',').map(s => {
+        const match = s.trim().match(/^(.+?)\s+x(\d+)(?:\s.*)?$/);
+        if (!match) return null;
+        return { name: match[1].trim(), qty: parseInt(match[2]), price: 0 };
+      }).filter(Boolean);
+
+      const esRetiro = (pedido.direccion || '').toLowerCase().includes('retiro') || !(pedido.direccion || '').trim();
+      const { subject, html } = estado === 'despachado'
+        ? emailDespacho({ nombre: pedido.nombre, items, total: pedido.total, direccion: pedido.direccion || '', comuna: pedido.comuna || '', ciudad: pedido.ciudad || '', esRetiro })
+        : emailEntregado({ nombre: pedido.nombre, items, total: pedido.total });
+
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
+        body: JSON.stringify({ from: 'Patas & Caos <contacto@patasycaos.cl>', to: [pedido.email], subject, html }),
+      });
+      console.log(`[webhook] Email ${estado} enviado a ${pedido.email}`);
+      return res.status(200).json({ ok: true });
+    } catch (e) {
+      console.error('[webhook] Error email estado:', e);
+      return res.status(500).json({ error: e.message });
+    }
+  }
+
+  // === NOTIFICACIÓN MERCADO PAGO ===
   const { type, data } = req.body || {};
   if (type !== 'payment' || !data?.id) return res.status(200).end();
 
@@ -52,12 +90,7 @@ export default async function handler(req, res) {
     // Guardar pedido en Supabase
     await fetch(`${process.env.SUPABASE_URL}/rest/v1/Pedidos`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        apikey: process.env.SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}`,
-        Prefer: 'return=minimal',
-      },
+      headers: { 'Content-Type': 'application/json', apikey: process.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}`, Prefer: 'return=minimal' },
       body: JSON.stringify({
         nombre: order.nombre, email: order.email, telefono: order.telefono,
         direccion: order.direccion || '', comuna: order.comuna || '', ciudad: order.ciudad || '',
@@ -68,16 +101,15 @@ export default async function handler(req, res) {
       }),
     });
 
-    // Email interno a Sofía
+    // Email interno
     const productosEmail = order.items.map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toLocaleString('es-CL')}`).join('\n');
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
       body: JSON.stringify({
-        from: 'Patas & Caos <contacto@patasycaos.cl>',
-        to: [process.env.NOTIFY_EMAIL],
+        from: 'Patas & Caos <contacto@patasycaos.cl>', to: [process.env.NOTIFY_EMAIL],
         subject: `🐾 Nuevo pedido — ${order.nombre}`,
-        text: `NUEVO PEDIDO\n\nCliente: ${order.nombre}\nEmail: ${order.email}\nTeléfono: ${order.telefono}\nDirección: ${order.direccion || 'Retiro en tienda'}\nComuna: ${order.comuna || '-'}\nCiudad: ${order.ciudad || '-'}\nNotas: ${order.notas || 'Sin notas'}\n\nProductos:\n${productosEmail}\n\nSubtotal: $${subtotal.toLocaleString('es-CL')}\nEnvío: $${costoEnvio > 0 ? costoEnvio.toLocaleString('es-CL') : 'A coordinar'}\nTotal: $${total.toLocaleString('es-CL')}\nDocumento: ${order.documento || 'Boleta'}`,
+        text: `NUEVO PEDIDO\n\nCliente: ${order.nombre}\nEmail: ${order.email}\nTeléfono: ${order.telefono}\nDirección: ${order.direccion || 'Retiro'}\nComuna: ${order.comuna || '-'}\nCiudad: ${order.ciudad || '-'}\nNotas: ${order.notas || 'Sin notas'}\n\nProductos:\n${productosEmail}\n\nTotal: $${total.toLocaleString('es-CL')}`,
       }),
     });
 
@@ -93,7 +125,6 @@ export default async function handler(req, res) {
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
         body: JSON.stringify({ from: 'Patas & Caos <contacto@patasycaos.cl>', to: [order.email], subject, html }),
       });
-      console.log('[webhook] Email cliente enviado');
     }
 
     return res.status(200).end();

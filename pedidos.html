@@ -696,7 +696,7 @@ async function cambiarEstado(id, nuevoEstado) {
   // Enviar email al cliente según el nuevo estado
   if ((nuevoEstado === 'despachado' || nuevoEstado === 'entregado') && pedido?.email) {
     try {
-      await fetch('/api/send-status-email', {
+      await fetch('/api/webhook', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pedidoId: id, estado: nuevoEstado }),
