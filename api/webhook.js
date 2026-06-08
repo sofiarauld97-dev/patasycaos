@@ -1,5 +1,82 @@
 import { emailConfirmacion, emailDespacho, emailEntregado, emailCancelado } from '../email_templates.js';
 
+// Catálogo de precios para reconstruir items desde texto de Supabase
+const PRECIOS = {
+  "Afeitadora LED": 9990,
+  "Arena Sanitaria Ciudad Animal 8kg": 8990,
+  "Botella Portátil para Perros — Calipso": 14990,
+  "Botella Portátil para Perros — Rosada": 14990,
+  "Brit Care Sterilized Weigh Control 2kg - Duck & Turkey": 24990,
+  "Calming Collar - Gatos": 7990,
+  "Calming Collar - Perros": 7990,
+  "Cat Fest Meat Sticks — Cordero": 3490,
+  "Cat Fest Meat Sticks — Pato": 3490,
+  "Cat Fest Pillows Chicken Creme": 1990,
+  "Cat Fest Pillows Salmon Creme": 1990,
+  "Cats Snack — Catnip": 2990,
+  "Cats Snack — Matatabi": 2990,
+  "Cats Snack — Rellena Atún + Ostiones": 2990,
+  "Cats Snack — Rellena Atún + Queso": 2990,
+  "Cats Snack — Rellena Camarón": 2990,
+  "ColágePet Donut — Sabor Carne": 2990,
+  "ColágePet Donut — Sabor Pato": 2990,
+  "ColágePet Donut — Sabor Pollo": 2990,
+  "Collar Find My — Azul": 12990,
+  "Collar Find My — Negro": 12990,
+  "Collar Find My — Turquesa": 12990,
+  "Collar Isabelino Donut Rosada - Talla S": 6990,
+  "Comedero Lento Slow Feeder - Catstages": 7990,
+  "Comedero Lento Slow Feeder - Rosado": 6990,
+  "Dispensador de Bolsas - Diseño Café": 5990,
+  "Dog Fest Calcium Bones with Chicken": 4990,
+  "Dog Fest Lamb Medallions": 4990,
+  "Dog Fest Rabbit Ears with Lamb": 4990,
+  "Flores de Bach - Ansiedad y Calma": 12990,
+  "Flores de Bach - Energía y Ánimo": 12990,
+  "Flores de Bach - Equilibrio": 12990,
+  "Flores de Bach - Rescue y Alivio": 12990,
+  "Fuente de Agua Flor USB": 21990,
+  "Fémur de Cerdo - Tasty Farm": 4990,
+  "Garra de Pollo 65g - Rahue": 3490,
+  "Lata Leonardo Adulto — Ave": 3790,
+  "Lata Leonardo Adulto — Conejo": 3790,
+  "Lata Leonardo Adulto — Pato": 3790,
+  "Lata Leonardo Adulto — Pescado": 3790,
+  "Lata Leonardo Adulto — Ternera": 3790,
+  "Lata Leonardo Kitten 200g": 3790,
+  "Masajeador Pulpo": 6990,
+  "Pack Bienvenido a Casa": 21990,
+  "Pack Calma Total": 15990,
+  "Pack Consulta + Flor de Bach": 29990,
+  "Pack Cuidado Total": 12990,
+  "Pack Juega y Relaja": 28990,
+  "Pack Rutina Sana": 33990,
+  "Pack SOS Mascota": 18990,
+  "Paw Balm": 5990,
+  "Pelota Interactiva LED": 8990,
+  "Pelota Snack Interactiva — Azul": 6990,
+  "Pelota Snack Interactiva — Roja": 6990,
+  "Pulmón de Cordero 50g - Rahue": 3990,
+  "Pájaro Interactivo": 13990,
+  "Rascador Maxi Caja de Leche - Brnx": 13990,
+  "Recorte Oreja de Cerdo 100g - Rahue": 4290,
+  "Suero Fisiológico — Cloruro de Sodio 0.9%": 2590,
+  "Tráquea de Vacuno - Rahue": 3990,
+  "Tubito Cremoso Atún con Catnip": 2990,
+  "Tubito Cremoso Camarón con Catnip": 2990,
+  "Tubito Cremoso Salmón con Matatabi": 2990,
+};
+
+function getPrecio(nombre) {
+  if (PRECIOS[nombre]) return PRECIOS[nombre];
+  // Búsqueda parcial si el nombre no coincide exacto
+  const key = Object.keys(PRECIOS).find(k =>
+    k.toLowerCase().includes(nombre.toLowerCase()) ||
+    nombre.toLowerCase().includes(k.toLowerCase())
+  );
+  return key ? PRECIOS[key] : 0;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     // GET: consulta de pedido para la página pedido-ok
@@ -45,20 +122,21 @@ export default async function handler(req, res) {
       const pedido = pedidos?.[0];
       if (!pedido?.email) return res.status(200).json({ ok: true, msg: 'Sin email' });
 
+      // Reconstruir items con precios desde el catálogo
       const items = (pedido.productos || '').split(',').map(s => {
         const match = s.trim().match(/^(.+?)\s+x(\d+)(?:\s.*)?$/);
         if (!match) return null;
-        return { name: match[1].trim(), qty: parseInt(match[2]), price: 0 };
+        const nombre = match[1].trim();
+        return { name: nombre, qty: parseInt(match[2]), price: getPrecio(nombre) };
       }).filter(Boolean);
 
       const esRetiro = (pedido.direccion || '').toLowerCase().includes('retiro') || !(pedido.direccion || '').trim();
 
       let subject, html;
       if (estado === 'nuevo_pedido') {
-        const itemsConPrecio = items.map(i => ({ ...i, price: Math.round(pedido.total / items.reduce((s, x) => s + x.qty, 0)) }));
         ({ subject, html } = emailConfirmacion({
           nombre: pedido.nombre,
-          items: itemsConPrecio,
+          items,
           subtotal: pedido.subtotal || pedido.total,
           costoEnvio: pedido.costo_envio || 0,
           total: pedido.total,
