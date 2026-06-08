@@ -1,11 +1,11 @@
-import { emailConfirmacion, emailDespacho, emailEntregado } from '../email_templates.js';
+import { emailConfirmacion, emailDespacho, emailEntregado, emailCancelado } from '../email_templates.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
   // === CAMBIO DE ESTADO / NUEVO PEDIDO MANUAL ===
   const { pedidoId, estado } = req.body || {};
-  if (pedidoId && ['despachado', 'entregado', 'nuevo_pedido'].includes(estado)) {
+  if (pedidoId && ['despachado', 'entregado', 'nuevo_pedido', 'cancelado'].includes(estado)) {
     try {
       const supaRes = await fetch(
         `${process.env.SUPABASE_URL}/rest/v1/Pedidos?id=eq.${pedidoId}&select=*`,
@@ -39,14 +39,17 @@ export default async function handler(req, res) {
           ciudad: pedido.ciudad || '',
           documento: pedido.documento || 'Boleta',
           esRetiro,
+          numeroPedido: pedido.id,
         }));
       } else if (estado === 'despachado') {
         ({ subject, html } = emailDespacho({
           nombre: pedido.nombre, items, total: pedido.total,
           direccion: pedido.direccion || '', comuna: pedido.comuna || '', ciudad: pedido.ciudad || '', esRetiro,
         }));
-      } else {
+      } else if (estado === 'entregado') {
         ({ subject, html } = emailEntregado({ nombre: pedido.nombre, items, total: pedido.total }));
+      } else {
+        ({ subject, html } = emailCancelado({ nombre: pedido.nombre, items, total: pedido.total, numeroPedido: pedido.id }));
       }
 
       await fetch('https://api.resend.com/emails', {
@@ -156,6 +159,7 @@ export default async function handler(req, res) {
         nombre: order.nombre, items: order.items, subtotal, costoEnvio, total,
         direccion: order.direccion || '', comuna: order.comuna || '', ciudad: order.ciudad || '',
         documento: order.documento || 'Boleta', esRetiro,
+        numeroPedido: undefined, // MP no retorna ID aquí
       });
       await fetch('https://api.resend.com/emails', {
         method: 'POST',

@@ -86,7 +86,7 @@ function tablaProductos(items) {
 // ============================================================
 // EMAIL 1: CONFIRMACIÓN DE PEDIDO
 // ============================================================
-export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, documento, esRetiro }) {
+export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, documento, esRetiro, numeroPedido }) {
   const envioTexto = esRetiro
     ? '🏠 Retiro en tienda — Gath y Chaves 2452, dpto. 702, Providencia'
     : `🚚 Despacho a domicilio — ${direccion}, ${comuna}, ${ciudad}`;
@@ -102,6 +102,7 @@ export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, 
 
   const contenido = `
     <span class="pata">🐾</span>
+    ${numeroPedido ? `<div style="text-align:center;margin-bottom:16px"><span style="background:#F5EFE6;border:1.5px solid #C4622D;border-radius:50px;padding:6px 18px;font-size:.85rem;font-weight:700;color:#C4622D">PAC-${String(numeroPedido).padStart(5,'0')}</span></div>` : ''}
     <p class="titulo">¡Recibimos tu pedido, ${nombre.split(' ')[0]}!</p>
     <p class="subtitulo">Tu pago fue aprobado. Aquí está el resumen de tu compra:</p>
 
@@ -208,6 +209,99 @@ export function emailEntregado({ nombre, items, total }) {
 
   return {
     subject: `🎉 ¡Tu pedido llegó! — Patas & Caos`,
+    html: emailBase(contenido)
+  };
+}
+
+// ============================================================
+// EMAIL 4: CONFIRMACIÓN POR TRANSFERENCIA
+// ============================================================
+export function emailTransferencia({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, esRetiro, numeroPedido }) {
+  const envioTexto = esRetiro
+    ? '🏠 Retiro en tienda — Gath y Chaves 2452, dpto. 702, Providencia'
+    : `🚚 Despacho a domicilio — ${direccion}, ${comuna}, ${ciudad}`;
+
+  const contenido = `
+    <div style="font-size:32px;text-align:center;margin-bottom:12px">🏦</div>
+    <p class="titulo">¡Recibimos tu pedido, ${nombre.split(' ')[0]}!</p>
+    <p class="subtitulo">Para confirmar tu pedido, realiza la transferencia en las próximas <strong>48 horas</strong>. Una vez confirmado el pago, prepararemos tu pedido.</p>
+
+    <div style="background:#fff8f0;border:2px solid #C4622D;border-radius:12px;padding:20px;margin:20px 0;text-align:center">
+      <p style="font-size:13px;font-weight:700;color:#C4622D;margin:0 0 16px;text-transform:uppercase;letter-spacing:.05em">Número de pedido</p>
+      <p style="font-size:28px;font-weight:900;color:#1C1007;margin:0;letter-spacing:.05em">PAC-${String(numeroPedido).padStart(5,'0')}</p>
+      <p style="font-size:12px;color:#888;margin:8px 0 0">Inclúyelo en el comentario de la transferencia</p>
+    </div>
+
+    ${tablaProductos(items)}
+
+    <div class="total-row">
+      <span style="font-size:15px;font-weight:700;color:#1C1007">Total a transferir</span>
+      <span style="font-size:20px;font-weight:900;color:#C4622D">$${total.toLocaleString('es-CL')}</span>
+    </div>
+
+    <hr class="divider">
+
+    <div class="info-box">
+      <h3>🏦 Datos bancarios</h3>
+      <table style="width:100%;font-size:14px;color:#444;border-collapse:collapse">
+        <tr><td style="padding:5px 0;color:#888;width:130px">Banco</td><td style="font-weight:700;color:#1C1007">Santander</td></tr>
+        <tr><td style="padding:5px 0;color:#888">Tipo de cuenta</td><td style="font-weight:700;color:#1C1007">Cuenta Corriente</td></tr>
+        <tr><td style="padding:5px 0;color:#888">Número</td><td style="font-weight:700;color:#1C1007">75925395</td></tr>
+        <tr><td style="padding:5px 0;color:#888">RUT</td><td style="font-weight:700;color:#1C1007">19.636.805-1</td></tr>
+        <tr><td style="padding:5px 0;color:#888">Titular</td><td style="font-weight:700;color:#1C1007">Sofía Rauld Lagos</td></tr>
+        <tr><td style="padding:5px 0;color:#888">Email</td><td style="font-weight:700;color:#1C1007">contacto@patasycaos.cl</td></tr>
+      </table>
+    </div>
+
+    <div style="background:#fff3cd;border:1.5px solid #ffc107;border-radius:12px;padding:16px;margin:16px 0">
+      <p style="font-size:14px;font-weight:700;color:#856404;margin:0 0 6px">⚠️ Importante</p>
+      <p style="font-size:13px;color:#856404;margin:0">Tu pedido será <strong>cancelado automáticamente</strong> si no recibimos el comprobante dentro de las próximas <strong>48 horas</strong>. Una vez transferido, envíanos el comprobante por WhatsApp o email.</p>
+    </div>
+
+    <div class="info-box">
+      <h3>📦 Información de entrega</h3>
+      <p style="font-size:14px;color:#444;margin:0">${envioTexto}</p>
+    </div>
+
+    <a href="https://wa.me/56923997854?text=Hola%2C%20acabo%20de%20transferir%20por%20el%20pedido%20PAC-${String(numeroPedido).padStart(5,'0')}" class="cta-btn">📲 Enviar comprobante por WhatsApp</a>
+    <p style="text-align:center;font-size:13px;color:#999">O envíalo a <a href="mailto:contacto@patasycaos.cl" style="color:#C4622D">contacto@patasycaos.cl</a></p>
+  `;
+
+  return {
+    subject: `🏦 Pedido PAC-${String(numeroPedido).padStart(5,'0')} — Completa tu transferencia`,
+    html: emailBase(contenido)
+  };
+}
+
+// ============================================================
+// EMAIL 5: PEDIDO CANCELADO
+// ============================================================
+export function emailCancelado({ nombre, items, total, numeroPedido }) {
+  const numStr = numeroPedido ? 'PAC-' + String(numeroPedido).padStart(5, '0') : '';
+  const contenido = `
+    <div style="font-size:32px;text-align:center;margin-bottom:12px">❌</div>
+    <p class="titulo">Tu pedido fue cancelado</p>
+    <p class="subtitulo">Hola ${nombre.split(' ')[0]}, lamentamos informarte que tu pedido ${numStr ? '<strong>' + numStr + '</strong>' : ''} fue cancelado.</p>
+
+    ${tablaProductos(items)}
+
+    <div class="total-row">
+      <span style="font-size:15px;font-weight:700;color:#1C1007">Total</span>
+      <span style="font-size:20px;font-weight:900;color:#C4622D">$${total.toLocaleString('es-CL')}</span>
+    </div>
+
+    <hr class="divider">
+
+    <div class="info-box">
+      <h3>💬 ¿Tienes dudas?</h3>
+      <p style="font-size:14px;color:#444;margin:0">Si crees que esto es un error o quieres saber más, escríbenos por WhatsApp al <a href="https://wa.me/56923997854" style="color:#C4622D">+56 9 2399 7854</a> o a <a href="mailto:contacto@patasycaos.cl" style="color:#C4622D">contacto@patasycaos.cl</a>.</p>
+    </div>
+
+    <a href="https://www.patasycaos.cl/tienda" class="cta-btn">🛍️ Volver a la tienda</a>
+  `;
+
+  return {
+    subject: `❌ Tu pedido${numStr ? ' ' + numStr : ''} fue cancelado — Patas & Caos`,
     html: emailBase(contenido)
   };
 }

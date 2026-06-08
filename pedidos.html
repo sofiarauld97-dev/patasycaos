@@ -74,6 +74,7 @@
   .estado-select { border: 1.5px solid rgba(28,16,7,.12); border-radius: 8px; padding: 4px 8px; font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600; cursor: pointer; background: #fff; outline: none; transition: border-color .2s; }
   .estado-select:focus { border-color: var(--terracota); }
 
+  .num-pedido { font-size: .72rem; font-weight: 700; color: var(--terracota); letter-spacing: .04em; margin-bottom: 4px; }
   .cliente-nombre { font-weight: 700; margin-bottom: 2px; }
   .cliente-detalle { font-size: .76rem; color: #6b5a4e; }
 
@@ -520,6 +521,7 @@ function renderSus() {
       <thead>
         <tr>
           <th style="text-align:center;">Día despacho</th>
+          <th>N° Pedido</th>
           <th>Cliente</th>
           <th>Dirección</th>
           <th>Plan</th>
@@ -638,8 +640,10 @@ function renderTabla() {
   const rows = pedidos.map(p => {
     const fecha = new Date(p.created_at).toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
     const totalFmt = p.total ? `$${p.total.toLocaleString('es-CL')}` : '—';
+    const numPedido = 'PAC-' + String(p.id).padStart(5, '0');
     return `<tr>
       <td>
+        <div class="num-pedido">${numPedido}</div>
         <div class="cliente-nombre">${p.nombre || '—'}</div>
         <div class="cliente-detalle">${p.email || ''}</div>
         <div class="cliente-detalle">${p.telefono || ''}</div>
@@ -657,6 +661,7 @@ function renderTabla() {
           <option value="pendiente" ${p.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
           <option value="despachado" ${p.estado === 'despachado' ? 'selected' : ''}>🚚 Despachado</option>
           <option value="entregado" ${p.estado === 'entregado' ? 'selected' : ''}>✅ Entregado</option>
+          <option value="cancelado" ${p.estado === 'cancelado' ? 'selected' : ''}>❌ Cancelado</option>
         </select>
         <button class="btn-editar-pedido" onclick="abrirEditarPedido(${p.id})">✏️ Editar</button>
       </td>
@@ -667,6 +672,7 @@ function renderTabla() {
     <table>
       <thead>
         <tr>
+          <th>N° Pedido</th>
           <th>Cliente</th>
           <th>Dirección</th>
           <th>Productos</th>
@@ -694,7 +700,7 @@ async function cambiarEstado(id, nuevoEstado) {
   actualizarStats();
 
   // Enviar email al cliente según el nuevo estado
-  if ((nuevoEstado === 'despachado' || nuevoEstado === 'entregado') && pedido?.email) {
+  if ((nuevoEstado === 'despachado' || nuevoEstado === 'entregado' || nuevoEstado === 'cancelado') && pedido?.email) {
     try {
       await fetch('/api/webhook', {
         method: 'POST',
@@ -1025,6 +1031,7 @@ function renderSus() {
       <thead>
         <tr>
           <th style="text-align:center;">Día despacho</th>
+          <th>N° Pedido</th>
           <th>Cliente</th>
           <th>Dirección</th>
           <th>Plan</th>
