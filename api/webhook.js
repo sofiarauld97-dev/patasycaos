@@ -178,6 +178,35 @@ export default async function handler(req, res) {
         });
       }
 
+      // Descontar stock si es nuevo_pedido
+      if (estado === 'nuevo_pedido') {
+        try {
+          const stockRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/pac_stock`, {
+            headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
+          });
+          const stockData = await stockRes.json();
+          let stock = {};
+          if (stockData.result) {
+            let val = stockData.result;
+            let i = 0;
+            while (typeof val === 'string' && i++ < 5) { try { val = JSON.parse(val); } catch(e) { break; } }
+            if (typeof val === 'object' && val !== null) stock = val;
+          }
+          for (const item of items) {
+            const cur = typeof stock[item.id] === 'number' ? stock[item.id] : 0;
+            stock[item.id] = Math.max(0, cur - item.qty);
+          }
+          await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify([['SET', 'pac_stock', JSON.stringify(stock)]]),
+          });
+          console.log('[webhook] Stock descontado para pedido manual:', pedidoId);
+        } catch (e) {
+          console.error('[webhook] Error descontando stock pedido manual:', e);
+        }
+      }
+
       return res.status(200).json({ ok: true });
     } catch (e) {
       console.error('[webhook] Error email estado:', e);
