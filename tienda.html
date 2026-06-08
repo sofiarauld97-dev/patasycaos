@@ -819,8 +819,8 @@ const productos = {"huesitos-de-calcio-con-pollo-55g-dog-fest":{nombre:"Huesitos
 function checkStockCard(id, stock) {
   const p = productos[id];
   if (!p) return true;
-  if (p.variantes) return p.variantes.some(v => stock[id + '_' + v.label] !== 0);
-  return stock[id] !== 0;
+  if (p.variantes) return p.variantes.some(v => (stock[id + '_' + v.label] ?? 0) > 0);
+  return (stock[id] ?? 0) > 0;
 }
 
 /* ── FILTROS ── */
