@@ -1,12 +1,11 @@
 import { emailConfirmacion, emailDespacho, emailEntregado } from '../email_templates.js';
 
 export default async function handler(req, res) {
-  // Manejar tanto notificaciones de pago MP como cambios de estado desde el panel
   if (req.method !== 'POST') return res.status(405).end();
 
-  // === CAMBIO DE ESTADO (despachado/entregado) ===
+  // === CAMBIO DE ESTADO / NUEVO PEDIDO MANUAL ===
   const { pedidoId, estado } = req.body || {};
-  if (pedidoId && ['despachado', 'entregado'].includes(estado)) {
+  if (pedidoId && ['despachado', 'entregado', 'nuevo_pedido'].includes(estado)) {
     try {
       const supaRes = await fetch(
         `${process.env.SUPABASE_URL}/rest/v1/Pedidos?id=eq.${pedidoId}&select=*`,
@@ -16,6 +15,7 @@ export default async function handler(req, res) {
       const pedido = pedidos?.[0];
       if (!pedido?.email) return res.status(200).json({ ok: true, msg: 'Sin email' });
 
+      // Reconstruir items desde el campo productos
       const items = (pedido.productos || '').split(',').map(s => {
         const match = s.trim().match(/^(.+?)\s+x(\d+)(?:\s.*)?$/);
         if (!match) return null;
@@ -23,16 +23,53 @@ export default async function handler(req, res) {
       }).filter(Boolean);
 
       const esRetiro = (pedido.direccion || '').toLowerCase().includes('retiro') || !(pedido.direccion || '').trim();
-      const { subject, html } = estado === 'despachado'
-        ? emailDespacho({ nombre: pedido.nombre, items, total: pedido.total, direccion: pedido.direccion || '', comuna: pedido.comuna || '', ciudad: pedido.ciudad || '', esRetiro })
-        : emailEntregado({ nombre: pedido.nombre, items, total: pedido.total });
+
+      let subject, html;
+      if (estado === 'nuevo_pedido') {
+        // Email de confirmación para pedido manual
+        const itemsConPrecio = items.map(i => ({ ...i, price: Math.round(pedido.total / items.reduce((s, x) => s + x.qty, 0)) }));
+        ({ subject, html } = emailConfirmacion({
+          nombre: pedido.nombre,
+          items: itemsConPrecio,
+          subtotal: pedido.subtotal || pedido.total,
+          costoEnvio: pedido.costo_envio || 0,
+          total: pedido.total,
+          direccion: pedido.direccion || '',
+          comuna: pedido.comuna || '',
+          ciudad: pedido.ciudad || '',
+          documento: pedido.documento || 'Boleta',
+          esRetiro,
+        }));
+      } else if (estado === 'despachado') {
+        ({ subject, html } = emailDespacho({
+          nombre: pedido.nombre, items, total: pedido.total,
+          direccion: pedido.direccion || '', comuna: pedido.comuna || '', ciudad: pedido.ciudad || '', esRetiro,
+        }));
+      } else {
+        ({ subject, html } = emailEntregado({ nombre: pedido.nombre, items, total: pedido.total }));
+      }
 
       await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
         body: JSON.stringify({ from: 'Patas & Caos <contacto@patasycaos.cl>', to: [pedido.email], subject, html }),
       });
-      console.log(`[webhook] Email ${estado} enviado a ${pedido.email}`);
+      console.log(`[webhook] Email '${estado}' enviado a ${pedido.email}`);
+
+      // Notificar a Sofía si es pedido nuevo manual
+      if (estado === 'nuevo_pedido') {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
+          body: JSON.stringify({
+            from: 'Patas & Caos <contacto@patasycaos.cl>',
+            to: [process.env.NOTIFY_EMAIL],
+            subject: `🐾 Nuevo pedido manual — ${pedido.nombre}`,
+            text: `NUEVO PEDIDO MANUAL\n\nCliente: ${pedido.nombre}\nEmail: ${pedido.email}\nTeléfono: ${pedido.telefono || '-'}\nDirección: ${pedido.direccion || 'Retiro'}\nComuna: ${pedido.comuna || '-'}\nCiudad: ${pedido.ciudad || '-'}\nNotas: ${pedido.notas || 'Sin notas'}\n\nProductos: ${pedido.productos}\nTotal: $${pedido.total?.toLocaleString('es-CL')}`,
+          }),
+        });
+      }
+
       return res.status(200).json({ ok: true });
     } catch (e) {
       console.error('[webhook] Error email estado:', e);
@@ -78,8 +115,8 @@ export default async function handler(req, res) {
       if (typeof val === 'object' && val !== null) stock = val;
     }
     for (const item of order.items) {
-      if (item.id && typeof stock[item.id] === 'number')
-        stock[item.id] = Math.max(0, stock[item.id] - item.qty);
+      const cur = typeof stock[item.id] === 'number' ? stock[item.id] : 0;
+      stock[item.id] = Math.max(0, cur - item.qty);
     }
     await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
       method: 'POST',
@@ -101,7 +138,7 @@ export default async function handler(req, res) {
       }),
     });
 
-    // Email interno
+    // Email interno a Sofía
     const productosEmail = order.items.map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toLocaleString('es-CL')}`).join('\n');
     await fetch('https://api.resend.com/emails', {
       method: 'POST',

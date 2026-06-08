@@ -853,8 +853,8 @@ async function guardarNuevoPedido() {
     const subtotal = itemsSeleccionados.reduce((s, i) => s + i.precio * i.qty, 0);
     const total = parseInt(document.getElementById('np-total').value) || subtotal;
 
-    // Guardar pedido en Supabase
-    const { error } = await _sb.from('Pedidos').insert([{
+    // Guardar pedido en Supabase y obtener el ID
+    const { data: pedidoData, error } = await _sb.from('Pedidos').insert([{
       nombre:    document.getElementById('np-nombre').value || '',
       telefono:  document.getElementById('np-telefono').value || '',
       email:     document.getElementById('np-email').value || '',
@@ -868,17 +868,29 @@ async function guardarNuevoPedido() {
       documento: document.getElementById('np-documento').value,
       notas:     document.getElementById('np-notas').value || '',
       estado:    'pendiente'
-    }]);
+    }]).select();
     if (error) throw error;
+
+    // Enviar email de confirmación al cliente
+    const pedidoId = pedidoData?.[0]?.id;
+    const emailCliente = document.getElementById('np-email').value || '';
+    if (pedidoId && emailCliente) {
+      try {
+        await fetch('/api/webhook', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pedidoId, estado: 'nuevo_pedido' }),
+        });
+      } catch(e) { console.error('Error enviando email confirmación:', e); }
+    }
 
     // Descontar stock en Redis
     const stockRes = await fetch('/api/stock-get');
     const stockData = await stockRes.json();
     const stock = stockData.stock || {};
     for (const item of itemsSeleccionados) {
-      if (typeof stock[item.id] === 'number') {
-        stock[item.id] = Math.max(0, stock[item.id] - item.qty);
-      }
+      const cur = typeof stock[item.id] === 'number' ? stock[item.id] : 0;
+      stock[item.id] = Math.max(0, cur - item.qty);
     }
     await fetch('/api/stock-set', {
       method: 'POST',
@@ -1196,8 +1208,9 @@ async function guardarEditarPedido() {
       const stockData = await stockRes.json();
       const stock = stockData.stock || {};
       for (const item of items) {
-        const cur = typeof stock[item.id] === 'number' ? stock[item.id] : 0;
-        stock[item.id] = Math.max(0, cur - item.qty);
+        if (typeof stock[item.id] === 'number') {
+          stock[item.id] = Math.max(0, stock[item.id] - item.qty);
+        }
       }
       await fetch('/api/stock-set', {
         method: 'POST',
