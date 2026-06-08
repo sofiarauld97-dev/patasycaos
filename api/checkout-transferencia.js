@@ -43,7 +43,34 @@ export default async function handler(req, res) {
     const numeroPedido = pedidoData?.[0]?.id || Date.now();
     console.log('[checkout-transferencia] Pedido creado ID:', numeroPedido);
 
-    // 2. Notificar a Sofía
+    // 2. Descontar stock en Upstash
+    try {
+      const stockRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/pac_stock`, {
+        headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
+      });
+      const stockData = await stockRes.json();
+      let stock = {};
+      if (stockData.result) {
+        let val = stockData.result;
+        let i = 0;
+        while (typeof val === 'string' && i++ < 5) { try { val = JSON.parse(val); } catch(e) { break; } }
+        if (typeof val === 'object' && val !== null) stock = val;
+      }
+      for (const item of items) {
+        const cur = typeof stock[item.id] === 'number' ? stock[item.id] : 0;
+        stock[item.id] = Math.max(0, cur - item.qty);
+      }
+      await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify([['SET', 'pac_stock', JSON.stringify(stock)]]),
+      });
+      console.log('[checkout-transferencia] Stock descontado en Upstash');
+    } catch (e) {
+      console.error('[checkout-transferencia] Error descontando stock:', e);
+    }
+
+    // 3. Notificar a Sofía
     const productosEmail = items
       .map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toLocaleString('es-CL')}`)
       .join('\n');
@@ -59,7 +86,7 @@ export default async function handler(req, res) {
       }),
     });
 
-    // 3. Email al cliente con datos bancarios y número de pedido
+    // 4. Email al cliente con datos bancarios y número de pedido
     if (cliente.email) {
       const { subject, html } = emailTransferencia({
         nombre: cliente.nombre,
