@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         items: mpItems,
         back_urls: {
-          success: 'https://patasycaos.cl/?pago=ok',
+          success: 'https://patasycaos.cl/pedido-ok',
           failure: 'https://patasycaos.cl/?pago=error',
           pending: 'https://patasycaos.cl/?pago=pendiente',
         },

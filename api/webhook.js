@@ -1,7 +1,37 @@
 import { emailConfirmacion, emailDespacho, emailEntregado, emailCancelado } from '../email_templates.js';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end();
+  if (req.method !== 'POST') {
+    // GET: consulta de pedido para la página pedido-ok
+    if (req.method === 'GET') {
+      const { preference_id } = req.query;
+      if (!preference_id) return res.status(400).json({ error: 'Missing preference_id' });
+      try {
+        const redisRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/order:${preference_id}`, {
+          headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
+        });
+        const redisData = await redisRes.json();
+        if (!redisData.result) return res.status(404).json({ error: 'Order not found' });
+        const order = JSON.parse(redisData.result);
+        const subtotal = order.items.reduce((s, i) => s + i.price * i.qty, 0);
+        const costoEnvio = order.costoEnvio || 0;
+        return res.status(200).json({
+          nombre: order.nombre,
+          items: order.items,
+          subtotal,
+          costoEnvio,
+          total: subtotal + costoEnvio,
+          metodoEntrega: order.metodoEntrega || 'despacho',
+          direccion: order.direccion || '',
+          comuna: order.comuna || '',
+          ciudad: order.ciudad || '',
+        });
+      } catch (e) {
+        return res.status(500).json({ error: e.message });
+      }
+    }
+    return res.status(405).end();
+  }
 
   // === CAMBIO DE ESTADO / NUEVO PEDIDO MANUAL ===
   const { pedidoId, estado } = req.body || {};
@@ -15,7 +45,6 @@ export default async function handler(req, res) {
       const pedido = pedidos?.[0];
       if (!pedido?.email) return res.status(200).json({ ok: true, msg: 'Sin email' });
 
-      // Reconstruir items desde el campo productos
       const items = (pedido.productos || '').split(',').map(s => {
         const match = s.trim().match(/^(.+?)\s+x(\d+)(?:\s.*)?$/);
         if (!match) return null;
@@ -26,7 +55,6 @@ export default async function handler(req, res) {
 
       let subject, html;
       if (estado === 'nuevo_pedido') {
-        // Email de confirmación para pedido manual
         const itemsConPrecio = items.map(i => ({ ...i, price: Math.round(pedido.total / items.reduce((s, x) => s + x.qty, 0)) }));
         ({ subject, html } = emailConfirmacion({
           nombre: pedido.nombre,
@@ -59,7 +87,6 @@ export default async function handler(req, res) {
       });
       console.log(`[webhook] Email '${estado}' enviado a ${pedido.email}`);
 
-      // Notificar a Sofía si es pedido nuevo manual
       if (estado === 'nuevo_pedido') {
         await fetch('https://api.resend.com/emails', {
           method: 'POST',
@@ -127,7 +154,7 @@ export default async function handler(req, res) {
       body: JSON.stringify([['SET', 'pac_stock', JSON.stringify(stock)]]),
     });
 
-    // Guardar pedido en Supabase y obtener el ID
+    // Guardar pedido en Supabase
     const supaInsertRes = await fetch(`${process.env.SUPABASE_URL}/rest/v1/Pedidos`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', apikey: process.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}`, Prefer: 'return=representation' },
