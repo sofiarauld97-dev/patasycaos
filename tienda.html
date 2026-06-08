@@ -913,6 +913,14 @@ function generarTarjetas() {
   if (filtros.sort === 'price-asc') lista.sort((a, b) => a.p.precioNum - b.p.precioNum);
   if (filtros.sort === 'price-desc') lista.sort((a, b) => b.p.precioNum - a.p.precioNum);
   if (filtros.sort === 'az') lista.sort((a, b) => a.p.nombre.localeCompare(b.p.nombre));
+  // Agotados siempre al final
+  lista.sort((a, b) => {
+    const aStock = checkStockCard(a.id, stock);
+    const bStock = checkStockCard(b.id, stock);
+    if (aStock && !bStock) return -1;
+    if (!aStock && bStock) return 1;
+    return 0;
+  });
   const totalPaginas = Math.ceil(lista.length / PRODUCTOS_POR_PAGINA);
   if (paginaActual > totalPaginas) paginaActual = 1;
   const inicio = (paginaActual - 1) * PRODUCTOS_POR_PAGINA;

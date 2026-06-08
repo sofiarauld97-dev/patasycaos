@@ -1069,7 +1069,13 @@ function generarCarrusel() {
   if (!track) return;
   track.innerHTML = '';
   const stock = getStock();
-  const todosIds = ORDEN.filter(id => productos[id]);
+  const todosIds = ORDEN.filter(id => productos[id]).sort((a, b) => {
+    const aStock = checkStockCard(a, stock);
+    const bStock = checkStockCard(b, stock);
+    if (aStock && !bStock) return -1;
+    if (!aStock && bStock) return 1;
+    return 0;
+  });
   todosIds.forEach(id => {
     const p = productos[id]; if (!p) return;
     const imgs = p.variantes ? p.variantes[0].imagenes : p.imagenes;
