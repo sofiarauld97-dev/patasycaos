@@ -1196,9 +1196,8 @@ async function guardarEditarPedido() {
       const stockData = await stockRes.json();
       const stock = stockData.stock || {};
       for (const item of items) {
-        if (typeof stock[item.id] === 'number') {
-          stock[item.id] = Math.max(0, stock[item.id] - item.qty);
-        }
+        const cur = typeof stock[item.id] === 'number' ? stock[item.id] : 0;
+        stock[item.id] = Math.max(0, cur - item.qty);
       }
       await fetch('/api/stock-set', {
         method: 'POST',
