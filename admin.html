@@ -121,7 +121,7 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
   <h1>Agregar producto nuevo</h1>
   <p class="subtitle">Completa el formulario y descarga los 2 archivos listos para subir.</p>
 
-  <div class="step-title"><span class="step-num">1</span> Carga tienda.html, inventario.html, favoritos.html e index.html de tu repo</div>
+  <div class="step-title"><span class="step-num">1</span> Carga tienda.html, inventario.html, favoritos.html e index.html de tu repo (+ pedidos.html y webhook.js opcionales)</div>
   <div class="upload-grid">
     <div class="upload-card" id="card-tienda" onclick="document.getElementById('file-tienda').click()">
       <input type="file" id="file-tienda" accept=".html" style="display:none">
@@ -143,6 +143,18 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
     </div>
     <div class="upload-card" id="card-index" onclick="document.getElementById('file-index').click()">
       <input type="file" id="file-index" accept=".html" style="display:none">
+    <div class="upload-card" id="card-pedidos" onclick="document.getElementById('file-pedidos').click()">
+      <input type="file" id="file-pedidos" accept=".html" style="display:none" onchange="leerArchivo('pedidos', this)">
+      <span class="upload-icon">📋</span>
+      <div class="upload-name">pedidos.html</div>
+      <div class="upload-status" id="st-pedidos">Opcional</div>
+    </div>
+    <div class="upload-card" id="card-webhook" onclick="document.getElementById('file-webhook').click()">
+      <input type="file" id="file-webhook" accept=".js" style="display:none" onchange="leerArchivo('webhook', this)">
+      <span class="upload-icon">⚙️</span>
+      <div class="upload-name">webhook.js</div>
+      <div class="upload-status" id="st-webhook">Opcional</div>
+    </div>
       <span style="font-size:2rem">🏠</span>
       <div class="upload-name">index.html</div>
       <div class="upload-status" id="st-index">Haz clic para subir</div>
@@ -239,6 +251,8 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
       <button class="download-btn" type="button" onclick="descargar('tienda')">⬇️ tienda.html</button>
       <button class="download-btn" type="button" onclick="descargar('inventario')">⬇️ inventario.html</button>
       <button class="download-btn" type="button" onclick="descargar('favoritos')">⬇️ favoritos.html</button>
+      <button class="download-btn" type="button" onclick="descargar('pedidos')" id="btn-dl-pedidos" style="display:none">⬇️ pedidos.html</button>
+      <button class="download-btn" type="button" onclick="descargar('webhook')" id="btn-dl-webhook" style="display:none">⬇️ webhook.js</button>
       <button class="download-btn" type="button" onclick="descargar('index')">⬇️ index.html</button>
     </div>
     <div class="instrucciones">
@@ -252,7 +266,7 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
 <script>
 const PW = '290966';
 const archivos = { tienda: null, inventario: null, favoritos: null, index: null };
-const archivosModificados = { tienda: null, inventario: null, favoritos: null, index: null };
+const archivosModificados = { tienda: null, inventario: null, favoritos: null, index: null, pedidos: null, webhook: null };
 
 /* LOCK */
 document.getElementById('lock-btn').addEventListener('click', checkPw);
@@ -483,9 +497,43 @@ function publicar() {
   document.getElementById('resultado').classList.add('visible');
   document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
   mostrarToast('✅ Archivos generados — descárgalos');
+  if (archivos.pedidos) document.getElementById('btn-dl-pedidos').style.display = '';
+  if (archivos.webhook) document.getElementById('btn-dl-webhook').style.display = '';
 
   // Actualizar stock en Upstash automáticamente
   actualizarStockUpstash(stockEntries);
+
+  // Actualizar pedidos.html si fue cargado
+  if (archivos.pedidos) {
+    var nuevoPedidos = archivos.pedidos;
+    // Construir entradas CATALOGO (una por variante o una sola si no hay variantes)
+    var catalogoEntries = '';
+    if (tieneV && variantesArr.length) {
+      variantesArr.forEach(function(v) {
+        catalogoEntries += '{ id: ' + JSON.stringify(id + '_' + v.label) + ', nombre: ' + JSON.stringify(nombre + ' — ' + v.label) + ', precio: ' + precioNum + ' },\n  ';
+      });
+    } else {
+      catalogoEntries = '{ id: ' + JSON.stringify(id) + ', nombre: ' + JSON.stringify(nombre) + ', precio: ' + precioNum + ' },\n  ';
+    }
+    nuevoPedidos = nuevoPedidos.replace(/const CATALOGO\s*=\s*\[/, 'const CATALOGO = [\n  ' + catalogoEntries);
+    archivosModificados.pedidos = nuevoPedidos;
+  }
+
+  // Actualizar webhook.js si fue cargado
+  if (archivos.webhook) {
+    var nuevoWebhook = archivos.webhook;
+    // Construir entradas PRECIOS
+    var preciosEntries = '';
+    if (tieneV && variantesArr.length) {
+      variantesArr.forEach(function(v) {
+        preciosEntries += '  ' + JSON.stringify(nombre + ' — ' + v.label) + ': ' + precioNum + ',\n';
+      });
+    } else {
+      preciosEntries = '  ' + JSON.stringify(nombre) + ': ' + precioNum + ',\n';
+    }
+    nuevoWebhook = nuevoWebhook.replace(/const PRECIOS\s*=\s*\{/, 'const PRECIOS = {\n' + preciosEntries);
+    archivosModificados.webhook = nuevoWebhook;
+  }
 }
 
 async function actualizarStockUpstash(stockEntries) {
@@ -531,7 +579,8 @@ function descargar(nombre) {
   var blob = new Blob([contenido], { type: 'text/html;charset=utf-8' });
   var url  = URL.createObjectURL(blob);
   var a    = document.createElement('a');
-  a.href = url; a.download = nombre + '.html'; a.click();
+  var ext = (nombre === 'webhook') ? '.js' : '.html';
+  a.href = url; a.download = nombre + ext; a.click();
   URL.revokeObjectURL(url);
   mostrarToast('⬇️ ' + nombre + '.html descargado');
 }
