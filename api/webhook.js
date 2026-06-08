@@ -127,10 +127,10 @@ export default async function handler(req, res) {
       body: JSON.stringify([['SET', 'pac_stock', JSON.stringify(stock)]]),
     });
 
-    // Guardar pedido en Supabase
-    await fetch(`${process.env.SUPABASE_URL}/rest/v1/Pedidos`, {
+    // Guardar pedido en Supabase y obtener el ID
+    const supaInsertRes = await fetch(`${process.env.SUPABASE_URL}/rest/v1/Pedidos`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', apikey: process.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}`, Prefer: 'return=minimal' },
+      headers: { 'Content-Type': 'application/json', apikey: process.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}`, Prefer: 'return=representation' },
       body: JSON.stringify({
         nombre: order.nombre, email: order.email, telefono: order.telefono,
         direccion: order.direccion || '', comuna: order.comuna || '', ciudad: order.ciudad || '',
@@ -140,6 +140,8 @@ export default async function handler(req, res) {
         mp_preference_id: payment.preference_id,
       }),
     });
+    const supaInsertData = await supaInsertRes.json();
+    const numeroPedido = supaInsertData?.[0]?.id;
 
     // Email interno a Sofía
     const productosEmail = order.items.map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toLocaleString('es-CL')}`).join('\n');
@@ -159,7 +161,7 @@ export default async function handler(req, res) {
         nombre: order.nombre, items: order.items, subtotal, costoEnvio, total,
         direccion: order.direccion || '', comuna: order.comuna || '', ciudad: order.ciudad || '',
         documento: order.documento || 'Boleta', esRetiro,
-        numeroPedido: undefined, // MP no retorna ID aquí
+        numeroPedido,
       });
       await fetch('https://api.resend.com/emails', {
         method: 'POST',
