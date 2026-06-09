@@ -13,7 +13,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --cream: #F5ECD7; --terracota: #C4622D; --negro: #1A1A1A;
-    --blanco: #FFFFFF; --dark: #1C1007; --card-bg: #FAF4EA;
+    --blanco: #FFFFFF; --dark: #1C1007; --card-bg: rgba(196, 98, 45, 0.12);
     --crema-dark: #eddfc6; --texto-suave: #6b5c4e;
     --borde-modal: #e0d5c5; --radio-modal: 16px; --radio-sm: 8px;
   }
@@ -199,8 +199,8 @@
   .prod-badge { position: absolute; top: 12px; left: 12px; background: rgba(28,16,7,.65); color: var(--blanco); border-radius: 50px; padding: 4px 12px; font-size: .72rem; font-weight: 600; }
   .prod-heart { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; background: var(--blanco); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .9rem; cursor: pointer; border: none; z-index: 2; }
   .prod-info { padding: 18px; display: flex; flex-direction: column; flex: 1; }
-  .prod-info h4 { font-weight: 700; font-size: .95rem; margin-bottom: .25rem; }
-  .prod-info .tagline { font-size: .78rem; color: #6b5a4e; font-style: italic; margin-bottom: .8rem; }
+  .prod-info h4 { font-weight: 700; font-size: .95rem; margin-bottom: .25rem; color: var(--negro); }
+  .prod-info .tagline { font-size: .78rem; color: #2a2a2a; font-style: italic; margin-bottom: .8rem; }
   .prod-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
   .prod-price { font-size: 1.2rem; font-weight: 800; color: var(--terracota); }
   .prod-precio-original { text-decoration: line-through; color: #999; font-size: .82rem; font-weight: 400; margin-right: 4px; }
