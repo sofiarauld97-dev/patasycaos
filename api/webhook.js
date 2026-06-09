@@ -71,7 +71,8 @@ const PRECIOS = {
   "Tráquea de Vacuno - Rahue": 3990,
   "Tubito Cremoso Atún con Catnip": 2990,
   "Tubito Cremoso Camarón con Catnip": 2990,
-  "Tubito Cremoso Salmón con Matatabi": 2990,
+  "Tubito Cremoso Salmón con Matatabi": 2990,  "Snack Calmante para Gatos Calming": 5990,
+
 };
 
 function getPrecio(nombre) {
