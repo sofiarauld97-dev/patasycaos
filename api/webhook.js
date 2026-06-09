@@ -4,6 +4,8 @@ import { emailConfirmacion, emailDespacho, emailEntregado, emailCancelado } from
 const PRECIOS = {
   "Comedero Lento Flores - Lila": 9990,
   "Snack Calming Cat Treats - Beaphar": 5990,
+  "Pala Arenero — Marrón": 1990,
+  "Pala Arenero — Verde": 1990,
   "Collar Find My — Amarillo": 12990,
   "Pelota Snack Interactiva — Verde": 6990,
   "Collar Perro Acolchado — Café Talla S": 6990,
