@@ -47,11 +47,12 @@
   /* MEGA MENÚ */
   .nav-item { position: relative; }
   .nav-item > a::after { content: ' ▾'; font-size: .65rem; }
-  .mega-menu { display: none; position: absolute; top: 100%; left: 0; background: #fff; border-radius: 0 0 14px 14px; box-shadow: 0 8px 32px rgba(0,0,0,.12); padding: 1.2rem 1.5rem; min-width: 520px; z-index: 200; }
-  .nav-item:hover .mega-menu { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; }
-  .mega-col h4 { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: .5rem; white-space: nowrap; }
-  .mega-col a { display: block; font-size: .8rem; color: var(--negro); text-decoration: none; padding: 2px 0; transition: color .2s; }
-  .mega-col a:hover { color: var(--terracota); }
+  .mega-menu { display: none; position: absolute; top: 100%; left: 0; background: #fff; border-radius: 0 0 14px 14px; box-shadow: 0 8px 32px rgba(0,0,0,.12); padding: 1.2rem 1.5rem; min-width: 200px; z-index: 200; }
+  .nav-item:hover .mega-menu { display: flex; flex-direction: column; gap: 0; }
+  .mega-col h4 { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: 0; white-space: nowrap; transition: color .2s; }
+  .mega-col a { display: block; text-decoration: none; padding: 6px 0; transition: color .2s; }
+  .mega-col a h4 { color: var(--terracota); }
+  .mega-col a:hover h4 { color: var(--negro); }
   /* HAMBURGER */
   .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
   .hamburger span { display: block; width: 22px; height: 2px; background: var(--negro); border-radius: 2px; transition: all .3s; }
@@ -574,8 +575,8 @@ function runSearch(q) {
     <ul class="nav-links">
       <li><a href="/">Inicio</a></li>
       <li><a href="/tienda">Tienda</a></li>
-      <li class="nav-item"><a href="/tienda?aud=Perros">Perros</a><div class="mega-menu"><div class="mega-col"><h4>Alimentos</h4><a href="/tienda?aud=Perros&cat=Alimentos">Ver todo</a></div><div class="mega-col"><h4>Snacks</h4><a href="/tienda?aud=Perros&cat=Snacks y Golosinas">Ver todo</a></div><div class="mega-col"><h4>Accesorios</h4><a href="/tienda?aud=Perros&cat=Accesorio">Ver todo</a></div><div class="mega-col"><h4>Cuidado e Higiene</h4><a href="/tienda?aud=Perros&cat=Aseo e Higiene">Ver todo</a></div><div class="mega-col"><h4>Bienestar Natural</h4><a href="/tienda?aud=Perros&cat=Flores de Bach">Ver todo</a></div></div></li>
-      <li class="nav-item"><a href="/tienda?aud=Gatos">Gatos</a><div class="mega-menu"><div class="mega-col"><h4>Alimentos</h4><a href="/tienda?aud=Gatos&cat=Alimentos">Ver todo</a></div><div class="mega-col"><h4>Snacks</h4><a href="/tienda?aud=Gatos&cat=Snacks y Golosinas">Ver todo</a></div><div class="mega-col"><h4>Accesorios</h4><a href="/tienda?aud=Gatos&cat=Accesorio">Ver todo</a></div><div class="mega-col"><h4>Cuidado e Higiene</h4><a href="/tienda?aud=Gatos&cat=Aseo e Higiene">Ver todo</a></div><div class="mega-col"><h4>Bienestar Natural</h4><a href="/tienda?aud=Gatos&cat=Flores de Bach">Ver todo</a></div></div></li>
+      <li class="nav-item"><a href="/tienda?aud=Perros">Perros</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Perros&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
+      <li class="nav-item"><a href="/tienda?aud=Gatos">Gatos</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
       <li><a href="/suscripciones" class="activo">Suscripciones</a></li>
       <li><a href="/blog">Blog</a></li>
     </ul>
