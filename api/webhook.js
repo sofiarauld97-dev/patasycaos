@@ -2,20 +2,12 @@ import { emailConfirmacion, emailDespacho, emailEntregado, emailCancelado } from
 
 // Catálogo de precios para reconstruir items desde texto de Supabase
 const PRECIOS = {
-  "Collar de Perro Talla M - Brown": 6990,
-
   "Comedero Lento Flores - Lila": 9990,
-
   "Collar Find My — Amarillo": 12990,
-
   "Pelota Snack Interactiva — Verde": 6990,
-  "Collar Find My — Amarillo": 12990,
   "Collar Perro Acolchado — Café Talla S": 6990,
   "Collar Perro Acolchado — Café Talla M": 6990,
   "Collar Perro Acolchado — Rojo Talla S": 6990,
-  "Collar Perro Acolchado — Rojo Talla S": 6990,
-  "Collar Perro Acolchado — Café Talla M": 6990,
-  "Collar Perro Acolchado — Café Talla S": 6990,
 
   "Afeitadora LED": 9990,
   "Arena Sanitaria Ciudad Animal 8kg": 8990,
