@@ -551,7 +551,7 @@ function publicar() {
   }
 }
 
-async function actualizarStockUpstash(stockEntries) {
+async async function actualizarStockUpstash(stockEntries) {
   try {
     // Obtener stock actual desde la API
     const r = await fetch('/api/stock-get');
