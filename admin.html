@@ -269,7 +269,7 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
 
 <script>
 const PW = '290966';
-const archivos = { tienda: null, inventario: null, favoritos: null, index: null };
+const archivos = { tienda: null, inventario: null, favoritos: null, index: null, pedidos: null, webhook: null };
 const archivosModificados = { tienda: null, inventario: null, favoritos: null, index: null, pedidos: null, webhook: null };
 
 /* LOCK */
@@ -551,7 +551,7 @@ function publicar() {
   }
 }
 
-async async function actualizarStockUpstash(stockEntries) {
+async function actualizarStockUpstash(stockEntries) {
   try {
     // Obtener stock actual desde la API
     const r = await fetch('/api/stock-get');
