@@ -14,7 +14,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --cream: #F5ECD7; --terracota: #C4622D; --negro: #1A1A1A;
-    --blanco: #FFFFFF; --dark: #1C1007; --card-bg: #FAF4EA;
+    --blanco: #FFFFFF; --dark: #1C1007; --card-bg: #FFFFFF;
     --crema-dark: #eddfc6; --texto-suave: #6b5c4e;
     --borde-modal: #e0d5c5; --radio-modal: 16px; --radio-sm: 8px;
   }
@@ -110,7 +110,7 @@
   .badge-ahorro { position: absolute; top: 10px; left: 10px; background: #4A7C59; color: #fff; font-size: .72rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; letter-spacing: .03em; z-index: 3; pointer-events: none; box-shadow: 0 2px 8px rgba(0,0,0,.35); border: 1.5px solid rgba(255,255,255,.25); }
   .prod-card { cursor: pointer; background: var(--card-bg); border-radius: 18px; overflow: hidden; transition: transform .2s; display: flex; flex-direction: column; }
   .prod-card:hover { transform: translateY(-4px); }
-  .prod-img { position: relative; aspect-ratio: 4/5; background: #f0dfc0; overflow: hidden; border-bottom: 1px solid #1A1A1A; }
+  .prod-img { position: relative; aspect-ratio: 4/5; background: #FFFFFF; overflow: hidden; }
   .prod-img img { width: 100%; height: 100%; object-fit: contain; transition: opacity .15s; }
   .prod-badge { position: absolute; top: 12px; left: 12px; background: rgba(28,16,7,.65); color: var(--blanco); border-radius: 50px; padding: 4px 12px; font-size: .72rem; font-weight: 600; }
   .prod-heart { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; background: var(--blanco); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .9rem; cursor: pointer; border: none; }
@@ -119,8 +119,8 @@
   .prod-info .tagline { font-size: .78rem; color: #2a2a2a; font-style: italic; margin-bottom: .8rem; }
   .prod-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; flex-wrap: wrap; gap: 6px; }
   .prod-price { font-size: 1.2rem; font-weight: 800; color: var(--terracota); }
-  .btn-add { background: var(--terracota); color: var(--blanco); border: none; border-radius: 50px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .8rem; cursor: pointer; transition: background .2s; }
-  .btn-add:hover { background: #a8501f; }
+  .btn-add { background: var(--negro); color: var(--blanco); border: none; border-radius: 50px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .8rem; cursor: pointer; transition: background .2s; }
+  .btn-add:hover { background: var(--terracota); }
   .btn-add:disabled { background: #aaa; cursor: not-allowed; }
   .prod-card.agotado { opacity: .65; }
   .prod-card.agotado .prod-img::after { content: 'Agotado'; position: absolute; inset: 0; background: rgba(28,16,7,.45); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; }
