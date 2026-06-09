@@ -2,7 +2,7 @@ import { emailConfirmacion, emailDespacho, emailEntregado, emailCancelado } from
 
 // Catálogo de precios para reconstruir items desde texto de Supabase
 const PRECIOS = {
-  "Collar de Perro Talla S - Brown": 6990,
+  "Collar de Perro Talla M - Brown": 6990,
 
   "Comedero Lento Flores - Lila": 9990,
 
