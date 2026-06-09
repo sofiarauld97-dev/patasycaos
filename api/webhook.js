@@ -2,6 +2,8 @@ import { emailConfirmacion, emailDespacho, emailEntregado, emailCancelado } from
 
 // Catálogo de precios para reconstruir items desde texto de Supabase
 const PRECIOS = {
+  "Collar Find My — Amarillo": 12990,
+
   "Pelota Snack Interactiva — Verde": 6990,
 
   "Afeitadora LED": 9990,
