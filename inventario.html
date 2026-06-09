@@ -429,97 +429,76 @@ if (sessionStorage.getItem('inventario_ok') === '1') {
    CATÁLOGO DE SKUs
 ═══════════════════════════════════════ */
 const SKUS = [
-  
-  { id: "comedero-lento-flores-lila", nombre: "Comedero Lento Flores - Lila", cat: "Accesorio", precio: "$9.990", img: "comedero-lento-flores-lila.jpg", emoji: "🌸" },
-  
-  { id: "comedero-lento-slow-feeder-rosado", nombre: "Comedero Lento Slow Feeder - Rosado", cat: "Accesorio", precio: "$6.990", img: "comedero-lento-rosado.jpg", emoji: "🐶" },
-  
-  { id: "rascador-maxi-caja-de-leche---brnx", nombre: "Rascador Maxi Caja de Leche - Brnx", cat: "Accesorio", precio: "$13.990", img: "rascador-forma-de-leche.jpg", emoji: "🐱" },
-  
-  { id: "collar-isabelino-donut-rosada---talla-s", nombre: "Collar Isabelino Donut Rosada - Talla S", cat: "Insumos Veterinarios", precio: "$6.990", img: "collar-isabelino-donut-gatos.jpg", emoji: "🐱" },
-  
-  { id: "pelota-snack-interactiva_Roja", nombre: "Pelota Snack Interactiva — Roja", cat: "Juguete", precio: "$6.990", img: "pelota-snack-perro-roja.jpg", emoji: "🔴", audience: "Para Perros" },
-  { id: "pelota-snack-interactiva_Azul", nombre: "Pelota Snack Interactiva — Azul", cat: "Juguete", precio: "$6.990", img: "pelota-snack-perro-azul.jpg", emoji: "🔵", audience: "Para Perros" },
-  
-  { id: "dispensador-de-bolsas---diseno-cafe", nombre: "Dispensador de Bolsas - Diseño Café", cat: "Accesorio", precio: "$5.990", img: "dispensador-bolsas-perro.jpg", emoji: "🐶" },
-  
-  { id: "calming-collar---perros", nombre: "Calming Collar - Perros", cat: "Accesorio", precio: "$7.990", img: "calming-collar-perro-caja.jpg", emoji: "🐶" },
-  
-  { id: "calming-collar---gatos", nombre: "Calming Collar - Gatos", cat: "Accesorio", precio: "$7.990", img: "calming-collar-gato-caja.jpg", emoji: "🐱" },
-  
-  { id: "botella-portatil-para-perros_Rosada", nombre: "Botella Portátil para Perros — Rosada", cat: "Accesorio", precio: "$14.990", img: "botella-de-agua-rosada.jpg", emoji: "🌸", audience: "Para Perros" },
-  { id: "botella-portatil-para-perros_Calipso", nombre: "Botella Portátil para Perros — Calipso", cat: "Accesorio", precio: "$14.990", img: "botella-de-agua-calipso-2.jpg", emoji: "🩵", audience: "Para Perros" },
-  
-  { id: "arena-sanitaria-ciudad-animal-8kg", nombre: "Arena Sanitaria Ciudad Animal 8kg", cat: "Aseo e Higiene", precio: "$8.990", img: "arena-sanitaria-ciudad-animal-8k.jpg", emoji: "🐱" },
-  
   { id: "brit-care-sterilized-weigh-control-2kg---duck-turkey", nombre: "Brit Care Sterilized Weigh Control 2kg - Duck & Turkey", cat: "Alimentos", precio: "$24.990", img: "brit-care-esterilizado-duck.jpg", emoji: "🦆" },
-  
-  { id: "pack-calma-total", nombre: "Pack Calma Total", cat: "Flores de Bach", precio: "$15.990", img: "pack_calma_total.jpg", emoji: "🎁" , audience: 'Para Gatos' },
-  { id: "pack-bienvenido-a-casa", nombre: "Pack Bienvenido a Casa", cat: "Flores de Bach", precio: "$21.990", img: "pack_bienveido_a_casa.jpg", emoji: "🎁" , audience: 'Para Gatos' },
-  { id: "pack-cuidado-total", nombre: "Pack Cuidado Total", cat: "Aseo e Higiene", precio: "$12.990", img: "pack_cuidado_total.jpg", emoji: "🐾" , audience: 'Perros & Gatos' },
-  { id: "pack-juega-y-relaja", nombre: "Pack Juega y Relaja", cat: "Flores de Bach", precio: "$28.990", img: "pack_relaja_y_juega.jpg", emoji: "🎁" , audience: 'Para Gatos' },
-  { id: "pack-sos-mascota", nombre: "Pack SOS Mascota", cat: "Flores de Bach", precio: "$18.990", img: "pack_sos_mascota.jpg", emoji: "🎁" , audience: 'Perros & Gatos' },
-  { id: "pack-rutina-sana", nombre: "Pack Rutina Sana", cat: "Flores de Bach", precio: "$33.990", img: "pack_rutina_sana.jpg", emoji: "🎁" , audience: 'Para Gatos' },
-  { id: "comedero-lento-slow-feeder---catstages", nombre: "Comedero Lento Slow Feeder - Catstages", cat: "Accesorio", precio: "$7.990", img: "Plato_con_Comida.jpg", emoji: "🐱" , audience: 'Para Gatos' },
-  
-  
-  { id: "pack-consulta-flor-de-bach", nombre: "Pack Consulta + Flor de Bach", cat: "Flores de Bach", precio: "$29.990", img: "pack_floral_perros_gatos.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
-  
-  { id: "flores-de-bach---rescue-y-alivio", nombre: "Flores de Bach - Rescue y Alivio", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Rescue_y_Alivio.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
-  
-  { id: "flores-de-bach---energia-y-animo", nombre: "Flores de Bach - Energía y Ánimo", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Energia_y_Animo.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
-  
-  { id: "flores-de-bach---equilibrio", nombre: "Flores de Bach - Equilibrio", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Equilibrio.jpg", emoji: "🌿" , audience: 'Para Gatos' },
-  
-  { id: "flores-de-bach---ansiedad-y-calma", nombre: "Flores de Bach - Ansiedad y Calma", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Ansiedad_y_Calma.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
-  
-  { id: "cat-fest-pillows-schrimp-creme", nombre: "Cat Fest Pillows Salmon Creme", cat: "Snacks y Golosinas", precio: "$1.990", img: "catfest_pillows_salmon_creme.jpg", emoji: "🐾" , audience: 'Para Gatos' },
-  
-  { id: 'cat-fest-pillows', nombre: 'Cat Fest Pillows Chicken Creme', cat: 'Snacks y Golosinas', precio: '$1.990', img: 'Cat_Fest_Pillows_Chicken.jpg', emoji: '🐔', audience: 'Para Gatos' },
-  { id: 'tubito-atun',     nombre: 'Tubito Cremoso Atún con Catnip',     cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Tubito_Cremoso_Cats_Snack2.jpg', emoji: '🐟', audience: 'Para Gatos' },
-  { id: 'tubito-camaron',   nombre: 'Tubito Cremoso Camarón con Catnip',   cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats-snack-tubito-camaron.jpg', emoji: '🐰', audience: 'Para Gatos' },
-  { id: 'tubito-salmon-matatabi', nombre: 'Tubito Cremoso Salmón con Matatabi', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'tubito_salmon_matatabi.jpg', emoji: '🐟', audience: 'Para Gatos' },
   { id: 'lata-leonardo-kitten',  nombre: 'Lata Leonardo Kitten 200g',      cat: 'Alimentos', precio: '$3.790', img: 'Lata_Leonardo_Kitten.jpg', emoji: '🐱', audience: 'Para Gatos' },
   { id: 'lata-leonardo_Ave',     nombre: 'Lata Leonardo Adulto — Ave',     cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.jpg',  emoji: '🐔', audience: 'Para Gatos' },
   { id: 'lata-leonardo_Pato',    nombre: 'Lata Leonardo Adulto — Pato',    cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.jpg',  emoji: '🦆', audience: 'Para Gatos' },
   { id: 'lata-leonardo_Conejo',  nombre: 'Lata Leonardo Adulto — Conejo',  cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.jpg',  emoji: '🐰', audience: 'Para Gatos' },
   { id: 'lata-leonardo_Pescado', nombre: 'Lata Leonardo Adulto — Pescado', cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.jpg',  emoji: '🐟', audience: 'Para Gatos' },
   { id: 'lata-leonardo_Ternera', nombre: 'Lata Leonardo Adulto — Ternera', cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.jpg',  emoji: '🐄', audience: 'Para Gatos' },
-  { id: 'collar-findmy_Turquesa',           nombre: 'Collar Find My — Turquesa',           cat: 'Accesorio', precio: '$12.990', img: 'collar-find-my-turquesa.jpg', emoji: '🩵', audience: 'Perros & Gatos' },
-  { id: 'collar-findmy_Negro',              nombre: 'Collar Find My — Negro',              cat: 'Accesorio', precio: '$12.990', img: 'collar-find-my-negro.jpg',    emoji: '🖤', audience: 'Perros & Gatos' },
-  { id: 'collar-findmy_Azul',              nombre: 'Collar Find My — Azul',               cat: 'Accesorio', precio: '$12.990', img: 'Collar_GPS.jpg',               emoji: '💙', audience: 'Perros & Gatos' },
-  { id: 'fuente-agua',                    nombre: 'Fuente de Agua Flor USB',             cat: 'Accesorio', precio: '$21.990', img: 'Bebedero_Gatos_2.jpg',          emoji: '💧', audience: 'Para Gatos' },
-  { id: 'pajaro',                         nombre: 'Pájaro Interactivo',                  cat: 'Juguete',   precio: '$13.990', img: 'Pajaro_Gatos.jpg',              emoji: '🐦', audience: 'Para Gatos' },
-  { id: 'pelota-led',                     nombre: 'Pelota Interactiva LED',              cat: 'Juguete',   precio: '$8.990',  img: 'Pelota_Interactiva_Gato.jpg',   emoji: '🔦', stock: 2, audience: 'Para Gatos' },
-  { id: 'pulpo',                          nombre: 'Masajeador Pulpo',                    cat: 'Juguete',   precio: '$6.990',  img: 'pulpo_para_gatos_masajeador.jpg',             emoji: '🐙', audience: 'Para Gatos' },
-  { id: 'paw-balm',                       nombre: 'Paw Balm',                            cat: 'Aseo e Higiene',   precio: '$5.990',  img: 'Patas_y_Paw_Balm.jpg',          emoji: '🐾', audience: 'Perros & Gatos' },
-  { id: 'afeitadora',                     nombre: 'Afeitadora LED',                      cat: 'Aseo e Higiene',   precio: '$9.990',  img: 'Afeitadora_Gatos_1.jpg',        emoji: '✂️', audience: 'Perros & Gatos' },
-  { id: 'cat-fest_Pato',                  nombre: 'Cat Fest Meat Sticks — Pato',         cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.jpg',          emoji: '🦆', audience: 'Para Gatos' },
-  { id: 'cat-fest_Cordero',               nombre: 'Cat Fest Meat Sticks — Cordero',      cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.jpg',          emoji: '🐑', audience: 'Para Gatos' },
-  { id: 'cats-snack_Catnip',              nombre: 'Cats Snack — Catnip',                 cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'cats-snack-catnip.jpg',          emoji: '🌿', audience: 'Para Gatos' },
-  { id: 'cats-snack_Matatabi',            nombre: 'Cats Snack — Matatabi',               cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'cats-snack-matatabi.jpg',          emoji: '🌱', audience: 'Para Gatos' },
-  { id: 'cats-snack_Rellena Atún + Queso',    nombre: 'Cats Snack — Rellena Atún + Queso',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats-snack-atun-queso.jpg',      emoji: '🧀', audience: 'Para Gatos' },
-  { id: 'cats-snack_Rellena Atún + Ostiones', nombre: 'Cats Snack — Rellena Atún + Ostiones', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats_snack_galletas_rellenas_atun_ostiones.jpg', emoji: '🦪', audience: 'Para Gatos' },
-  { id: 'cats-snack_Rellena Camarón',         nombre: 'Cats Snack — Rellena Camarón',         cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats_snack_galletas_rellenas_camaron.jpg', emoji: '🦐', audience: 'Para Gatos' },
-  { id: 'suero-fisiologico',                  nombre: 'Suero Fisiológico — Cloruro de Sodio 0.9%', cat: 'Insumos Veterinarios', precio: '$2.590', img: 'suero_fisiologico_cloruro_de_sodio.jpg', emoji: '💊', audience: 'Perros & Gatos' },
+  { id: "arena-sanitaria-ciudad-animal-8kg", nombre: "Arena Sanitaria Ciudad Animal 8kg", cat: "Aseo e Higiene", precio: "$8.990", img: "arena-sanitaria-ciudad-animal-8k.jpg", emoji: "🐱" },
   { id: 'pulmon-cordero-rahue',   nombre: 'Pulmón de Cordero 50g - Rahue',        cat: 'Snacks y Golosinas', precio: '$3.990', img: 'pulmon_de_cordero_perros.jpg',  emoji: '🐑', audience: 'Para Perros' },
   { id: 'traquea-vacuno-rahue',   nombre: 'Tráquea de Vacuno - Rahue',             cat: 'Snacks y Golosinas', precio: '$3.990', img: 'traquea_de_vacuno_perros.jpg',  emoji: '🐄', audience: 'Para Perros' },
   { id: 'garra-pollo-rahue',      nombre: 'Garra de Pollo 65g - Rahue',            cat: 'Snacks y Golosinas', precio: '$3.490', img: 'garras_de_pollo_perros.jpg',    emoji: '🐔', audience: 'Para Perros' },
   { id: 'oreja-cerdo-rahue',      nombre: 'Recorte Oreja de Cerdo 100g - Rahue',   cat: 'Snacks y Golosinas', precio: '$4.290', img: 'orejas_cerdo_perros.jpg',       emoji: '🐷', audience: 'Para Perros' },
   { id: 'femur-cerdo-tasty',      nombre: 'Fémur de Cerdo - Tasty Farm',           cat: 'Snacks y Golosinas', precio: '$4.990', img: 'femur_perros.jpg',              emoji: '🦴', audience: 'Para Perros' },
-  { id: 'colagepet-donut-pollo', nombre: 'ColágePet Donut — Sabor Pollo', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'colagepet_donut_pollo.jpg', emoji: '🐶', audience: 'Para Perros' },
-  { id: 'colagepet-donut-carne', nombre: 'ColágePet Donut — Sabor Carne', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'colagepet_donut_carne.jpg', emoji: '🐶', audience: 'Para Perros' },
-  { id: 'colagepet-donut-pato', nombre: 'ColágePet Donut — Sabor Pato', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'colagepet_donut_pato.jpg', emoji: '🐶', audience: 'Para Perros' },
   { id: 'dog-fest-rabbit-ears-lamb', nombre: 'Dog Fest Rabbit Ears with Lamb', cat: 'Snacks y Golosinas', precio: '$4.990', img: 'dog_fest_rabbit_ears_lamb.jpg', emoji: '🐶', audience: 'Para Perros' },
   { id: 'dog-fest-lamb-medallions', nombre: 'Dog Fest Lamb Medallions', cat: 'Snacks y Golosinas', precio: '$4.990', img: 'dog_fest_lamb_medallions.jpg', emoji: '🐶', audience: 'Para Perros' },
   { id: 'dog-fest-calcium-bones-chicken', nombre: 'Dog Fest Calcium Bones with Chicken', cat: 'Snacks y Golosinas', precio: '$4.990', img: 'dog_fest_calcium_bones_chicken.jpg', emoji: '🐶', audience: 'Para Perros' },
-  { id: 'pelota-snack-interactiva_Verde', nombre: 'Pelota Snack Interactiva — Verde', cat: 'Juguete', precio: '$6.990', img: 'pelota-snack-perro-verde.jpg', emoji: '🟢', audience: 'Para Perros' },
+  { id: 'colagepet-donut-pollo', nombre: 'ColágePet Donut — Sabor Pollo', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'colagepet_donut_pollo.jpg', emoji: '🐶', audience: 'Para Perros' },
+  { id: 'colagepet-donut-carne', nombre: 'ColágePet Donut — Sabor Carne', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'colagepet_donut_carne.jpg', emoji: '🐶', audience: 'Para Perros' },
+  { id: 'colagepet-donut-pato', nombre: 'ColágePet Donut — Sabor Pato', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'colagepet_donut_pato.jpg', emoji: '🐶', audience: 'Para Perros' },
+  { id: "cat-fest-pillows-schrimp-creme", nombre: "Cat Fest Pillows Salmon Creme", cat: "Snacks y Golosinas", precio: "$1.990", img: "catfest_pillows_salmon_creme.jpg", emoji: "🐾" , audience: 'Para Gatos' },
+  { id: 'cat-fest-pillows', nombre: 'Cat Fest Pillows Chicken Creme', cat: 'Snacks y Golosinas', precio: '$1.990', img: 'Cat_Fest_Pillows_Chicken.jpg', emoji: '🐔', audience: 'Para Gatos' },
+  { id: 'tubito-atun',     nombre: 'Tubito Cremoso Atún con Catnip',     cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Tubito_Cremoso_Cats_Snack2.jpg', emoji: '🐟', audience: 'Para Gatos' },
+  { id: 'tubito-camaron',   nombre: 'Tubito Cremoso Camarón con Catnip',   cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats-snack-tubito-camaron.jpg', emoji: '🐰', audience: 'Para Gatos' },
+  { id: 'tubito-salmon-matatabi', nombre: 'Tubito Cremoso Salmón con Matatabi', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'tubito_salmon_matatabi.jpg', emoji: '🐟', audience: 'Para Gatos' },
+  { id: 'cat-fest_Pato',                  nombre: 'Cat Fest Meat Sticks — Pato',         cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.jpg',          emoji: '🦆', audience: 'Para Gatos' },
+  { id: 'cat-fest_Cordero',               nombre: 'Cat Fest Meat Sticks — Cordero',      cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.jpg',          emoji: '🐑', audience: 'Para Gatos' },
+  { id: 'cats-snack_Catnip',              nombre: 'Cats Snack — Catnip',                 cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'cats-snack-catnip.jpg',          emoji: '🌿', audience: 'Para Gatos' },
+  { id: 'cats-snack_Matatabi',            nombre: 'Cats Snack — Matatabi',               cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'cats-snack-matatabi.jpg',          emoji: '🌱', audience: 'Para Gatos' },
+  { id: 'cats-snack_Rellena Atún + Ostiones', nombre: 'Cats Snack — Rellena Atún + Ostiones', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats_snack_galletas_rellenas_atun_ostiones.jpg', emoji: '🦪', audience: 'Para Gatos' },
+  { id: 'cats-snack_Rellena Atún + Queso',    nombre: 'Cats Snack — Rellena Atún + Queso',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats-snack-atun-queso.jpg',      emoji: '🧀', audience: 'Para Gatos' },
+  { id: 'cats-snack_Rellena Camarón',         nombre: 'Cats Snack — Rellena Camarón',         cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats_snack_galletas_rellenas_camaron.jpg', emoji: '🦐', audience: 'Para Gatos' },
+  { id: "collar-isabelino-donut-rosada---talla-s", nombre: "Collar Isabelino Donut Rosada - Talla S", cat: "Insumos Veterinarios", precio: "$6.990", img: "collar-isabelino-donut-gatos.jpg", emoji: "🐱" },
+  { id: 'collar-findmy_Turquesa',           nombre: 'Collar Find My — Turquesa',           cat: 'Accesorio', precio: '$12.990', img: 'collar-find-my-turquesa.jpg', emoji: '🩵', audience: 'Perros & Gatos' },
+  { id: 'collar-findmy_Negro',              nombre: 'Collar Find My — Negro',              cat: 'Accesorio', precio: '$12.990', img: 'collar-find-my-negro.jpg',    emoji: '🖤', audience: 'Perros & Gatos' },
+  { id: 'collar-findmy_Azul',              nombre: 'Collar Find My — Azul',               cat: 'Accesorio', precio: '$12.990', img: 'Collar_GPS.jpg',               emoji: '💙', audience: 'Perros & Gatos' },
   { id: 'collar-findmy_Amarillo', nombre: 'Collar Find My — Amarillo', cat: 'Accesorio', precio: '$12.990', img: 'collar-find-my-amarillo.jpg', emoji: '💛', audience: 'Perros & Gatos' },
+  { id: "botella-portatil-para-perros_Rosada", nombre: "Botella Portátil para Perros — Rosada", cat: "Accesorio", precio: "$14.990", img: "botella-de-agua-rosada.jpg", emoji: "🌸", audience: "Para Perros" },
+  { id: "botella-portatil-para-perros_Calipso", nombre: "Botella Portátil para Perros — Calipso", cat: "Accesorio", precio: "$14.990", img: "botella-de-agua-calipso-2.jpg", emoji: "🩵", audience: "Para Perros" },
+  { id: "dispensador-de-bolsas---diseno-cafe", nombre: "Dispensador de Bolsas - Diseño Café", cat: "Accesorio", precio: "$5.990", img: "dispensador-bolsas-perro.jpg", emoji: "🐶" },
+  { id: "calming-collar---perros", nombre: "Calming Collar - Perros", cat: "Accesorio", precio: "$7.990", img: "calming-collar-perro-caja.jpg", emoji: "🐶" },
+  { id: "calming-collar---gatos", nombre: "Calming Collar - Gatos", cat: "Accesorio", precio: "$7.990", img: "calming-collar-gato-caja.jpg", emoji: "🐱" },
+  { id: 'fuente-agua',                    nombre: 'Fuente de Agua Flor USB',             cat: 'Accesorio', precio: '$21.990', img: 'Bebedero_Gatos_2.jpg',          emoji: '💧', audience: 'Para Gatos' },
+  { id: "comedero-lento-slow-feeder---catstages", nombre: "Comedero Lento Slow Feeder - Catstages", cat: "Accesorio", precio: "$7.990", img: "Plato_con_Comida.jpg", emoji: "🐱" , audience: 'Para Gatos' },
+  { id: "comedero-lento-slow-feeder-rosado", nombre: "Comedero Lento Slow Feeder - Rosado", cat: "Accesorio", precio: "$6.990", img: "comedero-lento-rosado.jpg", emoji: "🐶" },
+  { id: "comedero-lento-flores-lila", nombre: "Comedero Lento Flores - Lila", cat: "Accesorio", precio: "$9.990", img: "comedero-lento-flores-lila.jpg", emoji: "🌸" },
   { id: 'collar-perro-acolchado_Café-S', nombre: 'Collar Perro Acolchado — Café Talla S', cat: 'Accesorio', precio: '$6.990', img: 'collar-perro-cafe-m.jpg', emoji: '🟤', audience: 'Para Perros' },
   { id: 'collar-perro-acolchado_Café-M', nombre: 'Collar Perro Acolchado — Café Talla M', cat: 'Accesorio', precio: '$6.990', img: 'collar-perro-cafe-m.jpg', emoji: '🟤', audience: 'Para Perros' },
   { id: 'collar-perro-acolchado_Rojo-S', nombre: 'Collar Perro Acolchado — Rojo Talla S', cat: 'Accesorio', precio: '$6.990', img: 'collar-perro-rojo-s.jpg', emoji: '🔴', audience: 'Para Perros' },
+  { id: "rascador-maxi-caja-de-leche---brnx", nombre: "Rascador Maxi Caja de Leche - Brnx", cat: "Accesorio", precio: "$13.990", img: "rascador-forma-de-leche.jpg", emoji: "🐱" },
+  { id: 'paw-balm',                       nombre: 'Paw Balm',                            cat: 'Aseo e Higiene',   precio: '$5.990',  img: 'Patas_y_Paw_Balm.jpg',          emoji: '🐾', audience: 'Perros & Gatos' },
+  { id: 'afeitadora',                     nombre: 'Afeitadora LED',                      cat: 'Aseo e Higiene',   precio: '$9.990',  img: 'Afeitadora_Gatos_1.jpg',        emoji: '✂️', audience: 'Perros & Gatos' },
+  { id: "pelota-snack-interactiva_Roja", nombre: "Pelota Snack Interactiva — Roja", cat: "Juguete", precio: "$6.990", img: "pelota-snack-perro-roja.jpg", emoji: "🔴", audience: "Para Perros" },
+  { id: "pelota-snack-interactiva_Azul", nombre: "Pelota Snack Interactiva — Azul", cat: "Juguete", precio: "$6.990", img: "pelota-snack-perro-azul.jpg", emoji: "🔵", audience: "Para Perros" },
+  { id: 'pelota-snack-interactiva_Verde', nombre: 'Pelota Snack Interactiva — Verde', cat: 'Juguete', precio: '$6.990', img: 'pelota-snack-perro-verde.jpg', emoji: '🟢', audience: 'Para Perros' },
+  { id: 'pajaro',                         nombre: 'Pájaro Interactivo',                  cat: 'Juguete',   precio: '$13.990', img: 'Pajaro_Gatos.jpg',              emoji: '🐦', audience: 'Para Gatos' },
+  { id: 'pelota-led',                     nombre: 'Pelota Interactiva LED',              cat: 'Juguete',   precio: '$8.990',  img: 'Pelota_Interactiva_Gato.jpg',   emoji: '🔦', stock: 2, audience: 'Para Gatos' },
+  { id: 'pulpo',                          nombre: 'Masajeador Pulpo',                    cat: 'Juguete',   precio: '$6.990',  img: 'pulpo_para_gatos_masajeador.jpg',             emoji: '🐙', audience: 'Para Gatos' },
+  { id: "pack-consulta-flor-de-bach", nombre: "Pack Consulta + Flor de Bach", cat: "Flores de Bach", precio: "$29.990", img: "pack_floral_perros_gatos.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
+  { id: "flores-de-bach---rescue-y-alivio", nombre: "Flores de Bach - Rescue y Alivio", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Rescue_y_Alivio.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
+  { id: "flores-de-bach---energia-y-animo", nombre: "Flores de Bach - Energía y Ánimo", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Energia_y_Animo.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
+  { id: "flores-de-bach---equilibrio", nombre: "Flores de Bach - Equilibrio", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Equilibrio.jpg", emoji: "🌿" , audience: 'Para Gatos' },
+  { id: "flores-de-bach---ansiedad-y-calma", nombre: "Flores de Bach - Ansiedad y Calma", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Ansiedad_y_Calma.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
+  { id: "pack-calma-total", nombre: "Pack Calma Total", cat: "Flores de Bach", precio: "$15.990", img: "pack_calma_total.jpg", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "pack-sos-mascota", nombre: "Pack SOS Mascota", cat: "Flores de Bach", precio: "$18.990", img: "pack_sos_mascota.jpg", emoji: "🎁" , audience: 'Perros & Gatos' },
+  { id: "pack-rutina-sana", nombre: "Pack Rutina Sana", cat: "Flores de Bach", precio: "$33.990", img: "pack_rutina_sana.jpg", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "pack-bienvenido-a-casa", nombre: "Pack Bienvenido a Casa", cat: "Flores de Bach", precio: "$21.990", img: "pack_bienveido_a_casa.jpg", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "pack-juega-y-relaja", nombre: "Pack Juega y Relaja", cat: "Flores de Bach", precio: "$28.990", img: "pack_relaja_y_juega.jpg", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "pack-cuidado-total", nombre: "Pack Cuidado Total", cat: "Aseo e Higiene", precio: "$12.990", img: "pack_cuidado_total.jpg", emoji: "🐾" , audience: 'Perros & Gatos' },
+  { id: 'suero-fisiologico',                  nombre: 'Suero Fisiológico — Cloruro de Sodio 0.9%', cat: 'Insumos Veterinarios', precio: '$2.590', img: 'suero_fisiologico_cloruro_de_sodio.jpg', emoji: '💊', audience: 'Perros & Gatos' }
 ];
-
 const STOCK_KEY = 'pac_stock';
 const LOG_KEY   = 'pac_stock_log';
 const PASS      = '290966';
