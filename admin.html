@@ -142,18 +142,22 @@ h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .4rem; }
       <div class="upload-status" id="st-favoritos">Haz clic para subir</div>
     </div>
     <div class="upload-card" id="card-index" onclick="document.getElementById('file-index').click()">
-      <input type="file" id="file-index" accept=".html" style="display:none">
+      <input type="file" id="file-index" accept=".html" style="display:none" onchange="leerArchivo('index', this)">
+      <span class="upload-icon">🏠</span>
+      <div class="upload-name">index.html</div>
+      <div class="upload-status" id="st-index">Haz clic para subir</div>
+    </div>
     <div class="upload-card" id="card-pedidos" onclick="document.getElementById('file-pedidos').click()">
       <input type="file" id="file-pedidos" accept=".html" style="display:none" onchange="leerArchivo('pedidos', this)">
       <span class="upload-icon">📋</span>
       <div class="upload-name">pedidos.html</div>
-      <div class="upload-status" id="st-pedidos">Opcional</div>
+      <div class="upload-status" id="st-pedidos">Haz clic para subir</div>
     </div>
     <div class="upload-card" id="card-webhook" onclick="document.getElementById('file-webhook').click()">
       <input type="file" id="file-webhook" accept=".js" style="display:none" onchange="leerArchivo('webhook', this)">
       <span class="upload-icon">⚙️</span>
       <div class="upload-name">webhook.js</div>
-      <div class="upload-status" id="st-webhook">Opcional</div>
+      <div class="upload-status" id="st-webhook">Haz clic para subir</div>
     </div>
       <span style="font-size:2rem">🏠</span>
       <div class="upload-name">index.html</div>
@@ -406,8 +410,18 @@ async function generarConIA() {
 }
 
 /* PUBLICAR */
+
+  // Helper: insertar al final de un bloque JS (antes del último cierre)
+  function insertarAlFinal(texto, abrirRegex, cierreStr, entrada) {
+    var idx = texto.search(abrirRegex);
+    if (idx === -1) return texto;
+    var bloque = texto.indexOf(cierreStr, idx);
+    if (bloque === -1) return texto;
+    return texto.slice(0, bloque) + entrada + texto.slice(bloque);
+  }
+
 function publicar() {
-  if (!archivos.tienda || !archivos.inventario) { mostrarToast('❗ Primero carga tienda.html e inventario.html'); return; }
+  if (!archivos.tienda || !archivos.inventario || !archivos.index || !archivos.favoritos || !archivos.pedidos || !archivos.webhook) { mostrarToast('❗ Carga los 6 archivos: tienda, index, inventario, favoritos, pedidos y webhook'); return; }
   var nombre    = document.getElementById('f-nombre').value.trim();
   var precioNum = parseInt(document.getElementById('f-precio').value) || 0;
   var id        = document.getElementById('f-id').value.trim().replace(/\s+/g,'-');
@@ -462,14 +476,15 @@ function publicar() {
   var skuEntry = '{ id: ' + JSON.stringify(id) + ', nombre: ' + JSON.stringify(nombre) + ', cat: ' + JSON.stringify(categoria) + ', precio: ' + JSON.stringify(precio) + ', img: ' + JSON.stringify(fotos[0]) + ', emoji: ' + JSON.stringify(emoji) + ' },\n  ';
 
   var nuevoTienda = archivos.tienda;
-  nuevoTienda = nuevoTienda.replace(/const TAGLINES\s*=\s*\{/, 'const TAGLINES = {' + taglineEntry);
-  nuevoTienda = nuevoTienda.replace(/const ORDEN\s*=\s*\[/, 'const ORDEN = [' + JSON.stringify(id) + ',');
-  nuevoTienda = nuevoTienda.replace(/const productos\s*=\s*\{/, 'const productos = {' + productoEntry + ',');
+  nuevoTienda = insertarAlFinal(nuevoTienda, /const TAGLINES/, "\n};", taglineEntry);
+  nuevoTienda = insertarAlFinal(nuevoTienda, /const ORDEN/, "\n];", '  ,' + JSON.stringify(id) + '\n');
+  nuevoTienda = insertarAlFinal(nuevoTienda, /const productos/, "\n};", ',' + productoEntry + '\n');
   nuevoTienda = nuevoTienda.replace(/const stockInicial\s*=\s*\{/, 'const stockInicial = {' + stockEntries);
   archivosModificados.tienda = nuevoTienda;
 
   var nuevoInventario = archivos.inventario;
-  nuevoInventario = nuevoInventario.replace(/const SKUS\s*=\s*\[/, 'const SKUS = [\n  ' + skuEntry);
+  nuevoInventario = insertarAlFinal(nuevoInventario, /const SKUS/, "\n];", '  ' + skuEntry + '\n');
+  nuevoInventario = insertarAlFinal(nuevoInventario, /const STOCK_DEFAULTS/, "}", stockEntries);
   nuevoInventario = nuevoInventario.replace(/const stockInicial\s*=\s*\{/, 'const stockInicial = {' + stockEntries);
   archivosModificados.inventario = nuevoInventario;
 
@@ -479,7 +494,7 @@ function publicar() {
     var favImg = (tieneV && variantesArr.length) ? variantesArr[0].imagenes[0] : (fotos[0] || '');
     favEntry = JSON.stringify(id) + ':{nombre:' + JSON.stringify(nombre) + ',precio:' + JSON.stringify(precio) + ',precioNum:' + precioNum + ',categoria:' + JSON.stringify(categoria) + ',imagenes:' + JSON.stringify([favImg]) + ',placeholders:' + JSON.stringify([emoji]) + '}';
     var nuevoFavoritos = archivos.favoritos;
-    nuevoFavoritos = nuevoFavoritos.replace(/const TAGLINES\s*=\s*\{/, 'const TAGLINES = {' + taglineEntry);
+    nuevoFavoritos = insertarAlFinal(nuevoFavoritos, /const TAGLINES/, "\n};", taglineEntry);
     nuevoFavoritos = nuevoFavoritos.replace(/const productos\s*=\s*\{/, 'const productos = {' + favEntry + ',');
     archivosModificados.favoritos = nuevoFavoritos;
   }
@@ -487,9 +502,9 @@ function publicar() {
   // Actualizar index.html si fue cargado
   if (archivos.index) {
     var nuevoIndex = archivos.index;
-    nuevoIndex = nuevoIndex.replace(/const TAGLINES\s*=\s*\{/, 'const TAGLINES = {' + taglineEntry);
-    nuevoIndex = nuevoIndex.replace(/const ORDEN\s*=\s*\[/, 'const ORDEN = [' + JSON.stringify(id) + ',');
-    nuevoIndex = nuevoIndex.replace(/const productos\s*=\s*\{/, 'const productos = {' + productoEntry + ',');
+    nuevoIndex = insertarAlFinal(nuevoIndex, /const TAGLINES/, "\n};", taglineEntry);
+    nuevoIndex = insertarAlFinal(nuevoIndex, /const ORDEN/, "\n];", '  ,' + JSON.stringify(id) + '\n');
+    nuevoIndex = insertarAlFinal(nuevoIndex, /const productos/, "\n};", ',' + productoEntry + '\n');
     nuevoIndex = nuevoIndex.replace(/const stockInicialIdx\s*=\s*\{/, 'const stockInicialIdx = {' + stockEntries);
     archivosModificados.index = nuevoIndex;
   }
@@ -497,8 +512,8 @@ function publicar() {
   document.getElementById('resultado').classList.add('visible');
   document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
   mostrarToast('✅ Archivos generados — descárgalos');
-  if (archivos.pedidos) document.getElementById('btn-dl-pedidos').style.display = '';
-  if (archivos.webhook) document.getElementById('btn-dl-webhook').style.display = '';
+  document.getElementById('btn-dl-pedidos').style.display = '';
+  document.getElementById('btn-dl-webhook').style.display = '';
 
   // Actualizar stock en Upstash automáticamente
   actualizarStockUpstash(stockEntries);
@@ -515,7 +530,7 @@ function publicar() {
     } else {
       catalogoEntries = '{ id: ' + JSON.stringify(id) + ', nombre: ' + JSON.stringify(nombre) + ', precio: ' + precioNum + ' },\n  ';
     }
-    nuevoPedidos = nuevoPedidos.replace(/const CATALOGO\s*=\s*\[/, 'const CATALOGO = [\n  ' + catalogoEntries);
+    nuevoPedidos = insertarAlFinal(nuevoPedidos, /const CATALOGO/, "\n];", '  ' + catalogoEntries + '\n');
     archivosModificados.pedidos = nuevoPedidos;
   }
 
@@ -531,7 +546,7 @@ function publicar() {
     } else {
       preciosEntries = '  ' + JSON.stringify(nombre) + ': ' + precioNum + ',\n';
     }
-    nuevoWebhook = nuevoWebhook.replace(/const PRECIOS\s*=\s*\{/, 'const PRECIOS = {\n' + preciosEntries);
+    nuevoWebhook = insertarAlFinal(nuevoWebhook, /const PRECIOS/, "\n};", preciosEntries);
     archivosModificados.webhook = nuevoWebhook;
   }
 }
