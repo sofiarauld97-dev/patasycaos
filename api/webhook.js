@@ -2,6 +2,8 @@ import { emailConfirmacion, emailDespacho, emailEntregado, emailCancelado } from
 
 // Catálogo de precios para reconstruir items desde texto de Supabase
 const PRECIOS = {
+  "Pelota Snack Interactiva — Verde": 6990,
+
   "Afeitadora LED": 9990,
   "Arena Sanitaria Ciudad Animal 8kg": 8990,
   "Botella Portátil para Perros — Calipso": 14990,
