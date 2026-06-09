@@ -1106,6 +1106,345 @@ function checkStockCard(id, stock) {
   return (stock[id] ?? 0) > 0;
 }
 
+
+
+function crearCarrusel(imagenes, placeholders) {
+  const wrap = document.createElement('div');
+  wrap.className = 'prod-img';
+  const img = document.createElement('img');
+  img.src = imagenes[0]; img.alt = ''; img.draggable = false;
+  img.onerror = () => { img.style.display = 'none'; wrap.style.cssText += 'font-size:3rem;display:flex;align-items:center;justify-content:center;'; wrap.textContent = placeholders?.[0] || '📷'; };
+  wrap.appendChild(img);
+  if (imagenes.length > 1) {
+    let idx = 0;
+    const actualizarImg = (nuevoIdx) => {
+      idx = (nuevoIdx + imagenes.length) % imagenes.length;
+      img.style.opacity = '0';
+      setTimeout(() => { img.src = imagenes[idx]; img.style.opacity = '1'; img.onerror = () => { img.style.display = 'none'; }; }, 120);
+      dots.forEach((d, i) => d.classList.toggle('activo', i === idx));
+    };
+    const prev = document.createElement('button'); prev.className = 'carr-btn carr-prev'; prev.innerHTML = '‹';
+    prev.addEventListener('click', (e) => { e.stopPropagation(); actualizarImg(idx - 1); });
+    const next = document.createElement('button'); next.className = 'carr-btn carr-next'; next.innerHTML = '›';
+    next.addEventListener('click', (e) => { e.stopPropagation(); actualizarImg(idx + 1); });
+    const dotsWrap = document.createElement('div'); dotsWrap.className = 'carr-dots';
+    const dots = imagenes.map((_, i) => {
+      const dot = document.createElement('span'); dot.className = 'carr-dot' + (i === 0 ? ' activo' : '');
+      dot.addEventListener('click', (e) => { e.stopPropagation(); actualizarImg(i); });
+      dotsWrap.appendChild(dot); return dot;
+    });
+    wrap.appendChild(prev); wrap.appendChild(next); wrap.appendChild(dotsWrap);
+    let startX = 0, dragging = false, moved = false;
+    wrap.addEventListener('mousedown', (e) => { startX = e.clientX; dragging = true; moved = false; });
+    wrap.addEventListener('mousemove', (e) => { if (dragging && Math.abs(e.clientX - startX) > 10) moved = true; });
+    wrap.addEventListener('mouseup', (e) => { if (!dragging) return; dragging = false; const diff = e.clientX - startX; if (Math.abs(diff) > 40) { actualizarImg(diff < 0 ? idx + 1 : idx - 1); moved = true; } else { moved = false; } });
+    wrap.addEventListener('mouseleave', () => { dragging = false; moved = false; });
+    wrap.addEventListener('click', (e) => { if (moved) { e.stopPropagation(); } moved = false; });
+    wrap.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    wrap.addEventListener('touchend', (e) => { const diffX = e.changedTouches[0].clientX - startX; if (Math.abs(diffX) > 40) actualizarImg(diffX < 0 ? idx + 1 : idx - 1); }, { passive: true });
+    img.style.transition = 'opacity .15s';
+  }
+  return wrap;
+}
+
+/* ── GENERAR TARJETAS ── */
+function generarTarjetas() {
+  const grid = document.getElementById('prod-grid');
+  const noResults = document.getElementById('no-results');
+  const countEl = document.getElementById('tienda-count');
+  if (!grid) return;
+  grid.innerHTML = '';
+  const stock = getStock();
+  let lista = ORDEN.map(id => ({ id, p: productos[id] })).filter(({ p }) => {
+    if (!p) return false;
+    if (filtros.cat !== 'todos') {
+      if (filtros.cat === 'Cyber') {
+        if (!p.cyber) return false;
+      } else {
+        if (p.categoria !== filtros.cat) return false;
+      }
+    }
+    if (filtros.aud !== 'todos') {
+      const aud = p.audience || '';
+      const match = aud === filtros.aud || aud === 'Perros & Gatos';
+      if (!match) return false;
+    }
+    return true;
+  });
+  if (filtros.sort === 'price-asc') lista.sort((a, b) => a.p.precioNum - b.p.precioNum);
+  if (filtros.sort === 'price-desc') lista.sort((a, b) => b.p.precioNum - a.p.precioNum);
+  if (filtros.sort === 'az') lista.sort((a, b) => a.p.nombre.localeCompare(b.p.nombre));
+  // Agotados siempre al final
+  lista.sort((a, b) => {
+    const aStock = checkStockCard(a.id, stock);
+    const bStock = checkStockCard(b.id, stock);
+    if (aStock && !bStock) return -1;
+    if (!aStock && bStock) return 1;
+    return 0;
+  });
+  const totalPaginas = Math.ceil(lista.length / PRODUCTOS_POR_PAGINA);
+  if (paginaActual > totalPaginas) paginaActual = 1;
+  const inicio = (paginaActual - 1) * PRODUCTOS_POR_PAGINA;
+  const listaPagina = lista.slice(inicio, inicio + PRODUCTOS_POR_PAGINA);
+  if (countEl) countEl.textContent = `${lista.length} producto${lista.length !== 1 ? 's' : ''}`;
+  if (noResults) noResults.style.display = lista.length === 0 ? 'block' : 'none';
+
+  // Renderizar paginación
+  const paginationEl = document.getElementById('pagination');
+  if (paginationEl) {
+    paginationEl.innerHTML = '';
+    if (totalPaginas > 1) {
+      const prev = document.createElement('button');
+      prev.className = 'page-btn prev-next prev-btn'; prev.textContent = '← Anterior';
+      prev.disabled = paginaActual === 1;
+      prev.onclick = () => { paginaActual--; generarTarjetas(); window.scrollTo({top: 0, behavior: 'smooth'}); };
+      paginationEl.appendChild(prev);
+      for (let i = 1; i <= totalPaginas; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'page-btn' + (i === paginaActual ? ' activo' : '');
+        btn.textContent = i;
+        btn.onclick = ((pg) => () => { paginaActual = pg; generarTarjetas(); window.scrollTo({top: 0, behavior: 'smooth'}); })(i);
+        paginationEl.appendChild(btn);
+      }
+      const next = document.createElement('button');
+      next.className = 'page-btn prev-next next-btn'; next.textContent = 'Siguiente →';
+      next.disabled = paginaActual === totalPaginas;
+      next.onclick = () => { paginaActual++; generarTarjetas(); window.scrollTo({top: 0, behavior: 'smooth'}); };
+      paginationEl.appendChild(next);
+    }
+  }
+
+  listaPagina.forEach(({ id, p }) => {
+    const imagenes = p.variantes ? p.variantes[0].imagenes : p.imagenes;
+    const placeholders = p.variantes ? p.variantes[0].placeholders : p.placeholders;
+    const enStock = checkStockCard(id, stock);
+    const card = document.createElement('div');
+    card.className = 'prod-card' + (enStock ? '' : ' agotado');
+    card.addEventListener('click', () => abrirModal(id));
+    const carrusel = crearCarrusel(imagenes, placeholders);
+    // Badge y precio: detectar si es Cyber por p.,
+    const pOrigNum = p.precioOriginalNum || 0;
+    const esCyber = p.cyber === true;
+    if (esCyber && pOrigNum > p.precioNum) {
+      const descPct = Math.round((1 - p.precioNum / pOrigNum) * 100);
+      const badgeCyber = document.createElement('span');
+      badgeCyber.className = 'prod-badge-cyber';
+      badgeCyber.textContent = '-' + descPct + '%';
+      carrusel.appendChild(badgeCyber);
+    } else if (esCyber) {
+      // Cyber sin precioOriginalNum: mostrar badge % fijo calculado desde CYBER_PRECIOS
+      const CYBER_PRECIOS = {};
+      const pO = CYBER_PRECIOS[id] || p.precioNum;
+      const descPct = Math.round((1 - p.precioNum / pO) * 100);
+      const badgeCyber = document.createElement('span');
+      badgeCyber.className = 'prod-badge-cyber';
+      badgeCyber.textContent = '-' + descPct + '%';
+      carrusel.appendChild(badgeCyber);
+    } else {
+      const badge = document.createElement('span'); badge.className = 'prod-badge'; badge.textContent = p.categoria;
+      carrusel.appendChild(badge);
+    }
+    if (p.ahorro) { const ahorroEl = document.createElement('span'); ahorroEl.className = 'badge-ahorro'; ahorroEl.textContent = 'Ahorras $' + p.ahorro.toLocaleString('es-CL'); carrusel.appendChild(ahorroEl); }
+    const heart = document.createElement('button'); heart.className = 'prod-heart'; heart.innerHTML = '♡'; heart.dataset.id = id; heart.addEventListener('click', (e) => toggleWishlist(e, id));
+    heart.addEventListener('click', (e) => e.stopPropagation());
+    carrusel.appendChild(heart);
+    const btnId = 'btn-' + id;
+    const info = document.createElement('div'); info.className = 'prod-info';
+    // Precio: si es Cyber mostrar original tachado + precio con descuento en terracota
+    const CYBER_PRECIOS_2 = {"collar-isabelino-donut-rosada---talla-s":6990,"pelota-snack-interactiva":6990,"comedero-lento-slow-feeder---catstages":7990,"cat-fest-pillows-schrimp-creme":1990,"paw-balm":5990,"fuente-agua":21990,"pajaro":13990,"pulpo":6990,"afeitadora":9990,"collar-findmy":12990,"cats-snack":2990,"tubito-atun":2990,"tubito-camaron":2990,"tubito-salmon-matatabi":2990,"pulmon-cordero-rahue":3591,"oreja-cerdo-rahue":3861,"traquea-vacuno-rahue":3591,"femur-cerdo-tasty":4491};
+    let precioMostrar;
+    if (esCyber) {
+      const pOrigFinal = pOrigNum > p.precioNum ? pOrigNum : (CYBER_PRECIOS_2[id] || 0);
+      const pOrigStr = pOrigFinal > 0 ? '$' + pOrigFinal.toLocaleString('es-CL') : '';
+      precioMostrar = '<div class="prod-precios">' + (pOrigStr ? '<span class="prod-precio-original">' + pOrigStr + '</span>' : '') + '<span class="prod-price">' + p.precio + '</span></div>';
+    } else {
+      precioMostrar = '<span class="prod-price">' + p.precio + '</span>';
+    }
+    info.innerHTML = '<h4>' + p.nombre + '</h4><p class="tagline">' + (TAGLINES[id] || '') + '</p><div class="prod-footer">' + precioMostrar + '<button class="btn-add" id="' + btnId + '">' + (p.variantes ? ((['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c => id.startsWith(c))) ? 'Elegir color' : 'Elegir sabor') : 'Añadir') + '</button></div>';
+    card.appendChild(carrusel); card.appendChild(info); grid.appendChild(card);
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      if (!enStock) { btn.textContent = 'Agotado'; btn.disabled = true; }
+      else if (p.variantes) btn.addEventListener('click', (e) => { e.stopPropagation(); abrirModal(id); });
+      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: '/' + imagenes[0] }); });
+    }
+  });
+}
+
+/* ── MODAL ── */
+let productoActual = null, varianteActualIdx = 0, imagenActualIdx = 0;
+
+function abrirModal(productoId) {
+  const p = productos[productoId]; if (!p) return;
+  productoActual = { ...p, id: productoId }; varianteActualIdx = 0; imagenActualIdx = 0;
+  document.getElementById('modalNombre').textContent = p.nombre;
+  document.getElementById('modalPrecio').textContent = p.precio;
+  document.getElementById('modalAudience').textContent = p.audience;
+  const ahorroEl = document.getElementById('modalAhorro'); if(ahorroEl){ if(p.ahorro){ ahorroEl.textContent='Ahorras $'+p.ahorro.toLocaleString('es-CL'); ahorroEl.style.display='inline-block'; } else { ahorroEl.style.display='none'; } }
+  document.getElementById('modalCategoria').textContent = p.categoria;
+  document.getElementById('modalDescripcion').textContent = p.descripcion;
+  const caracTituloEl = document.getElementById('modalCaracTitulo'); if(caracTituloEl){ caracTituloEl.textContent = p.caracTitulo; caracTituloEl.style.display='none'; }
+  const lista = document.getElementById('modalCaracLista'); lista.innerHTML = '';
+  p.caracteristicas.forEach(item => { const li = document.createElement('li'); li.textContent = item; lista.appendChild(li); });
+  const primerVariante = p.variantes ? p.variantes[0]?.label : null;
+  actualizarIngredientesModal(p, primerVariante);
+  const variantesEl = document.getElementById('modalVariantes');
+  const opcionesEl = document.getElementById('modalVariantesOpciones'); opcionesEl.innerHTML = '';
+  const labelEl = document.getElementById('modalVariantesLabel');
+  const esColor = ['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c => productoId.startsWith(c));
+  if (labelEl) labelEl.textContent = esColor ? 'Color' : 'Sabor';
+  if (p.variantes && p.variantes.length > 0) {
+    variantesEl.classList.add('visible');
+    const stock = getStock();
+    p.variantes.forEach((v, idx) => {
+      const btn = document.createElement('button');
+      const skuKey = productoId + '_' + v.label;
+      const enStock = stock[skuKey] !== 0;
+      btn.className = 'modal-variante-btn' + (idx === 0 ? ' activo' : '');
+      btn.textContent = enStock ? v.label : v.label + ' — Agotado';
+      btn.disabled = !enStock;
+      btn.onclick = () => { if (enStock) seleccionarVariante(idx); };
+      opcionesEl.appendChild(btn);
+    });
+    const primerDisponible = p.variantes.findIndex((v) => getStock()[productoId + '_' + v.label] !== 0);
+    construirGaleria(p.variantes[Math.max(0, primerDisponible)]);
+  } else { variantesEl.classList.remove('visible'); construirGaleria(p); }
+  document.getElementById('modalProducto').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function seleccionarTabModal(tab) {
+  const caracBox = document.getElementById('modalCaracBox');
+  const ingrBox = document.getElementById('modalIngredientesBox');
+  const caracTitulo = document.getElementById('modalCaracTitulo');
+  document.getElementById('tab-carac').classList.toggle('activo', tab === 'carac');
+  document.getElementById('tab-ingr').classList.toggle('activo', tab === 'ingr');
+  caracBox.style.display = tab === 'carac' ? 'block' : 'none';
+  if (caracTitulo) caracTitulo.style.display = 'none';
+  ingrBox.style.display = tab === 'ingr' ? 'block' : 'none';
+}
+function actualizarIngredientesModal(p, varianteLabel) {
+  const tabs = document.getElementById('modalTabs');
+  const ingrText = document.getElementById('modalIngredientesText');
+  if (!tabs || !ingrText) return;
+  let ingr = null;
+  if (p.ingredientes) ingr = p.ingredientes;
+  else if (p.ingredientesVariantes && varianteLabel) ingr = p.ingredientesVariantes[varianteLabel] || null;
+  if (ingr) {
+    tabs.style.display = 'flex';
+    ingrText.textContent = ingr;
+  } else {
+    tabs.style.display = 'none';
+    const caracBox = document.getElementById('modalCaracBox');
+    const caracTitulo = document.getElementById('modalCaracTitulo');
+    const ingrBox = document.getElementById('modalIngredientesBox');
+    if (caracBox) caracBox.style.display = 'block';
+    if (caracTitulo) caracTitulo.style.display = 'none';
+    if (ingrBox) ingrBox.style.display = 'none';
+  }
+  seleccionarTabModal('carac');
+}
+
+function seleccionarVariante(idx) {
+  varianteActualIdx = idx; imagenActualIdx = 0;
+  document.querySelectorAll('.modal-variante-btn').forEach((btn, i) => btn.classList.toggle('activo', i === idx));
+  construirGaleria(productoActual.variantes[idx]);
+  actualizarIngredientesModal(productoActual, productoActual.variantes[idx].label);
+}
+function construirGaleria(fuente) {
+  const thumbsEl = document.getElementById('modalThumbnails'); thumbsEl.innerHTML = '';
+  actualizarImagenPrincipal(fuente, 0);
+  if (fuente.imagenes.length > 1) {
+    fuente.imagenes.forEach((src, idx) => {
+      const thumb = document.createElement('div'); thumb.className = 'modal-thumb' + (idx === 0 ? ' activo' : '');
+      thumb.onclick = () => cambiarImagen(idx, fuente);
+      const imgEl = document.createElement('img'); imgEl.src = src; imgEl.alt = '';
+      imgEl.onerror = () => { thumb.innerHTML = ''; thumb.textContent = fuente.placeholders?.[idx] || '📷'; thumb.style.fontSize = '1.4rem'; };
+      thumb.appendChild(imgEl); thumbsEl.appendChild(thumb);
+    });
+  }
+}
+function actualizarImagenPrincipal(fuente, idx) {
+  const principal = document.getElementById('modalImagenPrincipal');
+  const img = document.getElementById('modalImgTag');
+  img.style.opacity = '0';
+  setTimeout(() => {
+    img.src = fuente.imagenes[idx];
+    img.onerror = () => { img.style.display = 'none'; principal.textContent = fuente.placeholders?.[idx] || '📷'; principal.style.fontSize = '5rem'; };
+    img.onload = () => { principal.textContent = ''; if (!principal.contains(img)) principal.appendChild(img); img.style.display = 'block'; img.style.opacity = '1'; };
+  }, 130);
+}
+function cambiarImagen(idx, fuente) {
+  imagenActualIdx = idx; actualizarImagenPrincipal(fuente, idx);
+  document.querySelectorAll('.modal-thumb').forEach((el, i) => el.classList.toggle('activo', i === idx));
+}
+function cerrarModal() { document.getElementById('modalProducto').classList.remove('activo'); document.body.style.overflow = ''; }
+function cerrarModalSiFondo(e) { if (e.target.id === 'modalProducto') cerrarModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
+function agregarAlCarritoDesdeModal() {
+  if (!productoActual) return;
+  let nombreCompleto = productoActual.nombre, fuenteActual = productoActual, skuKey = productoActual.id;
+  if (productoActual.variantes) {
+    const v = productoActual.variantes[varianteActualIdx];
+    nombreCompleto += ' — ' + v.label; fuenteActual = v; skuKey = productoActual.id + '_' + v.label;
+  }
+  const stock = getStock();
+  if (stock[skuKey] === 0) { const btn = document.getElementById('modalBtnCarrito'); btn.textContent = 'Agotado 😢'; btn.style.background = '#c0392b'; setTimeout(() => { btn.textContent = 'Añadir al carrito'; btn.style.background = ''; }, 2000); return; }
+  const imgCarrito = fuenteActual.imagenes?.[0] || '';
+  addToCart({ id: productoActual.id + (productoActual.variantes ? '-' + varianteActualIdx : ''), name: nombreCompleto, price: productoActual.precioNum, img: imgCarrito.startsWith('/') ? imgCarrito : '/' + imgCarrito });
+  const btn = document.getElementById('modalBtnCarrito');
+  btn.textContent = '✓ ¡Añadido!'; btn.style.background = '#2d7a3a';
+  setTimeout(() => { btn.textContent = 'Añadir al carrito'; btn.style.background = ''; cerrarModal(); }, 1200);
+}
+
+// Verificar si hay filtro en URL (?cat=Juguete)
+const urlParams = new URLSearchParams(window.location.search);
+const catParam = urlParams.get('cat');
+const audParam = urlParams.get('aud');
+
+// Filtro por audiencia via ?aud=Perros o ?aud=Gatos
+if (audParam) {
+  filtros.aud = audParam === 'Perros' ? 'Para Perros' : (audParam === 'Gatos' ? 'Para Gatos' : audParam);
+  const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.includes(audParam));
+  if (pill) { document.querySelectorAll('#filter-aud .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
+}
+
+// Filtro por categoría via ?cat=
+if (catParam) {
+  const audValues = ['Para Gatos', 'Perros & Gatos'];
+  if (audValues.includes(catParam)) {
+    filtros.aud = catParam;
+    const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.includes('Gatos'));
+    if (pill) { document.querySelectorAll('#filter-aud .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
+  } else {
+    filtros.cat = catParam;
+    const pill = [...document.querySelectorAll('#filter-cat .filter-pill')].find(b => b.textContent.includes(catParam));
+    if (pill) { document.querySelectorAll('#filter-cat .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
+  }
+}
+
+generarTarjetas();
+
+// Abrir producto directo por ?producto= — ej: patasycaos.cl/tienda?producto=paw-balm
+const productoParam = urlParams.get('producto');
+if (productoParam && productos[productoParam]) setTimeout(() => abrirModal(productoParam), 400);
+
+(async () => {
+  try {
+    const r = await fetch('/api/stock-get');
+    const data = await r.json();
+    if (data.stock) { localStorage.setItem('pac_stock', JSON.stringify(data.stock)); generarTarjetas(); }
+  } catch(e) {}
+})();
+
+/* FILTROS MÓVIL */
+
+function moverCarrusel(dir) {
+  const track = document.getElementById('carousel-track');
+  if (!track) return;
+  const cardWidth = track.querySelector('.prod-card') ? track.querySelector('.prod-card').offsetWidth + 20 : 240;
+  track.scrollBy({ left: dir * cardWidth * 2, behavior: 'smooth' });
+}
+
 function generarCarrusel() {
   const track = document.getElementById('carousel-track');
   if (!track) return;
