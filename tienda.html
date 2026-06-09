@@ -1062,8 +1062,7 @@ function generarTarjetas() {
       carrusel.appendChild(badge);
     }
     if (p.ahorro) { const ahorroEl = document.createElement('span'); ahorroEl.className = 'badge-ahorro'; ahorroEl.textContent = 'Ahorras $' + p.ahorro.toLocaleString('es-CL'); carrusel.appendChild(ahorroEl); }
-heart.addEventListener('click', (e) => e.stopPropagation());
-const btnId = 'btn-' + id;
+    const btnId = 'btn-' + id;
     const info = document.createElement('div'); info.className = 'prod-info';
     // Precio: si es Cyber mostrar original tachado + precio con descuento en terracota
     const CYBER_PRECIOS_2 = {"collar-isabelino-donut-rosada---talla-s":6990,"pelota-snack-interactiva":6990,"comedero-lento-slow-feeder---catstages":7990,"cat-fest-pillows-schrimp-creme":1990,"paw-balm":5990,"fuente-agua":21990,"pajaro":13990,"pulpo":6990,"afeitadora":9990,"collar-findmy":12990,"cats-snack":2990,"tubito-atun":2990,"tubito-camaron":2990,"tubito-salmon-matatabi":2990,"pulmon-cordero-rahue":3591,"oreja-cerdo-rahue":3861,"traquea-vacuno-rahue":3591,"femur-cerdo-tasty":4491};
