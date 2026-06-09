@@ -1099,6 +1099,73 @@ const ORDEN = [
 
 function fmtCLP(n) { return '$' + n.toLocaleString('es-CL'); }
 
+function checkStockCard(id, stock) {
+  const p = productos[id];
+  if (!p) return true;
+  if (p.variantes) return p.variantes.some(v => (stock[id + '_' + v.label] ?? 0) > 0);
+  return (stock[id] ?? 0) > 0;
+}
+
+function generarCarrusel() {
+  const track = document.getElementById('carousel-track');
+  if (!track) return;
+  track.innerHTML = '';
+  const stock = typeof getStock === 'function' ? getStock() : {};
+
+  const lista = ORDEN
+    .filter(id => productos[id])
+    .sort((a, b) => {
+      const aS = checkStockCard(a, stock);
+      const bS = checkStockCard(b, stock);
+      if (aS && !bS) return -1;
+      if (!aS && bS) return 1;
+      return 0;
+    });
+
+  lista.forEach(id => {
+    const p = productos[id];
+    const img = p.imagenes ? p.imagenes[0] : '';
+    const ph = p.placeholders ? p.placeholders[0] : '🐾';
+    const enStock = checkStockCard(id, stock);
+    const tagline = (typeof TAGLINES !== 'undefined' && TAGLINES[id]) ? TAGLINES[id] : '';
+    const ahorroHtml = p.ahorro ? '<span class="badge-ahorro">Ahorras $' + p.ahorro.toLocaleString('es-CL') + '</span>' : '';
+
+    const card = document.createElement('div');
+    card.className = 'prod-card' + (enStock ? '' : ' agotado');
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => abrirModal(id));
+
+    card.innerHTML =
+      '<div class="prod-img">' +
+        '<img src="' + img + '" alt="' + p.nombre + '" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="width:100%;height:100%;object-fit:cover">' +
+        '<div style="display:none;align-items:center;justify-content:center;font-size:3rem;width:100%;height:100%">' + ph + '</div>' +
+        '<span class="prod-badge">' + p.categoria + '</span>' +
+        ahorroHtml +
+      '</div>' +
+      '<div class="prod-info">' +
+        '<h4>' + p.nombre + '</h4>' +
+        '<p class="tagline">' + tagline + '</p>' +
+        '<div class="prod-footer">' +
+          '<span class="prod-price">' + p.precio + '</span>' +
+          '<button class="btn-add"' + (enStock ? '' : ' disabled') + '>' + (enStock ? 'Añadir' : 'Agotado') + '</button>' +
+        '</div>' +
+      '</div>';
+
+    const btn = card.querySelector('.btn-add');
+    if (btn && enStock) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        addToCart({ id: id, name: p.nombre, price: p.precioNum, img: '/' + img });
+      });
+    }
+
+    track.appendChild(card);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', generarCarrusel);
+
+
 function generarCyberCarrusel() {
   const carrusel = document.getElementById('cyber-carrusel');
   if (!carrusel) return;
