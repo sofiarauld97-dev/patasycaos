@@ -1285,6 +1285,23 @@ function generarTarjetas() {
 /* ── MODAL ── */
 let productoActual = null, varianteActualIdx = 0, imagenActualIdx = 0;
 
+function toggleWishlist(e, id) {
+  e.stopPropagation();
+  let wish = JSON.parse(localStorage.getItem('pac_wishlist') || '[]');
+  const idx = wish.indexOf(id);
+  if (idx === -1) { wish.push(id); } else { wish.splice(idx, 1); }
+  localStorage.setItem('pac_wishlist', JSON.stringify(wish));
+  syncHearts();
+}
+function syncHearts() {
+  const wish = JSON.parse(localStorage.getItem('pac_wishlist') || '[]');
+  document.querySelectorAll('.prod-heart').forEach(btn => {
+    const id = btn.dataset.id;
+    btn.innerHTML = wish.includes(id) ? '♥' : '♡';
+    btn.classList.toggle('saved', wish.includes(id));
+  });
+}
+
 function abrirModal(productoId) {
   const p = productos[productoId]; if (!p) return;
   productoActual = { ...p, id: productoId }; varianteActualIdx = 0; imagenActualIdx = 0;
@@ -1544,6 +1561,7 @@ function generarCyberCarrusel() {
 }
 
 document.addEventListener('DOMContentLoaded', generarCyberCarrusel);
+document.addEventListener('DOMContentLoaded', () => setTimeout(syncHearts, 100));
 
 function runSearch(q) {
   const drop = document.getElementById('nav-drop');
