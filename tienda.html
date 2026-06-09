@@ -100,7 +100,9 @@
   .user-dropdown button { background: none; border: none; font-family: 'Poppins', sans-serif; font-size: .82rem; font-weight: 500; color: #4a3a2e; cursor: pointer; padding: .5rem .6rem; border-radius: 8px; text-align: left; display: block; transition: background .15s; width: 100%; }
   .user-dropdown button:hover { background: var(--cream); color: var(--terracota); }
   .btn-signout { color: #c0392b !important; }
-/* CARRITO */
+  .prod-heart.saved { color: #e74c3c; border-color: #e74c3c; }
+
+  /* CARRITO */
   .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .3s; }
   .cart-overlay.open { opacity: 1; pointer-events: all; }
   .cart-sidebar { position: fixed; top: 0; right: 0; bottom: 0; width: 420px; max-width: 95vw; background: var(--cream); z-index: 201; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: -8px 0 40px rgba(0,0,0,.12); }
@@ -196,8 +198,9 @@
   .prod-img { position: relative; aspect-ratio: 4/5; background: #FFFFFF; overflow: hidden; }
   .prod-img img { width: 100%; height: 100%; object-fit: contain; transition: opacity .15s; }
   .prod-badge { position: absolute; top: 12px; left: 12px; background: rgba(28,16,7,.65); color: var(--blanco); border-radius: 50px; padding: 4px 12px; font-size: .72rem; font-weight: 600; }
-
-.prod-info { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+  .prod-heart { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; background: var(--blanco); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; border: 1.5px solid rgba(0,0,0,.15); box-shadow: 0 2px 8px rgba(0,0,0,.12); transition: transform .2s, box-shadow .2s; z-index: 2; }
+  .prod-heart:hover { transform: scale(1.15); box-shadow: 0 4px 12px rgba(0,0,0,.18); border-color: #e74c3c; color: #e74c3c; }
+  .prod-info { padding: 18px; display: flex; flex-direction: column; flex: 1; }
   .prod-info h4 { font-weight: 700; font-size: .95rem; margin-bottom: .25rem; color: var(--negro); }
   .prod-info .tagline { font-size: .78rem; color: #2a2a2a; font-style: italic; margin-bottom: .8rem; }
   .prod-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
@@ -1062,6 +1065,9 @@ function generarTarjetas() {
       carrusel.appendChild(badge);
     }
     if (p.ahorro) { const ahorroEl = document.createElement('span'); ahorroEl.className = 'badge-ahorro'; ahorroEl.textContent = 'Ahorras $' + p.ahorro.toLocaleString('es-CL'); carrusel.appendChild(ahorroEl); }
+    const heart = document.createElement('button'); heart.className = 'prod-heart'; heart.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`; heart.dataset.id = id; heart.addEventListener('click', (e) => toggleWishlist(e, id));
+    heart.addEventListener('click', (e) => e.stopPropagation());
+    carrusel.appendChild(heart);
     const btnId = 'btn-' + id;
     const info = document.createElement('div'); info.className = 'prod-info';
     // Precio: si es Cyber mostrar original tachado + precio con descuento en terracota
@@ -1087,8 +1093,26 @@ function generarTarjetas() {
 
 /* ── MODAL ── */
 let productoActual = null, varianteActualIdx = 0, imagenActualIdx = 0;
-);
+function toggleWishlist(e, id) {
+  e.stopPropagation();
+  let wish = JSON.parse(localStorage.getItem('pac_wishlist') || '[]');
+  const idx = wish.indexOf(id);
+  if (idx === -1) { wish.push(id); } else { wish.splice(idx, 1); }
+  localStorage.setItem('pac_wishlist', JSON.stringify(wish));
+  syncHearts();
 }
+function syncHearts() {
+  const HEART_EMPTY = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`;
+  const HEART_FULL  = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#e74c3c" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`;
+  const wish = JSON.parse(localStorage.getItem('pac_wishlist') || '[]');
+  document.querySelectorAll('.prod-heart').forEach(btn => {
+    const id = btn.dataset.id;
+    btn.innerHTML = wish.includes(id) ? HEART_FULL : HEART_EMPTY;
+    btn.classList.toggle('saved', wish.includes(id));
+  });
+}
+window.addEventListener('load', () => setTimeout(syncHearts, 100));
+
 function abrirModal(productoId) {
   const p = productos[productoId]; if (!p) return;
   productoActual = { ...p, id: productoId }; varianteActualIdx = 0; imagenActualIdx = 0;
