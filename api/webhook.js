@@ -3,6 +3,7 @@ import { emailConfirmacion, emailDespacho, emailEntregado, emailCancelado } from
 // Catálogo de precios para reconstruir items desde texto de Supabase
 const PRECIOS = {
   "Comedero Lento Flores - Lila": 9990,
+  "Snack Calming Cat Treats - Beaphar": 5990,
   "Collar Find My — Amarillo": 12990,
   "Pelota Snack Interactiva — Verde": 6990,
   "Collar Perro Acolchado — Café Talla S": 6990,
