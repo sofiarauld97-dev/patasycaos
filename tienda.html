@@ -1095,31 +1095,30 @@ function generarTarjetas() {
 let productoActual = null, varianteActualIdx = 0, imagenActualIdx = 0;
 function toggleWishlist(e, id) {
   e.stopPropagation();
+  e.preventDefault();
+  if (!id) return;
   let wish = JSON.parse(localStorage.getItem('pac_wishlist') || '[]');
   const idx = wish.indexOf(id);
   if (idx === -1) { wish.push(id); } else { wish.splice(idx, 1); }
   localStorage.setItem('pac_wishlist', JSON.stringify(wish));
-  syncHearts();
+  // Solo actualizar el botón clickeado y los que tengan el mismo id
+  document.querySelectorAll('.prod-heart[data-id="' + id + '"]').forEach(btn => {
+    const saved = wish.includes(id);
+    btn.querySelector('svg').setAttribute('fill', saved ? '#e74c3c' : 'none');
+    btn.classList.toggle('saved', saved);
+  });
 }
 function syncHearts() {
-  const HEART_EMPTY = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`;
-  const HEART_FULL  = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#e74c3c" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`;
   const wish = JSON.parse(localStorage.getItem('pac_wishlist') || '[]');
   document.querySelectorAll('.prod-heart').forEach(btn => {
     const id = btn.dataset.id;
-    btn.innerHTML = wish.includes(id) ? HEART_FULL : HEART_EMPTY;
-    btn.classList.toggle('saved', wish.includes(id));
+    if (!id) return;
+    const saved = wish.includes(id);
+    const svg = btn.querySelector('svg');
+    if (svg) svg.setAttribute('fill', saved ? '#e74c3c' : 'none');
+    btn.classList.toggle('saved', saved);
   });
 }
-window.addEventListener('load', () => setTimeout(syncHearts, 100));
-
-function abrirModal(productoId) {
-  const p = productos[productoId]; if (!p) return;
-  productoActual = { ...p, id: productoId }; varianteActualIdx = 0; imagenActualIdx = 0;
-  document.getElementById('modalNombre').textContent = p.nombre;
-  document.getElementById('modalPrecio').textContent = p.precio;
-  document.getElementById('modalAudience').textContent = p.audience;
-  const ahorroEl = document.getElementById('modalAhorro'); if(ahorroEl){ if(p.ahorro){ ahorroEl.textContent='Ahorras $'+p.ahorro.toLocaleString('es-CL'); ahorroEl.style.display='inline-block'; } else { ahorroEl.style.display='none'; } }
   document.getElementById('modalCategoria').textContent = p.categoria;
   document.getElementById('modalDescripcion').textContent = p.descripcion;
   const caracTituloEl = document.getElementById('modalCaracTitulo'); if(caracTituloEl){ caracTituloEl.textContent = p.caracTitulo; caracTituloEl.style.display='none'; }
