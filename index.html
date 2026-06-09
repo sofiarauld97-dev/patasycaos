@@ -113,8 +113,7 @@
   .prod-img { position: relative; aspect-ratio: 4/5; background: #FFFFFF; overflow: hidden; }
   .prod-img img { width: 100%; height: 100%; object-fit: contain; transition: opacity .15s; }
   .prod-badge { position: absolute; top: 12px; left: 12px; background: rgba(28,16,7,.65); color: var(--blanco); border-radius: 50px; padding: 4px 12px; font-size: .72rem; font-weight: 600; }
-  .prod-heart { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; background: var(--blanco); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; border: 1.5px solid rgba(0,0,0,.15); box-shadow: 0 2px 8px rgba(0,0,0,.12); transition: transform .2s, box-shadow .2s; z-index: 2; }
-  .prod-info { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+.prod-info { padding: 18px; display: flex; flex-direction: column; flex: 1; }
   .prod-info h4 { font-weight: 700; font-size: .95rem; margin-bottom: .25rem; color: var(--negro); }
   .prod-info .tagline { font-size: .78rem; color: #2a2a2a; font-style: italic; margin-bottom: .8rem; }
   .prod-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; flex-wrap: wrap; gap: 6px; }
@@ -241,11 +240,8 @@
   .btn-signout { color: #c0392b !important; }
 
   /* WISHLIST */
-  
-  .prod-heart:hover { transform: scale(1.15); box-shadow: 0 4px 12px rgba(0,0,0,.18); border-color: #e74c3c; }
-  .prod-heart.saved { border-color: #e74c3c; }
 
-  /* MODAL */
+/* MODAL */
   .modal-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
   .modal-overlay.activo { opacity: 1; visibility: visible; }
   .modal-contenedor { background: var(--blanco); border-radius: var(--radio-modal); width: 100%; max-width: 900px; max-height: 90vh; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; position: relative; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(24px) scale(.97); transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
@@ -301,9 +297,9 @@
   .carousel-track { display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; will-change: scroll-position; scrollbar-width: none; padding-bottom: 8px; }
   .carousel-track::-webkit-scrollbar { display: none; }
   .carousel-track .prod-card { flex: 0 0 220px; scroll-snap-align: start; }
-  .carousel-track .prod-heart { width: 28px; height: 28px; top: 8px; right: 8px; }
-  .carousel-track .prod-heart svg { width: 13px; height: 13px; }
-  .carr-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: var(--blanco); border: 1.5px solid rgba(28,16,7,.12); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 2; transition: all .2s; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .carousel-track
+.carousel-track
+.carr-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: var(--blanco); border: 1.5px solid rgba(28,16,7,.12); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 2; transition: all .2s; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
   .carr-arrow:hover { background: var(--terracota); color: #fff; border-color: var(--terracota); }
   .carr-arrow.left { left: -20px; }
   .carr-arrow.right { right: -20px; }
@@ -1258,10 +1254,8 @@ function generarTarjetas() {
       carrusel.appendChild(badge);
     }
     if (p.ahorro) { const ahorroEl = document.createElement('span'); ahorroEl.className = 'badge-ahorro'; ahorroEl.textContent = 'Ahorras $' + p.ahorro.toLocaleString('es-CL'); carrusel.appendChild(ahorroEl); }
-    const heart = document.createElement('button'); heart.className = 'prod-heart'; heart.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`; heart.dataset.id = id; heart.addEventListener('click', (e) => toggleWishlist(e, id));
-    heart.addEventListener('click', (e) => e.stopPropagation());
-    carrusel.appendChild(heart);
-    const btnId = 'btn-' + id;
+heart.addEventListener('click', (e) => e.stopPropagation());
+const btnId = 'btn-' + id;
     const info = document.createElement('div'); info.className = 'prod-info';
     // Precio: si es Cyber mostrar original tachado + precio con descuento en terracota
     const CYBER_PRECIOS_2 = {"collar-isabelino-donut-rosada---talla-s":6990,"pelota-snack-interactiva":6990,"comedero-lento-slow-feeder---catstages":7990,"cat-fest-pillows-schrimp-creme":1990,"paw-balm":5990,"fuente-agua":21990,"pajaro":13990,"pulpo":6990,"afeitadora":9990,"collar-findmy":12990,"cats-snack":2990,"tubito-atun":2990,"tubito-camaron":2990,"tubito-salmon-matatabi":2990,"pulmon-cordero-rahue":3591,"oreja-cerdo-rahue":3861,"traquea-vacuno-rahue":3591,"femur-cerdo-tasty":4491};
@@ -1287,34 +1281,8 @@ function generarTarjetas() {
 /* ── MODAL ── */
 let productoActual = null, varianteActualIdx = 0, imagenActualIdx = 0;
 
-function toggleWishlist(e, id) {
-  e.stopPropagation();
-  e.preventDefault();
-  if (!id) return;
-  let wish = JSON.parse(localStorage.getItem('pac_wishlist') || '[]');
-  const idx = wish.indexOf(id);
-  if (idx === -1) { wish.push(id); } else { wish.splice(idx, 1); }
-  localStorage.setItem('pac_wishlist', JSON.stringify(wish));
-  // Solo actualizar el botón clickeado y los que tengan el mismo id
-  document.querySelectorAll('.prod-heart[data-id="' + id + '"]').forEach(btn => {
-    const saved = wish.includes(id);
-    btn.querySelector('svg').setAttribute('fill', saved ? '#e74c3c' : 'none');
-    btn.classList.toggle('saved', saved);
-  });
+);
 }
-function syncHearts() {
-  const wish = JSON.parse(localStorage.getItem('pac_wishlist') || '[]');
-  document.querySelectorAll('.prod-heart').forEach(btn => {
-    const id = btn.dataset.id;
-    if (!id) return;
-    const saved = wish.includes(id);
-    const svg = btn.querySelector('svg');
-    if (svg) svg.setAttribute('fill', saved ? '#e74c3c' : 'none');
-    btn.classList.toggle('saved', saved);
-  });
-}
-document.addEventListener('DOMContentLoaded', () => setTimeout(syncHearts, 150));
-
 function abrirModal(productoId) {
   const p = productos[productoId]; if (!p) return;
   productoActual = { ...p, id: productoId }; varianteActualIdx = 0; imagenActualIdx = 0;
@@ -1532,14 +1500,7 @@ function generarCarrusel() {
       '</div>';
 
     // Agregar corazón de favoritos
-    const heartBtn = document.createElement('button');
-    heartBtn.className = 'prod-heart';
-    heartBtn.dataset.id = id;
-    heartBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`;
-    heartBtn.addEventListener('click', (e) => toggleWishlist(e, id));
-    card.querySelector('.prod-img').appendChild(heartBtn);
-
-    const btn = card.querySelector('.btn-add');
+const btn = card.querySelector('.btn-add');
     if (btn && enStock) {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -1582,8 +1543,6 @@ function generarCyberCarrusel() {
 }
 
 document.addEventListener('DOMContentLoaded', generarCyberCarrusel);
-document.addEventListener('DOMContentLoaded', () => setTimeout(syncHearts, 100));
-
 function runSearch(q) {
   const drop = document.getElementById('nav-drop');
   if (!drop) return;
