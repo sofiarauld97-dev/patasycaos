@@ -125,7 +125,7 @@
   .prod-card.agotado .prod-img::after { content: 'Agotado'; position: absolute; inset: 0; background: rgba(28,16,7,.45); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; }
 
   /* CARRUSEL */
-  .carr-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,.9); border: none; cursor: pointer; font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 5; transition: background .15s, transform .15s; box-shadow: 0 2px 8px rgba(0,0,0,.15); color: var(--negro); user-select: none; }
+  .carr-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,.18); border: none; cursor: pointer; font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 5; transition: background .15s, transform .15s; box-shadow: 0 2px 8px rgba(0,0,0,.15); color: #fff; user-select: none; }
   .carr-btn:hover { background: #fff; transform: translateY(-50%) scale(1.1); }
   .carr-prev { left: 8px; } .carr-next { right: 8px; }
   .carr-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; z-index: 5; }
@@ -1132,17 +1132,13 @@ function crearCarrusel(imagenes, placeholders) {
       setTimeout(() => { img.src = imagenes[idx]; img.style.opacity = '1'; img.onerror = () => { img.style.display = 'none'; }; }, 120);
       dots.forEach((d, i) => d.classList.toggle('activo', i === idx));
     };
-    const prev = document.createElement('button'); prev.className = 'carr-btn carr-prev'; prev.innerHTML = '‹';
-    prev.addEventListener('click', (e) => { e.stopPropagation(); actualizarImg(idx - 1); });
-    const next = document.createElement('button'); next.className = 'carr-btn carr-next'; next.innerHTML = '›';
-    next.addEventListener('click', (e) => { e.stopPropagation(); actualizarImg(idx + 1); });
     const dotsWrap = document.createElement('div'); dotsWrap.className = 'carr-dots';
     const dots = imagenes.map((_, i) => {
       const dot = document.createElement('span'); dot.className = 'carr-dot' + (i === 0 ? ' activo' : '');
       dot.addEventListener('click', (e) => { e.stopPropagation(); actualizarImg(i); });
       dotsWrap.appendChild(dot); return dot;
     });
-    wrap.appendChild(prev); wrap.appendChild(next); wrap.appendChild(dotsWrap);
+    wrap.appendChild(dotsWrap);
     let startX = 0, dragging = false, moved = false;
     wrap.addEventListener('mousedown', (e) => { startX = e.clientX; dragging = true; moved = false; });
     wrap.addEventListener('mousemove', (e) => { if (dragging && Math.abs(e.clientX - startX) > 10) moved = true; });
@@ -1254,7 +1250,6 @@ function generarTarjetas() {
       carrusel.appendChild(badge);
     }
     if (p.ahorro) { const ahorroEl = document.createElement('span'); ahorroEl.className = 'badge-ahorro'; ahorroEl.textContent = 'Ahorras $' + p.ahorro.toLocaleString('es-CL'); carrusel.appendChild(ahorroEl); }
-    carrusel.appendChild(heart);
     const btnId = 'btn-' + id;
     const info = document.createElement('div'); info.className = 'prod-info';
     // Precio: si es Cyber mostrar original tachado + precio con descuento en terracota
