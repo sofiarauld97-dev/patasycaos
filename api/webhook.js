@@ -4,6 +4,11 @@ import { emailConfirmacion, emailDespacho, emailEntregado, emailCancelado } from
 const PRECIOS = {
   "Comedero Lento Flores - Lila": 9990,
   "Snack Calming Cat Treats - Beaphar": 5990,
+  "Collar Zee.Cat Error 500": 7990,
+  "Collar Zee.Cat Error 404": 7990,
+  "Collar Zee.Cat Error 410": 7990,
+  "Collar Suede Zee.Dog": 13900,
+  "Collar Nox Zee.Dog": 13900,
   "Pala Arenero — Marrón": 1990,
   "Pala Arenero — Verde": 1990,
   "Collar Find My — Amarillo": 12990,
