@@ -37,7 +37,7 @@
   .hero { min-height: auto; padding: 0; position: relative; overflow: hidden; }
   .hero-slider { display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1); }
   .hero-slide { min-width: 100%; flex-shrink: 0; }
-  .hero-slide img { width: 100%; height: auto; display: block; }
+  .hero-slide img { width: 100%; height: auto; display: block; max-height: 520px; object-fit: cover; object-position: center; }
   .hero-slide img.mobile { display: none; }
   .hero-slide img.desktop { display: block; }
   .hero-dots { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
@@ -75,7 +75,7 @@
   .cyber-precio-antes { text-decoration: line-through; color: #999; font-size: .82rem; }
   .cyber-precio-ahora { font-size: 1.25rem; font-weight: 800; color: var(--terracota); }
   @media (max-width: 900px) {  }
-  @media (max-width: 600px) { .hero-slide img.desktop { display: none; } .hero-slide img.mobile { display: block; } }
+  @media (max-width: 600px) { .hero-slide img.desktop { display: none; } .hero-slide img.mobile { display: block; max-height: none; } }
 
   /* CATEGORIES */
   .categories { padding: 40px 5%; }
@@ -570,12 +570,12 @@
 <section class="hero" id="inicio">
   <div class="hero-slider" id="heroSlider">
     <div class="hero-slide">
-      <img class="desktop" src="hero-slide1-desktop.jpg" alt="Collares Zee.Dog y Zee.Cat" onclick="window.location.href='/tienda?cat=Accesorio'" style="cursor:pointer">
-      <img class="mobile" src="slide1-mobile.jpg" alt="Collares Zee.Dog y Zee.Cat" onclick="window.location.href='/tienda?cat=Accesorio'" style="cursor:pointer">
+      <img class="desktop" src="hero-slide1-desktop.png" alt="Collares Zee.Dog y Zee.Cat" onclick="window.location.href='/tienda?cat=Accesorio'" style="cursor:pointer">
+      <img class="mobile" src="slide1-mobile.png" alt="Collares Zee.Dog y Zee.Cat" onclick="window.location.href='/tienda?cat=Accesorio'" style="cursor:pointer">
     </div>
     <div class="hero-slide">
-      <img class="desktop" src="hero-slide2-desktop.jpg" alt="Caja Caótica Suscripciones" onclick="window.location.href='/suscripciones'" style="cursor:pointer">
-      <img class="mobile" src="slide2-mobile.jpg" alt="Caja Caótica Suscripciones" onclick="window.location.href='/suscripciones'" style="cursor:pointer">
+      <img class="desktop" src="hero-slide2-desktop.png" alt="Caja Caótica Suscripciones" onclick="window.location.href='/suscripciones'" style="cursor:pointer">
+      <img class="mobile" src="slide2-mobile.png" alt="Caja Caótica Suscripciones" onclick="window.location.href='/suscripciones'" style="cursor:pointer">
     </div>
   </div>
   <div class="hero-dots">
