@@ -34,10 +34,10 @@
   .nav-cart-wrap { position: relative; }
 
   /* HERO */
-  .hero { min-height: auto; padding: 0; position: relative; overflow: hidden; }
+  .hero { min-height: auto; padding: 0; position: relative; overflow: clip; }
   .hero-slider { display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1); width: 200%; }
   .hero-slide { min-width: 50%; width: 50%; flex-shrink: 0; }
-  .hero-slide img { width: 100%; height: auto; display: block; max-width: 100%; }
+  .hero-slide img { width: 100%; height: auto; display: block; max-width: 100%; object-fit: contain; }
   .hero-slide img.mobile { display: none; }
   .hero-slide img.desktop { display: block; }
   .hero-dots { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
