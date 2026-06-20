@@ -80,6 +80,16 @@ const PRECIOS = {
   "Tubito Cremoso Atún con Catnip": 2990,
   "Tubito Cremoso Camarón con Catnip": 2990,
   "Tubito Cremoso Salmón con Matatabi": 2990,
+  "Snack Dental Power 75g - QChefs": 9990,
+  "Snack Dental Fitness Crocante 60g - QChefs": 9990,
+  "Snack Fellini Lollipop Calabaza - 3 Uni": 2990,
+  "Snack Fellini Lollipop Leche de Cabra - 3 Uni": 2990,
+  "Snack Pets Friends Gato Bocados de Pollo 65gr": 4990,
+  "Snack Pets Friends Gato Cubos de Salmon 65gr": 4990,
+  "Doggo Traquea de Vacuno en Crispy de Ciervo 1UNI": 3990,
+  "Doggo Mix en Crispy de Ciervo 100gr": 3990,
+  "Condilo de Vacuno Rahue 300g": 4290,
+  "Cats Snack Galleta Rellena Pollo+Camaron": 2990,
 };
 
 function getPrecio(nombre) {
