@@ -1683,69 +1683,67 @@ function runSearch(q) {
   const lupa = document.getElementById('zoomLupa');
   const lupaImg = document.getElementById('zoomLupaImg');
   const ZOOM = 2.5;
-  const LUPA_R = 80; // radio lupa en px
+  const LUPA_R = 80;
 
-  function initZoom() {
+  function activarZoom() {
     const contenedor = document.getElementById('modalImagenPrincipal');
     if (!contenedor) return;
     const imgEl = contenedor.querySelector('img');
-    if (!imgEl) return;
+    if (!imgEl || !imgEl.src) return;
 
-    contenedor.addEventListener('mouseenter', function() {
-      if (window.innerWidth < 768) return; // solo desktop
-      lupaImg.src = imgEl.src;
+    // Limpiar listeners anteriores clonando el nodo
+    const nuevo = contenedor.cloneNode(true);
+    contenedor.parentNode.replaceChild(nuevo, contenedor);
+
+    nuevo.addEventListener('mouseenter', function() {
+      if (window.innerWidth < 768) return;
+      const img = nuevo.querySelector('img');
+      if (img) lupaImg.src = img.src;
       lupa.style.display = 'block';
     });
 
-    contenedor.addEventListener('mouseleave', function() {
+    nuevo.addEventListener('mouseleave', function() {
       lupa.style.display = 'none';
     });
 
-    contenedor.addEventListener('mousemove', function(e) {
+    nuevo.addEventListener('mousemove', function(e) {
       if (window.innerWidth < 768) return;
-      const rect = contenedor.getBoundingClientRect();
+      const rect = nuevo.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const xPct = x / rect.width;
-      const yPct = y / rect.height;
+      const xPct = Math.max(0, Math.min(1, x / rect.width));
+      const yPct = Math.max(0, Math.min(1, y / rect.height));
 
-      // Posicionar lupa siguiendo el cursor
       lupa.style.left = (e.clientX - LUPA_R) + 'px';
-      lupa.style.top = (e.clientY - LUPA_R) + 'px';
+      lupa.style.top  = (e.clientY - LUPA_R) + 'px';
 
-      // Calcular offset de la imagen dentro de la lupa
       const lupaW = LUPA_R * 2;
       const lupaH = LUPA_R * 2;
-      const bgX = -(xPct * rect.width * ZOOM - lupaW / 2);
-      const bgY = -(yPct * rect.height * ZOOM - lupaH / 2);
-
-      lupaImg.style.width = (rect.width * ZOOM) + 'px';
+      lupaImg.style.width  = (rect.width  * ZOOM) + 'px';
       lupaImg.style.height = (rect.height * ZOOM) + 'px';
-      lupaImg.style.left = bgX + 'px';
-      lupaImg.style.top = bgY + 'px';
+      lupaImg.style.left   = -(xPct * rect.width  * ZOOM - lupaW / 2) + 'px';
+      lupaImg.style.top    = -(yPct * rect.height * ZOOM - lupaH / 2) + 'px';
     });
   }
 
-  // Re-inicializar cada vez que se abre el modal
-  const observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(m) {
-      if (m.target.classList.contains('activo')) {
-        setTimeout(initZoom, 100);
-      } else {
-        lupa.style.display = 'none';
-      }
-    });
-  });
-
-  const overlay = document.getElementById('modalOverlay');
+  // Observer sobre el modal
+  const overlay = document.getElementById('modalProducto');
   if (overlay) {
-    observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
+    new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        if (overlay.classList.contains('activo')) {
+          setTimeout(activarZoom, 150);
+        } else {
+          lupa.style.display = 'none';
+        }
+      });
+    }).observe(overlay, { attributes: true, attributeFilter: ['class'] });
   }
 
-  // También re-init al cambiar imagen thumbnail
+  // Re-init al cambiar thumbnail
   document.addEventListener('click', function(e) {
     if (e.target.closest('.modal-thumb')) {
-      setTimeout(initZoom, 150);
+      setTimeout(activarZoom, 200);
     }
   });
 })();
