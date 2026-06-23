@@ -90,6 +90,10 @@ const PRECIOS = {
   "Doggo Mix en Crispy de Ciervo 100gr": 4290,
   "Condilo de Vacuno Rahue 300g": 4290,
   "Cats Snack Galleta Rellena Pollo+Camaron": 2990,
+  "Rastreador Apple Find My + Funda de Silicona": 11990,
+  "Comedero Lento Desmontable — Azul": 7990,
+  "Comedero Lento Desmontable — Rojo": 7990,
+  "Collar Find My — Rojo": 12990,
 };
 
 function getPrecio(nombre) {
