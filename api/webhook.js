@@ -88,7 +88,7 @@ const PRECIOS = {
   "Snack Pets Friends Gato Cubos de Salmon 65gr": 4990,
   "Doggo Traquea de Vacuno en Crispy de Ciervo 1UNI": 4290,
   "Doggo Mix en Crispy de Ciervo 100gr": 4290,
-  "Condilo de Vacuno Rahue 300g": 4290,
+  "Condilo de Vacuno Rahue 300g": 4990,
   "Cats Snack Galleta Rellena Pollo+Camaron": 2990,
   "Rastreador Apple Find My + Funda de Silicona": 11990,
   "Comedero Lento Desmontable — Azul": 7990,
