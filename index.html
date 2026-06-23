@@ -1322,7 +1322,7 @@ function abrirModal(productoId) {
   productoActual = { ...p, id: productoId }; varianteActualIdx = 0; imagenActualIdx = 0;
   document.getElementById('modalNombre').textContent = p.nombre;
   document.getElementById('modalPrecio').textContent = p.precio;
-  document.getElementById('modalAudience').textContent = p.audience;
+  document.getElementById('modalAudience').textContent = Array.isArray(p.audience) ? 'Perros & Gatos' : p.audience;
   const ahorroEl = document.getElementById('modalAhorro'); if(ahorroEl){ if(p.ahorro){ ahorroEl.textContent='Ahorras $'+p.ahorro.toLocaleString('es-CL'); ahorroEl.style.display='inline-block'; } else { ahorroEl.style.display='none'; } }
   document.getElementById('modalCategoria').textContent = p.categoria;
   document.getElementById('modalDescripcion').textContent = p.descripcion;
