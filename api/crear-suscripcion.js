@@ -1,8 +1,8 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { nombre, email, telefono, comuna, ciudad, direccion, notas, tipo, plan, sabor } = req.body;
-  if (!nombre || !email || !telefono || !comuna || !direccion || !tipo || !plan || !sabor) {
+  const { nombre, email, telefono, comuna, ciudad, direccion, notas, tipo, plan } = req.body;
+  if (!nombre || !email || !telefono || !comuna || !direccion || !tipo || !plan) {
     return res.status(400).json({ error: 'Faltan datos requeridos' });
   }
 
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         preapproval_plan_id: null,
-        reason: `${nombrePlan} — Sabor: ${sabor}`,
+        reason: nombrePlan,
         external_reference: `${email}-${planKey}-${Date.now()}`,
         payer_email: email,
         auto_recurring: {
@@ -81,7 +81,7 @@ export default async function handler(req, res) {
         notas: notas || '',
         tipo,
         plan,
-        sabor,
+        sabor: 'Duck & Turkey',
         precio,
         mp_preapproval_id: data.id,
         estado: 'pendiente',
@@ -107,7 +107,6 @@ Teléfono: ${telefono}
 Comuna: ${comuna}
 
 Plan: ${nombrePlan}
-Sabor: ${sabor}
 Precio mensual: $${precio.toLocaleString('es-CL')}
 
 Dirección: ${direccion}
