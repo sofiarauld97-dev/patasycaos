@@ -100,6 +100,7 @@ const COMUNAS_CHILE = [
   {c:'Alhué',city:'Santiago'},{c:'Curacaví',city:'Santiago'},{c:'El Monte',city:'Santiago'},
   {c:'Isla de Maipo',city:'Santiago'},{c:'Melipilla',city:'Santiago'},{c:'Padre Hurtado',city:'Santiago'},
   {c:'Peñaflor',city:'Santiago'},{c:'San Pedro',city:'Santiago'},{c:'Talagante',city:'Santiago'},
+  {c:'Pirque',city:'Santiago'},
   // Valparaíso
   {c:'Valparaíso',city:'Valparaíso'},{c:'Viña del Mar',city:'Valparaíso'},{c:'Quilpué',city:'Valparaíso'},
   {c:'Villa Alemana',city:'Valparaíso'},{c:'Concón',city:'Valparaíso'},{c:'Casablanca',city:'Valparaíso'},
@@ -213,8 +214,28 @@ const COMUNAS_CHILE = [
   {c:'Natales',city:'Puerto Natales'},{c:'Torres del Paine',city:'Puerto Natales'},
 ];
 
-const COMUNAS_TRAMO1 = ['cerrillos','cerro navia','conchali','conchalí','el bosque','estacion central','estación central','independencia','la cisterna','la florida','la granja','la reina','las condes','lo espejo','lo prado','macul','nunoa','ñuñoa','pedro aguirre cerda','penalolen','peñalolén','providencia','quinta normal','recoleta','renca','san joaquin','san joaquín','san miguel','san ramon','san ramón','santiago','vitacura'];
-const COMUNAS_TRAMO2 = ['lo barnechea','maipu','maípu','quilicura','san bernardo','colina','la pintana','chicureo','puente alto','huechuraba','pudahuel'];
+const TARIFAS_COMUNA = {
+  // Tramo 1 — Sector Oriente y Central — $3.990
+  'providencia': 3990, 'las condes': 3990, 'vitacura': 3990, 'nunoa': 3990,
+  'la reina': 3990, 'santiago': 3990, 'macul': 3990,
+  // Tramo 2 — Sector Intermedio — $4.990
+  'san miguel': 4990, 'san joaquin': 4990, 'pedro aguirre cerda': 4990,
+  'penalolen': 4990, 'la florida': 4990, 'lo barnechea': 4990,
+  'independencia': 4990, 'recoleta': 4990, 'quinta normal': 4990,
+  'estacion central': 4990, 'cerrillos': 4990, 'la cisterna': 4990,
+  // Tramo 3 — Sector Periférico / Extremo — $5.990
+  'maipu': 5990, 'puente alto': 5990, 'san bernardo': 5990, 'quilicura': 5990,
+  'pudahuel': 5990, 'renca': 5990, 'cerro navia': 5990, 'lo prado': 5990,
+  'el bosque': 5990, 'la pintana': 5990, 'lo espejo': 5990, 'conchali': 5990,
+  'huechuraba': 5990, 'san ramon': 5990, 'la granja': 5990,
+};
+
+const COMUNAS_EXCLUIDAS_RADIO = [
+  'colina', 'chicureo', 'lampa', 'til til',
+  'padre hurtado', 'penaflor', 'talagante', 'el monte', 'melipilla',
+  'buin', 'paine', 'calera de tango',
+  'pirque', 'san jose de maipo',
+];
 
 function normalizarComuna(str) {
   return str.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -223,12 +244,16 @@ function normalizarComuna(str) {
 function calcularEnvio(comuna) {
   if (!comuna) return null;
   const c = normalizarComuna(comuna);
-  const esTramo1 = COMUNAS_TRAMO1.some(rm => normalizarComuna(rm) === c);
-  const esTramo2 = COMUNAS_TRAMO2.some(rm => normalizarComuna(rm) === c);
   const horaActual = new Date().getHours();
   const entregaHoy = horaActual < 10 ? ' \u2022 Entrega hoy si compras antes de las 10:00 AM \ud83d\ude80' : '';
-  if (esTramo1) return { precio: 4847, texto: '$4.847', aviso: 'Env\u00edo a Santiago centro y comunas cercanas' + entregaHoy };
-  if (esTramo2) return { precio: 5593, texto: '$5.593', aviso: 'Env\u00edo a comunas perif\u00e9ricas de la RM' + entregaHoy };
+
+  if (Object.prototype.hasOwnProperty.call(TARIFAS_COMUNA, c)) {
+    const precio = TARIFAS_COMUNA[c];
+    return { precio, texto: '$' + precio.toLocaleString('es-CL'), aviso: 'Despacho a domicilio' + entregaHoy };
+  }
+  if (COMUNAS_EXCLUIDAS_RADIO.includes(c)) {
+    return { precio: 0, texto: 'A coordinar', aviso: 'Fuera de nuestro radio de despacho interno \u2014 se coordina por courier externo (Starken, Blue Express o Correos Chile)' };
+  }
   return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el env\u00edo se coordina por WhatsApp' };
 }
 
