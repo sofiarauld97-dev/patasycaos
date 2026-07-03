@@ -492,8 +492,6 @@
 .sus-field input, .sus-field select { width: 100%; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; color: var(--negro); background: #fff; outline: none; transition: border-color .2s; }
 .sus-field input:focus, .sus-field select:focus { border-color: var(--terracota); }
 .sus-sabores { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: .6rem; }
-.sabor-btn { background: var(--card-bg); border: 1.5px solid rgba(28,16,7,.12); border-radius: 50px; padding: 8px 18px; font-family: 'Poppins', sans-serif; font-size: .82rem; font-weight: 600; cursor: pointer; transition: all .2s; color: var(--negro); }
-.sabor-btn.activo { background: var(--terracota); color: var(--blanco); border-color: var(--terracota); }
 .sus-btn { width: 100%; margin-top: 1.2rem; background: var(--terracota); color: var(--blanco); border: none; border-radius: 50px; padding: 14px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .95rem; cursor: pointer; transition: background .2s; }
 .sus-btn:hover { background: #a8501f; }
 .sus-btn:disabled { background: #ccc; cursor: not-allowed; }
@@ -809,7 +807,7 @@ function runSearch(q) {
   <h2>Cuatro pasos y listo 🐾</h2>
   <div class="steps">
     <div class="step"><div class="step-num">1</div><h4>Elige tu plan</h4><p>Básico, Premium o VIP — Outdoor o Indoor según si tu gato usa arena.</p></div>
-    <div class="step"><div class="step-num">2</div><h4>Completa tus datos</h4><p>Nombre, dirección en Santiago, sabor preferido y listo.</p></div>
+    <div class="step"><div class="step-num">2</div><h4>Completa tus datos</h4><p>Nombre, dirección en Santiago y listo.</p></div>
     <div class="step"><div class="step-num">3</div><h4>Paga con MP</h4><p>Pago seguro con Mercado Pago. Se descuenta automático cada mes en la misma fecha.</p></div>
     <div class="step"><div class="step-num">4</div><h4>Recibe la caja</h4><p>Tu caja llega cada mes en la misma fecha que te suscribiste. Sorpresa distinta cada mes.</p></div>
   </div>
@@ -1196,7 +1194,6 @@ function toggleFaq(btn) {
 
 /* MODAL SUSCRIPCIÓN */
 let _planActual = { tipo: 'felina', plan: 'premium' };
-let _saborActual = 'salmon';
 let _pagoSus = 'mp';
 
 function elegirPagoSus(metodo) {
@@ -1228,12 +1225,6 @@ function cerrarModalSus() {
   document.body.style.overflow = '';
 }
 
-function elegirSabor(sabor) {
-  _saborActual = sabor;
-  document.getElementById('sabor-salmon').classList.toggle('activo', sabor === 'salmon');
-  document.getElementById('sabor-pollo').classList.toggle('activo', sabor === 'pollo');
-}
-
 async function enviarSuscripcion() {
   const nombre = document.getElementById('sus-nombre').value.trim();
   const email = document.getElementById('sus-email').value.trim();
@@ -1261,7 +1252,7 @@ async function enviarSuscripcion() {
       const res = await fetch('/api/suscripcion-transferencia', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, email, telefono, direccion, comuna, ciudad: 'Santiago', notas, tipo: _planActual.tipo, plan: _planActual.plan, sabor: _saborActual }),
+        body: JSON.stringify({ nombre, email, telefono, direccion, comuna, ciudad: 'Santiago', notas, tipo: _planActual.tipo, plan: _planActual.plan }),
       });
       const data = await res.json();
       if (data.ok) {
@@ -1298,7 +1289,7 @@ async function enviarSuscripcion() {
     const res = await fetch('/api/crear-suscripcion', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, email, telefono, direccion, comuna, ciudad: 'Santiago', notas, tipo: _planActual.tipo, plan: _planActual.plan, sabor: _saborActual }),
+      body: JSON.stringify({ nombre, email, telefono, direccion, comuna, ciudad: 'Santiago', notas, tipo: _planActual.tipo, plan: _planActual.plan }),
     });
     const data = await res.json();
     if (data.init_point) { window.location.href = data.init_point; }
