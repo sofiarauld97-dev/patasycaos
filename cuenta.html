@@ -453,6 +453,36 @@
 .login-aviso h2 { font-size: 1.4rem; font-weight: 700; color: var(--negro); margin-bottom: .6rem; }
 .login-aviso p { font-size: .9rem; color: var(--texto-suave); margin-bottom: 1.4rem; }
 .login-aviso button { background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 12px 28px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .92rem; cursor: pointer; }
+
+/* MIS MASCOTAS */
+.mascota-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+.mascota-card { background: var(--blanco); border: 1.5px solid rgba(28,16,7,.08); border-radius: 16px; padding: 1rem; text-align: center; position: relative; }
+.mascota-foto { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; margin: 0 auto .6rem; display: block; background: var(--cream); }
+.mascota-foto-placeholder { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto .6rem; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; background: var(--cream); }
+.mascota-nombre { font-size: .9rem; font-weight: 700; color: var(--negro); margin-bottom: .15rem; }
+.mascota-detalle { font-size: .74rem; color: var(--texto-suave); line-height: 1.5; }
+.mascota-acciones { display: flex; justify-content: center; gap: .5rem; margin-top: .7rem; }
+.mascota-btn-icon { background: none; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: .78rem; transition: all .2s; }
+.mascota-btn-icon:hover { border-color: var(--terracota); color: var(--terracota); }
+.btn-agregar-mascota { display: flex; align-items: center; justify-content: center; gap: .4rem; background: none; border: 1.5px dashed rgba(28,16,7,.25); border-radius: 16px; padding: 1rem; width: 100%; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .85rem; color: var(--texto-suave); cursor: pointer; transition: all .2s; }
+.btn-agregar-mascota:hover { border-color: var(--terracota); color: var(--terracota); }
+
+/* MODAL MASCOTA */
+.mascota-overlay { display: none; position: fixed; inset: 0; background: rgba(28,16,7,.55); z-index: 500; align-items: center; justify-content: center; padding: 1rem; }
+.mascota-overlay.open { display: flex; }
+.mascota-box { background: var(--blanco); border-radius: var(--radio-modal); padding: 1.75rem; max-width: 420px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
+.mascota-close { position: absolute; top: 14px; right: 14px; background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--texto-suave); }
+.mascota-box h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 1.1rem; color: var(--negro); }
+.mascota-field { margin-bottom: .9rem; }
+.mascota-field label { display: block; font-size: .78rem; font-weight: 600; color: var(--negro); margin-bottom: .35rem; }
+.mascota-field input, .mascota-field select { width: 100%; padding: 10px 12px; border: 1.5px solid var(--borde-modal); border-radius: var(--radio-sm); font-family: 'Poppins', sans-serif; font-size: .87rem; outline: none; background: #fff; }
+.mascota-field input:focus, .mascota-field select:focus { border-color: var(--terracota); }
+.mascota-foto-preview-wrap { display: flex; align-items: center; gap: .8rem; }
+.mascota-foto-preview { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; background: var(--cream); flex-shrink: 0; }
+.mascota-foto-preview-placeholder { width: 56px; height: 56px; border-radius: 50%; background: var(--cream); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+.btn-guardar-mascota { width: 100%; background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; margin-top: .4rem; }
+.btn-guardar-mascota:disabled { opacity: .6; cursor: not-allowed; }
+.mascota-msg { font-size: .8rem; color: #c0392b; margin-top: .6rem; text-align: center; }
 </style>
 <script>
 const productos = {"pelota-snack-interactiva_Verde":{"nombre":"Pelota Snack Interactiva — Verde","precio":"$6.990","precioNum":6990,"audience":"Para Perros","categoria":"Juguete","descripcion":"Pelota de goma resistente con ranuras para esconder premios, el juguete que mantiene a tu perro entretenido largo rato mientras le limpia los dientes sin que hagas nada 🐶🦷\\n\\nRellénala con sus croquetas o snacks favoritos y deja que tu perro la ruede, la muerda y la trabaje hasta sacar todo. La textura de goma con pinchos limpia el sarro y masajea las encías mientras juega. Doble beneficio, cero esfuerzo de tu parte.","caracTitulo":"Características","caracteristicas":["Goma resistente, no tóxica", "Limpieza dental natural", "Rellénala con cualquier snack", "Apta para todas las razas", "7cm de diámetro"],"imagenes":["pelota-snack-perro-verde.jpg", "pelota-snack-perro-verde-snacks.jpg"],"placeholders":["🐶", "🐶"]},
@@ -648,6 +678,13 @@ function runSearch(q) {
       <div id="sus-contenido"><div class="loading">Cargando...</div></div>
     </div>
 
+    <!-- MIS MASCOTAS -->
+    <div class="cuenta-section" id="mascotas">
+      <p class="cuenta-section-title">🐾 Mis mascotas</p>
+      <div id="mascotas-grid" class="mascota-grid"><div class="loading">Cargando...</div></div>
+      <button class="btn-agregar-mascota" onclick="abrirModalMascota()">+ Agregar mascota</button>
+    </div>
+
     <!-- PEDIDOS -->
     <div class="cuenta-section">
       <p class="cuenta-section-title">📦 Mis pedidos</p>
@@ -712,6 +749,53 @@ function runSearch(q) {
   </div>
 </div>
 
+<!-- MODAL MASCOTA -->
+<div class="mascota-overlay" id="mascota-overlay" onclick="if(event.target===this) cerrarModalMascota()">
+  <div class="mascota-box">
+    <button class="mascota-close" onclick="cerrarModalMascota()">✕</button>
+    <h3 id="mascota-modal-titulo">Agregar mascota</h3>
+
+    <div class="mascota-field">
+      <label>Foto (opcional)</label>
+      <div class="mascota-foto-preview-wrap">
+        <div id="mascota-foto-preview-wrap"><div class="mascota-foto-preview-placeholder">🐾</div></div>
+        <input type="file" id="mascota-foto-input" accept="image/*" onchange="previsualizarFotoMascota(event)">
+      </div>
+    </div>
+
+    <div class="mascota-field">
+      <label>Nombre *</label>
+      <input type="text" id="mascota-nombre" placeholder="Ej: Firulais">
+    </div>
+
+    <div class="mascota-field">
+      <label>Especie *</label>
+      <select id="mascota-especie" onchange="actualizarRazasMascota()">
+        <option value="Perro">🐶 Perro</option>
+        <option value="Gato">🐱 Gato</option>
+      </select>
+    </div>
+
+    <div class="mascota-field">
+      <label>Raza</label>
+      <select id="mascota-raza"></select>
+    </div>
+
+    <div class="mascota-field">
+      <label>Edad (años)</label>
+      <input type="number" id="mascota-edad" placeholder="Ej: 2 (usa 0.5 para 6 meses)" min="0" max="30" step="0.5">
+    </div>
+
+    <div class="mascota-field">
+      <label>Peso (kg)</label>
+      <input type="number" id="mascota-peso" placeholder="Ej: 8.5" min="0" max="120" step="0.1">
+    </div>
+
+    <button class="btn-guardar-mascota" id="mascota-btn-guardar" onclick="guardarMascota()">Guardar mascota</button>
+    <p class="mascota-msg" id="mascota-msg"></p>
+  </div>
+</div>
+
 
 
 <script src="cart.js"></script>
@@ -760,6 +844,7 @@ _sb.auth.onAuthStateChange((event, session) => {
     const nombre = session.user.user_metadata?.full_name || session.user.email;
     document.getElementById('cuenta-bienvenida').textContent = `Hola, ${nombre} 👋`;
     cargarSuscripcion(session.user.email);
+    cargarMascotas(session.user.id, session.user.email);
     cargarPedidos(session.user.email);
   } else if (event === 'SIGNED_OUT' || event === 'INITIAL_SESSION') {
     cargando.style.display = 'none';
@@ -837,6 +922,180 @@ async function cancelarSuscripcion(id, mp_preapproval_id) {
   } catch (e) {
     alert('Error al cancelar: ' + e.message);
     btn.textContent = 'Cancelar suscripción'; btn.disabled = false;
+  }
+}
+
+// ============================================================
+// MIS MASCOTAS
+// ============================================================
+const RAZAS_PERRO = ['Mestizo / Otra','Labrador Retriever','Golden Retriever','Pastor Alemán','Bulldog Francés','Bulldog Inglés','Poodle (Caniche)','Chihuahua','Yorkshire Terrier','Schnauzer','Cocker Spaniel','Beagle','Boxer','Rottweiler','Doberman','Husky Siberiano','Border Collie','Shih Tzu','Pug','Dálmata','Gran Danés','San Bernardo','Salchicha (Dachshund)','Fox Terrier','Basset Hound','Akita','Chow Chow','Pitbull','Weimaraner','Australian Shepherd','Corgi'];
+const RAZAS_GATO = ['Mestizo / Común Europeo','Persa','Siamés','Maine Coon','Angora Turco','Bengala','British Shorthair','Ragdoll','Sphynx','Abisinio','Scottish Fold','Himalayo','Birmano','Bombay','Ruso Azul','Devon Rex','Munchkin','Exótico de pelo corto','Somali','Manx'];
+
+let _mascotaEditandoId = null;
+let _mascotaFotoFile = null;
+let _mascotaFotoUrlActual = null;
+
+function actualizarRazasMascota() {
+  const especie = document.getElementById('mascota-especie').value;
+  const razas = especie === 'Gato' ? RAZAS_GATO : RAZAS_PERRO;
+  const sel = document.getElementById('mascota-raza');
+  sel.innerHTML = razas.map(r => `<option value="${r}">${r}</option>`).join('');
+}
+
+function previsualizarFotoMascota(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  _mascotaFotoFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('mascota-foto-preview-wrap').innerHTML =
+      `<img src="${e.target.result}" class="mascota-foto-preview">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function abrirModalMascota(mascota = null) {
+  _mascotaEditandoId = mascota ? mascota.id : null;
+  _mascotaFotoFile = null;
+  _mascotaFotoUrlActual = mascota ? mascota.foto_url : null;
+
+  document.getElementById('mascota-modal-titulo').textContent = mascota ? 'Editar mascota' : 'Agregar mascota';
+  document.getElementById('mascota-nombre').value = mascota ? mascota.nombre : '';
+  document.getElementById('mascota-especie').value = mascota ? mascota.especie : 'Perro';
+  actualizarRazasMascota();
+  if (mascota) document.getElementById('mascota-raza').value = mascota.raza || '';
+  document.getElementById('mascota-edad').value = mascota && mascota.edad_anios != null ? mascota.edad_anios : '';
+  document.getElementById('mascota-peso').value = mascota && mascota.peso_kg != null ? mascota.peso_kg : '';
+  document.getElementById('mascota-foto-input').value = '';
+  document.getElementById('mascota-foto-preview-wrap').innerHTML = _mascotaFotoUrlActual
+    ? `<img src="${_mascotaFotoUrlActual}" class="mascota-foto-preview">`
+    : `<div class="mascota-foto-preview-placeholder">🐾</div>`;
+  document.getElementById('mascota-msg').textContent = '';
+  document.getElementById('mascota-btn-guardar').textContent = 'Guardar mascota';
+  document.getElementById('mascota-btn-guardar').disabled = false;
+
+  document.getElementById('mascota-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarModalMascota() {
+  document.getElementById('mascota-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function guardarMascota() {
+  const nombre = document.getElementById('mascota-nombre').value.trim();
+  const especie = document.getElementById('mascota-especie').value;
+  const raza = document.getElementById('mascota-raza').value;
+  const edadVal = document.getElementById('mascota-edad').value;
+  const pesoVal = document.getElementById('mascota-peso').value;
+  const msgEl = document.getElementById('mascota-msg');
+  const btn = document.getElementById('mascota-btn-guardar');
+
+  if (!nombre) {
+    msgEl.textContent = 'Ponle un nombre a tu mascota 🐾';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+  msgEl.textContent = '';
+
+  try {
+    const { data: { session } } = await _sb.auth.getSession();
+    if (!session?.user) throw new Error('Sesión no encontrada');
+
+    let fotoUrl = _mascotaFotoUrlActual;
+
+    if (_mascotaFotoFile) {
+      const ext = _mascotaFotoFile.name.split('.').pop();
+      const path = `${session.user.id}/${Date.now()}.${ext}`;
+      const { error: uploadError } = await _sb.storage.from('mascotas').upload(path, _mascotaFotoFile, { upsert: true });
+      if (uploadError) throw uploadError;
+      const { data: urlData } = _sb.storage.from('mascotas').getPublicUrl(path);
+      fotoUrl = urlData.publicUrl;
+    }
+
+    const payload = {
+      user_id: session.user.id,
+      email: session.user.email,
+      nombre,
+      especie,
+      raza,
+      edad_anios: edadVal !== '' ? parseFloat(edadVal) : null,
+      peso_kg: pesoVal !== '' ? parseFloat(pesoVal) : null,
+      foto_url: fotoUrl,
+    };
+
+    let error;
+    if (_mascotaEditandoId) {
+      ({ error } = await _sb.from('Mascotas').update(payload).eq('id', _mascotaEditandoId));
+    } else {
+      ({ error } = await _sb.from('Mascotas').insert(payload));
+    }
+    if (error) throw error;
+
+    cerrarModalMascota();
+    cargarMascotas(session.user.id, session.user.email);
+  } catch (e) {
+    msgEl.textContent = 'Hubo un error al guardar. Intenta de nuevo.';
+    btn.disabled = false;
+    btn.textContent = 'Guardar mascota';
+  }
+}
+
+async function eliminarMascota(id) {
+  const confirmar = confirm('¿Seguro que quieres eliminar esta mascota de tu cuenta?');
+  if (!confirmar) return;
+  try {
+    const { error } = await _sb.from('Mascotas').delete().eq('id', id);
+    if (error) throw error;
+    const { data: { session } } = await _sb.auth.getSession();
+    cargarMascotas(session.user.id, session.user.email);
+  } catch (e) {
+    alert('Error al eliminar: ' + e.message);
+  }
+}
+
+let _mascotasCache = [];
+
+async function cargarMascotas(userId, email) {
+  try {
+    const { data, error } = await _sb
+      .from('Mascotas')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: true });
+
+    if (error) throw error;
+    _mascotasCache = data || [];
+
+    const grid = document.getElementById('mascotas-grid');
+    if (!_mascotasCache.length) {
+      grid.innerHTML = '';
+      return;
+    }
+
+    grid.innerHTML = _mascotasCache.map(m => {
+      const emoji = m.especie === 'Gato' ? '🐱' : '🐶';
+      const fotoHtml = m.foto_url
+        ? `<img src="${m.foto_url}" class="mascota-foto">`
+        : `<div class="mascota-foto-placeholder">${emoji}</div>`;
+      const detalles = [m.raza, m.edad_anios != null ? `${m.edad_anios} años` : null, m.peso_kg != null ? `${m.peso_kg} kg` : null]
+        .filter(Boolean).join(' · ');
+      return `
+        <div class="mascota-card">
+          ${fotoHtml}
+          <div class="mascota-nombre">${m.nombre}</div>
+          <div class="mascota-detalle">${detalles || '—'}</div>
+          <div class="mascota-acciones">
+            <button class="mascota-btn-icon" onclick='abrirModalMascota(${JSON.stringify(m).replace(/'/g, "&#39;")})' title="Editar">✏️</button>
+            <button class="mascota-btn-icon" onclick="eliminarMascota(${m.id})" title="Eliminar">🗑️</button>
+          </div>
+        </div>`;
+    }).join('');
+  } catch (e) {
+    document.getElementById('mascotas-grid').innerHTML = '<div class="empty-state">Error al cargar tus mascotas.</div>';
   }
 }
 
