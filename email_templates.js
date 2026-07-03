@@ -88,12 +88,11 @@ function tablaProductos(items) {
 // ============================================================
 export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, documento, esRetiro, numeroPedido }) {
   const envioTexto = esRetiro
-    ? '🏠 Retiro en tienda — Gath y Chaves 2452, dpto. 702, Providencia'
+    ? '🏠 Retiro en tienda — Providencia (coordinamos por WhatsApp)'
     : `🚚 Despacho a domicilio — ${direccion}, ${comuna}, ${ciudad}`;
 
   const infoEnvio = esRetiro ? `
-    <p>📲 Te contactaremos por WhatsApp para coordinar el horario de retiro.</p>
-    <p>📍 Dirección: Gath y Chaves 2452, dpto. 702, Providencia. Lunes a domingo, 11:00 a 20:00.</p>
+    <p>📲 Te contactaremos por WhatsApp para coordinar el horario y la dirección exacta de retiro.</p>
   ` : `
     <p>🚀 <strong>Santiago:</strong> Entrega el mismo día para pedidos realizados antes de las 10:00 AM en días hábiles. Pedidos posteriores se despachan al día hábil siguiente.</p>
     <p>🗺️ <strong>Regiones:</strong> Entre 3 y 7 días hábiles según la región. Te coordinaremos por WhatsApp antes de confirmar el despacho.</p>
@@ -141,7 +140,7 @@ export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, 
 // ============================================================
 export function emailDespacho({ nombre, items, total, direccion, comuna, ciudad, esRetiro }) {
   const mensaje = esRetiro
-    ? '¡Tu pedido está listo para retiro! 📍 Puedes venir a buscarlo a Gath y Chaves 2452, dpto. 702, Providencia. Lunes a domingo de 11:00 a 20:00.'
+    ? '¡Tu pedido está listo para retiro! 📲 Te contactaremos por WhatsApp para coordinar el horario y la dirección exacta.'
     : '¡Tu pedido ya está en camino! 🚚 Recibirás un mensaje de WhatsApp con la hora estimada de llegada.';
 
   const contenido = `
@@ -218,7 +217,7 @@ export function emailEntregado({ nombre, items, total }) {
 // ============================================================
 export function emailTransferencia({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, esRetiro, numeroPedido }) {
   const envioTexto = esRetiro
-    ? '🏠 Retiro en tienda — Gath y Chaves 2452, dpto. 702, Providencia'
+    ? '🏠 Retiro en tienda — Providencia (coordinamos por WhatsApp)'
     : `🚚 Despacho a domicilio — ${direccion}, ${comuna}, ${ciudad}`;
 
   const contenido = `

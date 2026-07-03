@@ -447,7 +447,7 @@ async function confirmarCheckout() {
   const btn = document.querySelector('.btn-checkout-confirm');
   btn.textContent = 'Procesando...'; btn.disabled = true;
 
-  const cliente = { nombre, telefono, email, direccion: esRetiro ? 'Retiro en tienda' : direccion, comuna: esRetiro ? 'Providencia' : comuna, ciudad: esRetiro ? 'Santiago' : ciudad, notas, costoEnvio, metodoEntrega: esRetiro ? 'Retiro en tienda — Gath y Chaves 2452, dpto. 702, Providencia' : 'Despacho a domicilio', documento: esFactura ? 'Factura' : 'Boleta', ...docInfo };
+  const cliente = { nombre, telefono, email, direccion: esRetiro ? 'Retiro en tienda' : direccion, comuna: esRetiro ? 'Providencia' : comuna, ciudad: esRetiro ? 'Santiago' : ciudad, notas, costoEnvio, metodoEntrega: esRetiro ? 'Retiro en tienda — Providencia (dirección exacta se coordina por WhatsApp)' : 'Despacho a domicilio', documento: esFactura ? 'Factura' : 'Boleta', ...docInfo };
 
   const metodoPago = document.querySelector('input[name="metodo-pago"]:checked')?.value || 'mercadopago';
 

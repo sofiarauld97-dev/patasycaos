@@ -157,7 +157,7 @@
   .envios-card-header h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -.01em; }
 
   /* TABLA COMUNAS */
-  .tramo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
+  .tramo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
   .tramo-box { background: var(--blanco); border-radius: 14px; padding: 1.2rem 1.4rem; border: 1px solid rgba(28,16,7,.07); }
   .tramo-box .precio { font-size: 1.4rem; font-weight: 900; color: var(--terracota); letter-spacing: -.03em; margin-bottom: .3rem; }
   .tramo-box .tramo-nombre { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: rgba(26,26,26,.5); margin-bottom: .6rem; }
@@ -416,18 +416,26 @@ function runSearch(q) {
     </div>
     <div class="tramo-grid">
       <div class="tramo-box">
-        <div class="tramo-nombre">Tramo 1 — Centro y cercanas</div>
-        <div class="precio">$4.847</div>
-        <div class="comunas">Cerrillos, Cerro Navia, Conchalí, El Bosque, Estación Central, Independencia, La Cisterna, La Florida, La Granja, La Reina, Las Condes, Lo Espejo, Lo Prado, Macul, Ñuñoa, Pedro Aguirre Cerda, Peñalolén, Providencia, Quinta Normal, Recoleta, Renca, San Joaquín, San Miguel, San Ramón, Santiago, Vitacura.</div>
+        <div class="tramo-nombre">Tramo 1 — Oriente y Central</div>
+        <div class="precio">$3.990</div>
+        <div class="comunas">Providencia, Las Condes, Vitacura, Ñuñoa, La Reina, Santiago Centro, Macul.</div>
       </div>
       <div class="tramo-box">
-        <div class="tramo-nombre">Tramo 2 — Comunas periféricas</div>
-        <div class="precio">$5.593</div>
-        <div class="comunas">Lo Barnechea, Maipú, Quilicura, San Bernardo, Colina, La Pintana, Chicureo, Puente Alto, Huechuraba, Pudahuel.</div>
+        <div class="tramo-nombre">Tramo 2 — Sector Intermedio</div>
+        <div class="precio">$4.990</div>
+        <div class="comunas">San Miguel, San Joaquín, Pedro Aguirre Cerda, Peñalolén, La Florida, Lo Barnechea, Independencia, Recoleta, Quinta Normal, Estación Central, Cerrillos, La Cisterna.</div>
+      </div>
+      <div class="tramo-box">
+        <div class="tramo-nombre">Tramo 3 — Periférico / Extremo</div>
+        <div class="precio">$5.990</div>
+        <div class="comunas">Maipú, Puente Alto, San Bernardo, Quilicura, Pudahuel, Renca, Cerro Navia, Lo Prado, El Bosque, La Pintana, Lo Espejo, Conchalí, Huechuraba, San Ramón, La Granja.</div>
       </div>
     </div>
     <div class="envios-nota">
       🚀 <span><strong>Entrega el mismo día en Santiago</strong> para pedidos realizados antes de las 10:00 AM en días hábiles. Compras después de ese horario se despachan al día siguiente hábil.</span>
+    </div>
+    <div class="envios-nota">
+      📦 <span><strong>Fuera de nuestro radio de despacho interno:</strong> Colina, Chicureo, Lampa, Til Til, Padre Hurtado, Peñaflor, Talagante, El Monte, Melipilla, Buin, Paine, Calera de Tango, Pirque y San José de Maipo se despachan por courier externo (Starken, Blue Express o Correos Chile), con costo a coordinar.</span>
     </div>
 
     <!-- PILARES DESPACHO SANTIAGO -->
@@ -479,7 +487,7 @@ function runSearch(q) {
     </div>
     <div class="info-row">
       <div class="info-row-icon">📍</div>
-      <div class="info-row-text"><strong>Dirección</strong>Gath y Chaves 2452, dpto. 702, Providencia, Santiago.</div>
+      <div class="info-row-text"><strong>Ubicación</strong>Retiro disponible en Providencia, Santiago. Te enviamos la dirección exacta por WhatsApp una vez coordinado el horario.</div>
     </div>
     <div class="info-row">
       <div class="info-row-icon">✅</div>
@@ -627,7 +635,7 @@ function runSearch(q) {
     </div>
     <div id="retiro-info" style="display:none;background:var(--cream);border-radius:12px;padding:1rem 1.2rem;margin-top:.75rem;font-size:.85rem;line-height:1.7;color:#4a3a2e">
       <div style="font-weight:700;margin-bottom:.3rem;color:var(--terracota)">📦 Retiro gratuito — $0</div>
-      <div>📍 <strong>Gath y Chaves 2452, depto. 702, Providencia</strong></div>
+      <div>📍 <strong>Retiro en Providencia, Santiago</strong> — te enviamos la dirección exacta por WhatsApp</div>
       <div>🕐 Lunes a domingo, 11:00 a 20:00</div>
       <div>⏱ Listo en 1 a 2 días hábiles</div>
       <div style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(28,16,7,.1)">✉️ Te avisaremos por email cuando tu pedido esté listo para retiro.</div>
