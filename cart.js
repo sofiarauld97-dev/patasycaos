@@ -1,20 +1,20 @@
 // cart.js — Patas & Caos shared cart, checkout & auth
 // Este archivo es cargado por todas las páginas
 
-// Stock — debe estar primero porque addToCart lo usa
-let stockInicial = {"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":0,"pack-juega-y-relaja":10,"pack-cuidado-total":1,"comedero-lento-slow-feeder---catstages":0,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,"cat-fest-pillows":0,"tubito-atun":3,"tubito-camaron":1,"tubito-salmon-matatabi":1,"lata-leonardo-kitten":1,"lata-leonardo_Ave":0,"lata-leonardo_Pato":1,"lata-leonardo_Conejo":1,"lata-leonardo_Pescado":1,"lata-leonardo_Ternera":1,"collar-findmy_Turquesa":1,"collar-findmy_Negro":1,"collar-findmy_Azul":0,"fuente-agua":1,"pajaro":1,"pelota-led":1,"pulpo":1,"paw-balm":2,"afeitadora":1,"cat-fest_Pato":0,"cat-fest_Cordero":1,"cats-snack_Catnip":0,"cats-snack_Matatabi":1,"cats-snack_Rellena Atún + Ostiones":1,"cats-snack_Rellena Atún + Queso":0,"cats-snack_Rellena Camarón":1,"suero-fisiologico":5,"pulmon-cordero-rahue":3,"traquea-vacuno-rahue":0,"garra-pollo-rahue":5,"oreja-cerdo-rahue":3,"femur-cerdo-tasty":3,"brit-care-sterilized-weigh-control-2kg---duck-turkey":3,"arena-sanitaria-ciudad-animal-8kg":1,"botella-portatil-para-perros_Rosada":0,"botella-portatil-para-perros_Calipso":2,"calming-collar---perros":1,"calming-collar---gatos":1,"dispensador-de-bolsas---diseno-cafe":2,"pelota-snack-interactiva_Roja":0,"pelota-snack-interactiva_Azul":2,"collar-isabelino-donut-rosada---talla-s":1,"rascador-maxi-caja-de-leche---brnx":1,"comedero-lento-slow-feeder-rosado":2,"colagepet-donut-pollo":2,"colagepet-donut-carne":2,"colagepet-donut-pato":2,"dog-fest-rabbit-ears-lamb":2,"dog-fest-lamb-medallions":2,"dog-fest-calcium-bones-chicken":2,"leonardo-adult-gf-poultry-1-8kg":2,"leonardo-adult-light-sterilised-1-8kg":2,"leonardo-adult-duck-1-8kg":2,"hey-bolsas-sanitarias-4-rollos":4,"hey-cama-redonda-confort-verde":3,"hey-donut-sonido-perros":3,"pura-natura-caldo-de-huesos-250g":3,"pura-natura-woofers-80g":3,"fit-formula-gato-adulto-2kg":4};
+// Stock — se obtiene siempre de /api/stock-get (fuente real: Redis).
+// getStock() devuelve el último stock conocido en caché, o {} si aún no hay datos.
+// Un objeto vacío se trata como "todavía no sabemos" (ver checkStockCard en
+// tienda.html/index.html), NO como "todo agotado" — así los productos nuevos
+// nunca quedan escondidos mientras llega la primera respuesta del servidor.
 function getStock() {
   try {
     const s = localStorage.getItem('pac_stock');
     if (s) {
       const p = JSON.parse(s);
-      // Invalidar si el stock guardado no tiene todos los IDs actuales
-      const valido = Object.keys(stockInicial).every(k => k in p);
-      if (valido && Object.keys(p).length > 0) return p;
-      localStorage.removeItem('pac_stock');
+      if (p && typeof p === 'object' && !Array.isArray(p) && Object.keys(p).length > 0) return p;
     }
   } catch(e) {}
-  return {...stockInicial};
+  return {};
 }
 
 let cart = [];

@@ -1193,6 +1193,9 @@ function fmtCLP(n) { return '$' + n.toLocaleString('es-CL'); }
 function checkStockCard(id, stock) {
   const p = productos[id];
   if (!p) return true;
+  // Si aún no llegó el stock real (objeto vacío = "todavía no sabemos"),
+  // no tratamos el producto como agotado — así nunca queda escondido.
+  if (!stock || Object.keys(stock).length === 0) return true;
   if (p.variantes) return p.variantes.some(v => (stock[id + '_' + v.label] ?? 0) > 0);
   return (stock[id] ?? 0) > 0;
 }
