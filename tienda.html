@@ -988,7 +988,7 @@ function checkStockCard(id, stock) {
 }
 
 /* ── FILTROS ── */
-const filtros = { cat: 'todos', aud: 'todos', sort: 'default' };
+const filtros = { cat: 'todos', aud: 'todos', sort: 'default', texto: '' };
 let PRODUCTOS_POR_PAGINA = window.innerWidth <= 768 ? 8 : 9;
 window.addEventListener('resize', () => {
   const pp = window.innerWidth <= 768 ? 8 : 9;
@@ -1068,6 +1068,10 @@ function generarTarjetas() {
       }
     }
     if (filtros.marca && p.marca !== filtros.marca) return false;
+    if (filtros.texto) {
+      const texto = filtros.texto.toLowerCase();
+      if (!p.nombre.toLowerCase().includes(texto)) return false;
+    }
     if (filtros.aud !== 'todos') {
       const aud = p.audience || '';
       const match = Array.isArray(aud) ? aud.includes(filtros.aud) : aud === filtros.aud;
@@ -1302,6 +1306,13 @@ const urlParams = new URLSearchParams(window.location.search);
 const catParam = urlParams.get('cat');
 const audParam = urlParams.get('aud');
 const marcaParam = urlParams.get('marca');
+const buscarParam = urlParams.get('buscar');
+
+// Filtro por texto via ?buscar=botella — solo funciona como link directo,
+// no tiene ningún botón/pill visible en la tienda.
+if (buscarParam) {
+  filtros.texto = buscarParam;
+}
 
 // Filtro por audiencia via ?aud=Perros o ?aud=Gatos
 if (audParam) {
