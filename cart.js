@@ -326,7 +326,7 @@ function actualizarEnvio() {
   if (retiroInfo) retiroInfo.style.display = 'none';
   const comuna = document.getElementById('co-comuna').value;
   const subtotalActual = cart.reduce((s,i) => s + i.price * i.qty, 0);
-  const esGratis = subtotalActual >= 40000;
+  const esGratis = subtotalActual >= 39990;
   const resultado = calcularEnvio(comuna);
   if (!resultado || !comuna) { if(infoEl) infoEl.style.display = 'none'; if(avisoEl) avisoEl.textContent = ''; return; }
   infoEl.style.display = 'flex';
@@ -442,7 +442,7 @@ async function confirmarCheckout() {
   // Calcular envío
   const subtotalActual = cart.reduce((s,i) => s + i.price * i.qty, 0);
   const envio = esRetiro ? null : calcularEnvio(comuna);
-  const costoEnvio = esRetiro ? 0 : (subtotalActual >= 40000 ? 0 : (envio?.precio || 0));
+  const costoEnvio = esRetiro ? 0 : (subtotalActual >= 39990 ? 0 : (envio?.precio || 0));
 
   const btn = document.querySelector('.btn-checkout-confirm');
   btn.textContent = 'Procesando...'; btn.disabled = true;
