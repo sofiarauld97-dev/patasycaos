@@ -613,7 +613,7 @@
 
 <!-- GRID -->
 <div class="shop-body">
-  <div class="prod-grid" id="prod-grid"></div>
+  <div class="prod-grid" id="prod-grid"><p style="grid-column:1/-1;text-align:center;padding:3rem 0;color:var(--texto-suave,#8a7a6e);">Cargando productos...</p></div>
   <div class="no-results" id="no-results" style="display:none">
     <span>🐾</span><p>No hay productos en esta selección.</p>
   </div>
@@ -983,9 +983,6 @@ const productos = {'hey-cama-redonda-confort-verde':{nombre:'Cama Redonda Confor
 function checkStockCard(id, stock) {
   const p = productos[id];
   if (!p) return true;
-  // Si aún no llegó el stock real (objeto vacío = "todavía no sabemos"),
-  // no tratamos el producto como agotado — así nunca queda escondido.
-  if (!stock || Object.keys(stock).length === 0) return true;
   if (p.variantes) return p.variantes.some(v => (stock[id + '_' + v.label] ?? 0) > 0);
   return (stock[id] ?? 0) > 0;
 }
@@ -1332,7 +1329,12 @@ if (catParam) {
   }
 }
 
-generarTarjetas();
+// Si ya tenemos un stock guardado de una visita anterior, pintamos al tiro
+// con ese dato (evita pantalla en blanco). Si no hay nada guardado, esperamos
+// a tener el stock real antes de dibujar — así nunca se adivina "disponible"
+// ni "agotado".
+const stockCacheInicial = getStock();
+if (Object.keys(stockCacheInicial).length > 0) generarTarjetas();
 
 // Abrir producto directo por ?producto= — ej: patasycaos.cl/tienda?producto=paw-balm
 const productoParam = urlParams.get('producto');
@@ -1342,8 +1344,11 @@ if (productoParam && productos[productoParam]) setTimeout(() => abrirModal(produ
   try {
     const r = await fetch('/api/stock-get');
     const data = await r.json();
-    if (data.stock) { localStorage.setItem('pac_stock', JSON.stringify(data.stock)); generarTarjetas(); }
+    if (data && data.stock && Object.keys(data.stock).length > 0) {
+      localStorage.setItem('pac_stock', JSON.stringify(data.stock));
+    }
   } catch(e) {}
+  generarTarjetas(); // siempre se repinta con el stock real más reciente disponible
 })();
 
 /* FILTROS MÓVIL */
