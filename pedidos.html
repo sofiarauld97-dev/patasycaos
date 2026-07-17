@@ -578,6 +578,14 @@ async function cambiarEstadoSus(id, nuevoEstado) {
 
 </script>
 <script>
+// Separa el texto de productos guardado (ej: "Leonardo Adult GF 1,8kg - Poultry x1, Pack Rutina Sana x2")
+// en cada producto individual, sin romperse con comas que estén DENTRO del nombre del producto
+// (ej: "1,8kg"). Antes se usaba un simple split(',') que cortaba mal esos casos.
+function splitProductos(texto) {
+  if (!texto) return [];
+  return [...texto.matchAll(/(?:,\s*)?(.+?\s+x\d+(?:\s*\(-?\d+%\))?)(?=,\s*|$)/g)].map(m => m[1].trim());
+}
+
 const SUPA_URL = 'https://xintmnshndhtqqbouxbo.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbnRtbnNobmRodHFxYm91eGJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDc2MTAsImV4cCI6MjA5MzU4MzYxMH0.Xl5eHoNoxLrb_8jK40zPL52Qa3t696QHkaAmyJEqJac';
 const _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
@@ -653,7 +661,7 @@ function renderTabla() {
         <div class="cliente-detalle">${p.comuna || ''}, ${p.ciudad || ''}</div>
         ${p.notas ? `<div class="cliente-detalle" style="font-style:italic">📝 ${p.notas}</div>` : ''}
       </td>
-      <td><div class="productos-lista">${(p.productos || '').replace(/,\s*/g, '<br>')}</div></td>
+      <td><div class="productos-lista">${splitProductos(p.productos).join('<br>')}</div></td>
       <td><span class="total-valor">${totalFmt}</span><br><span class="fecha-texto">${p.documento || 'Boleta'}</span></td>
       <td><span class="fecha-texto">${fecha}</span></td>
       <td>
@@ -1193,7 +1201,7 @@ function abrirEditarPedido(id) {
   lista.innerHTML = '';
   if (p.productos) {
     // Intentar mapear los productos guardados al catálogo
-    const lineas = p.productos.split(',').map(s => s.trim()).filter(Boolean);
+    const lineas = splitProductos(p.productos);
     lineas.forEach(linea => {
       // Formato: "Nombre x2 (-10%)" o "Nombre x2"
       const matchQty = linea.match(/x(\d+)/);

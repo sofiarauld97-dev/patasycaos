@@ -83,6 +83,21 @@ function tablaProductos(items) {
   `;
 }
 
+// Fila de Subtotal + Envío que se muestra justo antes del Total, para que
+// el cliente entienda la diferencia entre el valor de los productos y el total final.
+function filasTotales(subtotal, costoEnvio) {
+  if (subtotal === undefined || subtotal === null) return '';
+  const envioTexto = costoEnvio > 0 ? `$${costoEnvio.toLocaleString('es-CL')}` : 'Gratis 🎉';
+  return `
+    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:14px;color:#666">
+      <span>Subtotal</span><span>$${subtotal.toLocaleString('es-CL')}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:4px 0 12px;font-size:14px;color:#666">
+      <span>Envío</span><span>${envioTexto}</span>
+    </div>
+  `;
+}
+
 // ============================================================
 // EMAIL 1: CONFIRMACIÓN DE PEDIDO
 // ============================================================
@@ -107,9 +122,12 @@ export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, 
 
     ${tablaProductos(items)}
 
-    <div class="total-row">
-      <span class="total-label">Total pagado</span>
-      <span class="total-valor">$${total.toLocaleString('es-CL')}</span>
+    <div class="total-row" style="display:block;padding-top:0">
+      ${filasTotales(subtotal, costoEnvio)}
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:2px solid #C4622D">
+        <span class="total-label">Total pagado</span>
+        <span class="total-valor">$${total.toLocaleString('es-CL')}</span>
+      </div>
     </div>
 
     <hr class="divider">
@@ -138,7 +156,7 @@ export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, 
 // ============================================================
 // EMAIL 2: EN DESPACHO
 // ============================================================
-export function emailDespacho({ nombre, items, total, direccion, comuna, ciudad, esRetiro }) {
+export function emailDespacho({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, esRetiro }) {
   const mensaje = esRetiro
     ? '¡Tu pedido está listo para retiro! 📲 Te contactaremos por WhatsApp para coordinar el horario y la dirección exacta.'
     : '¡Tu pedido ya está en camino! 🚚 Recibirás un mensaje de WhatsApp con la hora estimada de llegada.';
@@ -150,9 +168,12 @@ export function emailDespacho({ nombre, items, total, direccion, comuna, ciudad,
 
     ${tablaProductos(items)}
 
-    <div class="total-row">
-      <span class="total-label">Total</span>
-      <span class="total-valor">$${total.toLocaleString('es-CL')}</span>
+    <div class="total-row" style="display:block;padding-top:0">
+      ${filasTotales(subtotal, costoEnvio)}
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:2px solid #C4622D">
+        <span class="total-label">Total</span>
+        <span class="total-valor">$${total.toLocaleString('es-CL')}</span>
+      </div>
     </div>
 
     <hr class="divider">
@@ -181,7 +202,7 @@ export function emailDespacho({ nombre, items, total, direccion, comuna, ciudad,
 // ============================================================
 // EMAIL 3: ENTREGADO
 // ============================================================
-export function emailEntregado({ nombre, items, total }) {
+export function emailEntregado({ nombre, items, subtotal, costoEnvio, total }) {
   const contenido = `
     <span class="pata">🎉</span>
     <p class="titulo">¡Llegó tu pedido, ${nombre.split(' ')[0]}!</p>
@@ -189,9 +210,12 @@ export function emailEntregado({ nombre, items, total }) {
 
     ${tablaProductos(items)}
 
-    <div class="total-row">
-      <span class="total-label">Total</span>
-      <span class="total-valor">$${total.toLocaleString('es-CL')}</span>
+    <div class="total-row" style="display:block;padding-top:0">
+      ${filasTotales(subtotal, costoEnvio)}
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:2px solid #C4622D">
+        <span class="total-label">Total</span>
+        <span class="total-valor">$${total.toLocaleString('es-CL')}</span>
+      </div>
     </div>
 
     <hr class="divider">
@@ -233,9 +257,12 @@ export function emailTransferencia({ nombre, items, subtotal, costoEnvio, total,
 
     ${tablaProductos(items)}
 
-    <div class="total-row">
-      <span style="font-size:15px;font-weight:700;color:#1C1007">Total a transferir</span>
-      <span style="font-size:20px;font-weight:900;color:#C4622D">$${total.toLocaleString('es-CL')}</span>
+    <div class="total-row" style="display:block;padding-top:0">
+      ${filasTotales(subtotal, costoEnvio)}
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:2px solid #C4622D">
+        <span style="font-size:15px;font-weight:700;color:#1C1007">Total a transferir</span>
+        <span style="font-size:20px;font-weight:900;color:#C4622D">$${total.toLocaleString('es-CL')}</span>
+      </div>
     </div>
 
     <hr class="divider">
@@ -275,7 +302,7 @@ export function emailTransferencia({ nombre, items, subtotal, costoEnvio, total,
 // ============================================================
 // EMAIL 5: PEDIDO CANCELADO
 // ============================================================
-export function emailCancelado({ nombre, items, total, numeroPedido }) {
+export function emailCancelado({ nombre, items, subtotal, costoEnvio, total, numeroPedido }) {
   const numStr = numeroPedido ? 'PAC-' + String(numeroPedido).padStart(5, '0') : '';
   const contenido = `
     <div style="font-size:32px;text-align:center;margin-bottom:12px">❌</div>
@@ -284,9 +311,12 @@ export function emailCancelado({ nombre, items, total, numeroPedido }) {
 
     ${tablaProductos(items)}
 
-    <div class="total-row">
-      <span style="font-size:15px;font-weight:700;color:#1C1007">Total</span>
-      <span style="font-size:20px;font-weight:900;color:#C4622D">$${total.toLocaleString('es-CL')}</span>
+    <div class="total-row" style="display:block;padding-top:0">
+      ${filasTotales(subtotal, costoEnvio)}
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:2px solid #C4622D">
+        <span style="font-size:15px;font-weight:700;color:#1C1007">Total</span>
+        <span style="font-size:20px;font-weight:900;color:#C4622D">$${total.toLocaleString('es-CL')}</span>
+      </div>
     </div>
 
     <hr class="divider">

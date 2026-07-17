@@ -162,8 +162,11 @@ export default async function handler(req, res) {
       if (!pedido?.email) return res.status(200).json({ ok: true, msg: 'Sin email' });
 
       // Reconstruir items con precios desde el catálogo
-      const items = (pedido.productos || '').split(',').map(s => {
-        const match = s.trim().match(/^(.+?)\s+x(\d+)(?:\s.*)?$/);
+      // (usamos un separador inteligente que no se rompe con comas dentro
+      //  del propio nombre del producto, ej: "Leonardo Adult GF 1,8kg")
+      const segmentosProductos = [...(pedido.productos || '').matchAll(/(?:,\s*)?(.+?\s+x\d+(?:\s*\(-?\d+%\))?)(?=,\s*|$)/g)].map(m => m[1].trim());
+      const items = segmentosProductos.map(s => {
+        const match = s.match(/^(.+?)\s+x(\d+)(?:\s.*)?$/);
         if (!match) return null;
         const nombre = match[1].trim();
         return { name: nombre, qty: parseInt(match[2]), price: getPrecio(nombre) };
@@ -188,13 +191,27 @@ export default async function handler(req, res) {
         }));
       } else if (estado === 'despachado') {
         ({ subject, html } = emailDespacho({
-          nombre: pedido.nombre, items, total: pedido.total,
+          nombre: pedido.nombre, items,
+          subtotal: pedido.subtotal || pedido.total,
+          costoEnvio: pedido.costo_envio || 0,
+          total: pedido.total,
           direccion: pedido.direccion || '', comuna: pedido.comuna || '', ciudad: pedido.ciudad || '', esRetiro,
         }));
       } else if (estado === 'entregado') {
-        ({ subject, html } = emailEntregado({ nombre: pedido.nombre, items, total: pedido.total }));
+        ({ subject, html } = emailEntregado({
+          nombre: pedido.nombre, items,
+          subtotal: pedido.subtotal || pedido.total,
+          costoEnvio: pedido.costo_envio || 0,
+          total: pedido.total,
+        }));
       } else {
-        ({ subject, html } = emailCancelado({ nombre: pedido.nombre, items, total: pedido.total, numeroPedido: pedido.id }));
+        ({ subject, html } = emailCancelado({
+          nombre: pedido.nombre, items,
+          subtotal: pedido.subtotal || pedido.total,
+          costoEnvio: pedido.costo_envio || 0,
+          total: pedido.total,
+          numeroPedido: pedido.id,
+        }));
       }
 
       await fetch('https://api.resend.com/emails', {
