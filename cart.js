@@ -364,11 +364,11 @@ async function checkout() {
         </div>
         <div id="transfer-info" style="display:none;background:#f5ecd7;border-radius:12px;padding:1rem 1.2rem;margin-top:.75rem;font-size:.85rem;line-height:1.9;color:#4a3a2e">
           <div style="font-weight:700;margin-bottom:.3rem;color:#C4622D">🏦 Datos para transferir</div>
-          <div><strong>Banco:</strong> Santander</div>
-          <div><strong>Tipo de cuenta:</strong> Corriente</div>
-          <div><strong>N° de cuenta:</strong> 75925395</div>
-          <div><strong>RUT:</strong> 19.636.805-1</div>
-          <div><strong>Nombre:</strong> Sofía Rauld Lagos</div>
+          <div><strong>Banco:</strong> Mercado Pago</div>
+          <div><strong>Tipo de cuenta:</strong> Vista</div>
+          <div><strong>N° de cuenta:</strong> 1000264809</div>
+          <div><strong>RUT:</strong> 78.413.784-8</div>
+          <div><strong>Nombre:</strong> Comercializadora Rauld SpA</div>
           <div><strong>Email:</strong> contacto@patasycaos.cl</div>
           <div style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(28,16,7,.1);font-size:.8rem">
             📸 Envía el comprobante al email o por WhatsApp. Tu pedido se prepara una vez confirmado el pago.
@@ -491,11 +491,11 @@ async function confirmarTransferencia(cliente) {
             Transfiere <strong>$${total.toLocaleString('es-CL')}</strong> a esta cuenta y envía el comprobante a <strong>contacto@patasycaos.cl</strong>
           </p>
           <div style="background:#f5ecd7;border-radius:12px;padding:1.2rem;text-align:left;font-size:.88rem;line-height:2;color:#4a3a2e;margin-bottom:1.5rem">
-            <div><strong>Banco:</strong> Santander</div>
-            <div><strong>Tipo de cuenta:</strong> Corriente</div>
-            <div><strong>N° de cuenta:</strong> 75925395</div>
-            <div><strong>RUT:</strong> 19.636.805-1</div>
-            <div><strong>Nombre:</strong> Sofía Rauld Lagos</div>
+            <div><strong>Banco:</strong> Mercado Pago</div>
+            <div><strong>Tipo de cuenta:</strong> Vista</div>
+            <div><strong>N° de cuenta:</strong> 1000264809</div>
+            <div><strong>RUT:</strong> 78.413.784-8</div>
+            <div><strong>Nombre:</strong> Comercializadora Rauld SpA</div>
             <div><strong>Email:</strong> contacto@patasycaos.cl</div>
           </div>
           <p style="font-size:.8rem;color:#888;line-height:1.5">Tu pedido se prepara una vez que confirmemos la transferencia.<br>¡Gracias por tu confianza, Caótico! 🐾</p>
