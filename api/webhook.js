@@ -115,6 +115,120 @@ function getPrecio(nombre) {
   return key ? PRECIOS[key] : 0;
 }
 
+// Mapa nombre de producto -> id de stock (usado para poder REINGRESAR el stock
+// cuando un pedido se cancela; los ids son los mismos que usa el inventario/Redis).
+const ID_POR_NOMBRE = {
+  "Comedero Lento Flores - Lila": "comedero-lento-flores-lila",
+  "Snack Calming Cat Treats - Beaphar": "snack-calming-gato",
+  "Collar Zee.Cat Error 500": "collar-zeecat-error-500",
+  "Collar Zee.Cat Error 404": "collar-zeecat-error-404",
+  "Collar Zee.Cat Error 410": "collar-zeecat-error-410",
+  "Collar Suede Zee.Dog": "collar-suede-para-perro-zeedog",
+  "Collar Nox Zee.Dog": "collar-nox-para-perro-zeedog",
+  "Pala Arenero — Marrón": "pala-arenero-marron",
+  "Pala Arenero — Verde": "pala-arenero-verde",
+  "Collar Find My — Amarillo": "collar-findmy_Amarillo",
+  "Pelota Snack Interactiva — Verde": "pelota-snack-interactiva_Verde",
+  "Collar Perro Acolchado — Café Talla S": "collar-perro-acolchado_Café-S",
+  "Collar Perro Acolchado — Café Talla M": "collar-perro-acolchado_Café-M",
+  "Collar Perro Acolchado — Rojo Talla S": "collar-perro-acolchado_Rojo-S",
+  "Afeitadora LED": "afeitadora",
+  "Arena Sanitaria Ciudad Animal 8kg": "arena-sanitaria-ciudad-animal-8kg",
+  "Botella Portátil para Perros — Calipso": "botella-portatil-para-perros_Calipso",
+  "Botella Portátil para Perros — Rosada": "botella-portatil-para-perros_Rosada",
+  "Brit Care Sterilized Weigh Control 2kg - Duck & Turkey": "brit-care-sterilized-weigh-control-2kg---duck-turkey",
+  "Calming Collar - Gatos": "calming-collar---gatos",
+  "Calming Collar - Perros": "calming-collar---perros",
+  "Cat Fest Meat Sticks — Cordero": "cat-fest_Cordero",
+  "Cat Fest Meat Sticks — Pato": "cat-fest_Pato",
+  "Cat Fest Pillows Chicken Creme": "cat-fest-pillows",
+  "Cat Fest Pillows Salmon Creme": "cat-fest-pillows-schrimp-creme",
+  "Cats Snack — Catnip": "cats-snack_Catnip",
+  "Cats Snack — Matatabi": "cats-snack_Matatabi",
+  "Cats Snack — Rellena Atún + Ostiones": "cats-snack_Rellena Atún + Ostiones",
+  "Cats Snack — Rellena Atún + Queso": "cats-snack_Rellena Atún + Queso",
+  "Cats Snack — Rellena Camarón": "cats-snack_Rellena Camarón",
+  "ColágePet Donut — Sabor Carne": "colagepet-donut-carne",
+  "ColágePet Donut — Sabor Pato": "colagepet-donut-pato",
+  "ColágePet Donut — Sabor Pollo": "colagepet-donut-pollo",
+  "Collar Find My — Azul": "collar-findmy_Azul",
+  "Collar Find My — Negro": "collar-findmy_Negro",
+  "Collar Find My — Turquesa": "collar-findmy_Turquesa",
+  "Collar Isabelino Donut Rosada - Talla S": "collar-isabelino-donut-rosada---talla-s",
+  "Comedero Lento Slow Feeder - Catstages": "comedero-lento-slow-feeder---catstages",
+  "Comedero Lento Slow Feeder - Rosado": "comedero-lento-slow-feeder-rosado",
+  "Dispensador de Bolsas - Diseño Café": "dispensador-de-bolsas---diseno-cafe",
+  "Dog Fest Calcium Bones with Chicken": "dog-fest-calcium-bones-chicken",
+  "Dog Fest Lamb Medallions": "dog-fest-lamb-medallions",
+  "Dog Fest Rabbit Ears with Lamb": "dog-fest-rabbit-ears-lamb",
+  "Flores de Bach - Ansiedad y Calma": "flores-de-bach---ansiedad-y-calma",
+  "Flores de Bach - Energía y Ánimo": "flores-de-bach---energia-y-animo",
+  "Flores de Bach - Equilibrio": "flores-de-bach---equilibrio",
+  "Flores de Bach - Rescue y Alivio": "flores-de-bach---rescue-y-alivio",
+  "Fuente de Agua Flor USB": "fuente-agua",
+  "Fémur de Cerdo - Tasty Farm": "femur-cerdo-tasty",
+  "Garra de Pollo 65g - Rahue": "garra-pollo-rahue",
+  "Lata Leonardo Adulto — Ave": "lata-leonardo_Ave",
+  "Lata Leonardo Adulto — Conejo": "lata-leonardo_Conejo",
+  "Lata Leonardo Adulto — Pato": "lata-leonardo_Pato",
+  "Lata Leonardo Adulto — Pescado": "lata-leonardo_Pescado",
+  "Lata Leonardo Adulto — Ternera": "lata-leonardo_Ternera",
+  "Lata Leonardo Kitten 200g": "lata-leonardo-kitten",
+  "Leonardo Adult GF 1,8kg - Poultry": "leonardo-adult-gf-poultry-1-8kg",
+  "Leonardo Adult Light & Sterilised 1,8kg": "leonardo-adult-light-sterilised-1-8kg",
+  "Leonardo Adult 1,8kg - Duck": "leonardo-adult-duck-1-8kg",
+  "Bolsas Sanitarias 4 Rollos - Hey!": "hey-bolsas-sanitarias-4-rollos",
+  "Cama Redonda Confort Verde - Hey!": "hey-cama-redonda-confort-verde",
+  "Donut con Sonido - Hey!": "hey-donut-sonido-perros",
+  "Caldo de Huesos 250g - Pura Natura": "pura-natura-caldo-de-huesos-250g",
+  "Woofer's 80g - Pura Natura": "pura-natura-woofers-80g",
+  "Fit Formula Gato Adulto 2kg": "fit-formula-gato-adulto-2kg",
+  "Masajeador Pulpo": "pulpo",
+  "Pack Bienvenido a Casa": "pack-bienvenido-a-casa",
+  "Pack Calma Total": "pack-calma-total",
+  "Pack Consulta + Flor de Bach": "pack-consulta-flor-de-bach",
+  "Pack Cuidado Total": "pack-cuidado-total",
+  "Pack Juega y Relaja": "pack-juega-y-relaja",
+  "Pack Rutina Sana": "pack-rutina-sana",
+  "Pack SOS Mascota": "pack-sos-mascota",
+  "Paw Balm": "paw-balm",
+  "Pelota Interactiva LED": "pelota-led",
+  "Pelota Snack Interactiva — Azul": "pelota-snack-interactiva_Azul",
+  "Pelota Snack Interactiva — Roja": "pelota-snack-interactiva_Roja",
+  "Pulmón de Cordero 50g - Rahue": "pulmon-cordero-rahue",
+  "Pájaro Interactivo": "pajaro",
+  "Rascador Maxi Caja de Leche - Brnx": "rascador-maxi-caja-de-leche---brnx",
+  "Recorte Oreja de Cerdo 100g - Rahue": "oreja-cerdo-rahue",
+  "Suero Fisiológico — Cloruro de Sodio 0.9%": "suero-fisiologico",
+  "Tráquea de Vacuno - Rahue": "traquea-vacuno-rahue",
+  "Tubito Cremoso Atún con Catnip": "tubito-atun",
+  "Tubito Cremoso Camarón con Catnip": "tubito-camaron",
+  "Tubito Cremoso Salmón con Matatabi": "tubito-salmon-matatabi",
+  "Snack Dental Power 75g - QChefs": "zupet-dental-power-suave",
+  "Snack Dental Fitness Crocante 60g - QChefs": "zupet-dental-fitness-crocante",
+  "Rastreador Apple Find My + Funda de Silicona": "rastreador-find-my",
+  "Comedero Lento Desmontable — Azul": "comedero-lento-desmontable-azul",
+  "Comedero Lento Desmontable — Rojo": "comedero-lento-desmontable-rojo",
+  "Collar Find My — Rojo": "collar-findmy-rojo",
+  "Snack Fellini Lollipop Calabaza - 3 Uni": "fellini-lollipop-calabaza",
+  "Snack Fellini Lollipop Leche de Cabra - 3 Uni": "fellini-lollipop-leche-cabra",
+  "Snack Pets Friends Gato Bocados de Pollo 65gr": "bocados-pollo-pets-friends",
+  "Snack Pets Friends Gato Cubos de Salmon 65gr": "cubitos-salmon-pets-friends",
+  "Doggo Traquea de Vacuno en Crispy de Ciervo 1UNI": "doggo-traquea-vacuno-ciervo",
+  "Doggo Mix en Crispy de Ciervo 100gr": "doggo-mix-deshidratados",
+  "Condilo de Vacuno Rahue 300g": "condilo-vacuno-rahue",
+  "Cats Snack Galleta Rellena Pollo+Camaron": "cats-snack-pollo-camaron",
+};
+
+function getStockId(nombre) {
+  if (ID_POR_NOMBRE[nombre]) return ID_POR_NOMBRE[nombre];
+  const key = Object.keys(ID_POR_NOMBRE).find(k =>
+    k.toLowerCase().includes(nombre.toLowerCase()) ||
+    nombre.toLowerCase().includes(k.toLowerCase())
+  );
+  return key ? ID_POR_NOMBRE[key] : null;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     // GET: consulta de pedido para la página pedido-ok
@@ -169,7 +283,7 @@ export default async function handler(req, res) {
         const match = s.match(/^(.+?)\s+x(\d+)(?:\s.*)?$/);
         if (!match) return null;
         const nombre = match[1].trim();
-        return { name: nombre, qty: parseInt(match[2]), price: getPrecio(nombre) };
+        return { name: nombre, qty: parseInt(match[2]), price: getPrecio(nombre), stockId: getStockId(nombre) };
       }).filter(Boolean);
 
       const esRetiro = (pedido.direccion || '').toLowerCase().includes('retiro') || !(pedido.direccion || '').trim();
@@ -249,8 +363,9 @@ export default async function handler(req, res) {
             if (typeof val === 'object' && val !== null) stock = val;
           }
           for (const item of items) {
-            const cur = typeof stock[item.id] === 'number' ? stock[item.id] : 0;
-            stock[item.id] = Math.max(0, cur - item.qty);
+            if (!item.stockId) { console.warn('[webhook] Sin stockId para descontar:', item.name); continue; }
+            const cur = typeof stock[item.stockId] === 'number' ? stock[item.stockId] : 0;
+            stock[item.stockId] = Math.max(0, cur - item.qty);
           }
           await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
             method: 'POST',
@@ -260,6 +375,37 @@ export default async function handler(req, res) {
           console.log('[webhook] Stock descontado para pedido manual:', pedidoId);
         } catch (e) {
           console.error('[webhook] Error descontando stock pedido manual:', e);
+        }
+      }
+
+      // Reingresar stock si el pedido se cancela
+      // (el stock ya se había descontado al crearse el pedido, así que hay que devolverlo)
+      if (estado === 'cancelado') {
+        try {
+          const stockRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/pac_stock`, {
+            headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
+          });
+          const stockData = await stockRes.json();
+          let stock = {};
+          if (stockData.result) {
+            let val = stockData.result;
+            let i = 0;
+            while (typeof val === 'string' && i++ < 5) { try { val = JSON.parse(val); } catch(e) { break; } }
+            if (typeof val === 'object' && val !== null) stock = val;
+          }
+          for (const item of items) {
+            if (!item.stockId) { console.warn('[webhook] Sin stockId para reingresar:', item.name); continue; }
+            const cur = typeof stock[item.stockId] === 'number' ? stock[item.stockId] : 0;
+            stock[item.stockId] = cur + item.qty;
+          }
+          await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify([['SET', 'pac_stock', JSON.stringify(stock)]]),
+          });
+          console.log('[webhook] Stock reingresado por cancelación:', pedidoId);
+        } catch (e) {
+          console.error('[webhook] Error reingresando stock por cancelación:', e);
         }
       }
 
