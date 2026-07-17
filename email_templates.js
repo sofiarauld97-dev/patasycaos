@@ -243,11 +243,11 @@ export function emailTransferencia({ nombre, items, subtotal, costoEnvio, total,
     <div class="info-box">
       <h3>🏦 Datos bancarios</h3>
       <table style="width:100%;font-size:14px;color:#444;border-collapse:collapse">
-        <tr><td style="padding:5px 0;color:#888;width:130px">Banco</td><td style="font-weight:700;color:#1C1007">Santander</td></tr>
-        <tr><td style="padding:5px 0;color:#888">Tipo de cuenta</td><td style="font-weight:700;color:#1C1007">Cuenta Corriente</td></tr>
-        <tr><td style="padding:5px 0;color:#888">Número</td><td style="font-weight:700;color:#1C1007">75925395</td></tr>
-        <tr><td style="padding:5px 0;color:#888">RUT</td><td style="font-weight:700;color:#1C1007">19.636.805-1</td></tr>
-        <tr><td style="padding:5px 0;color:#888">Titular</td><td style="font-weight:700;color:#1C1007">Sofía Rauld Lagos</td></tr>
+        <tr><td style="padding:5px 0;color:#888;width:130px">Banco</td><td style="font-weight:700;color:#1C1007">Mercado Pago</td></tr>
+        <tr><td style="padding:5px 0;color:#888">Tipo de cuenta</td><td style="font-weight:700;color:#1C1007">Cuenta Vista</td></tr>
+        <tr><td style="padding:5px 0;color:#888">Número</td><td style="font-weight:700;color:#1C1007">1000264809</td></tr>
+        <tr><td style="padding:5px 0;color:#888">RUT</td><td style="font-weight:700;color:#1C1007">78.413.784-8</td></tr>
+        <tr><td style="padding:5px 0;color:#888">Titular</td><td style="font-weight:700;color:#1C1007">Comercializadora Rauld SpA</td></tr>
         <tr><td style="padding:5px 0;color:#888">Email</td><td style="font-weight:700;color:#1C1007">contacto@patasycaos.cl</td></tr>
       </table>
     </div>
