@@ -52,8 +52,9 @@
     .mega-menu { display: none; }
     .hamburger { display: none; width: 36px; height: 36px; background: none; border: 1.5px solid rgba(28,16,7,.18); border-radius: 50%; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; }
     .hamburger span { display: block; width: 14px; height: 1.5px; background: var(--negro); border-radius: 2px; transition: all .3s; }
-    .anuncio-bar { background: var(--dark); color: var(--cream); font-size: .72rem; font-weight: 600; text-align: center; padding: 7px 5%; overflow: hidden; white-space: nowrap; }
-    .anuncio-track { display: inline-block; }
+    .anuncio-bar{background:#4A7C59;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
+    .anuncio-track{display:inline-block;animation:marquee 22s linear infinite;font-size:13px;font-weight:500;letter-spacing:.04em;}
+    @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
     #nav-auth > button { width: 34px; height: 34px; }
     .cart-badge { position: absolute; top: -6px; right: -6px; background: var(--negro); color: var(--blanco); border-radius: 50%; width: 20px; height: 20px; font-size: .68rem; font-weight: 700; display: none; align-items: center; justify-content: center; }
 
@@ -62,8 +63,8 @@
     .mobile-menu.open { transform: translateY(0); pointer-events: all; visibility: visible; }
     .mobile-menu a { font-weight: 600; font-size: 1rem; color: var(--negro); text-decoration: none; padding: .4rem 0; border-bottom: 1px solid rgba(28,16,7,.07); }
     .mobile-accordion-btn { background: none; border: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem; color: var(--negro); cursor: pointer; width: 100%; text-align: left; padding: .4rem 0; border-bottom: 1px solid rgba(28,16,7,.07); display: flex; justify-content: space-between; align-items: center; }
-    .mobile-accordion-body { display: none; flex-direction: column; gap: .4rem; padding: .5rem 0 .5rem 1rem; }
-    .mobile-accordion-body.open { display: flex; }
+    .mobile-accordion-body { max-height: 0; overflow: hidden; transition: max-height .35s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; gap: .4rem; padding: 0 0 0 1rem; }
+    .mobile-accordion-body.open { max-height: 400px; padding: .5rem 0 .5rem 1rem; }
     .mobile-cat-link { font-size: .88rem; color: var(--texto-suave) !important; border-bottom: none !important; padding: .2rem 0 !important; }
 
     /* CART */
@@ -189,7 +190,7 @@
 <body>
 
 <header class="site-header">
-<div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $40.000</span></div></div>
+<div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990</span></div></div>
 <nav>
   <!-- FILA 2: Logo + Buscador + Íconos -->
   <div class="nav-top">
@@ -257,39 +258,7 @@
   </div>
 </main>
 
-<footer id="nosotros">
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <div class="footer-brand-row">
-        <img src="logo.png" alt="Patas & Caos" width="40" height="40">
-        <span class="footer-brand-name">Patas & Caos</span>
-      </div>
-      <p>Accesorios, juguetes y comida para mascotas con personalidad. Hechos para humanos que aman el desorden peludo.</p>
-      <div class="footer-socials">
-        <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        </a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4>Tienda</h4>
-      <ul>
-        <li><a href="/tienda">Todos los productos</a></li>
-        <li><a href="/nosotros">Nosotros</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Ayuda</h4>
-      <ul>
-        <li><a href="/envios">Envíos</a></li>
-        <li><a href="/devoluciones">Cambios y devoluciones</a></li>
-        <li><a href="/contacto">Contacto</a></li>
-        <li><a href="/faq">FAQ</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">© 2026 Patas & Caos. Todos los ladridos reservados.</div>
-</footer>
+
 
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
 <aside class="cart-sidebar" id="cart-sidebar">
@@ -306,125 +275,6 @@
     <button class="btn-checkout" onclick="checkout()">Pagar →</button>
   </div>
 </aside>
-
-<!-- HERO -->
-<section class="hero" id="inicio">
-  <div class="hero-content">
-    <div class="hero-badge">✨ Caos premium para tu peludo favorito</div>
-    <h1>Todo lo que tu mascota <em>destrozará</em> con amor.</h1>
-    <p>Accesorios, juguetes, alimentos y snacks para mascotas que mandan en la casa. Y en tu corazón.</p>
-    <div class="hero-btns">
-      <button class="btn-primary" onclick="window.location.href='/tienda'">Comprar ahora →</button>
-    </div>
-    <div class="hero-stats">
-      <div class="stat"><span>+5k</span><small>Patas felices</small></div>
-      <div class="stat"><span>100%</span><small>Sin culpa</small></div>
-      <div class="stat"><span>24h</span><small>Envío express en Stgo</small></div>
-    </div>
-  </div>
-  <div class="hero-img">
-    <div class="hero-img-wrap">
-      <img src="golden_patas_y_caos.jpg" alt="Golden retriever Patas & Caos">
-    </div>
-    <div class="hero-tag">"Aprobado por mi golden"</div>
-  </div>
-</section>
-
-
-<!-- CARRUSEL DESCUENTOS CYBER -->
-
-
-<!-- CARRUSEL TODOS LOS PRODUCTOS -->
-<!-- CATEGORIES -->
-<section class="categories" id="categorias">
-  <p class="section-label">Categorías</p>
-  <div class="cat-header">
-    <h2 class="section-title" style="margin-bottom:0">Explora el caos organizado.</h2>
-    <div class="cat-arrows">
-      <button class="cat-arrow" onclick="moverCat(-1)" aria-label="Anterior">‹</button>
-      <button class="cat-arrow" onclick="moverCat(1)" aria-label="Siguiente">›</button>
-    </div>
-  </div>
-  <div class="cat-grid" id="cat-grid">
-    <div class="cat-card" onclick="window.location.href='/suscripciones'"><img class="cat-img" src="categoria-suscripciones.jpg" alt="Suscripciones" loading="lazy"></div>
-    <div class="cat-card" onclick="window.location.href='/tienda?aud=Perros'"><img class="cat-img" src="categoria-perros.jpg" alt="Perros" loading="lazy"></div>
-    <div class="cat-card" onclick="window.location.href='/tienda?cat=Para Gatos'"><img class="cat-img" src="categoria-gatos.jpg" alt="Gatos" loading="lazy"></div>
-    <div class="cat-card" onclick="window.location.href='/tienda?cat=Alimentos'"><img class="cat-img" src="categoria-alimentos.jpg" alt="Alimentos" loading="lazy"></div>
-    <div class="cat-card" onclick="window.location.href='/tienda?cat=Juguete'"><img class="cat-img" src="categoria-juguetes.jpg" alt="Juguetes" loading="lazy"></div>
-    <div class="cat-card" onclick="window.location.href='/tienda?cat=Accesorio'"><img class="cat-img" src="categoria-accesorios.jpg" alt="Accesorios" loading="lazy"></div>
-    <div class="cat-card" onclick="window.location.href='/tienda?cat=Aseo e Higiene'"><img class="cat-img" src="categoria-aseo-higiene.jpg" alt="Aseo e Higiene" loading="lazy"></div>
-    <div class="cat-card" onclick="window.location.href='/tienda?cat=Snacks y Golosinas'"><img class="cat-img" src="cat-snacks-y-golosinas.png" alt="Snacks y Golosinas" loading="lazy"></div>
-    <div class="cat-card" onclick="window.location.href='/tienda?cat=Flores de Bach'"><img class="cat-img" src="cat-flores-de-bach.png" alt="Flores de Bach" loading="lazy"></div>
-    <div class="cat-card" onclick="window.location.href='/tienda?cat=Insumos Veterinarios'"><img class="cat-img" src="cat-insumos-veterinarios.png" alt="Insumos Veterinarios" loading="lazy"></div>
-  </div>
-</section>
-
-<section class="all-products">
-  <p class="section-label">Catálogo completo</p>
-  <h2 class="section-title">Todo lo que<span>necesitan.</span></h2>
-  <div class="carousel-wrap">
-    <button class="carr-arrow left" onclick="moverCarrusel(-1)" aria-label="Anterior">‹</button>
-    <div class="carousel-track" id="carousel-track"></div>
-    <button class="carr-arrow right" onclick="moverCarrusel(1)" aria-label="Siguiente">›</button>
-  </div>
-  <div style="text-align:center;margin-top:2rem">
-    <a href="/tienda" style="display:inline-block;border:2px solid rgba(255,255,255,.3);color:var(--cream);border-radius:50px;padding:12px 32px;font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .2s" onmouseover="this.style.borderColor='var(--cream)'" onmouseout="this.style.borderColor='rgba(255,255,255,.3)'">Ver toda la tienda →</a>
-  </div>
-</section>
-
-
-
-
-<!-- BLOG -->
-<section class="blog-section" id="blog">
-  <p class="section-label">Blog</p>
-  <h2 class="section-title">Consejos para el<span>caos peludo.</span></h2>
-  <div class="blog-grid" id="blog-grid">
-    <a href="/blog-alimentacion" class="blog-card">
-      <div class="blog-card-img"><img src="view-cat-eating-food-from-bowl.jpg" alt="Guía alimentación felina" style="width:100%;height:100%;object-fit:cover;"></div>
-      <div class="blog-card-body">
-        <p class="blog-cat">Nutrición</p>
-        <h3>¿Qué come tu gato en realidad? Guía de alimentación felina</h3>
-        <p>Todo lo que necesitas saber sobre comida húmeda, seca y snacks para gatos.</p>
-      </div>
-    </a>
-    <a href="/blog-flores-de-bach" class="blog-card">
-      <div class="blog-card-img"><img src="gato_flores_de_bach.jpg" alt="Flores de Bach para mascotas" style="width:100%;height:100%;object-fit:cover;"></div>
-      <div class="blog-card-body">
-        <p class="blog-cat">Bienestar</p>
-        <h3>Flores de Bach para mascotas: qué son y cómo funcionan</h3>
-        <p>Una guía completa sobre terapia floral para perros y gatos ansiosos.</p>
-      </div>
-    </a>
-    <a href="/blog-juguetes" class="blog-card">
-      <div class="blog-card-img"><img src="gato_jugando_pelota.jpg" alt="Los 5 juguetes para mascotas" style="width:100%;height:100%;object-fit:cover;"></div>
-      <div class="blog-card-body">
-        <p class="blog-cat">Juguetes</p>
-        <h3>Los 5 juguetes que más estimulan a tu gato y a tu perro</h3>
-        <p>Cómo mantener a tu mascota activa y entretenida sin que destruya el sofá.</p>
-      </div>
-    </a>
-  </div>
-  <div class="blog-dots" id="blog-dots">
-    <button class="blog-dot activo" onclick="blogScrollTo(0)"></button>
-    <button class="blog-dot" onclick="blogScrollTo(1)"></button>
-    <button class="blog-dot" onclick="blogScrollTo(2)"></button>
-  </div>
-  <div class="blog-ver-mas"><a href="/blog">Ver todos los artículos →</a></div>
-</section>
-
-<!-- NEWSLETTER -->
-<section class="newsletter" id="contacto">
-  <div class="newsletter-box">
-    <h2>Únete a la manada.</h2>
-    <p>Ofertas, novedades y memes de mascotas en tu correo. Sin spam, palabra de patita.</p>
-    <form class="newsletter-form" onsubmit="suscribirse(event)">
-      <input type="email" id="newsletter-email" placeholder="tu@correo.com" required>
-      <button type="submit" id="newsletter-btn">Suscribirme</button>
-    </form>
-    <p id="newsletter-msg" style="margin-top:1rem;font-size:.85rem;color:rgba(255,255,255,.9);display:none;"></p>
-  </div>
-</section>
 
 <!-- FOOTER -->
 <footer id="nosotros">
@@ -527,7 +377,7 @@
 
     <div id="retiro-info" style="display:none;background:var(--cream);border-radius:12px;padding:1rem 1.2rem;margin-top:.75rem;font-size:.85rem;line-height:1.7;color:#4a3a2e">
       <div style="font-weight:700;margin-bottom:.3rem;color:var(--terracota)">📦 Retiro gratuito — $0</div>
-      <div>📍 <strong>Gath y Chaves 2452, depto. 702, Providencia</strong></div>
+      <div>📍 <strong>Retiro en Providencia, Santiago</strong> — te enviamos la dirección exacta por WhatsApp</div>
       <div>🕐 Lunes a domingo, 11:00 a 20:00</div>
       <div>⏱ Listo en 1 a 2 días hábiles</div>
       <div style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(28,16,7,.1)">✉️ Te avisaremos por email cuando tu pedido esté listo para retiro.</div>
@@ -605,11 +455,47 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="/cart.js"></script>
+<script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
+<script>
+// ── RESEÑAS DE CLIENTES EN GOOGLE ──
+// Se muestra recién cuando (a) platform.js terminó de cargar Y (b) ya tenemos
+// los datos reales del pedido. Cualquiera de los dos puede llegar primero.
+let _gcrGapiListo = false;
+let _gcrDatosPedido = null;
+
+window.renderOptIn = function() {
+  _gcrGapiListo = true;
+  _gcrIntentarMostrar();
+};
+
+function _gcrIntentarMostrar() {
+  if (!_gcrGapiListo || !_gcrDatosPedido) return;
+  window.gapi.load('surveyoptin', function() {
+    window.gapi.surveyoptin.render({
+      "merchant_id": 5806255829,
+      "order_id": _gcrDatosPedido.order_id,
+      "email": _gcrDatosPedido.email,
+      "delivery_country": "CL",
+      "estimated_delivery_date": _gcrDatosPedido.estimated_delivery_date,
+    });
+  });
+}
+
+// Estima la fecha de entrega según el plazo que ya le mostramos al cliente
+// (24-48h hábiles para despacho, 1-2 días hábiles para retiro) — se usa un
+// cálculo simple y conservador (hoy + 3 días corridos) para no prometer de más.
+function _gcrFechaEstimada() {
+  const d = new Date();
+  d.setDate(d.getDate() + 3);
+  return d.toISOString().split('T')[0]; // YYYY-MM-DD
+}
+</script>
 <script>
 function toggleMenu() {
   const hamburger = document.getElementById('hamburger');
   const menu = document.getElementById('mobile-menu');
   const isOpen = menu.classList.toggle('open');
+  if (!isOpen) { document.querySelectorAll('.mobile-accordion-body.open').forEach(b => { b.classList.remove('open'); b.previousElementSibling.setAttribute('aria-expanded','false'); }); }
   hamburger.classList.toggle('open');
   let bd = document.getElementById('menu-backdrop');
   if (!bd) {
@@ -627,6 +513,9 @@ function toggleAccordion(btn) {
   const body = btn.nextElementSibling;
   const isOpen = body.classList.toggle('open');
   btn.setAttribute('aria-expanded', isOpen);
+  document.querySelectorAll('.mobile-accordion-body.open').forEach(b => {
+    if (b !== body) { b.classList.remove('open'); b.previousElementSibling.setAttribute('aria-expanded', 'false'); }
+  });
 }
 
 function runSearch(q) {
@@ -654,6 +543,16 @@ window.addEventListener('scroll', () => {
     if (!res.ok) throw new Error('not found');
     const order = await res.json();
     contenido.innerHTML = renderPedido(order);
+
+    // Habilitar Reseñas de Clientes en Google con los datos reales del pedido
+    if (order.email) {
+      _gcrDatosPedido = {
+        order_id: prefId,
+        email: order.email,
+        estimated_delivery_date: _gcrFechaEstimada(),
+      };
+      _gcrIntentarMostrar();
+    }
   } catch(e) {
     contenido.innerHTML = errorHTML(
       'No pudimos cargar el detalle de tu pedido.',
@@ -682,9 +581,8 @@ function renderPedido(o) {
   const entregaHTML = esRetiro ? `
     <div class="pedido-entrega-tipo"><span>🏪</span> Retiro en tienda</div>
     <div class="pedido-entrega-dir">
-      <strong>Gath y Chaves 2452, dpto. 702</strong><br>
-      Providencia, Santiago<br>
-      Te avisaremos por email cuando tu pedido esté listo para retirar.
+      <strong>Retiro en Providencia, Santiago</strong><br>
+      Te enviaremos la dirección exacta por WhatsApp para coordinar el horario de retiro.
     </div>` : `
     <div class="pedido-entrega-tipo"><span>🚚</span> Despacho a domicilio</div>
     <div class="pedido-entrega-dir">

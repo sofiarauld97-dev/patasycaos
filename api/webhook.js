@@ -132,6 +132,7 @@ export default async function handler(req, res) {
         const costoEnvio = order.costoEnvio || 0;
         return res.status(200).json({
           nombre: order.nombre,
+          email: order.email || '',
           items: order.items,
           subtotal,
           costoEnvio,
