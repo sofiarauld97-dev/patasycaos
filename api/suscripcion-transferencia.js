@@ -26,13 +26,13 @@ export default async function handler(req, res) {
 
   try {
     // 1. Guardar en Supabase con estado pendiente_transferencia
-    await fetch(`${process.env.SUPABASE_URL}/rest/v1/Suscripciones`, {
+    const supaRes = await fetch(`${process.env.SUPABASE_URL}/rest/v1/Suscripciones`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         apikey: process.env.SUPABASE_ANON_KEY,
         Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}`,
-        Prefer: 'return=minimal',
+        Prefer: 'return=representation',
       },
       body: JSON.stringify({
         nombre, email, telefono, direccion, comuna,
@@ -44,6 +44,8 @@ export default async function handler(req, res) {
         mp_preapproval_id: null,
       }),
     });
+    const suscripcionData = await supaRes.json();
+    const numeroSuscripcion = suscripcionData?.[0]?.id || Date.now();
 
     // 2. Notificar a Sofía
     await fetch('https://api.resend.com/emails', {
@@ -77,7 +79,7 @@ Notas: ${notas || 'Sin notas'}
       }),
     });
 
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, numeroSuscripcion });
   } catch (e) {
     console.error('suscripcion-transferencia error:', e);
     return res.status(500).json({ error: e.message });

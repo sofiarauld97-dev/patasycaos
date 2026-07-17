@@ -472,6 +472,41 @@ async function confirmarCheckout() {
   }
 }
 
+// ── RESEÑAS DE CLIENTES EN GOOGLE ──
+// Se usa tanto para pedidos por transferencia (este archivo) como para
+// suscripciones por transferencia (suscripciones.html, que también carga cart.js).
+// El script de Google se inyecta recién cuando se completa un pedido/suscripción real
+// -no en cada carga de página- para no pedirlo de más.
+function mostrarOptInGCR({ orderId, email }) {
+  if (!orderId || !email) return;
+  const d = new Date();
+  d.setDate(d.getDate() + 3); // estimación conservadora (24-48h hábiles de despacho/retiro)
+  const estimatedDeliveryDate = d.toISOString().split('T')[0];
+
+  window.renderOptIn = function() {
+    window.gapi.load('surveyoptin', function() {
+      window.gapi.surveyoptin.render({
+        "merchant_id": 5806255829,
+        "order_id": String(orderId),
+        "email": email,
+        "delivery_country": "CL",
+        "estimated_delivery_date": estimatedDeliveryDate,
+      });
+    });
+  };
+
+  if (window._gcrPlatformCargado) {
+    if (window.gapi) window.renderOptIn();
+    return;
+  }
+  window._gcrPlatformCargado = true;
+  const script = document.createElement('script');
+  script.src = 'https://apis.google.com/js/platform.js?onload=renderOptIn';
+  script.async = true;
+  script.defer = true;
+  document.head.appendChild(script);
+}
+
 async function confirmarTransferencia(cliente) {
   try {
     const res = await fetch('/api/checkout-transferencia', {
@@ -504,6 +539,7 @@ async function confirmarTransferencia(cliente) {
       cart = [];
       guardarCarritoLocal();
       renderCart();
+      mostrarOptInGCR({ orderId: data.numeroPedido, email: cliente.email });
     } else {
       mostrarToastCarrito('Error al procesar el pedido. Intenta nuevamente.');
     }

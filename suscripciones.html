@@ -1277,6 +1277,7 @@ async function enviarSuscripcion() {
             <p style="font-size:.8rem;color:#888;line-height:1.5">Tu suscripción se activa una vez que confirmemos la transferencia.<br>¡Gracias por unirte, Caótico! 🐾</p>
             <button onclick="cerrarModalSus()" style="margin-top:1.5rem;background:#C4622D;color:#fff;border:none;border-radius:50px;padding:12px 32px;font-family:Poppins,sans-serif;font-weight:700;font-size:.9rem;cursor:pointer">Cerrar</button>
           </div>`;
+        mostrarOptInGCR({ orderId: data.numeroSuscripcion, email });
       } else { throw new Error(data.error || 'Error'); }
     } catch(e) {
       errorEl.textContent = 'Hubo un error al procesar. Por favor intenta de nuevo.';
