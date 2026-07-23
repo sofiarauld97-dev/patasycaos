@@ -28,8 +28,8 @@ const PRECIOS = {
   "Cat Fest Meat Sticks — Pato": 3490,
   "Cat Fest Pillows Chicken Creme": 1990,
   "Cat Fest Pillows Salmon Creme": 1990,
-  "Cats Snack — Catnip": 2990,
-  "Cats Snack — Matatabi": 2990,
+  "Cats Snack — Atún + Catnip": 2990,
+  "Cats Snack — Atún + Matatabi": 2990,
   "Cats Snack — Rellena Atún + Ostiones": 2990,
   "Cats Snack — Rellena Atún + Queso": 2990,
   "Cats Snack — Rellena Camarón": 2990,
@@ -101,6 +101,7 @@ const PRECIOS = {
   "Doggo Mix en Crispy de Ciervo 100gr": 4290,
   "Condilo de Vacuno Rahue 300g": 4990,
   "Cats Snack Galleta Rellena Pollo+Camaron": 2990,
+  "Cats Snack - Rellena Pollo + Camarón": 2990,
   "Rastreador Apple Find My + Funda de Silicona": 11990,
   "Comedero Lento Desmontable — Azul": 7990,
   "Comedero Lento Desmontable — Rojo": 7990,
@@ -145,8 +146,8 @@ const ID_POR_NOMBRE = {
   "Cat Fest Meat Sticks — Pato": "cat-fest_Pato",
   "Cat Fest Pillows Chicken Creme": "cat-fest-pillows",
   "Cat Fest Pillows Salmon Creme": "cat-fest-pillows-schrimp-creme",
-  "Cats Snack — Catnip": "cats-snack_Catnip",
-  "Cats Snack — Matatabi": "cats-snack_Matatabi",
+  "Cats Snack — Atún + Catnip": "cats-snack_Catnip",
+  "Cats Snack — Atún + Matatabi": "cats-snack_Matatabi",
   "Cats Snack — Rellena Atún + Ostiones": "cats-snack_Rellena Atún + Ostiones",
   "Cats Snack — Rellena Atún + Queso": "cats-snack_Rellena Atún + Queso",
   "Cats Snack — Rellena Camarón": "cats-snack_Rellena Camarón",
@@ -222,6 +223,7 @@ const ID_POR_NOMBRE = {
   "Doggo Mix en Crispy de Ciervo 100gr": "doggo-mix-deshidratados",
   "Condilo de Vacuno Rahue 300g": "condilo-vacuno-rahue",
   "Cats Snack Galleta Rellena Pollo+Camaron": "cats-snack-pollo-camaron",
+  "Cats Snack - Rellena Pollo + Camarón": "cats-snack-pollo-camaron",
 };
 
 function getStockId(nombre) {
