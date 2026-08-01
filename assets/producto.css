@@ -264,3 +264,37 @@ body { background: var(--cream) !important; }
     font-size: .88rem;
   }
 }
+
+
+/* === OVERRIDE FINAL PESTAÑAS TERRACOTA === */
+.product-info-tabs {
+  border-top: none !important;
+}
+
+.product-tabs-nav {
+  padding-top: 0 !important;
+  gap: 7px !important;
+  background: transparent !important;
+  border-top: none !important;
+  border-bottom: 1px solid rgba(28,16,7,.16) !important;
+}
+
+.product-tab-btn {
+  margin: 0 !important;
+  background: #F5ECD7 !important;
+  color: #1A1A1A !important;
+  border: 1px solid rgba(28,16,7,.16) !important;
+  border-bottom: 0 !important;
+  border-radius: 10px 10px 0 0 !important;
+}
+
+.product-tab-btn.activo {
+  background: #C4622D !important;
+  color: #FFFFFF !important;
+  border-color: #C4622D !important;
+}
+
+.product-tab-btn:hover:not(.activo) {
+  background: #EDDFC6 !important;
+  color: #1A1A1A !important;
+}
