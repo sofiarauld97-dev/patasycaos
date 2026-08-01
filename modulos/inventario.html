@@ -316,16 +316,15 @@
     .sku-updated { display: none; }
   }
 
-    body>header{display:none!important}
-    body{background:#F5ECD7!important}
-    main{max-width:1280px!important;padding:2rem 3%!important}
+    body > header { display:none !important; }
+    main { max-width:1320px !important; padding:2rem 3% 4rem !important; }
     </style>
 <meta name="robots" content="noindex, nofollow">
 </head>
 <body>
 <header>
   <a href="/" class="header-brand">
-    <img src="logo.png" alt="Patas & Caos">
+    <img src="/logo.png" alt="Patas & Caos">
     <div class="header-brand-text">
       <strong>Patas & Caos</strong>
       <span>Panel de Inventario</span>
@@ -658,7 +657,7 @@ function renderLista() {
 
     // Intentar cargar imagen real
     const img = new Image();
-    img.src = sku.img;
+    img.src = '/' + String(sku.img || '').replace(/^\//, '');
     img.style.cssText = 'width:52px;height:52px;border-radius:10px;object-fit:cover;';
     img.onload = () => {
       const wrap = document.getElementById(`img-wrap-${sku.id.replace(/[^a-z0-9]/gi,'_')}`);

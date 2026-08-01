@@ -11,18 +11,19 @@
 :root{--cream:#F5ECD7;--terracota:#C4622D;--verde:#4A7C59;--dark:#1C1007;--borde:rgba(28,16,7,.12)}
 html,body{height:100%;font-family:Poppins,sans-serif;background:var(--cream)}
 #lock{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999}
-.lock{width:100%;max-width:360px;background:var(--cream);border-radius:22px;padding:28px;text-align:center}
-.lock img{width:58px;margin-bottom:12px}
+.lock{width:100%;max-width:360px;background:var(--cream);border-radius:22px;padding:28px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.34)}
+.lock img{width:58px;height:58px;object-fit:contain;margin-bottom:12px}
 .lock h2{font-size:1.2rem;margin-bottom:6px}
-.lock p{font-size:.82rem;color:#6b5a4e;margin-bottom:18px}
-.lock input{width:100%;padding:12px 14px;border:1.5px solid var(--borde);border-radius:11px;font:inherit;margin-bottom:10px;outline:none}
+.lock p{font-size:.82rem;color:#6b5a4e;margin-bottom:18px;line-height:1.55}
+.lock input{width:100%;padding:12px 14px;border:1.5px solid var(--borde);border-radius:11px;font:inherit;margin-bottom:10px;outline:none;background:#fff}
 .lock input:focus{border-color:var(--terracota)}
 .lock button{width:100%;padding:12px;border:0;border-radius:999px;background:var(--terracota);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+.lock button:hover{background:#a8501f}
 #error{min-height:18px;margin-top:8px;color:#b42318;font-size:.78rem}
-.app{height:100%;display:grid;grid-template-columns:240px 1fr;overflow:hidden}
+.app{height:100%;display:grid;grid-template-columns:250px 1fr;overflow:hidden}
 aside{background:var(--dark);color:var(--cream);padding:22px 14px;display:flex;flex-direction:column}
-.brand{display:flex;gap:10px;align-items:center;padding:0 10px 20px}
-.brand img{width:38px}
+.brand{display:flex;gap:10px;align-items:center;padding:0 10px 22px}
+.brand img{width:38px;height:38px;object-fit:contain}
 .brand strong{display:block;font-size:.95rem}.brand span{font-size:.68rem;opacity:.55}
 nav{display:flex;flex-direction:column;gap:7px}
 nav button{border:0;background:transparent;color:rgba(245,236,215,.72);padding:12px 14px;border-radius:11px;text-align:left;font:inherit;font-size:.84rem;font-weight:600;cursor:pointer}
@@ -31,7 +32,7 @@ nav button.active{background:var(--terracota);color:#fff}
 .bottom{margin-top:auto;display:flex;flex-direction:column;gap:8px}
 .bottom a,.bottom button{border:1px solid rgba(245,236,215,.18);background:transparent;color:var(--cream);text-decoration:none;border-radius:999px;padding:9px 12px;font:inherit;font-size:.76rem;font-weight:600;text-align:center;cursor:pointer}
 main{display:flex;flex-direction:column;min-width:0}
-.top{height:64px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--borde);background:rgba(245,236,215,.93)}
+.top{height:64px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--borde);background:rgba(245,236,215,.93);backdrop-filter:blur(14px)}
 .top h1{font-size:1rem}.top p{font-size:.72rem;color:#6b5a4e}
 .frames{position:relative;flex:1;min-height:0}
 iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:var(--cream)}
@@ -39,7 +40,7 @@ iframe.active{display:block}
 .menu{display:none}
 @media(max-width:760px){
  .app{grid-template-columns:1fr;grid-template-rows:58px 1fr}
- aside{position:fixed;left:0;top:0;bottom:0;width:270px;z-index:1000;transform:translateX(-100%);transition:.25s}
+ aside{position:fixed;left:0;top:0;bottom:0;width:280px;z-index:1000;transform:translateX(-100%);transition:.25s}
  aside.open{transform:translateX(0)}
  main{grid-row:2}.menu{display:block;position:fixed;z-index:1001;left:12px;top:10px;width:38px;height:38px;border:0;border-radius:50%;background:var(--terracota);color:white}
  .top{height:58px;padding-left:64px}.top p{display:none}
@@ -51,14 +52,15 @@ iframe.active{display:block}
  <div class="lock">
   <img src="/logo.png" alt="Patas & Caos" onerror="this.style.display='none'">
   <h2>Panel Administrativo</h2>
-  <p>Todo Patas & Caos en un solo lugar.</p>
-  <input id="pw" type="password" placeholder="Contraseña">
+  <p>Productos, pedidos, suscripciones e inventario en un solo lugar.</p>
+  <input id="pw" type="password" placeholder="Contraseña" autocomplete="current-password">
   <button id="enter" type="button">Entrar</button>
   <div id="error"></div>
  </div>
 </div>
 
-<button class="menu" id="menu" type="button">☰</button>
+<button class="menu" id="menu" type="button" aria-label="Abrir menú">☰</button>
+
 <div class="app">
  <aside id="side">
   <div class="brand">
@@ -66,52 +68,68 @@ iframe.active{display:block}
    <div><strong>Patas & Caos</strong><span>Centro de operaciones</span></div>
   </div>
   <nav>
-   <button class="active" data-id="productos">📦 Productos</button>
-   <button data-id="pedidos">🛒 Pedidos y suscripciones</button>
-   <button data-id="inventario">📊 Inventario</button>
+   <button class="active" data-id="productos" type="button">📦 Crear producto</button>
+   <button data-id="pedidos" type="button">🛒 Pedidos y suscripciones</button>
+   <button data-id="inventario" type="button">📊 Inventario</button>
   </nav>
   <div class="bottom">
    <a href="/" target="_blank">↗ Ver tienda</a>
-   <button id="logout">Cerrar sesión</button>
+   <button id="logout" type="button">Cerrar sesión</button>
   </div>
  </aside>
+
  <main>
   <div class="top">
-   <div><h1 id="title">Productos</h1><p id="sub">Crear productos con el flujo actual</p></div>
+   <div><h1 id="title">Crear producto</h1><p id="sub">Nuevo flujo basado en data/productos.json</p></div>
    <span style="font-size:.76rem;color:#6b5a4e">Panel unificado</span>
   </div>
   <div class="frames">
-   <iframe id="productos" class="active" src="/modulos/productos.html"></iframe>
-   <iframe id="pedidos" src="/modulos/pedidos.html"></iframe>
-   <iframe id="inventario" src="/modulos/inventario.html"></iframe>
+   <iframe id="productos" class="active" src="/modulos/productos.html" title="Crear producto"></iframe>
+   <iframe id="pedidos" src="/modulos/pedidos.html" title="Pedidos y suscripciones"></iframe>
+   <iframe id="inventario" src="/modulos/inventario.html" title="Inventario"></iframe>
   </div>
  </main>
 </div>
+
 <script>
 const PASS='290966';
 const titles={
- productos:['Productos','Crear productos con el flujo actual'],
- pedidos:['Pedidos y suscripciones','Crear pedidos manuales, enviar correos y gestionar estados'],
- inventario:['Inventario','Consultar y modificar stock real']
+ productos:['Crear producto','Nuevo flujo basado en data/productos.json'],
+ pedidos:['Pedidos y suscripciones','Crear pedidos manuales, enviar correos y administrar estados'],
+ inventario:['Inventario','Consultar y modificar las cantidades reales']
 };
 function login(){
- const i=document.getElementById('pw');
- if(i.value===PASS){sessionStorage.setItem('pac_panel_ok','1');document.getElementById('lock').style.display='none'}
- else{document.getElementById('error').textContent='Contraseña incorrecta';i.value='';i.focus()}
+ const input=document.getElementById('pw');
+ if(input.value===PASS){
+   sessionStorage.setItem('pac_panel_ok','1');
+   document.getElementById('lock').style.display='none';
+ }else{
+   document.getElementById('error').textContent='Contraseña incorrecta';
+   input.value=''; input.focus();
+ }
 }
 document.getElementById('enter').addEventListener('click',login);
 document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
-if(sessionStorage.getItem('pac_panel_ok')==='1')document.getElementById('lock').style.display='none';
-document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{
- document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
- document.querySelectorAll('iframe').forEach(x=>x.classList.remove('active'));
- document.getElementById(b.dataset.id).classList.add('active');
- document.getElementById('title').textContent=titles[b.dataset.id][0];
- document.getElementById('sub').textContent=titles[b.dataset.id][1];
- document.getElementById('side').classList.remove('open');
-}));
-document.getElementById('logout').addEventListener('click',()=>{sessionStorage.removeItem('pac_panel_ok');location.reload()});
-document.getElementById('menu').addEventListener('click',()=>document.getElementById('side').classList.toggle('open'));
+if(sessionStorage.getItem('pac_panel_ok')==='1') document.getElementById('lock').style.display='none';
+
+document.querySelectorAll('nav button[data-id]').forEach(button=>{
+ button.addEventListener('click',()=>{
+   document.querySelectorAll('nav button[data-id]').forEach(x=>x.classList.remove('active'));
+   button.classList.add('active');
+   document.querySelectorAll('iframe').forEach(x=>x.classList.remove('active'));
+   document.getElementById(button.dataset.id).classList.add('active');
+   document.getElementById('title').textContent=titles[button.dataset.id][0];
+   document.getElementById('sub').textContent=titles[button.dataset.id][1];
+   document.getElementById('side').classList.remove('open');
+ });
+});
+document.getElementById('logout').addEventListener('click',()=>{
+ sessionStorage.removeItem('pac_panel_ok');
+ location.reload();
+});
+document.getElementById('menu').addEventListener('click',()=>{
+ document.getElementById('side').classList.toggle('open');
+});
 </script>
 </body>
 </html>

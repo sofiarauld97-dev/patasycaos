@@ -129,10 +129,10 @@
     main { padding: 1.5rem 4%; }
   }
 
-    #panel{display:block!important}
-    #login-screen{display:none!important}
-    #panel>header{display:none!important}
-    main{max-width:1280px!important;padding:2rem 3%!important}
+    #panel { display:block !important; }
+    #login-screen { display:none !important; }
+    #panel > header { display:none !important; }
+    main { max-width:1320px !important; padding:2rem 3% 4rem !important; }
     </style>
 <meta name="robots" content="noindex, nofollow">
 </head>
@@ -144,7 +144,7 @@
 <div id="panel">
   <header>
     <div class="header-brand">
-      <img src="logo.png" alt="Patas & Caos">
+      <img src="/logo.png" alt="Patas & Caos">
       <span>Patas & Caos</span>
     </div>
     <span class="header-title">Panel de Pedidos</span>
@@ -398,181 +398,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-// ==================== SUSCRIPCIONES ====================
-let todasLasSus = [];
-let filtroSusActual = 'todos';
-
-function mostrarTab(tab) {
-  document.getElementById('seccion-pedidos').style.display = tab === 'pedidos' ? 'block' : 'none';
-  document.getElementById('seccion-suscripciones').style.display = tab === 'suscripciones' ? 'block' : 'none';
-  document.getElementById('tab-pedidos').classList.toggle('activo', tab === 'pedidos');
-  document.getElementById('tab-suscripciones').classList.toggle('activo', tab === 'suscripciones');
-  if (tab === 'suscripciones' && todasLasSus.length === 0) cargarSuscripciones();
-}
-
-async function cargarSuscripciones() {
-  document.getElementById('tabla-sus').innerHTML = '<div class="loading">Cargando suscripciones...</div>';
-  try {
-    const { data, error } = await _sb
-      .from('Suscripciones')
-      .select('*')
-      .order('created_at', { ascending: true });
-    if (error) throw error;
-    todasLasSus = data || [];
-    actualizarStatsSus();
-    renderSus();
-  } catch (e) {
-    document.getElementById('tabla-sus').innerHTML = '<div class="empty-state"><span>⚠️</span>Error al cargar. Intenta de nuevo.</div>';
-  }
-}
-
-function actualizarStatsSus() {
-  const hoy = new Date().getDate();
-  document.getElementById('sus-stat-total').textContent = todasLasSus.length;
-  document.getElementById('sus-stat-activas').textContent = todasLasSus.filter(s => s.estado === 'activa').length;
-  document.getElementById('sus-stat-pendientes').textContent = todasLasSus.filter(s => s.estado === 'pendiente' || s.estado === 'pendiente_transferencia').length;
-  document.getElementById('sus-stat-hoy').textContent = todasLasSus.filter(s => {
-    const dia = new Date(s.created_at).getDate();
-    return dia === hoy && s.estado === 'activa';
-  }).length;
-  document.getElementById('sus-stat-fallidos').textContent = todasLasSus.filter(s => s.estado === 'pago_fallido').length;
-}
-
-function filtrarSus(estado, btn) {
-  filtroSusActual = estado;
-  document.querySelectorAll('#seccion-suscripciones .filtro-btn').forEach(b => b.classList.remove('activo'));
-  btn.classList.add('activo');
-  renderSus();
-}
-
-function renderSus() {
-  let sus = filtroSusActual === 'todos'
-    ? todasLasSus
-    : filtroSusActual === 'pendiente'
-      ? todasLasSus.filter(s => s.estado === 'pendiente' || s.estado === 'pendiente_transferencia')
-      : todasLasSus.filter(s => s.estado === filtroSusActual);
-
-  // Ordenar por día del mes de suscripción
-  sus = [...sus].sort((a, b) => {
-    const diaA = new Date(a.created_at).getDate();
-    const diaB = new Date(b.created_at).getDate();
-    return diaA - diaB;
-  });
-
-  if (sus.length === 0) {
-    document.getElementById('tabla-sus').innerHTML = '<div class="empty-state"><span>🐾</span>No hay suscripciones en esta categoría.</div>';
-    return;
-  }
-
-  const hoy = new Date().getDate();
-
-  const rows = sus.map(s => {
-    const diaDespacho = new Date(s.created_at).getDate();
-    const esHoy = diaDespacho === hoy && s.estado === 'activa';
-    const esFallido = s.estado === 'pago_fallido';
-    const esTransfer = s.estado === 'pendiente_transferencia';
-    const planLabel = {
-      'felina-basico': 'Felina Básico', 'felina-premium': 'Felina Premium', 'felina-vip': 'Felina VIP',
-      'indoor-basico': 'Indoor Básico', 'indoor-premium': 'Indoor Premium', 'indoor-vip': 'Indoor VIP',
-    }[`${s.tipo}-${s.plan}`] || `${s.tipo} ${s.plan}`;
-    const estadoBadge = s.estado === 'activa' ? '<span style="background:#e8f5e9;color:#2e7d32;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">✅ Activa</span>'
-      : s.estado === 'pendiente_transferencia' ? '<span style="background:#fff3e0;color:#e65100;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">🏦 Pend. transferencia</span>'
-      : s.estado === 'pago_fallido' ? '<span style="background:#fce4ec;color:#c62828;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">⚠️ Pago fallido</span>'
-      : '<span style="background:#f5f5f5;color:#666;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">⏳ ' + s.estado + '</span>';
-
-    return `<tr style="${esHoy ? 'background:rgba(196,98,45,.06);' : esFallido ? 'background:rgba(192,57,43,.06);' : ''}">
-      <td style="font-weight:700;font-size:1.4rem;text-align:center;color:${esHoy ? 'var(--terracota)' : 'var(--negro)'};">
-        ${diaDespacho}
-        ${esHoy ? '<div style="font-size:.65rem;font-weight:700;color:var(--terracota);">HOY</div>' : ''}
-      </td>
-      <td>
-        <div class="cliente-nombre">${s.nombre || '—'}</div>
-        <div class="cliente-detalle">${s.email || ''}</div>
-        <div class="cliente-detalle">${s.telefono || ''}</div>
-      </td>
-      <td>
-        <div class="cliente-detalle">${s.direccion || ''}</div>
-        <div class="cliente-detalle">${s.comuna || ''}</div>
-        ${s.notas ? `<div class="cliente-detalle" style="font-style:italic">📝 ${s.notas}</div>` : ''}
-      </td>
-      <td>
-        <div class="cliente-nombre">${planLabel}</div>
-        <div class="cliente-detalle">$${(s.precio || 0).toLocaleString('es-CL')}/mes</div>
-        <div style="margin-top:4px">${estadoBadge}</div>
-      </td>
-      <td>
-        <select class="estado-select" onchange="cambiarEstadoSus(${s.id}, this.value)">
-          <option value="pendiente" ${s.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
-          <option value="activa" ${s.estado === 'activa' ? 'selected' : ''}>✅ Activa</option>
-          <option value="cancelada" ${s.estado === 'cancelada' ? 'selected' : ''}>❌ Cancelada</option>
-          <option value="pago_fallido" ${s.estado === 'pago_fallido' ? 'selected' : ''}>⚠️ Pago fallido</option>
-          <option value="pendiente_transferencia" ${s.estado === 'pendiente_transferencia' ? 'selected' : ''}>🏦 Pend. transferencia</option>
-        </select>
-      </td>
-    </tr>`;
-  }).join('');
-
-  document.getElementById('tabla-sus').innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th style="text-align:center;">Día despacho</th>
-          <th>N° Pedido</th>
-          <th>Cliente</th>
-          <th>Dirección</th>
-          <th>Plan</th>
-          <th>Estado</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>`;
-}
-
-async function cambiarEstadoSus(id, nuevoEstado) {
-  // Si se cancela, hay que cancelar también en MP
-  if (nuevoEstado === 'cancelada') {
-    const sus = todasLasSus.find(s => s.id === id);
-    if (!sus) return;
-
-    const confirmar = confirm(`¿Confirmas cancelar la suscripción de ${sus.nombre}? Esto detendrá el cobro automático en Mercado Pago.`);
-    if (!confirmar) {
-      // Revertir el select visualmente
-      renderSus();
-      return;
-    }
-
-    try {
-      const res = await fetch('/api/cancelar-suscripcion', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, mp_preapproval_id: sus.mp_preapproval_id }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Error desconocido');
-      sus.estado = 'cancelada';
-      actualizarStatsSus();
-      renderSus();
-      alert(`✅ Suscripción de ${sus.nombre} cancelada correctamente en MP y en el sistema.`);
-    } catch (e) {
-      alert('❌ Error al cancelar: ' + e.message);
-      renderSus();
-    }
-    return;
-  }
-
-  // Para otros cambios de estado (pendiente → activa, etc.)
-  const { error } = await _sb
-    .from('Suscripciones')
-    .update({ estado: nuevoEstado })
-    .eq('id', id);
-  if (error) { alert('Error al actualizar. Intenta de nuevo.'); return; }
-  const sus = todasLasSus.find(s => s.id === id);
-  if (sus) sus.estado = nuevoEstado;
-  actualizarStatsSus();
-  renderSus();
-}
-
-</script>
 <script>
 // Separa el texto de productos guardado (ej: "Leonardo Adult GF 1,8kg - Poultry x1, Pack Rutina Sana x2")
 // en cada producto individual, sin romperse con comas que estén DENTRO del nombre del producto
@@ -588,7 +413,14 @@ const _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
 
 let todosLosPedidos = [];
 let filtroActual = 'todos';
-window.addEventListener('DOMContentLoaded',()=>{ setTimeout(()=>{ try{ cargarPedidos(); }catch(e){ console.error(e); } },150); });
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    try { cargarPedidos(); }
+    catch (error) {
+      console.error('No se pudieron cargar los pedidos:', error);
+    }
+  }, 150);
+});
 
 function verificarPass() {
   const val = document.getElementById('pwd-input').value;
