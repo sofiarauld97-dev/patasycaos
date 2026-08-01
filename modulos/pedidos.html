@@ -846,6 +846,194 @@ tbody tr:hover td{background:#FCFAF7!important}
 }
 </style>
 
+
+<style id="modal-pedidos-responsive">
+/* =========================================================
+   MODALES DE PEDIDOS — RESPONSIVE
+   ========================================================= */
+
+.modal-overlay{
+  padding:20px!important;
+  overflow-y:auto!important;
+}
+
+.modal-box{
+  width:min(760px,100%)!important;
+  max-width:760px!important;
+  max-height:none!important;
+  overflow:visible!important;
+  margin:auto!important;
+}
+
+.modal-box .form-grid{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:14px!important;
+}
+
+.modal-box .form-grid.full{
+  grid-template-columns:1fr!important;
+}
+
+.item-row{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 64px 64px 84px 34px!important;
+  gap:8px!important;
+  align-items:center!important;
+}
+
+.item-row select,
+.item-row input,
+.item-row .item-precio{
+  min-width:0!important;
+}
+
+.item-row select{
+  width:100%!important;
+}
+
+.item-row input[type="number"],
+.item-row .item-dcto{
+  width:100%!important;
+}
+
+.item-row .item-precio{
+  justify-self:end!important;
+  white-space:nowrap!important;
+  font-size:.72rem!important;
+}
+
+.item-row .btn-quitar{
+  justify-self:center!important;
+  align-self:center!important;
+}
+
+@media(max-width:760px){
+  .modal-overlay{
+    align-items:flex-start!important;
+    padding:0!important;
+  }
+
+  .modal-box{
+    width:100%!important;
+    max-width:none!important;
+    min-height:100vh!important;
+    border-radius:0!important;
+    padding:24px 18px 32px!important;
+    box-shadow:none!important;
+  }
+
+  .modal-close{
+    position:sticky!important;
+    top:10px!important;
+    margin-left:auto!important;
+    z-index:5!important;
+  }
+
+  .modal-box h3{
+    margin-top:-34px!important;
+    padding-right:48px!important;
+    font-size:1.18rem!important;
+  }
+
+  .modal-box .form-grid{
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+  }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea{
+    width:100%!important;
+  }
+
+  .item-row{
+    grid-template-columns:minmax(0,1fr) 34px!important;
+    grid-template-areas:
+      "producto quitar"
+      "cantidad descuento"
+      "precio precio"!important;
+    gap:9px 8px!important;
+    padding:12px!important;
+    border:1px solid var(--borde)!important;
+    border-radius:12px!important;
+    background:#FAF8F5!important;
+  }
+
+  .item-row select{
+    grid-area:producto!important;
+  }
+
+  .item-row .btn-quitar{
+    grid-area:quitar!important;
+  }
+
+  .item-row input[type="number"]:not(.item-dcto){
+    grid-area:cantidad!important;
+    width:100%!important;
+  }
+
+  .item-row .item-dcto{
+    grid-area:descuento!important;
+    width:100%!important;
+  }
+
+  .item-row .item-precio{
+    grid-area:precio!important;
+    justify-self:start!important;
+    padding-top:2px!important;
+    font-size:.74rem!important;
+  }
+
+  .modal-btns{
+    position:sticky!important;
+    bottom:0!important;
+    z-index:6!important;
+    margin:24px -18px -32px!important;
+    padding:14px 18px calc(14px + env(safe-area-inset-bottom))!important;
+    background:#fff!important;
+    border-top:1px solid var(--borde)!important;
+  }
+
+  .btn-cancelar,
+  .btn-guardar{
+    min-height:48px!important;
+  }
+}
+
+@media(max-width:430px){
+  .modal-box{
+    padding-left:14px!important;
+    padding-right:14px!important;
+  }
+
+  .modal-btns{
+    grid-template-columns:1fr!important;
+    display:grid!important;
+    margin-left:-14px!important;
+    margin-right:-14px!important;
+  }
+
+  .btn-cancelar,
+  .btn-guardar{
+    width:100%!important;
+  }
+
+  .item-row{
+    grid-template-columns:minmax(0,1fr) 32px!important;
+  }
+}
+</style>
+
+
+<style id="catalogo-dinamico-pedidos">
+.catalog-source-note{
+  margin-top:7px;
+  color:var(--suave);
+  font-size:.66rem;
+  line-height:1.5;
+}
+</style>
+
 </head>
 <body>
 <!-- PANEL -->
@@ -1011,6 +1199,7 @@ tbody tr:hover td{background:#FCFAF7!important}
     <div class="form-grid full" style="margin-top:.75rem">
       <div class="form-field">
         <label>Productos</label>
+        <div class="catalog-source-note">El listado se carga automáticamente desde data/productos.json.</div>
         <div id="ep-items-lista"></div>
         <button type="button" class="btn-agregar-item" onclick="agregarItemEditar()">+ Agregar producto</button>
       </div>
@@ -1086,6 +1275,7 @@ tbody tr:hover td{background:#FCFAF7!important}
     <div class="form-grid full" style="margin-top:.75rem">
       <div class="form-field">
         <label>Productos</label>
+        <div class="catalog-source-note">El listado se carga automáticamente desde data/productos.json.</div>
         <div id="np-items-lista"></div>
         <button type="button" class="btn-agregar-item" onclick="agregarItemPedido()">+ Agregar producto</button>
       </div>
@@ -1314,6 +1504,9 @@ let filtroActual = 'todos';
 
 window.addEventListener('DOMContentLoaded', () => {
   cargarPedidos();
+  cargarCatalogoProductos().catch(() => {
+    console.warn('El catálogo se cargará nuevamente al abrir un pedido.');
+  });
 });
 
 
@@ -1499,123 +1692,115 @@ async function eliminarSuscripcion(id) {
   renderSus();
 }
 
-const CATALOGO = [
-  // ALIMENTOS
-  { id: "brit-care-sterilized-weigh-control-2kg---duck-turkey", nombre: "Brit Care Sterilized Weigh Control 2kg", precio: 24990 },
-  { id: "lata-leonardo-kitten", nombre: "Lata Leonardo Kitten 200g", precio: 3790 },
-  { id: "lata-leonardo_Ave", nombre: "Lata Leonardo Adulto — Ave", precio: 3790 },
-  { id: "lata-leonardo_Pato", nombre: "Lata Leonardo Adulto — Pato", precio: 3790 },
-  { id: "lata-leonardo_Conejo", nombre: "Lata Leonardo Adulto — Conejo", precio: 3790 },
-  { id: "lata-leonardo_Pescado", nombre: "Lata Leonardo Adulto — Pescado", precio: 3790 },
-  { id: "lata-leonardo_Ternera", nombre: "Lata Leonardo Adulto — Ternera", precio: 3790 },
-  { id: "leonardo-adult-gf-poultry-1-8kg", nombre: "Leonardo Adult GF 1,8kg - Poultry", precio: 26990 },
-  { id: "leonardo-adult-light-sterilised-1-8kg", nombre: "Leonardo Adult Light & Sterilised 1,8kg", precio: 25990 },
-  { id: "leonardo-adult-duck-1-8kg", nombre: "Leonardo Adult 1,8kg - Duck", precio: 25990 },
-  { id: "fit-formula-gato-adulto-2kg", nombre: "Fit Formula Gato Adulto 2kg", precio: 11990 },
-  { id: "pura-natura-caldo-de-huesos-250g", nombre: "Caldo de Huesos 250g - Pura Natura", precio: 4990 },
-  // ARENA
-  { id: "arena-sanitaria-ciudad-animal-8kg", nombre: "Arena Sanitaria Ciudad Animal 8kg", precio: 8990 },
-  // SNACKS PERROS
-  { id: "pulmon-cordero-rahue", nombre: "Pulmón de Cordero 50g - Rahue", precio: 3990 },
-  { id: "garra-pollo-rahue", nombre: "Garra de Pollo 65g - Rahue", precio: 3490 },
-  { id: "oreja-cerdo-rahue", nombre: "Recorte Oreja de Cerdo 100g - Rahue", precio: 4290 },
-  { id: "femur-cerdo-tasty", nombre: "Fémur de Cerdo - Tasty Farm", precio: 4990 },
-  { id: "traquea-vacuno-rahue", nombre: "Tráquea de Vacuno - Rahue", precio: 3990 },
-  { id: "condilo-vacuno-rahue", nombre: "Cóndilo de Vacuno 300g - Rahue", precio: 4990 },
-  { id: "doggo-traquea-vacuno-ciervo", nombre: "Tráquea de Vacuno en Crispy de Ciervo - Doggo", precio: 4290 },
-  { id: "doggo-mix-deshidratados", nombre: "Mix Deshidratados 100g - Doggo", precio: 4290 },
-  { id: "colagepet-donut-pollo", nombre: "ColágePet Donut — Sabor Pollo", precio: 2990 },
-  { id: "colagepet-donut-carne", nombre: "ColágePet Donut — Sabor Carne", precio: 2990 },
-  { id: "colagepet-donut-pato", nombre: "ColágePet Donut — Sabor Pato", precio: 2990 },
-  { id: "dog-fest-rabbit-ears-lamb", nombre: "Dog Fest Rabbit Ears with Lamb", precio: 4990 },
-  { id: "dog-fest-lamb-medallions", nombre: "Dog Fest Lamb Medallions", precio: 4990 },
-  { id: "dog-fest-calcium-bones-chicken", nombre: "Dog Fest Calcium Bones with Chicken", precio: 4990 },
-  { id: "zupet-dental-power-suave", nombre: "Snack Dental Power 75g - QChefs", precio: 9990 },
-  { id: "pura-natura-woofers-80g", nombre: "Woofer's 80g - Pura Natura", precio: 3990 },
-  { id: "fit-formula-costillas-cordero-100g", nombre: "Costillitas de Cordero 100g - Fit Fórmula", precio: 3990 },
-  // SNACKS GATOS
-  { id: "cat-fest-pillows-schrimp-creme", nombre: "Cat Fest Pillows Salmon Creme", precio: 1990 },
-  { id: "cat-fest-pillows", nombre: "Cat Fest Pillows Chicken Creme", precio: 1990 },
-  { id: "cat-fest_Pato", nombre: "Cat Fest Meat Sticks — Pato", precio: 3490 },
-  { id: "cat-fest_Cordero", nombre: "Cat Fest Meat Sticks — Cordero", precio: 3490 },
-  { id: "tubito-atun", nombre: "Tubito Cremoso Atún con Catnip", precio: 2990 },
-  { id: "tubito-camaron", nombre: "Tubito Cremoso Camarón con Catnip", precio: 2990 },
-  { id: "tubito-salmon-matatabi", nombre: "Tubito Cremoso Salmón con Matatabi", precio: 2990 },
-  { id: "cats-snack_Catnip", nombre: "Cats Snack — Atún + Catnip", precio: 2990 },
-  { id: "cats-snack_Matatabi", nombre: "Cats Snack — Atún + Matatabi", precio: 2990 },
-  { id: "cats-snack_Rellena Atún + Queso", nombre: "Cats Snack — Rellena Atún + Queso", precio: 2990 },
-  { id: "cats-snack_Rellena Atún + Ostiones", nombre: "Cats Snack — Rellena Atún + Ostiones", precio: 2990 },
-  { id: "cats-snack_Rellena Camarón", nombre: "Cats Snack — Rellena Camarón", precio: 2990 },
-  { id: "cats-snack_Rellena Atún + Pollo", nombre: "Cats Snack — Rellena Atún + Pollo", precio: 2990 },
-  { id: "cats-snack-pollo-camaron", nombre: "Cats Snack - Rellena Pollo + Camarón", precio: 2990 },
-  { id: "snack-calming-gato", nombre: "Snack Calming Cat Treats - Beaphar", precio: 5990 },
-  { id: "zupet-dental-fitness-crocante", nombre: "Snack Dental Fitness Crocante 60g - QChefs", precio: 9990 },
-  { id: "fellini-lollipop-calabaza", nombre: "Lolli Pop Calabaza - Fellini (3 paletas de 5g)", precio: 2990 },
-  { id: "fellini-lollipop-leche-cabra", nombre: "Lolli Pop Leche de Cabra - Fellini (3 paletas de 5g)", precio: 2990 },
-  { id: "bocados-pollo-pets-friends", nombre: "Bocados de Pollo 65g - Pets Friends", precio: 4990 },
-  { id: "cubitos-salmon-pets-friends", nombre: "Cubitos de Salmón 65g - Pets Friends", precio: 4990 },
-  // ACCESORIOS GATOS
-  { id: "collar-findmy_Turquesa", nombre: "Collar Find My — Turquesa", precio: 12990 },
-  { id: "collar-findmy_Negro", nombre: "Collar Find My — Negro", precio: 12990 },
-  { id: "collar-findmy_Azul", nombre: "Collar Find My — Azul", precio: 12990 },
-  { id: "collar-findmy_Amarillo", nombre: "Collar Find My — Amarillo", precio: 12990 },
-  { id: "collar-findmy-rojo", nombre: "Collar Find My — Rojo", precio: 12990 },
-  { id: "rastreador-find-my", nombre: "Rastreador Apple Find My + Funda de Silicona", precio: 11990 },
-  { id: "collar-zeecat-error-500", nombre: "Collar Zee.Cat Error 500", precio: 7990 },
-  { id: "collar-zeecat-error-404", nombre: "Collar Zee.Cat Error 404", precio: 7990 },
-  { id: "collar-zeecat-error-410", nombre: "Collar Zee.Cat Error 410", precio: 7990 },
-  { id: "collar-isabelino-donut-rosada---talla-s", nombre: "Collar Isabelino Donut Rosada - Talla S", precio: 6990 },
-  { id: "calming-collar---gatos", nombre: "Calming Collar - Gatos", precio: 7990 },
-  { id: "comedero-lento-slow-feeder---catstages", nombre: "Comedero Lento Slow Feeder - Catstages", precio: 7990 },
-  { id: "comedero-lento-slow-feeder-rosado", nombre: "Comedero Lento Slow Feeder - Rosado", precio: 6990 },
-  { id: "comedero-lento-flores-lila", nombre: "Comedero Lento Flores - Lila", precio: 9990 },
-  { id: "comedero-lento-desmontable-azul", nombre: "Comedero Lento Desmontable — Azul", precio: 7990 },
-  { id: "comedero-lento-desmontable-rojo", nombre: "Comedero Lento Desmontable — Rojo", precio: 7990 },
-  { id: "pala-arenero-marron", nombre: "Pala Arenero — Marrón", precio: 1990 },
-  { id: "pala-arenero-verde", nombre: "Pala Arenero — Verde", precio: 1990 },
-  // ACCESORIOS PERROS
-  { id: "collar-perro-acolchado_Café-S", nombre: "Collar Perro Acolchado — Café Talla S", precio: 6990 },
-  { id: "collar-perro-acolchado_Café-M", nombre: "Collar Perro Acolchado — Café Talla M", precio: 6990 },
-  { id: "collar-perro-acolchado_Rojo-S", nombre: "Collar Perro Acolchado — Rojo Talla S", precio: 6990 },
-  { id: "collar-suede-para-perro-zeedog", nombre: "Collar Suede Zee.Dog", precio: 13900 },
-  { id: "collar-nox-para-perro-zeedog", nombre: "Collar Nox Zee.Dog", precio: 13900 },
-  { id: "calming-collar---perros", nombre: "Calming Collar - Perros", precio: 7990 },
-  { id: "botella-portatil-para-perros_Rosada", nombre: "Botella Portátil para Perros — Rosada", precio: 14990 },
-  { id: "botella-portatil-para-perros_Calipso", nombre: "Botella Portátil para Perros — Calipso", precio: 14990 },
-  { id: "dispensador-de-bolsas---diseno-cafe", nombre: "Dispensador de Bolsas - Diseño Café", precio: 5990 },
-  { id: "hey-cama-redonda-confort-verde", nombre: "Cama Redonda Confort Verde - Hey!", precio: 13990 },
-  // JUGUETES
-  { id: "pajaro", nombre: "Pájaro Interactivo", precio: 13990 },
-  { id: "pelota-led", nombre: "Pelota Interactiva LED", precio: 8990 },
-  { id: "pulpo", nombre: "Masajeador Pulpo", precio: 6990 },
-  { id: "pelota-snack-interactiva_Roja", nombre: "Pelota Snack Interactiva — Roja", precio: 6990 },
-  { id: "pelota-snack-interactiva_Azul", nombre: "Pelota Snack Interactiva — Azul", precio: 6990 },
-  { id: "pelota-snack-interactiva-verde", nombre: "Pelota Snack Interactiva — Verde", precio: 6990 },
-  { id: "rascador-maxi-caja-de-leche---brnx", nombre: "Rascador Maxi Caja de Leche - Brnx", precio: 13990 },
-  { id: "hey-donut-sonido-perros", nombre: "Donut con Sonido - Hey!", precio: 2990 },
-  // ASEO
-  { id: "fuente-agua", nombre: "Fuente de Agua Flor USB", precio: 21990 },
-  { id: "paw-balm", nombre: "Paw Balm", precio: 5990 },
-  { id: "afeitadora", nombre: "Afeitadora LED", precio: 9990 },
-  { id: "suero-fisiologico", nombre: "Suero Fisiológico 0.9%", precio: 2590 },
-  { id: "hey-bolsas-sanitarias-4-rollos", nombre: "Bolsas Sanitarias 4 Rollos - Hey!", precio: 2190 },
-  // FLORES DE BACH
-  { id: "flores-de-bach---rescue-y-alivio", nombre: "Flores de Bach - Rescue y Alivio", precio: 12990 },
-  { id: "flores-de-bach---energia-y-animo", nombre: "Flores de Bach - Energía y Ánimo", precio: 12990 },
-  { id: "flores-de-bach---equilibrio", nombre: "Flores de Bach - Equilibrio", precio: 12990 },
-  { id: "flores-de-bach---ansiedad-y-calma", nombre: "Flores de Bach - Ansiedad y Calma", precio: 12990 },
-  { id: "pack-consulta-flor-de-bach", nombre: "Pack Consulta + Flor de Bach", precio: 29990 },
-  // PACKS
-  { id: "pack-calma-total", nombre: "Pack Calma Total", precio: 15990 },
-  { id: "pack-bienvenido-a-casa", nombre: "Pack Bienvenido a Casa", precio: 21990 },
-  { id: "pack-cuidado-total", nombre: "Pack Cuidado Total", precio: 12990 },
-  { id: "pack-juega-y-relaja", nombre: "Pack Juega y Relaja", precio: 28990 },
-  { id: "pack-sos-mascota", nombre: "Pack SOS Mascota", precio: 18990 },
-  { id: "pack-rutina-sana", nombre: "Pack Rutina Sana", precio: 33990 },
-];
+let CATALOGO = [];
+let catalogoPromise = null;
 
-function opcionesSelect() {
-  return CATALOGO.map(p => `<option value="${p.id}">${p.nombre} — $${p.precio.toLocaleString('es-CL')}</option>`).join('');
+function escaparCatalogoHtml(valor) {
+  return String(valor ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function precioCatalogo(producto) {
+  const directo = Number(producto.precio ?? producto.precioNum);
+  if (Number.isFinite(directo) && directo > 0) return directo;
+
+  const texto = String(
+    producto.precioDisplay ??
+    producto.precioTexto ??
+    producto.precio ??
+    ''
+  );
+
+  const numero = Number(texto.replace(/[^\d]/g, ''));
+  return Number.isFinite(numero) ? numero : 0;
+}
+
+function obtenerProductosCatalogo(data) {
+  if (Array.isArray(data)) return data;
+  if (data && Array.isArray(data.productos)) return data.productos;
+
+  if (data && typeof data === 'object') {
+    return Object.entries(data).map(([clave, producto]) => ({
+      ...(producto || {}),
+      sku: producto?.sku || producto?.id || producto?.stockId || clave
+    }));
+  }
+
+  return [];
+}
+
+async function cargarCatalogoProductos(forzar = false) {
+  if (CATALOGO.length && !forzar) return CATALOGO;
+  if (catalogoPromise && !forzar) return catalogoPromise;
+
+  catalogoPromise = (async () => {
+    const respuesta = await fetch('/data/productos.json?t=' + Date.now(), {
+      cache: 'no-store'
+    });
+
+    if (!respuesta.ok) {
+      throw new Error(`No se pudo cargar productos.json (${respuesta.status})`);
+    }
+
+    const data = await respuesta.json();
+    const productos = obtenerProductosCatalogo(data);
+
+    CATALOGO = productos
+      .map(producto => ({
+        id: String(
+          producto.sku ??
+          producto.id ??
+          producto.stockId ??
+          producto.slug ??
+          ''
+        ).trim(),
+        nombre: String(
+          producto.nombre ??
+          producto.name ??
+          producto.titulo ??
+          ''
+        ).trim(),
+        precio: precioCatalogo(producto)
+      }))
+      .filter(producto =>
+        producto.id &&
+        producto.nombre &&
+        Number.isFinite(producto.precio) &&
+        producto.precio > 0
+      )
+      .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+
+    if (!CATALOGO.length) {
+      throw new Error('productos.json no contiene productos válidos.');
+    }
+
+    return CATALOGO;
+  })();
+
+  try {
+    return await catalogoPromise;
+  } catch (error) {
+    catalogoPromise = null;
+    console.error('[pedidos] Error cargando catálogo:', error);
+    throw error;
+  }
+}
+
+function opcionesSelect(idSeleccionado = '') {
+  if (!CATALOGO.length) {
+    return '<option value="">Catálogo no disponible</option>';
+  }
+
+  return CATALOGO.map(producto => `
+    <option value="${escaparCatalogoHtml(producto.id)}"
+      ${producto.id === idSeleccionado ? 'selected' : ''}>
+      ${escaparCatalogoHtml(producto.nombre)} — $${producto.precio.toLocaleString('es-CL')}
+    </option>
+  `).join('');
 }
 
 function recalcularTotal() {
@@ -1656,7 +1841,14 @@ function agregarItemPedido() {
   recalcularTotal();
 }
 
-function abrirNuevoPedido() {
+async function abrirNuevoPedido() {
+  try {
+    await cargarCatalogoProductos(true);
+  } catch (error) {
+    alert('No fue posible cargar el catálogo de productos. Revisa data/productos.json e intenta nuevamente.');
+    return;
+  }
+
   document.getElementById('np-items-lista').innerHTML = '';
   agregarItemPedido();
   document.getElementById('modal-nuevo').classList.add('activo');
@@ -1965,18 +2157,23 @@ function agregarItemEditar(idProducto) {
   const div = document.createElement('div');
   div.className = 'item-row';
   div.innerHTML = `
-    <select onchange="recalcularTotalEditar()">${opcionesSelect()}</select>
+    <select onchange="recalcularTotalEditar()">${opcionesSelect(idProducto || '')}</select>
     <input type="number" value="1" min="1" title="Cantidad" onchange="recalcularTotalEditar()">
     <input type="number" value="0" min="0" max="100" class="item-dcto" title="Descuento %" placeholder="% dto" onchange="recalcularTotalEditar()">
     <span class="item-precio"></span>
     <button class="btn-quitar" onclick="this.parentElement.remove(); recalcularTotalEditar()">✕</button>
   `;
   lista.appendChild(div);
-  if (idProducto) div.querySelector('select').value = idProducto;
   recalcularTotalEditar();
 }
 
-function abrirEditarPedido(id) {
+async function abrirEditarPedido(id) {
+  try {
+    await cargarCatalogoProductos();
+  } catch (error) {
+    alert('No fue posible cargar el catálogo de productos para editar este pedido.');
+    return;
+  }
   const p = todosLosPedidos.find(p => p.id === id);
   if (!p) return;
   document.getElementById('ep-id').value = id;
