@@ -132,6 +132,28 @@
   #login-screen { display: none !important; }
   #panel { display: block !important; }
   #panel > header { display: none !important; }
+
+  .modulo-tabs {
+    display: flex;
+    gap: .6rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(28,16,7,.10);
+    flex-wrap: wrap;
+  }
+
+  .modulo-tabs .filtro-btn {
+    padding: 9px 16px;
+    font-weight: 700;
+  }
+
+  .modulo-tabs .filtro-btn.activo {
+    background: var(--terracota);
+    border-color: var(--terracota);
+    color: #fff;
+  }
+
 </style>
 <meta name="robots" content="noindex, nofollow">
 </head>
@@ -144,13 +166,15 @@
       <span>Patas & Caos</span>
     </div>
     <span class="header-title">Panel de Pedidos</span>
-    <div style="display:flex;gap:.5rem;">
-      <button class="filtro-btn activo" id="tab-pedidos" onclick="mostrarTab('pedidos')">📦 Pedidos</button>
-      <button class="filtro-btn" id="tab-suscripciones" onclick="mostrarTab('suscripciones')">🔄 Suscripciones</button>
-    </div>
+    
   </header>
 
   <main>
+
+    <div class="modulo-tabs" aria-label="Secciones del módulo">
+      <button class="filtro-btn activo" id="tab-pedidos" onclick="mostrarTab('pedidos')" type="button">📦 Pedidos</button>
+      <button class="filtro-btn" id="tab-suscripciones" onclick="mostrarTab('suscripciones')" type="button">🔄 Suscripciones</button>
+    </div>
     <div class="stats" id="stats">
       <div class="stat-card">
         <div class="stat-label">Total pedidos</div>
