@@ -7,6 +7,6 @@
     "build:products:one": "node scripts/generar-productos.js --slug=",
     "build:pages": "node scripts/generar-paginas.js",
     "build:pages:one": "node scripts/generar-paginas.js --pagina=",
-    "generate:all": "npm run build:products && npm run build:pages"
+    "build": "npm run build:products && npm run build:pages"
   }
 }
