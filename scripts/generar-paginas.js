@@ -278,6 +278,27 @@ function procesarPagina(nombreArchivo, href, componentes) {
     reporte.site_js_agregado = false;
   }
 
+  // products-data.js: agregar una sola vez, si falta. Encontramos 12 de 14
+  // paginas generales sin este script — probablemente por eso el badge del
+  // carrito no se actualizaba en ellas (cart.js necesita leer el catalogo
+  // `productos` para renderizar cada item del carrito).
+  if (!contenido.includes('products-data.js')) {
+    if (contenido.includes('/assets/js/site.js')) {
+      contenido = contenido.replace(
+        '<script src="/assets/js/site.js"></script>',
+        '<script src="/assets/js/site.js"></script>\n<script src="/products-data.js"></script>'
+      );
+      reporte.products_data_agregado = true;
+    } else if (RE_CART_JS_TAG.test(contenido)) {
+      contenido = contenido.replace(RE_CART_JS_TAG, (m) => `${m}\n<script src="/products-data.js"></script>`);
+      reporte.products_data_agregado = true;
+    } else {
+      reporte.products_data_agregado = false;
+    }
+  } else {
+    reporte.products_data_agregado = false;
+  }
+
   // Rutas absolutas (condicion 8)
   const antesRutas = contenido;
   contenido = contenido

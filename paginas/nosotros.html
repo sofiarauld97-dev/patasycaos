@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<link rel="stylesheet" href="/assets/css/site.css">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NWMLNQL7');</script>
+<!-- End Google Tag Manager -->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Quiénes somos — Patas & Caos | Tienda de mascotas Chile</title>
+  <meta name="description" content="Somos Patas & Caos, una tienda chilena especializada en accesorios, juguetes y bienestar para mascotas con personalidad. Conoce nuestra historia y filosofía.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #F5ECD7; --terracota: #C4622D; --negro: #1A1A1A;
+    --blanco: #FFFFFF; --dark: #1C1007; --card-bg: #FAF4EA;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Poppins', sans-serif; background-color: var(--cream); color: var(--negro); overflow-x: clip; }
+
+    /* ── NAV 3 FILAS ── */
+  nav { display: block !important; flex-direction: unset !important; align-items: unset !important; justify-content: unset !important; height: auto !important; padding: 0 !important; background: transparent; border-bottom: 1px solid rgba(28,16,7,.08); }
+  .nav-top { display: flex; align-items: center; gap: 1.2rem; padding: 10px 5%; border-bottom: 1px solid rgba(28,16,7,.06); }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+  .nav-logo img { width: 42px; height: 42px; object-fit: contain; }
+  .nav-logo span { font-weight: 700; font-size: 1rem; color: var(--negro); letter-spacing: -.02em; white-space: nowrap; }
+  .nav-search-wrap { flex: 1; position: relative; max-width: 480px; margin: 0 auto; }
+  .nav-search-wrap input { width: 100%; padding: 9px 16px 9px 40px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; font-family: 'Poppins', sans-serif; font-size: .87rem; background: #fff; outline: none; transition: border-color .2s; box-sizing: border-box; }
+  .nav-search-wrap input:focus { border-color: var(--terracota); }
+  .nav-search-wrap .s-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #aaa; display: flex; pointer-events: none; }
+  .nav-search-wrap .s-icon svg { width: 15px; height: 15px; }
+  .nav-search-drop { display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.12); z-index: 300; max-height: 300px; overflow-y: auto; }
+  @media (max-width: 768px) { .nav-search-drop { position: fixed; left: 4%; right: 4%; top: auto; margin-top: 6px; width: auto; border-radius: 14px; } }
+  .nav-icons { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: none; border: 1.5px solid rgba(28,16,7,.18); border-radius: 50%; cursor: pointer; color: var(--negro); text-decoration: none; padding: 0; transition: all .2s; }
+  .nav-icon-btn:hover { border-color: var(--terracota); color: var(--terracota); }
+  .nav-icon-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-icon-btn.ig svg { stroke: none; fill: currentColor; }
+  .nav-cart-wrap { position: relative; }
+  .cart-badge { position: absolute; top: -4px; right: -4px; background: var(--terracota); color: #fff; font-size: .58rem; font-weight: 700; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+  .nav-bottom { display: flex; justify-content: center; padding: 0 5%; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+  .nav-links > li > a { display: flex; align-items: center; gap: 3px; text-decoration: none; color: var(--negro); font-size: .87rem; font-weight: 500; padding: 11px 14px; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
+  .nav-links > li > a:hover, .nav-links > li > a.activo { color: var(--terracota); border-bottom-color: var(--terracota); }
+  .nav-item { position: relative; }
+  .nav-item > a::after { content: ' ▾'; font-size: .65rem; }
+  .mega-menu { display: none; position: absolute; top: 100%; left: 0; background: #fff; border-radius: 0 0 14px 14px; box-shadow: 0 8px 32px rgba(0,0,0,.12); padding: 1.2rem 1.5rem; min-width: 200px; z-index: 200; }
+  .nav-item:hover .mega-menu { display: flex; flex-direction: column; gap: 0; }
+  .mega-col h4 { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: 0; white-space: nowrap; transition: color .2s; }
+  .mega-col a { display: block; text-decoration: none; padding: 6px 0; transition: color .2s; }
+  .mega-col a h4 { color: var(--terracota); }
+  .mega-col a:hover h4 { color: var(--negro); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--negro); border-radius: 2px; transition: all .3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { position: fixed; top: 0; left: 0; right: 0; background: var(--cream); padding: 90px 5% 24px; display: flex; flex-direction: column; gap: .9rem; z-index: 99; transform: translateY(-100%); pointer-events: none; visibility: hidden; transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: 0 8px 24px rgba(0,0,0,.08); max-height: 92vh; overflow-y: auto; }
+  .mobile-menu.open { transform: translateY(0); pointer-events: all; visibility: visible; }
+  .mobile-menu a { text-decoration: none; color: var(--negro); font-size: 1rem; font-weight: 600; padding: 6px 0; border-bottom: 1px solid rgba(28,16,7,.06); transition: color .2s; }
+  .mobile-menu a:hover { color: var(--terracota); }
+  .mobile-cat-link { font-size: .88rem !important; font-weight: 400 !important; padding-left: 12px !important; color: #666 !important; border-bottom: 1px solid rgba(28,16,7,.04) !important; }
+  .mobile-accordion { border-bottom: 1px solid rgba(28,16,7,.06); }
+  .mobile-accordion-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; background: none; border: none; font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600; color: var(--negro); padding: 10px 0; cursor: pointer; text-align: left; transition: color .2s; }
+  .mobile-accordion-btn:hover { color: var(--terracota); }
+  .mobile-acc-arrow { font-size: .75rem; transition: transform .3s cubic-bezier(.4,0,.2,1); display: inline-block; }
+  .mobile-accordion-btn[aria-expanded="true"] .mobile-acc-arrow { transform: rotate(-180deg); }
+  .mobile-accordion-body { max-height: 0; overflow: hidden; transition: max-height .35s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; }
+  .mobile-accordion-body.open { max-height: 400px; }
+  .mobile-accordion-body > a { display: block !important; width: 100%; }
+  .mobile-accordion-body > a:last-child { border-bottom: none !important; padding-bottom: 8px; }
+  .s-item { display:flex;align-items:center;gap:.75rem;padding:.6rem 1rem;text-decoration:none;color:var(--negro);transition:background .15s; border-bottom: 1px solid rgba(28,16,7,.05); }
+  .s-item:hover { background: var(--cream); }
+  .s-img { width:44px;height:44px;border-radius:8px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;overflow:hidden; }
+  .s-nombre { font-size:.83rem;font-weight:600; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .s-precio { font-size:.76rem;color:var(--terracota);font-weight:700; }
+  .s-empty { font-size:.83rem;color:#999;padding:.3rem .8rem; }
+  @media (max-width: 768px) { .nav-bottom { display:none; } .hamburger { display:flex; } .nav-logo span { display:none; } }
+  @media (max-width: 600px) { .anuncio-bar { position: sticky; top: 0; z-index: 101; } nav { top: 36px; } .mobile-menu { padding-top: calc(104px + env(safe-area-inset-top) + 16px) !important; } }
+  .user-wrap { position: relative; margin-left: .5rem; }
+  .user-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; cursor: pointer; border: 2px solid transparent; transition: border-color .2s; background: var(--terracota); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: .9rem; }
+  .user-avatar:hover { border-color: var(--terracota); }
+  .user-dropdown { position: absolute; top: calc(100% + 10px); right: 0; background: var(--blanco); border: 1.5px solid rgba(28,16,7,.1); border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.12); padding: .75rem; min-width: 180px; z-index: 200; display: none; flex-direction: column; gap: .3rem; }
+  .user-dropdown.open { display: flex; }
+  .user-name-dd { font-size: .82rem; font-weight: 700; padding: .4rem .6rem; color: var(--negro); border-bottom: 1px solid rgba(28,16,7,.08); margin-bottom: .3rem; }
+  .user-dropdown button { background: none; border: none; font-family: 'Poppins', sans-serif; font-size: .82rem; font-weight: 500; color: #4a3a2e; cursor: pointer; padding: .5rem .6rem; border-radius: 8px; text-align: left; display: block; transition: background .15s; width: 100%; }
+  .user-dropdown button:hover { background: var(--cream); color: var(--terracota); }
+  .btn-signout { color: #c0392b !important; }
+  .prod-heart.saved { color: #e74c3c; }
+  #nav-auth { display: flex !important; align-items: center; }
+  #nav-auth > button, #nav-auth > a { display: flex !important; align-items: center; justify-content: center; width: 34px; height: 34px; background: none; border: 1.5px solid rgba(28,16,7,.18); border-radius: 50%; cursor: pointer; color: var(--negro); padding: 0; transition: all .2s; }
+  #nav-auth > button:hover, #nav-auth > a:hover { border-color: var(--terracota); color: var(--terracota); }
+  #nav-auth > button svg, #nav-auth > a svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+
+  /* HERO NOSOTROS */
+  .hero-nosotros {
+    background: var(--dark);
+    padding: 80px 5% 100px;
+    text-align: center;
+  }
+  .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: .78rem; color: rgba(245,236,215,.4); margin-bottom: 2rem; }
+  .breadcrumb a { color: rgba(245,236,215,.4); text-decoration: none; transition: color .2s; }
+  .breadcrumb a:hover { color: var(--terracota); }
+  .hero-nosotros h1 { font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 900; color: var(--blanco); line-height: 1.0; margin-bottom: 1.2rem; }
+  .hero-nosotros h1 em { font-style: normal; color: var(--terracota); }
+  .hero-nosotros p { font-size: 1.05rem; color: rgba(245,236,215,.65); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+  /* CONTENIDO PRINCIPAL */
+  .nosotros-wrap { max-width: 780px; margin: 0 auto; padding: 80px 5%; }
+
+  /* BLOQUE INTRO — Sofía */
+  .sofia-bloque {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 80px;
+  }
+  .sofia-foto {
+    border-radius: 24px;
+    overflow: hidden;
+    max-width: 420px;
+  }
+  .sofia-foto img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 24px;
+  }
+  .sofia-texto .label { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota); margin-bottom: .6rem; }
+  .sofia-texto h2 { font-size: 2rem; font-weight: 900; line-height: 1.1; margin-bottom: 1.2rem; }
+  .sofia-texto h2 em { font-style: normal; color: var(--terracota); }
+  .sofia-texto p { font-size: .95rem; line-height: 1.75; color: #4a3a2e; margin-bottom: 1rem; }
+
+  /* MILO — el protagonista */
+  .milo-bloque {
+    background: var(--dark);
+    border-radius: 24px;
+    padding: 48px;
+    margin-bottom: 64px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .milo-emoji { font-size: 5rem; line-height: 1; }
+  .milo-texto .label { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota); margin-bottom: .5rem; }
+  .milo-texto h3 { font-size: 1.6rem; font-weight: 900; color: var(--blanco); margin-bottom: .8rem; }
+  .milo-texto p { font-size: .92rem; line-height: 1.72; color: rgba(245,236,215,.7); }
+  .milo-texto p em { font-style: italic; color: rgba(245,236,215,.5); }
+
+  /* VALORES */
+  .valores-titulo { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota); margin-bottom: .6rem; }
+  .valores-h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 2rem; }
+  .valores-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 64px; }
+  .valor-card {
+    background: var(--card-bg);
+    border: 1.5px solid rgba(28,16,7,.08);
+    border-radius: 18px;
+    padding: 28px 24px;
+  }
+  .valor-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .valor-card h4 { font-weight: 700; font-size: 1rem; margin-bottom: .4rem; }
+  .valor-card p { font-size: .85rem; color: #6b5a4e; line-height: 1.6; }
+
+  /* CTA FINAL */
+  .cta-bloque {
+    background: var(--terracota);
+    border-radius: 24px;
+    padding: 56px 48px;
+    text-align: center;
+    margin-bottom: 0;
+  }
+  .cta-bloque h2 { font-size: 1.9rem; font-weight: 900; color: var(--blanco); margin-bottom: .7rem; }
+  .cta-bloque p { color: rgba(255,255,255,.8); font-size: .92rem; line-height: 1.6; margin-bottom: 2rem; max-width: 420px; margin-left: auto; margin-right: auto; }
+  .btn-cta { display: inline-block; background: var(--blanco); color: var(--terracota); border: none; border-radius: 50px; padding: 14px 36px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .95rem; cursor: pointer; text-decoration: none; transition: all .2s; }
+  .btn-cta:hover { background: var(--dark); color: var(--blanco); }
+
+  /* FOOTER */
+  footer { background: var(--cream); border-top: 1px solid rgba(28,16,7,.08); padding: 48px 5% 32px; margin-top: 80px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 40px; }
+  .footer-brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: .8rem; }
+  .footer-brand-row img { width: 40px; height: 40px; object-fit: contain; }
+  .footer-brand-name { font-weight: 700; font-size: 1rem; }
+  .footer-brand p { font-size: .85rem; color: #6b5a4e; line-height: 1.6; max-width: 260px; }
+  .footer-socials { display: flex; gap: .8rem; margin-top: 1rem; }
+  .footer-socials a { width: 38px; height: 38px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: var(--negro); transition: all .2s; }
+  .footer-socials a:hover { border-color: var(--terracota); color: var(--terracota); }
+  .footer-socials svg { width: 16px; height: 16px; fill: currentColor; }
+  .footer-col h4 { font-weight: 700; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--negro); margin-bottom: 1.2rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+  .footer-col ul a { text-decoration: none; color: #6b5a4e; font-size: .87rem; transition: color .2s; }
+  .footer-col ul a:hover { color: var(--terracota); }
+  .footer-bottom { border-top: 1px solid rgba(28,16,7,.08); padding-top: 24px; text-align: center; font-size: .82rem; color: #8a7a6e; }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .sofia-bloque { grid-template-columns: 1fr; }
+    .sofia-foto { aspect-ratio: 1; max-width: 260px; margin: 0 auto; }
+    .milo-bloque { grid-template-columns: 1fr; text-align: center; padding: 32px 24px; }
+    .valores-grid { grid-template-columns: 1fr; }
+    .cta-bloque { padding: 40px 24px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+  }
+  /* CARRITO */
+  .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+  .cart-sidebar { position: fixed; top: 0; right: 0; bottom: 0; width: 420px; max-width: 95vw; background: var(--cream); z-index: 201; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); box-shadow: -8px 0 40px rgba(0,0,0,.12); }
+  .cart-sidebar.open { transform: translateX(0); }
+  .cart-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 28px; border-bottom: 1px solid rgba(28,16,7,.08); }
+  .cart-header h3 { font-weight: 700; font-size: 1.1rem; }
+  .cart-close { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid rgba(28,16,7,.15); background: none; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+  .cart-close:hover { background: var(--negro); color: var(--blanco); border-color: var(--negro); }
+  .cart-items { flex: 1; overflow-y: auto; padding: 20px 28px; }
+  .cart-empty { text-align: center; padding: 60px 20px; color: #8a7a6e; font-size: .9rem; line-height: 1.7; }
+  .cart-empty span { font-size: 3rem; display: block; margin-bottom: 1rem; }
+  .cart-item { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid rgba(28,16,7,.06); }
+  .cart-item-img { width: 72px; height: 72px; border-radius: 12px; object-fit: cover; background: #f0dfc0; flex-shrink: 0; }
+  .cart-item-info { flex: 1; }
+  .cart-item-info h4 { font-size: .88rem; font-weight: 700; margin-bottom: .25rem; line-height: 1.3; }
+  .cart-item-info .price { font-size: .92rem; font-weight: 800; color: var(--terracota); }
+  .cart-item-qty { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .qty-btn { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid rgba(28,16,7,.2); background: none; cursor: pointer; font-size: .9rem; display: flex; align-items: center; justify-content: center; transition: all .2s; font-weight: 700; }
+  .qty-btn:hover { background: var(--negro); color: var(--blanco); border-color: var(--negro); }
+  .qty-num { font-weight: 700; font-size: .9rem; min-width: 20px; text-align: center; }
+  .cart-item-remove { background: none; border: none; cursor: pointer; color: #aaa; font-size: 1.1rem; padding: 4px; transition: color .2s; flex-shrink: 0; }
+  .cart-item-remove:hover { color: #e74c3c; }
+  .cart-footer { padding: 20px 28px 28px; border-top: 1px solid rgba(28,16,7,.08); }
+  .cart-subtotal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .cart-subtotal span { font-size: .88rem; color: #6b5a4e; }
+  .cart-subtotal strong { font-size: 1.3rem; font-weight: 800; color: var(--negro); }
+  .cart-shipping { font-size: .78rem; color: #8a7a6e; margin-bottom: 18px; }
+  .btn-checkout { width: 100%; background: var(--terracota); color: var(--blanco); border: none; border-radius: 50px; padding: 16px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: background .2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn-checkout:hover { background: #a8501f; }
+  .btn-checkout:disabled { background: #ccc; cursor: not-allowed; }
+  .nav-cart-wrap { position: relative; }
+
+  /* AUTH MODAL */
+  .auth-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: none; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+  .auth-overlay.activo { display: flex; opacity: 1; visibility: visible; }
+  .auth-box { background: var(--blanco); border-radius: 20px; padding: 2.25rem; width: 100%; max-width: 400px; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(16px); transition: transform .3s; position: relative; }
+  .auth-overlay.activo .auth-box { transform: translateY(0); }
+  .auth-logo { display: flex; justify-content: center; margin-bottom: 1.25rem; }
+  .auth-logo img { width: 48px; height: 48px; object-fit: contain; }
+  .auth-box h3 { font-size: 1.2rem; font-weight: 900; text-align: center; margin-bottom: .4rem; }
+  .auth-box p { font-size: .83rem; color: #6b5a4e; text-align: center; margin-bottom: 1.5rem; line-height: 1.5; }
+  .btn-google { width: 100%; display: flex; align-items: center; justify-content: center; gap: .75rem; background: #fff; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .88rem; cursor: pointer; transition: all .2s; margin-bottom: 1rem; }
+  .btn-google:hover { border-color: var(--terracota); }
+  .auth-divider { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+  .auth-divider span { font-size: .75rem; color: #aaa; white-space: nowrap; }
+  .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: rgba(28,16,7,.1); }
+  .auth-field { display: flex; flex-direction: column; gap: .35rem; margin-bottom: .75rem; }
+  .auth-field label { font-size: .75rem; font-weight: 600; color: #6b5a4e; }
+  .auth-field input { border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 11px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; outline: none; transition: border-color .2s; width: 100%; }
+  .auth-field input:focus { border-color: var(--terracota); }
+  .btn-auth { width: 100%; background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 13px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; transition: background .2s; margin-top: .25rem; }
+  .btn-auth:hover { background: #a8501f; }
+  .auth-msg { font-size: .8rem; text-align: center; margin-top: .75rem; min-height: 1.2rem; }
+  .auth-msg.ok { color: #2d7a3a; }
+  .auth-msg.err { color: #c0392b; }
+  .auth-close { position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--cream); cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+
+  /* USER NAV */
+    .btn-signin { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: none; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; cursor: pointer; transition: all .2s; color: var(--negro); padding: 0; }
+  .btn-signin:hover { border-color: var(--terracota); color: var(--terracota); }
+  .btn-signin svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-ig-desktop { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; color: var(--negro); text-decoration: none; transition: all .2s; flex-shrink: 0; }
+  .nav-ig-desktop:hover { border-color: var(--terracota); color: var(--terracota); }
+  .nav-ig-desktop svg, .nav-ig-mobile svg { width: 16px; height: 16px; fill: currentColor; }
+  .nav-ig-mobile { display: none; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; color: var(--negro); text-decoration: none; transition: all .2s; flex-shrink: 0; }
+  .nav-ig-mobile:hover { border-color: var(--terracota); color: var(--terracota); }
+  .user-wrap { position: relative; margin-left: .5rem; }
+  .user-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; cursor: pointer; border: 2px solid transparent; transition: border-color .2s; background: var(--terracota); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: .9rem; }
+  .user-avatar:hover { border-color: var(--terracota); }
+  .user-dropdown { position: absolute; top: calc(100% + 10px); right: 0; background: var(--blanco); border: 1.5px solid rgba(28,16,7,.1); border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.12); padding: .75rem; min-width: 180px; z-index: 200; display: none; flex-direction: column; gap: .3rem; }
+  .user-dropdown.open { display: flex; }
+  .user-name-dd { font-size: .82rem; font-weight: 700; padding: .4rem .6rem; color: var(--negro); border-bottom: 1px solid rgba(28,16,7,.08); margin-bottom: .3rem; }
+  .user-dropdown button { background: none; border: none; font-family: 'Poppins', sans-serif; font-size: .82rem; font-weight: 500; color: #4a3a2e; cursor: pointer; padding: .5rem .6rem; border-radius: 8px; text-align: left; display: block; transition: background .15s; width: 100%; }
+  .user-dropdown button:hover { background: var(--cream); color: var(--terracota); }
+  .btn-signout { color: #c0392b !important; }
+
+  /* WISHLIST */
+  .prod-heart { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; background: var(--blanco); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .9rem; cursor: pointer; border: none; transition: transform .2s; }
+  .prod-heart:hover { transform: scale(1.15); }
+  .prod-heart.saved { color: #e74c3c; }
+
+  /* MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+  .modal-overlay.activo { opacity: 1; visibility: visible; }
+  .modal-contenedor { background: var(--blanco); border-radius: var(--radio-modal); width: 100%; max-width: 900px; max-height: 90vh; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; position: relative; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(24px) scale(.97); transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+  .modal-overlay.activo .modal-contenedor { transform: translateY(0) scale(1); }
+  .modal-cerrar { position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px; border-radius: 50%; background: var(--cream); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--negro); z-index: 10; transition: background .2s, transform .15s; }
+  .modal-cerrar:hover { background: var(--crema-dark); transform: scale(1.1); }
+  .modal-galeria { background: var(--cream); border-radius: var(--radio-modal) 0 0 var(--radio-modal); padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; position: sticky; top: 0; align-self: start; }
+  .modal-imagen-principal { width: 100%; aspect-ratio: 4/5; border-radius: var(--radio-sm); background: var(--crema-dark); display: flex; align-items: center; justify-content: center; font-size: 5rem; overflow: hidden; }
+  .modal-imagen-principal img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radio-sm); transition: opacity .2s; }
+  .modal-thumbnails { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .modal-thumb { width: 64px; height: 64px; border-radius: 8px; background: var(--crema-dark); cursor: pointer; border: 2px solid transparent; transition: border-color .2s, transform .15s; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+  .modal-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .modal-thumb.activo { border-color: var(--terracota); }
+  .modal-thumb:hover { transform: scale(1.05); }
+  .modal-contenido { padding: 2rem 2rem 2rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+  .modal-header-meta { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+  .modal-badge { display: inline-block; padding: .18rem .7rem; background: var(--cream); color: var(--terracota); font-size: .68rem; font-weight: 700; border-radius: 100px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid #f0e0d4; }
+  .modal-cat-badge { display: inline-block; padding: .18rem .7rem; background: #f0f0f0; color: #666; font-size: .68rem; font-weight: 600; border-radius: 100px; }
+  .modal-nombre { font-size: 1.4rem; font-weight: 900; line-height: 1.2; color: var(--negro); }
+  .modal-precio { font-size: 1.6rem; font-weight: 800; color: var(--terracota); }
+  .modal-divider { height: 1px; background: var(--borde-modal); }
+  .modal-seccion-titulo { font-size: .68rem; font-weight: 700; color: var(--texto-suave); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .35rem; }
+  .modal-descripcion { font-size: .87rem; line-height: 1.65; color: #3d3028; }
+  .modal-caracteristicas-box { background: var(--cream); border-radius: var(--radio-sm); padding: .9rem 1.1rem; border: 1px solid var(--borde-modal); }
+  .modal-lista { font-size: .83rem; color: var(--texto-suave); line-height: 1.85; list-style: none; }
+  .modal-lista li { position: relative; padding-left: 1rem; }
+  .modal-lista li::before { content: "•"; color: var(--terracota); position: absolute; left: 0; font-weight: 700; }
+  .modal-variantes { display: none; }
+  .modal-variantes.visible { display: block; }
+  .modal-variantes-opciones { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .4rem; }
+  .modal-variante-btn { padding: .38rem 1rem; border-radius: 100px; border: 1.5px solid var(--borde-modal); background: transparent; font-family: 'Poppins', sans-serif; font-size: .8rem; font-weight: 600; color: var(--texto-suave); cursor: pointer; transition: all .2s; }
+  .modal-variante-btn:hover { border-color: var(--terracota); color: var(--terracota); }
+  .modal-variante-btn.activo { background: var(--terracota); border-color: var(--terracota); color: var(--blanco); }
+  .modal-variante-btn:disabled { opacity: .45; cursor: not-allowed; text-decoration: line-through; }
+  .modal-btn-carrito { margin-top: auto; padding: .9rem 1.5rem; background: var(--terracota); color: var(--blanco); border: none; border-radius: var(--radio-sm); font-family: 'Poppins', sans-serif; font-size: .95rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .5rem; transition: background .2s, transform .15s; }
+  .modal-btn-carrito:hover { background: #a8501f; transform: translateY(-1px); }
+  .modal-btn-carrito svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  /* CHECKOUT MODAL */
+  .checkout-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: none; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s; }
+  .checkout-overlay.activo { display: flex; opacity: 1; visibility: visible; }
+  .checkout-close { position:absolute; top:1rem; right:1rem; width:32px; height:32px; border-radius:50%; border:none; background:var(--cream); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; color:var(--negro); transition:background .2s; }
+  .checkout-close:hover { background:#ddd0b8; }
+  .checkout-box { position:relative; background: var(--blanco); border-radius: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 2rem; box-shadow: 0 24px 64px rgba(26,26,26,.2); transform: translateY(24px); transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+  .checkout-overlay.activo .checkout-box { transform: translateY(0); }
+  .checkout-box h3 { font-size: 1.2rem; font-weight: 900; margin-bottom: .3rem; }
+  .checkout-box .checkout-sub { font-size: .82rem; color: #6b5a4e; margin-bottom: 1.5rem; }
+  .checkout-resumen { background: var(--cream); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+  .checkout-resumen-item { display: flex; justify-content: space-between; font-size: .85rem; padding: .3rem 0; color: #4a3a2e; }
+  .checkout-resumen-total { display: flex; justify-content: space-between; font-size: 1rem; font-weight: 800; padding-top: .6rem; margin-top: .4rem; border-top: 1px solid rgba(28,16,7,.1); color: var(--terracota); }
+  .checkout-section-label { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: .8rem; margin-top: 1.2rem; }
+  .checkout-metodo-toggle { display: flex; gap: .6rem; }
+  .metodo-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: .5rem; padding: .7rem 1rem; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; cursor: pointer; font-size: .85rem; font-weight: 600; color: #4a3a2e; transition: all .2s; user-select: none; }
+  .metodo-btn input[type="radio"] { display: none; }
+  .metodo-btn.activo { border-color: var(--terracota); background: rgba(196,98,45,.08); color: var(--terracota); }
+  .checkout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+  .checkout-grid.full { grid-template-columns: 1fr; }
+  @media (max-width: 500px) { .checkout-grid { grid-template-columns: 1fr; } }
+  .checkout-field { display: flex; flex-direction: column; gap: .3rem; }
+  .checkout-field label { font-size: .75rem; font-weight: 600; color: #6b5a4e; }
+  .checkout-field input { border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; color: var(--negro); background: #fff; outline: none; transition: border-color .2s; }
+  .checkout-field input:focus { border-color: var(--terracota); }
+  .checkout-field input.error { border-color: #e74c3c; }
+  .checkout-btns { display: flex; gap: .75rem; margin-top: 1.5rem; }
+  .btn-checkout-cancel { flex: 1; background: none; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .88rem; cursor: pointer; color: #6b5a4e; transition: all .2s; }
+  .btn-checkout-cancel:hover { border-color: var(--negro); color: var(--negro); }
+  .btn-checkout-confirm { flex: 2; background: #C4622D; border: none; border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background .2s; }
+  .btn-checkout-confirm:hover { background: #a8501f; }
+  .checkout-envio-info { display: flex; justify-content: space-between; align-items: center; background: var(--cream); border-radius: 10px; padding: .75rem 1rem; margin-top: .75rem; font-size: .85rem; }
+  .checkout-envio-info span:first-child { color: #4a3a2e; }
+  .checkout-envio-info span:last-child { font-weight: 700; color: var(--terracota); }
+  .checkout-envio-aviso { font-size: .75rem; color: #8a7a6e; margin-top: .4rem; font-style: italic; }
+  .checkout-doc-toggle { display: flex; gap: .5rem; margin-top: .5rem; }
+  .doc-btn { flex: 1; padding: 10px; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; background: #fff; font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600; cursor: pointer; color: #6b5a4e; transition: all .2s; }
+  .doc-btn.activo { background: var(--terracota); color: #fff; border-color: var(--terracota); }
+  .doc-btn:hover:not(.activo) { border-color: var(--terracota); color: var(--terracota); }
+
+
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 2rem; } .hero-img { display: none; } .cat-grid { grid-template-columns: repeat(3, 1fr); } .prod-grid { grid-template-columns: repeat(3, 1fr); } .footer-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  @media (max-width: 600px) { .nav-logo span { display: none; } .nav-ig-desktop { display: none; } .nav-ig-mobile { display: flex; } .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: flex; } .cat-grid { grid-template-columns: repeat(2, 1fr); } .prod-grid { grid-template-columns: repeat(2, 1fr); } .newsletter-box { padding: 36px 28px; } .newsletter-form { flex-direction: column; } .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; }  .anuncio-bar { position: sticky; top: 0; z-index: 101; } nav { top: 36px; } .mobile-menu { padding-top: calc(104px + env(safe-area-inset-top) + 16px) !important; }}
+  @media (max-width: 640px) { .modal-contenedor { grid-template-columns: 1fr; max-height: 92vh; } .modal-galeria { border-radius: var(--radio-modal) var(--radio-modal) 0 0; position: static; padding: 1.25rem; } .modal-imagen-principal { aspect-ratio: 4/3; } .modal-contenido { padding: 1.25rem; } .modal-nombre { font-size: 1.2rem; } .modal-precio { font-size: 1.35rem; } }
+
+  .nav-right { display: flex; align-items: center; gap: 6px; }
+  /* ── SITE HEADER ── */
+  .anuncio-bar { position: static; }
+  .site-header { position: sticky; top: 0; z-index: 101; background: var(--cream); will-change: transform; transition: background .3s; }
+  .site-header.scrolled { background: rgba(245,236,215,.72) !important; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background .3s; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<style>
+.anuncio-bar{background:#4A7C59;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
+.anuncio-track{display:inline-block;animation:marquee 22s linear infinite;font-size:13px;font-weight:500;letter-spacing:.04em;}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+</style>
+<script>
+const productos = {"pelota-snack-interactiva_Verde":{"nombre":"Pelota Snack Interactiva — Verde","precio":"$6.990","precioNum":6990,"audience":"Para Perros","categoria":"Juguete","descripcion":"Pelota de goma resistente con ranuras para esconder premios, el juguete que mantiene a tu perro entretenido largo rato mientras le limpia los dientes sin que hagas nada 🐶🦷\\n\\nRellénala con sus croquetas o snacks favoritos y deja que tu perro la ruede, la muerda y la trabaje hasta sacar todo. La textura de goma con pinchos limpia el sarro y masajea las encías mientras juega. Doble beneficio, cero esfuerzo de tu parte.","caracTitulo":"Características","caracteristicas":["Goma resistente, no tóxica", "Limpieza dental natural", "Rellénala con cualquier snack", "Apta para todas las razas", "7cm de diámetro"],"imagenes":["pelota-snack-perro-verde.jpg", "pelota-snack-perro-verde-snacks.jpg"],"placeholders":["🐶", "🐶"]},
+"collar-findmy_Amarillo":{"nombre":"Collar Find My — Amarillo","precio":"$12.990","precioNum":12990,"audience":"Perros & Gatos","categoria":"Accesorio","descripcion":"Porque tu gato sale \\\"solo un momento\\\" y desaparece tres horas. Compatible con la red Find My de Apple.","caracTitulo":"Características","caracteristicas":["Compatible con Apple Find My", "Cinta nylon reflectante", "Funda de silicona con diseño de huella", "Cierre ajustable", "Campanilla incluida"],"imagenes":["collar-find-my-amarillo.jpg"],"placeholders":["💛"]},
+"collar-perro-acolchado_Café-S":{"nombre":"Collar Perro Acolchado — Café Talla S","precio":"$6.990","precioNum":6990,"audience":"Para Perros","categoria":"Accesorio","descripcion":"Collar acolchado de poliéster con interior suave de material neopreno — firme por fuera, suave por dentro, para que tu perro lo use todo el día sin molestias ni irritaciones.\\n\\nHebilla metálica de ajuste fácil y argolla en D resistente para enganchar la correa. El parche de cuero con silueta de perrito es el detalle que lo hace diferente.\\n\\nPorque el accesorio más usado de tu perro también merece calidad.","caracTitulo":"Características","caracteristicas":["Interior acolchado suave y transpirable — protege el pelo", "Exterior poliéster resistente con hebilla metálica", "Argolla en D para correa", "Cierre de ajuste rápido", "Talla S: ancho 1,5 cm | largo 26–42 cm"],"imagenes":["collar-perro-cafe-m.jpg"],"placeholders":["🐶"]},
+"collar-perro-acolchado_Café-M":{"nombre":"Collar Perro Acolchado — Café Talla M","precio":"$6.990","precioNum":6990,"audience":"Para Perros","categoria":"Accesorio","descripcion":"Collar acolchado de poliéster con interior suave de material neopreno — firme por fuera, suave por dentro, para que tu perro lo use todo el día sin molestias ni irritaciones.\\n\\nHebilla metálica de ajuste fácil y argolla en D resistente para enganchar la correa. El parche de cuero con silueta de perrito es el detalle que lo hace diferente.\\n\\nPorque el accesorio más usado de tu perro también merece calidad.","caracTitulo":"Características","caracteristicas":["Interior acolchado suave y transpirable — protege el pelo", "Exterior poliéster resistente con hebilla metálica", "Argolla en D para correa", "Cierre de ajuste rápido", "Talla M: ancho 2,0 cm | largo 31–50 cm"],"imagenes":["collar-perro-cafe-m.jpg"],"placeholders":["🐶"]},
+"collar-perro-acolchado_Rojo-S":{"nombre":"Collar Perro Acolchado — Rojo Talla S","precio":"$6.990","precioNum":6990,"audience":"Para Perros","categoria":"Accesorio","descripcion":"Collar acolchado de poliéster con interior suave de material neopreno — firme por fuera, suave por dentro, para que tu perro lo use todo el día sin molestias ni irritaciones.\\n\\nHebilla metálica de ajuste fácil y argolla en D resistente para enganchar la correa. El parche de cuero con silueta de perrito es el detalle que lo hace diferente.\\n\\nPorque el accesorio más usado de tu perro también merece calidad.","caracTitulo":"Características","caracteristicas":["Interior acolchado suave y transpirable — protege el pelo", "Exterior poliéster resistente con hebilla metálica", "Argolla en D para correa", "Cierre de ajuste rápido", "Talla S: ancho 1,5 cm | largo 26–42 cm"],"imagenes":["collar-perro-rojo-s.jpg"],"placeholders":["🐶"]},
+"comedero-lento-flores-lila":{nombre:"Comedero Lento Flores - Lila",precio:"$9.990",precioNum:9990,audience:"Perros & Gatos",categoria:"Accesorio",descripcion:"Diseño de flores que obliga a tu mascota a comer despacio, reduciendo gases, atragantamientos y esa barriga hinchada de después. La ventosa lo fija al suelo para que no ande de paseo por toda la cocina mientras come.\n\nFunciona como comedero lento y como lick mat, ideal para croquetas, comida húmeda, snacks cremosos o incluso pasta de cacahuete. Para perros y gatos de todas las razas.\n\nPorque comer bien también es un hábito🐾",caracTitulo:"Características",caracteristicas:["Diseño de flores antiatragantamiento","Ventosas incluidas — no se mueve","Apto para croquetas, húmedo y lick treats","Fácil de lavar, apto para lavavajillas","Para perros y gatos","20cm de diámetro"],imagenes:["comedero-lento-flores-lila.jpg","comedero-lento-flores-lila-uso.jpg"],placeholders:["🌸","🌸"]},"comedero-lento-slow-feeder-rosado":{nombre:"Comedero Lento Slow Feeder - Rosado",precio:"$6.990",precioNum:6990,audience:"Para Perros",categoria:"Accesorio",descripcion:"¿Tu perro o gato se lanza sobre el plato como si fuera la última cena? \n\nEl Comedero Lento lo frena en seco. Sus divisores internos lo obligan a comer despacio, reduciendo gases, atragantamientos y esa barriga hinchada de después.\n\nDiseño compacto ideal para perros y gatos pequeños a medianos. Fácil de lavar, colores surtidos, y una diferencia real en cómo come tu mascota.\n\nComer bien también es un hábito. 🐾",caracTitulo:"Características",caracteristicas:["Dimensiones: 20,5 x 4,5 cm","Antideslizante","Duradero y fácil de limpiar","Para perros medianos a grandes","Ralentiza la ingesta para mejor digestión"],imagenes:["comedero-lento-rosado.jpg","comedero-lento-rosado2.jpg"],placeholders:["🐶","🐶"]},"dog-fest-calcium-bones-chicken":{nombre:"Huesitos de Calcio con Pollo 55g - Dog Fest",precio:"$4.990",precioNum:4990,audience:"Para Perros",categoria:"Snacks y Golosinas",descripcion:"Huesitos artesanales de calcio con pollo fresco, 100% natural, grado humano, sin preservantes ni colorantes. Ideales para razas pequeñas que necesitan un snack que además de rico, fortalece huesos y dientes. Cada mordida es puro pollo real y nutrición de verdad.",caracTitulo:"Características",caracteristicas:["100% Natural: Elaborado con ingredientes completamente naturales.","Ingredientes aptos para consumo humano, asegurando la máxima calidad.","Huesitos con carne fresca de pavo.","Peso 55g"],ingredientes:"Huesitos y carne fresca de pavo",imagenes:["dog_fest_calcium_bones_chicken.jpg"],placeholders:["🐶"]},"dog-fest-lamb-medallions":{nombre:"Medallones de Cordero 55g - Dog Fest",precio:"$4.990",precioNum:4990,audience:"Para Perros",categoria:"Snacks y Golosinas",descripcion:"Medallones masticables de cordero real, hechos para razas pequeñas que merecen un premio de verdad. Alto en proteínas, fácil de masticar y con el sabor intenso del cordero de granja. 100% natural, sin aditivos ni colorantes, el snack que tu perro va a pedir de nuevo.",caracTitulo:"Características",caracteristicas:["Los medallones están hechos de cordero de granja, asegurando ingredientes de alta calidad.","Especialmente diseñados para razas más pequeñas.","Estas golosinas tienen un alto contenido de proteínas, esenciales para la salud muscular y energética de tu perro.","55 gramos"],ingredientes:"Cordero, subproductos vegetales, minerales.",imagenes:["dog_fest_lamb_medallions.jpg"],placeholders:["🐶"]},"dog-fest-rabbit-ears-lamb":{nombre:"Orejas de Conejo con Cordero 55g - Dog Fest",precio:"$4.990",precioNum:4990,audience:"Para Perros",categoria:"Snacks y Golosinas",descripcion:"Orejas de conejo naturales envueltas en cordero real, 100% natural, sin gluten, sin aditivos. Alto en proteínas, bajo en grasas y fácil de digerir. \n\nIdeal para razas pequeñas que merecen un premio artesanal de verdad. Cada mordida es nutrición y felicidad en partes iguales.",caracTitulo:"Características",caracteristicas:["100% Natural: Elaborado con ingredientes completamente naturales.","Ingredientes aptos para consumo humano, asegurando la máxima calidad.","Sin preservantes artificiales, sin colorantes artificiales, sin saborizantes artificiales.","Cocinada a baja temperatura para conservar vitaminas y minerales esenciales."],ingredientes:"Orejas de conejo y carne fresca de cordero.",imagenes:["dog_fest_rabbit_ears_lamb.jpg"],placeholders:["🐶"]},"colagepet-donut-pollo":{nombre:"Donut Colagepet XL - Pollo",precio:"$2.990",precioNum:2990,audience:"Para Perros",categoria:"Snacks y Golosinas",descripcion:"Dona XL de colágeno natural, sin gluten y sin aditivos. Hecha para perros medianos y grandes que merecen un snack que entretiene, cuida la salud dental y aporta colágeno de verdad, todo en un solo bocado. 75g y 0 culpa.",caracTitulo:"Características",caracteristicas:["Tamaño XL","Peso 75g"],ingredientes:"Cuero crudo (77.72%), pollo (16%), glicerina vegetal (6%), sorbato de potasio (0.2%), caramelo natural (0.05%), suplemento de vitamina E (0.03%), saborizante natural sabor pollo.",imagenes:["colagepet_donut_pollo.jpg"],placeholders:["🐶"]},"colagepet-donut-pato":{nombre:"Donut Colagepet XL - Pato",precio:"$2.990",precioNum:2990,audience:"Para Perros",categoria:"Snacks y Golosinas",descripcion:"Dona XL de colágeno natural, sin gluten y sin aditivos. Hecha para perros medianos y grandes que merecen un snack que entretiene, cuida la salud dental y aporta colágeno de verdad, todo en un solo bocado. 75g y 0 culpa.",caracTitulo:"Características",caracteristicas:["Tamaño XL","Peso 75g"],ingredientes:"Cuero crudo (77.72%), pato (16%), glicerina vegetal (6%), sorbato de potasio (0.2%), caramelo natural (0.05%), suplemento de vitamina E (0.03%), saborizante natural sabor pato.",imagenes:["colagepet_donut_pato.jpg"],placeholders:["🐶"]},"colagepet-donut-carne":{nombre:"Donut Colagepet XL - Carne",precio:"$2.990",precioNum:2990,audience:"Para Perros",categoria:"Snacks y Golosinas",descripcion:"Dona XL de colágeno natural, sin gluten y sin aditivos. Hecha para perros medianos y grandes que merecen un snack que entretiene, cuida la salud dental y aporta colágeno de verdad, todo en un solo bocado. 75g y 0 culpa.",caracTitulo:"Características",caracteristicas:["Tamaño XL","Peso 75g"],ingredientes:"Cuero crudo (77.72%), carne (16%), glicerina vegetal (6%), sorbato de potasio (0.2%), caramelo natural (0.05%), suplemento de vitamina E (0.03%), saborizante natural sabor carne.",imagenes:["colagepet_donut_carne.jpg"],placeholders:["🐶"]},"rascador-maxi-caja-de-leche---brnx":{nombre:"Rascador Maxi Caja de Leche - Brnx",precio:"$13.990",precioNum:13990,audience:"Para Gatos",categoria:"Accesorio",descripcion:"Tu gato merece un espacio que no arruine la decoración de tu casa, y esta caja de leche gigante es exactamente eso. La Rascador Casa Milk es a la vez refugio, rascador y objeto decorativo que cualquier invitado va a querer fotografiar.\n\nEspaciosa por dentro para que tu gato entre, salga, duerma y haga lo que se le antoje. \n\nPor fuera, un diseño kawaii que combina con cualquier rincón de tu hogar sin gritar \"soy un mueble de gato\"",caracTitulo:"Características",caracteristicas:["Rascador de cartón corrugado para satisfacer sus instintos","4 clips transparentes para armado fácil y sin herramientas","1 bolsita de hierba gatera para hacer la inauguración más caótica","Cartón resistente eco-friendly, apto para juego activo."],imagenes:["rascador-forma-de-leche.jpg","rascador-y-catnip.jpg","rascador-uso.jpg"],placeholders:["🐱","🐱","🐱"]},"collar-isabelino-donut-rosada---talla-s":{nombre:"Collar Isabelino Donut Rosada - Talla S",precio:"$6.990",precioNum:6990,audience:"Perros & Gatos",categoria:"Insumos Veterinarios",descripcion:"Tu gato acaba de pasar por una cirugía y necesita que no se toque la herida, aquí entra este collar isabelino con forma de donut, que además de proteger, viene en este color tan llamativo que parece un accesorio de moda. Es ajustable, ultraligero, no bloquea su visión ni sus gatos, y deja que coma y duerma con normalidad mientras se recupera sin drama.",caracTitulo:"Características",caracteristicas:["Cómodo y ligero (no estresa)","No bloquea visión ni movilidad","Cierre ajustable regulable","Materiales de alta calidad","Cuello: 13 - 22 cm Peso: 2 - 4,5 kg"],imagenes:["collar-isabelino-donut-gatos.jpg","collar-isabelino-donut-gatos-uso.jpg"],placeholders:["🐱","🐱"]},"pelota-snack-interactiva_Roja":{nombre:"Pelota Snack Interactiva — Roja",precio:"$6.990",precioNum:6990,audience:"Para Perros",categoria:"Juguete",descripcion:"Pelota de goma resistente con ranuras para esconder premios, el juguete que mantiene a tu perro entretenido largo rato mientras le limpia los dientes sin que hagas nada 🐶🦷\n\nRellénala con sus croquetas o snacks favoritos y deja que tu perro la ruede, la muerda y la trabaje hasta sacar todo. La textura de goma con pinchos limpia el sarro y masajea las encías mientras juega. Doble beneficio, cero esfuerzo de tu parte.",caracTitulo:"Características",caracteristicas:["Goma resistente, no tóxica","Limpieza dental natural","Rellénala con cualquier snack","Apta para todas las razas","7cm de diámetro"],imagenes:["pelota-snack-perro-roja.jpg","pelota-snack-perro-roja-uso.jpg"],placeholders:["🐾","🐾"]},
+"pelota-snack-interactiva_Azul":{nombre:"Pelota Snack Interactiva — Azul",precio:"$6.990",precioNum:6990,audience:"Para Perros",categoria:"Juguete",descripcion:"Pelota de goma resistente con ranuras para esconder premios, el juguete que mantiene a tu perro entretenido largo rato mientras le limpia los dientes sin que hagas nada 🐶🦷\n\nRellénala con sus croquetas o snacks favoritos y deja que tu perro la ruede, la muerda y la trabaje hasta sacar todo. La textura de goma con pinchos limpia el sarro y masajea las encías mientras juega. Doble beneficio, cero esfuerzo de tu parte.",caracTitulo:"Características",caracteristicas:["Goma resistente, no tóxica","Limpieza dental natural","Rellénala con cualquier snack","Apta para todas las razas","7cm de diámetro"],imagenes:["pelota-snack-perro-azul.jpg","pelota-snack-perro-azul-uso.jpg"],placeholders:["🐾","🐾"]},"dispensador-de-bolsas---diseno-cafe":{nombre:"Dispensador de Bolsas - Diseño Café",precio:"$5.990",precioNum:5990,audience:"Perros & Gatos",categoria:"Accesorio",descripcion:"Dispensador de bolsas para fecas con diseño de vasito de café, porque hasta los momentos menos glamorosos del paseo merecen un accesorio bonito ☕🐶\n\nSe engancha fácil a la correa, mochila o cartera con su mosquetón. Las bolsas salen por el agujero frontal con una sola mano, sin buscar, sin enredar, sin drama. (No incluye bolsas)",caracTitulo:"Características",caracteristicas:["Diseño de vasito de café","Mosquetón incluido","Compatible con rollos estándar","Liviano y compacto","Alto: 8cm","Ancho: 5cm"],imagenes:["dispensador-bolsas-perro.jpg"],placeholders:["🐶"]},"calming-collar---perros":{nombre:"Calming Collar - Perros",precio:"$7.990",precioNum:7990,audience:"Para Perros",categoria:"Accesorio",descripcion:"Collar de feromonas calmantes para perros, la solución natural para la ansiedad, el estrés y los comportamientos difíciles 🐶💜\n\nLibera feromonas de forma continua durante 60 días, reduciendo el estrés sin sedantes ni medicamentos. Ideal para viajes, visitas al veterinario, fuegos artificiales, cambios de rutina o simplemente para el perro que vive en modo alerta.",caracTitulo:"Características",caracteristicas:["60 días de efecto","Feromonas naturales","Apto para todas las razas","Largo: 63 cm (ajustable)"],imagenes:["calming-collar-perro-caja.jpg","calming-collar-perro-uso.jpg"],placeholders:["🐶","🐶"]},"calming-collar---gatos":{nombre:"Calming Collar - Gatos",precio:"$7.990",precioNum:7990,audience:"Para Gatos",categoria:"Accesorio",descripcion:"Collar de feromonas calmantes para gatos, porque la ansiedad felina es real, aunque tu gato lo disimule muy bien 🐱💜\n\nLibera feromonas naturales durante 60 días, ayudando a reducir conductas como el marcaje, los arañazos en exceso, la agresividad y el estrés por cambios en el hogar. Sin pastillas, sin estrés extra.",caracTitulo:"Características",caracteristicas:["60 días de efecto","Feromonas naturales","Apto para todas las razas","Largo: 38 cm (ajustable)"],imagenes:["calming-collar-gato-caja.jpg","calming-collar-gato-uso.jpg"],placeholders:["🐱","🐱"]},"botella-portatil-para-perros_Rosada":{nombre:"Botella Portátil para Perros — Rosada",precio:"$14.990",precioNum:14990,audience:"Para Perros",categoria:"Accesorio",descripcion:"Botella de agua portátil de acero inoxidable con bebedero integrado, el accesorio que no puede faltar en ningún paseo 🐶💧\n\nSolo inclina, presiona y el agua sube al bebedero. Sin derramar, sin ensuciarte, sin dramas. Cuando tu perro termine, el agua sobrante vuelve adentro. Así de simple.\n\nCon cordón para colgar en la correa o en tu bolso, llega al parque con las manos libres y tu perro hidratado.",caracTitulo:"Características",caracteristicas:["Acero inoxidable","Bebedero integrado","Sin derrames","Cordón incluido","Capacidad 285ml"],imagenes:["botella-de-agua-rosada.jpg","uso-botella.jpg"],placeholders:["🐶","🐶"]},
+"botella-portatil-para-perros_Calipso":{nombre:"Botella Portátil para Perros — Calipso",precio:"$14.990",precioNum:14990,audience:"Para Perros",categoria:"Accesorio",descripcion:"Botella de agua portátil de acero inoxidable con bebedero integrado, el accesorio que no puede faltar en ningún paseo 🐶💧\n\nSolo inclina, presiona y el agua sube al bebedero. Sin derramar, sin ensuciarte, sin dramas. Cuando tu perro termine, el agua sobrante vuelve adentro. Así de simple.\n\nCon cordón para colgar en la correa o en tu bolso, llega al parque con las manos libres y tu perro hidratado.",caracTitulo:"Características",caracteristicas:["Acero inoxidable","Bebedero integrado","Sin derrames","Cordón incluido","Capacidad 285ml"],imagenes:["botella-de-agua-calipso-2.jpg","botella-de-agua-calipso-uso.jpg"],placeholders:["🐶","🐶"]},"arena-sanitaria-ciudad-animal-8kg":{nombre:"Arena Sanitaria Ciudad Animal 8kg",precio:"$8.990",precioNum:8990,audience:"Para Gatos",categoria:"Aseo e Higiene",descripcion:"Arena sanitaria de bentonita natural con aroma a lavanda — porque el baño de tu gato puede oler bien y tú también puedes sobrevivir a cambiarla 🐱💜\n\nAglomera rápido, neutraliza los olores con un suave aroma a lavanda y no levanta polvo. Además es hasta un 50% más liviana que las arenas tradicionales, así que del auto a la casa sin llorar.",caracTitulo:"Características",caracteristicas:["Aglomerante rápido","Aroma a lavanda","Sin polvo","100% natural y biodegradable"],imagenes:["arena-sanitaria-ciudad-animal-8k.jpg"],placeholders:["🐱"]},"brit-care-sterilized-weigh-control-2kg---duck-turkey":{nombre:"Brit Care Sterilized Weigh Control 2kg - Duck & Turkey",precio:"$24.990",precioNum:24990,audience:"Para Gatos",categoria:"Alimentos",descripcion:"Brit Care Sterilized está formulado especialmente para gatos adultos esterilizados — los que ya no salen a correr maratones pero siguen teniendo estándares altísimos en la cocina 🐱\nCon pato y pavo como proteínas principales, sin cereales y con L-carnitina para mantener el peso ideal. Porque esterilizado no significa resignado.\n\n✅ Sin cereales\n✅ Proteína animal real\n✅ Control de peso\n✅ Salud urinaria\n✅ Piel y pelaje saludable\nContenido: 2 kg\nSabor: Duck & Turkey",caracTitulo:"Características",caracteristicas:["Sin cereales","Proteína animal real","Control de peso","Salud urinaria","Piel y pelaje saludable"],ingredientes:"Carne fresca de pato (26%), deshidratada pavo (26%), guisantes amarillos (16%), garbanzos (10%), secos manzanas (7%), grasa de ave (conservada con tocoferoles, 4%), aceite de salmón (2%), hígado de pollo hidrolizado (2%), psyllium cascarilla y semillas (2%), levadura de cerveza (2%), linaza (1%), capuchina seca (0,5%), manzanilla seca (0,5%), minerales, espino amarillo seco (0,3%), arándanos secos (0,2%), fructo-oligosacáridos (0,015%), manano-oligosacáridos (0,015%), yuca de Mojave (0,008%), Lactobacillus acidophilus HA-122 inactivado (15×109 células / kg).",imagenes:["brit-care-esterilizado-duck.jpg"],placeholders:["🦆"]},"pack-calma-total":{"ahorro":1980,"nombre": "Pack Calma Total", "precio": "$15.990", "precioNum": 15990, "audience": "Para Gatos", "categoria": "Flores de Bach", "descripcion": "Para el gato que se asusta de todo — y el humano que lo quiere calmar. Incluye la Fórmula Ansiedad y Calma de Flores de Bach, Pillows Cat Fest sabor camarón y Tubito Cremoso con catnip. Todo lo que necesitas para convertir un día de caos en uno de mimos.", "caracTitulo": "¿Qué incluye?", "caracteristicas": ["1 frasco Flores de Bach Ansiedad y Calma (30 ml)", "1 bolsa Cat Fest Pillows Schrimp Creme o Chicken Creme (30 g)", "4 Tubitos Cremosos sabor a elección", "Presentado en bolsa Patas & Caos"], "imagenes": ["pack_calma_total.jpg"], "placeholders": ["🌿"]},"pack-sos-mascota":{"ahorro":2980,"nombre": "Pack SOS Mascota", "precio": "$18.990", "precioNum": 18990, "audience": "Para Gatos", "categoria": "Flores de Bach", "descripcion": "El kit de emergencia emocional que debería estar en toda casa con mascota. Flores de Bach Rescue & Alivio para el susto repentino, Paw Balm para el cuidado de sus patitas y Tubitos Cremosos para el mimo post-estrés. Porque a veces el mundo es demasiado.", "caracTitulo": "¿Qué incluye?", "caracteristicas": ["1 frasco Flores de Bach Rescue & Alivio (30 ml)", "1 Paw Balm hidratante para patitas", "4 Tubitos Cremosos sabor a elección", "Presentado en bolsa Patas & Caos"], "imagenes": ["pack_sos_mascota.jpg"], "placeholders": ["🌿"]},"pack-rutina-sana":{"ahorro":4780,"nombre": "Pack Rutina Sana", "precio": "$33.990", "precioNum": 33990, "audience": "Para Gatos", "categoria": "Flores de Bach", "descripcion": "Hidratación, nutrición y bienestar emocional en un solo pack. Flores de Bach Rescue & Alivio, Fuente de Agua Flor USB para que tome agua de verdad y una Lata Leonardo para que coma como corresponde. El regalo perfecto para el gato más exigente.", "caracTitulo": "¿Qué incluye?", "caracteristicas": ["1 frasco Flores de Bach Rescue & Alivio (30 ml)", "1 Fuente de Agua Flor USB para gatos", "1 Lata Leonardo Adulto 200 g (sabor a elección)", "Presentado en bolsa Patas & Caos"], "imagenes": ["pack_rutina_sana.jpg"], "placeholders": ["🌿"]},"pack-bienvenido-a-casa":{"ahorro":2780,"nombre":"Pack Bienvenido a Casa","precio":"$21.990","precioNum":21990,"audience":"Para Gatos","categoria":"Flores de Bach","descripcion":"Para el gato que llega a un hogar nuevo o enfrenta cambios de ambiente. Flores de Bach Equilibrio para estabilizar sus emociones, Comedero Lento para que coma sin ansiedad y una Lata Leonardo para que su primer plato sea de verdad. Porque una buena bienvenida lo cambia todo.","caracTitulo":"¿Qué incluye?","caracteristicas":["1 frasco Flores de Bach Equilibrio (30 ml)","1 Comedero Lento Slow Feeder Catstages","1 Lata Leonardo Adulto 200 g (sabor a elección)","Presentado en bolsa Patas & Caos"],"imagenes":["pack_bienveido_a_casa.jpg"],"placeholders":["🌿"]},"pack-juega-y-relaja":{"ahorro":3980,"nombre":"Pack Juega y Relaja","precio":"$28.990","precioNum":28990,"audience":"Para Gatos","categoria":"Flores de Bach","descripcion":"Para el gato que necesita gastar energía — y recuperar la calma después. Flores de Bach Energía & Ánimo para devolverle las ganas de todo, Pelota LED interactiva y Pájaro de peluche para que se canse de verdad. Caos controlado, básicamente.","caracTitulo":"¿Qué incluye?","caracteristicas":["1 frasco Flores de Bach Energía & Ánimo (30 ml)","1 Pelota LED interactiva","1 Pájaro interactivo de peluche","Presentado en bolsa Patas & Caos"],"imagenes":["pack_relaja_y_juega.jpg"],"placeholders":["🌿"]},"pack-cuidado-total":{"ahorro":2990,"nombre":"Pack Cuidado Total","precio":"$12.990","precioNum":12990,"audience":"Perros & Gatos","categoria":"Accesorio","descripcion":"Patitas hidratadas, pelo sin enredos. El Paw Balm hidrata y protege sus almohadillas, la Afeitadora LED elimina el pelo suelto sin jalones ni tirones. Porque el cuidado básico también es amor — y además ahorras $2.990.","caracTitulo":"¿Qué incluye?","caracteristicas":["1 Paw Balm hidratante para patitas","1 Afeitadora LED recargable","Presentado en bolsa Patas & Caos"],"imagenes":["pack_cuidado_total.jpg"],"placeholders":["🐾"]},"comedero-lento-slow-feeder---catstages":{nombre:"Comedero Lento Slow Feeder - Catstages",precio:"$7.990",precioNum:7990,audience:"Para Gatos",categoria:"Accesorio",descripcion:"¿Tu gato termina su plato en tres segundos y después vomita todo? Este comedero lento tiene laberintos y crestas internas que lo obligan a comer más despacio, mejor digestión, menos vómitos y una hora de comida mucho más tranquila. Base antideslizante para que no ande empujando el plato por toda la cocina.",caracTitulo:"Características",caracteristicas:["Laberintos y crestas interiores que ralentizan la comida y mejoran la digestión","Libre de BPA, PVC y ftalatos, sin químicos raros cerca de tu gato","Apto para lavavajillas, fácil de limpiar","Base antideslizante para que no ande de paseo por la cocina","Compatible con croquetas, comida húmeda y snacks (capacidad hasta ¾ taza)","Tamaño compacto: 13,8 x 13,8 cm","Mantiene a tu gato entretenido mientras come"],imagenes:["Plato_con_Comida.jpg","Plato_Vacio.jpg","Milo_con_Plato.jpg"],placeholders:["🐱","🐱","🐱"]},"pack-consulta-flor-de-bach":{nombre:"Pack Consulta + Flor de Bach",precio:"$29.990",precioNum:29990,audience:"Perros & Gatos",categoria:"Flores de Bach",descripcion:"Videollamada de 45 minutos con nuestra terapeuta floral, más un frasco de Flores de Bach personalizado según las necesidades de tu mascota. Juntos identificamos qué la afecta emocionalmente y elegimos la fórmula indicada para ella. Con envío a domicilio o retiro en Las Condes.",caracTitulo:"Características",caracteristicas:["Videollamada de 45 minutos por Google Meet","Frasco de Flores de Bach personalizado incluido","Formulado por terapeuta floral con +20 años de experiencia","Sin alcohol, sin efectos secundarios","Envío a domicilio o retiro en Las Condes","Válido para perros y gatos"],imagenes:["pack_floral_perros_gatos.jpg"],placeholders:["🌿"]},"flores-de-bach---rescue-y-alivio":{nombre:"Flores de Bach - Rescue y Alivio",precio:"$12.990",precioNum:12990,audience:"Perros & Gatos",categoria:"Flores de Bach",descripcion:"El clásico de emergencias adaptado para mascotas. Para situaciones de shock, susto repentino o estrés agudo.",caracTitulo:"Características",caracteristicas:["Para situaciones de emergencia o susto repentino","Alivia el shock emocional agudo","Fórmula natural sin alcohol","Modo de uso: 4 gotas directo en el hocico, 4 veces al día — o 16 gotas en el agua, asegurándote que se la tome"],imagenes:["Flores_Rescue_y_Alivio.jpg"],placeholders:["🌿"]},"flores-de-bach---energia-y-animo":{nombre:"Flores de Bach - Energía y Ánimo",precio:"$12.990",precioNum:12990,audience:"Perros & Gatos",categoria:"Flores de Bach",descripcion:"Para mascotas decaídas, apáticas o que perdieron las ganas de jugar. Apoya el ánimo y la vitalidad de forma suave y natural.",caracTitulo:"Características",caracteristicas:["Indicado para apatía y decaimiento","Apoya la recuperación emocional post-enfermedad","Fórmula natural sin alcohol","Modo de uso: 4 gotas directo en el hocico, 4 veces al día — o 16 gotas en el agua, asegurándote que se la tome"],imagenes:["Flores_Energia_y_Animo.jpg"],placeholders:["🌿"]},"flores-de-bach---equilibrio":{nombre:"Flores de Bach - Equilibrio",precio:"$12.990",precioNum:12990,audience:"Para Gatos",categoria:"Flores de Bach",descripcion:"Cuando tu mascota está fuera de foco, irritable, inquieta o simplemente rara. Esta mezcla trabaja en el equilibrio emocional para que vuelvan a ser ellos mismos.",caracTitulo:"Características",caracteristicas:["Ayuda en cambios de rutina o ambiente","Regula cambios de humor e irritabilidad","Fórmula natural sin alcohol","Modo de uso: 4 gotas directo en el hocico, 4 veces al día o 16 gotas en el agua, asegurándote que se la tome"],imagenes:["Flores_Equilibrio.jpg"],placeholders:["🌿"]},"flores-de-bach---ansiedad-y-calma":{nombre:"Flores de Bach - Ansiedad y Calma",precio:"$12.990",precioNum:12990,audience:"Perros & Gatos",categoria:"Flores de Bach",descripcion:"Para los que se asustan de todo y de nada. Esta mezcla de Flores de Bach ayuda a tu mascota a manejar el miedo, el estrés y la ansiedad del día a día, sin sedantes, sin efectos secundarios.",caracTitulo:"Características",caracteristicas:["Ideal para miedos, tormentas y viajes","Reduce el estrés por separación","Fórmula natural sin alcohol","Modo de uso: 4 gotas directo en el hocico, 4 veces al día o 16 gotas en el agua, asegurándote que se la tome"],imagenes:["Flores_Ansiedad_y_Calma.jpg"],placeholders:["🌿"]},"cat-fest-pillows-schrimp-creme":{nombre:"Cat Fest Pillows Salmon Creme",precio:"$1.990",precioNum:1990,audience:"Para Gatos",categoria:"Snacks y Golosinas",descripcion:"Pillows crujientes por fuera y cremosos por dentro con sabor a salmón",caracTitulo:"Características",caracteristicas:["Relleno cremoso sabor salmón","Cáscara crujiente irresistible","Sin colorantes artificiales","Estructura porosa que ayuda al cuidado dental"],imagenes:["catfest_pillows_salmon_creme.jpg"],placeholders:["🐾"],ingredientes:"Harina de maíz, harina de papa, harina de arroz, aislado de proteína de soya, harina de yema de huevo, harina de salmón, harina de camarón, harina de pescado (5%), harina de catnip, manteca, aceite de soya, semillas y productos de frutas y verduras (polvo de semilla de granada, polvo de arándano)."},
+  'cat-fest-pillows':{nombre:'Cat Fest Pillows Chicken Creme',precio:'$1.990',precioNum:1990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Pillows crujientes por fuera y cremosos por dentro con sabor a pollo.',caracTitulo:'Características',caracteristicas:['Relleno cremoso sabor pollo','Cáscara crujiente irresistible','Sin colorantes artificiales'],imagenes:['Cat_Fest_Pillows_Chicken.jpg'],placeholders:['🐔'],ingredientes:"Harina de maíz, harina de papa, harina de arroz, aislado de proteína de soya, harina de yema de huevo, harina de pollo (5%), harina de camarón, harina de pescado, manteca, aceite de soya, semillas y productos de frutas y verduras (harina de semilla de granada, harina de arándano)."},
+  'tubito-atun':{nombre:'Tubito Cremoso Atún con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'El combo más letal del universo felino: atún cremoso con catnip. Pack de 4 tubitos de puro premio.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor atún con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['Tubito_Cremoso_Cats_Snack2.jpg'],placeholders:['🐟'],ingredientes:"Agua, atún, hierba gatera, proteína hidrolizada de atún, isomaltooligosacáridos, aceite de soja, almidón de maíz, carragenano, nutrientes completos (metionina, vitaminas A, B, D, E, pantotenato cálcico, folato, cobre, manganeso, zinc, yodo, selenio), goma guar, sal."},
+  'tubito-camaron':{nombre:'Tubito Cremoso Camarón con Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Camarón cremoso con catnip — el sabor marino que tu gato no va a poder ignorar. Pack de 4 tubitos.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor camarón con catnip','Pack de 4 unidades','Sin colorantes artificiales'],imagenes:['cats-snack-tubito-camaron.jpg'],placeholders:['🦐'],ingredientes:"Agua, carne de camarón, atún, pechuga de pollo, hierba gatera, proteína hidrolizada de atún, isomaltooligosacáridos, aceite de soja, almidón de maíz, carragenina, nutrientes completos (metionina, vitaminas A, B, D, E, pantotenato cálcico, folato, cobre, manganeso, zinc, yodo, selenio), goma guar, sal."},ingredientes:"Harina de maíz, harina de papa, harina de arroz, aislado de proteína de soya, harina de yema de huevo, harina de salmón, harina de camarón, harina de pescado (5%), harina de catnip, manteca, aceite de soya, semillas y productos de frutas y verduras (polvo de semilla de granada, polvo de arándano).",
+  'tubito-salmon-matatabi':{nombre:'Tubito Cremoso Salmón con Matatabi',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Salmón cremoso con matatabi y catnip — con taurina y extracto de té verde. 0% gluten, 0% preservantes artificiales. Pack de 4 tubitos x 15g.',caracTitulo:'Características',caracteristicas:['Textura cremosa irresistible','Sabor salmón con matatabi y catnip','Pack de 4 unidades x 15g','Con taurina y extracto de té verde','0% gluten y preservantes artificiales'],imagenes:['tubito_salmon_matatabi.jpg'],placeholders:['🐟'],ingredientes:"Salmón, agua, hierba gatera, matatabi, taurina, extracto de té verde, isomaltooligosacáridos, aceite de soja, almidón de maíz, carragenina, nutrientes completos (vitaminas A, B, D, E, pantotenato cálcico, folato, cobre, manganeso, zinc, yodo, selenio), goma guar, sal."},
+  'lata-leonardo-kitten':{nombre:'Lata Leonardo Kitten 200g',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Nutrición especial para gatitos en crecimiento. Leonardo Kitten fue formulada para cubrir todas las necesidades de los más pequeños de la casa — con proteína de alta calidad, sin cereales y con el estándar alemán.',caracTitulo:'Características',caracteristicas:['Formulada especialmente para gatitos','Alto contenido de proteína','Sin cereales añadidos','Formato 200g','Fabricado en Alemania'],imagenes:['lata-leonardo-kitten.jpg'],placeholders:['🐱'],ingredientes:"Carne y derivados animales (65%; de los cuales ave 40%, ternera 25%, caldo de carne 29,5%). Huevo y derivados (huevo entero 4%). Minerales (1%). Aceites y grasas (aceite de salmón 0,5%)."},
+  'lata-leonardo_Ave':{nombre:'Lata Leonardo Adulto — Ave',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Comida húmeda premium alemana para gatos adultos con ave. Sin cereales añadidos, alto contenido de proteína animal. 🇩🇪 Fabricado en Alemania.',caracTitulo:'Características',caracteristicas:['Comida húmeda premium para gatos adultos','Alto contenido de proteína animal','Sin cereales añadidos','Formato 200g','Fabricado en Alemania'],ingredientes:'Carnes y subproductos animales (65% ave + caldo de ave 34%). Minerales (0,5%). Cáscaras de huevo, secas (0,5%).',imagenes:['lata-leonardo-ave.jpg'],placeholders:['🐔']},
+  'lata-leonardo_Pato':{nombre:'Lata Leonardo Adulto — Pato',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Comida húmeda premium alemana para gatos adultos con pato. Sin cereales añadidos, alto contenido de proteína animal. 🇩🇪 Fabricado en Alemania.',caracTitulo:'Características',caracteristicas:['Comida húmeda premium para gatos adultos','Alto contenido de proteína animal','Sin cereales añadidos','Formato 200g','Fabricado en Alemania'],ingredientes:'Carnes y subproductos animales (65%, de los cuales 25% pato). Caldo de carne (34%). Minerales (0,5%). Cáscaras de huevo, secas (0,5%).',imagenes:['lata-leonardo-pato.jpg'],placeholders:['🦆']},
+  'lata-leonardo_Conejo':{nombre:'Lata Leonardo Adulto — Conejo',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Comida húmeda premium alemana para gatos adultos con conejo. Sin cereales añadidos, alto contenido de proteína animal. 🇩🇪 Fabricado en Alemania.',caracTitulo:'Características',caracteristicas:['Comida húmeda premium para gatos adultos','Alto contenido de proteína animal','Sin cereales añadidos','Formato 200g','Fabricado en Alemania'],ingredientes:'Carnes y subproductos animales (65%, de los cuales 25% conejo, + caldo de carne 34%). Minerales (0,5%). Cáscaras de huevo, secas (0,5%).',imagenes:['lata-leonardo-conejo.jpg'],placeholders:['🐰']},
+  'lata-leonardo_Pescado':{nombre:'Lata Leonardo Adulto — Pescado',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Comida húmeda premium alemana para gatos adultos con pescado. Sin cereales añadidos, alto contenido de proteína animal. 🇩🇪 Fabricado en Alemania.',caracTitulo:'Características',caracteristicas:['Comida húmeda premium para gatos adultos','Alto contenido de proteína animal','Sin cereales añadidos','Formato 200g','Fabricado en Alemania'],ingredientes:'Carne y derivados animales (40% + caldo de carne 34%). Pescado y derivados de pescado (25% pescado marino). Minerales (1%).',imagenes:['lata-leonardo-pescado.jpg'],placeholders:['🐟']},
+  'lata-leonardo_Ternera':{nombre:'Lata Leonardo Adulto — Ternera',precio:'$3.790',precioNum:3790,audience:'Para Gatos',categoria:'Alimentos',descripcion:'Comida húmeda premium alemana para gatos adultos con ternera. Sin cereales añadidos, alto contenido de proteína animal. 🇩🇪 Fabricado en Alemania.',caracTitulo:'Características',caracteristicas:['Comida húmeda premium para gatos adultos','Alto contenido de proteína animal','Sin cereales añadidos','Formato 200g','Fabricado en Alemania'],ingredientes:'Carnes y subproductos animales (65%, de los cuales 25% ternera); caldo de carne (34%); minerales (0,5%); cáscaras de huevo, secas (0,5%).',imagenes:['lata-leonardo-ternera.jpg'],placeholders:['🐄']},
+  'collar-findmy_Turquesa':{nombre:'Collar Find My — Turquesa',precio:'$12.990',precioNum:12990,audience:'Perros & Gatos',categoria:'Accesorio',descripcion:'Porque tu gato sale "solo un momento" y desaparece tres horas. Compatible con la red Find My de Apple.',caracTitulo:'Características',caracteristicas:['Compatible con Apple Find My','Cinta nylon reflectante','Funda de silicona con diseño de huella','Cierre ajustable','Campanilla incluida'],imagenes:['collar-find-my-turquesa.jpg'],placeholders:['🩵']},
+  'collar-findmy_Negro':{nombre:'Collar Find My — Negro',precio:'$12.990',precioNum:12990,audience:'Perros & Gatos',categoria:'Accesorio',descripcion:'Porque tu gato sale "solo un momento" y desaparece tres horas. Compatible con la red Find My de Apple.',caracTitulo:'Características',caracteristicas:['Compatible con Apple Find My','Cinta nylon reflectante','Funda de silicona con diseño de huella','Cierre ajustable','Campanilla incluida'],imagenes:['collar-find-my-negro.jpg'],placeholders:['🖤']},
+  'collar-findmy_Azul':{nombre:'Collar Find My — Azul',precio:'$12.990',precioNum:12990,audience:'Perros & Gatos',categoria:'Accesorio',descripcion:'Porque tu gato sale "solo un momento" y desaparece tres horas. Compatible con la red Find My de Apple.',caracTitulo:'Características',caracteristicas:['Compatible con Apple Find My','Cinta nylon reflectante','Funda de silicona con diseño de huella','Cierre ajustable','Campanilla incluida'],imagenes:['Collar_GPS.jpg'],placeholders:['💙']},
+  'fuente-agua':{nombre:'Fuente de Agua Flor USB',precio:'$21.990',precioNum:21990,audience:'Para Gatos',categoria:'Accesorio',descripcion:'Tu gato se niega a tomar agua del tazón. Circulación continua, filtro incluido.',caracTitulo:'Características',caracteristicas:['Bomba silenciosa USB','Surtidor en forma de flor','Filtro incluido','Fácil de limpiar'],imagenes:['Bebedero_Gatos_1.jpg','Bebedero_Gatos_2.jpg'],placeholders:['💧','🐱']},
+  'pajaro':{nombre:'Pájaro Interactivo',precio:'$13.990',precioNum:13990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Un pájaro que se mueve solo. Tu gato va a actuar como si fuera su gran oportunidad.',caracTitulo:'Características',caracteristicas:['Movimiento autónomo','Peluche suave','Estimula instinto cazador'],imagenes:['Pajaro_Gatos.jpg','Milo_Pajaro_Gatos.jpg'],placeholders:['🐦','🐱']},
+  'pelota-led':{nombre:'Pelota Interactiva LED',precio:'$8.990',precioNum:8990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Brilla, rebota y arrastra cintas holográficas. Carga USB tipo C.',caracTitulo:'Características',caracteristicas:['Luz LED integrada','Cintas holográficas','Carga USB tipo C'],imagenes:['Pelota_Interactiva_Gato.jpg','Milo_Jugando_Pelota_Interactiva.jpg'],placeholders:['⚡','🐱']},
+  'pulpo':{nombre:'Masajeador Pulpo',precio:'$6.990',precioNum:6990,audience:'Para Gatos',categoria:'Juguete',descripcion:'Ocho tentáculos de plástico que masajean la cabeza de tu gato mientras tú lo miras con ternura. Tiene ruedas en la base: lo empujas, rueda solo por el piso y el caos empieza sin necesidad de baterías ni cables. Masajeador, juguete y fuente de drama felino, todo en uno.',caracTitulo:'Características',caracteristicas:['Tentáculos de plástico flexibles, ideales para masajes en cabeza y lomo','Ruedas en la base: rueda solo por el piso sin necesidad de batería','Doble función: masajeador manual y juguete rodante','Diseño adorable con carita que tu gato ignorará completamente','Fácil de limpiar'],imagenes:['pulpo_para_gatos_masajeador.jpg','pulpo_y_gato_masaje.jpg','pulpo_masajeador_2.jpg'],placeholders:['🐙','🐙','🐙']},
+  'paw-balm':{nombre:'Paw Balm',precio:'$5.990',precioNum:5990,audience:'Perros & Gatos',categoria:'Aseo e Higiene',descripcion:'Crema hidratante natural para almohadillas resecas. 40g.',caracTitulo:'Ingredientes',caracteristicas:['Cera de abeja','Aceite de coco','Manteca de karité','Vitamina E','Cera de carnauba'],imagenes:['Paw_Balm.jpg','Patas_y_Paw_Balm.jpg','Ingredientes.jpg'],placeholders:['🐾','🐾','🌿']},
+  'afeitadora':{nombre:'Afeitadora LED para Mascotas',precio:'$9.990',precioNum:9990,audience:'Perros & Gatos',categoria:'Aseo e Higiene',descripcion:'Con luz LED para ver exactamente dónde cortas. Silenciosa y recargable.',caracTitulo:'Características',caracteristicas:['Luz LED integrada','Motor silencioso','Recargable USB'],imagenes:['Afeitadora_Gatos_1.jpg','Afeitadora_Gatos_2.jpg','Afeitadora_Gatos_3.jpg'],placeholders:['✂️','✂️','✂️']},
+  'cat-fest_Pato':{nombre:'Cat Fest Meat Sticks — Pato',precio:'$3.490',precioNum:3490,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Palitos de carne de pato 100% natural. Sin azúcar ni cereales, con cierre zip lock. 45g.',caracTitulo:'Características',caracteristicas:['100% carne natural','Sin cereales','Cierre zip lock','45g'],ingredientes:'Pechuga de Pato 82,7%, subproductos de origen vegetal, sustancias minerales.',imagenes:['Lamb_Meat_Sticks.jpg'],placeholders:['🦆']},
+  'cat-fest_Cordero':{nombre:'Cat Fest Meat Sticks — Cordero',precio:'$3.490',precioNum:3490,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Palitos de carne de cordero 100% natural. Sin azúcar ni cereales, con cierre zip lock. 45g.',caracTitulo:'Características',caracteristicas:['100% carne natural','Sin cereales','Cierre zip lock','45g'],ingredientes:'Vacuno 79,2%, subproductos de origen vegetal, sustancias minerales.',imagenes:['Lamb_Meat_Sticks.jpg'],placeholders:['🐑']},
+  'cats-snack_Catnip':{nombre:'Cats Snack — Catnip',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Galletas crujientes por fuera, cremosas por dentro con catnip. 80g.',caracTitulo:'Características',caracteristicas:['Sin colorantes artificiales','Premio diario','80g'],ingredientes:'Atún, hierba gatera, harina de trigo, almidón de maíz, aceite de palma, maltodextrina, harina de hidrolizado de pollo, fosfolípidos, sal, sod.',imagenes:['cats-snack-catnip.jpg'],placeholders:['🌿']},
+  'cats-snack_Matatabi':{nombre:'Cats Snack — Matatabi',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Galletas crujientes por fuera, cremosas por dentro con matatabi. 80g.',caracTitulo:'Características',caracteristicas:['Sin colorantes artificiales','Premio diario','80g'],ingredientes:'Atún, harina de hidrolizado de pollo, harina de trigo, almidón de maíz, aceite de palma, maltodextrina, lecitina, Actinidia polygama (matatabi), bica sod.',imagenes:['cats-snack-matatabi.jpg'],placeholders:['🌱']},
+  'cats-snack_Rellena Atún + Ostiones':{nombre:'Cats Snack — Rellena Atún + Ostiones',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Galletas rellenas cremosas de atún y ostiones. 80g.',caracTitulo:'Características',caracteristicas:['Sin colorantes artificiales','Premio diario','80g'],ingredientes:'Ostión, yema de huevo en polvo, harina de atún, harina de camarón, harina de pescado, harina de maíz y trigo, almidón de patata, fideos de arroz, proteína de soja aislada, aceite de soya, aceite de palma, semillas de granada en polvo, polvo de cranberry, taurina.',imagenes:['cats_snack_galletas_rellenas_atun_ostiones.jpg'],placeholders:['🦪']},
+  'cats-snack_Rellena Atún + Queso':{nombre:'Cats Snack — Rellena Atún + Queso',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Galletas rellenas cremosas de atún y queso. 80g.',caracTitulo:'Características',caracteristicas:['Sin colorantes artificiales','Premio diario','80g'],ingredientes:'Atún, queso, harina de maíz, almidón de patata, harina de arroz, proteína de soya aislada, harina de camarón, harina de pescado, aceite de soya, mantecas, yema en polvo, almidón de maíz, harina de semillas de granada, harina de cranberry, taurina.',imagenes:['cats-snack-atun-queso.jpg'],placeholders:['🧀']},
+  'cats-snack_Rellena Camarón':{nombre:'Cats Snack — Rellena Camarón',precio:'$2.990',precioNum:2990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Galletas rellenas cremosas de camarón. 80g.',caracTitulo:'Características',caracteristicas:['Sin colorantes artificiales','Premio diario','80g'],ingredientes:'Camarón, harina de atún, harina de camarón, harina de maíz, almidón de patata, harina de arroz, proteína de soya aislada, harina de pescado, aceite de soya, aceite de palma, yema en polvo, almidón de maíz, harina de semillas de granada, harina de cranberry, taurina.',imagenes:['cats_snack_galletas_rellenas_camaron.jpg'],placeholders:['🦐']},
+  'snack-calming-gato':{nombre:'Snack Calming Cat Treats - Beaphar',precio:'$5.990',precioNum:5990,audience:'Para Gatos',categoria:'Snacks y Golosinas',descripcion:'Tu gato es un manojo de nervios acelerados. Estos treats de Beaphar calman naturalmente durante cambios de entorno, estrés o simplemente días caóticos.\n\nFormulados con valeriana, lúpulo y melisa — ingredientes naturales que reducen la ansiedad sin droguear. Solo sabor a pollo irresistible que tu gato pedirá de nuevo.\n\nPorque un gato tranquilo es un gato (y un dueño) feliz. 🧘',caracTitulo:'Características',caracteristicas:['Sabor pollo natural','Contiene valeriana, lúpulo y melisa (calmantes naturales)','Reduce ansiedad y estrés','Dosis: 2 bocaditos diarios (o 1 cada 3 hrs en estrés severo, máx 6/día)','Presentación: 35g','Sin fármacos, 100% natural'],imagenes:['snack-calming-gato.jpg'],placeholders:['😸']},
+  'suero-fisiologico':{nombre:'Suero Fisiológico — Cloruro de Sodio 0.9%',precio:'$2.590',precioNum:2590,audience:'Perros & Gatos',categoria:'Insumos Veterinarios',descripcion:'Solución isotónica estéril de cloruro de sodio al 0.9%, con una osmolaridad similar a los fluidos corporales de tu mascota. Útil para limpieza de heridas, irrigación ocular, nebulización y disolución de medicamentos. Frasco de 500 ml.',caracTitulo:'Usos principales',caracteristicas:['Limpieza y desinfección de heridas, cortes y quemaduras','Irrigación ocular para eliminar cuerpos extraños o irritantes','Nebulización en afecciones respiratorias','Dilución de medicamentos antes de su administración','Hidratación y reposición de electrolitos','Limpieza de ostomías','Apto para perros y gatos'],imagenes:['suero_fisiologico_cloruro_de_sodio.jpg'],placeholders:['💊']},'pulmon-cordero-rahue':{nombre:'Pulmón de Cordero 50g - Rahue',precio:'$3.990',precioNum:3990,audience:'Para Perros',categoria:'Snacks y Golosinas',descripcion:'Cubitos de pulmón de cordero patagónico deshidratado — crujientes, aromáticos y sin nada raro. El cordero se cría libre en el sur de Chile, lo que se nota en el sabor: intenso, natural, irresistible. Alto en proteínas, libre de aditivos, preservantes y colorantes. El tipo de snack que le das sin culpa y tu perro devora sin drama.',caracTitulo:'Características',caracteristicas:['100% cordero patagónico natural','Ayuda a la limpieza dental','Fuente natural de proteína','Sin aditivos ni conservantes','50g'],ingredientes:'100% Pulmón de cordero deshidratado.',imagenes:['pulmon_de_cordero_perros.jpg'],placeholders:['🐑']},'traquea-vacuno-rahue':{nombre:'Tráquea de Vacuno - Rahue',precio:'$3.990',precioNum:3990,audience:'Para Perros',categoria:'Snacks y Golosinas',descripcion:'Tráquea de vacuno deshidratada — el masticable favorito de los perros que necesitan tener algo en la boca. De textura firme y sabor intenso, los mantiene entretenidos largo rato mientras limpian sus dientes sin que tú hagas nada. Rica en glucosamina y condroitina, cuida las articulaciones de adentro hacia afuera. Sin aditivos, sin drama.',caracTitulo:'Características',caracteristicas:['100% tráquea de vacuno natural','Limpieza dental natural al masticar','Rica en glucosamina y condroitina','Reduce el estrés y la ansiedad','Sin aditivos ni conservantes'],ingredientes:'Tráquea de bovino deshidratada.',imagenes:['traquea_de_vacuno_perros.jpg'],placeholders:['🐄']},'garra-pollo-rahue':{nombre:'Garra de Pollo 65g - Rahue',precio:'$3.490',precioNum:3490,audience:'Para Perros',categoria:'Snacks y Golosinas',descripcion:'Garras de pollo deshidratadas a baja temperatura, hechas a mano en pequeños lotes. Crujientes, naturales y con un sabor que los perros no pueden ignorar. Ricas en colágeno, glucosamina y condroitina — cuidan las articulaciones, mejoran la piel y el pelaje, y limpian los dientes de paso. El tipo de snack que parece premio pero en realidad es puro beneficio.',caracTitulo:'Características',caracteristicas:['100% garra de pollo natural','Elimina el sarro al masticar','Rica en colágeno y condroprotectores','Hecha a mano en pequeños lotes','Sin químicos ni conservantes','65g'],ingredientes:'Garra de pollo deshidratada.',imagenes:['garras_de_pollo_perros.jpg'],placeholders:['🐔']},'oreja-cerdo-rahue':{nombre:'Recorte Oreja de Cerdo 100g - Rahue',precio:'$4.290',precioNum:4290,audience:'Para Perros',categoria:'Snacks y Golosinas',descripcion:'Recortes de oreja de cerdo deshidratados al horno — crujientes, sabrosos y con el tamaño perfecto para que tu perro los devore feliz. Limpiados y horneados a temperatura media para preservar sus proteínas y lograr esa textura irresistible que los tiene entretenidos largo rato. Ricos en colágeno y proteína natural. Sin aditivos, sin colorantes, sin complicaciones.',caracTitulo:'Características',caracteristicas:['100% oreja de cerdo natural','Textura crujiente que limpia los dientes','Rico en colágeno y proteína','Tamaño ideal para cualquier raza','Sin aditivos ni conservantes','100g'],ingredientes:'Oreja de cerdo deshidratada.',imagenes:['orejas_cerdo_perros.jpg'],placeholders:['🐷']},'femur-cerdo-tasty':{nombre:'Fémur de Cerdo - Tasty Farm',precio:'$4.990',precioNum:4990,audience:'Para Perros',categoria:'Snacks y Golosinas',descripcion:'Un hueso de verdad para un perro de verdad. El fémur de cerdo Tasty Farm es el masticable que los mantiene ocupados largo rato — y de paso les limpia los dientes sin que tengas que hacer nada. 100% hueso natural, sin procesos raros ni ingredientes inventados. Ideal para perros con instinto masticador fuerte que necesitan un objeto de vida larga que aguante sus ganas.',caracTitulo:'Características',caracteristicas:['100% hueso de cerdo natural','Reduce sarro y placa bacteriana al masticar','Fortalece mandíbula y encías','Libera energía y reduce el estrés','Sin aditivos ni conservantes','Tamaño aproximado: 20 cm','1 unidad'],ingredientes:'Hueso fémur de cerdo natural.',imagenes:['femur_perros.jpg'],placeholders:['🦴']},'collar-zeecat-error-500':{marca:'zeedog',nombre:"Collar Zee.Cat Error 500",precio:"$7.990",precioNum:7990,audience:"Para Gatos",categoria:"Accesorio",descripcion:"El collar para el gato que provoca errores internos solo con existir. Diseño Error 500 de la línea zee.cat — hebilla de seguridad con liberación rápida, ideal para gatos que salen a explorar. Colores vibrantes rosa, morado y amarillo que no pasan desapercibidos.",caracTitulo:'Características',caracteristicas:["Hebilla de seguridad con liberación rápida", "Cierre ajustable", "Talla única para gatos adultos: 1cm de ancho | 20-30cm de circunferencia", "Argolla metálica para identificación", "Marca zee.cat"],imagenes:["collar-zeecat-error-500.jpg"],placeholders:["🐱"]},'collar-zeecat-error-404':{marca:'zeedog',nombre:"Collar Zee.Cat Error 404",precio:"$7.990",precioNum:7990,audience:"Para Gatos",categoria:"Accesorio",descripcion:"Para el gato que no fue encontrado — hasta que tiene hambre. Diseño Error 404 en tonos azul, rojo y blanco. Hebilla de seguridad con liberación rápida y argolla metálica para placa de identificación.",caracTitulo:'Características',caracteristicas:["Hebilla de seguridad con liberación rápida", "Cierre ajustable", "Talla única para gatos adultos: 1cm de ancho | 20-30cm de circunferencia", "Argolla metálica para identificación", "Marca zee.cat"],imagenes:["collar-zeecat-error-404.jpg"],placeholders:["🐱"]},'collar-zeecat-error-410':{marca:'zeedog',nombre:"Collar Zee.Cat Error 410",precio:"$7.990",precioNum:7990,audience:"Para Gatos",categoria:"Accesorio",descripcion:"Gone forever — hasta que escucha el abrelatas. Diseño Error 410 en verde y negro. Hebilla de seguridad con liberación rápida, ajustable y con argolla para placa de identificación.",caracTitulo:'Características',caracteristicas:["Hebilla de seguridad con liberación rápida", "Cierre ajustable", "Talla única para gatos adultos: 1cm de ancho | 20-30cm de circunferencia", "Argolla metálica para identificación", "Marca zee.cat"],imagenes:["collar-zeecat-error-410.jpg"],placeholders:["🐱"]},'collar-suede-para-perro-zeedog':{marca:'zeedog',nombre:"Collar Suede Zee.Dog",precio:"$13.900",precioNum:13900,audience:"Para Perros",categoria:"Accesorio",descripcion:"Colaboración exclusiva Reebok x Zee.Dog. Diseño gris reflectante con hebilla plástica resistente y parche de cuero Reebok. Cinta de alta calidad, cómodo para uso diario. Talla M.",caracTitulo:'Características',caracteristicas:["Colaboración Reebok x Zee.Dog", "Cinta reflectante gris", "Parche de cuero con logo Reebok", "Hebilla plástica resistente", "Argolla metálica para correa", "Talla M: 2cm de ancho | 37-52cm de circunferencia"],imagenes:["collar-suede-para-perro-zeedog.jpg"],placeholders:["🐶"]},'collar-nox-para-perro-zeedog':{marca:'zeedog',nombre:"Collar Nox Zee.Dog",precio:"$13.900",precioNum:13900,audience:"Para Perros",categoria:"Accesorio",descripcion:"Negro reflectante con detalles azul y verde lima — el collar para paseos nocturnos o para el perro que simplemente quiere verse bien. Hebilla robusta y argolla metálica. Talla M.",caracTitulo:'Características',caracteristicas:["Cinta negra reflectante", "Detalles azul y verde lima", "Hebilla resistente", "Argolla metálica para correa", "Talla M: 2cm de ancho | 37-52cm de circunferencia", "Marca Zee.Dog"],imagenes:["collar-nox-para-perro-zeedog.jpg"],placeholders:["🐶"]},'pala-arenero-marron':{nombre:'Pala Arenero — Marrón',precio:'$1.990',precioNum:1990,audience:'Para Gatos',categoria:'Accesorio',descripcion:'Pala para arenero con perforaciones que filtran la arena sin que se caiga todo. Mango ergonómico, tamaño perfecto para limpiar diario sin drama. Deja menos polvo, más orden, menos trabajo. Viene en dos colores para que elijas cuál va mejor con tu vibe (o compra los dos, no juzgamos). Porque mantener limpio el arenero es mantener a tu gato feliz. 🐱',caracTitulo:'Características',caracteristicas:['Perforaciones para filtrar arena','Mango ergonómico y resistente','Tamaño ideal para limpias diarias','Reduce polvo','Color: Marrón'],imagenes:['pala-arenero-marron.jpg'],placeholders:['🐱']},'pala-arenero-verde':{nombre:'Pala Arenero — Verde',precio:'$1.990',precioNum:1990,audience:'Para Gatos',categoria:'Accesorio',descripcion:'Pala para arenero con perforaciones que filtran la arena sin que se caiga todo. Mango ergonómico, tamaño perfecto para limpiar diario sin drama. Deja menos polvo, más orden, menos trabajo. Viene en dos colores para que elijas cuál va mejor con tu vibe (o compra los dos, no juzgamos). Porque mantener limpio el arenero es mantener a tu gato feliz. 🐱',caracTitulo:'Características',caracteristicas:['Perforaciones para filtrar arena','Mango ergonómico y resistente','Tamaño ideal para limpias diarias','Reduce polvo','Color: Verde'],imagenes:['pala-arenero-verde.jpg'],placeholders:['🐱']}
+};
+</script>
+<script>
+function runSearch(q) {
+  const drop = document.getElementById('nav-drop');
+  if (!drop) return;
+  if (!q.trim()) { drop.innerHTML=''; drop.style.display='none'; return; }
+  const prods = typeof productos !== 'undefined' ? productos : null;
+  if (!prods) { drop.innerHTML='<p class="s-empty">Sin resultados</p>'; drop.style.display='block'; return; }
+  const q2 = q.toLowerCase();
+  const matches = Object.entries(prods).filter(([id,p])=>p&&p.nombre&&(p.nombre.toLowerCase().includes(q2)||(p.descripcion||'').toLowerCase().includes(q2))).slice(0,6);
+  if (!matches.length) { drop.innerHTML='<p class="s-empty">Sin resultados</p>'; drop.style.display='block'; return; }
+  drop.innerHTML = matches.map(([id,p])=>{ const img=p.variantes?p.variantes[0].imagenes[0]:(p.imagenes?p.imagenes[0]:''); const ph=p.variantes?p.variantes[0].placeholders[0]:(p.placeholders?p.placeholders[0]:''); return '<a class="s-item" href="/tienda?producto='+id+'"><div class="s-img">'+(img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover">':ph)+'</div><div><div class="s-nombre">'+p.nombre+'</div><div class="s-precio">'+p.precio+'</div></div></a>'; }).join('');
+  drop.style.display='block';
+}
+</script>
+<link rel="canonical" href="https://www.patasycaos.cl/nosotros">
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWMLNQL7"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+<!-- NAV -->
+<header class="site-header">
+<div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990</span></div></div>
+<nav>
+  <!-- FILA 1: Logo + Buscador + Íconos -->
+  <div class="nav-top">
+    <a href="/" class="nav-logo">
+      <img src="/logo.png" alt="Patas & Caos" width="42" height="42">
+      <span>Patas & Caos</span>
+    </a>
+    <div class="nav-search-wrap">
+      <span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+      <input type="text" placeholder="Buscar productos..." oninput="runSearch(this.value)" onfocus="document.getElementById('nav-drop').style.display='block'" onblur="setTimeout(()=>document.getElementById('nav-drop').style.display='none',200)">
+      <div class="nav-search-drop" id="nav-drop"></div>
+    </div>
+    <div class="nav-icons">
+      <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" class="nav-icon-btn ig" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+      <div id="nav-auth"><button class="nav-icon-btn" onclick="abrirAuth()" aria-label="Cuenta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></button></div>
+      <div class="nav-cart-wrap">
+        <button class="nav-icon-btn" onclick="toggleCart()" aria-label="Carrito"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+        <span class="cart-badge" id="cart-badge">0</span>
+      </div>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <!-- FILA 2: Menú -->
+  <div class="nav-bottom">
+    <ul class="nav-links">
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/tienda">Tienda</a></li>
+      <li class="nav-item"><a href="/tienda?aud=Perros">Perros</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Perros&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
+      <li class="nav-item"><a href="/tienda?aud=Gatos">Gatos</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
+      <li><a href="/suscripciones">Suscripciones</a></li>
+      <li><a href="/blog">Blog</a></li>
+    </ul>
+  </div>
+</nav>
+</header>
+
+<!-- MENÚ MÓVIL -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/" onclick="toggleMenu()">Inicio</a>
+  <a href="/tienda" onclick="toggleMenu()">Tienda</a>
+
+  <!-- ACORDEÓN PERROS -->
+  <div class="mobile-accordion">
+    <button class="mobile-accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">
+      Perros <span class="mobile-acc-arrow">▾</span>
+    </button>
+    <div class="mobile-accordion-body">
+      <a href="/tienda?aud=Perros&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
+      <a href="/tienda?aud=Perros&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
+      <a href="/tienda?aud=Perros&cat=Accesorio" onclick="toggleMenu()" class="mobile-cat-link">Accesorios</a>
+      <a href="/tienda?aud=Perros&cat=Aseo e Higiene" onclick="toggleMenu()" class="mobile-cat-link">Cuidado e Higiene</a>
+      <a href="/tienda?aud=Perros&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
+    </div>
+  </div>
+
+  <!-- ACORDEÓN GATOS -->
+  <div class="mobile-accordion">
+    <button class="mobile-accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">
+      Gatos <span class="mobile-acc-arrow">▾</span>
+    </button>
+    <div class="mobile-accordion-body">
+      <a href="/tienda?aud=Gatos&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
+      <a href="/tienda?aud=Gatos&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
+      <a href="/tienda?aud=Gatos&cat=Accesorio" onclick="toggleMenu()" class="mobile-cat-link">Accesorios</a>
+      <a href="/tienda?aud=Gatos&cat=Aseo e Higiene" onclick="toggleMenu()" class="mobile-cat-link">Cuidado e Higiene</a>
+      <a href="/tienda?aud=Gatos&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
+    </div>
+  </div>
+
+  <a href="/suscripciones" onclick="toggleMenu()">Suscripciones</a>
+  <a href="/blog" onclick="toggleMenu()">Blog</a>
+</div>
+
+
+<!-- HERO -->
+<div class="hero-nosotros">
+  <div class="breadcrumb">
+    <a href="/">Inicio</a>
+    <span>›</span>
+    <span>Nosotros</span>
+  </div>
+  <h1>Detrás del <em>caos</em><br>hay mucho amor.</h1>
+  <p>Una santiaguina, un gato con actitud y la convicción de que tus mascotas merecen lo mejor — sin pagar de más.</p>
+</div>
+
+<!-- CONTENIDO -->
+<div class="nosotros-wrap">
+
+  <!-- SOFÍA -->
+  <div class="sofia-bloque">
+    <div class="sofia-foto"><img src="sofia_fundadora.jpg" alt="Sofía, fundadora de Patas & Caos"></div>
+    <div class="sofia-texto">
+      <p class="label">La fundadora</p>
+      <h2>Hola, soy <em>Sofía.</em></h2>
+      <p>Soy santiaguina, trabajo sola y cuando quiero algo me pongo a hacerlo — no espero el momento perfecto porque ese momento no existe. Patas & Caos nació así: de una necesidad real, mucho cariño por los animales y las ganas de crear algo propio.</p>
+      <p>Emprendí porque amaba a mi gato, no encontraba productos que me convencieran de verdad, y pensé: si yo los necesito, alguien más también. El resto es historia (y muchas cajas abiertas por Milo).</p>
+    </div>
+  </div>
+
+  <!-- MILO -->
+  <div class="milo-bloque">
+    <div class="milo-emoji" style="display:flex;justify-content:center;"><img src="nosotros_milo.jpg" alt="Milo" style="width:220px;height:auto;border-radius:16px;border:3px solid rgba(245,236,215,.15);display:block;"></div>
+    <div class="milo-texto">
+      <p class="label">El CEO no oficial</p>
+      <h3>Milo, el amor de mi vida.</h3>
+      <p>Milo no solo es el filtro de calidad de Patas & Caos — también es el motivo por el que sé tanto de lo que vendo. Pasó por un momento de salud muy delicado que me obligó a aprender de verdad: medicamentos, alimentación, cuidados, todo. Ese camino fue difícil, pero me convirtió en alguien que entiende lo que significa querer que tu mascota esté bien de verdad.</p>
+      <p><em>Hoy está perfecto. Y cada producto que elijo lleva eso encima — el cariño de quien sabe lo que es cuidar a alguien con todo.</em></p>
+    </div>
+  </div>
+
+  <!-- VALORES -->
+  <p class="valores-titulo">Cómo trabajamos</p>
+  <h2 class="valores-h2">Lo que nos importa de verdad.</h2>
+  <div class="valores-grid">
+    <div class="valor-card">
+      <div class="valor-icon">💬</div>
+      <h4>Siempre soy yo quien responde</h4>
+      <p>Cuando escribes, te respondo yo — Sofía. No un bot, no una respuesta automática. Si tienes una duda, la resolvemos juntas.</p>
+    </div>
+    <div class="valor-card">
+      <div class="valor-icon">🐾</div>
+      <h4>Productos que usaría yo</h4>
+      <p>Si no le daría algo a Milo, no lo vendo. Cada producto está elegido con criterio, no porque "estaba disponible para importar".</p>
+    </div>
+    <div class="valor-card">
+      <div class="valor-icon">✨</div>
+      <h4>Premium sin cobrar de más</h4>
+      <p>Quiero que tengas acceso a lo bueno sin que te duela la billetera. Calidad real a precio justo — ese es el trato.</p>
+    </div>
+    <div class="valor-card">
+      <div class="valor-icon">❤️</div>
+      <h4>Tu gato te lo va a agradecer</h4>
+      <p>O lo va a destruir. Que en el fondo es lo mismo — significa que lo amó. Y eso es lo único que importa.</p>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-bloque">
+    <h2>¿Nos conocemos?</h2>
+    <p>Entra a la tienda y encuentra algo que haga feliz a tu peludo favorito. Si tienes dudas, escríbeme — estoy al otro lado.</p>
+    <a href="/tienda" class="btn-cta">Ver la tienda →</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer id="nosotros">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-row">
+        <img src="/logo.png" alt="Patas & Caos" width="40" height="40">
+        <span class="footer-brand-name">Patas & Caos</span>
+      </div>
+      <p>Accesorios, juguetes y comida para mascotas con personalidad. Hechos para humanos que aman el desorden peludo.</p>
+      <div class="footer-socials">
+        <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Tienda</h4>
+      <ul>
+        <li><a href="/tienda">Todos los productos</a></li>
+        <li><a href="/nosotros">Nosotros</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ayuda</h4>
+      <ul>
+        <li><a href="/envios">Envíos</a></li>
+        <li><a href="/devoluciones">Cambios y devoluciones</a></li>
+        <li><a href="/contacto">Contacto</a></li>
+        <li><a href="/faq">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Patas & Caos. Todos los ladridos reservados.</div>
+</footer>
+
+<script src="/cart.js"></script>
+<script src="/assets/js/site.js"></script>
+<script src="/products-data.js"></script>
+<script>
+/* ── NAV & MENU ── */
+async function enviarMagicLink() {
+  const email = document.getElementById('auth-email').value.trim();
+  const msg = document.getElementById('auth-msg');
+  if (!email) { msg.textContent='Ingresa tu email'; msg.className='auth-msg err'; return; }
+  const { error } = await _sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: window.location.origin } });
+  if (error) { msg.textContent='Error: '+error.message; msg.className='auth-msg err'; }
+  else { msg.textContent='✅ Revisa tu email — te enviamos un enlace de acceso'; msg.className='auth-msg ok'; }
+}
+async function cerrarSesion() {
+  await _sb.auth.signOut();
+  sbUser=null; sbToken=null; cart=[]; wishlist=[];
+  renderCart(); updateAuthUI();
+}
+function toggleUserDropdown() { document.getElementById('user-dropdown')?.classList.toggle('open'); }
+document.addEventListener('click', e => { if(!e.target.closest('.user-wrap')) document.getElementById('user-dropdown')?.classList.remove('open'); });
+
+async function cargarDatosUsuario() {
+  if (!sbToken) return;
+  try {
+    const r = await fetch('/api/user-data-get', { headers:{ Authorization:`Bearer ${sbToken}` } });
+    const data = await r.json();
+    if (data.cart && Array.isArray(data.cart) && data.cart.length > 0) {
+      const local = [...cart];
+      data.cart.forEach(item => { if (!local.find(i=>i.id===item.id)) local.push(item); });
+      cart = local; guardarCarritoLocal(); renderCart();
+    }
+    if (Array.isArray(data.wishlist)) { wishlist = data.wishlist; }
+  } catch(e) {}
+}
+
+_sb.auth.onAuthStateChange(async (event, session) => {
+  if (session) {
+    sbUser = session.user; sbToken = session.access_token;
+    updateAuthUI();
+    if (event === 'SIGNED_IN') { cerrarAuth(); await cargarDatosUsuario(); }
+  } else { sbUser=null; sbToken=null; updateAuthUI(); }
+});
+_sb.auth.getSession().then(({ data:{ session } }) => {
+  if (session) { sbUser = session.user; sbToken = session.access_token; updateAuthUI(); cargarDatosUsuario(); }
+  else { updateAuthUI(); }
+});
+
+function seleccionarDoc(tipo) {
+  document.getElementById('btn-boleta').classList.toggle('activo', tipo === 'boleta');
+  document.getElementById('btn-factura').classList.toggle('activo', tipo === 'factura');
+  document.getElementById('factura-fields').style.display = tipo === 'factura' ? 'block' : 'none';
+}
+window.addEventListener('scroll',()=>document.querySelector('nav').classList.toggle('scrolled',window.scrollY>40));
+
+// ── Persistencia carrito entre páginas ──
+window.addEventListener('load', function() {
+  try {
+    // Cargar carrito desde localStorage antes de renderizar
+    var saved = localStorage.getItem('pac_cart');
+    if (saved && typeof cart !== 'undefined') {
+      try { cart = JSON.parse(saved); } catch(e) {}
+    }
+    if (typeof renderCart === 'function') {
+      renderCart();
+    } else if (saved) {
+      // Fallback: solo badge
+      var items = JSON.parse(saved);
+      var total = items.reduce(function(s,i){ return s+(i.qty||1); }, 0);
+      var badge = document.getElementById('cart-badge');
+      if (badge && total > 0) { badge.textContent = total; badge.style.display = 'flex'; }
+    }
+  } catch(e) {}
+});
+if (typeof renderCart === 'function') { const _rC=renderCart; renderCart=function(){_rC.apply(this,arguments);try{localStorage.setItem('pac_cart',JSON.stringify(cart));}catch(e){}};}
+</script>
+
+<!-- CARRITO -->
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header">
+    <h3>🛒 Tu carrito</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
+    <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
+    <button class="btn-checkout" onclick="checkout()">Pagar →</button>
+  </div>
+</aside>
+
+<!-- HERO -->
+
+<div class="auth-overlay" id="auth-overlay" onclick="cerrarAuthSiFondo(event)">
+  <div class="auth-box">
+    <button class="auth-close" onclick="cerrarAuth()">✕</button>
+    <div class="auth-logo"><img src="/logo.png" alt="Patas & Caos"></div>
+    <h3>Bienvenido 🐾</h3>
+    <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
+    <button class="btn-google" onclick="loginConGoogle()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+      Continuar con Google
+    </button>
+    <div class="auth-divider"><span>o con tu email</span></div>
+    <div class="auth-field">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="tu@correo.com" onkeydown="if(event.key==='Enter') enviarMagicLink()">
+    </div>
+    <button class="btn-auth" onclick="enviarMagicLink()">Enviar enlace de acceso</button>
+    <p class="auth-msg" id="auth-msg"></p>
+  </div>
+</div>
+
+<!-- WhatsApp Flotante -->
+<a href="https://wa.me/56923997854" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Contactar por WhatsApp">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="28" height="28">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.532 5.855L.058 23.486a.5.5 0 0 0 .609.61l5.72-1.498A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.877 9.877 0 0 1-5.031-1.378l-.36-.214-3.733.978.997-3.645-.235-.374A9.859 9.859 0 0 1 2.118 12C2.118 6.533 6.533 2.118 12 2.118c5.466 0 9.882 4.415 9.882 9.882 0 5.466-4.416 9.882-9.882 9.882z"/>
+  </svg>
+</a>
+
+<style>
+.whatsapp-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  background-color: #25D366;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+}
+</style>
+
+</body>
+</html>
