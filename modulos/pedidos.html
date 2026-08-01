@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedidos — Patas & Caos</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --terracota: #C4622D;
+    --cream: #F5ECD7;
+    --negro: #1A1A1A;
+    --dark: #1C1007;
+    --card-bg: #FAF4EA;
+    --blanco: #fff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Poppins', sans-serif; background: var(--cream); color: var(--negro); min-height: 100vh; }
+
+  /* LOGIN */
+  #login-screen { position: fixed; inset: 0; background: var(--dark); display: flex; align-items: center; justify-content: center; z-index: 999; }
+  .login-box { background: var(--cream); border-radius: 20px; padding: 2.5rem 2rem; width: 100%; max-width: 360px; text-align: center; }
+  .login-box img { width: 48px; margin-bottom: 1rem; }
+  .login-box h2 { font-size: 1.2rem; font-weight: 900; margin-bottom: .4rem; }
+  .login-box p { font-size: .82rem; color: #6b5a4e; margin-bottom: 1.5rem; }
+  .login-box input { width: 100%; border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 11px 14px; font-family: 'Poppins', sans-serif; font-size: .9rem; outline: none; margin-bottom: 1rem; }
+  .login-box input:focus { border-color: var(--terracota); }
+  .login-box button { width: 100%; background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; transition: background .2s; }
+  .login-box button:hover { background: #a8501f; }
+  .login-error { font-size: .78rem; color: #e74c3c; margin-top: .5rem; display: none; }
+
+  /* PANEL */
+  #panel { display: block; }
+  header { background: var(--dark); padding: 1rem 5%; display: flex; align-items: center; justify-content: space-between; }
+  .header-brand { display: flex; align-items: center; gap: 10px; }
+  .header-brand img { width: 36px; height: 36px; }
+  .header-brand span { font-weight: 700; color: var(--cream); font-size: .95rem; }
+  .header-title { color: var(--cream); font-size: .82rem; opacity: .6; }
+
+  main { padding: 2rem 5%; max-width: 1200px; margin: 0 auto; }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-card { background: var(--blanco); border-radius: 14px; padding: 1.25rem; border: 1px solid rgba(28,16,7,.08); }
+  .stat-label { font-size: .72rem; font-weight: 600; color: #8a7a6e; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .4rem; }
+  .stat-value { font-size: 1.6rem; font-weight: 900; color: var(--negro); }
+  .stat-value.terracota { color: var(--terracota); }
+
+  /* FILTROS */
+  .filtros { display: flex; gap: .6rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .filtro-btn { border: 1.5px solid rgba(28,16,7,.15); background: none; border-radius: 50px; padding: 6px 16px; font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600; cursor: pointer; color: #6b5a4e; transition: all .2s; }
+  .filtro-btn.activo { background: var(--terracota); border-color: var(--terracota); color: #fff; }
+
+  /* TABLA */
+  .tabla-wrap { background: var(--blanco); border-radius: 16px; border: 1px solid rgba(28,16,7,.08); overflow: hidden; }
+  .tabla-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(28,16,7,.06); display: flex; align-items: center; justify-content: space-between; }
+  .tabla-header h2 { font-size: 1rem; font-weight: 700; }
+  .btn-refresh { background: none; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; padding: 6px 14px; font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600; cursor: pointer; color: #6b5a4e; transition: all .2s; display: flex; align-items: center; gap: 6px; }
+  .btn-refresh:hover { border-color: var(--terracota); color: var(--terracota); }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #8a7a6e; padding: .9rem 1.5rem; text-align: left; border-bottom: 1px solid rgba(28,16,7,.06); background: #fdf8f2; }
+  td { padding: .9rem 1.5rem; font-size: .84rem; border-bottom: 1px solid rgba(28,16,7,.04); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fdf8f2; }
+
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: .72rem; font-weight: 700; }
+  .badge-pendiente { background: #fff3cd; color: #856404; }
+  .badge-despachado { background: #d1ecf1; color: #0c5460; }
+  .badge-entregado { background: #d4edda; color: #155724; }
+
+  .btn-editar-pedido { margin-top: 6px; width: 100%; background: none; border: 1.5px solid var(--terracota); color: var(--terracota); border-radius: 8px; padding: 4px 10px; font-size: .75rem; font-weight: 600; cursor: pointer; transition: background .15s, color .15s; }
+  .btn-editar-pedido:hover { background: var(--terracota); color: #fff; }
+  .estado-select { border: 1.5px solid rgba(28,16,7,.12); border-radius: 8px; padding: 4px 8px; font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600; cursor: pointer; background: #fff; outline: none; transition: border-color .2s; }
+  .estado-select:focus { border-color: var(--terracota); }
+
+  .num-pedido { font-size: .72rem; font-weight: 700; color: var(--terracota); letter-spacing: .04em; margin-bottom: 4px; }
+  .cliente-nombre { font-weight: 700; margin-bottom: 2px; }
+  .cliente-detalle { font-size: .76rem; color: #6b5a4e; }
+
+  .productos-lista { font-size: .78rem; color: #4a3a2e; line-height: 1.6; }
+  .total-valor { font-weight: 800; color: var(--terracota); }
+
+  .fecha-texto { font-size: .78rem; color: #8a7a6e; }
+
+  .empty-state { padding: 3rem; text-align: center; color: #8a7a6e; }
+  .empty-state span { display: block; font-size: 2.5rem; margin-bottom: 1rem; }
+
+  .loading { padding: 3rem; text-align: center; color: #8a7a6e; font-size: .9rem; }
+
+
+  /* MODAL NUEVO PEDIDO */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(26,26,26,.72); backdrop-filter: blur(4px); z-index: 9998; display: none; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.activo { display: flex; }
+  .modal-box { background: var(--blanco); border-radius: 20px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; }
+  .modal-box h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: 1.5rem; }
+  .modal-close { position: absolute; top: 1rem; right: 1rem; background: var(--cream); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: .75rem; }
+  .form-grid.full { grid-template-columns: 1fr; }
+  .form-field { display: flex; flex-direction: column; gap: .3rem; }
+  .form-field label { font-size: .75rem; font-weight: 600; color: #6b5a4e; }
+  .form-field input, .form-field select, .form-field textarea { border: 1.5px solid rgba(28,16,7,.15); border-radius: 10px; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: .88rem; color: var(--negro); background: #fff; outline: none; transition: border-color .2s; }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--terracota); }
+  .form-field textarea { resize: vertical; min-height: 70px; }
+  .btn-agregar-item { background: none; border: 1.5px dashed var(--terracota); color: var(--terracota); border-radius: 8px; padding: 6px 14px; font-size: .8rem; font-weight: 600; cursor: pointer; margin-top: 8px; width: 100%; transition: background .15s; }
+  .btn-agregar-item:hover { background: rgba(196,98,45,.07); }
+  .item-row { display: grid; grid-template-columns: 1fr 56px 64px auto auto; gap: 6px; align-items: center; margin-bottom: 8px; }
+  .item-row select { padding: 7px 10px; border: 1.5px solid var(--borde); border-radius: 8px; font-family: inherit; font-size: .8rem; background: #fff; min-width: 0; }
+  .item-row input[type=number] { padding: 7px 6px; border: 1.5px solid var(--borde); border-radius: 8px; font-family: inherit; font-size: .8rem; text-align: center; width: 100%; }
+  .item-row .btn-quitar { background: none; border: none; color: #c0392b; font-size: 1.1rem; cursor: pointer; padding: 0 4px; line-height: 1; justify-self: center; }
+  .item-row .item-dcto { padding: 7px 6px; border: 1.5px solid var(--borde); border-radius: 8px; font-family: inherit; font-size: .8rem; text-align: center; width: 100%; }
+  .item-row .item-precio { font-size: .75rem; color: var(--terracota); font-weight: 700; white-space: nowrap; justify-self: end; }
+  @media (max-width: 600px) {
+    .item-row { grid-template-columns: 1fr auto; grid-template-rows: auto auto; }
+    .item-row select { grid-column: 1; grid-row: 1; }
+    .item-row .btn-quitar { grid-column: 2; grid-row: 1; }
+    .item-row input[type=number]:not(.item-dcto) { grid-column: 1; grid-row: 2; width: 70px; }
+    .item-row .item-dcto { grid-column: 2; grid-row: 2; width: 70px; }
+    .item-row .item-precio { grid-column: 1 / -1; grid-row: 3; justify-self: start; }
+  }
+  .modal-btns { display: flex; gap: .75rem; margin-top: 1.5rem; }
+  .btn-guardar { flex: 2; background: var(--terracota); color: #fff; border: none; border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .9rem; cursor: pointer; transition: background .2s; }
+  .btn-guardar:hover { background: #a8501f; }
+  .btn-cancelar { flex: 1; background: none; border: 1.5px solid rgba(28,16,7,.15); border-radius: 50px; padding: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .88rem; cursor: pointer; color: #6b5a4e; }
+
+  @media (max-width: 768px) {
+    th:nth-child(4), td:nth-child(4),
+    th:nth-child(5), td:nth-child(5) { display: none; }
+    main { padding: 1.5rem 4%; }
+  }
+
+    #panel{display:block!important}
+    #login-screen{display:none!important}
+    #panel>header{display:none!important}
+    main{max-width:1280px!important;padding:2rem 3%!important}
+    </style>
+<meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+
+
+<!-- PANEL -->
+<div id="panel">
+  <header>
+    <div class="header-brand">
+      <img src="logo.png" alt="Patas & Caos">
+      <span>Patas & Caos</span>
+    </div>
+    <span class="header-title">Panel de Pedidos</span>
+    <div style="display:flex;gap:.5rem;">
+      <button class="filtro-btn activo" id="tab-pedidos" onclick="mostrarTab('pedidos')">📦 Pedidos</button>
+      <button class="filtro-btn" id="tab-suscripciones" onclick="mostrarTab('suscripciones')">🔄 Suscripciones</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="stats" id="stats">
+      <div class="stat-card">
+        <div class="stat-label">Total pedidos</div>
+        <div class="stat-value" id="stat-total">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pendientes</div>
+        <div class="stat-value terracota" id="stat-pendientes">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Despachados</div>
+        <div class="stat-value" id="stat-despachados">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Entregados</div>
+        <div class="stat-value" id="stat-entregados">—</div>
+      </div>
+    </div>
+
+    <div class="filtros">
+      <button class="filtro-btn activo" onclick="filtrar('todos', this)">Todos</button>
+      <button class="filtro-btn" onclick="filtrar('pendiente', this)">Pendientes</button>
+      <button class="filtro-btn" onclick="filtrar('despachado', this)">Despachados</button>
+      <button class="filtro-btn" onclick="filtrar('entregado', this)">Entregados</button>
+    </div>
+
+    <div style="margin-bottom:1.5rem; display:flex; justify-content:flex-end;">
+      <button class="filtro-btn" style="background:var(--terracota);border-color:var(--terracota);color:#fff;padding:8px 20px;" onclick="abrirNuevoPedido()">+ Nuevo pedido</button>
+    </div>
+
+    <div id="seccion-pedidos">
+    <div class="tabla-wrap">
+      <div class="tabla-header">
+        <h2>Pedidos</h2>
+        <button class="btn-refresh" onclick="cargarPedidos()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Actualizar
+        </button>
+      </div>
+      <div id="tabla-contenido">
+        <div class="loading">Cargando pedidos...</div>
+      </div>
+    </div>
+    </div>
+
+    <!-- SECCIÓN SUSCRIPCIONES -->
+    <div id="seccion-suscripciones" style="display:none;">
+      <div class="stats" style="margin-bottom:1.5rem;">
+        <div class="stat-card">
+          <div class="stat-label">Total suscriptores</div>
+          <div class="stat-value" id="sus-stat-total">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Activas</div>
+          <div class="stat-value terracota" id="sus-stat-activas">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pendientes</div>
+          <div class="stat-value" id="sus-stat-pendientes">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Despachos hoy</div>
+          <div class="stat-value" id="sus-stat-hoy">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pagos fallidos</div>
+          <div class="stat-value" style="color:#c0392b;" id="sus-stat-fallidos">—</div>
+        </div>
+      </div>
+
+      <div class="filtros">
+        <button class="filtro-btn activo" onclick="filtrarSus('todos', this)">Todas</button>
+        <button class="filtro-btn" onclick="filtrarSus('activa', this)">Activas</button>
+        <button class="filtro-btn" onclick="filtrarSus('pendiente', this)">Pendientes</button>
+        <button class="filtro-btn" onclick="filtrarSus('cancelada', this)">Canceladas</button>
+        <button class="filtro-btn" onclick="filtrarSus('pago_fallido', this)" style="color:#c0392b;border-color:#c0392b;">⚠️ Pago fallido</button>
+      </div>
+
+      <div class="tabla-wrap" style="margin-top:1rem;">
+        <div class="tabla-header">
+          <h2>Suscripciones — ordenadas por día de despacho</h2>
+          <button class="btn-refresh" onclick="cargarSuscripciones()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Actualizar
+          </button>
+        </div>
+        <div id="tabla-sus">
+          <div class="loading">Cargando suscripciones...</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+
+<!-- MODAL NUEVO PEDIDO -->
+<div class="modal-overlay" id="modal-editar">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarEditarPedido()">✕</button>
+    <h3>Editar pedido</h3>
+    <input type="hidden" id="ep-id">
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Nombre</label>
+        <input type="text" id="ep-nombre">
+      </div>
+      <div class="form-field">
+        <label>Teléfono</label>
+        <input type="tel" id="ep-telefono">
+      </div>
+    </div>
+    <div class="form-grid full">
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" id="ep-email">
+      </div>
+    </div>
+    <div class="form-grid full">
+      <div class="form-field">
+        <label>Dirección</label>
+        <input type="text" id="ep-direccion">
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Comuna</label>
+        <input type="text" id="ep-comuna">
+      </div>
+      <div class="form-field">
+        <label>Ciudad</label>
+        <input type="text" id="ep-ciudad">
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-top:.75rem">
+      <div class="form-field">
+        <label>Productos</label>
+        <div id="ep-items-lista"></div>
+        <button type="button" class="btn-agregar-item" onclick="agregarItemEditar()">+ Agregar producto</button>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Total ($) <span id="ep-total-calculado" style="color:var(--terracota);font-size:.8rem"></span></label>
+        <input type="number" id="ep-total">
+      </div>
+      <div class="form-field">
+        <label>Documento</label>
+        <select id="ep-documento">
+          <option value="Boleta">Boleta</option>
+          <option value="Factura">Factura</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-top:.75rem">
+      <div class="form-field">
+        <label>Notas</label>
+        <input type="text" id="ep-notas" placeholder="Notas adicionales...">
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-top:.75rem">
+      <div class="form-field" style="flex-direction:row;align-items:center;gap:10px">
+        <input type="checkbox" id="ep-descontar-stock" style="width:18px;height:18px;cursor:pointer">
+        <label for="ep-descontar-stock" style="cursor:pointer;font-size:.85rem">Descontar stock de los productos seleccionados</label>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancelar" onclick="cerrarEditarPedido()">Cancelar</button>
+      <button class="btn-guardar" id="btn-guardar-editar" onclick="guardarEditarPedido()">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-nuevo">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarNuevoPedido()">✕</button>
+    <h3>Nuevo pedido manual</h3>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Nombre</label>
+        <input type="text" id="np-nombre" placeholder="María González">
+      </div>
+      <div class="form-field">
+        <label>Teléfono</label>
+        <input type="tel" id="np-telefono" placeholder="+56 9 1234 5678">
+      </div>
+    </div>
+    <div class="form-grid full">
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" id="np-email" placeholder="tu@correo.com">
+      </div>
+    </div>
+    <div class="form-grid full">
+      <div class="form-field">
+        <label>Dirección</label>
+        <input type="text" id="np-direccion" placeholder="Av. Providencia 1234, Depto 5B">
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Comuna</label>
+        <input type="text" id="np-comuna" placeholder="Providencia">
+      </div>
+      <div class="form-field">
+        <label>Ciudad</label>
+        <input type="text" id="np-ciudad" placeholder="Santiago">
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-top:.75rem">
+      <div class="form-field">
+        <label>Productos</label>
+        <div id="np-items-lista"></div>
+        <button type="button" class="btn-agregar-item" onclick="agregarItemPedido()">+ Agregar producto</button>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Total ($) <span id="np-total-calculado" style="color:var(--terracota);font-size:.8rem"></span></label>
+        <input type="number" id="np-total" placeholder="12990">
+      </div>
+      <div class="form-field">
+        <label>Documento</label>
+        <select id="np-documento">
+          <option value="Boleta">Boleta</option>
+          <option value="Factura">Factura</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-top:.75rem">
+      <div class="form-field">
+        <label>Notas</label>
+        <input type="text" id="np-notas" placeholder="Pedido por WhatsApp, pago por transferencia...">
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancelar" onclick="cerrarNuevoPedido()">Cancelar</button>
+      <button class="btn-guardar" onclick="guardarNuevoPedido()">Guardar pedido</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+// ==================== SUSCRIPCIONES ====================
+let todasLasSus = [];
+let filtroSusActual = 'todos';
+
+function mostrarTab(tab) {
+  document.getElementById('seccion-pedidos').style.display = tab === 'pedidos' ? 'block' : 'none';
+  document.getElementById('seccion-suscripciones').style.display = tab === 'suscripciones' ? 'block' : 'none';
+  document.getElementById('tab-pedidos').classList.toggle('activo', tab === 'pedidos');
+  document.getElementById('tab-suscripciones').classList.toggle('activo', tab === 'suscripciones');
+  if (tab === 'suscripciones' && todasLasSus.length === 0) cargarSuscripciones();
+}
+
+async function cargarSuscripciones() {
+  document.getElementById('tabla-sus').innerHTML = '<div class="loading">Cargando suscripciones...</div>';
+  try {
+    const { data, error } = await _sb
+      .from('Suscripciones')
+      .select('*')
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    todasLasSus = data || [];
+    actualizarStatsSus();
+    renderSus();
+  } catch (e) {
+    document.getElementById('tabla-sus').innerHTML = '<div class="empty-state"><span>⚠️</span>Error al cargar. Intenta de nuevo.</div>';
+  }
+}
+
+function actualizarStatsSus() {
+  const hoy = new Date().getDate();
+  document.getElementById('sus-stat-total').textContent = todasLasSus.length;
+  document.getElementById('sus-stat-activas').textContent = todasLasSus.filter(s => s.estado === 'activa').length;
+  document.getElementById('sus-stat-pendientes').textContent = todasLasSus.filter(s => s.estado === 'pendiente' || s.estado === 'pendiente_transferencia').length;
+  document.getElementById('sus-stat-hoy').textContent = todasLasSus.filter(s => {
+    const dia = new Date(s.created_at).getDate();
+    return dia === hoy && s.estado === 'activa';
+  }).length;
+  document.getElementById('sus-stat-fallidos').textContent = todasLasSus.filter(s => s.estado === 'pago_fallido').length;
+}
+
+function filtrarSus(estado, btn) {
+  filtroSusActual = estado;
+  document.querySelectorAll('#seccion-suscripciones .filtro-btn').forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
+  renderSus();
+}
+
+function renderSus() {
+  let sus = filtroSusActual === 'todos'
+    ? todasLasSus
+    : filtroSusActual === 'pendiente'
+      ? todasLasSus.filter(s => s.estado === 'pendiente' || s.estado === 'pendiente_transferencia')
+      : todasLasSus.filter(s => s.estado === filtroSusActual);
+
+  // Ordenar por día del mes de suscripción
+  sus = [...sus].sort((a, b) => {
+    const diaA = new Date(a.created_at).getDate();
+    const diaB = new Date(b.created_at).getDate();
+    return diaA - diaB;
+  });
+
+  if (sus.length === 0) {
+    document.getElementById('tabla-sus').innerHTML = '<div class="empty-state"><span>🐾</span>No hay suscripciones en esta categoría.</div>';
+    return;
+  }
+
+  const hoy = new Date().getDate();
+
+  const rows = sus.map(s => {
+    const diaDespacho = new Date(s.created_at).getDate();
+    const esHoy = diaDespacho === hoy && s.estado === 'activa';
+    const esFallido = s.estado === 'pago_fallido';
+    const esTransfer = s.estado === 'pendiente_transferencia';
+    const planLabel = {
+      'felina-basico': 'Felina Básico', 'felina-premium': 'Felina Premium', 'felina-vip': 'Felina VIP',
+      'indoor-basico': 'Indoor Básico', 'indoor-premium': 'Indoor Premium', 'indoor-vip': 'Indoor VIP',
+    }[`${s.tipo}-${s.plan}`] || `${s.tipo} ${s.plan}`;
+    const estadoBadge = s.estado === 'activa' ? '<span style="background:#e8f5e9;color:#2e7d32;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">✅ Activa</span>'
+      : s.estado === 'pendiente_transferencia' ? '<span style="background:#fff3e0;color:#e65100;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">🏦 Pend. transferencia</span>'
+      : s.estado === 'pago_fallido' ? '<span style="background:#fce4ec;color:#c62828;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">⚠️ Pago fallido</span>'
+      : '<span style="background:#f5f5f5;color:#666;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">⏳ ' + s.estado + '</span>';
+
+    return `<tr style="${esHoy ? 'background:rgba(196,98,45,.06);' : esFallido ? 'background:rgba(192,57,43,.06);' : ''}">
+      <td style="font-weight:700;font-size:1.4rem;text-align:center;color:${esHoy ? 'var(--terracota)' : 'var(--negro)'};">
+        ${diaDespacho}
+        ${esHoy ? '<div style="font-size:.65rem;font-weight:700;color:var(--terracota);">HOY</div>' : ''}
+      </td>
+      <td>
+        <div class="cliente-nombre">${s.nombre || '—'}</div>
+        <div class="cliente-detalle">${s.email || ''}</div>
+        <div class="cliente-detalle">${s.telefono || ''}</div>
+      </td>
+      <td>
+        <div class="cliente-detalle">${s.direccion || ''}</div>
+        <div class="cliente-detalle">${s.comuna || ''}</div>
+        ${s.notas ? `<div class="cliente-detalle" style="font-style:italic">📝 ${s.notas}</div>` : ''}
+      </td>
+      <td>
+        <div class="cliente-nombre">${planLabel}</div>
+        <div class="cliente-detalle">$${(s.precio || 0).toLocaleString('es-CL')}/mes</div>
+        <div style="margin-top:4px">${estadoBadge}</div>
+      </td>
+      <td>
+        <select class="estado-select" onchange="cambiarEstadoSus(${s.id}, this.value)">
+          <option value="pendiente" ${s.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
+          <option value="activa" ${s.estado === 'activa' ? 'selected' : ''}>✅ Activa</option>
+          <option value="cancelada" ${s.estado === 'cancelada' ? 'selected' : ''}>❌ Cancelada</option>
+          <option value="pago_fallido" ${s.estado === 'pago_fallido' ? 'selected' : ''}>⚠️ Pago fallido</option>
+          <option value="pendiente_transferencia" ${s.estado === 'pendiente_transferencia' ? 'selected' : ''}>🏦 Pend. transferencia</option>
+        </select>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('tabla-sus').innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:center;">Día despacho</th>
+          <th>N° Pedido</th>
+          <th>Cliente</th>
+          <th>Dirección</th>
+          <th>Plan</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+async function cambiarEstadoSus(id, nuevoEstado) {
+  // Si se cancela, hay que cancelar también en MP
+  if (nuevoEstado === 'cancelada') {
+    const sus = todasLasSus.find(s => s.id === id);
+    if (!sus) return;
+
+    const confirmar = confirm(`¿Confirmas cancelar la suscripción de ${sus.nombre}? Esto detendrá el cobro automático en Mercado Pago.`);
+    if (!confirmar) {
+      // Revertir el select visualmente
+      renderSus();
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/cancelar-suscripcion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, mp_preapproval_id: sus.mp_preapproval_id }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Error desconocido');
+      sus.estado = 'cancelada';
+      actualizarStatsSus();
+      renderSus();
+      alert(`✅ Suscripción de ${sus.nombre} cancelada correctamente en MP y en el sistema.`);
+    } catch (e) {
+      alert('❌ Error al cancelar: ' + e.message);
+      renderSus();
+    }
+    return;
+  }
+
+  // Para otros cambios de estado (pendiente → activa, etc.)
+  const { error } = await _sb
+    .from('Suscripciones')
+    .update({ estado: nuevoEstado })
+    .eq('id', id);
+  if (error) { alert('Error al actualizar. Intenta de nuevo.'); return; }
+  const sus = todasLasSus.find(s => s.id === id);
+  if (sus) sus.estado = nuevoEstado;
+  actualizarStatsSus();
+  renderSus();
+}
+
+</script>
+<script>
+// Separa el texto de productos guardado (ej: "Leonardo Adult GF 1,8kg - Poultry x1, Pack Rutina Sana x2")
+// en cada producto individual, sin romperse con comas que estén DENTRO del nombre del producto
+// (ej: "1,8kg"). Antes se usaba un simple split(',') que cortaba mal esos casos.
+function splitProductos(texto) {
+  if (!texto) return [];
+  return [...texto.matchAll(/(?:,\s*)?(.+?\s+x\d+(?:\s*\(-?\d+%\))?)(?=,\s*|$)/g)].map(m => m[1].trim());
+}
+
+const SUPA_URL = 'https://xintmnshndhtqqbouxbo.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbnRtbnNobmRodHFxYm91eGJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDc2MTAsImV4cCI6MjA5MzU4MzYxMH0.Xl5eHoNoxLrb_8jK40zPL52Qa3t696QHkaAmyJEqJac';
+const _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+
+let todosLosPedidos = [];
+let filtroActual = 'todos';
+window.addEventListener('DOMContentLoaded',()=>{ setTimeout(()=>{ try{ cargarPedidos(); }catch(e){ console.error(e); } },150); });
+
+function verificarPass() {
+  const val = document.getElementById('pwd-input').value;
+  if (val === '290966') {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('panel').style.display = 'block';
+    cargarPedidos();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+async function cargarPedidos() {
+  document.getElementById('tabla-contenido').innerHTML = '<div class="loading">Cargando pedidos...</div>';
+  try {
+    const { data, error } = await _sb
+      .from('Pedidos')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    todosLosPedidos = data || [];
+    actualizarStats();
+    renderTabla();
+  } catch (e) {
+    document.getElementById('tabla-contenido').innerHTML = '<div class="empty-state"><span>⚠️</span>Error al cargar los pedidos. Intenta de nuevo.</div>';
+  }
+}
+
+function actualizarStats() {
+  document.getElementById('stat-total').textContent = todosLosPedidos.length;
+  document.getElementById('stat-pendientes').textContent = todosLosPedidos.filter(p => p.estado === 'pendiente').length;
+  document.getElementById('stat-despachados').textContent = todosLosPedidos.filter(p => p.estado === 'despachado').length;
+  document.getElementById('stat-entregados').textContent = todosLosPedidos.filter(p => p.estado === 'entregado').length;
+}
+
+function filtrar(estado, btn) {
+  filtroActual = estado;
+  document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
+  renderTabla();
+}
+
+function renderTabla() {
+  const pedidos = filtroActual === 'todos'
+    ? todosLosPedidos
+    : todosLosPedidos.filter(p => p.estado === filtroActual);
+
+  if (pedidos.length === 0) {
+    document.getElementById('tabla-contenido').innerHTML = '<div class="empty-state"><span>🐾</span>No hay pedidos en esta categoría.</div>';
+    return;
+  }
+
+  const rows = pedidos.map(p => {
+    const fecha = new Date(p.created_at).toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const totalFmt = p.total ? `$${p.total.toLocaleString('es-CL')}` : '—';
+    const numPedido = 'PAC-' + String(p.id).padStart(5, '0');
+    return `<tr>
+      <td>
+        <div class="num-pedido">${numPedido}</div>
+        <div class="cliente-nombre">${p.nombre || '—'}</div>
+        <div class="cliente-detalle">${p.email || ''}</div>
+        <div class="cliente-detalle">${p.telefono || ''}</div>
+      </td>
+      <td>
+        <div class="cliente-detalle">${p.direccion || ''}</div>
+        <div class="cliente-detalle">${p.comuna || ''}, ${p.ciudad || ''}</div>
+        ${p.notas ? `<div class="cliente-detalle" style="font-style:italic">📝 ${p.notas}</div>` : ''}
+      </td>
+      <td><div class="productos-lista">${splitProductos(p.productos).join('<br>')}</div></td>
+      <td><span class="total-valor">${totalFmt}</span><br><span class="fecha-texto">${p.documento || 'Boleta'}</span></td>
+      <td><span class="fecha-texto">${fecha}</span></td>
+      <td>
+        <select class="estado-select" onchange="cambiarEstado(${p.id}, this.value)">
+          <option value="pendiente" ${p.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
+          <option value="despachado" ${p.estado === 'despachado' ? 'selected' : ''}>🚚 Despachado</option>
+          <option value="entregado" ${p.estado === 'entregado' ? 'selected' : ''}>✅ Entregado</option>
+          <option value="cancelado" ${p.estado === 'cancelado' ? 'selected' : ''}>❌ Cancelado</option>
+        </select>
+        <button class="btn-editar-pedido" onclick="abrirEditarPedido(${p.id})">✏️ Editar</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('tabla-contenido').innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>N° Pedido</th>
+          <th>Cliente</th>
+          <th>Dirección</th>
+          <th>Productos</th>
+          <th>Total</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+async function cambiarEstado(id, nuevoEstado) {
+  const { error } = await _sb
+    .from('Pedidos')
+    .update({ estado: nuevoEstado })
+    .eq('id', id);
+
+  if (error) {
+    alert('Error al actualizar el estado. Intenta de nuevo.');
+    return;
+  }
+  const pedido = todosLosPedidos.find(p => p.id === id);
+  if (pedido) pedido.estado = nuevoEstado;
+  actualizarStats();
+
+  // Enviar email al cliente según el nuevo estado
+  if ((nuevoEstado === 'despachado' || nuevoEstado === 'entregado' || nuevoEstado === 'cancelado') && pedido?.email) {
+    try {
+      await fetch('/api/webhook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pedidoId: id, estado: nuevoEstado }),
+      });
+    } catch(e) {
+      console.error('Error enviando email de estado:', e);
+    }
+  }
+}
+
+const CATALOGO = [
+  // ALIMENTOS
+  { id: "brit-care-sterilized-weigh-control-2kg---duck-turkey", nombre: "Brit Care Sterilized Weigh Control 2kg", precio: 24990 },
+  { id: "lata-leonardo-kitten", nombre: "Lata Leonardo Kitten 200g", precio: 3790 },
+  { id: "lata-leonardo_Ave", nombre: "Lata Leonardo Adulto — Ave", precio: 3790 },
+  { id: "lata-leonardo_Pato", nombre: "Lata Leonardo Adulto — Pato", precio: 3790 },
+  { id: "lata-leonardo_Conejo", nombre: "Lata Leonardo Adulto — Conejo", precio: 3790 },
+  { id: "lata-leonardo_Pescado", nombre: "Lata Leonardo Adulto — Pescado", precio: 3790 },
+  { id: "lata-leonardo_Ternera", nombre: "Lata Leonardo Adulto — Ternera", precio: 3790 },
+  { id: "leonardo-adult-gf-poultry-1-8kg", nombre: "Leonardo Adult GF 1,8kg - Poultry", precio: 26990 },
+  { id: "leonardo-adult-light-sterilised-1-8kg", nombre: "Leonardo Adult Light & Sterilised 1,8kg", precio: 25990 },
+  { id: "leonardo-adult-duck-1-8kg", nombre: "Leonardo Adult 1,8kg - Duck", precio: 25990 },
+  { id: "fit-formula-gato-adulto-2kg", nombre: "Fit Formula Gato Adulto 2kg", precio: 11990 },
+  { id: "pura-natura-caldo-de-huesos-250g", nombre: "Caldo de Huesos 250g - Pura Natura", precio: 4990 },
+  // ARENA
+  { id: "arena-sanitaria-ciudad-animal-8kg", nombre: "Arena Sanitaria Ciudad Animal 8kg", precio: 8990 },
+  // SNACKS PERROS
+  { id: "pulmon-cordero-rahue", nombre: "Pulmón de Cordero 50g - Rahue", precio: 3990 },
+  { id: "garra-pollo-rahue", nombre: "Garra de Pollo 65g - Rahue", precio: 3490 },
+  { id: "oreja-cerdo-rahue", nombre: "Recorte Oreja de Cerdo 100g - Rahue", precio: 4290 },
+  { id: "femur-cerdo-tasty", nombre: "Fémur de Cerdo - Tasty Farm", precio: 4990 },
+  { id: "traquea-vacuno-rahue", nombre: "Tráquea de Vacuno - Rahue", precio: 3990 },
+  { id: "condilo-vacuno-rahue", nombre: "Cóndilo de Vacuno 300g - Rahue", precio: 4990 },
+  { id: "doggo-traquea-vacuno-ciervo", nombre: "Tráquea de Vacuno en Crispy de Ciervo - Doggo", precio: 4290 },
+  { id: "doggo-mix-deshidratados", nombre: "Mix Deshidratados 100g - Doggo", precio: 4290 },
+  { id: "colagepet-donut-pollo", nombre: "ColágePet Donut — Sabor Pollo", precio: 2990 },
+  { id: "colagepet-donut-carne", nombre: "ColágePet Donut — Sabor Carne", precio: 2990 },
+  { id: "colagepet-donut-pato", nombre: "ColágePet Donut — Sabor Pato", precio: 2990 },
+  { id: "dog-fest-rabbit-ears-lamb", nombre: "Dog Fest Rabbit Ears with Lamb", precio: 4990 },
+  { id: "dog-fest-lamb-medallions", nombre: "Dog Fest Lamb Medallions", precio: 4990 },
+  { id: "dog-fest-calcium-bones-chicken", nombre: "Dog Fest Calcium Bones with Chicken", precio: 4990 },
+  { id: "zupet-dental-power-suave", nombre: "Snack Dental Power 75g - QChefs", precio: 9990 },
+  { id: "pura-natura-woofers-80g", nombre: "Woofer's 80g - Pura Natura", precio: 3990 },
+  { id: "fit-formula-costillas-cordero-100g", nombre: "Costillitas de Cordero 100g - Fit Fórmula", precio: 3990 },
+  // SNACKS GATOS
+  { id: "cat-fest-pillows-schrimp-creme", nombre: "Cat Fest Pillows Salmon Creme", precio: 1990 },
+  { id: "cat-fest-pillows", nombre: "Cat Fest Pillows Chicken Creme", precio: 1990 },
+  { id: "cat-fest_Pato", nombre: "Cat Fest Meat Sticks — Pato", precio: 3490 },
+  { id: "cat-fest_Cordero", nombre: "Cat Fest Meat Sticks — Cordero", precio: 3490 },
+  { id: "tubito-atun", nombre: "Tubito Cremoso Atún con Catnip", precio: 2990 },
+  { id: "tubito-camaron", nombre: "Tubito Cremoso Camarón con Catnip", precio: 2990 },
+  { id: "tubito-salmon-matatabi", nombre: "Tubito Cremoso Salmón con Matatabi", precio: 2990 },
+  { id: "cats-snack_Catnip", nombre: "Cats Snack — Atún + Catnip", precio: 2990 },
+  { id: "cats-snack_Matatabi", nombre: "Cats Snack — Atún + Matatabi", precio: 2990 },
+  { id: "cats-snack_Rellena Atún + Queso", nombre: "Cats Snack — Rellena Atún + Queso", precio: 2990 },
+  { id: "cats-snack_Rellena Atún + Ostiones", nombre: "Cats Snack — Rellena Atún + Ostiones", precio: 2990 },
+  { id: "cats-snack_Rellena Camarón", nombre: "Cats Snack — Rellena Camarón", precio: 2990 },
+  { id: "cats-snack_Rellena Atún + Pollo", nombre: "Cats Snack — Rellena Atún + Pollo", precio: 2990 },
+  { id: "cats-snack-pollo-camaron", nombre: "Cats Snack - Rellena Pollo + Camarón", precio: 2990 },
+  { id: "snack-calming-gato", nombre: "Snack Calming Cat Treats - Beaphar", precio: 5990 },
+  { id: "zupet-dental-fitness-crocante", nombre: "Snack Dental Fitness Crocante 60g - QChefs", precio: 9990 },
+  { id: "fellini-lollipop-calabaza", nombre: "Lolli Pop Calabaza - Fellini (3 paletas de 5g)", precio: 2990 },
+  { id: "fellini-lollipop-leche-cabra", nombre: "Lolli Pop Leche de Cabra - Fellini (3 paletas de 5g)", precio: 2990 },
+  { id: "bocados-pollo-pets-friends", nombre: "Bocados de Pollo 65g - Pets Friends", precio: 4990 },
+  { id: "cubitos-salmon-pets-friends", nombre: "Cubitos de Salmón 65g - Pets Friends", precio: 4990 },
+  // ACCESORIOS GATOS
+  { id: "collar-findmy_Turquesa", nombre: "Collar Find My — Turquesa", precio: 12990 },
+  { id: "collar-findmy_Negro", nombre: "Collar Find My — Negro", precio: 12990 },
+  { id: "collar-findmy_Azul", nombre: "Collar Find My — Azul", precio: 12990 },
+  { id: "collar-findmy_Amarillo", nombre: "Collar Find My — Amarillo", precio: 12990 },
+  { id: "collar-findmy-rojo", nombre: "Collar Find My — Rojo", precio: 12990 },
+  { id: "rastreador-find-my", nombre: "Rastreador Apple Find My + Funda de Silicona", precio: 11990 },
+  { id: "collar-zeecat-error-500", nombre: "Collar Zee.Cat Error 500", precio: 7990 },
+  { id: "collar-zeecat-error-404", nombre: "Collar Zee.Cat Error 404", precio: 7990 },
+  { id: "collar-zeecat-error-410", nombre: "Collar Zee.Cat Error 410", precio: 7990 },
+  { id: "collar-isabelino-donut-rosada---talla-s", nombre: "Collar Isabelino Donut Rosada - Talla S", precio: 6990 },
+  { id: "calming-collar---gatos", nombre: "Calming Collar - Gatos", precio: 7990 },
+  { id: "comedero-lento-slow-feeder---catstages", nombre: "Comedero Lento Slow Feeder - Catstages", precio: 7990 },
+  { id: "comedero-lento-slow-feeder-rosado", nombre: "Comedero Lento Slow Feeder - Rosado", precio: 6990 },
+  { id: "comedero-lento-flores-lila", nombre: "Comedero Lento Flores - Lila", precio: 9990 },
+  { id: "comedero-lento-desmontable-azul", nombre: "Comedero Lento Desmontable — Azul", precio: 7990 },
+  { id: "comedero-lento-desmontable-rojo", nombre: "Comedero Lento Desmontable — Rojo", precio: 7990 },
+  { id: "pala-arenero-marron", nombre: "Pala Arenero — Marrón", precio: 1990 },
+  { id: "pala-arenero-verde", nombre: "Pala Arenero — Verde", precio: 1990 },
+  // ACCESORIOS PERROS
+  { id: "collar-perro-acolchado_Café-S", nombre: "Collar Perro Acolchado — Café Talla S", precio: 6990 },
+  { id: "collar-perro-acolchado_Café-M", nombre: "Collar Perro Acolchado — Café Talla M", precio: 6990 },
+  { id: "collar-perro-acolchado_Rojo-S", nombre: "Collar Perro Acolchado — Rojo Talla S", precio: 6990 },
+  { id: "collar-suede-para-perro-zeedog", nombre: "Collar Suede Zee.Dog", precio: 13900 },
+  { id: "collar-nox-para-perro-zeedog", nombre: "Collar Nox Zee.Dog", precio: 13900 },
+  { id: "calming-collar---perros", nombre: "Calming Collar - Perros", precio: 7990 },
+  { id: "botella-portatil-para-perros_Rosada", nombre: "Botella Portátil para Perros — Rosada", precio: 14990 },
+  { id: "botella-portatil-para-perros_Calipso", nombre: "Botella Portátil para Perros — Calipso", precio: 14990 },
+  { id: "dispensador-de-bolsas---diseno-cafe", nombre: "Dispensador de Bolsas - Diseño Café", precio: 5990 },
+  { id: "hey-cama-redonda-confort-verde", nombre: "Cama Redonda Confort Verde - Hey!", precio: 13990 },
+  // JUGUETES
+  { id: "pajaro", nombre: "Pájaro Interactivo", precio: 13990 },
+  { id: "pelota-led", nombre: "Pelota Interactiva LED", precio: 8990 },
+  { id: "pulpo", nombre: "Masajeador Pulpo", precio: 6990 },
+  { id: "pelota-snack-interactiva_Roja", nombre: "Pelota Snack Interactiva — Roja", precio: 6990 },
+  { id: "pelota-snack-interactiva_Azul", nombre: "Pelota Snack Interactiva — Azul", precio: 6990 },
+  { id: "pelota-snack-interactiva-verde", nombre: "Pelota Snack Interactiva — Verde", precio: 6990 },
+  { id: "rascador-maxi-caja-de-leche---brnx", nombre: "Rascador Maxi Caja de Leche - Brnx", precio: 13990 },
+  { id: "hey-donut-sonido-perros", nombre: "Donut con Sonido - Hey!", precio: 2990 },
+  // ASEO
+  { id: "fuente-agua", nombre: "Fuente de Agua Flor USB", precio: 21990 },
+  { id: "paw-balm", nombre: "Paw Balm", precio: 5990 },
+  { id: "afeitadora", nombre: "Afeitadora LED", precio: 9990 },
+  { id: "suero-fisiologico", nombre: "Suero Fisiológico 0.9%", precio: 2590 },
+  { id: "hey-bolsas-sanitarias-4-rollos", nombre: "Bolsas Sanitarias 4 Rollos - Hey!", precio: 2190 },
+  // FLORES DE BACH
+  { id: "flores-de-bach---rescue-y-alivio", nombre: "Flores de Bach - Rescue y Alivio", precio: 12990 },
+  { id: "flores-de-bach---energia-y-animo", nombre: "Flores de Bach - Energía y Ánimo", precio: 12990 },
+  { id: "flores-de-bach---equilibrio", nombre: "Flores de Bach - Equilibrio", precio: 12990 },
+  { id: "flores-de-bach---ansiedad-y-calma", nombre: "Flores de Bach - Ansiedad y Calma", precio: 12990 },
+  { id: "pack-consulta-flor-de-bach", nombre: "Pack Consulta + Flor de Bach", precio: 29990 },
+  // PACKS
+  { id: "pack-calma-total", nombre: "Pack Calma Total", precio: 15990 },
+  { id: "pack-bienvenido-a-casa", nombre: "Pack Bienvenido a Casa", precio: 21990 },
+  { id: "pack-cuidado-total", nombre: "Pack Cuidado Total", precio: 12990 },
+  { id: "pack-juega-y-relaja", nombre: "Pack Juega y Relaja", precio: 28990 },
+  { id: "pack-sos-mascota", nombre: "Pack SOS Mascota", precio: 18990 },
+  { id: "pack-rutina-sana", nombre: "Pack Rutina Sana", precio: 33990 },
+];
+
+function opcionesSelect() {
+  return CATALOGO.map(p => `<option value="${p.id}">${p.nombre} — $${p.precio.toLocaleString('es-CL')}</option>`).join('');
+}
+
+function recalcularTotal() {
+  const rows = document.querySelectorAll('#np-items-lista .item-row');
+  let total = 0;
+  rows.forEach(row => {
+    const sel = row.querySelector('select');
+    const qty = parseInt(row.querySelector('input[type=number]').value) || 1;
+    const dctoInput = row.querySelector('.item-dcto');
+    const dcto = parseFloat(dctoInput ? dctoInput.value : 0) || 0;
+    const prod = CATALOGO.find(p => p.id === sel.value);
+    if (prod) {
+      const precioConDcto = Math.round(prod.precio * (1 - dcto / 100));
+      const subtotalItem = precioConDcto * qty;
+      total += subtotalItem;
+      const precioEl = row.querySelector('.item-precio');
+      if (precioEl) precioEl.textContent = dcto > 0
+        ? `$${precioConDcto.toLocaleString('es-CL')} x${qty} = $${subtotalItem.toLocaleString('es-CL')}`
+        : `$${(prod.precio * qty).toLocaleString('es-CL')}`;
+    }
+  });
+  document.getElementById('np-total').value = total || '';
+  document.getElementById('np-total-calculado').textContent = total ? `= $${total.toLocaleString('es-CL')}` : '';
+}
+
+function agregarItemPedido() {
+  const lista = document.getElementById('np-items-lista');
+  const div = document.createElement('div');
+  div.className = 'item-row';
+  div.innerHTML = `
+    <select onchange="recalcularTotal()">${opcionesSelect()}</select>
+    <input type="number" value="1" min="1" title="Cantidad" onchange="recalcularTotal()">
+    <input type="number" value="0" min="0" max="100" class="item-dcto" title="Descuento %" placeholder="% dto" onchange="recalcularTotal()">
+    <span class="item-precio"></span>
+    <button class="btn-quitar" onclick="this.parentElement.remove(); recalcularTotal()">✕</button>
+  `;
+  lista.appendChild(div);
+  recalcularTotal();
+}
+
+function abrirNuevoPedido() {
+  document.getElementById('np-items-lista').innerHTML = '';
+  agregarItemPedido();
+  document.getElementById('modal-nuevo').classList.add('activo');
+}
+
+function cerrarNuevoPedido() {
+  document.getElementById('modal-nuevo').classList.remove('activo');
+  ['np-nombre','np-telefono','np-email','np-direccion','np-comuna','np-ciudad','np-total','np-notas'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('np-items-lista').innerHTML = '';
+}
+
+async function guardarNuevoPedido() {
+  const btn = document.querySelector('#modal-nuevo .btn-guardar');
+  btn.textContent = 'Guardando...'; btn.disabled = true;
+  try {
+    // Construir lista de productos
+    const rows = document.querySelectorAll('#np-items-lista .item-row');
+    const itemsSeleccionados = [];
+    rows.forEach(row => {
+      const sel = row.querySelector('select');
+      const qty = parseInt(row.querySelector('input[type=number]').value) || 1;
+      const dcto = parseFloat(row.querySelector('.item-dcto').value) || 0;
+      const prod = CATALOGO.find(p => p.id === sel.value);
+      if (prod) {
+        const precioFinal = Math.round(prod.precio * (1 - dcto / 100));
+        itemsSeleccionados.push({ id: prod.id, nombre: prod.nombre, precio: precioFinal, precioOriginal: prod.precio, dcto, qty });
+      }
+    });
+
+    if (!itemsSeleccionados.length) { alert('Agrega al menos un producto.'); return; }
+
+    const productosTexto = itemsSeleccionados.map(i => i.dcto > 0 ? `${i.nombre} x${i.qty} (-${i.dcto}%)` : `${i.nombre} x${i.qty}`).join(', ');
+    const subtotal = itemsSeleccionados.reduce((s, i) => s + i.precio * i.qty, 0);
+    const total = parseInt(document.getElementById('np-total').value) || subtotal;
+
+    // Guardar pedido en Supabase y obtener el ID
+    const { data: pedidoData, error } = await _sb.from('Pedidos').insert([{
+      nombre:    document.getElementById('np-nombre').value || '',
+      telefono:  document.getElementById('np-telefono').value || '',
+      email:     document.getElementById('np-email').value || '',
+      direccion: document.getElementById('np-direccion').value || '',
+      comuna:    document.getElementById('np-comuna').value || '',
+      ciudad:    document.getElementById('np-ciudad').value || '',
+      productos: productosTexto,
+      total,
+      subtotal,
+      costo_envio: 0,
+      documento: document.getElementById('np-documento').value,
+      notas:     document.getElementById('np-notas').value || '',
+      estado:    'pendiente'
+    }]).select();
+    if (error) throw error;
+
+    // Enviar email de confirmación al cliente
+    const pedidoId = pedidoData?.[0]?.id;
+    const emailCliente = document.getElementById('np-email').value || '';
+    if (pedidoId && emailCliente) {
+      try {
+        await fetch('/api/webhook', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pedidoId, estado: 'nuevo_pedido' }),
+        });
+      } catch(e) { console.error('Error enviando email confirmación:', e); }
+    }
+
+    // Descontar stock en Redis
+    const stockRes = await fetch('/api/stock-get');
+    const stockData = await stockRes.json();
+    const stock = stockData.stock || {};
+    for (const item of itemsSeleccionados) {
+      const cur = typeof stock[item.id] === 'number' ? stock[item.id] : 0;
+      stock[item.id] = Math.max(0, cur - item.qty);
+    }
+    await fetch('/api/stock-set', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stock })
+    });
+
+    cerrarNuevoPedido();
+    await cargarPedidos();
+  } catch(e) {
+    alert('Error al guardar el pedido. Intenta de nuevo.');
+  } finally {
+    btn.textContent = 'Guardar pedido'; btn.disabled = false;
+  }
+}
+
+// ==================== SUSCRIPCIONES ====================
+let todasLasSus = [];
+let filtroSusActual = 'todos';
+
+function mostrarTab(tab) {
+  document.getElementById('seccion-pedidos').style.display = tab === 'pedidos' ? 'block' : 'none';
+  document.getElementById('seccion-suscripciones').style.display = tab === 'suscripciones' ? 'block' : 'none';
+  document.getElementById('tab-pedidos').classList.toggle('activo', tab === 'pedidos');
+  document.getElementById('tab-suscripciones').classList.toggle('activo', tab === 'suscripciones');
+  if (tab === 'suscripciones' && todasLasSus.length === 0) cargarSuscripciones();
+}
+
+async function cargarSuscripciones() {
+  document.getElementById('tabla-sus').innerHTML = '<div class="loading">Cargando suscripciones...</div>';
+  try {
+    const { data, error } = await _sb
+      .from('Suscripciones')
+      .select('*')
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    todasLasSus = data || [];
+    actualizarStatsSus();
+    renderSus();
+  } catch (e) {
+    document.getElementById('tabla-sus').innerHTML = '<div class="empty-state"><span>⚠️</span>Error al cargar. Intenta de nuevo.</div>';
+  }
+}
+
+function actualizarStatsSus() {
+  const hoy = new Date().getDate();
+  document.getElementById('sus-stat-total').textContent = todasLasSus.length;
+  document.getElementById('sus-stat-activas').textContent = todasLasSus.filter(s => s.estado === 'activa').length;
+  document.getElementById('sus-stat-pendientes').textContent = todasLasSus.filter(s => s.estado === 'pendiente' || s.estado === 'pendiente_transferencia').length;
+  document.getElementById('sus-stat-hoy').textContent = todasLasSus.filter(s => {
+    const dia = new Date(s.created_at).getDate();
+    return dia === hoy && s.estado === 'activa';
+  }).length;
+  document.getElementById('sus-stat-fallidos').textContent = todasLasSus.filter(s => s.estado === 'pago_fallido').length;
+}
+
+function filtrarSus(estado, btn) {
+  filtroSusActual = estado;
+  document.querySelectorAll('#seccion-suscripciones .filtro-btn').forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
+  renderSus();
+}
+
+function renderSus() {
+  let sus = filtroSusActual === 'todos'
+    ? todasLasSus
+    : filtroSusActual === 'pendiente'
+      ? todasLasSus.filter(s => s.estado === 'pendiente' || s.estado === 'pendiente_transferencia')
+      : todasLasSus.filter(s => s.estado === filtroSusActual);
+
+  // Ordenar por día del mes de suscripción
+  sus = [...sus].sort((a, b) => {
+    const diaA = new Date(a.created_at).getDate();
+    const diaB = new Date(b.created_at).getDate();
+    return diaA - diaB;
+  });
+
+  if (sus.length === 0) {
+    document.getElementById('tabla-sus').innerHTML = '<div class="empty-state"><span>🐾</span>No hay suscripciones en esta categoría.</div>';
+    return;
+  }
+
+  const hoy = new Date().getDate();
+
+  const rows = sus.map(s => {
+    const diaDespacho = new Date(s.created_at).getDate();
+    const esHoy = diaDespacho === hoy && s.estado === 'activa';
+    const esFallido = s.estado === 'pago_fallido';
+    const esTransfer = s.estado === 'pendiente_transferencia';
+    const planLabel = {
+      'felina-basico': 'Felina Básico', 'felina-premium': 'Felina Premium', 'felina-vip': 'Felina VIP',
+      'indoor-basico': 'Indoor Básico', 'indoor-premium': 'Indoor Premium', 'indoor-vip': 'Indoor VIP',
+    }[`${s.tipo}-${s.plan}`] || `${s.tipo} ${s.plan}`;
+    const estadoBadge = s.estado === 'activa' ? '<span style="background:#e8f5e9;color:#2e7d32;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">✅ Activa</span>'
+      : s.estado === 'pendiente_transferencia' ? '<span style="background:#fff3e0;color:#e65100;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">🏦 Pend. transferencia</span>'
+      : s.estado === 'pago_fallido' ? '<span style="background:#fce4ec;color:#c62828;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">⚠️ Pago fallido</span>'
+      : '<span style="background:#f5f5f5;color:#666;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">⏳ ' + s.estado + '</span>';
+
+    return `<tr style="${esHoy ? 'background:rgba(196,98,45,.06);' : esFallido ? 'background:rgba(192,57,43,.06);' : ''}">
+      <td style="font-weight:700;font-size:1.4rem;text-align:center;color:${esHoy ? 'var(--terracota)' : 'var(--negro)'};">
+        ${diaDespacho}
+        ${esHoy ? '<div style="font-size:.65rem;font-weight:700;color:var(--terracota);">HOY</div>' : ''}
+      </td>
+      <td>
+        <div class="cliente-nombre">${s.nombre || '—'}</div>
+        <div class="cliente-detalle">${s.email || ''}</div>
+        <div class="cliente-detalle">${s.telefono || ''}</div>
+      </td>
+      <td>
+        <div class="cliente-detalle">${s.direccion || ''}</div>
+        <div class="cliente-detalle">${s.comuna || ''}</div>
+        ${s.notas ? `<div class="cliente-detalle" style="font-style:italic">📝 ${s.notas}</div>` : ''}
+      </td>
+      <td>
+        <div class="cliente-nombre">${planLabel}</div>
+        <div class="cliente-detalle">$${(s.precio || 0).toLocaleString('es-CL')}/mes</div>
+      </td>
+      <td>
+        <select class="estado-select" onchange="cambiarEstadoSus(${s.id}, this.value)">
+          <option value="pendiente" ${s.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
+          <option value="activa" ${s.estado === 'activa' ? 'selected' : ''}>✅ Activa</option>
+          <option value="cancelada" ${s.estado === 'cancelada' ? 'selected' : ''}>❌ Cancelada</option>
+          <option value="pago_fallido" ${s.estado === 'pago_fallido' ? 'selected' : ''}>⚠️ Pago fallido</option>
+          <option value="pendiente_transferencia" ${s.estado === 'pendiente_transferencia' ? 'selected' : ''}>🏦 Pend. transferencia</option>
+        </select>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('tabla-sus').innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:center;">Día despacho</th>
+          <th>N° Pedido</th>
+          <th>Cliente</th>
+          <th>Dirección</th>
+          <th>Plan</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+async function cambiarEstadoSus(id, nuevoEstado) {
+  // Si se cancela, hay que cancelar también en MP
+  if (nuevoEstado === 'cancelada') {
+    const sus = todasLasSus.find(s => s.id === id);
+    if (!sus) return;
+
+    const confirmar = confirm(`¿Confirmas cancelar la suscripción de ${sus.nombre}? Esto detendrá el cobro automático en Mercado Pago.`);
+    if (!confirmar) {
+      // Revertir el select visualmente
+      renderSus();
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/cancelar-suscripcion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, mp_preapproval_id: sus.mp_preapproval_id }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Error desconocido');
+      sus.estado = 'cancelada';
+      actualizarStatsSus();
+      renderSus();
+      alert(`✅ Suscripción de ${sus.nombre} cancelada correctamente en MP y en el sistema.`);
+    } catch (e) {
+      alert('❌ Error al cancelar: ' + e.message);
+      renderSus();
+    }
+    return;
+  }
+
+  // Para otros cambios de estado (pendiente → activa, etc.)
+  const { error } = await _sb
+    .from('Suscripciones')
+    .update({ estado: nuevoEstado })
+    .eq('id', id);
+  if (error) { alert('Error al actualizar. Intenta de nuevo.'); return; }
+  const sus = todasLasSus.find(s => s.id === id);
+  if (sus) sus.estado = nuevoEstado;
+  actualizarStatsSus();
+  renderSus();
+}
+
+function recalcularTotalEditar() {
+  const rows = document.querySelectorAll('#ep-items-lista .item-row');
+  let total = 0;
+  rows.forEach(row => {
+    const sel = row.querySelector('select');
+    const qty = parseInt(row.querySelector('input[type=number]').value) || 1;
+    const dcto = parseFloat(row.querySelector('.item-dcto').value) || 0;
+    const prod = CATALOGO.find(p => p.id === sel.value);
+    if (prod) {
+      const precioFinal = Math.round(prod.precio * (1 - dcto / 100));
+      const subtotalItem = precioFinal * qty;
+      total += subtotalItem;
+      const precioEl = row.querySelector('.item-precio');
+      if (precioEl) precioEl.textContent = dcto > 0
+        ? `$${precioFinal.toLocaleString('es-CL')} x${qty} = $${subtotalItem.toLocaleString('es-CL')}`
+        : `$${(prod.precio * qty).toLocaleString('es-CL')}`;
+    }
+  });
+  document.getElementById('ep-total').value = total || '';
+  document.getElementById('ep-total-calculado').textContent = total ? `= $${total.toLocaleString('es-CL')}` : '';
+}
+
+function agregarItemEditar(idProducto) {
+  const lista = document.getElementById('ep-items-lista');
+  const div = document.createElement('div');
+  div.className = 'item-row';
+  div.innerHTML = `
+    <select onchange="recalcularTotalEditar()">${opcionesSelect()}</select>
+    <input type="number" value="1" min="1" title="Cantidad" onchange="recalcularTotalEditar()">
+    <input type="number" value="0" min="0" max="100" class="item-dcto" title="Descuento %" placeholder="% dto" onchange="recalcularTotalEditar()">
+    <span class="item-precio"></span>
+    <button class="btn-quitar" onclick="this.parentElement.remove(); recalcularTotalEditar()">✕</button>
+  `;
+  lista.appendChild(div);
+  if (idProducto) div.querySelector('select').value = idProducto;
+  recalcularTotalEditar();
+}
+
+function abrirEditarPedido(id) {
+  const p = todosLosPedidos.find(p => p.id === id);
+  if (!p) return;
+  document.getElementById('ep-id').value = id;
+  document.getElementById('ep-nombre').value = p.nombre || '';
+  document.getElementById('ep-telefono').value = p.telefono || '';
+  document.getElementById('ep-email').value = p.email || '';
+  document.getElementById('ep-direccion').value = p.direccion || '';
+  document.getElementById('ep-comuna').value = p.comuna || '';
+  document.getElementById('ep-ciudad').value = p.ciudad || '';
+  document.getElementById('ep-total').value = p.total || '';
+  document.getElementById('ep-documento').value = p.documento || 'Boleta';
+  document.getElementById('ep-notas').value = p.notas || '';
+  document.getElementById('ep-descontar-stock').checked = false;
+  document.getElementById('ep-total-calculado').textContent = '';
+
+  // Cargar productos existentes en el selector
+  const lista = document.getElementById('ep-items-lista');
+  lista.innerHTML = '';
+  if (p.productos) {
+    // Intentar mapear los productos guardados al catálogo
+    const lineas = splitProductos(p.productos);
+    lineas.forEach(linea => {
+      // Formato: "Nombre x2 (-10%)" o "Nombre x2"
+      const matchQty = linea.match(/x(\d+)/);
+      const matchDcto = linea.match(/\(-?(\d+)%\)/);
+      const qty = matchQty ? parseInt(matchQty[1]) : 1;
+      const dcto = matchDcto ? parseInt(matchDcto[1]) : 0;
+      const nombreLimpio = linea.replace(/x\d+.*$/, '').trim();
+      const prod = CATALOGO.find(p => p.nombre === nombreLimpio || nombreLimpio.includes(p.nombre.split(' ').slice(0,3).join(' ')));
+      agregarItemEditar(prod ? prod.id : null);
+      const ultima = lista.querySelector('.item-row:last-child');
+      if (ultima) {
+        ultima.querySelector('input[type=number]').value = qty;
+        ultima.querySelector('.item-dcto').value = dcto;
+      }
+    });
+  }
+  if (lista.children.length === 0) agregarItemEditar();
+  recalcularTotalEditar();
+
+  document.getElementById('modal-editar').classList.add('activo');
+}
+
+function cerrarEditarPedido() {
+  document.getElementById('modal-editar').classList.remove('activo');
+}
+
+async function guardarEditarPedido() {
+  const id = parseInt(document.getElementById('ep-id').value);
+  const btn = document.getElementById('btn-guardar-editar');
+  btn.textContent = 'Guardando...'; btn.disabled = true;
+  try {
+    const rows = document.querySelectorAll('#ep-items-lista .item-row');
+    const items = [];
+    rows.forEach(row => {
+      const sel = row.querySelector('select');
+      const qty = parseInt(row.querySelector('input[type=number]').value) || 1;
+      const dcto = parseFloat(row.querySelector('.item-dcto').value) || 0;
+      const prod = CATALOGO.find(p => p.id === sel.value);
+      if (prod) {
+        const precioFinal = Math.round(prod.precio * (1 - dcto / 100));
+        items.push({ id: prod.id, nombre: prod.nombre, precio: precioFinal, qty, dcto });
+      }
+    });
+
+    const productosTexto = items.map(i => i.dcto > 0 ? `${i.nombre} x${i.qty} (-${i.dcto}%)` : `${i.nombre} x${i.qty}`).join(', ');
+    const total = parseFloat(document.getElementById('ep-total').value) || items.reduce((s, i) => s + i.precio * i.qty, 0);
+
+    const updates = {
+      nombre:    document.getElementById('ep-nombre').value,
+      telefono:  document.getElementById('ep-telefono').value,
+      email:     document.getElementById('ep-email').value,
+      direccion: document.getElementById('ep-direccion').value,
+      comuna:    document.getElementById('ep-comuna').value,
+      ciudad:    document.getElementById('ep-ciudad').value,
+      productos: productosTexto,
+      total,
+      documento: document.getElementById('ep-documento').value,
+      notas:     document.getElementById('ep-notas').value,
+    };
+
+    const { error } = await _sb.from('Pedidos').update(updates).eq('id', id);
+    if (error) throw error;
+
+    // Descontar stock solo si el checkbox está marcado
+    if (document.getElementById('ep-descontar-stock').checked) {
+      const stockRes = await fetch('/api/stock-get');
+      const stockData = await stockRes.json();
+      const stock = stockData.stock || {};
+      for (const item of items) {
+        if (typeof stock[item.id] === 'number') {
+          stock[item.id] = Math.max(0, stock[item.id] - item.qty);
+        }
+      }
+      await fetch('/api/stock-set', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stock })
+      });
+    }
+
+    const idx = todosLosPedidos.findIndex(p => p.id === id);
+    if (idx !== -1) todosLosPedidos[idx] = { ...todosLosPedidos[idx], ...updates };
+    cerrarEditarPedido();
+    renderTabla();
+  } catch(e) {
+    alert('Error al guardar. Intenta de nuevo.');
+  } finally {
+    btn.textContent = 'Guardar cambios'; btn.disabled = false;
+  }
+}
+
+</script>
+</body>
+</html>

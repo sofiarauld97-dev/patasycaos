@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventario — Patas & Caos</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #F5ECD7;
+    --terracota: #C4622D;
+    --negro: #1A1A1A;
+    --dark: #1C1007;
+    --card-bg: #FAF4EA;
+    --borde: rgba(28,16,7,.1);
+    --verde: #2d7a3a;
+    --rojo: #c0392b;
+    --texto-suave: #6b5a4e;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--cream);
+    color: var(--negro);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--dark);
+    padding: 0 5%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .header-brand img { width: 36px; height: 36px; object-fit: contain; }
+  .header-brand-text { color: #F5ECD7; }
+  .header-brand-text strong { display: block; font-weight: 700; font-size: .95rem; line-height: 1.1; }
+  .header-brand-text span { font-size: .72rem; color: rgba(245,236,215,.55); font-weight: 400; }
+  .header-actions { display: flex; gap: .75rem; align-items: center; }
+  .btn-header {
+    background: none;
+    border: 1.5px solid rgba(245,236,215,.25);
+    color: #F5ECD7;
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-family: 'Poppins', sans-serif;
+    font-size: .82rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all .2s;
+  }
+  .btn-header:hover { border-color: var(--terracota); color: var(--terracota); }
+  .btn-exportar {
+    background: var(--terracota);
+    border-color: var(--terracota);
+    color: #fff;
+  }
+  .btn-exportar:hover { background: #a8501f; border-color: #a8501f; color: #fff; }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 5%; }
+
+  /* SUMMARY CARDS */
+  .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+  .sum-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--borde);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+  }
+  .sum-card .label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--texto-suave); margin-bottom: .4rem; }
+  .sum-card .value { font-size: 2rem; font-weight: 900; color: var(--negro); line-height: 1; }
+  .sum-card.verde .value { color: var(--verde); }
+  .sum-card.rojo .value { color: var(--rojo); }
+  .sum-card.terracota .value { color: var(--terracota); }
+
+  /* FILTERS */
+  .filters {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .filter-btn {
+    padding: 7px 18px;
+    border-radius: 50px;
+    border: 1.5px solid var(--borde);
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--texto-suave);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .filter-btn:hover { border-color: var(--terracota); color: var(--terracota); }
+  .filter-btn.activo { background: var(--terracota); border-color: var(--terracota); color: #fff; }
+
+  /* PRODUCT LIST */
+  .prod-list { display: flex; flex-direction: column; gap: .75rem; }
+  .sku-row {
+    background: var(--card-bg);
+    border: 1.5px solid var(--borde);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color .2s, opacity .2s;
+  }
+  .sku-row.agotado { opacity: .65; }
+  .sku-row.agotado { border-color: rgba(192,57,43,.25); }
+  .sku-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: #f0dfc0;
+    flex-shrink: 0;
+  }
+  .sku-img-placeholder {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    background: #f0dfc0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .sku-info { flex: 1; min-width: 0; }
+  .sku-nombre { font-weight: 700; font-size: .9rem; color: var(--negro); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sku-meta { display: flex; gap: .5rem; align-items: center; margin-top: .2rem; flex-wrap: wrap; }
+  .sku-cat {
+    font-size: .68rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 50px;
+    background: rgba(196,98,45,.1);
+    color: var(--terracota);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .sku-precio { font-size: .78rem; color: var(--texto-suave); font-weight: 500; }
+  .sku-updated { font-size: .7rem; color: #aaa; }
+
+  /* TOGGLE */
+  .toggle-wrap { display: flex; align-items: center; gap: .6rem; flex-shrink: 0; }
+  .toggle-label { font-size: .78rem; font-weight: 600; min-width: 60px; text-align: right; }
+  .toggle-label.en-stock { color: var(--verde); }
+  .toggle-label.agotado-lbl { color: var(--rojo); }
+  .toggle {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: var(--rojo);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background .25s;
+  }
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 3px;
+    top: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .25s;
+  }
+  .toggle input:checked + .toggle-slider { background: var(--verde); }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(22px); }
+
+  /* MODAL EXPORTAR */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+  }
+  .modal-bg.open { opacity: 1; visibility: visible; }
+  .modal-box {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 640px;
+    box-shadow: 0 24px 64px rgba(0,0,0,.2);
+    transform: translateY(16px);
+    transition: transform .3s;
+  }
+  .modal-bg.open .modal-box { transform: translateY(0); }
+  .modal-box h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; }
+  .modal-box p { font-size: .82rem; color: var(--texto-suave); margin-bottom: 1rem; line-height: 1.5; }
+  .code-block {
+    background: var(--dark);
+    color: #f0dfc0;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-family: 'Courier New', monospace;
+    font-size: .75rem;
+    line-height: 1.7;
+    white-space: pre;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .modal-btns { display: flex; gap: .75rem; justify-content: flex-end; }
+  .btn-copiar {
+    background: var(--terracota);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 22px;
+    font-family: 'Poppins', sans-serif;
+    font-size: .85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-copiar:hover { background: #a8501f; }
+  .btn-cerrar-modal {
+    background: none;
+    border: 1.5px solid var(--borde);
+    color: var(--texto-suave);
+    border-radius: 50px;
+    padding: 10px 22px;
+    font-family: 'Poppins', sans-serif;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-cerrar-modal:hover { border-color: var(--negro); color: var(--negro); }
+
+  /* LOG */
+  .log-section { margin-top: 2.5rem; }
+  .log-title { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--texto-suave); margin-bottom: .75rem; }
+  .log-list { display: flex; flex-direction: column; gap: .4rem; }
+  .log-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    font-size: .78rem;
+    color: var(--texto-suave);
+    padding: .5rem .75rem;
+    background: var(--card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--borde);
+  }
+  .log-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .log-dot.verde { background: var(--verde); }
+  .log-dot.rojo { background: var(--rojo); }
+  .log-item strong { color: var(--negro); }
+  .log-time { margin-left: auto; font-size: .7rem; color: #aaa; }
+  .log-empty { font-size: .82rem; color: #aaa; font-style: italic; padding: .5rem .75rem; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--negro);
+    color: #fff;
+    border-radius: 50px;
+    padding: 12px 22px;
+    font-size: .85rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: all .3s;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 700px) {
+    .summary { grid-template-columns: repeat(2, 1fr); }
+    .sku-nombre { font-size: .82rem; }
+  }
+  @media (max-width: 480px) {
+    .header-brand-text span { display: none; }
+    .sku-updated { display: none; }
+  }
+
+    body>header{display:none!important}
+    body{background:#F5ECD7!important}
+    main{max-width:1280px!important;padding:2rem 3%!important}
+    </style>
+<meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+<header>
+  <a href="/" class="header-brand">
+    <img src="logo.png" alt="Patas & Caos">
+    <div class="header-brand-text">
+      <strong>Patas & Caos</strong>
+      <span>Panel de Inventario</span>
+    </div>
+  </a>
+  <div class="header-actions">
+    <a href="/" class="btn-header" target="_blank">↗ Ver tienda</a>
+    <button class="btn-header btn-exportar" onclick="abrirExportar()">⬇ Exportar código</button>
+  </div>
+</header>
+
+<main>
+  <!-- SUMMARY -->
+  <div class="summary" id="summary">
+    <div class="sum-card">
+      <div class="label">Total SKUs</div>
+      <div class="value" id="sum-total">0</div>
+    </div>
+    <div class="sum-card verde">
+      <div class="label">En stock</div>
+      <div class="value" id="sum-stock">0</div>
+    </div>
+    <div class="sum-card rojo">
+      <div class="label">Agotados</div>
+      <div class="value" id="sum-agotados">0</div>
+    </div>
+    <div class="sum-card terracota">
+      <div class="label">Categorías</div>
+      <div class="value">9</div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters" id="filters">
+    <button class="filter-btn" onclick="filtrar('Todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filtrarAudiencia('Para Gatos', this)">🐱 Gatos</button>
+    <button class="filter-btn" onclick="filtrarAudiencia('Para Perros', this)">🐶 Perros</button>
+    <button class="filter-btn" onclick="filtrar('Accesorio', this)">🎀 Accesorios</button>
+    <button class="filter-btn" onclick="filtrar('Juguete', this)">🎾 Juguetes</button>
+    <button class="filter-btn" onclick="filtrar('Aseo e Higiene', this)">✨ Aseo e Higiene</button>
+    <button class="filter-btn" onclick="filtrar('Alimentos', this)">🍽️ Alimentos</button>
+    <button class="filter-btn" onclick="filtrar('Snacks y Golosinas', this)">🍪 Snacks y Golosinas</button>
+    <button class="filter-btn" onclick="filtrar('Flores de Bach', this)">🌿 Flores de Bach</button>
+    <button class="filter-btn" onclick="filtrar('Insumos Veterinarios', this)">💊 Insumos Veterinarios</button>>
+  </div>
+
+  <!-- PRODUCT LIST -->
+  <div class="prod-list" id="prod-list"></div>
+
+  <!-- LOG -->
+  <div class="log-section">
+    <div class="log-title">📋 Historial de cambios</div>
+    <div class="log-list" id="log-list"></div>
+  </div>
+</main>
+
+<!-- MODAL EXPORTAR -->
+<div class="modal-bg" id="modal-exportar">
+  <div class="modal-box">
+    <h3>Exportar código de stock</h3>
+    <p>Copia este bloque y pégalo en tu <strong>index.html</strong>, reemplazando el objeto <code>stockInicial</code> existente. Luego sube a GitHub y Vercel lo despliega automático.</p>
+    <div class="code-block" id="codigo-exportar"></div>
+    <div class="modal-btns">
+      <button class="btn-cerrar-modal" onclick="cerrarExportar()">Cerrar</button>
+      <button class="btn-copiar" onclick="copiarCodigo()">Copiar código</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════
+   CATÁLOGO DE SKUs
+═══════════════════════════════════════ */
+const SKUS = [
+  { id: 'lata-leonardo_Conejo',  nombre: 'Lata Leonardo Adulto — Conejo',  cat: 'Alimentos', precio: '$3.790', img: 'lata-leonardo-conejo.jpg',  emoji: '🐰', audience: 'Para Gatos' },
+  { id: 'lata-leonardo_Pato',    nombre: 'Lata Leonardo Adulto — Pato',    cat: 'Alimentos', precio: '$3.790', img: 'lata-leonardo-pato.jpg',  emoji: '🦆', audience: 'Para Gatos' },
+  { id: 'lata-leonardo_Pescado', nombre: 'Lata Leonardo Adulto — Pescado', cat: 'Alimentos', precio: '$3.790', img: 'lata-leonardo-pescado.jpg',  emoji: '🐟', audience: 'Para Gatos' },
+  { id: 'lata-leonardo_Ternera', nombre: 'Lata Leonardo Adulto — Ternera', cat: 'Alimentos', precio: '$3.790', img: 'Latas_Leonardo_Adulto.jpg',  emoji: '🐄', audience: 'Para Gatos' },
+  { id: 'lata-leonardo-kitten',  nombre: 'Lata Leonardo Kitten 200g',      cat: 'Alimentos', precio: '$3.790', img: 'lata-leonardo-kitten.jpg', emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'leonardo-adult-gf-poultry-1-8kg',        nombre: 'Leonardo Adult GF 1,8kg - Poultry',            cat: 'Alimentos', precio: '$26.990', img: 'alimento-leonardo-gf-poultry.jpg',       emoji: '🐔', audience: 'Para Gatos' },
+  { id: 'leonardo-adult-light-sterilised-1-8kg',  nombre: 'Leonardo Adult Light & Sterilised 1,8kg',    cat: 'Alimentos', precio: '$25.990', img: 'alimento-leonardo-sterilized-light.jpg', emoji: '⚖️', audience: 'Para Gatos' },
+  { id: 'leonardo-adult-duck-1-8kg',              nombre: 'Leonardo Adult 1,8kg - Duck',           cat: 'Alimentos', precio: '$25.990', img: 'alimento-leonardo-adult-duck.jpg',       emoji: '🦆', audience: 'Para Gatos' },
+  { id: 'fit-formula-gato-adulto-2kg',            nombre: 'Fit Formula Gato Adulto 2kg',                cat: 'Alimentos', precio: '$11.990', img: 'alimento-fit-formula-gato-2k.jpg',       emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'pura-natura-caldo-de-huesos-250g',       nombre: 'Caldo de Huesos 250g - Pura Natura',           cat: 'Alimentos', precio: '$4.990',  img: 'caldo-de-huesos-pura-natura.jpg',        emoji: '🍲', audience: 'Perros & Gatos' },
+  { id: 'bocados-pollo-pets-friends', nombre: 'Bocados de Pollo 65g - Pets Friends', cat: 'Snacks y Golosinas', precio: '$4.990', img: 'bocados-de-pollo-pets-friends.jpg', emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'cat-fest_Cordero',               nombre: 'Cat Fest Meat Sticks — Cordero',      cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.jpg',          emoji: '🐑', audience: 'Para Gatos' },
+  { id: 'cats-snack-pollo-camaron', nombre: 'Cats Snack - Rellena Pollo + Camarón', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats-snack-pollo-camaron.jpg', emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'cats-snack_Catnip',              nombre: 'Cats Snack — Atún + Catnip',                 cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'cats-snack-catnip.jpg',          emoji: '🌿', audience: 'Para Gatos' },
+  { id: 'cats-snack_Matatabi',            nombre: 'Cats Snack — Atún + Matatabi',               cat: 'Snacks y Golosinas',     precio: '$2.990',  img: 'cats-snack-matatabi.jpg',          emoji: '🌱', audience: 'Para Gatos' },
+  { id: 'cats-snack_Rellena Atún + Ostiones', nombre: 'Cats Snack — Rellena Atún + Ostiones', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats_snack_galletas_rellenas_atun_ostiones.jpg', emoji: '🦪', audience: 'Para Gatos' },
+  { id: 'cats-snack_Rellena Atún + Queso',    nombre: 'Cats Snack — Rellena Atún + Queso',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats-snack-atun-queso.jpg',      emoji: '🧀', audience: 'Para Gatos' },
+  { id: 'cats-snack_Rellena Atún + Pollo',    nombre: 'Cats Snack — Rellena Atún + Pollo',    cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats-snack-atun-con-pollo.jpg',  emoji: '🐟', audience: 'Para Gatos' },
+  { id: 'cubitos-salmon-pets-friends', nombre: 'Cubitos de Salmón 65g - Pets Friends', cat: 'Snacks y Golosinas', precio: '$4.990', img: 'cubitos-salmon-pets-friends.jpg', emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'condilo-vacuno-rahue', nombre: 'Cóndilo de Vacuno 300g - Rahue', cat: 'Snacks y Golosinas', precio: '$4.990', img: 'condilo-de-vacuno.jpg', emoji: '🐕', audience: 'Para Perros' },
+  { id: 'fit-formula-costillas-cordero-100g', nombre: 'Costillitas de Cordero 100g - Fit Fórmula', cat: 'Snacks y Golosinas', precio: '$3.990', img: 'costillitas-de-cordero-fit-formula.jpg', emoji: '🐑', audience: 'Para Perros' },
+  { id: 'femur-cerdo-tasty',      nombre: 'Fémur de Cerdo - Tasty Farm',           cat: 'Snacks y Golosinas', precio: '$4.990', img: 'femur_perros.jpg',              emoji: '🦴', audience: 'Para Perros' },
+  { id: 'garra-pollo-rahue',      nombre: 'Garra de Pollo 65g - Rahue',            cat: 'Snacks y Golosinas', precio: '$3.490', img: 'garras_de_pollo_perros.jpg',    emoji: '🐔', audience: 'Para Perros' },
+  { id: 'fellini-lollipop-calabaza', nombre: 'Lolli Pop Calabaza - Fellini', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'fellini-lollipop-calabaza.jpg', emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'fellini-lollipop-leche-cabra', nombre: 'Lolli Pop Leche de Cabra - Fellini', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'fellini-lollipop-leche-de-cabra.jpg', emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'doggo-mix-deshidratados', nombre: 'Mix Deshidratados 100g - Doggo', cat: 'Snacks y Golosinas', precio: '$4.290', img: 'doggo-mix-crispy-de-ciervo.jpg', emoji: '🐕', audience: 'Para Perros' },
+  { id: 'pulmon-cordero-rahue',   nombre: 'Pulmón de Cordero 50g - Rahue',        cat: 'Snacks y Golosinas', precio: '$3.990', img: 'pulmon_de_cordero_perros.jpg',  emoji: '🐑', audience: 'Para Perros' },
+  { id: 'oreja-cerdo-rahue',      nombre: 'Recorte Oreja de Cerdo 100g - Rahue',   cat: 'Snacks y Golosinas', precio: '$4.290', img: 'orejas_cerdo_perros.jpg',       emoji: '🐷', audience: 'Para Perros' },
+  { id: 'zupet-dental-fitness-crocante', nombre: 'Snack Dental Fitness Crocante 60g - QChefs', cat: 'Snacks y Golosinas', precio: '$9.990', img: 'snack-dental-gatos.jpg', emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'zupet-dental-power-suave', nombre: 'Snack Dental Power 75g - QChefs', cat: 'Snacks y Golosinas', precio: '$9.990', img: 'dental-power-snack-perro.jpg', emoji: '🐕', audience: 'Para Perros' },
+  { id: 'traquea-vacuno-rahue',   nombre: 'Tráquea de Vacuno - Rahue',             cat: 'Snacks y Golosinas', precio: '$3.990', img: 'traquea_de_vacuno_perros.jpg',  emoji: '🐄', audience: 'Para Perros' },
+  { id: 'doggo-traquea-vacuno-ciervo', nombre: 'Tráquea de Vacuno en Crispy de Ciervo - Doggo', cat: 'Snacks y Golosinas', precio: '$4.290', img: 'snack-doggo-traquea-de-vacuno.jpg', emoji: '🐕', audience: 'Para Perros' },
+  { id: 'tubito-atun',     nombre: 'Tubito Cremoso Atún con Catnip',     cat: 'Snacks y Golosinas', precio: '$2.990', img: 'Tubito_Cremoso_Cats_Snack2.jpg', emoji: '🐟', audience: 'Para Gatos' },
+  { id: 'tubito-camaron',   nombre: 'Tubito Cremoso Camarón con Catnip',   cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats-snack-tubito-camaron.jpg', emoji: '🐰', audience: 'Para Gatos' },
+  { id: 'tubito-salmon-matatabi', nombre: 'Tubito Cremoso Salmón con Matatabi', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'tubito_salmon_matatabi.jpg', emoji: '🐟', audience: 'Para Gatos' },
+  { id: 'collar-findmy_Negro',              nombre: 'Collar Find My — Negro',              cat: 'Accesorio', precio: '$12.990', img: 'collar-find-my-negro.jpg',    emoji: '🖤', audience: 'Perros & Gatos' },
+  { id: 'collar-findmy-rojo', nombre: 'Collar Find My — Rojo', cat: 'Accesorio', precio: '$12.990', img: 'collar-find-my-rojo.jpg', emoji: '📍', audience: 'Para Gatos' },
+  { id: 'collar-findmy_Turquesa',           nombre: 'Collar Find My — Turquesa',           cat: 'Accesorio', precio: '$12.990', img: 'collar-find-my-turquesa.jpg', emoji: '🩵', audience: 'Perros & Gatos' },
+  { id: 'comedero-lento-desmontable-azul', nombre: 'Comedero Lento Desmontable — Azul', cat: 'Accesorio', precio: '$7.990', img: 'comedero-lento-desmontable-azul.jpg', emoji: '🧩', audience: 'Para Gatos y Perros' },
+  { id: 'comedero-lento-desmontable-rojo', nombre: 'Comedero Lento Desmontable — Rojo', cat: 'Accesorio', precio: '$7.990', img: 'comedero-lento-desmontable-rojo.jpg', emoji: '🧩', audience: 'Para Gatos y Perros' },
+  { id: "comedero-lento-slow-feeder-rosado", audience: "Perros & Gatos", nombre: "Comedero Lento Slow Feeder - Rosado", cat: "Accesorio", precio: "$6.990", img: "comedero-lento-rosado.jpg", emoji: "🐶" },
+  { id: 'fuente-agua',                    nombre: 'Fuente de Agua Flor USB',             cat: 'Accesorio', precio: '$21.990', img: 'Bebedero_Gatos_2.jpg',          emoji: '💧', audience: 'Para Gatos' },
+  { id: 'rastreador-find-my', nombre: 'Rastreador Apple Find My + Funda de Silicona', cat: 'Accesorio', precio: '$11.990', img: 'rastreador-apple-find-my.jpg', emoji: '📍', audience: 'Para Gatos y Perros' },
+  { id: 'pajaro',                         nombre: 'Pájaro Interactivo',                  cat: 'Juguete',   precio: '$13.990', img: 'Pajaro_Gatos.jpg',              emoji: '🐦', audience: 'Para Gatos' },
+  { id: 'afeitadora',                     nombre: 'Afeitadora LED',                      cat: 'Aseo e Higiene',   precio: '$9.990',  img: 'Afeitadora_Gatos_1.jpg',        emoji: '✂️', audience: 'Perros & Gatos' },
+  { id: 'paw-balm',                       nombre: 'Paw Balm',                            cat: 'Aseo e Higiene',   precio: '$5.990',  img: 'Patas_y_Paw_Balm.jpg',          emoji: '🐾', audience: 'Perros & Gatos' },
+  { id: 'hey-bolsas-sanitarias-4-rollos', nombre: 'Bolsas Sanitarias 4 Rollos - Hey!', cat: 'Aseo e Higiene', precio: '$2.190', img: 'bolsas-de-basura-poop-hey.jpg', emoji: '💩', audience: 'Para Perros' },
+  { id: 'hey-cama-redonda-confort-verde', nombre: 'Cama Redonda Confort Verde - Hey!',     cat: 'Accesorio',   precio: '$13.990',  img: 'cama-confort-hey-verde.jpg',    emoji: '🛏️', audience: 'Perros & Gatos' },
+  { id: 'hey-donut-sonido-perros',        nombre: 'Donut con Sonido - Hey!', cat: 'Juguete', precio: '$2.990', img: 'donut-con-sonido-para-perros-hey.jpg', emoji: '🍩', audience: 'Para Perros' },
+  { id: 'suero-fisiologico',                  nombre: 'Suero Fisiológico — Cloruro de Sodio 0.9%', cat: 'Insumos Veterinarios', precio: '$2.590', img: 'suero_fisiologico_cloruro_de_sodio.jpg', emoji: '💊', audience: 'Perros & Gatos' },
+  { id: "flores-de-bach---ansiedad-y-calma", nombre: "Flores de Bach - Ansiedad y Calma", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Ansiedad_y_Calma.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
+  { id: "flores-de-bach---energia-y-animo", nombre: "Flores de Bach - Energía y Ánimo", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Energia_y_Animo.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
+  { id: "flores-de-bach---equilibrio", nombre: "Flores de Bach - Equilibrio", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Equilibrio.jpg", emoji: "🌿" , audience: 'Para Gatos' },
+  { id: "flores-de-bach---rescue-y-alivio", nombre: "Flores de Bach - Rescue y Alivio", cat: "Flores de Bach", precio: "$12.990", img: "Flores_Rescue_y_Alivio.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
+  { id: "arena-sanitaria-ciudad-animal-8kg", audience: "Para Gatos", nombre: "Arena Sanitaria Ciudad Animal 8kg", cat: "Aseo e Higiene", precio: "$8.990", img: "arena-sanitaria-ciudad-animal-8k.jpg", emoji: "🐱" },
+  { id: "botella-portatil-para-perros_Calipso", nombre: "Botella Portátil para Perros — Calipso", cat: "Accesorio", precio: "$14.990", img: "botella-de-agua-calipso-2.jpg", emoji: "🩵", audience: "Para Perros" },
+  { id: "botella-portatil-para-perros_Rosada", nombre: "Botella Portátil para Perros — Rosada", cat: "Accesorio", precio: "$14.990", img: "botella-de-agua-rosada.jpg", emoji: "🌸", audience: "Para Perros" },
+  { id: "brit-care-sterilized-weigh-control-2kg---duck-turkey", audience: "Para Gatos", nombre: "Brit Care Sterilized Weigh Control 2kg - Duck & Turkey", cat: "Alimentos", precio: "$24.990", img: "brit-care-esterilizado-duck.jpg", emoji: "🦆" },
+  { id: "calming-collar---perros", audience: "Para Perros", nombre: "Calming Collar - Perros", cat: "Accesorio", precio: "$7.990", img: "calming-collar-perro-caja.jpg", emoji: "🐶" },
+  { id: 'collar-findmy_Azul',              nombre: 'Collar Find My — Azul',               cat: 'Accesorio', precio: '$12.990', img: 'Collar_GPS.jpg',               emoji: '💙', audience: 'Perros & Gatos' },
+  { id: "collar-isabelino-donut-rosada---talla-s", audience: "Perros & Gatos", nombre: "Collar Isabelino Donut Rosada - Talla S", cat: "Insumos Veterinarios", precio: "$6.990", img: "collar-isabelino-donut-gatos.jpg", emoji: "🐱" },
+  { id: 'collar-nox-para-perro-zeedog', nombre: 'Collar Nox Zee.Dog', cat: 'Accesorio', precio: '$13.900', img: 'collar-nox-para-perro-zeedog.jpg', emoji: '🐶', audience: 'Para Perros' },
+  { id: 'collar-perro-acolchado_Café-M', nombre: 'Collar Perro Acolchado — Café Talla M', cat: 'Accesorio', precio: '$6.990', img: 'collar-perro-cafe-m.jpg', emoji: '🟤', audience: 'Para Perros' },
+  { id: 'collar-perro-acolchado_Café-S', nombre: 'Collar Perro Acolchado — Café Talla S', cat: 'Accesorio', precio: '$6.990', img: 'collar-perro-cafe-m.jpg', emoji: '🟤', audience: 'Para Perros' },
+  { id: 'collar-perro-acolchado_Rojo-S', nombre: 'Collar Perro Acolchado — Rojo Talla S', cat: 'Accesorio', precio: '$6.990', img: 'collar-perro-rojo-s.jpg', emoji: '🔴', audience: 'Para Perros' },
+  { id: 'collar-zeecat-error-410', nombre: 'Collar Zee.Cat Error 410', cat: 'Accesorio', precio: '$7.990', img: 'collar-zeecat-error-410.jpg', emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'collar-zeecat-error-500', nombre: 'Collar Zee.Cat Error 500', cat: 'Accesorio', precio: '$7.990', img: 'collar-zeecat-error-500.jpg', emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'colagepet-donut-carne', nombre: 'ColágePet Donut — Sabor Carne', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'colagepet_donut_carne.jpg', emoji: '🐶', audience: 'Para Perros' },
+  { id: 'colagepet-donut-pato', nombre: 'ColágePet Donut — Sabor Pato', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'colagepet_donut_pato.jpg', emoji: '🐶', audience: 'Para Perros' },
+  { id: 'colagepet-donut-pollo', nombre: 'ColágePet Donut — Sabor Pollo', cat: 'Snacks y Golosinas', precio: '$2.990', img: 'colagepet_donut_pollo.jpg', emoji: '🐶', audience: 'Para Perros' },
+  { id: "dispensador-de-bolsas---diseno-cafe", audience: "Para Perros", nombre: "Dispensador de Bolsas - Diseño Café", cat: "Accesorio", precio: "$5.990", img: "dispensador-bolsas-perro.jpg", emoji: "🐶" },
+  { id: 'dog-fest-calcium-bones-chicken', nombre: 'Dog Fest Calcium Bones with Chicken', cat: 'Snacks y Golosinas', precio: '$4.990', img: 'dog_fest_calcium_bones_chicken.jpg', emoji: '🐶', audience: 'Para Perros' },
+  { id: 'dog-fest-lamb-medallions', nombre: 'Dog Fest Lamb Medallions', cat: 'Snacks y Golosinas', precio: '$4.990', img: 'dog_fest_lamb_medallions.jpg', emoji: '🐶', audience: 'Para Perros' },
+  { id: 'dog-fest-rabbit-ears-lamb', nombre: 'Dog Fest Rabbit Ears with Lamb', cat: 'Snacks y Golosinas', precio: '$4.990', img: 'dog_fest_rabbit_ears_lamb.jpg', emoji: '🐶', audience: 'Para Perros' },
+  { id: 'pala-arenero-marron', nombre: 'Pala Arenero — Marrón', cat: 'Accesorio', precio: '$1.990', img: 'pala-arenero-marron.jpg', emoji: '🟤', audience: 'Para Gatos' },
+  { id: "pelota-snack-interactiva_Azul", nombre: "Pelota Snack Interactiva — Azul", cat: "Juguete", precio: "$6.990", img: "pelota-snack-perro-azul.jpg", emoji: "🔵", audience: "Para Perros" },
+  { id: 'pelota-snack-interactiva_Verde', nombre: 'Pelota Snack Interactiva — Verde', cat: 'Juguete', precio: '$6.990', img: 'pelota-snack-perro-verde.jpg', emoji: '🟢', audience: 'Para Perros' },
+  { id: "rascador-maxi-caja-de-leche---brnx", audience: "Para Gatos", nombre: "Rascador Maxi Caja de Leche - Brnx", cat: "Accesorio", precio: "$13.990", img: "rascador-forma-de-leche.jpg", emoji: "🐱" },
+  { id: 'snack-calming-gato', nombre: 'Snack Calming Cat Treats - Beaphar', cat: 'Snacks y Golosinas', precio: '$5.990', img: 'snack-calming-gato.jpg', emoji: '😸', audience: 'Para Gatos' },
+
+  // AGOTADOS
+  { id: 'lata-leonardo_Ave',     nombre: 'Lata Leonardo Adulto — Ave',     cat: 'Alimentos', precio: '$3.790', img: 'lata-leonardo-ave.jpg',  emoji: '🐔', audience: 'Para Gatos' },
+  { id: 'cat-fest_Pato',                  nombre: 'Cat Fest Meat Sticks — Pato',         cat: 'Snacks y Golosinas',     precio: '$3.490',  img: 'Lamb_Meat_Sticks.jpg',          emoji: '🦆', audience: 'Para Gatos' },
+  { id: 'pura-natura-woofers-80g',        nombre: "Woofer's 80g - Pura Natura",            cat: 'Snacks y Golosinas',     precio: '$3.990',  img: 'woffer-pura-natura.jpg',         emoji: '🐕', audience: 'Para Perros' },
+  { id: 'cat-fest-pillows', nombre: 'Cat Fest Pillows Chicken Creme', cat: 'Snacks y Golosinas', precio: '$1.990', img: 'Cat_Fest_Pillows_Chicken.jpg', emoji: '🐔', audience: 'Para Gatos' },
+  { id: "cat-fest-pillows-schrimp-creme", nombre: "Cat Fest Pillows Salmon Creme", cat: "Snacks y Golosinas", precio: "$1.990", img: "catfest_pillows_salmon_creme.jpg", emoji: "🐾" , audience: 'Para Gatos' },
+  { id: 'cats-snack_Rellena Camarón',         nombre: 'Cats Snack — Rellena Camarón',         cat: 'Snacks y Golosinas', precio: '$2.990', img: 'cats_snack_galletas_rellenas_camaron.jpg', emoji: '🦐', audience: 'Para Gatos' },
+  { id: "comedero-lento-flores-lila", audience: "Perros & Gatos", nombre: "Comedero Lento Flores - Lila", cat: "Accesorio", precio: "$9.990", img: "comedero-lento-flores-lila.jpg", emoji: "🌸" },
+  { id: "comedero-lento-slow-feeder---catstages", nombre: "Comedero Lento Slow Feeder - Catstages", cat: "Accesorio", precio: "$7.990", img: "Plato_con_Comida.jpg", emoji: "🐱" , audience: 'Para Gatos' },
+  { id: 'pulpo',                          nombre: 'Masajeador Pulpo',                    cat: 'Juguete',   precio: '$6.990',  img: 'pulpo_para_gatos_masajeador.jpg',             emoji: '🐙', audience: 'Para Gatos' },
+  { id: 'pelota-led',                     nombre: 'Pelota Interactiva LED',              cat: 'Juguete',   precio: '$8.990',  img: 'Pelota_Interactiva_Gato.jpg',   emoji: '🔦', stock: 2, audience: 'Para Gatos' },
+  { id: "pack-cuidado-total", nombre: "Pack Cuidado Total", cat: "Aseo e Higiene", precio: "$12.990", img: "pack_cuidado_total.jpg", emoji: "🐾" , audience: 'Perros & Gatos' },
+  { id: "pack-bienvenido-a-casa", nombre: "Pack Bienvenido a Casa", cat: "Flores de Bach", precio: "$21.990", img: "pack_bienveido_a_casa.jpg", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "pack-calma-total", nombre: "Pack Calma Total", cat: "Flores de Bach", precio: "$15.990", img: "pack_calma_total.jpg", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "pack-consulta-flor-de-bach", nombre: "Pack Consulta + Flor de Bach", cat: "Flores de Bach", precio: "$29.990", img: "pack_floral_perros_gatos.jpg", emoji: "🌿" , audience: 'Perros & Gatos' },
+  { id: "pack-juega-y-relaja", nombre: "Pack Juega y Relaja", cat: "Flores de Bach", precio: "$28.990", img: "pack_relaja_y_juega.jpg", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "pack-rutina-sana", nombre: "Pack Rutina Sana", cat: "Flores de Bach", precio: "$33.990", img: "pack_rutina_sana.jpg", emoji: "🎁" , audience: 'Para Gatos' },
+  { id: "pack-sos-mascota", nombre: "Pack SOS Mascota", cat: "Flores de Bach", precio: "$18.990", img: "pack_sos_mascota.jpg", emoji: "🎁" , audience: 'Perros & Gatos' },
+  { id: "calming-collar---gatos", audience: "Para Gatos", nombre: "Calming Collar - Gatos", cat: "Accesorio", precio: "$7.990", img: "calming-collar-gato-caja.jpg", emoji: "🐱" },
+  { id: 'collar-findmy_Amarillo', nombre: 'Collar Find My — Amarillo', cat: 'Accesorio', precio: '$12.990', img: 'collar-find-my-amarillo.jpg', emoji: '💛', audience: 'Perros & Gatos' },
+  { id: 'collar-suede-para-perro-zeedog', nombre: 'Collar Suede Zee.Dog', cat: 'Accesorio', precio: '$13.900', img: 'collar-suede-para-perro-zeedog.jpg', emoji: '🐶', audience: 'Para Perros' },
+  { id: 'collar-zeecat-error-404', nombre: 'Collar Zee.Cat Error 404', cat: 'Accesorio', precio: '$7.990', img: 'collar-zeecat-error-404.jpg', emoji: '🐱', audience: 'Para Gatos' },
+  { id: 'pala-arenero-verde', nombre: 'Pala Arenero — Verde', cat: 'Accesorio', precio: '$1.990', img: 'pala-arenero-verde.jpg', emoji: '🟢', audience: 'Para Gatos' },
+  { id: "pelota-snack-interactiva_Roja", nombre: "Pelota Snack Interactiva — Roja", cat: "Juguete", precio: "$6.990", img: "pelota-snack-perro-roja.jpg", emoji: "🔴", audience: "Para Perros" }
+];
+
+const STOCK_KEY = 'pac_stock';
+const LOG_KEY   = 'pac_stock_log';
+const PASS      = '290966';
+
+/* ═══════════════════════════════════════
+   ESTADO — Upstash via Vercel Functions
+═══════════════════════════════════════ */
+async function cargarStockRemoto() {
+  try {
+    const r = await fetch('/api/stock-get?t=' + Date.now());
+    const data = await r.json();
+    if (data.stock && Object.keys(data.stock).length > 0) {
+      localStorage.setItem(STOCK_KEY, JSON.stringify(data.stock));
+      return data.stock;
+    }
+  } catch(e) {}
+  try {
+    const s = localStorage.getItem(STOCK_KEY);
+    if (s) {
+      const parsed = JSON.parse(s);
+      if (Object.keys(parsed).length > 0) return parsed;
+    }
+  } catch(e) {}
+  return {...STOCK_DEFAULTS};
+}
+
+async function guardarStockRemoto(stock) {
+  localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
+  try {
+    await fetch('/api/stock-set', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stock })
+    });
+  } catch(e) { console.warn('Upstash no disponible:', e); }
+}
+
+const STOCK_DEFAULTS = {"rascador-maxi-caja-de-leche---brnx":0,"collar-isabelino-donut-rosada---talla-s":0,"pelota-snack-interactiva_Roja":0,"pelota-snack-interactiva_Azul":0,"dispensador-de-bolsas---diseno-cafe":0,"calming-collar---perros":0,"calming-collar---gatos":0,"botella-portatil-para-perros_Rosada":0,"botella-portatil-para-perros_Calipso":0,"arena-sanitaria-ciudad-animal-8kg":0,"brit-care-sterilized-weigh-control-2kg---duck-turkey":0,"colagepet-donut-pollo":0,"colagepet-donut-carne":0,"colagepet-donut-pato":0,"dog-fest-rabbit-ears-lamb":0,"dog-fest-lamb-medallions":0,"dog-fest-calcium-bones-chicken":0,"pelota-snack-interactiva_Verde":0,"collar-findmy_Amarillo":0,"collar-perro-acolchado_Café-S":0,"collar-perro-acolchado_Café-M":0,"collar-perro-acolchado_Rojo-S":0,"comedero-lento-flores-lila":1,"snack-calming-gato":0,"collar-zeecat-error-500":0,"collar-zeecat-error-404":0,"collar-zeecat-error-410":0,"collar-suede-para-perro-zeedog":0,"collar-nox-para-perro-zeedog":0,"pala-arenero-marron":0,"pala-arenero-verde":0,"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-cuidado-total":5,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,"cat-fest-pillows":1,"tubito-atun":3,"tubito-camaron":3,"tubito-salmon-matatabi":3,"lata-leonardo-kitten":1,"lata-leonardo_Ave":1,"lata-leonardo_Pato":1,"lata-leonardo_Conejo":1,"lata-leonardo_Pescado":1,"lata-leonardo_Ternera":1,"collar-findmy_Turquesa":1,"collar-findmy_Negro":1,"collar-findmy_Azul":0,"fuente-agua":1,"pajaro":1,"pelota-led":2,"pulpo":1,"paw-balm":2,"afeitadora":1,"cat-fest_Pato":1,"cat-fest_Cordero":1,"cats-snack_Catnip":1,"cats-snack_Matatabi":1,"cats-snack_Rellena Atún + Queso":1,"cats-snack_Rellena Atún + Ostiones":1,"cats-snack_Rellena Camarón":1,"suero-fisiologico":5,"pulmon-cordero-rahue":2,"traquea-vacuno-rahue":2,"garra-pollo-rahue":2,"oreja-cerdo-rahue":2,"femur-cerdo-tasty":2,"zupet-dental-power-suave":2,"zupet-dental-fitness-crocante":2,"fellini-lollipop-calabaza":1,"fellini-lollipop-leche-cabra":1,"bocados-pollo-pets-friends":1,"cubitos-salmon-pets-friends":1,"doggo-traquea-vacuno-ciervo":2,"doggo-mix-deshidratados":2,"condilo-vacuno-rahue":2,"cats-snack-pollo-camaron":2,"leonardo-adult-gf-poultry-1-8kg":2,"leonardo-adult-light-sterilised-1-8kg":2,"leonardo-adult-duck-1-8kg":2,"hey-bolsas-sanitarias-4-rollos":4,"hey-cama-redonda-confort-verde":3,"hey-donut-sonido-perros":3,"pura-natura-caldo-de-huesos-250g":3,"pura-natura-woofers-80g":3,"fit-formula-gato-adulto-2kg":4,"cats-snack_Rellena Atún + Pollo":2,"fit-formula-costillas-cordero-100g":2};
+
+function cargarStock() {
+  try {
+    const s = localStorage.getItem(STOCK_KEY);
+    if (s) {
+      const parsed = JSON.parse(s);
+      if (Object.keys(parsed).length > 0) return parsed;
+    }
+  } catch(e) {}
+  const def = {};
+  SKUS.forEach(s => def[s.id] = typeof STOCK_DEFAULTS[s.id] === 'number' ? STOCK_DEFAULTS[s.id] : 1);
+  return def;
+}
+
+function guardarStock(stock) {
+  guardarStockRemoto(stock);
+}
+
+function cargarLog() {
+  try {
+    const l = localStorage.getItem(LOG_KEY);
+    return l ? JSON.parse(l) : [];
+  } catch(e) { return []; }
+}
+
+function guardarLog(log) {
+  localStorage.setItem(LOG_KEY, JSON.stringify(log.slice(0, 20)));
+}
+
+// Limpiar localStorage para forzar carga desde Upstash
+localStorage.removeItem(STOCK_KEY);
+
+let stock = {...STOCK_DEFAULTS};
+let filtroActual = 'Todos';
+let filtroAudiencia = null;
+
+// Cargar stock desde Upstash al iniciar — siempre
+(async () => {
+  try {
+    const r = await fetch('/api/stock-get?t=' + Date.now());
+    const data = await r.json();
+    // data.stock puede venir como string o como objeto
+    let s = data.stock;
+    if (typeof s === 'string') { try { s = JSON.parse(s); } catch(e) {} }
+    if (s && typeof s === 'object' && Object.keys(s).length > 0) {
+      stock = s;
+      localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
+    }
+  } catch(e) {}
+  render();
+})();
+
+/* ═══════════════════════════════════════
+   RENDER
+═══════════════════════════════════════ */
+function render() {
+  actualizarSummary();
+  renderLista();
+  renderLog();
+}
+
+function actualizarSummary() {
+  const total = SKUS.length;
+  const enStock = SKUS.filter(s => {
+    const qty = typeof stock[s.id] === 'number' ? stock[s.id] : (stock[s.id] === false ? 0 : 0);
+    return qty > 0;
+  }).length;
+  document.getElementById('sum-total').textContent = total;
+  document.getElementById('sum-stock').textContent = enStock;
+  document.getElementById('sum-agotados').textContent = total - enStock;
+}
+
+function renderLista() {
+  const lista = document.getElementById('prod-list');
+  const skusFiltrados = filtroAudiencia
+    ? SKUS.filter(s => s.audience && (s.audience === filtroAudiencia || s.audience === 'Perros & Gatos'))
+    : (filtroActual === 'Todos' ? SKUS : SKUS.filter(s => s.cat === filtroActual));
+
+  lista.innerHTML = '';
+  skusFiltrados.forEach(sku => {
+    const qty = typeof stock[sku.id] === 'number' ? stock[sku.id] : (stock[sku.id] === false ? 0 : 0);
+    const enStock = qty > 0;
+    const row = document.createElement('div');
+    row.className = 'sku-row' + (enStock ? '' : ' agotado');
+    row.dataset.cat = sku.cat;
+    row.innerHTML = `
+      <div class="sku-img-placeholder" id="img-wrap-${sku.id.replace(/[^a-z0-9]/gi,'_')}">
+        ${sku.emoji}
+      </div>
+      <div class="sku-info">
+        <div class="sku-nombre">${sku.nombre}</div>
+        <div class="sku-meta">
+          <span class="sku-cat">${sku.cat}</span>
+          <span class="sku-precio">${sku.precio}</span>
+        </div>
+      </div>
+      <div class="toggle-wrap" style="display:flex;align-items:center;gap:.75rem;">
+        <div style="display:flex;align-items:center;gap:.4rem;">
+          <button ontouchend="event.preventDefault();cambiarCantidad('${sku.id}', -1)" onclick="cambiarCantidad('${sku.id}', -1)" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(28,16,7,.15);background:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--dark);touch-action:manipulation;">−</button>
+          <input type="number" id="qty-${sku.id.replace(/[^a-z0-9]/gi,'_')}" value="${qty}" min="0" style="width:52px;text-align:center;border:1.5px solid rgba(28,16,7,.15);border-radius:8px;padding:4px;font-family:'Poppins',sans-serif;font-size:.9rem;" onchange="setCantidad('${sku.id}', parseInt(this.value)||0)">
+          <button ontouchend="event.preventDefault();cambiarCantidad('${sku.id}', 1)" onclick="cambiarCantidad('${sku.id}', 1)" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(28,16,7,.15);background:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--dark);touch-action:manipulation;">+</button>
+        </div>
+        <span class="toggle-label ${enStock ? 'en-stock' : 'agotado-lbl'}" id="lbl-${sku.id.replace(/[^a-z0-9]/gi,'_')}">
+          ${enStock ? 'En stock' : 'Agotado'}
+        </span>
+      </div>
+    `;
+    lista.appendChild(row);
+
+    // Intentar cargar imagen real
+    const img = new Image();
+    img.src = sku.img;
+    img.style.cssText = 'width:52px;height:52px;border-radius:10px;object-fit:cover;';
+    img.onload = () => {
+      const wrap = document.getElementById(`img-wrap-${sku.id.replace(/[^a-z0-9]/gi,'_')}`);
+      if (wrap) { wrap.innerHTML = ''; wrap.appendChild(img); }
+    };
+  });
+}
+
+function renderLog() {
+  const log = cargarLog();
+  const el = document.getElementById('log-list');
+  if (log.length === 0) {
+    el.innerHTML = '<div class="log-empty">Sin cambios registrados todavía.</div>';
+    return;
+  }
+  el.innerHTML = log.slice(0, 10).map(entry => `
+    <div class="log-item">
+      <span class="log-dot ${entry.enStock ? 'verde' : 'rojo'}"></span>
+      <span><strong>${entry.nombre}</strong> marcado como <strong>${entry.enStock ? 'En stock' : 'Agotado'}</strong></span>
+      <span class="log-time">${entry.hora}</span>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════
+   ACCIONES
+═══════════════════════════════════════ */
+function cambiarCantidad(id, delta) {
+  const safeId = id.replace(/[^a-z0-9]/gi,'_');
+  const qtyInput = document.getElementById('qty-' + safeId);
+  const current = qtyInput ? parseInt(qtyInput.value)||0 : (typeof stock[id] === 'number' ? stock[id] : (stock[id] === false ? 0 : 1));
+  const nueva = Math.max(0, current + delta);
+  setCantidad(id, nueva);
+}
+
+function setCantidad(id, cantidad) {
+  stock[id] = cantidad;
+  guardarStock(stock);
+  const sku = SKUS.find(s => s.id === id);
+  const log = cargarLog();
+  log.unshift({
+    id,
+    nombre: sku?.nombre || id,
+    enStock: cantidad > 0,
+    hora: new Date().toLocaleString('es-CL', { dateStyle: 'short', timeStyle: 'short' })
+  });
+  guardarLog(log);
+  // Actualizar solo el label y la fila sin re-renderizar todo
+  const safeId = id.replace(/[^a-z0-9]/gi,'_');
+  const lbl = document.getElementById('lbl-' + safeId);
+  const qtyInput = document.getElementById('qty-' + safeId);
+  if (lbl) { lbl.textContent = cantidad > 0 ? 'En stock' : 'Agotado'; lbl.className = 'toggle-label ' + (cantidad > 0 ? 'en-stock' : 'agotado-lbl'); }
+  if (qtyInput) qtyInput.value = cantidad;
+  actualizarSummary();
+  renderLog();
+  mostrarToast(cantidad > 0 ? `✅ ${sku?.nombre} → ${cantidad} en stock` : `🚫 ${sku?.nombre} → Agotado`);
+}
+
+function cambiarStock(id, enStock) {
+  stock[id] = enStock;
+  guardarStock(stock);
+
+  // Actualizar log
+  const sku = SKUS.find(s => s.id === id);
+  const log = cargarLog();
+  log.unshift({
+    id,
+    nombre: sku?.nombre || id,
+    enStock,
+    hora: new Date().toLocaleString('es-CL', { dateStyle: 'short', timeStyle: 'short' })
+  });
+  guardarLog(log);
+
+  // Re-render
+  render();
+  mostrarToast(enStock ? `✅ ${sku?.nombre} → En stock` : `🚫 ${sku?.nombre} → Agotado`);
+}
+
+function filtrar(cat, btn) {
+  filtroActual = cat;
+  filtroAudiencia = null;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
+  renderLista();
+}
+function filtrarAudiencia(aud, btn) {
+  filtroActual = 'Todos';
+  filtroAudiencia = aud;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
+  renderLista();
+}
+
+/* ═══════════════════════════════════════
+   EXPORTAR
+═══════════════════════════════════════ */
+function abrirExportar() {
+  const lineas = SKUS.map(sku => {
+    const val = stock[sku.id] !== false ? 1 : 0;
+    return `  '${sku.id}': ${val},   // ${sku.nombre}`;
+  }).join('\n');
+
+  const codigo = `const stockInicial = {"collar-de-perro-talla-m-brown":1,"comedero-lento-flores-lila":1,"collar-find-my-amarillo":1,"pelota-snack-interactiva-verde":2,"comedero-lento-slow-feeder-rosado":2,"rascador-maxi-caja-de-leche---brnx":2,"collar-isabelino-donut-rosada---talla-s":1,"pelota-snack-interactiva_Roja":2,"pelota-snack-interactiva_Azul":2,"dispensador-de-bolsas---diseno-cafe":2,"calming-collar---perros":1,"calming-collar---gatos":1,"botella-portatil-para-perros_Rosada":1,"botella-portatil-para-perros_Calipso":1,"arena-sanitaria-ciudad-animal-8kg":4,"brit-care-sterilized-weigh-control-2kg---duck-turkey":3,"pack-calma-total":10,"pack-sos-mascota":10,"pack-rutina-sana":10,"pack-bienvenido-a-casa":10,"pack-juega-y-relaja":10,"comedero-lento-slow-feeder---catstages":1,"pack-consulta-flor-de-bach":200,"flores-de-bach---rescue-y-alivio":20,"flores-de-bach---energia-y-animo":20,"flores-de-bach---equilibrio":20,"flores-de-bach---ansiedad-y-calma":20,"cat-fest-pillows-schrimp-creme":1,\n${lineas}\n};`;
+  document.getElementById('codigo-exportar').textContent = codigo;
+  document.getElementById('modal-exportar').classList.add('open');
+}
+
+function cerrarExportar() {
+  document.getElementById('modal-exportar').classList.remove('open');
+}
+
+function copiarCodigo() {
+  const texto = document.getElementById('codigo-exportar').textContent;
+  navigator.clipboard.writeText(texto).then(() => {
+    mostrarToast('✅ Código copiado al portapapeles');
+    cerrarExportar();
+  });
+}
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+let toastTimer;
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* CERRAR MODAL CON FONDO */
+document.getElementById('modal-exportar').addEventListener('click', function(e) {
+  if (e.target === this) cerrarExportar();
+});
+
+/* INIT */
+stock = cargarStockRemoto();
+render();
+</script>
+</body>
+</html>
