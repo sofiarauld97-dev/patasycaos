@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin v2 — Patas & Caos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --terracota:#C4622D;--verde:#4A7C59;--cream:#F5ECD7;
+      --negro:#1A1A1A;--dark:#1C1007;--blanco:#fff;
+      --card:#FFFDF8;--borde:rgba(28,16,7,.13);--suave:#6B5A4E;
+      --ok:#2D7A3A;--error:#B42318
+    }
+    body{font-family:Poppins,sans-serif;background:var(--cream);color:var(--negro);min-height:100vh}
+    header{position:sticky;top:0;z-index:30;background:rgba(245,236,215,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--borde)}
+    .head{max-width:1120px;margin:auto;padding:14px 5%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+    .brand img{width:40px;height:40px;object-fit:contain}
+    .badge{background:var(--verde);color:#fff;border-radius:999px;padding:6px 12px;font-size:.73rem;font-weight:700}
+    main{max-width:1120px;margin:auto;padding:34px 5% 72px}
+    h1{font-size:clamp(1.8rem,4vw,2.7rem);font-weight:900;line-height:1.1}
+    .lead{margin-top:8px;color:var(--suave);font-size:.92rem;line-height:1.65;max-width:760px}
+    .notice{margin:22px 0;padding:14px 16px;border:1px solid rgba(74,124,89,.35);background:rgba(74,124,89,.08);border-radius:14px;font-size:.82rem;line-height:1.55}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .card{background:var(--card);border:1px solid var(--borde);border-radius:20px;padding:22px;box-shadow:0 8px 28px rgba(28,16,7,.045)}
+    .full{grid-column:1/-1}
+    .card h2{font-size:1rem;margin-bottom:16px}
+    .fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field.full{grid-column:1/-1}
+    label{font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--suave)}
+    input,select,textarea{width:100%;border:1.5px solid var(--borde);background:#fff;border-radius:11px;padding:11px 13px;font:inherit;font-size:.86rem;color:var(--negro);outline:none}
+    input:focus,select:focus,textarea:focus{border-color:var(--terracota)}
+    textarea{min-height:96px;resize:vertical}
+    .hint{font-size:.69rem;color:#9A8D82;line-height:1.4}
+    .upload{border:2px dashed var(--borde);border-radius:16px;padding:20px;text-align:center;cursor:pointer;background:#fff}
+    .upload.loaded{border-style:solid;border-color:var(--ok);background:#F1FAF2}
+    .upload strong{display:block;font-size:.9rem}
+    .upload span{display:block;margin-top:5px;font-size:.75rem;color:var(--suave)}
+    .list{display:flex;flex-direction:column;gap:8px}
+    .row{display:flex;gap:8px}
+    .row input{flex:1}
+    button{font-family:inherit}
+    .x{width:40px;border:1.5px solid var(--borde);background:#fff;border-radius:10px;cursor:pointer}
+    .x:hover{border-color:var(--error);color:var(--error)}
+    .small{margin-top:9px;border:1.5px dashed var(--borde);background:transparent;border-radius:10px;padding:8px 13px;font-size:.76rem;font-weight:700;color:var(--suave);cursor:pointer}
+    .small:hover{border-color:var(--terracota);color:var(--terracota)}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .primary,.secondary{border:none;border-radius:999px;padding:13px 20px;font-weight:800;cursor:pointer}
+    .primary{background:var(--terracota);color:#fff}
+    .primary:hover{background:#A8501F}
+    .secondary{background:var(--cream);color:var(--verde);border:1.5px solid var(--verde)}
+    .secondary:hover{background:var(--verde);color:#fff}
+    .primary:disabled,.secondary:disabled{opacity:.45;cursor:not-allowed}
+    .status{margin-top:14px;min-height:22px;font-size:.82rem;font-weight:600}
+    .status.ok{color:var(--ok)} .status.err{color:var(--error)}
+    details{border:1px solid var(--borde);border-radius:14px;background:#fff;overflow:hidden}
+    summary{cursor:pointer;padding:13px 15px;font-size:.82rem;font-weight:800}
+    pre{white-space:pre-wrap;word-break:break-word;background:var(--dark);color:#F5ECD7;padding:16px;font-size:.73rem;line-height:1.55;max-height:420px;overflow:auto}
+    .checkline{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--suave)}
+    .checkline input{width:16px;height:16px;accent-color:var(--terracota)}
+    @media(max-width:760px){.grid,.fields{grid-template-columns:1fr}.full{grid-column:auto}.head{align-items:flex-start}.badge{display:none}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="head">
+    <div class="brand"><img src="/logo.png" alt="" onerror="this.style.display='none'"><span>Patas & Caos</span></div>
+    <div class="badge">Admin v2 · Productos</div>
+  </div>
+</header>
+
+<main>
+  <h1>Crear un producto nuevo</h1>
+  <p class="lead">Este panel actualiza únicamente la fuente central del catálogo. Carga <strong>data/productos.json</strong>, completa el producto y descarga el JSON actualizado. Al reemplazarlo en GitHub, el build de Vercel regenerará las fichas y páginas automáticamente.</p>
+
+  <div class="notice">
+    Este panel no modifica pagos, webhooks, inventario ni Upstash. Tampoco sube imágenes a GitHub: primero agrega las imágenes al repositorio y escribe aquí sus nombres exactos.
+  </div>
+
+  <div class="grid">
+    <section class="card full">
+      <h2>1. Cargar catálogo actual</h2>
+      <label class="upload" id="uploadBox">
+        <input type="file" id="jsonFile" accept=".json,application/json" hidden>
+        <strong>Seleccionar data/productos.json</strong>
+        <span id="uploadText">El archivo se procesa solo en tu navegador.</span>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>2. Información básica</h2>
+      <div class="fields">
+        <div class="field full"><label>Nombre *</label><input id="nombre" placeholder="Ej: Collar luminoso LED"></div>
+        <div class="field"><label>SKU / ID interno *</label><input id="sku" placeholder="collar-luminoso-led"><span class="hint">Lo usa el carrito y el stock.</span></div>
+        <div class="field"><label>Slug público *</label><input id="slug" placeholder="collar-luminoso-led"><span class="hint">URL: /productos/slug</span></div>
+        <div class="field"><label>Precio CLP *</label><input id="precio" type="number" min="0" placeholder="9990"></div>
+        <div class="field"><label>Stock inicial</label><input id="stock" type="number" min="0" value="1"></div>
+        <div class="field"><label>Categoría *</label>
+          <select id="categoria">
+            <option value="">Selecciona…</option>
+            <option>Accesorio</option><option>Juguete</option><option>Aseo e Higiene</option>
+            <option>Alimentos</option><option>Snacks y Golosinas</option>
+            <option>Flores de Bach</option><option>Insumos Veterinarios</option>
+          </select>
+        </div>
+        <div class="field"><label>Para *</label>
+          <select id="audience">
+            <option value="">Selecciona…</option>
+            <option>Para Gatos</option><option>Para Perros</option><option>Perros & Gatos</option>
+          </select>
+        </div>
+        <div class="field full"><label>Marca</label><input id="marca" placeholder="Ej: Rahue"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. Contenido comercial</h2>
+      <div class="fields">
+        <div class="field full"><label>Tagline</label><input id="tagline" placeholder="Máximo 7 palabras"></div>
+        <div class="field full"><label>Descripción *</label><textarea id="descripcion" placeholder="Descripción clara del producto…"></textarea></div>
+        <div class="field full"><label>Título de la primera pestaña</label><input id="caracTitulo" value="Características"></div>
+        <div class="field full"><label>Ingredientes (opcional)</label><textarea id="ingredientes" placeholder="Solo cuando corresponde"></textarea></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. Características</h2>
+      <div class="list" id="caracteristicas">
+        <div class="row"><input placeholder="Ej: Material resistente"><button type="button" class="x" onclick="removeRow(this)">✕</button></div>
+      </div>
+      <button class="small" type="button" onclick="addRow('caracteristicas','Nueva característica')">+ Agregar característica</button>
+    </section>
+
+    <section class="card">
+      <h2>5. Imágenes</h2>
+      <div class="list" id="imagenes">
+        <div class="row"><input placeholder="Ej: collar-luminoso-led.jpg"><button type="button" class="x" onclick="removeRow(this)">✕</button></div>
+      </div>
+      <button class="small" type="button" onclick="addRow('imagenes','nombre-de-imagen.jpg')">+ Agregar imagen</button>
+      <div class="field" style="margin-top:14px"><label>Emoji de respaldo</label><input id="emoji" value="🐾" maxlength="4"></div>
+    </section>
+
+    <section class="card full">
+      <h2>6. SEO</h2>
+      <div class="fields">
+        <div class="field full"><label>Título SEO</label><input id="seoTitle" placeholder="Se completa automáticamente si lo dejas vacío"></div>
+        <div class="field full"><label>Meta description</label><textarea id="seoDescription" placeholder="Se completa desde la descripción si lo dejas vacío"></textarea></div>
+        <label class="checkline full"><input id="overwrite" type="checkbox"> Reemplazar un producto existente si coincide el SKU o slug</label>
+      </div>
+    </section>
+
+    <section class="card full">
+      <h2>7. Generar</h2>
+      <div class="actions">
+        <button class="primary" id="btnGenerate" type="button" disabled>Agregar producto y preparar JSON</button>
+        <button class="secondary" id="btnDownload" type="button" disabled>Descargar productos.json actualizado</button>
+        <button class="secondary" id="btnStock" type="button" disabled>Descargar stock-patch.json</button>
+      </div>
+      <div class="status" id="status"></div>
+      <details style="margin-top:16px">
+        <summary>Ver objeto generado</summary>
+        <pre id="preview">{}</pre>
+      </details>
+    </section>
+  </div>
+</main>
+
+<script>
+let originalJson = null;
+let updatedJson = null;
+let containerInfo = null;
+let stockPatch = null;
+
+const $ = id => document.getElementById(id);
+const slugify = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  .replace(/&/g,' y ').replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-');
+
+$('nombre').addEventListener('input', () => {
+  const base = slugify($('nombre').value);
+  if (!$('sku').dataset.touched) $('sku').value = base;
+  if (!$('slug').dataset.touched) $('slug').value = base;
+});
+['sku','slug'].forEach(id => $(id).addEventListener('input', () => $(id).dataset.touched='1'));
+
+$('jsonFile').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    const text = await file.text();
+    originalJson = JSON.parse(text);
+    containerInfo = detectContainer(originalJson);
+    $('uploadBox').classList.add('loaded');
+    $('uploadText').textContent = `✅ ${file.name} · ${containerInfo.items.length} productos detectados`;
+    $('btnGenerate').disabled = false;
+    setStatus('Catálogo cargado correctamente.', true);
+  } catch (err) {
+    originalJson = null;
+    $('btnGenerate').disabled = true;
+    setStatus('No se pudo leer el JSON: ' + err.message, false);
+  }
+});
+
+function detectContainer(json){
+  if (Array.isArray(json)) return {type:'array', items:json};
+  if (json && Array.isArray(json.productos)) return {type:'productos-array', items:json.productos};
+  if (json && typeof json === 'object') {
+    const vals = Object.values(json);
+    const looksKeyed = vals.length && vals.every(v => v && typeof v === 'object' && !Array.isArray(v));
+    if (looksKeyed) return {type:'keyed-object', items:vals};
+  }
+  throw new Error('Formato no reconocido. Se espera un array, {productos:[...]}, o un objeto indexado por SKU.');
+}
+
+function addRow(id, placeholder){
+  const row = document.createElement('div');
+  row.className='row';
+  row.innerHTML=`<input placeholder="${placeholder}"><button type="button" class="x" onclick="removeRow(this)">✕</button>`;
+  $(id).appendChild(row);
+}
+function removeRow(btn){
+  const list=btn.parentElement.parentElement;
+  if(list.children.length>1) btn.parentElement.remove();
+}
+function values(id){
+  return [...$(id).querySelectorAll('input')].map(i=>i.value.trim()).filter(Boolean);
+}
+function escapeText(v){ return String(v ?? '').trim(); }
+
+function makeProduct(){
+  const nombre=escapeText($('nombre').value);
+  const sku=slugify($('sku').value);
+  const slug=slugify($('slug').value);
+  const precio=Number($('precio').value);
+  const categoria=escapeText($('categoria').value);
+  const audience=escapeText($('audience').value);
+  const descripcion=escapeText($('descripcion').value);
+  const imagenes=values('imagenes');
+  if(!nombre||!sku||!slug||!precio||!categoria||!audience||!descripcion||!imagenes.length){
+    throw new Error('Completa nombre, SKU, slug, precio, categoría, público, descripción y al menos una imagen.');
+  }
+  const caracs=values('caracteristicas');
+  const emoji=escapeText($('emoji').value)||'🐾';
+  const seoTitle=escapeText($('seoTitle').value)||`${nombre} | Patas & Caos`;
+  const seoDescription=escapeText($('seoDescription').value)||descripcion.slice(0,155);
+  return {
+    sku,
+    slug,
+    nombre,
+    precio,
+    precioNum: precio,
+    precioTexto: '$'+precio.toLocaleString('es-CL'),
+    audience,
+    categoria,
+    marca: escapeText($('marca').value),
+    tagline: escapeText($('tagline').value)||`"${nombre}"`,
+    descripcion,
+    caracTitulo: escapeText($('caracTitulo').value)||'Características',
+    caracteristicas: caracs,
+    ingredientes: escapeText($('ingredientes').value),
+    imagenes,
+    placeholders: imagenes.map(()=>emoji),
+    emoji,
+    stockId: sku,
+    canonical: `https://www.patasycaos.cl/productos/${slug}`,
+    seoTitle,
+    seoDescription
+  };
+}
+
+function clone(v){ return JSON.parse(JSON.stringify(v)); }
+
+function mergeProduct(base, info, product, overwrite){
+  const items=info.items;
+  const index=items.findIndex(p => {
+    const pSku=p.sku ?? p.id ?? p.stockId ?? '';
+    const pSlug=p.slug ?? '';
+    return pSku===product.sku || pSlug===product.slug;
+  });
+  if(index>=0 && !overwrite) throw new Error('Ya existe un producto con ese SKU o slug. Marca la opción de reemplazo para actualizarlo.');
+  if(info.type==='array'){
+    const out=clone(base);
+    index>=0 ? out.splice(index,1,product) : out.push(product);
+    return out;
+  }
+  if(info.type==='productos-array'){
+    const out=clone(base);
+    const arr=out.productos;
+    index>=0 ? arr.splice(index,1,product) : arr.push(product);
+    return out;
+  }
+  if(info.type==='keyed-object'){
+    const out=clone(base);
+    if(index>=0){
+      const oldKey=Object.keys(out).find(k => {
+        const p=out[k]||{};
+        return (p.sku??p.id??p.stockId??k)===product.sku || p.slug===product.slug;
+      });
+      if(oldKey && oldKey!==product.sku) delete out[oldKey];
+    }
+    out[product.sku]=product;
+    return out;
+  }
+}
+
+$('btnGenerate').addEventListener('click',()=>{
+  try{
+    const product=makeProduct();
+    updatedJson=mergeProduct(originalJson,containerInfo,product,$('overwrite').checked);
+    stockPatch={ [product.stockId]: Math.max(0,Number($('stock').value)||0) };
+    $('preview').textContent=JSON.stringify(product,null,2);
+    $('btnDownload').disabled=false;
+    $('btnStock').disabled=false;
+    setStatus(`Producto “${product.nombre}” preparado. Descarga el JSON y reemplaza data/productos.json en tu repositorio.`,true);
+  }catch(err){
+    updatedJson=null;
+    $('btnDownload').disabled=true;
+    $('btnStock').disabled=true;
+    setStatus(err.message,false);
+  }
+});
+
+$('btnDownload').addEventListener('click',()=>downloadJson(updatedJson,'productos.json'));
+$('btnStock').addEventListener('click',()=>downloadJson(stockPatch,'stock-patch.json'));
+
+function downloadJson(data,name){
+  const blob=new Blob([JSON.stringify(data,null,2)+'\n'],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=name;a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),500);
+}
+function setStatus(msg,ok){
+  $('status').textContent=msg;
+  $('status').className='status '+(ok?'ok':'err');
+}
+</script>
+</body>
+</html>
