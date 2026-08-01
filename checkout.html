@@ -124,17 +124,37 @@
         <section class="checkout-section">
           <h2><span>5.</span> Método de pago</h2>
           <div class="choice-grid">
-            <label class="choice selected" id="choice-mp">
+            <label class="choice payment-choice selected" id="choice-mp">
               <input type="radio" name="metodo-pago" value="mercadopago" checked>
-              <span class="choice-dot"></span><span>Mercado Pago</span>
+              <span class="choice-dot"></span>
+              <span class="payment-choice-content">
+                <span class="mp-wordmark" aria-label="Mercado Pago">
+                  <span class="mp-mercado">mercado</span><span class="mp-pago">pago</span>
+                </span>
+                <span class="payment-description">Tarjetas, débito, crédito y saldo disponible</span>
+              </span>
             </label>
-            <label class="choice" id="choice-transfer">
+            <label class="choice payment-choice" id="choice-transfer">
               <input type="radio" name="metodo-pago" value="transferencia">
-              <span class="choice-dot"></span><span>Transferencia bancaria</span>
+              <span class="choice-dot"></span>
+              <span class="payment-choice-content">
+                <span class="payment-title">Transferencia bancaria</span>
+                <span class="payment-description">Confirmación manual del pago</span>
+              </span>
             </label>
           </div>
           <div class="transfer-info" id="transfer-info" hidden>
             Los datos bancarios se enviarán por correo al confirmar el pedido. El stock se reservará durante 48 horas.
+          </div>
+
+          <div class="accepted-payments" id="accepted-payments">
+            <span class="accepted-label">Medios aceptados</span>
+            <div class="payment-badges" aria-label="Medios de pago aceptados">
+              <span>VISA</span>
+              <span>Mastercard</span>
+              <span>American Express</span>
+              <span>Débito</span>
+            </div>
           </div>
         </section>
 
@@ -151,8 +171,16 @@
         <div class="summary-row"><span>Envío</span><strong id="checkout-envio-resumen">Por calcular</strong></div>
         <div class="summary-total"><span>Total</span><strong id="checkout-total">$0</strong></div>
 
+        <div class="secure-payment-card">
+          <div class="mp-wordmark mp-wordmark-summary" aria-label="Mercado Pago">
+            <span class="mp-mercado">mercado</span><span class="mp-pago">pago</span>
+          </div>
+          <strong>Pago procesado de forma segura</strong>
+          <span>Serás dirigido a Mercado Pago para completar el pago con protección de datos.</span>
+        </div>
+
         <div class="trust-list">
-          <div><strong>Pago protegido</strong><span>Procesado de forma segura mediante Mercado Pago.</span></div>
+          <div><strong>Compra protegida</strong><span>Tus datos viajan cifrados durante el proceso de pago.</span></div>
           <div><strong>Productos originales</strong><span>Selección premium para perros y gatos.</span></div>
           <div><strong>Despacho a todo Chile</strong><span>El costo se calcula según la comuna ingresada.</span></div>
         </div>
