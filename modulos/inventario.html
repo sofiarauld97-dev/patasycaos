@@ -320,6 +320,380 @@
     main { max-width:1320px !important; padding:2rem 3% 4rem !important; }
     </style>
 <meta name="robots" content="noindex, nofollow">
+
+<style id="inventario-redesign-v2">
+:root{
+  --terracota:#C4622D;
+  --terracota-oscuro:#A8501F;
+  --fondo:#F6F3EE;
+  --blanco:#FFFFFF;
+  --negro:#1A1A1A;
+  --texto:#4E4741;
+  --suave:#7C726B;
+  --borde:#E4DED7;
+  --verde:#2F7650;
+  --rojo:#A43A32;
+  --azul:#315F78;
+  --sombra:0 10px 30px rgba(38,27,18,.06);
+}
+
+body{
+  background:var(--fondo)!important;
+  color:var(--negro)!important;
+}
+
+main{
+  max-width:1440px!important;
+  padding:32px clamp(18px,3.5vw,52px) 60px!important;
+}
+
+/* Cabecera del módulo */
+.inventory-page-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:26px;
+}
+.inventory-page-head h1{
+  margin:0 0 5px;
+  font-size:clamp(1.65rem,2.4vw,2.25rem);
+  line-height:1.15;
+  letter-spacing:-.04em;
+  font-weight:800;
+}
+.inventory-page-head p{
+  margin:0;
+  color:var(--suave);
+  font-size:.86rem;
+}
+.inventory-head-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.inventory-primary-btn,
+.inventory-secondary-btn{
+  min-height:42px;
+  border-radius:10px;
+  padding:0 17px;
+  font-family:'Poppins',sans-serif;
+  font-size:.78rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.inventory-primary-btn{
+  border:1px solid var(--terracota);
+  background:var(--terracota);
+  color:#fff;
+}
+.inventory-primary-btn:hover{background:var(--terracota-oscuro)}
+.inventory-secondary-btn{
+  border:1px solid var(--borde);
+  background:#fff;
+  color:var(--texto);
+}
+.inventory-secondary-btn:hover{
+  border-color:var(--terracota);
+  color:var(--terracota);
+}
+
+/* Indicadores */
+.summary{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:14px!important;
+  margin-bottom:24px!important;
+}
+.sum-card{
+  position:relative;
+  overflow:hidden;
+  min-height:118px;
+  padding:20px!important;
+  background:#fff!important;
+  border:1px solid var(--borde)!important;
+  border-radius:16px!important;
+  box-shadow:none!important;
+}
+.sum-card::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:3px;
+  background:#D9D2CB;
+}
+.sum-card.verde::after{background:var(--verde)}
+.sum-card.rojo::after{background:var(--rojo)}
+.sum-card.terracota::after{background:var(--terracota)}
+.sum-card .label{
+  margin-bottom:13px!important;
+  color:var(--suave)!important;
+  font-size:.68rem!important;
+  letter-spacing:.1em!important;
+}
+.sum-card .value{
+  font-size:1.9rem!important;
+  line-height:1!important;
+  font-weight:800!important;
+  letter-spacing:-.04em;
+}
+
+/* Filtros */
+.filters{
+  gap:7px!important;
+  margin-bottom:18px!important;
+  padding-bottom:2px;
+  overflow-x:auto;
+  flex-wrap:nowrap!important;
+}
+.filter-btn{
+  min-height:36px;
+  padding:0 14px!important;
+  border:1px solid var(--borde)!important;
+  border-radius:9px!important;
+  background:#fff!important;
+  color:var(--texto)!important;
+  font-size:.74rem!important;
+  white-space:nowrap;
+}
+.filter-btn:hover{
+  border-color:rgba(196,98,45,.4)!important;
+  color:var(--terracota)!important;
+}
+.filter-btn.activo{
+  background:#FFF7F2!important;
+  color:var(--terracota)!important;
+  border-color:rgba(196,98,45,.45)!important;
+}
+
+/* Lista de productos */
+.prod-list{
+  gap:10px!important;
+}
+.sku-row{
+  display:grid!important;
+  grid-template-columns:64px minmax(0,1fr) auto!important;
+  gap:16px!important;
+  min-height:84px;
+  padding:15px 18px!important;
+  background:#fff!important;
+  border:1px solid var(--borde)!important;
+  border-radius:14px!important;
+  box-shadow:none!important;
+}
+.sku-row:hover{
+  border-color:#D3CAC1!important;
+  box-shadow:var(--sombra)!important;
+}
+.sku-row.agotado{
+  opacity:1!important;
+  background:#FCF8F7!important;
+  border-color:rgba(164,58,50,.18)!important;
+}
+.sku-img,
+.sku-img-placeholder{
+  width:56px!important;
+  height:56px!important;
+  border-radius:11px!important;
+  background:#F4EFE9!important;
+}
+.sku-img-placeholder{
+  color:var(--suave)!important;
+  font-size:1rem!important;
+}
+.sku-info{
+  align-self:center;
+}
+.sku-nombre{
+  color:var(--negro)!important;
+  font-size:.84rem!important;
+  font-weight:700!important;
+}
+.sku-meta{
+  margin-top:7px!important;
+  gap:7px!important;
+}
+.sku-cat{
+  padding:4px 8px!important;
+  border-radius:7px!important;
+  background:#FFF2EA!important;
+  color:var(--terracota)!important;
+  font-size:.62rem!important;
+}
+.sku-precio{
+  color:var(--texto)!important;
+  font-size:.72rem!important;
+}
+.sku-updated{
+  color:#A89E96!important;
+  font-size:.66rem!important;
+}
+.toggle-wrap{
+  align-self:center;
+  gap:12px!important;
+}
+.toggle-wrap > div{
+  padding:5px!important;
+  border:1px solid var(--borde);
+  border-radius:10px;
+  background:#FAF8F5;
+}
+.toggle-wrap button{
+  width:34px!important;
+  height:34px!important;
+  border:0!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  color:var(--negro)!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.toggle-wrap input[type=number]{
+  width:54px!important;
+  min-height:34px!important;
+  border:0!important;
+  border-radius:8px!important;
+  background:transparent!important;
+  font-weight:700;
+}
+.toggle-label{
+  min-width:74px!important;
+  text-align:left!important;
+  font-size:.7rem!important;
+}
+.toggle-label.en-stock{
+  color:var(--verde)!important;
+}
+.toggle-label.agotado-lbl{
+  color:var(--rojo)!important;
+}
+
+/* Historial */
+.log-section{
+  margin-top:30px!important;
+  padding-top:24px;
+  border-top:1px solid var(--borde);
+}
+.log-title{
+  margin-bottom:14px!important;
+  color:var(--suave)!important;
+  font-size:.68rem!important;
+  letter-spacing:.1em!important;
+}
+.log-list{
+  gap:7px!important;
+}
+.log-item{
+  padding:10px 12px!important;
+  border:1px solid var(--borde)!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  color:var(--texto)!important;
+  font-size:.72rem!important;
+}
+.log-time{
+  color:#A69C94!important;
+  font-size:.65rem!important;
+}
+
+/* Modal */
+.modal-bg{
+  background:rgba(22,18,15,.58)!important;
+  backdrop-filter:blur(8px)!important;
+}
+.modal-box{
+  max-width:700px!important;
+  padding:30px!important;
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:18px!important;
+  background:#fff!important;
+  box-shadow:0 24px 70px rgba(22,18,15,.22)!important;
+}
+.modal-box h3{
+  margin-bottom:8px!important;
+  font-size:1.2rem!important;
+  letter-spacing:-.03em;
+}
+.modal-box p{
+  color:var(--suave)!important;
+  line-height:1.65!important;
+}
+.code-block{
+  border-radius:12px!important;
+}
+.btn-copiar,
+.btn-cerrar-modal{
+  min-height:44px;
+  border-radius:10px!important;
+}
+.btn-copiar{
+  background:var(--terracota)!important;
+}
+.btn-copiar:hover{
+  background:var(--terracota-oscuro)!important;
+}
+.btn-cerrar-modal{
+  border:1px solid var(--borde)!important;
+}
+
+/* Toast */
+.toast{
+  right:24px!important;
+  bottom:24px!important;
+  border-radius:10px!important;
+  padding:11px 16px!important;
+  font-size:.76rem!important;
+}
+
+/* Responsive */
+@media(max-width:1050px){
+  .summary{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+@media(max-width:760px){
+  main{
+    padding:22px 14px 45px!important;
+  }
+  .inventory-page-head{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .inventory-head-actions{
+    width:100%;
+  }
+  .inventory-primary-btn,
+  .inventory-secondary-btn{
+    flex:1;
+  }
+  .sku-row{
+    grid-template-columns:56px minmax(0,1fr)!important;
+  }
+  .toggle-wrap{
+    grid-column:1/-1;
+    justify-content:flex-end;
+    padding-top:10px;
+    border-top:1px solid #F0ECE7;
+  }
+}
+@media(max-width:500px){
+  .summary{
+    grid-template-columns:1fr 1fr!important;
+  }
+  .sum-card{
+    min-height:98px;
+    padding:16px!important;
+  }
+  .sum-card .value{
+    font-size:1.5rem!important;
+  }
+  .modal-box{
+    padding:24px 18px!important;
+  }
+}
+</style>
+
 </head>
 <body>
 <header>
@@ -331,12 +705,23 @@
     </div>
   </a>
   <div class="header-actions">
-    <a href="/" class="btn-header" target="_blank">↗ Ver tienda</a>
-    <button class="btn-header btn-exportar" onclick="abrirExportar()">⬇ Exportar código</button>
+    <a href="/" class="btn-header" target="_blank">Ver tienda</a>
+    <button class="btn-header btn-exportar" onclick="abrirExportar()">Exportar código</button>
   </div>
 </header>
 
 <main>
+
+  <section class="inventory-page-head">
+    <div>
+      <h1>Gestión de inventario</h1>
+      <p>Controla existencias, productos agotados y movimientos recientes.</p>
+    </div>
+    <div class="inventory-head-actions">
+      <button class="inventory-secondary-btn" type="button" onclick="location.reload()">Actualizar datos</button>
+      <button class="inventory-primary-btn" type="button" onclick="abrirExportar()">Exportar stock</button>
+    </div>
+  </section>
   <!-- SUMMARY -->
   <div class="summary" id="summary">
     <div class="sum-card">
@@ -360,15 +745,15 @@
   <!-- FILTERS -->
   <div class="filters" id="filters">
     <button class="filter-btn" onclick="filtrar('Todos', this)">Todos</button>
-    <button class="filter-btn" onclick="filtrarAudiencia('Para Gatos', this)">🐱 Gatos</button>
-    <button class="filter-btn" onclick="filtrarAudiencia('Para Perros', this)">🐶 Perros</button>
-    <button class="filter-btn" onclick="filtrar('Accesorio', this)">🎀 Accesorios</button>
-    <button class="filter-btn" onclick="filtrar('Juguete', this)">🎾 Juguetes</button>
-    <button class="filter-btn" onclick="filtrar('Aseo e Higiene', this)">✨ Aseo e Higiene</button>
-    <button class="filter-btn" onclick="filtrar('Alimentos', this)">🍽️ Alimentos</button>
-    <button class="filter-btn" onclick="filtrar('Snacks y Golosinas', this)">🍪 Snacks y Golosinas</button>
-    <button class="filter-btn" onclick="filtrar('Flores de Bach', this)">🌿 Flores de Bach</button>
-    <button class="filter-btn" onclick="filtrar('Insumos Veterinarios', this)">💊 Insumos Veterinarios</button>>
+    <button class="filter-btn" onclick="filtrarAudiencia('Para Gatos', this)">Gatos</button>
+    <button class="filter-btn" onclick="filtrarAudiencia('Para Perros', this)">Perros</button>
+    <button class="filter-btn" onclick="filtrar('Accesorio', this)">Accesorios</button>
+    <button class="filter-btn" onclick="filtrar('Juguete', this)">Juguetes</button>
+    <button class="filter-btn" onclick="filtrar('Aseo e Higiene', this)">Aseo e Higiene</button>
+    <button class="filter-btn" onclick="filtrar('Alimentos', this)">Alimentos</button>
+    <button class="filter-btn" onclick="filtrar('Snacks y Golosinas', this)">Snacks y Golosinas</button>
+    <button class="filter-btn" onclick="filtrar('Flores de Bach', this)">Flores de Bach</button>
+    <button class="filter-btn" onclick="filtrar('Insumos Veterinarios', this)">Insumos Veterinarios</button>>
   </div>
 
   <!-- PRODUCT LIST -->
@@ -376,7 +761,7 @@
 
   <!-- LOG -->
   <div class="log-section">
-    <div class="log-title">📋 Historial de cambios</div>
+    <div class="log-title">Historial de cambios</div>
     <div class="log-list" id="log-list"></div>
   </div>
 </main>
