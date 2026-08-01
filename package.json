@@ -4,6 +4,9 @@
   "scripts": {
     "build:products": "node scripts/generar-productos.js",
     "build:products:test": "node scripts/generar-productos.js --test",
-    "build:products:one": "node scripts/generar-productos.js --slug="
+    "build:products:one": "node scripts/generar-productos.js --slug=",
+    "build:pages": "node scripts/generar-paginas.js",
+    "build:pages:one": "node scripts/generar-paginas.js --pagina=",
+    "build": "npm run build:products && npm run build:pages"
   }
 }
