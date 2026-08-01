@@ -77,10 +77,11 @@ function construirThumbs(p) {
 
 function construirTabs(p) {
   const caracteristicasHtml = `<ul>${p.caracteristicas.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul>`;
+  const tituloTab0 = escapeHtml(p.caracTitulo || 'Características');
 
   const tieneIngredientes = !!(p.ingredientes && p.ingredientes.trim());
 
-  let nav = `<button aria-controls="product-panel-0" aria-selected="true" class="product-tab-btn activo" id="product-tab-0" onclick="switchProductTab(this)" role="tab" type="button">Características</button>`;
+  let nav = `<button aria-controls="product-panel-0" aria-selected="true" class="product-tab-btn activo" id="product-tab-0" onclick="switchProductTab(this)" role="tab" type="button">${tituloTab0}</button>`;
   let panels = `<div aria-labelledby="product-tab-0" class="product-tab-panel activo" id="product-panel-0" role="tabpanel">${caracteristicasHtml}</div>`;
 
   if (tieneIngredientes) {
@@ -123,22 +124,22 @@ function generarHtml(p, plantilla, headerHtml, footerHtml) {
   const currentProductJs = `const CURRENT_PRODUCT={id:"${p.sku}",name:${JSON.stringify(p.nombre)},price:${p.precio},img:${JSON.stringify(imagenPrincipal)}};`;
 
   const reemplazos = {
-    '__SEO_TITLE__': p.seoTitle,
-    '__SEO_DESCRIPTION__': p.seoDescription,
+    '__SEO_TITLE__': escapeHtml(p.seoTitle),
+    '__SEO_DESCRIPTION__': escapeHtml(p.seoDescription),
     '__CANONICAL_URL__': canonical,
-    '__OG_TITLE__': p.nombre,
+    '__OG_TITLE__': escapeHtml(p.nombre),
     '__OG_IMAGE__': imagenAbsoluta,
     '__JSONLD__': construirJsonLd(p),
     '__HEADER__': headerHtml,
     '__FOOTER__': footerHtml,
-    '__BREADCRUMB_NOMBRE__': p.nombre,
-    '__GALLERY_ALT__': p.nombre,
+    '__BREADCRUMB_NOMBRE__': escapeHtml(p.nombre),
+    '__GALLERY_ALT__': escapeHtml(p.nombre),
     '__GALLERY_MAIN_IMG__': imagenPrincipal,
     '__THUMBS_HTML__': construirThumbs(p),
-    '__PRODUCT_TAG__': p.etiquetaProducto,
-    '__PRODUCT_NAME__': p.nombre,
-    '__PRODUCT_PRICE_DISPLAY__': p.precioDisplay,
-    '__PRODUCT_DESCRIPTION__': p.seoDescription,
+    '__PRODUCT_TAG__': escapeHtml(p.etiquetaProducto),
+    '__PRODUCT_NAME__': escapeHtml(p.nombre),
+    '__PRODUCT_PRICE_DISPLAY__': escapeHtml(p.precioDisplay),
+    '__PRODUCT_DESCRIPTION__': escapeHtml(p.seoDescription),
     '__TABS_NAV_HTML__': nav,
     '__TABS_PANELS_HTML__': panels,
     '__CURRENT_PRODUCT_JS__': currentProductJs,

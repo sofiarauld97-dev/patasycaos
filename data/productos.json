@@ -1,5 +1,52 @@
 [
   {
+    "slug": "cama-redonda-confort-verde-hey",
+    "nombre": "Cama Redonda Confort Verde - Hey!",
+    "seoTitle": "Cama Redonda Confort Verde - Hey! | Patas & Caos Chile",
+    "seoDescription": "Cama redonda diseñada para gatos y perros pequeños que buscan un lugar suave y envolvente para sus largas siestas. Su forma tipo donut brinda sensación de seguridad y contención. Colchón desmontable para facilitar el lavado y mantener el espacio siempre limpio.",
+    "precio": 13990,
+    "precioDisplay": "$13.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "hey-cama-redonda-confort-verde",
+    "imagenes": [
+      "/cama-confort-hey-verde.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Medidas: 45 x 45 x 12 cm",
+      "Colchón desmontable",
+      "Material lavable",
+      "Forma envolvente tipo donut"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "donut-con-sonido-hey",
+    "nombre": "Donut con Sonido - Hey!",
+    "seoTitle": "Donut con Sonido - Hey! | Patas & Caos Chile",
+    "seoDescription": "Juguete con forma de dona en látex resistente, con mecanismo de chirrido interno que mantiene a tu perro entretenido durante el juego. Diseño ergonómico, fácil de tomar y lanzar — ideal para perros pequeños y medianos que aman el clásico juego de buscar y traer.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Juguete",
+    "etiquetaProducto": "Juguete · Perros",
+    "marca": "Patas & Caos",
+    "sku": "hey-donut-sonido-perros",
+    "imagenes": [
+      "/donut-con-sonido-para-perros-hey.jpg",
+      "/donut-con-sonido-para-perros-hey-2.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Medidas: 9,5 x 9,5 x 3 cm",
+      "Látex resistente",
+      "Mecanismo de sonido (chirrido)",
+      "Ideal para perros pequeños y medianos"
+    ],
+    "ingredientes": ""
+  },
+  {
     "slug": "caldo-de-huesos-250g-pura-natura",
     "nombre": "Caldo de Huesos 250g - Pura Natura",
     "seoTitle": "Caldo de Huesos 250g - Pura Natura | Patas & Caos Chile",
@@ -8,11 +55,12 @@
     "precioDisplay": "$4.990",
     "categoria": "Alimentos",
     "etiquetaProducto": "Alimentos · Perros · Gatos",
-    "marca": "Pura Natura",
+    "marca": "Patas & Caos",
     "sku": "pura-natura-caldo-de-huesos-250g",
     "imagenes": [
       "/caldo-de-huesos-pura-natura.jpg"
     ],
+    "caracTitulo": "Características",
     "caracteristicas": [
       "Formato pouch de 250 g",
       "Libre de gluten y granos",
@@ -21,6 +69,1461 @@
       "Servir a temperatura ambiente"
     ],
     "ingredientes": "Caldo de huesos de vacuno y cordero, rico en proteínas y minerales."
+  },
+  {
+    "slug": "woofer-s-80g-pura-natura",
+    "nombre": "Woofer's 80g - Pura Natura",
+    "seoTitle": "Woofer's 80g - Pura Natura | Patas & Caos Chile",
+    "seoDescription": "Snack tipo galleta de proteína deshidratada de vacuno, crocante y sabroso. Ideal como treat de entrenamiento o simplemente como premio para consentir a tu perro. Formato de 80 g, con una duración de 2 años sin necesidad de refrigeración.",
+    "precio": 3990,
+    "precioDisplay": "$3.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "pura-natura-woofers-80g",
+    "imagenes": [
+      "/woffer-pura-natura.jpg",
+      "/woffer-pura-natura-2.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Contenido: 80 g",
+      "Snack crocante, deshidratado",
+      "Sin refrigeración, dura 2 años",
+      "Ideal para entrenamiento y premios"
+    ],
+    "ingredientes": "Proteína deshidratada de vacuno."
+  },
+  {
+    "slug": "fit-formula-gato-adulto-2kg",
+    "nombre": "Fit Formula Gato Adulto 2kg",
+    "seoTitle": "Fit Formula Gato Adulto 2kg | Patas & Caos Chile",
+    "seoDescription": "Alimento seco premium para gatos adultos desde 1 año, formulado con cuatro fuentes de proteína animal (carne, pollo, salmón y huevo) para asegurar todos los aminoácidos esenciales. Con 32% de proteína como primer ingrediente, ayuda al desarrollo muscular, mejora el equilibrio urinario, cuida el corazón, la piel y el pelaje, y controla la formación de bolas de pelo y el sarro dental. Incluye prebióticos (MOS e inulina) que favorecen la salud intestinal y fortalecen el sistema inmune. Envase 100% reciclable.",
+    "precio": 11990,
+    "precioDisplay": "$11.990",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "fit-formula-gato-adulto-2kg",
+    "imagenes": [
+      "/alimento-fit-formula-gato-2k.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Formato 2 kg",
+      "32% proteína, primer ingrediente",
+      "Cuatro fuentes proteicas: carne, pollo, salmón y huevo",
+      "Cuida piel, pelaje y salud urinaria",
+      "Envase 100% reciclable"
+    ],
+    "ingredientes": "Harina de ave (harina de subproductos de aves), arroz, harina de soya, maíz, aceite de ave, salvado de trigo, harina de salmón, harina de carne y hueso bovino, harina de trigo, proteínas animales hidrolizadas, sulfato de amonio, colina, vitaminas y aminoácidos (taurina, vitaminas A, D3, E, C, biotina, B1, B2, B3, B5, B6, B9 y B12), nucleótidos, zeolita, ácido fosfórico, minerales orgánicos e inorgánicos (zinc, hierro, cobre, manganeso, yodo y selenio), huevo deshidratado, cloruro de sodio, aceite de pescado, extracto de yucca schidigera, antioxidantes, manano oligosacáridos (MOS), extracto de achicoria (fuente de inulina), pared celular de levadura, cranberries, extracto de cardo mariano (silimarina), antioxidantes naturales (tocoferoles, lecitina y extracto de romero)."
+  },
+  {
+    "slug": "leonardo-adult-gf-1-8kg-poultry",
+    "nombre": "Leonardo Adult GF 1,8kg - Poultry",
+    "seoTitle": "Leonardo Adult GF 1,8kg - Poultry | Patas & Caos Chile",
+    "seoDescription": "Alimento seco grain-free para gatos adultos (desde 1 año), formulado especialmente para felinos con intolerancias alimentarias o tendencia a alergias. En vez de cereales, usa amaranto como fuente de carbohidratos, y suma krill y chía como aporte extra de omega-3. Ideal para el tránsito de bolas de pelo y para mantener un pH urinario saludable. 80% proteína animal.",
+    "precio": 26990,
+    "precioDisplay": "$26.990",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "leonardo-adult-gf-poultry-1-8kg",
+    "imagenes": [
+      "/alimento-leonardo-gf-poultry.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Grain-free, sin gluten ni cereales",
+      "Ideal para gatos sensibles o con alergias",
+      "80% proteína animal",
+      "Krill y chía: omega-3 natural",
+      "Ayuda al tránsito de bolas de pelo",
+      "Formato 1,8 kg"
+    ],
+    "ingredientes": "Carne fresca de ave (30%), proteína de ave deshidratada baja en cenizas (22%), amaranto (15%), harina de guisante, almidón de papa, hígado de ave hidrolizado, grasa de ave, huevo deshidratado, zooplancton marino molido (krill, 2,5%), harina de pescado marino (2,5%), levadura de cerveza deshidratada (2,5%), harina de pepitas de uva, semillas de chía (1,3%), algarroba deshidratada, goma guar, cloruro de sodio, cloruro de potasio, fosfato dicálcico, inulina de achicoria."
+  },
+  {
+    "slug": "leonardo-adult-light-y-sterilised-1-8kg",
+    "nombre": "Leonardo Adult Light & Sterilised 1,8kg",
+    "seoTitle": "Leonardo Adult Light & Sterilised 1,8kg | Patas & Caos Chile",
+    "seoDescription": "Alimento seco de bajo contenido calórico, pensado para gatos esterilizados o con tendencia al sobrepeso. Combina 35% de proteína de alta calidad para mantener masa muscular magra con solo 12,5% de grasa, más L-carnitina para apoyar el metabolismo de grasas. Ayuda a optimizar el pH urinario y reduce placa dental.",
+    "precio": 25990,
+    "precioDisplay": "$25.990",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "leonardo-adult-light-sterilised-1-8kg",
+    "imagenes": [
+      "/alimento-leonardo-sterilized-light.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Ideal para gatos esterilizados",
+      "35% proteína, 12,5% grasa",
+      "L-carnitina: apoya el metabolismo de grasas",
+      "Optimiza el pH urinario",
+      "Formato 1,8 kg"
+    ],
+    "ingredientes": "Carne fresca de ave (30%), proteína de ave deshidratada baja en cenizas (23%), arroz, maíz, harina de pescado marino (9%), pulpa de manzana deshidratada (4%), hígado de ave hidrolizado, centeno malteado, huevo deshidratado, zooplancton marino molido (krill, 2,5%), salvado de avena (2,5%), levadura de cerveza inactivada, semillas de chía (1,3%), grasa de ave, cloruro de sodio, cloruro de potasio, inulina de achicoria."
+  },
+  {
+    "slug": "leonardo-adult-1-8kg-duck",
+    "nombre": "Leonardo Adult 1,8kg - Duck",
+    "seoTitle": "Leonardo Adult 1,8kg - Duck | Patas & Caos Chile",
+    "seoDescription": "Alimento seco con sabor a pato, pensado para gatos adultos desde 1 año, especialmente recomendado para razas de pelo largo. Su fórmula incluye chía y krill antártico, ricos en omega-3, que ayudan a mantener la piel sana y el pelaje brillante, además de facilitar el tránsito de bolas de pelo. 85% de proteína de origen animal.",
+    "precio": 25990,
+    "precioDisplay": "$25.990",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "leonardo-adult-duck-1-8kg",
+    "imagenes": [
+      "/alimento-leonardo-adult-duck.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sabor pato, ideal para gatos exigentes",
+      "85% proteína animal",
+      "Recomendado para pelo largo",
+      "Chía y krill: piel sana y pelaje brillante",
+      "Formato 1,8 kg"
+    ],
+    "ingredientes": "Carne fresca de ave (30%), proteína de pato deshidratada (18%), arroz, proteína de ave deshidratada baja en cenizas (10%), almidón de papa, grasa de ave, hígado de ave hidrolizado, centeno malteado, huevo deshidratado, harina de pescado marino (2,5%), zooplancton marino molido (krill, 2,5%), levadura de cerveza inactivada, harina de pepitas de uva (1,5%), semillas de chía (1,3%), algarroba deshidratada, goma guar, cloruro de sodio, cloruro de potasio, inulina de achicoria."
+  },
+  {
+    "slug": "bolsas-sanitarias-4-rollos-hey",
+    "nombre": "Bolsas Sanitarias 4 Rollos - Hey!",
+    "seoTitle": "Bolsas Sanitarias 4 Rollos - Hey! | Patas & Caos Chile",
+    "seoDescription": "Bolsas sanitarias para perro fabricadas sin tintas ni aromatizantes, con tecnología EPI que favorece su oxobiodegradación. Vienen prepicadas para un corte fácil, son extra resistentes y a prueba de fugas. Sin perfume, aptas para perros sensibles. Cada caja trae 4 rollos con 15 bolsas c/u (60 bolsas en total), tamaño 33x23 cm.",
+    "precio": 2190,
+    "precioDisplay": "$2.190",
+    "categoria": "Aseo e Higiene",
+    "etiquetaProducto": "Aseo e Higiene · Perros",
+    "marca": "Patas & Caos",
+    "sku": "hey-bolsas-sanitarias-4-rollos",
+    "imagenes": [
+      "/bolsas-de-basura-poop-hey.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "4 rollos = 60 bolsas",
+      "Tamaño 33x23 cm",
+      "Prepicadas para fácil corte",
+      "Extra resistentes, a prueba de fugas",
+      "Sin tintas ni aromatizantes",
+      "Tecnología EPI (oxobiodegradable)"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pelota-snack-interactiva-verde",
+    "nombre": "Pelota Snack Interactiva — Verde",
+    "seoTitle": "Pelota Snack Interactiva — Verde | Patas & Caos Chile",
+    "seoDescription": "Pelota de goma resistente con ranuras para esconder premios, el juguete que mantiene a tu perro entretenido largo rato mientras le limpia los dientes sin que hagas nada 🐶🦷\\n\\nRellénala con sus croquetas o snacks favoritos y deja que tu perro la ruede, la muerda y la trabaje hasta sacar todo. La textura de goma con pinchos limpia el sarro y masajea las encías mientras juega. Doble beneficio, cero esfuerzo de tu parte.",
+    "precio": 6990,
+    "precioDisplay": "$6.990",
+    "categoria": "Juguete",
+    "etiquetaProducto": "Juguete · Perros",
+    "marca": "Patas & Caos",
+    "sku": "pelota-snack-interactiva_Verde",
+    "imagenes": [
+      "/pelota-snack-perro-verde.jpg",
+      "/pelota-snack-perro-verde-snacks.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Goma resistente, no tóxica",
+      "Limpieza dental natural",
+      "Rellénala con cualquier snack",
+      "Apta para todas las razas",
+      "7cm de diámetro"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-find-my-amarillo",
+    "nombre": "Collar Find My — Amarillo",
+    "seoTitle": "Collar Find My — Amarillo | Patas & Caos Chile",
+    "seoDescription": "Porque tu gato sale \\\"solo un momento\\\" y desaparece tres horas. Compatible con la red Find My de Apple.",
+    "precio": 12990,
+    "precioDisplay": "$12.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "collar-findmy_Amarillo",
+    "imagenes": [
+      "/collar-find-my-amarillo.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Compatible con Apple Find My",
+      "Cinta nylon reflectante",
+      "Funda de silicona con diseño de huella",
+      "Cierre ajustable",
+      "Campanilla incluida"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-perro-acolchado-cafe-talla-s",
+    "nombre": "Collar Perro Acolchado — Café Talla S",
+    "seoTitle": "Collar Perro Acolchado — Café Talla S | Patas & Caos Chile",
+    "seoDescription": "Collar acolchado de poliéster con interior suave de material neopreno — firme por fuera, suave por dentro, para que tu perro lo use todo el día sin molestias ni irritaciones.\\n\\nHebilla metálica de ajuste fácil y argolla en D resistente para enganchar la correa. El parche de cuero con silueta de perrito es el detalle que lo hace diferente.\\n\\nPorque el accesorio más usado de tu perro también merece calidad.",
+    "precio": 6990,
+    "precioDisplay": "$6.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Perros",
+    "marca": "Patas & Caos",
+    "sku": "collar-perro-acolchado_Café-S",
+    "imagenes": [
+      "/collar-perro-cafe-m.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Interior acolchado suave y transpirable — protege el pelo",
+      "Exterior poliéster resistente con hebilla metálica",
+      "Argolla en D para correa",
+      "Cierre de ajuste rápido",
+      "Talla S: ancho 1,5 cm | largo 26–42 cm"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-perro-acolchado-cafe-talla-m",
+    "nombre": "Collar Perro Acolchado — Café Talla M",
+    "seoTitle": "Collar Perro Acolchado — Café Talla M | Patas & Caos Chile",
+    "seoDescription": "Collar acolchado de poliéster con interior suave de material neopreno — firme por fuera, suave por dentro, para que tu perro lo use todo el día sin molestias ni irritaciones.\\n\\nHebilla metálica de ajuste fácil y argolla en D resistente para enganchar la correa. El parche de cuero con silueta de perrito es el detalle que lo hace diferente.\\n\\nPorque el accesorio más usado de tu perro también merece calidad.",
+    "precio": 6990,
+    "precioDisplay": "$6.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Perros",
+    "marca": "Patas & Caos",
+    "sku": "collar-perro-acolchado_Café-M",
+    "imagenes": [
+      "/collar-perro-cafe-m.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Interior acolchado suave y transpirable — protege el pelo",
+      "Exterior poliéster resistente con hebilla metálica",
+      "Argolla en D para correa",
+      "Cierre de ajuste rápido",
+      "Talla M: ancho 2,0 cm | largo 31–50 cm"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-perro-acolchado-rojo-talla-s",
+    "nombre": "Collar Perro Acolchado — Rojo Talla S",
+    "seoTitle": "Collar Perro Acolchado — Rojo Talla S | Patas & Caos Chile",
+    "seoDescription": "Collar acolchado de poliéster con interior suave de material neopreno — firme por fuera, suave por dentro, para que tu perro lo use todo el día sin molestias ni irritaciones.\\n\\nHebilla metálica de ajuste fácil y argolla en D resistente para enganchar la correa. El parche de cuero con silueta de perrito es el detalle que lo hace diferente.\\n\\nPorque el accesorio más usado de tu perro también merece calidad.",
+    "precio": 6990,
+    "precioDisplay": "$6.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Perros",
+    "marca": "Patas & Caos",
+    "sku": "collar-perro-acolchado_Rojo-S",
+    "imagenes": [
+      "/collar-perro-rojo-s.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Interior acolchado suave y transpirable — protege el pelo",
+      "Exterior poliéster resistente con hebilla metálica",
+      "Argolla en D para correa",
+      "Cierre de ajuste rápido",
+      "Talla S: ancho 1,5 cm | largo 26–42 cm"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "comedero-lento-flores-lila",
+    "nombre": "Comedero Lento Flores - Lila",
+    "seoTitle": "Comedero Lento Flores - Lila | Patas & Caos Chile",
+    "seoDescription": "Diseño de flores que obliga a tu mascota a comer despacio, reduciendo gases, atragantamientos y esa barriga hinchada de después. La ventosa lo fija al suelo para que no ande de paseo por toda la cocina mientras come. Funciona como comedero lento y como lick mat, ideal para croquetas, comida húmeda, snacks cremosos o incluso pasta de cacahuete. Para perros y gatos de todas las razas. Porque comer bien también es un hábito🐾",
+    "precio": 9990,
+    "precioDisplay": "$9.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "comedero-lento-flores-lila",
+    "imagenes": [
+      "/comedero-lento-flores-lila.jpg",
+      "/comedero-lento-flores-lila-uso.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Diseño de flores antiatragantamiento",
+      "Ventosas incluidas — no se mueve",
+      "Apto para croquetas, húmedo y lick treats",
+      "Fácil de lavar, apto para lavavajillas",
+      "Para perros y gatos",
+      "20cm de diámetro"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "comedero-lento-slow-feeder-rosado",
+    "nombre": "Comedero Lento Slow Feeder - Rosado",
+    "seoTitle": "Comedero Lento Slow Feeder - Rosado | Patas & Caos Chile",
+    "seoDescription": "¿Tu perro o gato se lanza sobre el plato como si fuera la última cena? El Comedero Lento lo frena en seco. Sus divisores internos lo obligan a comer despacio, reduciendo gases, atragantamientos y esa barriga hinchada de después. Diseño compacto ideal para perros y gatos pequeños a medianos. Fácil de lavar, colores surtidos, y una diferencia real en cómo come tu mascota. Comer bien también es un hábito. 🐾",
+    "precio": 6990,
+    "precioDisplay": "$6.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Perros",
+    "marca": "Patas & Caos",
+    "sku": "comedero-lento-slow-feeder-rosado",
+    "imagenes": [
+      "/comedero-lento-rosado.jpg",
+      "/comedero-lento-rosado2.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Dimensiones: 20,5 x 4,5 cm",
+      "Antideslizante",
+      "Duradero y fácil de limpiar",
+      "Para perros medianos a grandes",
+      "Ralentiza la ingesta para mejor digestión"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "huesitos-de-calcio-con-pollo-55g-dog-fest",
+    "nombre": "Huesitos de Calcio con Pollo 55g - Dog Fest",
+    "seoTitle": "Huesitos de Calcio con Pollo 55g - Dog Fest | Patas & Caos Chile",
+    "seoDescription": "Huesitos artesanales de calcio con pollo fresco, 100% natural, grado humano, sin preservantes ni colorantes. Ideales para razas pequeñas que necesitan un snack que además de rico, fortalece huesos y dientes. Cada mordida es puro pollo real y nutrición de verdad.",
+    "precio": 4990,
+    "precioDisplay": "$4.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "dog-fest-calcium-bones-chicken",
+    "imagenes": [
+      "/dog_fest_calcium_bones_chicken.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% Natural: Elaborado con ingredientes completamente naturales.",
+      "Ingredientes aptos para consumo humano, asegurando la máxima calidad.",
+      "Huesitos con carne fresca de pavo.",
+      "Peso 55g"
+    ],
+    "ingredientes": "Huesitos y carne fresca de pavo"
+  },
+  {
+    "slug": "medallones-de-cordero-55g-dog-fest",
+    "nombre": "Medallones de Cordero 55g - Dog Fest",
+    "seoTitle": "Medallones de Cordero 55g - Dog Fest | Patas & Caos Chile",
+    "seoDescription": "Medallones masticables de cordero real, hechos para razas pequeñas que merecen un premio de verdad. Alto en proteínas, fácil de masticar y con el sabor intenso del cordero de granja. 100% natural, sin aditivos ni colorantes, el snack que tu perro va a pedir de nuevo.",
+    "precio": 4990,
+    "precioDisplay": "$4.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "dog-fest-lamb-medallions",
+    "imagenes": [
+      "/dog_fest_lamb_medallions.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Los medallones están hechos de cordero de granja, asegurando ingredientes de alta calidad.",
+      "Especialmente diseñados para razas más pequeñas.",
+      "Estas golosinas tienen un alto contenido de proteínas, esenciales para la salud muscular y energética de tu perro.",
+      "55 gramos"
+    ],
+    "ingredientes": "Cordero, subproductos vegetales, minerales."
+  },
+  {
+    "slug": "orejas-de-conejo-con-cordero-55g-dog-fest",
+    "nombre": "Orejas de Conejo con Cordero 55g - Dog Fest",
+    "seoTitle": "Orejas de Conejo con Cordero 55g - Dog Fest | Patas & Caos Chile",
+    "seoDescription": "Orejas de conejo naturales envueltas en cordero real, 100% natural, sin gluten, sin aditivos. Alto en proteínas, bajo en grasas y fácil de digerir. Ideal para razas pequeñas que merecen un premio artesanal de verdad. Cada mordida es nutrición y felicidad en partes iguales.",
+    "precio": 4990,
+    "precioDisplay": "$4.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "dog-fest-rabbit-ears-lamb",
+    "imagenes": [
+      "/dog_fest_rabbit_ears_lamb.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% Natural: Elaborado con ingredientes completamente naturales.",
+      "Ingredientes aptos para consumo humano, asegurando la máxima calidad.",
+      "Sin preservantes artificiales, sin colorantes artificiales, sin saborizantes artificiales.",
+      "Cocinada a baja temperatura para conservar vitaminas y minerales esenciales."
+    ],
+    "ingredientes": "Orejas de conejo y carne fresca de cordero."
+  },
+  {
+    "slug": "donut-colagepet-xl-pollo",
+    "nombre": "Donut Colagepet XL - Pollo",
+    "seoTitle": "Donut Colagepet XL - Pollo | Patas & Caos Chile",
+    "seoDescription": "Dona XL de colágeno natural, sin gluten y sin aditivos. Hecha para perros medianos y grandes que merecen un snack que entretiene, cuida la salud dental y aporta colágeno de verdad, todo en un solo bocado. 75g y 0 culpa.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "colagepet-donut-pollo",
+    "imagenes": [
+      "/colagepet_donut_pollo.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Tamaño XL",
+      "Peso 75g"
+    ],
+    "ingredientes": "Cuero crudo (77.72%), pollo (16%), glicerina vegetal (6%), sorbato de potasio (0.2%), caramelo natural (0.05%), suplemento de vitamina E (0.03%), saborizante natural sabor pollo."
+  },
+  {
+    "slug": "donut-colagepet-xl-pato",
+    "nombre": "Donut Colagepet XL - Pato",
+    "seoTitle": "Donut Colagepet XL - Pato | Patas & Caos Chile",
+    "seoDescription": "Dona XL de colágeno natural, sin gluten y sin aditivos. Hecha para perros medianos y grandes que merecen un snack que entretiene, cuida la salud dental y aporta colágeno de verdad, todo en un solo bocado. 75g y 0 culpa.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "colagepet-donut-pato",
+    "imagenes": [
+      "/colagepet_donut_pato.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Tamaño XL",
+      "Peso 75g"
+    ],
+    "ingredientes": "Cuero crudo (77.72%), pato (16%), glicerina vegetal (6%), sorbato de potasio (0.2%), caramelo natural (0.05%), suplemento de vitamina E (0.03%), saborizante natural sabor pato."
+  },
+  {
+    "slug": "donut-colagepet-xl-carne",
+    "nombre": "Donut Colagepet XL - Carne",
+    "seoTitle": "Donut Colagepet XL - Carne | Patas & Caos Chile",
+    "seoDescription": "Dona XL de colágeno natural, sin gluten y sin aditivos. Hecha para perros medianos y grandes que merecen un snack que entretiene, cuida la salud dental y aporta colágeno de verdad, todo en un solo bocado. 75g y 0 culpa.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "colagepet-donut-carne",
+    "imagenes": [
+      "/colagepet_donut_carne.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Tamaño XL",
+      "Peso 75g"
+    ],
+    "ingredientes": "Cuero crudo (77.72%), carne (16%), glicerina vegetal (6%), sorbato de potasio (0.2%), caramelo natural (0.05%), suplemento de vitamina E (0.03%), saborizante natural sabor carne."
+  },
+  {
+    "slug": "rascador-maxi-caja-de-leche-brnx",
+    "nombre": "Rascador Maxi Caja de Leche - Brnx",
+    "seoTitle": "Rascador Maxi Caja de Leche - Brnx | Patas & Caos Chile",
+    "seoDescription": "Tu gato merece un espacio que no arruine la decoración de tu casa, y esta caja de leche gigante es exactamente eso. La Rascador Casa Milk es a la vez refugio, rascador y objeto decorativo que cualquier invitado va a querer fotografiar. Espaciosa por dentro para que tu gato entre, salga, duerma y haga lo que se le antoje. Por fuera, un diseño kawaii que combina con cualquier rincón de tu hogar sin gritar \"soy un mueble de gato\"",
+    "precio": 13990,
+    "precioDisplay": "$13.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "rascador-maxi-caja-de-leche---brnx",
+    "imagenes": [
+      "/rascador-forma-de-leche.jpg",
+      "/rascador-y-catnip.jpg",
+      "/rascador-uso.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Rascador de cartón corrugado para satisfacer sus instintos",
+      "4 clips transparentes para armado fácil y sin herramientas",
+      "1 bolsita de hierba gatera para hacer la inauguración más caótica",
+      "Cartón resistente eco-friendly, apto para juego activo."
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-isabelino-donut-rosada-talla-s",
+    "nombre": "Collar Isabelino Donut Rosada - Talla S",
+    "seoTitle": "Collar Isabelino Donut Rosada - Talla S | Patas & Caos Chile",
+    "seoDescription": "Tu gato acaba de pasar por una cirugía y necesita que no se toque la herida, aquí entra este collar isabelino con forma de donut, que además de proteger, viene en este color tan llamativo que parece un accesorio de moda. Es ajustable, ultraligero, no bloquea su visión ni sus gatos, y deja que coma y duerma con normalidad mientras se recupera sin drama.",
+    "precio": 6990,
+    "precioDisplay": "$6.990",
+    "categoria": "Insumos Veterinarios",
+    "etiquetaProducto": "Insumos Veterinarios · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "collar-isabelino-donut-rosada---talla-s",
+    "imagenes": [
+      "/collar-isabelino-donut-gatos.jpg",
+      "/collar-isabelino-donut-gatos-uso.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Cómodo y ligero (no estresa)",
+      "No bloquea visión ni movilidad",
+      "Cierre ajustable regulable",
+      "Materiales de alta calidad",
+      "Cuello: 13 - 22 cm Peso: 2 - 4,5 kg"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pelota-snack-interactiva-roja",
+    "nombre": "Pelota Snack Interactiva — Roja",
+    "seoTitle": "Pelota Snack Interactiva — Roja | Patas & Caos Chile",
+    "seoDescription": "Pelota de goma resistente con ranuras para esconder premios, el juguete que mantiene a tu perro entretenido largo rato mientras le limpia los dientes sin que hagas nada 🐶🦷 Rellénala con sus croquetas o snacks favoritos y deja que tu perro la ruede, la muerda y la trabaje hasta sacar todo. La textura de goma con pinchos limpia el sarro y masajea las encías mientras juega. Doble beneficio, cero esfuerzo de tu parte.",
+    "precio": 6990,
+    "precioDisplay": "$6.990",
+    "categoria": "Juguete",
+    "etiquetaProducto": "Juguete · Perros",
+    "marca": "Patas & Caos",
+    "sku": "pelota-snack-interactiva_Roja",
+    "imagenes": [
+      "/pelota-snack-perro-roja.jpg",
+      "/pelota-snack-perro-roja-uso.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Goma resistente, no tóxica",
+      "Limpieza dental natural",
+      "Rellénala con cualquier snack",
+      "Apta para todas las razas",
+      "7cm de diámetro"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pelota-snack-interactiva-azul",
+    "nombre": "Pelota Snack Interactiva — Azul",
+    "seoTitle": "Pelota Snack Interactiva — Azul | Patas & Caos Chile",
+    "seoDescription": "Pelota de goma resistente con ranuras para esconder premios, el juguete que mantiene a tu perro entretenido largo rato mientras le limpia los dientes sin que hagas nada 🐶🦷 Rellénala con sus croquetas o snacks favoritos y deja que tu perro la ruede, la muerda y la trabaje hasta sacar todo. La textura de goma con pinchos limpia el sarro y masajea las encías mientras juega. Doble beneficio, cero esfuerzo de tu parte.",
+    "precio": 6990,
+    "precioDisplay": "$6.990",
+    "categoria": "Juguete",
+    "etiquetaProducto": "Juguete · Perros",
+    "marca": "Patas & Caos",
+    "sku": "pelota-snack-interactiva_Azul",
+    "imagenes": [
+      "/pelota-snack-perro-azul.jpg",
+      "/pelota-snack-perro-azul-uso.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Goma resistente, no tóxica",
+      "Limpieza dental natural",
+      "Rellénala con cualquier snack",
+      "Apta para todas las razas",
+      "7cm de diámetro"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "dispensador-de-bolsas-diseno-cafe",
+    "nombre": "Dispensador de Bolsas - Diseño Café",
+    "seoTitle": "Dispensador de Bolsas - Diseño Café | Patas & Caos Chile",
+    "seoDescription": "Dispensador de bolsas para fecas con diseño de vasito de café, porque hasta los momentos menos glamorosos del paseo merecen un accesorio bonito ☕🐶 Se engancha fácil a la correa, mochila o cartera con su mosquetón. Las bolsas salen por el agujero frontal con una sola mano, sin buscar, sin enredar, sin drama. (No incluye bolsas)",
+    "precio": 5990,
+    "precioDisplay": "$5.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Perros",
+    "marca": "Patas & Caos",
+    "sku": "dispensador-de-bolsas---diseno-cafe",
+    "imagenes": [
+      "/dispensador-bolsas-perro.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Diseño de vasito de café",
+      "Mosquetón incluido",
+      "Compatible con rollos estándar",
+      "Liviano y compacto",
+      "Alto: 8cm",
+      "Ancho: 5cm"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "calming-collar-perros",
+    "nombre": "Calming Collar - Perros",
+    "seoTitle": "Calming Collar - Perros | Patas & Caos Chile",
+    "seoDescription": "Collar de feromonas calmantes para perros, la solución natural para la ansiedad, el estrés y los comportamientos difíciles 🐶💜 Libera feromonas de forma continua durante 60 días, reduciendo el estrés sin sedantes ni medicamentos. Ideal para viajes, visitas al veterinario, fuegos artificiales, cambios de rutina o simplemente para el perro que vive en modo alerta.",
+    "precio": 7990,
+    "precioDisplay": "$7.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Perros",
+    "marca": "Patas & Caos",
+    "sku": "calming-collar---perros",
+    "imagenes": [
+      "/calming-collar-perro-caja.jpg",
+      "/calming-collar-perro-uso.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "60 días de efecto",
+      "Feromonas naturales",
+      "Apto para todas las razas",
+      "Largo: 63 cm (ajustable)"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "calming-collar-gatos",
+    "nombre": "Calming Collar - Gatos",
+    "seoTitle": "Calming Collar - Gatos | Patas & Caos Chile",
+    "seoDescription": "Collar de feromonas calmantes para gatos, porque la ansiedad felina es real, aunque tu gato lo disimule muy bien 🐱💜 Libera feromonas naturales durante 60 días, ayudando a reducir conductas como el marcaje, los arañazos en exceso, la agresividad y el estrés por cambios en el hogar. Sin pastillas, sin estrés extra.",
+    "precio": 7990,
+    "precioDisplay": "$7.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "calming-collar---gatos",
+    "imagenes": [
+      "/calming-collar-gato-caja.jpg",
+      "/calming-collar-gato-uso.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "60 días de efecto",
+      "Feromonas naturales",
+      "Apto para todas las razas",
+      "Largo: 38 cm (ajustable)"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "botella-portatil-para-perros-rosada",
+    "nombre": "Botella Portátil para Perros — Rosada",
+    "seoTitle": "Botella Portátil para Perros — Rosada | Patas & Caos Chile",
+    "seoDescription": "Botella de agua portátil de acero inoxidable con bebedero integrado, el accesorio que no puede faltar en ningún paseo 🐶💧 Solo inclina, presiona y el agua sube al bebedero. Sin derramar, sin ensuciarte, sin dramas. Cuando tu perro termine, el agua sobrante vuelve adentro. Así de simple. Con cordón para colgar en la correa o en tu bolso, llega al parque con las manos libres y tu perro hidratado.",
+    "precio": 14990,
+    "precioDisplay": "$14.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Perros",
+    "marca": "Patas & Caos",
+    "sku": "botella-portatil-para-perros_Rosada",
+    "imagenes": [
+      "/botella-de-agua-rosada.jpg",
+      "/uso-botella.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Acero inoxidable",
+      "Bebedero integrado",
+      "Sin derrames",
+      "Cordón incluido",
+      "Capacidad 285ml"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "botella-portatil-para-perros-calipso",
+    "nombre": "Botella Portátil para Perros — Calipso",
+    "seoTitle": "Botella Portátil para Perros — Calipso | Patas & Caos Chile",
+    "seoDescription": "Botella de agua portátil de acero inoxidable con bebedero integrado, el accesorio que no puede faltar en ningún paseo 🐶💧 Solo inclina, presiona y el agua sube al bebedero. Sin derramar, sin ensuciarte, sin dramas. Cuando tu perro termine, el agua sobrante vuelve adentro. Así de simple. Con cordón para colgar en la correa o en tu bolso, llega al parque con las manos libres y tu perro hidratado.",
+    "precio": 14990,
+    "precioDisplay": "$14.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Perros",
+    "marca": "Patas & Caos",
+    "sku": "botella-portatil-para-perros_Calipso",
+    "imagenes": [
+      "/botella-de-agua-calipso-2.jpg",
+      "/botella-de-agua-calipso-uso.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Acero inoxidable",
+      "Bebedero integrado",
+      "Sin derrames",
+      "Cordón incluido",
+      "Capacidad 285ml"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "arena-sanitaria-ciudad-animal-8kg",
+    "nombre": "Arena Sanitaria Ciudad Animal 8kg",
+    "seoTitle": "Arena Sanitaria Ciudad Animal 8kg | Patas & Caos Chile",
+    "seoDescription": "Arena sanitaria de bentonita natural con aroma a lavanda — porque el baño de tu gato puede oler bien y tú también puedes sobrevivir a cambiarla 🐱💜 Aglomera rápido, neutraliza los olores con un suave aroma a lavanda y no levanta polvo. Además es hasta un 50% más liviana que las arenas tradicionales, así que del auto a la casa sin llorar.",
+    "precio": 8990,
+    "precioDisplay": "$8.990",
+    "categoria": "Aseo e Higiene",
+    "etiquetaProducto": "Aseo e Higiene · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "arena-sanitaria-ciudad-animal-8kg",
+    "imagenes": [
+      "/arena-sanitaria-ciudad-animal-8k.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Aglomerante rápido",
+      "Aroma a lavanda",
+      "Sin polvo",
+      "100% natural y biodegradable"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "brit-care-sterilized-weigh-control-2kg-duck-y-turkey",
+    "nombre": "Brit Care Sterilized Weigh Control 2kg - Duck & Turkey",
+    "seoTitle": "Brit Care Sterilized Weigh Control 2kg - Duck & Turkey | Patas & Caos Chile",
+    "seoDescription": "Brit Care Sterilized está formulado especialmente para gatos adultos esterilizados — los que ya no salen a correr maratones pero siguen teniendo estándares altísimos en la cocina 🐱 Con pato y pavo como proteínas principales, sin cereales y con L-carnitina para mantener el peso ideal. Porque esterilizado no significa resignado. Contenido: 2 kg — Sabor: Duck & Turkey.",
+    "precio": 24990,
+    "precioDisplay": "$24.990",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "brit-care-sterilized-weigh-control-2kg---duck-turkey",
+    "imagenes": [
+      "/brit-care-esterilizado-duck.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sin cereales",
+      "Proteína animal real",
+      "Control de peso",
+      "Salud urinaria",
+      "Piel y pelaje saludable"
+    ],
+    "ingredientes": "Carne fresca de pato (26%), deshidratada pavo (26%), guisantes amarillos (16%), garbanzos (10%), secos manzanas (7%), grasa de ave (conservada con tocoferoles, 4%), aceite de salmón (2%), hígado de pollo hidrolizado (2%), psyllium cascarilla y semillas (2%), levadura de cerveza (2%), linaza (1%), capuchina seca (0,5%), manzanilla seca (0,5%), minerales, espino amarillo seco (0,3%), arándanos secos (0,2%), fructo-oligosacáridos (0,015%), manano-oligosacáridos (0,015%), yuca de Mojave (0,008%), Lactobacillus acidophilus HA-122 inactivado (15×109 células / kg)."
+  },
+  {
+    "slug": "pack-calma-total",
+    "nombre": "Pack Calma Total",
+    "seoTitle": "Pack Calma Total | Patas & Caos Chile",
+    "seoDescription": "Para el gato que se asusta de todo — y el humano que lo quiere calmar. Incluye la Fórmula Ansiedad y Calma de Flores de Bach, Pillows Cat Fest sabor camarón y Tubito Cremoso con catnip. Todo lo que necesitas para convertir un día de caos en uno de mimos.",
+    "precio": 15990,
+    "precioDisplay": "$15.990",
+    "categoria": "Flores de Bach",
+    "etiquetaProducto": "Flores de Bach · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "pack-calma-total",
+    "imagenes": [
+      "/pack_calma_total.jpg"
+    ],
+    "caracTitulo": "¿Qué incluye?",
+    "caracteristicas": [
+      "1 frasco Flores de Bach Ansiedad y Calma (30 ml)",
+      "1 bolsa Cat Fest Pillows Schrimp Creme o Chicken Creme (30 g)",
+      "4 Tubitos Cremosos sabor a elección",
+      "Presentado en bolsa Patas & Caos"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pack-sos-mascota",
+    "nombre": "Pack SOS Mascota",
+    "seoTitle": "Pack SOS Mascota | Patas & Caos Chile",
+    "seoDescription": "El kit de emergencia emocional que debería estar en toda casa con mascota. Flores de Bach Rescue & Alivio para el susto repentino, Paw Balm para el cuidado de sus patitas y Tubitos Cremosos para el mimo post-estrés. Porque a veces el mundo es demasiado.",
+    "precio": 18990,
+    "precioDisplay": "$18.990",
+    "categoria": "Flores de Bach",
+    "etiquetaProducto": "Flores de Bach · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "pack-sos-mascota",
+    "imagenes": [
+      "/pack_sos_mascota.jpg"
+    ],
+    "caracTitulo": "¿Qué incluye?",
+    "caracteristicas": [
+      "1 frasco Flores de Bach Rescue & Alivio (30 ml)",
+      "1 Paw Balm hidratante para patitas",
+      "4 Tubitos Cremosos sabor a elección",
+      "Presentado en bolsa Patas & Caos"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pack-rutina-sana",
+    "nombre": "Pack Rutina Sana",
+    "seoTitle": "Pack Rutina Sana | Patas & Caos Chile",
+    "seoDescription": "Hidratación, nutrición y bienestar emocional en un solo pack. Flores de Bach Rescue & Alivio, Fuente de Agua Flor USB para que tome agua de verdad y una Lata Leonardo para que coma como corresponde. El regalo perfecto para el gato más exigente.",
+    "precio": 33990,
+    "precioDisplay": "$33.990",
+    "categoria": "Flores de Bach",
+    "etiquetaProducto": "Flores de Bach · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "pack-rutina-sana",
+    "imagenes": [
+      "/pack_rutina_sana.jpg"
+    ],
+    "caracTitulo": "¿Qué incluye?",
+    "caracteristicas": [
+      "1 frasco Flores de Bach Rescue & Alivio (30 ml)",
+      "1 Fuente de Agua Flor USB para gatos",
+      "1 Lata Leonardo Adulto 200 g (sabor a elección)",
+      "Presentado en bolsa Patas & Caos"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pack-bienvenido-a-casa",
+    "nombre": "Pack Bienvenido a Casa",
+    "seoTitle": "Pack Bienvenido a Casa | Patas & Caos Chile",
+    "seoDescription": "Para el gato que llega a un hogar nuevo o enfrenta cambios de ambiente. Flores de Bach Equilibrio para estabilizar sus emociones, Comedero Lento para que coma sin ansiedad y una Lata Leonardo para que su primer plato sea de verdad. Porque una buena bienvenida lo cambia todo.",
+    "precio": 21990,
+    "precioDisplay": "$21.990",
+    "categoria": "Flores de Bach",
+    "etiquetaProducto": "Flores de Bach · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "pack-bienvenido-a-casa",
+    "imagenes": [
+      "/pack_bienveido_a_casa.jpg"
+    ],
+    "caracTitulo": "¿Qué incluye?",
+    "caracteristicas": [
+      "1 frasco Flores de Bach Equilibrio (30 ml)",
+      "1 Comedero Lento Slow Feeder Catstages",
+      "1 Lata Leonardo Adulto 200 g (sabor a elección)",
+      "Presentado en bolsa Patas & Caos"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pack-juega-y-relaja",
+    "nombre": "Pack Juega y Relaja",
+    "seoTitle": "Pack Juega y Relaja | Patas & Caos Chile",
+    "seoDescription": "Para el gato que necesita gastar energía — y recuperar la calma después. Flores de Bach Energía & Ánimo para devolverle las ganas de todo, Pelota LED interactiva y Pájaro de peluche para que se canse de verdad. Caos controlado, básicamente.",
+    "precio": 28990,
+    "precioDisplay": "$28.990",
+    "categoria": "Flores de Bach",
+    "etiquetaProducto": "Flores de Bach · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "pack-juega-y-relaja",
+    "imagenes": [
+      "/pack_relaja_y_juega.jpg"
+    ],
+    "caracTitulo": "¿Qué incluye?",
+    "caracteristicas": [
+      "1 frasco Flores de Bach Energía & Ánimo (30 ml)",
+      "1 Pelota LED interactiva",
+      "1 Pájaro interactivo de peluche",
+      "Presentado en bolsa Patas & Caos"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pack-cuidado-total",
+    "nombre": "Pack Cuidado Total",
+    "seoTitle": "Pack Cuidado Total | Patas & Caos Chile",
+    "seoDescription": "Patitas hidratadas, pelo sin enredos. El Paw Balm hidrata y protege sus almohadillas, la Afeitadora LED elimina el pelo suelto sin jalones ni tirones. Porque el cuidado básico también es amor — y además ahorras $2.990.",
+    "precio": 12990,
+    "precioDisplay": "$12.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "pack-cuidado-total",
+    "imagenes": [
+      "/pack_cuidado_total.jpg"
+    ],
+    "caracTitulo": "¿Qué incluye?",
+    "caracteristicas": [
+      "1 Paw Balm hidratante para patitas",
+      "1 Afeitadora LED recargable",
+      "Presentado en bolsa Patas & Caos"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "comedero-lento-slow-feeder-catstages",
+    "nombre": "Comedero Lento Slow Feeder - Catstages",
+    "seoTitle": "Comedero Lento Slow Feeder - Catstages | Patas & Caos Chile",
+    "seoDescription": "¿Tu gato termina su plato en tres segundos y después vomita todo? Este comedero lento tiene laberintos y crestas internas que lo obligan a comer más despacio, mejor digestión, menos vómitos y una hora de comida mucho más tranquila. Base antideslizante para que no ande empujando el plato por toda la cocina.",
+    "precio": 7990,
+    "precioDisplay": "$7.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "comedero-lento-slow-feeder---catstages",
+    "imagenes": [
+      "/Plato_con_Comida.jpg",
+      "/Plato_Vacio.jpg",
+      "/Milo_con_Plato.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Laberintos y crestas interiores que ralentizan la comida y mejoran la digestión",
+      "Libre de BPA, PVC y ftalatos, sin químicos raros cerca de tu gato",
+      "Apto para lavavajillas, fácil de limpiar",
+      "Base antideslizante para que no ande de paseo por la cocina",
+      "Compatible con croquetas, comida húmeda y snacks (capacidad hasta ¾ taza)",
+      "Tamaño compacto: 13,8 x 13,8 cm",
+      "Mantiene a tu gato entretenido mientras come"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pack-consulta-flor-de-bach",
+    "nombre": "Pack Consulta + Flor de Bach",
+    "seoTitle": "Pack Consulta + Flor de Bach | Patas & Caos Chile",
+    "seoDescription": "Videollamada de 45 minutos con nuestra terapeuta floral, más un frasco de Flores de Bach personalizado según las necesidades de tu mascota. Juntos identificamos qué la afecta emocionalmente y elegimos la fórmula indicada para ella. Con envío a domicilio o retiro en Las Condes.",
+    "precio": 29990,
+    "precioDisplay": "$29.990",
+    "categoria": "Flores de Bach",
+    "etiquetaProducto": "Flores de Bach · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "pack-consulta-flor-de-bach",
+    "imagenes": [
+      "/pack_floral_perros_gatos.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Videollamada de 45 minutos por Google Meet",
+      "Frasco de Flores de Bach personalizado incluido",
+      "Formulado por terapeuta floral con +20 años de experiencia",
+      "Sin alcohol, sin efectos secundarios",
+      "Envío a domicilio o retiro en Las Condes",
+      "Válido para perros y gatos"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "flores-de-bach-rescue-y-alivio",
+    "nombre": "Flores de Bach - Rescue y Alivio",
+    "seoTitle": "Flores de Bach - Rescue y Alivio | Patas & Caos Chile",
+    "seoDescription": "El clásico de emergencias adaptado para mascotas. Para situaciones de shock, susto repentino o estrés agudo.",
+    "precio": 12990,
+    "precioDisplay": "$12.990",
+    "categoria": "Flores de Bach",
+    "etiquetaProducto": "Flores de Bach · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "flores-de-bach---rescue-y-alivio",
+    "imagenes": [
+      "/Flores_Rescue_y_Alivio.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Para situaciones de emergencia o susto repentino",
+      "Alivia el shock emocional agudo",
+      "Fórmula natural sin alcohol",
+      "Modo de uso: 4 gotas directo en el hocico, 4 veces al día — o 16 gotas en el agua, asegurándote que se la tome"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "flores-de-bach-energia-y-animo",
+    "nombre": "Flores de Bach - Energía y Ánimo",
+    "seoTitle": "Flores de Bach - Energía y Ánimo | Patas & Caos Chile",
+    "seoDescription": "Para mascotas decaídas, apáticas o que perdieron las ganas de jugar. Apoya el ánimo y la vitalidad de forma suave y natural.",
+    "precio": 12990,
+    "precioDisplay": "$12.990",
+    "categoria": "Flores de Bach",
+    "etiquetaProducto": "Flores de Bach · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "flores-de-bach---energia-y-animo",
+    "imagenes": [
+      "/Flores_Energia_y_Animo.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Indicado para apatía y decaimiento",
+      "Apoya la recuperación emocional post-enfermedad",
+      "Fórmula natural sin alcohol",
+      "Modo de uso: 4 gotas directo en el hocico, 4 veces al día — o 16 gotas en el agua, asegurándote que se la tome"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "flores-de-bach-equilibrio",
+    "nombre": "Flores de Bach - Equilibrio",
+    "seoTitle": "Flores de Bach - Equilibrio | Patas & Caos Chile",
+    "seoDescription": "Cuando tu mascota está fuera de foco, irritable, inquieta o simplemente rara. Esta mezcla trabaja en el equilibrio emocional para que vuelvan a ser ellos mismos.",
+    "precio": 12990,
+    "precioDisplay": "$12.990",
+    "categoria": "Flores de Bach",
+    "etiquetaProducto": "Flores de Bach · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "flores-de-bach---equilibrio",
+    "imagenes": [
+      "/Flores_Equilibrio.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Ayuda en cambios de rutina o ambiente",
+      "Regula cambios de humor e irritabilidad",
+      "Fórmula natural sin alcohol",
+      "Modo de uso: 4 gotas directo en el hocico, 4 veces al día o 16 gotas en el agua, asegurándote que se la tome"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "flores-de-bach-ansiedad-y-calma",
+    "nombre": "Flores de Bach - Ansiedad y Calma",
+    "seoTitle": "Flores de Bach - Ansiedad y Calma | Patas & Caos Chile",
+    "seoDescription": "Para los que se asustan de todo y de nada. Esta mezcla de Flores de Bach ayuda a tu mascota a manejar el miedo, el estrés y la ansiedad del día a día, sin sedantes, sin efectos secundarios.",
+    "precio": 12990,
+    "precioDisplay": "$12.990",
+    "categoria": "Flores de Bach",
+    "etiquetaProducto": "Flores de Bach · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "flores-de-bach---ansiedad-y-calma",
+    "imagenes": [
+      "/Flores_Ansiedad_y_Calma.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Ideal para miedos, tormentas y viajes",
+      "Reduce el estrés por separación",
+      "Fórmula natural sin alcohol",
+      "Modo de uso: 4 gotas directo en el hocico, 4 veces al día o 16 gotas en el agua, asegurándote que se la tome"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "cat-fest-pillows-salmon-creme",
+    "nombre": "Cat Fest Pillows Salmon Creme",
+    "seoTitle": "Cat Fest Pillows Salmon Creme | Patas & Caos Chile",
+    "seoDescription": "Pillows crujientes por fuera y cremosos por dentro con sabor a salmón",
+    "precio": 1990,
+    "precioDisplay": "$1.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cat-fest-pillows-schrimp-creme",
+    "imagenes": [
+      "/catfest_pillows_salmon_creme.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Relleno cremoso sabor salmón",
+      "Cáscara crujiente irresistible",
+      "Sin colorantes artificiales",
+      "Estructura porosa que ayuda al cuidado dental"
+    ],
+    "ingredientes": "Harina de maíz, harina de papa, harina de arroz, aislado de proteína de soya, harina de yema de huevo, harina de salmón, harina de camarón, harina de pescado (5%), harina de catnip, manteca, aceite de soya, semillas y productos de frutas y verduras (polvo de semilla de granada, polvo de arándano)."
+  },
+  {
+    "slug": "cat-fest-pillows-chicken-creme",
+    "nombre": "Cat Fest Pillows Chicken Creme",
+    "seoTitle": "Cat Fest Pillows Chicken Creme | Patas & Caos Chile",
+    "seoDescription": "Pillows crujientes por fuera y cremosos por dentro con sabor a pollo.",
+    "precio": 1990,
+    "precioDisplay": "$1.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cat-fest-pillows",
+    "imagenes": [
+      "/Cat_Fest_Pillows_Chicken.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Relleno cremoso sabor pollo",
+      "Cáscara crujiente irresistible",
+      "Sin colorantes artificiales"
+    ],
+    "ingredientes": "Harina de maíz, harina de papa, harina de arroz, aislado de proteína de soya, harina de yema de huevo, harina de pollo (5%), harina de camarón, harina de pescado, manteca, aceite de soya, semillas y productos de frutas y verduras (harina de semilla de granada, harina de arándano)."
+  },
+  {
+    "slug": "tubito-cremoso-atun-con-catnip",
+    "nombre": "Tubito Cremoso Atún con Catnip",
+    "seoTitle": "Tubito Cremoso Atún con Catnip | Patas & Caos Chile",
+    "seoDescription": "El combo más letal del universo felino: atún cremoso con catnip. Pack de 4 tubitos de puro premio.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "tubito-atun",
+    "imagenes": [
+      "/Tubito_Cremoso_Cats_Snack2.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Textura cremosa irresistible",
+      "Sabor atún con catnip",
+      "Pack de 4 unidades",
+      "Sin colorantes artificiales"
+    ],
+    "ingredientes": "Agua, atún, hierba gatera, proteína hidrolizada de atún, isomaltooligosacáridos, aceite de soja, almidón de maíz, carragenano, nutrientes completos (metionina, vitaminas A, B, D, E, pantotenato cálcico, folato, cobre, manganeso, zinc, yodo, selenio), goma guar, sal."
+  },
+  {
+    "slug": "tubito-cremoso-camaron-con-catnip",
+    "nombre": "Tubito Cremoso Camarón con Catnip",
+    "seoTitle": "Tubito Cremoso Camarón con Catnip | Patas & Caos Chile",
+    "seoDescription": "Camarón cremoso con catnip — el sabor marino que tu gato no va a poder ignorar. Pack de 4 tubitos.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "tubito-camaron",
+    "imagenes": [
+      "/cats-snack-tubito-camaron.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Textura cremosa irresistible",
+      "Sabor camarón con catnip",
+      "Pack de 4 unidades",
+      "Sin colorantes artificiales"
+    ],
+    "ingredientes": "Agua, carne de camarón, atún, pechuga de pollo, hierba gatera, proteína hidrolizada de atún, isomaltooligosacáridos, aceite de soja, almidón de maíz, carragenina, nutrientes completos (metionina, vitaminas A, B, D, E, pantotenato cálcico, folato, cobre, manganeso, zinc, yodo, selenio), goma guar, sal."
+  },
+  {
+    "slug": "tubito-cremoso-salmon-con-matatabi",
+    "nombre": "Tubito Cremoso Salmón con Matatabi",
+    "seoTitle": "Tubito Cremoso Salmón con Matatabi | Patas & Caos Chile",
+    "seoDescription": "Salmón cremoso con matatabi y catnip — con taurina y extracto de té verde. 0% gluten, 0% preservantes artificiales. Pack de 4 tubitos x 15g.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "tubito-salmon-matatabi",
+    "imagenes": [
+      "/tubito_salmon_matatabi.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Textura cremosa irresistible",
+      "Sabor salmón con matatabi y catnip",
+      "Pack de 4 unidades x 15g",
+      "Con taurina y extracto de té verde",
+      "0% gluten y preservantes artificiales"
+    ],
+    "ingredientes": "Salmón, agua, hierba gatera, matatabi, taurina, extracto de té verde, isomaltooligosacáridos, aceite de soja, almidón de maíz, carragenina, nutrientes completos (vitaminas A, B, D, E, pantotenato cálcico, folato, cobre, manganeso, zinc, yodo, selenio), goma guar, sal."
+  },
+  {
+    "slug": "lata-leonardo-kitten-200g",
+    "nombre": "Lata Leonardo Kitten 200g",
+    "seoTitle": "Lata Leonardo Kitten 200g | Patas & Caos Chile",
+    "seoDescription": "Nutrición especial para gatitos en crecimiento. Leonardo Kitten fue formulada para cubrir todas las necesidades de los más pequeños de la casa — con proteína de alta calidad, sin cereales y con el estándar alemán.",
+    "precio": 3790,
+    "precioDisplay": "$3.790",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "lata-leonardo-kitten",
+    "imagenes": [
+      "/lata-leonardo-kitten.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Formulada especialmente para gatitos",
+      "Alto contenido de proteína",
+      "Sin cereales añadidos",
+      "Formato 200g",
+      "Fabricado en Alemania"
+    ],
+    "ingredientes": "Carne y derivados animales (65%; de los cuales ave 40%, ternera 25%, caldo de carne 29,5%). Huevo y derivados (huevo entero 4%). Minerales (1%). Aceites y grasas (aceite de salmón 0,5%)."
+  },
+  {
+    "slug": "lata-leonardo-adulto-ave",
+    "nombre": "Lata Leonardo Adulto — Ave",
+    "seoTitle": "Lata Leonardo Adulto — Ave | Patas & Caos Chile",
+    "seoDescription": "Comida húmeda premium alemana para gatos adultos con ave. Sin cereales añadidos, alto contenido de proteína animal. 🇩🇪 Fabricado en Alemania.",
+    "precio": 3790,
+    "precioDisplay": "$3.790",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "lata-leonardo_Ave",
+    "imagenes": [
+      "/lata-leonardo-ave.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Comida húmeda premium para gatos adultos",
+      "Alto contenido de proteína animal",
+      "Sin cereales añadidos",
+      "Formato 200g",
+      "Fabricado en Alemania"
+    ],
+    "ingredientes": "Carnes y subproductos animales (65% ave + caldo de ave 34%). Minerales (0,5%). Cáscaras de huevo, secas (0,5%)."
+  },
+  {
+    "slug": "lata-leonardo-adulto-pato",
+    "nombre": "Lata Leonardo Adulto — Pato",
+    "seoTitle": "Lata Leonardo Adulto — Pato | Patas & Caos Chile",
+    "seoDescription": "Comida húmeda premium alemana para gatos adultos con pato. Sin cereales añadidos, alto contenido de proteína animal. 🇩🇪 Fabricado en Alemania.",
+    "precio": 3790,
+    "precioDisplay": "$3.790",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "lata-leonardo_Pato",
+    "imagenes": [
+      "/lata-leonardo-pato.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Comida húmeda premium para gatos adultos",
+      "Alto contenido de proteína animal",
+      "Sin cereales añadidos",
+      "Formato 200g",
+      "Fabricado en Alemania"
+    ],
+    "ingredientes": "Carnes y subproductos animales (65%, de los cuales 25% pato). Caldo de carne (34%). Minerales (0,5%). Cáscaras de huevo, secas (0,5%)."
+  },
+  {
+    "slug": "lata-leonardo-adulto-conejo",
+    "nombre": "Lata Leonardo Adulto — Conejo",
+    "seoTitle": "Lata Leonardo Adulto — Conejo | Patas & Caos Chile",
+    "seoDescription": "Comida húmeda premium alemana para gatos adultos con conejo. Sin cereales añadidos, alto contenido de proteína animal. 🇩🇪 Fabricado en Alemania.",
+    "precio": 3790,
+    "precioDisplay": "$3.790",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "lata-leonardo_Conejo",
+    "imagenes": [
+      "/lata-leonardo-conejo.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Comida húmeda premium para gatos adultos",
+      "Alto contenido de proteína animal",
+      "Sin cereales añadidos",
+      "Formato 200g",
+      "Fabricado en Alemania"
+    ],
+    "ingredientes": "Carnes y subproductos animales (65%, de los cuales 25% conejo, + caldo de carne 34%). Minerales (0,5%). Cáscaras de huevo, secas (0,5%)."
+  },
+  {
+    "slug": "lata-leonardo-adulto-pescado",
+    "nombre": "Lata Leonardo Adulto — Pescado",
+    "seoTitle": "Lata Leonardo Adulto — Pescado | Patas & Caos Chile",
+    "seoDescription": "Comida húmeda premium alemana para gatos adultos con pescado. Sin cereales añadidos, alto contenido de proteína animal. 🇩🇪 Fabricado en Alemania.",
+    "precio": 3790,
+    "precioDisplay": "$3.790",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "lata-leonardo_Pescado",
+    "imagenes": [
+      "/lata-leonardo-pescado.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Comida húmeda premium para gatos adultos",
+      "Alto contenido de proteína animal",
+      "Sin cereales añadidos",
+      "Formato 200g",
+      "Fabricado en Alemania"
+    ],
+    "ingredientes": "Carne y derivados animales (40% + caldo de carne 34%). Pescado y derivados de pescado (25% pescado marino). Minerales (1%)."
+  },
+  {
+    "slug": "lata-leonardo-adulto-ternera",
+    "nombre": "Lata Leonardo Adulto — Ternera",
+    "seoTitle": "Lata Leonardo Adulto — Ternera | Patas & Caos Chile",
+    "seoDescription": "Comida húmeda premium alemana para gatos adultos con ternera. Sin cereales añadidos, alto contenido de proteína animal. 🇩🇪 Fabricado en Alemania.",
+    "precio": 3790,
+    "precioDisplay": "$3.790",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "lata-leonardo_Ternera",
+    "imagenes": [
+      "/lata-leonardo-ternera.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Comida húmeda premium para gatos adultos",
+      "Alto contenido de proteína animal",
+      "Sin cereales añadidos",
+      "Formato 200g",
+      "Fabricado en Alemania"
+    ],
+    "ingredientes": "Carnes y subproductos animales (65%, de los cuales 25% ternera); caldo de carne (34%); minerales (0,5%); cáscaras de huevo, secas (0,5%)."
+  },
+  {
+    "slug": "collar-find-my-turquesa",
+    "nombre": "Collar Find My — Turquesa",
+    "seoTitle": "Collar Find My — Turquesa | Patas & Caos Chile",
+    "seoDescription": "Porque tu gato sale \"solo un momento\" y desaparece tres horas. Compatible con la red Find My de Apple.",
+    "precio": 12990,
+    "precioDisplay": "$12.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "collar-findmy_Turquesa",
+    "imagenes": [
+      "/collar-find-my-turquesa.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Compatible con Apple Find My",
+      "Cinta nylon reflectante",
+      "Funda de silicona con diseño de huella",
+      "Cierre ajustable",
+      "Campanilla incluida"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-find-my-negro",
+    "nombre": "Collar Find My — Negro",
+    "seoTitle": "Collar Find My — Negro | Patas & Caos Chile",
+    "seoDescription": "Porque tu gato sale \"solo un momento\" y desaparece tres horas. Compatible con la red Find My de Apple.",
+    "precio": 12990,
+    "precioDisplay": "$12.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "collar-findmy_Negro",
+    "imagenes": [
+      "/collar-find-my-negro.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Compatible con Apple Find My",
+      "Cinta nylon reflectante",
+      "Funda de silicona con diseño de huella",
+      "Cierre ajustable",
+      "Campanilla incluida"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-find-my-azul",
+    "nombre": "Collar Find My — Azul",
+    "seoTitle": "Collar Find My — Azul | Patas & Caos Chile",
+    "seoDescription": "Porque tu gato sale \"solo un momento\" y desaparece tres horas. Compatible con la red Find My de Apple.",
+    "precio": 12990,
+    "precioDisplay": "$12.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "collar-findmy_Azul",
+    "imagenes": [
+      "/Collar_GPS.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Compatible con Apple Find My",
+      "Cinta nylon reflectante",
+      "Funda de silicona con diseño de huella",
+      "Cierre ajustable",
+      "Campanilla incluida"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "fuente-de-agua-flor-usb",
+    "nombre": "Fuente de Agua Flor USB",
+    "seoTitle": "Fuente de Agua Flor USB | Patas & Caos Chile",
+    "seoDescription": "Tu gato se niega a tomar agua del tazón. Circulación continua, filtro incluido.",
+    "precio": 21990,
+    "precioDisplay": "$21.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "fuente-agua",
+    "imagenes": [
+      "/Bebedero_Gatos_1.jpg",
+      "/Bebedero_Gatos_2.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Bomba silenciosa USB",
+      "Surtidor en forma de flor",
+      "Filtro incluido",
+      "Fácil de limpiar"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pajaro-interactivo",
+    "nombre": "Pájaro Interactivo",
+    "seoTitle": "Pájaro Interactivo | Patas & Caos Chile",
+    "seoDescription": "Un pájaro que se mueve solo. Tu gato va a actuar como si fuera su gran oportunidad.",
+    "precio": 13990,
+    "precioDisplay": "$13.990",
+    "categoria": "Juguete",
+    "etiquetaProducto": "Juguete · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "pajaro",
+    "imagenes": [
+      "/Pajaro_Gatos.jpg",
+      "/Milo_Pajaro_Gatos.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Movimiento autónomo",
+      "Peluche suave",
+      "Estimula instinto cazador"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pelota-interactiva-led",
+    "nombre": "Pelota Interactiva LED",
+    "seoTitle": "Pelota Interactiva LED | Patas & Caos Chile",
+    "seoDescription": "Brilla, rebota y arrastra cintas holográficas. Carga USB tipo C.",
+    "precio": 8990,
+    "precioDisplay": "$8.990",
+    "categoria": "Juguete",
+    "etiquetaProducto": "Juguete · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "pelota-led",
+    "imagenes": [
+      "/Pelota_Interactiva_Gato.jpg",
+      "/Milo_Jugando_Pelota_Interactiva.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Luz LED integrada",
+      "Cintas holográficas",
+      "Carga USB tipo C"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "masajeador-pulpo",
+    "nombre": "Masajeador Pulpo",
+    "seoTitle": "Masajeador Pulpo | Patas & Caos Chile",
+    "seoDescription": "Ocho tentáculos de plástico que masajean la cabeza de tu gato mientras tú lo miras con ternura. Tiene ruedas en la base: lo empujas, rueda solo por el piso y el caos empieza sin necesidad de baterías ni cables. Masajeador, juguete y fuente de drama felino, todo en uno.",
+    "precio": 6990,
+    "precioDisplay": "$6.990",
+    "categoria": "Juguete",
+    "etiquetaProducto": "Juguete · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "pulpo",
+    "imagenes": [
+      "/pulpo_para_gatos_masajeador.jpg",
+      "/pulpo_y_gato_masaje.jpg",
+      "/pulpo_masajeador_2.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Tentáculos de plástico flexibles, ideales para masajes en cabeza y lomo",
+      "Ruedas en la base: rueda solo por el piso sin necesidad de batería",
+      "Doble función: masajeador manual y juguete rodante",
+      "Diseño adorable con carita que tu gato ignorará completamente",
+      "Fácil de limpiar"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "paw-balm",
+    "nombre": "Paw Balm",
+    "seoTitle": "Paw Balm | Patas & Caos Chile",
+    "seoDescription": "Crema hidratante natural para almohadillas resecas. 40g.",
+    "precio": 5990,
+    "precioDisplay": "$5.990",
+    "categoria": "Aseo e Higiene",
+    "etiquetaProducto": "Aseo e Higiene · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "paw-balm",
+    "imagenes": [
+      "/Paw_Balm.jpg",
+      "/Patas_y_Paw_Balm.jpg",
+      "/Ingredientes.jpg"
+    ],
+    "caracTitulo": "Ingredientes",
+    "caracteristicas": [
+      "Cera de abeja",
+      "Aceite de coco",
+      "Manteca de karité",
+      "Vitamina E",
+      "Cera de carnauba"
+    ],
+    "ingredientes": ""
   },
   {
     "slug": "afeitadora-led-para-mascotas",
@@ -38,10 +1541,937 @@
       "/Afeitadora_Gatos_2.jpg",
       "/Afeitadora_Gatos_3.jpg"
     ],
+    "caracTitulo": "Características",
     "caracteristicas": [
       "Luz LED integrada",
       "Motor silencioso",
       "Recargable USB"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "cat-fest-meat-sticks-pato",
+    "nombre": "Cat Fest Meat Sticks — Pato",
+    "seoTitle": "Cat Fest Meat Sticks — Pato | Patas & Caos Chile",
+    "seoDescription": "Palitos de carne de pato 100% natural. Sin azúcar ni cereales, con cierre zip lock. 45g.",
+    "precio": 3490,
+    "precioDisplay": "$3.490",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cat-fest_Pato",
+    "imagenes": [
+      "/Lamb_Meat_Sticks.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% carne natural",
+      "Sin cereales",
+      "Cierre zip lock",
+      "45g"
+    ],
+    "ingredientes": "Pechuga de Pato 82,7%, subproductos de origen vegetal, sustancias minerales."
+  },
+  {
+    "slug": "cat-fest-meat-sticks-cordero",
+    "nombre": "Cat Fest Meat Sticks — Cordero",
+    "seoTitle": "Cat Fest Meat Sticks — Cordero | Patas & Caos Chile",
+    "seoDescription": "Palitos de carne de cordero 100% natural. Sin azúcar ni cereales, con cierre zip lock. 45g.",
+    "precio": 3490,
+    "precioDisplay": "$3.490",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cat-fest_Cordero",
+    "imagenes": [
+      "/Lamb_Meat_Sticks.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% carne natural",
+      "Sin cereales",
+      "Cierre zip lock",
+      "45g"
+    ],
+    "ingredientes": "Vacuno 79,2%, subproductos de origen vegetal, sustancias minerales."
+  },
+  {
+    "slug": "cats-snack-atun-catnip",
+    "nombre": "Cats Snack — Atún + Catnip",
+    "seoTitle": "Cats Snack — Atún + Catnip | Patas & Caos Chile",
+    "seoDescription": "Galletas crujientes por fuera, cremosas por dentro con atún y catnip. 80g.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cats-snack_Catnip",
+    "imagenes": [
+      "/cats-snack-catnip.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sin colorantes artificiales",
+      "Premio diario",
+      "80g"
+    ],
+    "ingredientes": "Atún, hierba gatera, harina de trigo, almidón de maíz, aceite de palma, maltodextrina, harina de hidrolizado de pollo, fosfolípidos, sal, sod."
+  },
+  {
+    "slug": "cats-snack-atun-matatabi",
+    "nombre": "Cats Snack — Atún + Matatabi",
+    "seoTitle": "Cats Snack — Atún + Matatabi | Patas & Caos Chile",
+    "seoDescription": "Galletas crujientes por fuera, cremosas por dentro con atún y matatabi. 80g.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cats-snack_Matatabi",
+    "imagenes": [
+      "/cats-snack-matatabi.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sin colorantes artificiales",
+      "Premio diario",
+      "80g"
+    ],
+    "ingredientes": "Atún, harina de hidrolizado de pollo, harina de trigo, almidón de maíz, aceite de palma, maltodextrina, lecitina, Actinidia polygama (matatabi), bica sod."
+  },
+  {
+    "slug": "cats-snack-rellena-atun-ostiones",
+    "nombre": "Cats Snack — Rellena Atún + Ostiones",
+    "seoTitle": "Cats Snack — Rellena Atún + Ostiones | Patas & Caos Chile",
+    "seoDescription": "Galletas rellenas cremosas de atún y ostiones. 80g.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cats-snack_Rellena Atún + Ostiones",
+    "imagenes": [
+      "/cats_snack_galletas_rellenas_atun_ostiones.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sin colorantes artificiales",
+      "Premio diario",
+      "80g"
+    ],
+    "ingredientes": "Ostión, yema de huevo en polvo, harina de atún, harina de camarón, harina de pescado, harina de maíz y trigo, almidón de patata, fideos de arroz, proteína de soja aislada, aceite de soya, aceite de palma, semillas de granada en polvo, polvo de cranberry, taurina."
+  },
+  {
+    "slug": "cats-snack-rellena-atun-queso",
+    "nombre": "Cats Snack — Rellena Atún + Queso",
+    "seoTitle": "Cats Snack — Rellena Atún + Queso | Patas & Caos Chile",
+    "seoDescription": "Galletas rellenas cremosas de atún y queso. 80g.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cats-snack_Rellena Atún + Queso",
+    "imagenes": [
+      "/cats-snack-atun-queso.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sin colorantes artificiales",
+      "Premio diario",
+      "80g"
+    ],
+    "ingredientes": "Atún, queso, harina de maíz, almidón de patata, harina de arroz, proteína de soya aislada, harina de camarón, harina de pescado, aceite de soya, mantecas, yema en polvo, almidón de maíz, harina de semillas de granada, harina de cranberry, taurina."
+  },
+  {
+    "slug": "cats-snack-rellena-camaron",
+    "nombre": "Cats Snack — Rellena Camarón",
+    "seoTitle": "Cats Snack — Rellena Camarón | Patas & Caos Chile",
+    "seoDescription": "Galletas rellenas cremosas de camarón. 80g.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cats-snack_Rellena Camarón",
+    "imagenes": [
+      "/cats_snack_galletas_rellenas_camaron.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sin colorantes artificiales",
+      "Premio diario",
+      "80g"
+    ],
+    "ingredientes": "Camarón, harina de atún, harina de camarón, harina de maíz, almidón de patata, harina de arroz, proteína de soya aislada, harina de pescado, aceite de soya, aceite de palma, yema en polvo, almidón de maíz, harina de semillas de granada, harina de cranberry, taurina."
+  },
+  {
+    "slug": "cats-snack-rellena-atun-pollo",
+    "nombre": "Cats Snack — Rellena Atún + Pollo",
+    "seoTitle": "Cats Snack — Rellena Atún + Pollo | Patas & Caos Chile",
+    "seoDescription": "Galletas crujientes por fuera y con relleno cremoso por dentro, combinando atún y pollo en un premio diario ideal para consentir a tu gato entre comidas. 80g.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cats-snack_Rellena Atún + Pollo",
+    "imagenes": [
+      "/cats-snack-atun-con-pollo.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Textura dual: crujiente por fuera, cremosa por dentro",
+      "Aporta proteína y taurina",
+      "Sin colorantes artificiales",
+      "Premio diario",
+      "80g"
+    ],
+    "ingredientes": "Atún, pollo, harina de maíz, almidón de patata, harina de arroz, proteína de soya aislada, harina de camarón, harina de pescado, aceite de soya, mantecas, yema en polvo, harina de semillas de granada, harina de cranberry, taurina."
+  },
+  {
+    "slug": "snack-calming-cat-treats-beaphar",
+    "nombre": "Snack Calming Cat Treats - Beaphar",
+    "seoTitle": "Snack Calming Cat Treats - Beaphar | Patas & Caos Chile",
+    "seoDescription": "Tu gato es un manojo de nervios acelerados. Estos treats de Beaphar calman naturalmente durante cambios de entorno, estrés o simplemente días caóticos. Formulados con valeriana, lúpulo y melisa — ingredientes naturales que reducen la ansiedad sin droguear. Solo sabor a pollo irresistible que tu gato pedirá de nuevo. Porque un gato tranquilo es un gato (y un dueño) feliz. 🧘",
+    "precio": 5990,
+    "precioDisplay": "$5.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "snack-calming-gato",
+    "imagenes": [
+      "/snack-calming-gato.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sabor pollo natural",
+      "Contiene valeriana, lúpulo y melisa (calmantes naturales)",
+      "Reduce ansiedad y estrés",
+      "Dosis: 2 bocaditos diarios (o 1 cada 3 hrs en estrés severo, máx 6/día)",
+      "Presentación: 35g",
+      "Sin fármacos, 100% natural"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "suero-fisiologico-cloruro-de-sodio-0-9",
+    "nombre": "Suero Fisiológico — Cloruro de Sodio 0.9%",
+    "seoTitle": "Suero Fisiológico — Cloruro de Sodio 0.9% | Patas & Caos Chile",
+    "seoDescription": "Solución isotónica estéril de cloruro de sodio al 0.9%, con una osmolaridad similar a los fluidos corporales de tu mascota. Útil para limpieza de heridas, irrigación ocular, nebulización y disolución de medicamentos. Frasco de 500 ml.",
+    "precio": 2590,
+    "precioDisplay": "$2.590",
+    "categoria": "Insumos Veterinarios",
+    "etiquetaProducto": "Insumos Veterinarios · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "suero-fisiologico",
+    "imagenes": [
+      "/suero_fisiologico_cloruro_de_sodio.jpg"
+    ],
+    "caracTitulo": "Usos principales",
+    "caracteristicas": [
+      "Limpieza y desinfección de heridas, cortes y quemaduras",
+      "Irrigación ocular para eliminar cuerpos extraños o irritantes",
+      "Nebulización en afecciones respiratorias",
+      "Dilución de medicamentos antes de su administración",
+      "Hidratación y reposición de electrolitos",
+      "Limpieza de ostomías",
+      "Apto para perros y gatos"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pulmon-de-cordero-50g-rahue",
+    "nombre": "Pulmón de Cordero 50g - Rahue",
+    "seoTitle": "Pulmón de Cordero 50g - Rahue | Patas & Caos Chile",
+    "seoDescription": "Cubitos de pulmón de cordero patagónico deshidratado — crujientes, aromáticos y sin nada raro. El cordero se cría libre en el sur de Chile, lo que se nota en el sabor: intenso, natural, irresistible. Alto en proteínas, libre de aditivos, preservantes y colorantes. El tipo de snack que le das sin culpa y tu perro devora sin drama.",
+    "precio": 3990,
+    "precioDisplay": "$3.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "pulmon-cordero-rahue",
+    "imagenes": [
+      "/pulmon_de_cordero_perros.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% cordero patagónico natural",
+      "Ayuda a la limpieza dental",
+      "Fuente natural de proteína",
+      "Sin aditivos ni conservantes",
+      "50g"
+    ],
+    "ingredientes": "100% Pulmón de cordero deshidratado."
+  },
+  {
+    "slug": "traquea-de-vacuno-rahue",
+    "nombre": "Tráquea de Vacuno - Rahue",
+    "seoTitle": "Tráquea de Vacuno - Rahue | Patas & Caos Chile",
+    "seoDescription": "Tráquea de vacuno deshidratada — el masticable favorito de los perros que necesitan tener algo en la boca. De textura firme y sabor intenso, los mantiene entretenidos largo rato mientras limpian sus dientes sin que tú hagas nada. Rica en glucosamina y condroitina, cuida las articulaciones de adentro hacia afuera. Sin aditivos, sin drama.",
+    "precio": 3990,
+    "precioDisplay": "$3.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "traquea-vacuno-rahue",
+    "imagenes": [
+      "/traquea_de_vacuno_perros.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% tráquea de vacuno natural",
+      "Limpieza dental natural al masticar",
+      "Rica en glucosamina y condroitina",
+      "Reduce el estrés y la ansiedad",
+      "Sin aditivos ni conservantes"
+    ],
+    "ingredientes": "Tráquea de bovino deshidratada."
+  },
+  {
+    "slug": "garra-de-pollo-65g-rahue",
+    "nombre": "Garra de Pollo 65g - Rahue",
+    "seoTitle": "Garra de Pollo 65g - Rahue | Patas & Caos Chile",
+    "seoDescription": "Garras de pollo deshidratadas a baja temperatura, hechas a mano en pequeños lotes. Crujientes, naturales y con un sabor que los perros no pueden ignorar. Ricas en colágeno, glucosamina y condroitina — cuidan las articulaciones, mejoran la piel y el pelaje, y limpian los dientes de paso. El tipo de snack que parece premio pero en realidad es puro beneficio.",
+    "precio": 3490,
+    "precioDisplay": "$3.490",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "garra-pollo-rahue",
+    "imagenes": [
+      "/garras_de_pollo_perros.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% garra de pollo natural",
+      "Elimina el sarro al masticar",
+      "Rica en colágeno y condroprotectores",
+      "Hecha a mano en pequeños lotes",
+      "Sin químicos ni conservantes",
+      "65g"
+    ],
+    "ingredientes": "Garra de pollo deshidratada."
+  },
+  {
+    "slug": "recorte-oreja-de-cerdo-100g-rahue",
+    "nombre": "Recorte Oreja de Cerdo 100g - Rahue",
+    "seoTitle": "Recorte Oreja de Cerdo 100g - Rahue | Patas & Caos Chile",
+    "seoDescription": "Recortes de oreja de cerdo deshidratados al horno — crujientes, sabrosos y con el tamaño perfecto para que tu perro los devore feliz. Limpiados y horneados a temperatura media para preservar sus proteínas y lograr esa textura irresistible que los tiene entretenidos largo rato. Ricos en colágeno y proteína natural. Sin aditivos, sin colorantes, sin complicaciones.",
+    "precio": 4290,
+    "precioDisplay": "$4.290",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "oreja-cerdo-rahue",
+    "imagenes": [
+      "/orejas_cerdo_perros.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% oreja de cerdo natural",
+      "Textura crujiente que limpia los dientes",
+      "Rico en colágeno y proteína",
+      "Tamaño ideal para cualquier raza",
+      "Sin aditivos ni conservantes",
+      "100g"
+    ],
+    "ingredientes": "Oreja de cerdo deshidratada."
+  },
+  {
+    "slug": "femur-de-cerdo-tasty-farm",
+    "nombre": "Fémur de Cerdo - Tasty Farm",
+    "seoTitle": "Fémur de Cerdo - Tasty Farm | Patas & Caos Chile",
+    "seoDescription": "Un hueso de verdad para un perro de verdad. El fémur de cerdo Tasty Farm es el masticable que los mantiene ocupados largo rato — y de paso les limpia los dientes sin que tengas que hacer nada. 100% hueso natural, sin procesos raros ni ingredientes inventados. Ideal para perros con instinto masticador fuerte que necesitan un objeto de vida larga que aguante sus ganas.",
+    "precio": 4990,
+    "precioDisplay": "$4.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "femur-cerdo-tasty",
+    "imagenes": [
+      "/femur_perros.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% hueso de cerdo natural",
+      "Reduce sarro y placa bacteriana al masticar",
+      "Fortalece mandíbula y encías",
+      "Libera energía y reduce el estrés",
+      "Sin aditivos ni conservantes",
+      "Tamaño aproximado: 20 cm",
+      "1 unidad"
+    ],
+    "ingredientes": "Hueso fémur de cerdo natural."
+  },
+  {
+    "slug": "collar-zee-cat-error-500",
+    "nombre": "Collar Zee.Cat Error 500",
+    "seoTitle": "Collar Zee.Cat Error 500 | Patas & Caos Chile",
+    "seoDescription": "El collar para el gato que provoca errores internos solo con existir. Diseño Error 500 de la línea zee.cat — hebilla de seguridad con liberación rápida, ideal para gatos que salen a explorar. Colores vibrantes rosa, morado y amarillo que no pasan desapercibidos.",
+    "precio": 7990,
+    "precioDisplay": "$7.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "zeedog",
+    "sku": "collar-zeecat-error-500",
+    "imagenes": [
+      "/collar-zeecat-error-500.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Hebilla de seguridad con liberación rápida",
+      "Cierre ajustable",
+      "Talla única para gatos adultos: 1cm de ancho | 20-30cm de circunferencia",
+      "Argolla metálica para identificación",
+      "Marca zee.cat"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-zee-cat-error-404",
+    "nombre": "Collar Zee.Cat Error 404",
+    "seoTitle": "Collar Zee.Cat Error 404 | Patas & Caos Chile",
+    "seoDescription": "Para el gato que no fue encontrado — hasta que tiene hambre. Diseño Error 404 en tonos azul, rojo y blanco. Hebilla de seguridad con liberación rápida y argolla metálica para placa de identificación.",
+    "precio": 7990,
+    "precioDisplay": "$7.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "zeedog",
+    "sku": "collar-zeecat-error-404",
+    "imagenes": [
+      "/collar-zeecat-error-404.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Hebilla de seguridad con liberación rápida",
+      "Cierre ajustable",
+      "Talla única para gatos adultos: 1cm de ancho | 20-30cm de circunferencia",
+      "Argolla metálica para identificación",
+      "Marca zee.cat"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-zee-cat-error-410",
+    "nombre": "Collar Zee.Cat Error 410",
+    "seoTitle": "Collar Zee.Cat Error 410 | Patas & Caos Chile",
+    "seoDescription": "Gone forever — hasta que escucha el abrelatas. Diseño Error 410 en verde y negro. Hebilla de seguridad con liberación rápida, ajustable y con argolla para placa de identificación.",
+    "precio": 7990,
+    "precioDisplay": "$7.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "zeedog",
+    "sku": "collar-zeecat-error-410",
+    "imagenes": [
+      "/collar-zeecat-error-410.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Hebilla de seguridad con liberación rápida",
+      "Cierre ajustable",
+      "Talla única para gatos adultos: 1cm de ancho | 20-30cm de circunferencia",
+      "Argolla metálica para identificación",
+      "Marca zee.cat"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-suede-zee-dog",
+    "nombre": "Collar Suede Zee.Dog",
+    "seoTitle": "Collar Suede Zee.Dog | Patas & Caos Chile",
+    "seoDescription": "Colaboración exclusiva Reebok x Zee.Dog. Diseño gris reflectante con hebilla plástica resistente y parche de cuero Reebok. Cinta de alta calidad, cómodo para uso diario. Talla M.",
+    "precio": 13900,
+    "precioDisplay": "$13.900",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Perros",
+    "marca": "zeedog",
+    "sku": "collar-suede-para-perro-zeedog",
+    "imagenes": [
+      "/collar-suede-para-perro-zeedog.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Colaboración Reebok x Zee.Dog",
+      "Cinta reflectante gris",
+      "Parche de cuero con logo Reebok",
+      "Hebilla plástica resistente",
+      "Argolla metálica para correa",
+      "Talla M: 2cm de ancho | 37-52cm de circunferencia"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-nox-zee-dog",
+    "nombre": "Collar Nox Zee.Dog",
+    "seoTitle": "Collar Nox Zee.Dog | Patas & Caos Chile",
+    "seoDescription": "Negro reflectante con detalles azul y verde lima — el collar para paseos nocturnos o para el perro que simplemente quiere verse bien. Hebilla robusta y argolla metálica. Talla M.",
+    "precio": 13900,
+    "precioDisplay": "$13.900",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Perros",
+    "marca": "zeedog",
+    "sku": "collar-nox-para-perro-zeedog",
+    "imagenes": [
+      "/collar-nox-para-perro-zeedog.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Cinta negra reflectante",
+      "Detalles azul y verde lima",
+      "Hebilla resistente",
+      "Argolla metálica para correa",
+      "Talla M: 2cm de ancho | 37-52cm de circunferencia",
+      "Marca Zee.Dog"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pala-arenero-marron",
+    "nombre": "Pala Arenero — Marrón",
+    "seoTitle": "Pala Arenero — Marrón | Patas & Caos Chile",
+    "seoDescription": "Pala para arenero con perforaciones que filtran la arena sin que se caiga todo. Mango ergonómico, tamaño perfecto para limpiar diario sin drama. Deja menos polvo, más orden, menos trabajo. Viene en dos colores para que elijas cuál va mejor con tu vibe (o compra los dos, no juzgamos). Porque mantener limpio el arenero es mantener a tu gato feliz. 🐱",
+    "precio": 1990,
+    "precioDisplay": "$1.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "pala-arenero-marron",
+    "imagenes": [
+      "/pala-arenero-marron.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Perforaciones para filtrar arena",
+      "Mango ergonómico y resistente",
+      "Tamaño ideal para limpias diarias",
+      "Reduce polvo",
+      "Color: Marrón"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "pala-arenero-verde",
+    "nombre": "Pala Arenero — Verde",
+    "seoTitle": "Pala Arenero — Verde | Patas & Caos Chile",
+    "seoDescription": "Pala para arenero con perforaciones que filtran la arena sin que se caiga todo. Mango ergonómico, tamaño perfecto para limpiar diario sin drama. Deja menos polvo, más orden, menos trabajo. Viene en dos colores para que elijas cuál va mejor con tu vibe (o compra los dos, no juzgamos). Porque mantener limpio el arenero es mantener a tu gato feliz. 🐱",
+    "precio": 1990,
+    "precioDisplay": "$1.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "pala-arenero-verde",
+    "imagenes": [
+      "/pala-arenero-verde.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Perforaciones para filtrar arena",
+      "Mango ergonómico y resistente",
+      "Tamaño ideal para limpias diarias",
+      "Reduce polvo",
+      "Color: Verde"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "snack-dental-power-75g-qchefs",
+    "nombre": "Snack Dental Power 75g - QChefs",
+    "seoTitle": "Snack Dental Power 75g - QChefs | Patas & Caos Chile",
+    "seoDescription": "Snack crocante suave de 75g que mientras tu perro disfruta masticando, activa su salivación y desata los efectos antibacterianos naturales del producto. Disuelve placa bacteriana, elimina sarro y adiós mal aliento. Bonus: estimula la serotonina de tu Caótico, mejorando su ánimo mientras cuidas sus dientes. Todo esto con solo 40 kcal por barra.",
+    "precio": 9990,
+    "precioDisplay": "$9.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "zupet-dental-power-suave",
+    "imagenes": [
+      "/dental-power-snack-perro.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Elimina placa bacteriana y sarro",
+      "Mejora el aliento de forma natural",
+      "Aumenta serotonina = perro más feliz",
+      "Ultrabajo en calorías (40 kcal/barra)",
+      "Apto para perros con insuficiencia renal, diabetes y dermatitis atópica",
+      "Sin cepillado necesario",
+      "Made in Germany 🇩🇪"
+    ],
+    "ingredientes": "Derivados de la leche (30% queso cottage), trigo sarraceno (libre de granos), glicerina orgánica de aceite de coco, aceite de raps, aceite de coco orgánico."
+  },
+  {
+    "slug": "snack-dental-fitness-crocante-60g-qchefs",
+    "nombre": "Snack Dental Fitness Crocante 60g - QChefs",
+    "seoTitle": "Snack Dental Fitness Crocante 60g - QChefs | Patas & Caos Chile",
+    "seoDescription": "Formato crocante mini de 60g especialmente diseñado para gatos pequeños. Basado en proteína de queso, mantiene la salud dental impecable actuando directamente sobre la placa bacteriana de forma natural. Neutraliza el 80% de bacterias causantes de caries y mal aliento, estimulando la masticación y salivación que remineraliza el esmalte. Su textura única crocante y aireada lo convierte en un placer para masticar. Ultrabajo en calorías (10 kcal/cucharadita).",
+    "precio": 9990,
+    "precioDisplay": "$9.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "zupet-dental-fitness-crocante",
+    "imagenes": [
+      "/snack-dental-gatos.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Ideal para gatos pequeños y miniaturas",
+      "Neutraliza 80% de bacterias de caries y mal aliento",
+      "Previene placa bacteriana e inflamación de encías",
+      "Estimula autolimpieza y remineralización del esmalte",
+      "Textura crocante única = placer garantizado",
+      "Ultrabajo en calorías (10 kcal/cucharadita)",
+      "Apto para gatos con insuficiencia renal, diabetes y dermatitis atópica",
+      "Made in Germany 🇩🇪"
+    ],
+    "ingredientes": "Derivados de la leche (35% queso cottage), glicerina orgánica de aceite de coco, aceite de raps, aceite de coco orgánico."
+  },
+  {
+    "slug": "lolli-pop-calabaza-fellini",
+    "nombre": "Lolli Pop Calabaza - Fellini",
+    "seoTitle": "Lolli Pop Calabaza - Fellini | Patas & Caos Chile",
+    "seoDescription": "Pack con 3 paletas gourmet sabor calabaza de 5g cada una, el premio perfecto para consentir a tu gato con un toque divertido y saludable. Elaboradas con ingredientes nobles (pollo, hígado de pollo y calabaza), estas lollipops son ideales para recompensar buen comportamiento, entrenamientos o simplemente demostrarle tu cariño en cualquier momento. Su textura única garantizan entretenimiento seguro y bienestar para tu Caótico favorito.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "fellini-lollipop-calabaza",
+    "imagenes": [
+      "/fellini-lollipop-calabaza.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Pack de 3 paletas de 5g cada una",
+      "Sabor irresistible a calabaza",
+      "Ingredientes simples y premium",
+      "Perfectas para premiar buen comportamiento",
+      "Ideales para entrenamientos divertidos",
+      "Textura única y entretenimiento seguro",
+      "Momento de conexión con tu gato",
+      "Alto en proteína, bajo en additivos"
+    ],
+    "ingredientes": "Pollo, hígado de pollo, calabaza."
+  },
+  {
+    "slug": "lolli-pop-leche-de-cabra-fellini",
+    "nombre": "Lolli Pop Leche de Cabra - Fellini",
+    "seoTitle": "Lolli Pop Leche de Cabra - Fellini | Patas & Caos Chile",
+    "seoDescription": "Pack con 3 paletas gourmet sabor leche de cabra de 5g cada una, el premio perfecto para consentir a tu gato con nutrición digestiva y deliciosa. Elaboradas con ingredientes nobles (pollo, hígado de pollo y polvo de leche de cabra), son ideales para recompensar buen comportamiento o entrenamientos. Su textura cremosa garantizan entretenimiento seguro mientras aportan digestibilidad superior para el bienestar digestivo de tu Caótico favorito.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "fellini-lollipop-leche-cabra",
+    "imagenes": [
+      "/fellini-lollipop-leche-de-cabra.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Pack de 3 paletas de 5g cada una",
+      "Sabor premium a leche de cabra",
+      "Ingredientes de máxima calidad",
+      "Superior digestibilidad",
+      "Perfectas para premiar buen comportamiento",
+      "Ideales para entrenamientos divertidos",
+      "Textura cremosa y entretenimiento seguro",
+      "Apoyo digestivo natural para tu gato"
+    ],
+    "ingredientes": "Pollo, hígado de pollo, polvo de leche de cabra."
+  },
+  {
+    "slug": "bocados-de-pollo-65g-pets-friends",
+    "nombre": "Bocados de Pollo 65g - Pets Friends",
+    "seoTitle": "Bocados de Pollo 65g - Pets Friends | Patas & Caos Chile",
+    "seoDescription": "Pack de 65g con bocados suaves de pollo 100% natural, ideales para premiar, regalonear o entrenar a tu gato. Cada bocado es una explosión de sabor que tu Caótico no podrá resistir. No recomendado para gatitos menores de 3 meses.",
+    "precio": 4990,
+    "precioDisplay": "$4.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "bocados-pollo-pets-friends",
+    "imagenes": [
+      "/bocados-de-pollo-pets-friends.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Pack de 65g",
+      "Bocados suaves de pollo puro",
+      "Ideal para premiar buen comportamiento",
+      "Perfecto para entrenamientos",
+      "Para regalonear sin culpa",
+      "Alto en proteína (38%)",
+      "Bajo en grasa (1%)",
+      "Aptos para gatos mayores de 3 meses"
+    ],
+    "ingredientes": "Pollo, almidón vegetal, glicerina, sorbitol, sal, sorbato de potasio."
+  },
+  {
+    "slug": "cubitos-de-salmon-65g-pets-friends",
+    "nombre": "Cubitos de Salmón 65g - Pets Friends",
+    "seoTitle": "Cubitos de Salmón 65g - Pets Friends | Patas & Caos Chile",
+    "seoDescription": "Pack de 65g con cubitos deliciosos de salmón natural de alta calidad, un premio saludable y lleno de nutrientes esenciales para tu gato. Cada bocado aporta proteínas, Omega 3 y Omega 6, favoreciendo un pelaje brillante, piel radiante y energía constante.",
+    "precio": 4990,
+    "precioDisplay": "$4.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cubitos-salmon-pets-friends",
+    "imagenes": [
+      "/cubitos-salmon-pets-friends.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Pack de 65g",
+      "Cubitos de salmón puro",
+      "Salmón natural de alta calidad",
+      "Rico en Omega 3 y Omega 6",
+      "Potencia pelaje brillante y sedoso",
+      "Favorece piel sana",
+      "Aporta energía diaria",
+      "Snack gourmet para gatos exigentes"
+    ],
+    "ingredientes": "Salmón, algas, arvejas."
+  },
+  {
+    "slug": "traquea-de-vacuno-en-crispy-de-ciervo-doggo",
+    "nombre": "Tráquea de Vacuno en Crispy de Ciervo - Doggo",
+    "seoTitle": "Tráquea de Vacuno en Crispy de Ciervo - Doggo | Patas & Caos Chile",
+    "seoDescription": "Snack premium 100% natural elaborado con tráquea de vacuno deshidratada a bajas temperaturas y cubierta de carne de ciervo deshidratada. Fuente natural de glucosamina, condroitina y colágeno que mantiene las articulaciones saludables mientras mejora el pelaje. Apto para todas las razas a partir de los 2 meses.",
+    "precio": 4290,
+    "precioDisplay": "$4.290",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "doggo-traquea-vacuno-ciervo",
+    "imagenes": [
+      "/snack-doggo-traquea-de-vacuno.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% Natural sin aditivos ni preservantes",
+      "Proteína premium deshidratada",
+      "Fuente de glucosamina y condroitina",
+      "Colágeno para articulaciones saludables",
+      "Mejora pelaje brillante y sano",
+      "Textura crispy irresistible",
+      "Apto para todas las razas",
+      "Desde los 2 meses de edad"
+    ],
+    "ingredientes": "Tráquea de vacuno deshidratada a bajas temperaturas, carne de vacuno deshidratada."
+  },
+  {
+    "slug": "mix-deshidratados-100g-doggo",
+    "nombre": "Mix Deshidratados 100g - Doggo",
+    "seoTitle": "Mix Deshidratados 100g - Doggo | Patas & Caos Chile",
+    "seoDescription": "Snack premium 100% natural de 100g que combina cerdo, vacuno y pollo deshidratados a bajas temperaturas y empanizados en carne de ciervo libre de grasas. Fuente natural de glucosamina, condroitina y colágeno. Sin aditivos ni conservantes, ideal para todas las razas a partir de los 2 meses.",
+    "precio": 4290,
+    "precioDisplay": "$4.290",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "doggo-mix-deshidratados",
+    "imagenes": [
+      "/doggo-mix-crispy-de-ciervo.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Pack de 100g",
+      "100% Natural sin aditivos ni conservantes",
+      "Mix variado de 3 carnes premium",
+      "Texturas crujientes y satisfactorias",
+      "Fuente de glucosamina y condroitina",
+      "Colágeno para articulaciones saludables",
+      "Promueve salud dental",
+      "Apto para todas las razas"
+    ],
+    "ingredientes": "Tráqueas de cerdo y vacuno, orejas de cerdo, patas de pollo y bully stick de vacuno, deshidratados a bajas temperaturas y cubiertos de carne de ciervo."
+  },
+  {
+    "slug": "condilo-de-vacuno-300g-rahue",
+    "nombre": "Cóndilo de Vacuno 300g - Rahue",
+    "seoTitle": "Cóndilo de Vacuno 300g - Rahue | Patas & Caos Chile",
+    "seoDescription": "Snack natural premium de cóndilo de vacuno de 300g, secado para mantener todo su sabor y aroma ahumado irresistible. Este hueso gigante ofrece horas de entretenimiento, fortalece la mandíbula y cuida la salud dental de tu perro. Ideal para todas las razas y edades.",
+    "precio": 4990,
+    "precioDisplay": "$4.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "condilo-vacuno-rahue",
+    "imagenes": [
+      "/condilo-de-vacuno.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Cóndilo natural de vacuno premium",
+      "Secado cuidadosamente a bajas temperaturas",
+      "Aroma ahumado irresistible",
+      "Horas de entretenimiento garantizado",
+      "Fortalece mandíbula de forma natural",
+      "Promueve salud dental",
+      "Previene enfermedades en encías",
+      "Apto para todas las razas y edades"
+    ],
+    "ingredientes": "Cóndilo de vacuno."
+  },
+  {
+    "slug": "costillitas-de-cordero-100g-fit-formula",
+    "nombre": "Costillitas de Cordero 100g - Fit Fórmula",
+    "seoTitle": "Costillitas de Cordero 100g - Fit Fórmula | Patas & Caos Chile",
+    "seoDescription": "Snack masticable 100% a base de cordero natural, pensado como premio para perros mayores de 3 meses. Además de sabroso y entretenido, ayuda al cuidado dental reduciendo la acumulación de placa mientras tu perro mastica.",
+    "precio": 3990,
+    "precioDisplay": "$3.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "marca": "Patas & Caos",
+    "sku": "fit-formula-costillas-cordero-100g",
+    "imagenes": [
+      "/costillitas-de-cordero-fit-formula.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Cordero 100% natural",
+      "Ideal como premio",
+      "Ayuda al cuidado dental",
+      "Para perros mayores de 3 meses",
+      "100g"
+    ],
+    "ingredientes": "Carne de cordero, cuero bovino, arroz, almidón de maíz, sorbitol, glicerina y sal."
+  },
+  {
+    "slug": "cats-snack-rellena-pollo-camaron",
+    "nombre": "Cats Snack - Rellena Pollo + Camarón",
+    "seoTitle": "Cats Snack - Rellena Pollo + Camarón | Patas & Caos Chile",
+    "seoDescription": "Galletas rellenas premium de 80gr con pollo y camarón, diseñadas para los paladares más exigentes. Textura dual crujiente por fuera, cremosa por dentro. Contienen taurina para apoyar la salud visual y cardíaca de tu gato.",
+    "precio": 2990,
+    "precioDisplay": "$2.990",
+    "categoria": "Snacks y Golosinas",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "cats-snack-pollo-camaron",
+    "imagenes": [
+      "/cats-snack-pollo-camaron.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Pack de 80gr",
+      "Relleno de pollo y camarón",
+      "Textura dual crujiente-suave",
+      "Ingredientes premium seleccionados",
+      "Contiene taurina",
+      "Apoya salud visual y cardíaca",
+      "Estimula juego e interacción",
+      "Para gatos exigentes"
+    ],
+    "ingredientes": "Carne de pollo y camarón, harina de maíz, harina de trigo, almidón de patata, harina de pescado, aceite de soja, yema en polvo, harina de semillas de granada y cranberry, taurina."
+  },
+  {
+    "slug": "rastreador-apple-find-my-funda-de-silicona",
+    "nombre": "Rastreador Apple Find My + Funda de Silicona",
+    "seoTitle": "Rastreador Apple Find My + Funda de Silicona | Patas & Caos Chile",
+    "seoDescription": "Ubica a tu mascota en tiempo real desde tu iPhone. Incluye funda de silicona diseñada para fijarse fácilmente en cualquier collar, sin necesidad de cambiar el accesorio que ya usa tu Caótico. Batería de larga duración (hasta 1 año) y compatible con toda la red de dispositivos Apple. Tranquilidad total para ti, libertad total para ellos.",
+    "precio": 11990,
+    "precioDisplay": "$11.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "rastreador-find-my",
+    "imagenes": [
+      "/rastreador-apple-find-my.jpg",
+      "/rastreador-apple-find-my-lifestyle.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Compatible con red Apple Find My",
+      "Incluye funda de silicona para collar",
+      "Batería de hasta 1 año de duración",
+      "Compatible con iOS",
+      "Apto para gatos y perros",
+      "Se adapta a cualquier collar existente",
+      "Ubicación en tiempo real",
+      "Sin mensualidades ni suscripciones"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "comedero-lento-desmontable-azul",
+    "nombre": "Comedero Lento Desmontable — Azul",
+    "seoTitle": "Comedero Lento Desmontable — Azul | Patas & Caos Chile",
+    "seoDescription": "Comedero lento con sistema modular tipo Lego: las piezas se ensamblan y desmontan fácilmente para lavar, reorganizar y cambiar la dificultad según tu mascota. Su diseño laberíntico obliga a comer despacio, reduciendo la ingesta de aire, la ansiedad y los problemas digestivos. Medidas: 20cm de diámetro × 4.5cm de alto. Apto para perros y gatos.",
+    "precio": 7990,
+    "precioDisplay": "$7.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "comedero-lento-desmontable-azul",
+    "imagenes": [
+      "/comedero-lento-desmontable-azul.jpg",
+      "/comedero-lento-desmontable-azul-lifestyle.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sistema modular desmontable tipo Lego",
+      "Piezas intercambiables para variar la dificultad",
+      "Reduce la velocidad de ingesta",
+      "Previene problemas digestivos y aerofagia",
+      "Fácil de lavar por piezas",
+      "Medidas: 20cm × 4.5cm",
+      "Apto para perros y gatos",
+      "Color: Azul"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "comedero-lento-desmontable-rojo",
+    "nombre": "Comedero Lento Desmontable — Rojo",
+    "seoTitle": "Comedero Lento Desmontable — Rojo | Patas & Caos Chile",
+    "seoDescription": "Comedero lento con sistema modular tipo Lego: las piezas se ensamblan y desmontan fácilmente para lavar, reorganizar y cambiar la dificultad según tu mascota. Su diseño laberíntico obliga a comer despacio, reduciendo la ingesta de aire, la ansiedad y los problemas digestivos. Medidas: 20cm de diámetro × 4.5cm de alto. Apto para perros y gatos.",
+    "precio": 7990,
+    "precioDisplay": "$7.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "comedero-lento-desmontable-rojo",
+    "imagenes": [
+      "/comedero-lento-desmontable-rojo.jpg",
+      "/comedero-lento-desmontable-rojo-lifestyle.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sistema modular desmontable tipo Lego",
+      "Piezas intercambiables para variar la dificultad",
+      "Reduce la velocidad de ingesta",
+      "Previene problemas digestivos y aerofagia",
+      "Fácil de lavar por piezas",
+      "Medidas: 20cm × 4.5cm",
+      "Apto para perros y gatos",
+      "Color: Rojo"
+    ],
+    "ingredientes": ""
+  },
+  {
+    "slug": "collar-find-my-rojo",
+    "nombre": "Collar Find My — Rojo",
+    "seoTitle": "Collar Find My — Rojo | Patas & Caos Chile",
+    "seoDescription": "Porque tu gato sale \"solo un momento\" y desaparece tres horas. Compatible con la red Find My de Apple, incluye funda de silicona con diseño de huella para el rastreador, cinta de nylon reflectante para mayor visibilidad y campanilla incluida. Ajustable para que quede perfecto sin importar el tamaño del cuello de tu Caótico.",
+    "precio": 12990,
+    "precioDisplay": "$12.990",
+    "categoria": "Accesorio",
+    "etiquetaProducto": "Accesorio · Gatos",
+    "marca": "Patas & Caos",
+    "sku": "collar-findmy-rojo",
+    "imagenes": [
+      "/collar-find-my-rojo.jpg"
+    ],
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Compatible con Apple Find My",
+      "Cinta nylon reflectante",
+      "Funda de silicona con diseño de huella",
+      "Cierre ajustable",
+      "Campanilla incluida"
     ],
     "ingredientes": ""
   }
