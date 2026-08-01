@@ -1,4 +1,9 @@
 {
   "name": "patasycaos",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "scripts": {
+    "build:products": "node scripts/generar-productos.js",
+    "build:products:test": "node scripts/generar-productos.js --test",
+    "build:products:one": "node scripts/generar-productos.js --slug="
+  }
 }

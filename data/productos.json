@@ -1,0 +1,48 @@
+[
+  {
+    "slug": "caldo-de-huesos-250g-pura-natura",
+    "nombre": "Caldo de Huesos 250g - Pura Natura",
+    "seoTitle": "Caldo de Huesos 250g - Pura Natura | Patas & Caos Chile",
+    "seoDescription": "Suplemento y topping líquido a base de caldo de huesos de vacuno y cordero, cocido a fuego lento para maximizar su valor nutricional. Rico en condroitina y glucosamina para el cuidado articular, más glicina que apoya la desintoxicación hepática. 100% natural, sin aditivos ni preservantes, apto para perros y gatos adultos.",
+    "precio": 4990,
+    "precioDisplay": "$4.990",
+    "categoria": "Alimentos",
+    "etiquetaProducto": "Alimentos · Perros · Gatos",
+    "marca": "Pura Natura",
+    "sku": "pura-natura-caldo-de-huesos-250g",
+    "imagenes": [
+      "/caldo-de-huesos-pura-natura.jpg"
+    ],
+    "caracteristicas": [
+      "Formato pouch de 250 g",
+      "Libre de gluten y granos",
+      "Sin preservantes",
+      "Duración 2 años sin refrigerar (una vez abierto, refrigerar)",
+      "Servir a temperatura ambiente"
+    ],
+    "ingredientes": "Caldo de huesos de vacuno y cordero, rico en proteínas y minerales."
+  },
+  {
+    "slug": "afeitadora-led-para-mascotas",
+    "nombre": "Afeitadora LED para Mascotas",
+    "seoTitle": "Afeitadora LED para Mascotas | Patas & Caos Chile",
+    "seoDescription": "Con luz LED para ver exactamente dónde cortas. Silenciosa y recargable.",
+    "precio": 9990,
+    "precioDisplay": "$9.990",
+    "categoria": "Aseo e Higiene",
+    "etiquetaProducto": "Aseo e Higiene · Gatos · Perros",
+    "marca": "Patas & Caos",
+    "sku": "afeitadora",
+    "imagenes": [
+      "/Afeitadora_Gatos_1.jpg",
+      "/Afeitadora_Gatos_2.jpg",
+      "/Afeitadora_Gatos_3.jpg"
+    ],
+    "caracteristicas": [
+      "Luz LED integrada",
+      "Motor silencioso",
+      "Recargable USB"
+    ],
+    "ingredientes": ""
+  }
+]

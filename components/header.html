@@ -1,0 +1,94 @@
+<header class="site-header">
+<div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990</span></div></div>
+<nav>
+  <!-- FILA 1: Logo + Buscador + Íconos -->
+  <div class="nav-top">
+    <a href="/" class="nav-logo">
+      <img src="/logo.png" alt="Patas & Caos" width="42" height="42">
+      <span>Patas & Caos</span>
+    </a>
+    <div class="nav-search-wrap">
+      <span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+      <input type="text" placeholder="Buscar productos..." oninput="runSearch(this.value)" onfocus="document.getElementById('nav-drop').style.display='block'" onblur="setTimeout(()=>document.getElementById('nav-drop').style.display='none',200)">
+      <div class="nav-search-drop" id="nav-drop"></div>
+    </div>
+    <div class="nav-icons">
+      <a href="https://instagram.com/patasycaoscl" target="_blank" rel="noopener" class="nav-icon-btn ig" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+      <div id="nav-auth"><button class="nav-icon-btn" onclick="abrirAuth()" aria-label="Cuenta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></button></div>
+      <div class="nav-cart-wrap">
+        <button class="nav-icon-btn" onclick="toggleCart()" aria-label="Carrito"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
+        <span class="cart-badge" id="cart-badge">0</span>
+      </div>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <!-- FILA 2: Menú -->
+  <div class="nav-bottom">
+    <ul class="nav-links">
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/tienda" class="activo">Tienda</a></li>
+      <li class="nav-item"><a href="/tienda?aud=Perros">Perros</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Perros&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
+      <li class="nav-item"><a href="/tienda?aud=Gatos">Gatos</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
+      <li><a href="/suscripciones">Suscripciones</a></li>
+      <li><a href="/blog">Blog</a></li>
+    </ul>
+  </div>
+</nav>
+</header>
+
+<!-- MENÚ MÓVIL -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/" onclick="toggleMenu()">Inicio</a>
+  <a href="/tienda" class="activo" onclick="toggleMenu()">Tienda</a>
+
+  <!-- ACORDEÓN PERROS -->
+  <div class="mobile-accordion">
+    <button class="mobile-accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">
+      Perros <span class="mobile-acc-arrow">▾</span>
+    </button>
+    <div class="mobile-accordion-body">
+      <a href="/tienda?aud=Perros&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
+      <a href="/tienda?aud=Perros&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
+      <a href="/tienda?aud=Perros&cat=Accesorio" onclick="toggleMenu()" class="mobile-cat-link">Accesorios</a>
+      <a href="/tienda?aud=Perros&cat=Aseo e Higiene" onclick="toggleMenu()" class="mobile-cat-link">Cuidado e Higiene</a>
+      <a href="/tienda?aud=Perros&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
+    </div>
+  </div>
+
+  <!-- ACORDEÓN GATOS -->
+  <div class="mobile-accordion">
+    <button class="mobile-accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">
+      Gatos <span class="mobile-acc-arrow">▾</span>
+    </button>
+    <div class="mobile-accordion-body">
+      <a href="/tienda?aud=Gatos&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
+      <a href="/tienda?aud=Gatos&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
+      <a href="/tienda?aud=Gatos&cat=Accesorio" onclick="toggleMenu()" class="mobile-cat-link">Accesorios</a>
+      <a href="/tienda?aud=Gatos&cat=Aseo e Higiene" onclick="toggleMenu()" class="mobile-cat-link">Cuidado e Higiene</a>
+      <a href="/tienda?aud=Gatos&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
+    </div>
+  </div>
+
+  <a href="/suscripciones" onclick="toggleMenu()">Suscripciones</a>
+  <a href="/blog" onclick="toggleMenu()">Blog</a>
+</div>
+
+<!-- CARRITO -->
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<aside class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header">
+    <h3>🛒 Tu carrito</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
+    <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
+    <button class="btn-checkout" onclick="checkout()">Pagar →</button>
+  </div>
+</aside>
+
