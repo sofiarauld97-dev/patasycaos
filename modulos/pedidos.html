@@ -156,6 +156,395 @@
 
 </style>
 <meta name="robots" content="noindex, nofollow">
+
+<style id="pedidos-redesign-v2">
+:root{
+  --terracota:#C4622D;
+  --terracota-oscuro:#A8501F;
+  --cream:#F5ECD7;
+  --fondo:#F6F3EE;
+  --blanco:#FFFFFF;
+  --negro:#1A1A1A;
+  --texto:#4F4741;
+  --suave:#7C7169;
+  --borde:#E4DED7;
+  --verde:#2F7650;
+  --azul:#315F78;
+  --amarillo:#9A6712;
+  --rojo:#A43A32;
+  --sombra:0 10px 30px rgba(38,27,18,.06);
+}
+
+body{
+  background:var(--fondo)!important;
+  color:var(--negro)!important;
+}
+
+#panel main{
+  max-width:1440px!important;
+  padding:32px clamp(18px,3.5vw,52px)!important;
+}
+
+/* Cabecera del módulo */
+.panel-page-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:26px;
+}
+.panel-page-head h1{
+  margin:0 0 5px;
+  font-size:clamp(1.65rem,2.4vw,2.25rem);
+  line-height:1.15;
+  letter-spacing:-.04em;
+  font-weight:800;
+}
+.panel-page-head p{
+  margin:0;
+  color:var(--suave);
+  font-size:.86rem;
+}
+.panel-head-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.panel-primary-btn,
+.panel-secondary-btn{
+  min-height:42px;
+  border-radius:10px;
+  padding:0 17px;
+  font-family:'Poppins',sans-serif;
+  font-size:.78rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.panel-primary-btn{
+  border:1px solid var(--terracota);
+  background:var(--terracota);
+  color:#fff;
+}
+.panel-primary-btn:hover{background:var(--terracota-oscuro)}
+.panel-secondary-btn{
+  border:1px solid var(--borde);
+  background:#fff;
+  color:var(--texto);
+}
+.panel-secondary-btn:hover{border-color:var(--terracota);color:var(--terracota)}
+
+/* Tabs principales */
+.modulo-tabs{
+  display:inline-flex!important;
+  gap:4px!important;
+  margin:0 0 26px!important;
+  padding:5px!important;
+  border:1px solid var(--borde)!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  box-shadow:var(--sombra);
+}
+.modulo-tabs .filtro-btn{
+  border:0!important;
+  border-radius:8px!important;
+  padding:10px 18px!important;
+  background:transparent!important;
+  color:var(--suave)!important;
+  font-size:.8rem!important;
+}
+.modulo-tabs .filtro-btn.activo{
+  background:var(--negro)!important;
+  color:#fff!important;
+}
+
+/* KPIs */
+.stats{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:14px!important;
+  margin-bottom:24px!important;
+}
+.stat-card{
+  position:relative;
+  overflow:hidden;
+  min-height:118px;
+  padding:20px!important;
+  background:#fff!important;
+  border:1px solid var(--borde)!important;
+  border-radius:16px!important;
+  box-shadow:none!important;
+}
+.stat-card::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:3px;
+  background:#D9D2CB;
+}
+.stat-card:nth-child(2)::after{background:var(--terracota)}
+.stat-card:nth-child(3)::after{background:var(--azul)}
+.stat-card:nth-child(4)::after{background:var(--verde)}
+.stat-label{
+  margin-bottom:13px!important;
+  color:var(--suave)!important;
+  font-size:.68rem!important;
+  letter-spacing:.1em!important;
+}
+.stat-value{
+  font-size:1.9rem!important;
+  line-height:1!important;
+  font-weight:800!important;
+  letter-spacing:-.04em;
+}
+.stat-value.terracota{color:var(--terracota)!important}
+
+/* Toolbar de filtros */
+.orders-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:16px;
+}
+.orders-toolbar .filtros{
+  margin:0!important;
+}
+.filtros{
+  gap:7px!important;
+}
+.filtros .filtro-btn{
+  min-height:36px;
+  padding:0 14px!important;
+  border:1px solid var(--borde)!important;
+  border-radius:9px!important;
+  background:#fff!important;
+  color:var(--texto)!important;
+  font-size:.74rem!important;
+}
+.filtros .filtro-btn.activo{
+  background:#FFF7F2!important;
+  color:var(--terracota)!important;
+  border-color:rgba(196,98,45,.42)!important;
+}
+
+/* Tabla */
+.tabla-wrap{
+  overflow:hidden!important;
+  border:1px solid var(--borde)!important;
+  border-radius:16px!important;
+  background:#fff!important;
+  box-shadow:var(--sombra)!important;
+}
+.tabla-header{
+  padding:19px 22px!important;
+  border-bottom:1px solid var(--borde)!important;
+}
+.tabla-header h2{
+  font-size:.95rem!important;
+  font-weight:800!important;
+  letter-spacing:-.02em;
+}
+.btn-refresh{
+  min-height:36px;
+  padding:0 13px!important;
+  border:1px solid var(--borde)!important;
+  border-radius:9px!important;
+  background:#fff!important;
+  color:var(--texto)!important;
+}
+.btn-refresh:hover{
+  background:#FAF7F3!important;
+  border-color:#CDC4BC!important;
+  color:var(--negro)!important;
+}
+table{min-width:1050px}
+th{
+  padding:13px 18px!important;
+  background:#FAF8F5!important;
+  color:var(--suave)!important;
+  border-bottom:1px solid var(--borde)!important;
+  font-size:.64rem!important;
+  letter-spacing:.1em!important;
+}
+td{
+  padding:16px 18px!important;
+  border-bottom:1px solid #F0ECE7!important;
+  color:var(--texto);
+  font-size:.8rem!important;
+}
+tbody tr:hover td{background:#FCFAF7!important}
+.num-pedido{
+  display:inline-flex;
+  align-items:center;
+  min-height:27px;
+  padding:0 9px;
+  margin:0!important;
+  border-radius:7px;
+  background:#FFF2EA;
+  color:var(--terracota)!important;
+  font-size:.68rem!important;
+  letter-spacing:.03em!important;
+}
+.cliente-nombre{
+  color:var(--negro);
+  font-size:.8rem;
+  font-weight:700!important;
+}
+.cliente-detalle{
+  margin-top:3px;
+  color:var(--suave)!important;
+  font-size:.7rem!important;
+  line-height:1.45;
+}
+.productos-lista{
+  color:var(--texto)!important;
+  font-size:.74rem!important;
+  line-height:1.65!important;
+}
+.total-valor{
+  color:var(--negro)!important;
+  font-size:.9rem;
+  font-weight:800!important;
+}
+.fecha-texto{
+  color:var(--suave)!important;
+  font-size:.7rem!important;
+  line-height:1.5;
+}
+.estado-select{
+  width:100%;
+  min-width:140px;
+  min-height:36px;
+  padding:0 10px!important;
+  border:1px solid var(--borde)!important;
+  border-radius:9px!important;
+  background:#fff!important;
+  color:var(--texto);
+  font-size:.72rem!important;
+}
+.btn-editar-pedido{
+  min-height:34px;
+  margin-top:7px!important;
+  border:1px solid var(--borde)!important;
+  border-radius:9px!important;
+  background:#fff!important;
+  color:var(--texto)!important;
+  font-size:.7rem!important;
+}
+.btn-editar-pedido:hover{
+  border-color:var(--terracota)!important;
+  color:var(--terracota)!important;
+  background:#FFF9F5!important;
+}
+
+/* Estados */
+.badge{
+  border-radius:7px!important;
+  padding:5px 9px!important;
+  font-size:.67rem!important;
+}
+.badge-pendiente{background:#FFF6DD!important;color:var(--amarillo)!important}
+.badge-despachado{background:#EDF5F8!important;color:var(--azul)!important}
+.badge-entregado{background:#EDF7F1!important;color:var(--verde)!important}
+
+/* Modales */
+.modal-overlay{
+  background:rgba(22,18,15,.58)!important;
+  backdrop-filter:blur(8px)!important;
+}
+.modal-box{
+  max-width:680px!important;
+  padding:30px!important;
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:18px!important;
+  box-shadow:0 24px 70px rgba(22,18,15,.22);
+}
+.modal-box h3{
+  margin-bottom:23px!important;
+  font-size:1.25rem!important;
+  letter-spacing:-.03em;
+}
+.modal-close{
+  top:18px!important;
+  right:18px!important;
+  background:#F6F2ED!important;
+  color:var(--texto)!important;
+}
+.form-grid{gap:14px!important;margin-bottom:14px!important}
+.form-field{gap:7px!important}
+.form-field label{
+  color:var(--texto)!important;
+  font-size:.72rem!important;
+  font-weight:700!important;
+}
+.form-field input,
+.form-field select,
+.form-field textarea{
+  min-height:44px;
+  border:1px solid var(--borde)!important;
+  border-radius:9px!important;
+  padding:10px 12px!important;
+  font-size:.8rem!important;
+}
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus{
+  border-color:var(--terracota)!important;
+  box-shadow:0 0 0 3px rgba(196,98,45,.08);
+}
+.btn-agregar-item{
+  min-height:39px;
+  border:1px dashed rgba(196,98,45,.55)!important;
+  border-radius:9px!important;
+  background:#FFF9F5!important;
+}
+.btn-guardar,.btn-cancelar{
+  min-height:46px;
+  border-radius:10px!important;
+}
+.btn-cancelar{border:1px solid var(--borde)!important}
+.btn-guardar{background:var(--terracota)!important}
+.btn-guardar:hover{background:var(--terracota-oscuro)!important}
+
+/* Suscripciones */
+#seccion-suscripciones .stats{
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+}
+
+/* Estados vacíos y carga */
+.loading,.empty-state{
+  padding:54px 24px!important;
+  color:var(--suave)!important;
+  font-size:.82rem!important;
+}
+.empty-state span{font-size:1.6rem!important}
+
+/* Responsive */
+@media(max-width:1100px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #seccion-suscripciones .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .tabla-wrap{overflow-x:auto!important}
+}
+@media(max-width:700px){
+  #panel main{padding:22px 14px!important}
+  .panel-page-head{align-items:flex-start;flex-direction:column}
+  .panel-head-actions{width:100%}
+  .panel-primary-btn,.panel-secondary-btn{flex:1}
+  .modulo-tabs{display:flex!important;width:100%}
+  .modulo-tabs .filtro-btn{flex:1}
+  .stats{grid-template-columns:1fr 1fr!important}
+  .stat-card{min-height:100px;padding:16px!important}
+  .stat-value{font-size:1.55rem!important}
+  .orders-toolbar{align-items:stretch;flex-direction:column}
+  .orders-toolbar .filtros{overflow-x:auto;flex-wrap:nowrap!important;padding-bottom:3px}
+  .orders-toolbar .filtro-btn{white-space:nowrap}
+  .modal-box{padding:24px 18px!important}
+  .form-grid{grid-template-columns:1fr!important}
+}
+</style>
+
 </head>
 <body>
 <!-- PANEL -->
@@ -171,9 +560,20 @@
 
   <main>
 
+    <section class="panel-page-head">
+      <div>
+        <h1>Gestión de pedidos</h1>
+        <p>Administra ventas, estados de entrega y suscripciones desde un solo lugar.</p>
+      </div>
+      <div class="panel-head-actions">
+        <button class="panel-secondary-btn" type="button" onclick="cargarPedidos()">Actualizar datos</button>
+        <button class="panel-primary-btn" type="button" onclick="abrirNuevoPedido()">Nuevo pedido</button>
+      </div>
+    </section>
+
     <div class="modulo-tabs" aria-label="Secciones del módulo">
-      <button class="filtro-btn activo" id="tab-pedidos" onclick="mostrarTab('pedidos')" type="button">📦 Pedidos</button>
-      <button class="filtro-btn" id="tab-suscripciones" onclick="mostrarTab('suscripciones')" type="button">🔄 Suscripciones</button>
+      <button class="filtro-btn activo" id="tab-pedidos" onclick="mostrarTab('pedidos')" type="button">Pedidos</button>
+      <button class="filtro-btn" id="tab-suscripciones" onclick="mostrarTab('suscripciones')" type="button">Suscripciones</button>
     </div>
     <div class="stats" id="stats">
       <div class="stat-card">
@@ -194,15 +594,13 @@
       </div>
     </div>
 
-    <div class="filtros">
-      <button class="filtro-btn activo" onclick="filtrar('todos', this)">Todos</button>
-      <button class="filtro-btn" onclick="filtrar('pendiente', this)">Pendientes</button>
-      <button class="filtro-btn" onclick="filtrar('despachado', this)">Despachados</button>
-      <button class="filtro-btn" onclick="filtrar('entregado', this)">Entregados</button>
-    </div>
-
-    <div style="margin-bottom:1.5rem; display:flex; justify-content:flex-end;">
-      <button class="filtro-btn" style="background:var(--terracota);border-color:var(--terracota);color:#fff;padding:8px 20px;" onclick="abrirNuevoPedido()">+ Nuevo pedido</button>
+    <div class="orders-toolbar">
+      <div class="filtros">
+        <button class="filtro-btn activo" onclick="filtrar('todos', this)">Todos</button>
+        <button class="filtro-btn" onclick="filtrar('pendiente', this)">Pendientes</button>
+        <button class="filtro-btn" onclick="filtrar('despachado', this)">Despachados</button>
+        <button class="filtro-btn" onclick="filtrar('entregado', this)">Entregados</button>
+      </div>
     </div>
 
     <div id="seccion-pedidos">
@@ -250,7 +648,7 @@
         <button class="filtro-btn" onclick="filtrarSus('activa', this)">Activas</button>
         <button class="filtro-btn" onclick="filtrarSus('pendiente', this)">Pendientes</button>
         <button class="filtro-btn" onclick="filtrarSus('cancelada', this)">Canceladas</button>
-        <button class="filtro-btn" onclick="filtrarSus('pago_fallido', this)" style="color:#c0392b;border-color:#c0392b;">⚠️ Pago fallido</button>
+        <button class="filtro-btn" onclick="filtrarSus('pago_fallido', this)" style="color:#c0392b;border-color:#c0392b;">Pago fallido</button>
       </div>
 
       <div class="tabla-wrap" style="margin-top:1rem;">
@@ -495,10 +893,10 @@ function renderSus() {
       'felina-basico': 'Felina Básico', 'felina-premium': 'Felina Premium', 'felina-vip': 'Felina VIP',
       'indoor-basico': 'Indoor Básico', 'indoor-premium': 'Indoor Premium', 'indoor-vip': 'Indoor VIP',
     }[`${s.tipo}-${s.plan}`] || `${s.tipo} ${s.plan}`;
-    const estadoBadge = s.estado === 'activa' ? '<span style="background:#e8f5e9;color:#2e7d32;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">✅ Activa</span>'
-      : s.estado === 'pendiente_transferencia' ? '<span style="background:#fff3e0;color:#e65100;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">🏦 Pend. transferencia</span>'
-      : s.estado === 'pago_fallido' ? '<span style="background:#fce4ec;color:#c62828;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">⚠️ Pago fallido</span>'
-      : '<span style="background:#f5f5f5;color:#666;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">⏳ ' + s.estado + '</span>';
+    const estadoBadge = s.estado === 'activa' ? '<span style="background:#e8f5e9;color:#2e7d32;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">Activa</span>'
+      : s.estado === 'pendiente_transferencia' ? '<span style="background:#fff3e0;color:#e65100;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">Pend. transferencia</span>'
+      : s.estado === 'pago_fallido' ? '<span style="background:#fce4ec;color:#c62828;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">Pago fallido</span>'
+      : '<span style="background:#f5f5f5;color:#666;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">' + s.estado + '</span>';
 
     return `<tr style="${esHoy ? 'background:rgba(196,98,45,.06);' : esFallido ? 'background:rgba(192,57,43,.06);' : ''}">
       <td style="font-weight:700;font-size:1.4rem;text-align:center;color:${esHoy ? 'var(--terracota)' : 'var(--negro)'};">
@@ -513,7 +911,7 @@ function renderSus() {
       <td>
         <div class="cliente-detalle">${s.direccion || ''}</div>
         <div class="cliente-detalle">${s.comuna || ''}</div>
-        ${s.notas ? `<div class="cliente-detalle" style="font-style:italic">📝 ${s.notas}</div>` : ''}
+        ${s.notas ? `<div class="cliente-detalle" style="font-style:italic">${s.notas}</div>` : ''}
       </td>
       <td>
         <div class="cliente-nombre">${planLabel}</div>
@@ -522,11 +920,11 @@ function renderSus() {
       </td>
       <td>
         <select class="estado-select" onchange="cambiarEstadoSus(${s.id}, this.value)">
-          <option value="pendiente" ${s.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
-          <option value="activa" ${s.estado === 'activa' ? 'selected' : ''}>✅ Activa</option>
-          <option value="cancelada" ${s.estado === 'cancelada' ? 'selected' : ''}>❌ Cancelada</option>
-          <option value="pago_fallido" ${s.estado === 'pago_fallido' ? 'selected' : ''}>⚠️ Pago fallido</option>
-          <option value="pendiente_transferencia" ${s.estado === 'pendiente_transferencia' ? 'selected' : ''}>🏦 Pend. transferencia</option>
+          <option value="pendiente" ${s.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+          <option value="activa" ${s.estado === 'activa' ? 'selected' : ''}>Activa</option>
+          <option value="cancelada" ${s.estado === 'cancelada' ? 'selected' : ''}>Cancelada</option>
+          <option value="pago_fallido" ${s.estado === 'pago_fallido' ? 'selected' : ''}>Pago fallido</option>
+          <option value="pendiente_transferencia" ${s.estado === 'pendiente_transferencia' ? 'selected' : ''}>Pend. transferencia</option>
         </select>
       </td>
     </tr>`;
@@ -671,19 +1069,19 @@ function renderTabla() {
       <td>
         <div class="cliente-detalle">${p.direccion || ''}</div>
         <div class="cliente-detalle">${[p.comuna, p.ciudad].filter(Boolean).join(', ')}</div>
-        ${p.notas ? `<div class="cliente-detalle" style="font-style:italic">📝 ${p.notas}</div>` : ''}
+        ${p.notas ? `<div class="cliente-detalle" style="font-style:italic">${p.notas}</div>` : ''}
       </td>
       <td><div class="productos-lista">${splitProductos(p.productos).join('<br>')}</div></td>
       <td><span class="total-valor">${totalFmt}</span><br><span class="fecha-texto">${p.documento || 'Boleta'}</span></td>
       <td><span class="fecha-texto">${fecha}</span></td>
       <td>
         <select class="estado-select" onchange="cambiarEstado(${p.id}, this.value)">
-          <option value="pendiente" ${p.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
-          <option value="despachado" ${p.estado === 'despachado' ? 'selected' : ''}>🚚 Despachado</option>
-          <option value="entregado" ${p.estado === 'entregado' ? 'selected' : ''}>✅ Entregado</option>
-          <option value="cancelado" ${p.estado === 'cancelado' ? 'selected' : ''}>❌ Cancelado</option>
+          <option value="pendiente" ${p.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+          <option value="despachado" ${p.estado === 'despachado' ? 'selected' : ''}>Despachado</option>
+          <option value="entregado" ${p.estado === 'entregado' ? 'selected' : ''}>Entregado</option>
+          <option value="cancelado" ${p.estado === 'cancelado' ? 'selected' : ''}>Cancelado</option>
         </select>
-        <button class="btn-editar-pedido" onclick="abrirEditarPedido(${p.id})">✏️ Editar</button>
+        <button class="btn-editar-pedido" onclick="abrirEditarPedido(${p.id})">Editar</button>
       </td>
     </tr>`;
   }).join('');
@@ -1060,10 +1458,10 @@ function renderSus() {
       'felina-basico': 'Felina Básico', 'felina-premium': 'Felina Premium', 'felina-vip': 'Felina VIP',
       'indoor-basico': 'Indoor Básico', 'indoor-premium': 'Indoor Premium', 'indoor-vip': 'Indoor VIP',
     }[`${s.tipo}-${s.plan}`] || `${s.tipo} ${s.plan}`;
-    const estadoBadge = s.estado === 'activa' ? '<span style="background:#e8f5e9;color:#2e7d32;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">✅ Activa</span>'
-      : s.estado === 'pendiente_transferencia' ? '<span style="background:#fff3e0;color:#e65100;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">🏦 Pend. transferencia</span>'
-      : s.estado === 'pago_fallido' ? '<span style="background:#fce4ec;color:#c62828;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">⚠️ Pago fallido</span>'
-      : '<span style="background:#f5f5f5;color:#666;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">⏳ ' + s.estado + '</span>';
+    const estadoBadge = s.estado === 'activa' ? '<span style="background:#e8f5e9;color:#2e7d32;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">Activa</span>'
+      : s.estado === 'pendiente_transferencia' ? '<span style="background:#fff3e0;color:#e65100;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">Pend. transferencia</span>'
+      : s.estado === 'pago_fallido' ? '<span style="background:#fce4ec;color:#c62828;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">Pago fallido</span>'
+      : '<span style="background:#f5f5f5;color:#666;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">' + s.estado + '</span>';
 
     return `<tr style="${esHoy ? 'background:rgba(196,98,45,.06);' : esFallido ? 'background:rgba(192,57,43,.06);' : ''}">
       <td style="font-weight:700;font-size:1.4rem;text-align:center;color:${esHoy ? 'var(--terracota)' : 'var(--negro)'};">
@@ -1078,7 +1476,7 @@ function renderSus() {
       <td>
         <div class="cliente-detalle">${s.direccion || ''}</div>
         <div class="cliente-detalle">${s.comuna || ''}</div>
-        ${s.notas ? `<div class="cliente-detalle" style="font-style:italic">📝 ${s.notas}</div>` : ''}
+        ${s.notas ? `<div class="cliente-detalle" style="font-style:italic">${s.notas}</div>` : ''}
       </td>
       <td>
         <div class="cliente-nombre">${planLabel}</div>
@@ -1086,11 +1484,11 @@ function renderSus() {
       </td>
       <td>
         <select class="estado-select" onchange="cambiarEstadoSus(${s.id}, this.value)">
-          <option value="pendiente" ${s.estado === 'pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
-          <option value="activa" ${s.estado === 'activa' ? 'selected' : ''}>✅ Activa</option>
-          <option value="cancelada" ${s.estado === 'cancelada' ? 'selected' : ''}>❌ Cancelada</option>
-          <option value="pago_fallido" ${s.estado === 'pago_fallido' ? 'selected' : ''}>⚠️ Pago fallido</option>
-          <option value="pendiente_transferencia" ${s.estado === 'pendiente_transferencia' ? 'selected' : ''}>🏦 Pend. transferencia</option>
+          <option value="pendiente" ${s.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+          <option value="activa" ${s.estado === 'activa' ? 'selected' : ''}>Activa</option>
+          <option value="cancelada" ${s.estado === 'cancelada' ? 'selected' : ''}>Cancelada</option>
+          <option value="pago_fallido" ${s.estado === 'pago_fallido' ? 'selected' : ''}>Pago fallido</option>
+          <option value="pendiente_transferencia" ${s.estado === 'pendiente_transferencia' ? 'selected' : ''}>Pend. transferencia</option>
         </select>
       </td>
     </tr>`;
