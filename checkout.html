@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Finalizar compra — Patas & Caos</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/checkout.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+</head>
+<body class="checkout-page">
+  <header class="checkout-header">
+    <a class="checkout-brand" href="/" aria-label="Volver a Patas & Caos">
+      <img src="/logo.png" alt="Patas & Caos">
+      <span>Patas & Caos</span>
+    </a>
+    <a class="checkout-close" href="javascript:history.back()" aria-label="Volver">×</a>
+  </header>
+
+  <main class="checkout-shell">
+    <section class="checkout-intro">
+      <h1>¿A dónde enviamos tu pedido?</h1>
+      <p>Completa tus datos y elige cómo quieres pagar.</p>
+    </section>
+
+    <div class="checkout-layout">
+      <form class="checkout-form" id="checkout-form" onsubmit="event.preventDefault(); confirmarCheckoutPagina();">
+        <section class="checkout-section">
+          <h2><span>1.</span> Tus datos</h2>
+          <div class="form-grid two">
+            <label class="field">
+              <span>Nombre completo *</span>
+              <input type="text" id="co-nombre" placeholder="Ej: María González" autocomplete="name">
+            </label>
+            <label class="field">
+              <span>Teléfono *</span>
+              <input type="tel" id="co-telefono" placeholder="Ej: +56 9 1234 5678" autocomplete="tel">
+            </label>
+          </div>
+          <label class="field">
+            <span>Email *</span>
+            <input type="email" id="co-email" placeholder="Ej: tu@correo.com" autocomplete="email">
+          </label>
+        </section>
+
+        <section class="checkout-section">
+          <h2><span>2.</span> Método de entrega</h2>
+          <div class="choice-grid">
+            <label class="choice selected" id="choice-despacho">
+              <input type="radio" name="metodo-envio" value="despacho" checked>
+              <span class="choice-dot"></span>
+              <span>Despacho a domicilio</span>
+            </label>
+            <label class="choice" id="choice-retiro">
+              <input type="radio" name="metodo-envio" value="retiro">
+              <span class="choice-dot"></span>
+              <span>Retiro en tienda</span>
+            </label>
+          </div>
+        </section>
+
+        <section class="checkout-section" id="campos-envio">
+          <h2><span>3.</span> Dirección de envío</h2>
+          <label class="field">
+            <span>Calle y número *</span>
+            <input type="text" id="co-direccion" placeholder="Ej: Av. Providencia 1234, Depto 5B" autocomplete="street-address">
+          </label>
+          <div class="form-grid two">
+            <label class="field autocomplete-wrap">
+              <span>Comuna *</span>
+              <input type="text" id="co-comuna" placeholder="Escribe tu comuna" autocomplete="off">
+              <div id="comuna-sugerencias" class="autocomplete-list"></div>
+            </label>
+            <label class="field">
+              <span>Ciudad *</span>
+              <input type="text" id="co-ciudad" placeholder="Ej: Santiago" autocomplete="address-level2">
+            </label>
+          </div>
+          <label class="field">
+            <span>Notas adicionales (opcional)</span>
+            <input type="text" id="co-notas" placeholder="Ej: Timbre no funciona, llamar al llegar">
+          </label>
+          <div class="shipping-result" id="checkout-envio-info" hidden>
+            <span>Envío</span><strong id="checkout-envio-precio"></strong>
+          </div>
+          <p class="shipping-note" id="checkout-envio-aviso"></p>
+        </section>
+
+        <section class="checkout-section" id="retiro-info" hidden>
+          <h2><span>3.</span> Retiro en tienda</h2>
+          <div class="notice">La dirección exacta y el horario de retiro se coordinan por WhatsApp después de confirmar el pedido.</div>
+          <label class="field">
+            <span>Notas adicionales (opcional)</span>
+            <input type="text" id="co-notas-retiro" placeholder="Agrega una indicación si es necesario">
+          </label>
+        </section>
+
+        <section class="checkout-section">
+          <h2><span>4.</span> Documento tributario</h2>
+          <div class="choice-grid">
+            <button class="choice-button selected" id="btn-boleta" type="button" onclick="seleccionarDocumentoPagina('boleta')">
+              <span class="choice-dot"></span><span>Boleta</span>
+            </button>
+            <button class="choice-button" id="btn-factura" type="button" onclick="seleccionarDocumentoPagina('factura')">
+              <span class="choice-dot"></span><span>Factura</span>
+            </button>
+          </div>
+
+          <div id="factura-fields" class="factura-fields" hidden>
+            <div class="form-grid two">
+              <label class="field"><span>RUT empresa *</span><input type="text" id="co-rut" placeholder="76.123.456-7"></label>
+              <label class="field"><span>Razón social *</span><input type="text" id="co-razon" placeholder="Empresa SpA"></label>
+            </div>
+            <div class="form-grid two">
+              <label class="field"><span>Giro *</span><input type="text" id="co-giro" placeholder="Comercio al por menor"></label>
+              <label class="field"><span>Dirección de facturación *</span><input type="text" id="co-dir-factura" placeholder="Dirección legal"></label>
+            </div>
+          </div>
+        </section>
+
+        <section class="checkout-section">
+          <h2><span>5.</span> Método de pago</h2>
+          <div class="choice-grid">
+            <label class="choice selected" id="choice-mp">
+              <input type="radio" name="metodo-pago" value="mercadopago" checked>
+              <span class="choice-dot"></span><span>Mercado Pago</span>
+            </label>
+            <label class="choice" id="choice-transfer">
+              <input type="radio" name="metodo-pago" value="transferencia">
+              <span class="choice-dot"></span><span>Transferencia bancaria</span>
+            </label>
+          </div>
+          <div class="transfer-info" id="transfer-info" hidden>
+            Los datos bancarios se enviarán por correo al confirmar el pedido. El stock se reservará durante 48 horas.
+          </div>
+        </section>
+
+        <div class="checkout-actions">
+          <button class="btn-secondary" type="button" onclick="history.back()">Volver</button>
+          <button class="btn-primary" id="confirmar-pago" type="submit">Confirmar y pagar</button>
+        </div>
+      </form>
+
+      <aside class="order-summary">
+        <h2>Resumen de tu pedido</h2>
+        <div id="checkoutResumenPagina" class="summary-items"></div>
+        <div class="summary-row"><span>Subtotal</span><strong id="checkout-subtotal">$0</strong></div>
+        <div class="summary-row"><span>Envío</span><strong id="checkout-envio-resumen">Por calcular</strong></div>
+        <div class="summary-total"><span>Total</span><strong id="checkout-total">$0</strong></div>
+
+        <div class="trust-list">
+          <div><strong>Pago protegido</strong><span>Procesado de forma segura mediante Mercado Pago.</span></div>
+          <div><strong>Productos originales</strong><span>Selección premium para perros y gatos.</span></div>
+          <div><strong>Despacho a todo Chile</strong><span>El costo se calcula según la comuna ingresada.</span></div>
+        </div>
+
+        <div class="checkout-help">
+          <strong>¿Necesitas ayuda?</strong>
+          <span>Escríbenos por WhatsApp</span>
+          <a href="https://wa.me/56923997854" target="_blank" rel="noopener">+56 9 2399 7854</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div id="cart-toast" class="checkout-toast"></div>
+
+  <!-- Elementos mínimos para compatibilidad con cart.js -->
+  <div id="cart-items" hidden></div><div id="cart-footer" hidden></div>
+  <span id="cart-badge" hidden></span><span id="cart-total" hidden></span>
+  <div id="nav-auth" hidden></div>
+
+  <script src="/cart.js"></script>
+  <script src="/assets/js/checkout-page.js"></script>
+</body>
+</html>

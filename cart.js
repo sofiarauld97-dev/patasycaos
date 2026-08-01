@@ -74,6 +74,7 @@ function renderCart() {
   guardarCarritoLocal();
   const container = document.getElementById('cart-items'), footer = document.getElementById('cart-footer'), badge = document.getElementById('cart-badge');
   const totalItems = cart.reduce((s,i) => s+i.qty, 0), totalPrice = cart.reduce((s,i) => s+i.price*i.qty, 0);
+  if (!container || !footer || !badge) return;
   badge.textContent = totalItems; badge.style.display = totalItems > 0 ? 'flex' : 'none';
   if (cart.length === 0) { container.innerHTML = '<div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>'; footer.style.display = 'none'; return; }
   footer.style.display = 'block';
@@ -336,51 +337,10 @@ function actualizarEnvio() {
 }
 
 
-async function checkout() {
+function checkout() {
   if (cart.length === 0) return;
-  // Mostrar resumen en el modal
-  const resumen = document.getElementById('checkoutResumen');
-  resumen.innerHTML = cart.map(i => `<div class="checkout-resumen-item"><span>${i.name} x${i.qty}</span><span>$${(i.price*i.qty).toLocaleString('es-CL')}</span></div>`).join('') +
-    `<div class="checkout-resumen-total"><span>Total</span><span>$${cart.reduce((s,i)=>s+i.price*i.qty,0).toLocaleString('es-CL')}</span></div>`;
-
-  // Inyectar selector de método de pago si no existe
-  if (!document.getElementById('pago-metodo-wrap')) {
-    const btns = document.querySelector('.checkout-btns');
-    if (btns) {
-      const wrap = document.createElement('div');
-      wrap.id = 'pago-metodo-wrap';
-      wrap.style.marginTop = '1rem';
-      wrap.innerHTML = `
-        <p class="checkout-section-label">Método de pago</p>
-        <div class="checkout-metodo-toggle">
-          <label class="metodo-btn activo" id="lbl-mp">
-            <input type="radio" name="metodo-pago" value="mercadopago" checked onchange="togglePagoUI()">
-            💳 Mercado Pago
-          </label>
-          <label class="metodo-btn" id="lbl-transfer">
-            <input type="radio" name="metodo-pago" value="transferencia" onchange="togglePagoUI()">
-            🏦 Transferencia bancaria
-          </label>
-        </div>
-        <div id="transfer-info" style="display:none;background:#f5ecd7;border-radius:12px;padding:1rem 1.2rem;margin-top:.75rem;font-size:.85rem;line-height:1.9;color:#4a3a2e">
-          <div style="font-weight:700;margin-bottom:.3rem;color:#C4622D">🏦 Datos para transferir</div>
-          <div><strong>Banco:</strong> Mercado Pago</div>
-          <div><strong>Tipo de cuenta:</strong> Vista</div>
-          <div><strong>N° de cuenta:</strong> 1000264809</div>
-          <div><strong>RUT:</strong> 78.413.784-8</div>
-          <div><strong>Nombre:</strong> Comercializadora Rauld SpA</div>
-          <div><strong>Email:</strong> contacto@patasycaos.cl</div>
-          <div style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(28,16,7,.1);font-size:.8rem">
-            📸 Envía el comprobante al email o por WhatsApp. Tu pedido se prepara una vez confirmado el pago.
-          </div>
-        </div>`;
-      btns.parentNode.insertBefore(wrap, btns);
-    }
-  }
-
-  document.getElementById('checkoutOverlay').classList.add('activo');
-  document.body.style.overflow = 'hidden';
-  setTimeout(initComunaAutocomplete, 50);
+  guardarCarritoLocal();
+  window.location.href = '/checkout';
 }
 
 function togglePagoUI() {
@@ -396,7 +356,8 @@ function togglePagoUI() {
 }
 
 function cerrarCheckout() {
-  document.getElementById('checkoutOverlay').classList.remove('activo');
+  const overlay = document.getElementById('checkoutOverlay');
+  if (overlay) overlay.classList.remove('activo');
   document.body.style.overflow = '';
 }
 function seleccionarDoc(tipo) {
