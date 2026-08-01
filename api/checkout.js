@@ -21,13 +21,13 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         items: mpItems,
         back_urls: {
-          success: 'https://patasycaos.cl/pedido-ok',
-          failure: 'https://patasycaos.cl/?pago=error',
-          pending: 'https://patasycaos.cl/?pago=pendiente',
+          success: 'https://www.patasycaos.cl/pedido-ok',
+          failure: 'https://www.patasycaos.cl/?pago=error',
+          pending: 'https://www.patasycaos.cl/?pago=pendiente',
         },
         auto_return: 'approved',
         statement_descriptor: 'PATAS & CAOS',
-        notification_url: 'https://patasycaos.cl/api/webhook',
+        notification_url: 'https://www.patasycaos.cl/api/webhook',
       }),
     });
 

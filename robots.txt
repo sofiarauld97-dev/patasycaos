@@ -1,6 +1,11 @@
 User-agent: *
 Disallow: /api/
 Disallow: /admin
+Disallow: /pedidos
+Disallow: /inventario
+Disallow: /reset-stock
+Disallow: /cuenta
+Disallow: /favoritos
+Disallow: /pedido-ok
 
-Sitemap: https://patasycaos.cl/sitemap.xml
-Host: patasycaos.cl
+Sitemap: https://www.patasycaos.cl/sitemap.xml

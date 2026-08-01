@@ -1,4 +1,1230 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "hey-cama-redonda-confort-verde"
+        }
+      ],
+      "destination": "/productos/cama-redonda-confort-verde-hey",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "hey-donut-sonido-perros"
+        }
+      ],
+      "destination": "/productos/donut-con-sonido-hey",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pura-natura-caldo-de-huesos-250g"
+        }
+      ],
+      "destination": "/productos/caldo-de-huesos-250g-pura-natura",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pura-natura-woofers-80g"
+        }
+      ],
+      "destination": "/productos/woofer-s-80g-pura-natura",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "fit-formula-gato-adulto-2kg"
+        }
+      ],
+      "destination": "/productos/fit-formula-gato-adulto-2kg",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "leonardo-adult-gf-poultry-1-8kg"
+        }
+      ],
+      "destination": "/productos/leonardo-adult-gf-1-8kg-poultry",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "leonardo-adult-light-sterilised-1-8kg"
+        }
+      ],
+      "destination": "/productos/leonardo-adult-light-y-sterilised-1-8kg",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "leonardo-adult-duck-1-8kg"
+        }
+      ],
+      "destination": "/productos/leonardo-adult-1-8kg-duck",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "hey-bolsas-sanitarias-4-rollos"
+        }
+      ],
+      "destination": "/productos/bolsas-sanitarias-4-rollos-hey",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pelota-snack-interactiva_Verde"
+        }
+      ],
+      "destination": "/productos/pelota-snack-interactiva-verde",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-findmy_Amarillo"
+        }
+      ],
+      "destination": "/productos/collar-find-my-amarillo",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-perro-acolchado_Café-S"
+        }
+      ],
+      "destination": "/productos/collar-perro-acolchado-cafe-talla-s",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-perro-acolchado_Café-M"
+        }
+      ],
+      "destination": "/productos/collar-perro-acolchado-cafe-talla-m",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-perro-acolchado_Rojo-S"
+        }
+      ],
+      "destination": "/productos/collar-perro-acolchado-rojo-talla-s",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "comedero-lento-flores-lila"
+        }
+      ],
+      "destination": "/productos/comedero-lento-flores-lila",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "comedero-lento-slow-feeder-rosado"
+        }
+      ],
+      "destination": "/productos/comedero-lento-slow-feeder-rosado",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "dog-fest-calcium-bones-chicken"
+        }
+      ],
+      "destination": "/productos/huesitos-de-calcio-con-pollo-55g-dog-fest",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "dog-fest-lamb-medallions"
+        }
+      ],
+      "destination": "/productos/medallones-de-cordero-55g-dog-fest",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "dog-fest-rabbit-ears-lamb"
+        }
+      ],
+      "destination": "/productos/orejas-de-conejo-con-cordero-55g-dog-fest",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "colagepet-donut-pollo"
+        }
+      ],
+      "destination": "/productos/donut-colagepet-xl-pollo",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "colagepet-donut-pato"
+        }
+      ],
+      "destination": "/productos/donut-colagepet-xl-pato",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "colagepet-donut-carne"
+        }
+      ],
+      "destination": "/productos/donut-colagepet-xl-carne",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "rascador-maxi-caja-de-leche---brnx"
+        }
+      ],
+      "destination": "/productos/rascador-maxi-caja-de-leche-brnx",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-isabelino-donut-rosada---talla-s"
+        }
+      ],
+      "destination": "/productos/collar-isabelino-donut-rosada-talla-s",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pelota-snack-interactiva_Roja"
+        }
+      ],
+      "destination": "/productos/pelota-snack-interactiva-roja",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pelota-snack-interactiva_Azul"
+        }
+      ],
+      "destination": "/productos/pelota-snack-interactiva-azul",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "dispensador-de-bolsas---diseno-cafe"
+        }
+      ],
+      "destination": "/productos/dispensador-de-bolsas-diseno-cafe",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "calming-collar---perros"
+        }
+      ],
+      "destination": "/productos/calming-collar-perros",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "calming-collar---gatos"
+        }
+      ],
+      "destination": "/productos/calming-collar-gatos",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "botella-portatil-para-perros_Rosada"
+        }
+      ],
+      "destination": "/productos/botella-portatil-para-perros-rosada",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "botella-portatil-para-perros_Calipso"
+        }
+      ],
+      "destination": "/productos/botella-portatil-para-perros-calipso",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "arena-sanitaria-ciudad-animal-8kg"
+        }
+      ],
+      "destination": "/productos/arena-sanitaria-ciudad-animal-8kg",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "brit-care-sterilized-weigh-control-2kg---duck-turkey"
+        }
+      ],
+      "destination": "/productos/brit-care-sterilized-weigh-control-2kg-duck-y-turkey",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pack-calma-total"
+        }
+      ],
+      "destination": "/productos/pack-calma-total",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pack-sos-mascota"
+        }
+      ],
+      "destination": "/productos/pack-sos-mascota",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pack-rutina-sana"
+        }
+      ],
+      "destination": "/productos/pack-rutina-sana",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pack-bienvenido-a-casa"
+        }
+      ],
+      "destination": "/productos/pack-bienvenido-a-casa",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pack-juega-y-relaja"
+        }
+      ],
+      "destination": "/productos/pack-juega-y-relaja",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pack-cuidado-total"
+        }
+      ],
+      "destination": "/productos/pack-cuidado-total",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "comedero-lento-slow-feeder---catstages"
+        }
+      ],
+      "destination": "/productos/comedero-lento-slow-feeder-catstages",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pack-consulta-flor-de-bach"
+        }
+      ],
+      "destination": "/productos/pack-consulta-flor-de-bach",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "flores-de-bach---rescue-y-alivio"
+        }
+      ],
+      "destination": "/productos/flores-de-bach-rescue-y-alivio",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "flores-de-bach---energia-y-animo"
+        }
+      ],
+      "destination": "/productos/flores-de-bach-energia-y-animo",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "flores-de-bach---equilibrio"
+        }
+      ],
+      "destination": "/productos/flores-de-bach-equilibrio",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "flores-de-bach---ansiedad-y-calma"
+        }
+      ],
+      "destination": "/productos/flores-de-bach-ansiedad-y-calma",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cat-fest-pillows-schrimp-creme"
+        }
+      ],
+      "destination": "/productos/cat-fest-pillows-salmon-creme",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cat-fest-pillows"
+        }
+      ],
+      "destination": "/productos/cat-fest-pillows-chicken-creme",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "tubito-atun"
+        }
+      ],
+      "destination": "/productos/tubito-cremoso-atun-con-catnip",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "tubito-camaron"
+        }
+      ],
+      "destination": "/productos/tubito-cremoso-camaron-con-catnip",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "tubito-salmon-matatabi"
+        }
+      ],
+      "destination": "/productos/tubito-cremoso-salmon-con-matatabi",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "lata-leonardo-kitten"
+        }
+      ],
+      "destination": "/productos/lata-leonardo-kitten-200g",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "lata-leonardo_Ave"
+        }
+      ],
+      "destination": "/productos/lata-leonardo-adulto-ave",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "lata-leonardo_Pato"
+        }
+      ],
+      "destination": "/productos/lata-leonardo-adulto-pato",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "lata-leonardo_Conejo"
+        }
+      ],
+      "destination": "/productos/lata-leonardo-adulto-conejo",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "lata-leonardo_Pescado"
+        }
+      ],
+      "destination": "/productos/lata-leonardo-adulto-pescado",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "lata-leonardo_Ternera"
+        }
+      ],
+      "destination": "/productos/lata-leonardo-adulto-ternera",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-findmy_Turquesa"
+        }
+      ],
+      "destination": "/productos/collar-find-my-turquesa",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-findmy_Negro"
+        }
+      ],
+      "destination": "/productos/collar-find-my-negro",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-findmy_Azul"
+        }
+      ],
+      "destination": "/productos/collar-find-my-azul",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "fuente-agua"
+        }
+      ],
+      "destination": "/productos/fuente-de-agua-flor-usb",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pajaro"
+        }
+      ],
+      "destination": "/productos/pajaro-interactivo",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pelota-led"
+        }
+      ],
+      "destination": "/productos/pelota-interactiva-led",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pulpo"
+        }
+      ],
+      "destination": "/productos/masajeador-pulpo",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "paw-balm"
+        }
+      ],
+      "destination": "/productos/paw-balm",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "afeitadora"
+        }
+      ],
+      "destination": "/productos/afeitadora-led-para-mascotas",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cat-fest_Pato"
+        }
+      ],
+      "destination": "/productos/cat-fest-meat-sticks-pato",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cat-fest_Cordero"
+        }
+      ],
+      "destination": "/productos/cat-fest-meat-sticks-cordero",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cats-snack_Catnip"
+        }
+      ],
+      "destination": "/productos/cats-snack-atun-catnip",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cats-snack_Matatabi"
+        }
+      ],
+      "destination": "/productos/cats-snack-atun-matatabi",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cats-snack_Rellena Atún + Ostiones"
+        }
+      ],
+      "destination": "/productos/cats-snack-rellena-atun-ostiones",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cats-snack_Rellena Atún + Queso"
+        }
+      ],
+      "destination": "/productos/cats-snack-rellena-atun-queso",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cats-snack_Rellena Camarón"
+        }
+      ],
+      "destination": "/productos/cats-snack-rellena-camaron",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cats-snack_Rellena Atún + Pollo"
+        }
+      ],
+      "destination": "/productos/cats-snack-rellena-atun-pollo",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "snack-calming-gato"
+        }
+      ],
+      "destination": "/productos/snack-calming-cat-treats-beaphar",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "suero-fisiologico"
+        }
+      ],
+      "destination": "/productos/suero-fisiologico-cloruro-de-sodio-0-9",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pulmon-cordero-rahue"
+        }
+      ],
+      "destination": "/productos/pulmon-de-cordero-50g-rahue",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "traquea-vacuno-rahue"
+        }
+      ],
+      "destination": "/productos/traquea-de-vacuno-rahue",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "garra-pollo-rahue"
+        }
+      ],
+      "destination": "/productos/garra-de-pollo-65g-rahue",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "oreja-cerdo-rahue"
+        }
+      ],
+      "destination": "/productos/recorte-oreja-de-cerdo-100g-rahue",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "femur-cerdo-tasty"
+        }
+      ],
+      "destination": "/productos/femur-de-cerdo-tasty-farm",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-zeecat-error-500"
+        }
+      ],
+      "destination": "/productos/collar-zee-cat-error-500",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-zeecat-error-404"
+        }
+      ],
+      "destination": "/productos/collar-zee-cat-error-404",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-zeecat-error-410"
+        }
+      ],
+      "destination": "/productos/collar-zee-cat-error-410",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-suede-para-perro-zeedog"
+        }
+      ],
+      "destination": "/productos/collar-suede-zee-dog",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-nox-para-perro-zeedog"
+        }
+      ],
+      "destination": "/productos/collar-nox-zee-dog",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pala-arenero-marron"
+        }
+      ],
+      "destination": "/productos/pala-arenero-marron",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "pala-arenero-verde"
+        }
+      ],
+      "destination": "/productos/pala-arenero-verde",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "zupet-dental-power-suave"
+        }
+      ],
+      "destination": "/productos/snack-dental-power-75g-qchefs",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "zupet-dental-fitness-crocante"
+        }
+      ],
+      "destination": "/productos/snack-dental-fitness-crocante-60g-qchefs",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "fellini-lollipop-calabaza"
+        }
+      ],
+      "destination": "/productos/lolli-pop-calabaza-fellini",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "fellini-lollipop-leche-cabra"
+        }
+      ],
+      "destination": "/productos/lolli-pop-leche-de-cabra-fellini",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "bocados-pollo-pets-friends"
+        }
+      ],
+      "destination": "/productos/bocados-de-pollo-65g-pets-friends",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cubitos-salmon-pets-friends"
+        }
+      ],
+      "destination": "/productos/cubitos-de-salmon-65g-pets-friends",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "doggo-traquea-vacuno-ciervo"
+        }
+      ],
+      "destination": "/productos/traquea-de-vacuno-en-crispy-de-ciervo-doggo",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "doggo-mix-deshidratados"
+        }
+      ],
+      "destination": "/productos/mix-deshidratados-100g-doggo",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "condilo-vacuno-rahue"
+        }
+      ],
+      "destination": "/productos/condilo-de-vacuno-300g-rahue",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "fit-formula-costillas-cordero-100g"
+        }
+      ],
+      "destination": "/productos/costillitas-de-cordero-100g-fit-formula",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "cats-snack-pollo-camaron"
+        }
+      ],
+      "destination": "/productos/cats-snack-rellena-pollo-camaron",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "rastreador-find-my"
+        }
+      ],
+      "destination": "/productos/rastreador-apple-find-my-funda-de-silicona",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "comedero-lento-desmontable-azul"
+        }
+      ],
+      "destination": "/productos/comedero-lento-desmontable-azul",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "comedero-lento-desmontable-rojo"
+        }
+      ],
+      "destination": "/productos/comedero-lento-desmontable-rojo",
+      "permanent": true
+    },
+    {
+      "source": "/tienda",
+      "has": [
+        {
+          "type": "query",
+          "key": "producto",
+          "value": "collar-findmy-rojo"
+        }
+      ],
+      "destination": "/productos/collar-find-my-rojo",
+      "permanent": true
+    }
+  ]
 }

@@ -50,9 +50,9 @@ export default async function handler(req, res) {
           transaction_amount: precio,
           currency_id: 'CLP',
         },
-        back_url: 'https://patasycaos.cl/suscripciones?estado=ok',
+        back_url: 'https://www.patasycaos.cl/suscripciones?estado=ok',
         status: 'pending',
-        notification_url: 'https://patasycaos.cl/api/webhook-suscripcion',
+        notification_url: 'https://www.patasycaos.cl/api/webhook-suscripcion',
       }),
     });
 
