@@ -591,6 +591,21 @@ body { background: var(--cream) !important; }
   .product-page-main > .product-breadcrumb,
   .product-page-main > .product-page-grid { max-width: 100%; }
 }
+</style><style>
+/* Pestañas de información del producto */
+.product-info-tabs{margin-top:28px;border-top:1px solid #dfd2c0;}
+.product-tabs-nav{display:flex;align-items:flex-end;gap:0;padding-top:14px;border-bottom:1px solid #d7cab7;overflow-x:auto;}
+.product-tab-btn{appearance:none;border:1px solid #d7cab7;border-bottom:none;background:#eee8f0;color:#1A1A1A;padding:11px 18px;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;border-radius:8px 8px 0 0;transition:background .2s,color .2s,border-color .2s;}
+.product-tab-btn+ .product-tab-btn{margin-left:-1px;}
+.product-tab-btn:hover{color:#C4622D;background:#fff8ec;}
+.product-tab-btn.activo{background:#F5ECD7;color:#4A7C59;border-color:#cdbfa9;position:relative;z-index:2;}
+.product-tabs-panels{padding:20px 8px 4px;}
+.product-tab-panel{display:none;color:#4b4037;line-height:1.75;}
+.product-tab-panel.activo{display:block;}
+.product-tab-panel ul{padding-left:22px;line-height:1.9;}
+.product-tab-panel li{margin-bottom:8px;}
+.product-tab-panel p{line-height:1.75;}
+@media(max-width:600px){.product-tab-btn{padding:10px 13px;font-size:.76rem}.product-tabs-panels{padding:16px 2px 2px}}
 </style></head>
 <body>
 <!-- Google Tag Manager (noscript) --><noscript><iframe height="0" src="https://www.googletagmanager.com/ns.html?id=GTM-NWMLNQL7" style="display:none;visibility:hidden" width="0"></iframe></noscript><!-- End Google Tag Manager (noscript) -->
@@ -691,15 +706,15 @@ El Comedero Lento lo frena en seco. Sus divisores internos lo obligan a comer de
 Diseño compacto ideal para perros y gatos pequeños a medianos. Fácil de lavar, colores surtidos, y una diferencia real en cómo come tu mascota.
 
 Comer bien también es un hábito. 🐾</p>
-<div class="product-buy"><button id="add-btn" onclick="addCurrentProduct()">Añadir al carrito</button><button class="view-cart" onclick="toggleCart()" type="button">Ver carrito</button></div><div class="product-msg" id="product-msg"></div><section class="product-details product-accordion"><button aria-expanded="false" class="product-accordion-toggle" onclick="toggleProductAccordion(this)" type="button"><span>Características</span><span aria-hidden="true" class="product-accordion-icon">+</span></button><div class="product-accordion-content"><div class="product-accordion-inner"><ul><li>Dimensiones: 20,5 x 4,5 cm</li><li>Antideslizante</li><li>Duradero y fácil de limpiar</li><li>Para perros medianos a grandes</li><li>Ralentiza la ingesta para mejor digestión</li></ul></div></div></section></div>
+<div class="product-buy"><button id="add-btn" onclick="addCurrentProduct()">Añadir al carrito</button><button class="view-cart" onclick="toggleCart()" type="button">Ver carrito</button></div><div class="product-msg" id="product-msg"></div><section class="product-info-tabs"><div aria-label="Información del producto" class="product-tabs-nav" role="tablist"><button aria-controls="product-panel-0" aria-selected="true" class="product-tab-btn activo" id="product-tab-0" onclick="switchProductTab(this)" role="tab" type="button">Características</button></div><div class="product-tabs-panels"><div aria-labelledby="product-tab-0" class="product-tab-panel activo" id="product-panel-0" role="tabpanel"><ul><li>Dimensiones: 20,5 x 4,5 cm</li><li>Antideslizante</li><li>Duradero y fácil de limpiar</li><li>Para perros medianos a grandes</li><li>Ralentiza la ingesta para mejor digestión</li></ul></div></div></section></div>
 </div></main>
 <footer>
 <div class="footer-grid">
 <div class="footer-brand">
 <div class="footer-brand-row">
-<img alt="Patas &amp; Caos" height="40" src="logo.png" width="40">
+<img alt="Patas &amp; Caos" height="40" src="/logo.png" width="40"/>
 <span class="footer-brand-name">Patas &amp; Caos</span>
-</img></div>
+</div>
 <p>Accesorios, juguetes y comida para mascotas con personalidad. Hechos para humanos que aman el desorden peludo.</p>
 <div class="footer-socials">
 <a aria-label="Instagram" href="https://instagram.com/patasycaoscl" rel="noopener" target="_blank">
@@ -759,7 +774,6 @@ window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'view_item',e
 document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.product-thumbs img')?.classList.add('active');});
 </script>
 <script>
-
 </script>
 <script>
 function toggleProductAccordion(button) {
@@ -774,4 +788,18 @@ function updateProductHeaderOnScroll() {
 window.addEventListener('scroll', updateProductHeaderOnScroll, { passive: true });
 window.addEventListener('DOMContentLoaded', updateProductHeaderOnScroll);
 </script>
-</body></html>
+<script>
+function switchProductTab(button){
+  const tabs=button.closest('.product-info-tabs');
+  if(!tabs) return;
+  tabs.querySelectorAll('.product-tab-btn').forEach(btn=>{
+    btn.classList.remove('activo');
+    btn.setAttribute('aria-selected','false');
+  });
+  tabs.querySelectorAll('.product-tab-panel').forEach(panel=>panel.classList.remove('activo'));
+  button.classList.add('activo');
+  button.setAttribute('aria-selected','true');
+  const panel=document.getElementById(button.getAttribute('aria-controls'));
+  if(panel) panel.classList.add('activo');
+}
+</script></body></html>
