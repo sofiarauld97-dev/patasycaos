@@ -941,6 +941,119 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="/assets/js/site.js"></script>
 <script src="/products-data.js"></script>
 <script>
+// Orden curado del catalogo (identico al usado en tienda.html)
+const ORDEN = [
+  // 1. ALIMENTO
+  "brit-care-sterilized-weigh-control-2kg---duck-turkey",
+  "leonardo-adult-gf-poultry-1-8kg",
+  "leonardo-adult-light-sterilised-1-8kg",
+  "leonardo-adult-duck-1-8kg",
+  "fit-formula-gato-adulto-2kg",
+  "lata-leonardo-kitten",
+  "lata-leonardo_Ave",
+  "lata-leonardo_Pato",
+  "lata-leonardo_Conejo",
+  "lata-leonardo_Pescado",
+  "lata-leonardo_Ternera",
+  // 2. ARENA
+  "arena-sanitaria-ciudad-animal-8kg",
+  // 3. SNACKS PERROS
+  "pulmon-cordero-rahue",
+  "garra-pollo-rahue",
+  "oreja-cerdo-rahue",
+  "femur-cerdo-tasty",
+  "traquea-vacuno-rahue",
+  "condilo-vacuno-rahue",
+  "fit-formula-costillas-cordero-100g",
+  "doggo-traquea-vacuno-ciervo",
+  "doggo-mix-deshidratados",
+  "colagepet-donut-pollo",
+  "colagepet-donut-pato",
+  "colagepet-donut-carne",
+  "dog-fest-rabbit-ears-lamb",
+  "dog-fest-lamb-medallions",
+  "dog-fest-calcium-bones-chicken",
+  "pura-natura-caldo-de-huesos-250g",
+  "zupet-dental-power-suave",
+  "pura-natura-woofers-80g",
+  // 4. SNACKS GATOS
+  "cat-fest-pillows-schrimp-creme",
+  "cat-fest-pillows",
+  "cat-fest_Pato",
+  "cat-fest_Cordero",
+  "tubito-atun",
+  "tubito-camaron",
+  "tubito-salmon-matatabi",
+  "cats-snack_Catnip",
+  "cats-snack_Matatabi",
+  "cats-snack_Rellena Atún + Ostiones",
+  "cats-snack_Rellena Atún + Queso",
+  "cats-snack_Rellena Camarón",
+  "cats-snack_Rellena Atún + Pollo",
+  "cats-snack-pollo-camaron",
+  "snack-calming-gato",
+  "zupet-dental-fitness-crocante",
+  "fellini-lollipop-calabaza",
+  "fellini-lollipop-leche-cabra",
+  "bocados-pollo-pets-friends",
+  "cubitos-salmon-pets-friends",
+  // 5. ACCESORIOS
+  // Collares gatos (Find My + Zee.Cat juntos)
+  "rascador-maxi-caja-de-leche---brnx",
+  "collar-findmy_Turquesa",
+  "collar-findmy_Negro",
+  "collar-findmy_Azul",
+  "collar-findmy_Amarillo",
+  "collar-findmy-rojo",
+  "rastreador-find-my",
+  "collar-zeecat-error-500",
+  "collar-zeecat-error-404",
+  "collar-zeecat-error-410",
+  // Collares perros (acolchado + Zee.Dog juntos)
+  "collar-perro-acolchado_Café-S",
+  "collar-perro-acolchado_Café-M",
+  "collar-perro-acolchado_Rojo-S",
+  "collar-suede-para-perro-zeedog",
+  "collar-nox-para-perro-zeedog",
+  // Resto accesorios
+  "calming-collar---perros",
+  "calming-collar---gatos",
+  "collar-isabelino-donut-rosada---talla-s",
+  "botella-portatil-para-perros_Rosada",
+  "botella-portatil-para-perros_Calipso",
+  "dispensador-de-bolsas---diseno-cafe",
+  // Fuente — palas arenero — comederos juntos
+  "fuente-agua",
+  "pala-arenero-marron",
+  "pala-arenero-verde",
+  "comedero-lento-slow-feeder---catstages",
+  "comedero-lento-slow-feeder-rosado",
+  "comedero-lento-desmontable-azul",
+  "comedero-lento-desmontable-rojo",
+  "comedero-lento-flores-lila",
+  "hey-cama-redonda-confort-verde",
+  // 6. JUGUETES
+  "pajaro",
+  "pelota-led",
+  "pulpo",
+  "pelota-snack-interactiva_Roja",
+  "pelota-snack-interactiva_Azul",
+  "pelota-snack-interactiva_Verde",
+  "hey-donut-sonido-perros",
+  // 7. ASEO
+  "paw-balm",
+  "afeitadora",
+  "suero-fisiologico",
+  "hey-bolsas-sanitarias-4-rollos",
+  // 8. FLORES DE BACH
+  "flores-de-bach---rescue-y-alivio",
+  "flores-de-bach---energia-y-animo",
+  "flores-de-bach---equilibrio",
+  "flores-de-bach---ansiedad-y-calma",
+  // 10. RASCADOR
+  // 11. CONSULTA
+];
+
 function moverCat(dir) {
   const grid = document.getElementById('cat-grid');
   const card = grid.querySelector('.cat-card');
@@ -1573,7 +1686,7 @@ function runSearch(q) {
 
   // Usar event delegation — sin clonar nada
   document.addEventListener('mouseenter', function(e) {
-    if (e.target.closest('#modalImagenPrincipal')) onMouseEnter();
+    if (e.target.closest && e.target.closest('#modalImagenPrincipal')) onMouseEnter();
   }, true);
 
   document.addEventListener('mouseleave', function(e) {
