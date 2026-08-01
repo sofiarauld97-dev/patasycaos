@@ -751,3 +751,11 @@ body.cart-open .whatsapp-float{
     height:68px!important;
   }
 }
+
+/* AJUSTE FINAL: ÁREA DE FOTO COMPLETAMENTE BLANCA */
+.cart-item-img{
+  background:#FFFFFF!important;
+  border:1px solid #E9E4DE!important;
+  object-fit:contain!important;
+  padding:6px!important;
+}
