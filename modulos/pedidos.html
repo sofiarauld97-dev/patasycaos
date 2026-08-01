@@ -545,6 +545,209 @@ tbody tr:hover td{background:#FCFAF7!important}
 }
 </style>
 
+
+<style id="pedidos-responsive-fix">
+/* =========================================================
+   CORRECCIÓN RESPONSIVE PEDIDOS + SUSCRIPCIONES
+   ========================================================= */
+
+#seccion-pedidos,
+#seccion-suscripciones,
+.tabla-wrap,
+#tabla-contenido,
+#tabla-sus{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+}
+
+.tabla-wrap{
+  overflow-x:auto!important;
+  -webkit-overflow-scrolling:touch;
+}
+
+.tabla-wrap table{
+  width:100%!important;
+  min-width:0!important;
+  table-layout:fixed;
+}
+
+#seccion-pedidos th:nth-child(1),
+#seccion-pedidos td:nth-child(1){width:10%}
+#seccion-pedidos th:nth-child(2),
+#seccion-pedidos td:nth-child(2){width:17%}
+#seccion-pedidos th:nth-child(3),
+#seccion-pedidos td:nth-child(3){width:18%}
+#seccion-pedidos th:nth-child(4),
+#seccion-pedidos td:nth-child(4){width:18%}
+#seccion-pedidos th:nth-child(5),
+#seccion-pedidos td:nth-child(5){width:10%}
+#seccion-pedidos th:nth-child(6),
+#seccion-pedidos td:nth-child(6){width:12%}
+#seccion-pedidos th:nth-child(7),
+#seccion-pedidos td:nth-child(7){width:15%}
+
+#seccion-suscripciones th:nth-child(1),
+#seccion-suscripciones td:nth-child(1){width:10%}
+#seccion-suscripciones th:nth-child(2),
+#seccion-suscripciones td:nth-child(2){width:12%}
+#seccion-suscripciones th:nth-child(3),
+#seccion-suscripciones td:nth-child(3){width:21%}
+#seccion-suscripciones th:nth-child(4),
+#seccion-suscripciones td:nth-child(4){width:22%}
+#seccion-suscripciones th:nth-child(5),
+#seccion-suscripciones td:nth-child(5){width:18%}
+#seccion-suscripciones th:nth-child(6),
+#seccion-suscripciones td:nth-child(6){width:17%}
+
+.tabla-wrap th,
+.tabla-wrap td{
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+
+.estado-select{
+  max-width:100%;
+}
+
+@media (max-width:1180px) and (min-width:821px){
+  #panel main{
+    padding-left:18px!important;
+    padding-right:18px!important;
+  }
+
+  .tabla-wrap th,
+  .tabla-wrap td{
+    padding:12px 10px!important;
+    font-size:.72rem!important;
+  }
+
+  .cliente-detalle,
+  .productos-lista,
+  .fecha-texto{
+    font-size:.66rem!important;
+  }
+
+  .estado-select{
+    min-width:0!important;
+    width:100%!important;
+    padding:0 6px!important;
+    font-size:.67rem!important;
+  }
+}
+
+/* Móvil y tablet: cada fila se transforma en tarjeta */
+@media (max-width:820px){
+  .tabla-wrap{
+    overflow:visible!important;
+    border:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+  }
+
+  .tabla-header{
+    margin-bottom:12px;
+    border:1px solid var(--borde)!important;
+    border-radius:14px!important;
+    background:#fff;
+  }
+
+  .tabla-wrap table,
+  .tabla-wrap thead,
+  .tabla-wrap tbody,
+  .tabla-wrap tr,
+  .tabla-wrap th,
+  .tabla-wrap td{
+    display:block;
+    width:100%!important;
+    min-width:0!important;
+  }
+
+  .tabla-wrap thead{
+    display:none;
+  }
+
+  .tabla-wrap tbody{
+    display:grid;
+    gap:12px;
+  }
+
+  .tabla-wrap tr{
+    overflow:hidden;
+    padding:8px 16px;
+    border:1px solid var(--borde);
+    border-radius:14px;
+    background:#fff;
+    box-shadow:0 6px 20px rgba(38,27,18,.04);
+  }
+
+  .tabla-wrap td{
+    display:grid!important;
+    grid-template-columns:minmax(105px,34%) minmax(0,1fr);
+    gap:12px;
+    align-items:start;
+    padding:11px 0!important;
+    border:0!important;
+    border-bottom:1px solid #F0ECE7!important;
+    background:transparent!important;
+    text-align:left!important;
+  }
+
+  .tabla-wrap td:last-child{
+    border-bottom:0!important;
+  }
+
+  .tabla-wrap td::before{
+    content:attr(data-label);
+    color:var(--suave);
+    font-size:.63rem;
+    font-weight:700;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+  }
+
+  .tabla-wrap .num-pedido{
+    justify-self:start;
+  }
+
+  .tabla-wrap .estado-select{
+    min-width:0!important;
+    width:100%!important;
+  }
+
+  .tabla-wrap .btn-editar-pedido{
+    width:100%!important;
+    margin-top:8px!important;
+  }
+
+  #seccion-suscripciones td:first-child{
+    text-align:left!important;
+    font-size:1rem!important;
+  }
+}
+
+@media (max-width:500px){
+  .tabla-wrap td{
+    grid-template-columns:1fr;
+    gap:5px;
+  }
+
+  .tabla-wrap td::before{
+    margin-bottom:1px;
+  }
+
+  .tabla-header{
+    align-items:flex-start!important;
+    gap:12px;
+  }
+
+  .tabla-header h2{
+    max-width:70%;
+    line-height:1.35;
+  }
+}
+</style>
+
 </head>
 <body>
 <!-- PANEL -->
@@ -898,27 +1101,31 @@ function renderSus() {
       : s.estado === 'pago_fallido' ? '<span style="background:#fce4ec;color:#c62828;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">Pago fallido</span>'
       : '<span style="background:#f5f5f5;color:#666;border-radius:50px;padding:2px 10px;font-size:.72rem;font-weight:700;">' + s.estado + '</span>';
 
+    const numSus = 'SUS-' + String(s.id || '').padStart(5, '0');
     return `<tr style="${esHoy ? 'background:rgba(196,98,45,.06);' : esFallido ? 'background:rgba(192,57,43,.06);' : ''}">
-      <td style="font-weight:700;font-size:1.4rem;text-align:center;color:${esHoy ? 'var(--terracota)' : 'var(--negro)'};">
+      <td data-label="Día despacho" style="font-weight:700;font-size:1.4rem;text-align:center;color:${esHoy ? 'var(--terracota)' : 'var(--negro)'};">
         ${diaDespacho}
         ${esHoy ? '<div style="font-size:.65rem;font-weight:700;color:var(--terracota);">HOY</div>' : ''}
       </td>
-      <td>
+      <td data-label="N° suscripción">
+        <div class="num-pedido">${numSus}</div>
+      </td>
+      <td data-label="Cliente">
         <div class="cliente-nombre">${s.nombre || '—'}</div>
         <div class="cliente-detalle">${s.email || ''}</div>
         <div class="cliente-detalle">${s.telefono || ''}</div>
       </td>
-      <td>
+      <td data-label="Dirección">
         <div class="cliente-detalle">${s.direccion || ''}</div>
         <div class="cliente-detalle">${s.comuna || ''}</div>
         ${s.notas ? `<div class="cliente-detalle" style="font-style:italic">${s.notas}</div>` : ''}
       </td>
-      <td>
+      <td data-label="Plan">
         <div class="cliente-nombre">${planLabel}</div>
         <div class="cliente-detalle">$${(s.precio || 0).toLocaleString('es-CL')}/mes</div>
         <div style="margin-top:4px">${estadoBadge}</div>
       </td>
-      <td>
+      <td data-label="Estado">
         <select class="estado-select" onchange="cambiarEstadoSus(${s.id}, this.value)">
           <option value="pendiente" ${s.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
           <option value="activa" ${s.estado === 'activa' ? 'selected' : ''}>Activa</option>
@@ -1058,23 +1265,23 @@ function renderTabla() {
     const totalFmt = p.total ? `$${p.total.toLocaleString('es-CL')}` : '—';
     const numPedido = 'PAC-' + String(p.id).padStart(5, '0');
     return `<tr>
-      <td>
+      <td data-label="N° pedido">
         <div class="num-pedido">${numPedido}</div>
       </td>
-      <td>
+      <td data-label="Cliente">
         <div class="cliente-nombre">${p.nombre || '—'}</div>
         <div class="cliente-detalle">${p.email || ''}</div>
         <div class="cliente-detalle">${p.telefono || ''}</div>
       </td>
-      <td>
+      <td data-label="Dirección">
         <div class="cliente-detalle">${p.direccion || ''}</div>
         <div class="cliente-detalle">${[p.comuna, p.ciudad].filter(Boolean).join(', ')}</div>
         ${p.notas ? `<div class="cliente-detalle" style="font-style:italic">${p.notas}</div>` : ''}
       </td>
-      <td><div class="productos-lista">${splitProductos(p.productos).join('<br>')}</div></td>
-      <td><span class="total-valor">${totalFmt}</span><br><span class="fecha-texto">${p.documento || 'Boleta'}</span></td>
-      <td><span class="fecha-texto">${fecha}</span></td>
-      <td>
+      <td data-label="Productos"><div class="productos-lista">${splitProductos(p.productos).join('<br>')}</div></td>
+      <td data-label="Total"><span class="total-valor">${totalFmt}</span><br><span class="fecha-texto">${p.documento || 'Boleta'}</span></td>
+      <td data-label="Fecha"><span class="fecha-texto">${fecha}</span></td>
+      <td data-label="Estado">
         <select class="estado-select" onchange="cambiarEstado(${p.id}, this.value)">
           <option value="pendiente" ${p.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
           <option value="despachado" ${p.estado === 'despachado' ? 'selected' : ''}>Despachado</option>
