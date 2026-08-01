@@ -326,6 +326,7 @@ function runSearch(q) {
 }
 </script>
 <link rel="canonical" href="https://www.patasycaos.cl/blog">
+<link rel="stylesheet" href="/assets/css/site.css">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -338,6 +339,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="site-header">
 <div class="anuncio-bar"><div class="anuncio-track"><span>✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✦ Envío gratis por compras sobre $39.990</span></div></div>
 <nav>
+  <!-- FILA 1: Logo + Buscador + Íconos -->
   <div class="nav-top">
     <a href="/" class="nav-logo">
       <img src="/logo.png" alt="Patas & Caos" width="42" height="42">
@@ -360,6 +362,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </button>
     </div>
   </div>
+  <!-- FILA 2: Menú -->
   <div class="nav-bottom">
     <ul class="nav-links">
       <li><a href="/">Inicio</a></li>
@@ -377,8 +380,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="mobile-menu" id="mobile-menu">
   <a href="/" onclick="toggleMenu()">Inicio</a>
   <a href="/tienda" onclick="toggleMenu()">Tienda</a>
+
+  <!-- ACORDEÓN PERROS -->
   <div class="mobile-accordion">
-    <button class="mobile-accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">Perros <span class="mobile-acc-arrow">▾</span></button>
+    <button class="mobile-accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">
+      Perros <span class="mobile-acc-arrow">▾</span>
+    </button>
     <div class="mobile-accordion-body">
       <a href="/tienda?aud=Perros&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
       <a href="/tienda?aud=Perros&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
@@ -387,8 +394,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="/tienda?aud=Perros&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
     </div>
   </div>
+
+  <!-- ACORDEÓN GATOS -->
   <div class="mobile-accordion">
-    <button class="mobile-accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">Gatos <span class="mobile-acc-arrow">▾</span></button>
+    <button class="mobile-accordion-btn" onclick="toggleAccordion(this)" aria-expanded="false">
+      Gatos <span class="mobile-acc-arrow">▾</span>
+    </button>
     <div class="mobile-accordion-body">
       <a href="/tienda?aud=Gatos&cat=Alimentos" onclick="toggleMenu()" class="mobile-cat-link">Alimentos</a>
       <a href="/tienda?aud=Gatos&cat=Snacks y Golosinas" onclick="toggleMenu()" class="mobile-cat-link">Snacks</a>
@@ -397,8 +408,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="/tienda?aud=Gatos&cat=Flores de Bach" onclick="toggleMenu()" class="mobile-cat-link">Bienestar Natural</a>
     </div>
   </div>
+
   <a href="/suscripciones" onclick="toggleMenu()">Suscripciones</a>
-  <a href="/blog" onclick="toggleMenu()" class="activo">Blog</a>
+  <a href="/blog" class="activo" onclick="toggleMenu()">Blog</a>
 </div>
 
 
@@ -415,7 +427,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
     <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
-    <button class="btn-checkout" onclick="checkout()">Pagar con Mercado Pago →</button>
+    <button class="btn-checkout" onclick="checkout()">Pagar →</button>
   </div>
 </aside>
 
@@ -473,11 +485,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <!-- FOOTER -->
-<footer>
+<footer id="nosotros">
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="footer-brand-row">
-        <img src="logo.png" alt="Patas & Caos" width="40" height="40">
+        <img src="/logo.png" alt="Patas & Caos" width="40" height="40">
         <span class="footer-brand-name">Patas & Caos</span>
       </div>
       <p>Accesorios, juguetes y comida para mascotas con personalidad. Hechos para humanos que aman el desorden peludo.</p>
@@ -511,7 +523,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="auth-overlay" id="auth-overlay" onclick="cerrarAuthSiFondo(event)">
   <div class="auth-box">
     <button class="auth-close" onclick="cerrarAuth()">✕</button>
-    <div class="auth-logo"><img src="logo.png" alt="Patas & Caos"></div>
+    <div class="auth-logo"><img src="/logo.png" alt="Patas & Caos"></div>
     <h3>Bienvenido 🐾</h3>
     <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
     <button class="btn-google" onclick="loginConGoogle()">
@@ -529,28 +541,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="cart.js"></script>
+<script src="/assets/js/site.js"></script>
 <script>
 /* ── NAV & MENU ── */
-function toggleAccordion(btn) {
-  const body = btn.nextElementSibling;
-  const isOpen = body.classList.toggle('open');
-  btn.setAttribute('aria-expanded', isOpen);
-  document.querySelectorAll('.mobile-accordion-body.open').forEach(b => {
-    if (b !== body) { b.classList.remove('open'); b.previousElementSibling.setAttribute('aria-expanded','false'); }
-  });
-}
-function toggleMenu() {
-  const hamburger = document.getElementById('hamburger');
-  const menu = document.getElementById('mobile-menu');
-  const isOpen = menu.classList.toggle('open');
-  if (!isOpen) { document.querySelectorAll('.mobile-accordion-body.open').forEach(b => { b.classList.remove('open'); b.previousElementSibling.setAttribute('aria-expanded','false'); }); }
-  hamburger.classList.toggle('open');
-  let bd = document.getElementById('menu-backdrop');
-  if (!bd) { bd = document.createElement('div'); bd.id = 'menu-backdrop'; bd.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:98;display:none;'; bd.onclick = toggleMenu; document.body.appendChild(bd); }
-  bd.style.display = isOpen ? 'block' : 'none';
-  document.body.style.overflow = isOpen ? 'hidden' : '';
-}
-window.addEventListener('scroll', () => { const sh = document.querySelector('.site-header'); if(sh) sh.classList.toggle('scrolled', window.scrollY > 40); });
 function runSearch(q) {
   const drop = document.getElementById('nav-drop');
   if (!drop) return;
