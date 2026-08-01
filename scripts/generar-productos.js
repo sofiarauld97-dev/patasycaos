@@ -75,22 +75,30 @@ function construirThumbs(p) {
     `</div>`;
 }
 
-function construirTabs(p) {
-  const caracteristicasHtml = `<ul>${p.caracteristicas.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul>`;
-  const tituloTab0 = escapeHtml(p.caracTitulo || 'Características');
+function construirDetalles(p) {
+  const tituloCaracteristicas = escapeHtml(p.caracTitulo || 'Características');
+
+  const caracteristicasHtml =
+    `<section class="product-detail-block product-detail-features">` +
+      `<h2>${tituloCaracteristicas}</h2>` +
+      `<ul class="product-feature-list">` +
+        p.caracteristicas.map(c => `<li>${escapeHtml(c)}</li>`).join('') +
+      `</ul>` +
+    `</section>`;
 
   const tieneIngredientes = !!(p.ingredientes && p.ingredientes.trim());
 
-  let nav = `<button aria-controls="product-panel-0" aria-selected="true" class="product-tab-btn activo" id="product-tab-0" onclick="switchProductTab(this)" role="tab" type="button">${tituloTab0}</button>`;
-  let panels = `<div aria-labelledby="product-tab-0" class="product-tab-panel activo" id="product-panel-0" role="tabpanel">${caracteristicasHtml}</div>`;
+  const ingredientesHtml = tieneIngredientes
+    ? `<section class="product-detail-block product-detail-ingredients">` +
+        `<h2>Ingredientes</h2>` +
+        `<p>${escapeHtml(p.ingredientes)}</p>` +
+      `</section>`
+    : '';
 
-  if (tieneIngredientes) {
-    nav += `<button aria-controls="product-panel-1" aria-selected="false" class="product-tab-btn" id="product-tab-1" onclick="switchProductTab(this)" role="tab" type="button">Ingredientes</button>`;
-    panels += `<div aria-labelledby="product-tab-1" class="product-tab-panel" id="product-panel-1" role="tabpanel"><p>${escapeHtml(p.ingredientes)}</p></div>`;
-  }
-  // Si no hay ingredientes, la pestaña simplemente no se genera (oculta), tal como se pidió.
-
-  return { nav, panels };
+  return `<section class="product-details-v2" aria-label="Información del producto">` +
+    caracteristicasHtml +
+    ingredientesHtml +
+  `</section>`;
 }
 
 function construirJsonLd(p) {
@@ -119,7 +127,7 @@ function generarHtml(p, plantilla, headerHtml, footerHtml) {
   const canonical = `${SITE_URL}/productos/${p.slug}`;
   const imagenPrincipal = p.imagenes[0];
   const imagenAbsoluta = imagenPrincipal.startsWith('http') ? imagenPrincipal : `${SITE_URL}${imagenPrincipal}`;
-  const { nav, panels } = construirTabs(p);
+  const detallesHtml = construirDetalles(p);
 
   const currentProductJs = `const CURRENT_PRODUCT={id:"${p.sku}",name:${JSON.stringify(p.nombre)},price:${p.precio},img:${JSON.stringify(imagenPrincipal)}};`;
 
@@ -140,8 +148,7 @@ function generarHtml(p, plantilla, headerHtml, footerHtml) {
     '__PRODUCT_NAME__': escapeHtml(p.nombre),
     '__PRODUCT_PRICE_DISPLAY__': escapeHtml(p.precioDisplay),
     '__PRODUCT_DESCRIPTION__': escapeHtml(p.seoDescription),
-    '__TABS_NAV_HTML__': nav,
-    '__TABS_PANELS_HTML__': panels,
+    '__PRODUCT_DETAILS_HTML__': detallesHtml,
     '__CURRENT_PRODUCT_JS__': currentProductJs,
     '__VIEW_ITEM_CATEGORY__': p.categoria
   };

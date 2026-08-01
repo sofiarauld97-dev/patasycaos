@@ -33,7 +33,7 @@ __HEADER__
 <div class="product-page-grid">
 <div class="product-gallery"><img alt="__GALLERY_ALT__" class="product-gallery-main" id="product-main-img" src="__GALLERY_MAIN_IMG__">__THUMBS_HTML__</div>
 <div class="product-info"><span class="product-tag">__PRODUCT_TAG__</span><h1>__PRODUCT_NAME__</h1><div class="product-price">__PRODUCT_PRICE_DISPLAY__</div><p class="product-description">__PRODUCT_DESCRIPTION__</p>
-<div class="product-buy"><button id="add-btn" onclick="addCurrentProduct()">Añadir al carrito</button><button class="view-cart" onclick="toggleCart()" type="button">Ver carrito</button></div><div class="product-msg" id="product-msg"></div><section class="product-info-tabs"><div aria-label="Información del producto" class="product-tabs-nav" role="tablist">__TABS_NAV_HTML__</div><div class="product-tabs-panels">__TABS_PANELS_HTML__</div></section></div>
+<div class="product-buy"><button id="add-btn" onclick="addCurrentProduct()">Añadir al carrito</button><button class="view-cart" onclick="toggleCart()" type="button">Ver carrito</button></div><div class="product-msg" id="product-msg"></div>__PRODUCT_DETAILS_HTML__</div>
 </div></main>
 __FOOTER__
 <script src="/products-data.js"></script>
@@ -46,19 +46,6 @@ window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'view_item',e
 document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.product-thumbs img')?.classList.add('active');});
 async function addCurrentProduct(){try{const r=await fetch('/api/stock-get');const d=await r.json();if(d.stock)localStorage.setItem('pac_stock',JSON.stringify(d.stock));}catch(e){}addToCart(CURRENT_PRODUCT);document.getElementById('product-msg').textContent='✓ Producto añadido al carrito';window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'add_to_cart',ecommerce:{currency:'CLP',value:CURRENT_PRODUCT.price,items:[{item_id:CURRENT_PRODUCT.id,item_name:CURRENT_PRODUCT.name,price:CURRENT_PRODUCT.price,quantity:1}]}});}
 function changeProductImage(el){document.getElementById('product-main-img').src=el.src;document.querySelectorAll('.product-thumbs img').forEach(x=>x.classList.remove('active'));el.classList.add('active');}
-function switchProductTab(button){
-  const tabs=button.closest('.product-info-tabs');
-  if(!tabs) return;
-  tabs.querySelectorAll('.product-tab-btn').forEach(btn=>{
-    btn.classList.remove('activo');
-    btn.setAttribute('aria-selected','false');
-  });
-  tabs.querySelectorAll('.product-tab-panel').forEach(panel=>panel.classList.remove('activo'));
-  button.classList.add('activo');
-  button.setAttribute('aria-selected','true');
-  const panel=document.getElementById(button.getAttribute('aria-controls'));
-  if(panel) panel.classList.add('activo');
-}
 </script>
 </body>
 </html>
