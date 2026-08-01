@@ -130,18 +130,7 @@ button,input{font:inherit}
   line-height:1.45;
   font-weight:400;
 }
-.mp-wordmark{
-  display:inline-flex;
-  align-items:baseline;
-  gap:4px;
-  font-size:1.02rem;
-  line-height:1;
-  font-weight:800;
-  letter-spacing:-.045em;
-  text-transform:lowercase;
-}
-.mp-mercado{color:#172B85}
-.mp-pago{color:#00ADEF}
+
 
 .accepted-payments{
   margin-top:16px;
@@ -183,10 +172,7 @@ button,input{font:inherit}
   border-radius:12px;
   background:#fff;
 }
-.mp-wordmark-summary{
-  margin-bottom:12px;
-  font-size:1.12rem;
-}
+
 .secure-payment-card>strong,
 .secure-payment-card>span{
   display:block;
@@ -211,4 +197,29 @@ button,input{font:inherit}
   .payment-badges span{
     font-size:.58rem;
   }
+}
+
+
+.mp-logo-summary{
+  width:154px;
+  margin-bottom:14px;
+}
+@media(max-width:600px){
+  
+  .mp-logo-summary{width:142px}
+}
+
+.mp-logo{
+  display:block;
+  width:145px;
+  height:auto;
+  object-fit:contain;
+}
+.mp-logo-summary{
+  width:170px;
+  margin-bottom:14px;
+}
+@media(max-width:600px){
+  .mp-logo{width:132px}
+  .mp-logo-summary{width:155px}
 }
