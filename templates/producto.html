@@ -24,7 +24,100 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script type="application/ld+json">__JSONLD__</script>
 <link rel="stylesheet" href="/assets/css/site.css">
-<link rel="stylesheet" href="/assets/css/producto.css?v=4">
+<link rel="stylesheet" href="/assets/css/producto.css?v=3">
+
+<style id="product-tabs-final">
+.product-info-tabs{
+  margin-top:30px !important;
+  padding-top:0 !important;
+  border-top:none !important;
+}
+.product-tabs-nav{
+  display:flex !important;
+  align-items:flex-end !important;
+  gap:7px !important;
+  width:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow-x:auto !important;
+  background:transparent !important;
+  border:none !important;
+  border-bottom:1px solid rgba(28,16,7,.16) !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  scrollbar-width:none;
+}
+.product-tabs-nav::-webkit-scrollbar{display:none}
+.product-tab-btn{
+  appearance:none !important;
+  flex:0 0 auto !important;
+  margin:0 !important;
+  padding:12px 18px !important;
+  background:#F5ECD7 !important;
+  color:#1A1A1A !important;
+  border:1px solid rgba(28,16,7,.16) !important;
+  border-bottom:none !important;
+  border-radius:10px 10px 0 0 !important;
+  box-shadow:none !important;
+  transform:none !important;
+  font-family:"Poppins",sans-serif !important;
+  font-size:.82rem !important;
+  font-weight:700 !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+  cursor:pointer !important;
+}
+.product-tab-btn:hover:not(.activo){
+  background:#EDDFC6 !important;
+  color:#1A1A1A !important;
+}
+.product-tab-btn.activo,
+.product-tab-btn[aria-selected="true"]{
+  background:#C4622D !important;
+  color:#FFFFFF !important;
+  border-color:#C4622D !important;
+}
+.product-tabs-panels{padding:22px 6px 4px !important}
+.product-tab-panel{display:none;color:#4B4037;font-size:.92rem;line-height:1.75}
+.product-tab-panel.activo{display:block}
+.product-tab-panel ul{
+  margin:0 !important;
+  padding:0 !important;
+  list-style:none !important;
+  display:grid !important;
+  gap:11px !important;
+}
+.product-tab-panel li{
+  position:relative !important;
+  margin:0 !important;
+  padding-left:29px !important;
+}
+.product-tab-panel li::before{
+  content:"✓" !important;
+  position:absolute !important;
+  left:0 !important;
+  top:.12em !important;
+  width:19px !important;
+  height:19px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border-radius:50% !important;
+  background:rgba(74,124,89,.12) !important;
+  color:#4A7C59 !important;
+  font-size:.68rem !important;
+  font-weight:900 !important;
+}
+.product-tab-panel p{margin:0;line-height:1.8}
+@media(max-width:600px){
+  .product-info-tabs{margin-top:25px !important}
+  .product-tabs-nav{gap:5px !important}
+  .product-tab-btn{padding:11px 14px !important;font-size:.76rem !important}
+  .product-tabs-panels{padding:18px 2px 2px !important}
+  .product-tab-panel{font-size:.88rem}
+}
+</style>
+
 </head>
 <body>
 __HEADER__

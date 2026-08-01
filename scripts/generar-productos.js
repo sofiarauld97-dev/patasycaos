@@ -29,7 +29,6 @@ const DATA_PATH = path.join(ROOT, 'data', 'productos.json');
 const OUTPUT_DIR = path.join(ROOT, 'productos');
 
 const SITE_URL = 'https://www.patasycaos.cl';
-const PRODUCT_CSS_VERSION = '4';
 
 function escapeHtml(str) {
   return String(str)
@@ -151,13 +150,6 @@ function generarHtml(p, plantilla, headerHtml, footerHtml) {
   for (const [token, valor] of Object.entries(reemplazos)) {
     html = html.split(token).join(valor);
   }
-
-  // Fuerza una URL versionada del CSS en todas las fichas generadas.
-  // Esto evita que el navegador o Vercel reutilicen una versión anterior.
-  html = html.replace(
-    /href="\/assets\/css\/producto\.css(?:\?v=[^"]*)?"/,
-    `href="/assets/css/producto.css?v=${PRODUCT_CSS_VERSION}"`
-  );
 
   const tokensRestantes = html.match(/__[A-Z_]+__/g);
   if (tokensRestantes) {
