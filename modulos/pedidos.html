@@ -30,7 +30,7 @@
   .login-error { font-size: .78rem; color: #e74c3c; margin-top: .5rem; display: none; }
 
   /* PANEL */
-  #panel { display: none; }
+  #panel { display: block; }
   header { background: var(--dark); padding: 1rem 5%; display: flex; align-items: center; justify-content: space-between; }
   .header-brand { display: flex; align-items: center; gap: 10px; }
   .header-brand img { width: 36px; height: 36px; }
@@ -128,28 +128,19 @@
     th:nth-child(5), td:nth-child(5) { display: none; }
     main { padding: 1.5rem 4%; }
   }
+
+  #login-screen { display: none !important; }
+  #panel { display: block !important; }
+  #panel > header { display: none !important; }
 </style>
 <meta name="robots" content="noindex, nofollow">
 </head>
 <body>
-
-<!-- LOGIN -->
-<div id="login-screen">
-  <div class="login-box">
-    <img src="logo.png" alt="Patas & Caos">
-    <h2>Panel de Pedidos</h2>
-    <p>Ingresa la contraseña para continuar</p>
-    <input type="password" id="pwd-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter') verificarPass()">
-    <button onclick="verificarPass()">Entrar</button>
-    <p class="login-error" id="login-error">Contraseña incorrecta</p>
-  </div>
-</div>
-
 <!-- PANEL -->
 <div id="panel">
   <header>
     <div class="header-brand">
-      <img src="logo.png" alt="Patas & Caos">
+      <img src="/logo.png" alt="Patas & Caos">
       <span>Patas & Caos</span>
     </div>
     <span class="header-title">Panel de Pedidos</span>
@@ -594,16 +585,10 @@ const _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
 let todosLosPedidos = [];
 let filtroActual = 'todos';
 
-function verificarPass() {
-  const val = document.getElementById('pwd-input').value;
-  if (val === '290966') {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('panel').style.display = 'block';
-    cargarPedidos();
-  } else {
-    document.getElementById('login-error').style.display = 'block';
-  }
-}
+window.addEventListener('DOMContentLoaded', () => {
+  cargarPedidos();
+});
+
 
 async function cargarPedidos() {
   document.getElementById('tabla-contenido').innerHTML = '<div class="loading">Cargando pedidos...</div>';
