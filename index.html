@@ -918,6 +918,142 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 
 </style>
+<style id="menu-movil-v4-ajustes">
+
+/* =========================================================
+   MENÚ MÓVIL V4 — sin capa oscura sobre el header
+   ========================================================= */
+@media (max-width: 768px) {
+  body.menu-open .site-header,
+  body.menu-open .site-header.scrolled {
+    position: relative !important;
+    z-index: 1003 !important;
+    background: var(--cream) !important;
+    opacity: 1 !important;
+  }
+
+  body.menu-open .site-header nav,
+  body.menu-open .site-header.scrolled nav,
+  body.menu-open .site-header .nav-top {
+    background: var(--cream) !important;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  body.menu-open .hamburger,
+  body.menu-open .hamburger.open {
+    background: var(--cream) !important;
+    opacity: 1 !important;
+  }
+
+  /* El menú ocupa todo el ancho; no se necesita una capa oscura encima del header */
+  #menu-backdrop {
+    display: none !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+</style>
+<style id="menu-movil-v5-ajustes">
+
+/* =========================================================
+   MENÚ MÓVIL V5 — header sólido y submenús alineados
+   ========================================================= */
+@media (max-width: 768px) {
+  /* El header se mantiene completamente sólido solo con el menú abierto */
+  body.menu-open .site-header,
+  body.menu-open .site-header.scrolled,
+  body.menu-open .site-header nav,
+  body.menu-open .site-header.scrolled nav,
+  body.menu-open .site-header .nav-top,
+  body.menu-open .site-header.scrolled .nav-top {
+    background: var(--cream) !important;
+    background-color: var(--cream) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
+  }
+
+  body.menu-open .site-header {
+    position: relative !important;
+    z-index: 1100 !important;
+  }
+
+  body.menu-open .anuncio-bar {
+    background: #4A7C59 !important;
+    opacity: 1 !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  body.menu-open .hamburger,
+  body.menu-open .hamburger.open {
+    background: var(--cream) !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+
+  body.menu-open .hamburger span {
+    background: var(--negro) !important;
+    opacity: 1 !important;
+  }
+
+  /* Eliminar cualquier capa o desenfoque encima del header */
+  #menu-backdrop {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Submenús limpios y perfectamente alineados */
+  .mobile-accordion-body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+  }
+
+  .mobile-accordion-body > a,
+  .mobile-accordion-body > a.mobile-cat-link {
+    width: 100% !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    padding: 0 2px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(28,16,7,.055) !important;
+    background: transparent !important;
+    color: #5f5146 !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: .9rem !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
+    text-indent: 0 !important;
+  }
+
+  .mobile-accordion-body > a:first-child {
+    border-top-color: rgba(28,16,7,.07) !important;
+  }
+
+  .mobile-accordion-body > a:hover {
+    color: var(--terracota) !important;
+    background: rgba(255,255,255,.32) !important;
+  }
+}
+
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1439,7 +1575,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="cart.js"></script>
-<script src="/assets/js/site.js?v=2"></script>
+<script src="/assets/js/site.js?v=4"></script>
 <script src="/products-data.js"></script>
 <script>
 // Orden curado del catalogo (identico al usado en tienda.html)

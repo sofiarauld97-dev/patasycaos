@@ -51,10 +51,6 @@
     hamburger.setAttribute('aria-expanded', 'true');
     hamburger.setAttribute('aria-label', 'Cerrar menú');
 
-    const backdrop = obtenerBackdrop();
-    backdrop.hidden = false;
-    backdrop.style.display = 'block';
-
     document.body.classList.add('menu-open');
     document.body.style.overflow = 'hidden';
   }
