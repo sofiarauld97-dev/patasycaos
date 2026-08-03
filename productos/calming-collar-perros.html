@@ -25,6 +25,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Calming Collar - Perros","description":"Collar de feromonas calmantes para perros, la solución natural para la ansiedad, el estrés y los comportamientos difíciles 🐶💜 Libera feromonas de forma continua durante 60 días, reduciendo el estrés sin sedantes ni medicamentos. Ideal para viajes, visitas al veterinario, fuegos artificiales, cambios de rutina o simplemente para el perro que vive en modo alerta.","image":["https://www.patasycaos.cl/calming-collar-perro-caja.jpg"],"sku":"calming-collar---perros","category":"Accesorio","brand":{"@type":"Brand","name":"Patas & Caos"},"offers":{"@type":"Offer","url":"https://www.patasycaos.cl/productos/calming-collar-perros","priceCurrency":"CLP","price":"7990","itemCondition":"https://schema.org/NewCondition"}}</script>
 <link rel="stylesheet" href="/assets/css/site.css">
 <link rel="stylesheet" href="/assets/css/producto.css">
+<link rel="stylesheet" href="/assets/css/producto-ajustes.css">
 </head>
 <body>
 <header class="site-header">
@@ -125,7 +126,15 @@
 <div class="product-page-grid">
 <div class="product-gallery"><img alt="Calming Collar - Perros" class="product-gallery-main" id="product-main-img" src="/calming-collar-perro-caja.jpg"><div class="product-thumbs"><img alt="Calming Collar - Perros" loading="lazy" onclick="changeProductImage(this)" src="/calming-collar-perro-caja.jpg"><img alt="Calming Collar - Perros" loading="lazy" onclick="changeProductImage(this)" src="/calming-collar-perro-uso.jpg"></div></div>
 <div class="product-info"><span class="product-tag">Accesorio · Perros</span><h1>Calming Collar - Perros</h1><div class="product-price">$7.990</div><p class="product-description">Collar de feromonas calmantes para perros, la solución natural para la ansiedad, el estrés y los comportamientos difíciles 🐶💜 Libera feromonas de forma continua durante 60 días, reduciendo el estrés sin sedantes ni medicamentos. Ideal para viajes, visitas al veterinario, fuegos artificiales, cambios de rutina o simplemente para el perro que vive en modo alerta.</p>
-<div class="product-buy"><button id="add-btn" onclick="addCurrentProduct()">Añadir al carrito</button><button class="view-cart" onclick="toggleCart()" type="button">Ver carrito</button></div><div class="product-msg" id="product-msg"></div><section class="product-info-tabs"><div aria-label="Información del producto" class="product-tabs-nav" role="tablist"><button aria-controls="product-panel-0" aria-selected="true" class="product-tab-btn activo" id="product-tab-0" onclick="switchProductTab(this)" role="tab" type="button">Características</button></div><div class="product-tabs-panels"><div aria-labelledby="product-tab-0" class="product-tab-panel activo" id="product-panel-0" role="tabpanel"><ul><li>60 días de efecto</li><li>Feromonas naturales</li><li>Apto para todas las razas</li><li>Largo: 63 cm (ajustable)</li></ul></div></div></section></div>
+<div class="product-buy">
+<div class="product-qty-selector" aria-label="Seleccionar cantidad">
+  <button id="product-qty-minus" type="button" onclick="changeProductPageQty(-1)" aria-label="Disminuir cantidad">−</button>
+  <span class="product-qty-value" id="product-qty-value">1</span>
+  <button id="product-qty-plus" type="button" onclick="changeProductPageQty(1)" aria-label="Aumentar cantidad">+</button>
+</div>
+<button id="add-btn" onclick="addCurrentProduct()" type="button">Añadir al carrito</button>
+<div class="product-stock-note" id="product-stock-note"></div>
+</div><div class="product-msg" id="product-msg"></div><section class="product-info-tabs"><div aria-label="Información del producto" class="product-tabs-nav" role="tablist"><button aria-controls="product-panel-0" aria-selected="true" class="product-tab-btn activo" id="product-tab-0" onclick="switchProductTab(this)" role="tab" type="button">Características</button></div><div class="product-tabs-panels"><div aria-labelledby="product-tab-0" class="product-tab-panel activo" id="product-panel-0" role="tabpanel"><ul><li>60 días de efecto</li><li>Feromonas naturales</li><li>Apto para todas las razas</li><li>Largo: 63 cm (ajustable)</li></ul></div></div></section></div>
 </div></main>
 <footer id="nosotros">
   <div class="footer-grid">
@@ -193,11 +202,11 @@
 <script src="/product-slugs.js"></script>
 <script src="/cart.js"></script>
 <script src="/assets/js/site.js"></script>
+<script src="/assets/js/producto-ajustes.js"></script>
 <script>
 const CURRENT_PRODUCT={id:"calming-collar---perros",name:"Calming Collar - Perros",price:7990,img:"/calming-collar-perro-caja.jpg"};
 window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'view_item',ecommerce:{currency:'CLP',value:CURRENT_PRODUCT.price,items:[{item_id:CURRENT_PRODUCT.id,item_name:CURRENT_PRODUCT.name,item_category:"Accesorio",price:CURRENT_PRODUCT.price,quantity:1}]}});
 document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.product-thumbs img')?.classList.add('active');});
-async function addCurrentProduct(){try{const r=await fetch('/api/stock-get');const d=await r.json();if(d.stock)localStorage.setItem('pac_stock',JSON.stringify(d.stock));}catch(e){}addToCart(CURRENT_PRODUCT);document.getElementById('product-msg').textContent='✓ Producto añadido al carrito';window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'add_to_cart',ecommerce:{currency:'CLP',value:CURRENT_PRODUCT.price,items:[{item_id:CURRENT_PRODUCT.id,item_name:CURRENT_PRODUCT.name,price:CURRENT_PRODUCT.price,quantity:1}]}});}
 function changeProductImage(el){document.getElementById('product-main-img').src=el.src;document.querySelectorAll('.product-thumbs img').forEach(x=>x.classList.remove('active'));el.classList.add('active');}
 function switchProductTab(button){
   const tabs=button.closest('.product-info-tabs');

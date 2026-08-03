@@ -25,6 +25,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Donut Colagepet XL - Carne","description":"Dona XL de colágeno natural, sin gluten y sin aditivos. Hecha para perros medianos y grandes que merecen un snack que entretiene, cuida la salud dental y aporta colágeno de verdad, todo en un solo bocado. 75g y 0 culpa.","image":["https://www.patasycaos.cl/colagepet_donut_carne.jpg"],"sku":"colagepet-donut-carne","category":"Snacks y Golosinas","brand":{"@type":"Brand","name":"Patas & Caos"},"offers":{"@type":"Offer","url":"https://www.patasycaos.cl/productos/donut-colagepet-xl-carne","priceCurrency":"CLP","price":"2990","itemCondition":"https://schema.org/NewCondition"}}</script>
 <link rel="stylesheet" href="/assets/css/site.css">
 <link rel="stylesheet" href="/assets/css/producto.css">
+<link rel="stylesheet" href="/assets/css/producto-ajustes.css">
 </head>
 <body>
 <header class="site-header">
@@ -125,7 +126,15 @@
 <div class="product-page-grid">
 <div class="product-gallery"><img alt="Donut Colagepet XL - Carne" class="product-gallery-main" id="product-main-img" src="/colagepet_donut_carne.jpg"><div class="product-thumbs"><img alt="Donut Colagepet XL - Carne" loading="lazy" onclick="changeProductImage(this)" src="/colagepet_donut_carne.jpg"></div></div>
 <div class="product-info"><span class="product-tag">Snacks y Golosinas · Perros</span><h1>Donut Colagepet XL - Carne</h1><div class="product-price">$2.990</div><p class="product-description">Dona XL de colágeno natural, sin gluten y sin aditivos. Hecha para perros medianos y grandes que merecen un snack que entretiene, cuida la salud dental y aporta colágeno de verdad, todo en un solo bocado. 75g y 0 culpa.</p>
-<div class="product-buy"><button id="add-btn" onclick="addCurrentProduct()">Añadir al carrito</button><button class="view-cart" onclick="toggleCart()" type="button">Ver carrito</button></div><div class="product-msg" id="product-msg"></div><section class="product-info-tabs"><div aria-label="Información del producto" class="product-tabs-nav" role="tablist"><button aria-controls="product-panel-0" aria-selected="true" class="product-tab-btn activo" id="product-tab-0" onclick="switchProductTab(this)" role="tab" type="button">Características</button><button aria-controls="product-panel-1" aria-selected="false" class="product-tab-btn" id="product-tab-1" onclick="switchProductTab(this)" role="tab" type="button">Ingredientes</button></div><div class="product-tabs-panels"><div aria-labelledby="product-tab-0" class="product-tab-panel activo" id="product-panel-0" role="tabpanel"><ul><li>Tamaño XL</li><li>Peso 75g</li></ul></div><div aria-labelledby="product-tab-1" class="product-tab-panel" id="product-panel-1" role="tabpanel"><p>Cuero crudo (77.72%), carne (16%), glicerina vegetal (6%), sorbato de potasio (0.2%), caramelo natural (0.05%), suplemento de vitamina E (0.03%), saborizante natural sabor carne.</p></div></div></section></div>
+<div class="product-buy">
+<div class="product-qty-selector" aria-label="Seleccionar cantidad">
+  <button id="product-qty-minus" type="button" onclick="changeProductPageQty(-1)" aria-label="Disminuir cantidad">−</button>
+  <span class="product-qty-value" id="product-qty-value">1</span>
+  <button id="product-qty-plus" type="button" onclick="changeProductPageQty(1)" aria-label="Aumentar cantidad">+</button>
+</div>
+<button id="add-btn" onclick="addCurrentProduct()" type="button">Añadir al carrito</button>
+<div class="product-stock-note" id="product-stock-note"></div>
+</div><div class="product-msg" id="product-msg"></div><section class="product-info-tabs"><div aria-label="Información del producto" class="product-tabs-nav" role="tablist"><button aria-controls="product-panel-0" aria-selected="true" class="product-tab-btn activo" id="product-tab-0" onclick="switchProductTab(this)" role="tab" type="button">Características</button><button aria-controls="product-panel-1" aria-selected="false" class="product-tab-btn" id="product-tab-1" onclick="switchProductTab(this)" role="tab" type="button">Ingredientes</button></div><div class="product-tabs-panels"><div aria-labelledby="product-tab-0" class="product-tab-panel activo" id="product-panel-0" role="tabpanel"><ul><li>Tamaño XL</li><li>Peso 75g</li></ul></div><div aria-labelledby="product-tab-1" class="product-tab-panel" id="product-panel-1" role="tabpanel"><p>Cuero crudo (77.72%), carne (16%), glicerina vegetal (6%), sorbato de potasio (0.2%), caramelo natural (0.05%), suplemento de vitamina E (0.03%), saborizante natural sabor carne.</p></div></div></section></div>
 </div></main>
 <footer id="nosotros">
   <div class="footer-grid">
@@ -193,11 +202,11 @@
 <script src="/product-slugs.js"></script>
 <script src="/cart.js"></script>
 <script src="/assets/js/site.js"></script>
+<script src="/assets/js/producto-ajustes.js"></script>
 <script>
 const CURRENT_PRODUCT={id:"colagepet-donut-carne",name:"Donut Colagepet XL - Carne",price:2990,img:"/colagepet_donut_carne.jpg"};
 window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'view_item',ecommerce:{currency:'CLP',value:CURRENT_PRODUCT.price,items:[{item_id:CURRENT_PRODUCT.id,item_name:CURRENT_PRODUCT.name,item_category:"Snacks y Golosinas",price:CURRENT_PRODUCT.price,quantity:1}]}});
 document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.product-thumbs img')?.classList.add('active');});
-async function addCurrentProduct(){try{const r=await fetch('/api/stock-get');const d=await r.json();if(d.stock)localStorage.setItem('pac_stock',JSON.stringify(d.stock));}catch(e){}addToCart(CURRENT_PRODUCT);document.getElementById('product-msg').textContent='✓ Producto añadido al carrito';window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'add_to_cart',ecommerce:{currency:'CLP',value:CURRENT_PRODUCT.price,items:[{item_id:CURRENT_PRODUCT.id,item_name:CURRENT_PRODUCT.name,price:CURRENT_PRODUCT.price,quantity:1}]}});}
 function changeProductImage(el){document.getElementById('product-main-img').src=el.src;document.querySelectorAll('.product-thumbs img').forEach(x=>x.classList.remove('active'));el.classList.add('active');}
 function switchProductTab(button){
   const tabs=button.closest('.product-info-tabs');
