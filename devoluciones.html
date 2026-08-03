@@ -327,6 +327,60 @@ function runSearch(q) {
 }
 </script>
 <link rel="canonical" href="https://www.patasycaos.cl/devoluciones">
+
+<style id="buscador-global-estilos">
+.nav-search-drop{
+  overflow:hidden;
+}
+.nav-search-result{
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  padding:10px 12px!important;
+  border-bottom:1px solid rgba(28,16,7,.06);
+}
+.nav-search-result:last-child{
+  border-bottom:0;
+}
+.nav-search-result .s-img{
+  width:44px!important;
+  height:44px!important;
+  flex:0 0 44px!important;
+  overflow:hidden!important;
+  border-radius:8px!important;
+  background:#F7F3ED!important;
+  display:grid!important;
+  place-items:center!important;
+}
+.nav-search-result .s-img img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+}
+.nav-search-result .s-copy{
+  min-width:0;
+}
+.nav-search-result .s-nombre{
+  color:#1A1A1A;
+  font-size:.78rem!important;
+  font-weight:600!important;
+  line-height:1.35;
+}
+.nav-search-result .s-precio{
+  margin-top:3px;
+  color:#C4622D;
+  font-size:.72rem!important;
+  font-weight:700!important;
+}
+.search-no-results{
+  margin:0!important;
+  padding:16px!important;
+  color:#7B7169!important;
+  font-size:.77rem!important;
+  text-align:center;
+}
+</style>
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -748,5 +802,8 @@ _sb.auth.getSession().then(({ data:{ session } }) => {
 }
 </style>
 
+<script src="/products-data.js"></script>
+<script src="/product-slugs.js"></script>
+<script src="/assets/js/buscador-global.js?v=1"></script>
 </body>
 </html>
