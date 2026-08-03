@@ -798,22 +798,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   .mobile-accordion-body {
-    display: grid !important;
-    grid-template-rows: 0fr !important;
-    max-height: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    max-height: 0 !important;
     overflow: hidden !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
     background: rgba(255,255,255,.35) !important;
-    transition: grid-template-rows .28s ease !important;
+    transition: max-height .28s ease, opacity .2s ease, visibility 0s linear .28s !important;
   }
 
   .mobile-accordion-body.open {
-    grid-template-rows: 1fr !important;
-    max-height: none !important;
-  }
-
-  .mobile-accordion-body::before {
-    content: '' !important;
-    min-height: 0 !important;
+    max-height: 320px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: max-height .28s ease, opacity .2s ease, visibility 0s !important;
   }
 
   .mobile-accordion-body > a {
