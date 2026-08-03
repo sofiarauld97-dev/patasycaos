@@ -127,3 +127,40 @@
     width:116px;
   }
 }
+
+
+/* AJUSTE FINAL: selector de cantidad perfectamente centrado */
+.product-qty-selector{
+  display:grid!important;
+  grid-template-columns:38px 40px 38px!important;
+  align-items:stretch!important;
+  justify-items:stretch!important;
+  height:50px!important;
+  min-height:50px!important;
+  padding:0!important;
+}
+
+.product-qty-selector button,
+.product-qty-selector .product-qty-value{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  height:48px!important;
+  min-height:48px!important;
+  margin:0!important;
+  padding:0!important;
+  line-height:1!important;
+  text-align:center!important;
+  vertical-align:middle!important;
+}
+
+.product-qty-selector button{
+  position:relative!important;
+  top:0!important;
+  transform:none!important;
+}
+
+.product-qty-selector .product-qty-value{
+  font-variant-numeric:tabular-nums;
+}

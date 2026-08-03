@@ -233,6 +233,14 @@
 
       productQty = 1;
       updateQtyUI();
+
+      // Abrir automáticamente el carrito después de agregar el producto.
+      if (typeof toggleCart === 'function') {
+        setTimeout(() => {
+          const sidebar = document.getElementById('cart-sidebar');
+          if (!sidebar || !sidebar.classList.contains('open')) toggleCart();
+        }, 120);
+      }
     } catch (error) {
       console.error('[producto] Error al añadir al carrito:', error);
       const message = document.getElementById('product-msg');
