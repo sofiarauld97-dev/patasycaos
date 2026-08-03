@@ -14,7 +14,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Envíos a todo Chile — Patas & Caos | Tienda de mascotas</title>
-  <meta name="description" content="Información sobre envíos, tiempos de entrega y costos. Despacho a Santiago y regiones. Envío gratis en compras sobre $39.990. Retiro disponible en Las Condes.">
+  <meta name="description" content="Consulta costos, cobertura y tiempos de entrega de Patas & Caos. Despachos en Santiago y regiones, además de retiro coordinado en Providencia.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
@@ -347,6 +347,81 @@ function runSearch(q) {
 }
 </script>
 <link rel="canonical" href="https://www.patasycaos.cl/envios">
+
+<style id="envios-mejoras">
+.envios-hero {
+  padding: 72px 5% 56px;
+  background: var(--dark);
+}
+.envios-hero .breadcrumb,
+.envios-hero .breadcrumb a { color: rgba(245,236,215,.42); }
+.envios-hero h1 { color: var(--blanco); max-width: 760px; }
+.envios-hero p { color: rgba(245,236,215,.68); max-width: 650px; }
+.envios-content {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding-top: 54px;
+}
+.envios-card {
+  padding: 2rem;
+  box-shadow: 0 8px 26px rgba(28,16,7,.035);
+}
+.envios-card-icon,
+.info-row-icon,
+.pilar-icon {
+  color: var(--terracota);
+}
+.envios-card-icon {
+  background: rgba(196,98,45,.12);
+}
+.envios-card-icon svg,
+.info-row-icon svg,
+.pilar-icon svg,
+.envios-nota svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.info-row-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(196,98,45,.09);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 30px;
+}
+.envios-nota { border: 1px solid rgba(196,98,45,.12); }
+.envios-nota svg {
+  flex: 0 0 19px;
+  margin-top: 2px;
+  color: var(--terracota);
+}
+.tramo-box { box-shadow: 0 5px 18px rgba(28,16,7,.025); }
+.pilar-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(196,98,45,.09);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wsp-banner { padding: 2.2rem; }
+@media (max-width: 600px) {
+  .envios-hero { padding: 48px 5% 42px; }
+  .envios-content { padding-top: 38px; gap: 1.2rem; }
+  .envios-card { padding: 1.3rem 1.15rem; }
+  .wsp-banner { padding: 1.5rem 1.25rem; }
+  .btn-wsp { width: 100%; justify-content: center; }
+}
+</style>
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -436,15 +511,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
 <aside class="cart-sidebar" id="cart-sidebar">
   <div class="cart-header">
-    <h3>🛒 Tu carrito</h3>
+    <h3>Tu carrito</h3>
     <button class="cart-close" onclick="toggleCart()">✕</button>
   </div>
   <div class="cart-items" id="cart-items">
-    <div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>
+    <div class="cart-empty">Tu carrito está vacío.<br>Explora la tienda y agrega tus productos favoritos.</div>
   </div>
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
-    <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
+    <p class="cart-shipping">Envío calculado al momento del pago</p>
     <button class="btn-checkout" onclick="checkout()">Pagar →</button>
   </div>
 </aside>
@@ -452,141 +527,133 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- HERO -->
 <section class="envios-hero">
   <div class="breadcrumb">
-    <a href="/">Inicio</a><span>›</span><a href="#">Ayuda</a><span>›</span>Envíos
+    <a href="/">Inicio</a><span>›</span><a href="/contacto">Ayuda</a><span>›</span>Envíos
   </div>
-  <h1>Política de <em>envíos</em></h1>
-  <p>Todo lo que necesitas saber sobre cómo llegan los productos hasta tu puerta — o hasta donde tú elijas retirarlos.</p>
+  <h1>Información de <em>envíos</em></h1>
+  <p>Consulta cobertura, costos, tiempos de entrega y opciones de retiro antes de finalizar tu compra.</p>
 </section>
 
 <div class="envios-content">
-
-  <!-- DESPACHO SANTIAGO -->
   <div class="envios-card">
     <div class="envios-card-header">
-      <div class="envios-card-icon">🏙️</div>
-      <h2>Despacho en Santiago</h2>
+      <div class="envios-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V8l6-3v16M10 21V3l10 4v14M7 11h.01M7 15h.01M14 9h.01M17 9h.01M14 13h.01M17 13h.01M14 17h.01M17 17h.01"/></svg></div>
+      <h2>Despachos en Santiago</h2>
     </div>
     <div class="tramo-grid">
       <div class="tramo-box">
         <div class="tramo-nombre">Tramo 1 — Oriente y Central</div>
         <div class="precio">$3.990</div>
-        <div class="comunas">Providencia, Las Condes, Vitacura, Ñuñoa, La Reina, Santiago Centro, Macul.</div>
+        <div class="comunas">Providencia, Las Condes, Vitacura, Ñuñoa, La Reina, Santiago Centro y Macul.</div>
       </div>
       <div class="tramo-box">
         <div class="tramo-nombre">Tramo 2 — Sector Intermedio</div>
         <div class="precio">$4.990</div>
-        <div class="comunas">San Miguel, San Joaquín, Pedro Aguirre Cerda, Peñalolén, La Florida, Lo Barnechea, Independencia, Recoleta, Quinta Normal, Estación Central, Cerrillos, La Cisterna.</div>
+        <div class="comunas">San Miguel, San Joaquín, Pedro Aguirre Cerda, Peñalolén, La Florida, Lo Barnechea, Independencia, Recoleta, Quinta Normal, Estación Central, Cerrillos y La Cisterna.</div>
       </div>
       <div class="tramo-box">
-        <div class="tramo-nombre">Tramo 3 — Periférico / Extremo</div>
+        <div class="tramo-nombre">Tramo 3 — Periférico</div>
         <div class="precio">$5.990</div>
-        <div class="comunas">Maipú, Puente Alto, San Bernardo, Quilicura, Pudahuel, Renca, Cerro Navia, Lo Prado, El Bosque, La Pintana, Lo Espejo, Conchalí, Huechuraba, San Ramón, La Granja.</div>
+        <div class="comunas">Maipú, Puente Alto, San Bernardo, Quilicura, Pudahuel, Renca, Cerro Navia, Lo Prado, El Bosque, La Pintana, Lo Espejo, Conchalí, Huechuraba, San Ramón y La Granja.</div>
       </div>
     </div>
     <div class="envios-nota">
-      🚀 <span><strong>Entrega el mismo día en Santiago</strong> para pedidos realizados antes de las 10:00 AM en días hábiles. Compras después de ese horario se despachan al día siguiente hábil.</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><strong>Entrega el mismo día:</strong> disponible para pedidos realizados antes de las 10:00 en días hábiles. Los pedidos posteriores se despachan al día hábil siguiente.</span>
     </div>
     <div class="envios-nota">
-      📦 <span><strong>Fuera de nuestro radio de despacho interno:</strong> Colina, Chicureo, Lampa, Til Til, Padre Hurtado, Peñaflor, Talagante, El Monte, Melipilla, Buin, Paine, Calera de Tango, Pirque y San José de Maipo se despachan por courier externo (Starken, Blue Express o Correos Chile), con costo a coordinar.</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h12v11H3z"/><path d="M15 9h3l3 4v4h-6z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg><span><strong>Comunas fuera del radio interno:</strong> Colina, Chicureo, Lampa, Til Til, Padre Hurtado, Peñaflor, Talagante, El Monte, Melipilla, Buin, Paine, Calera de Tango, Pirque y San José de Maipo se envían mediante courier externo, con costo a coordinar.</span>
     </div>
 
-    <!-- PILARES DESPACHO SANTIAGO -->
-    <div class="pilares-titulo">Cómo garantizamos tu entrega</div>
+    <div class="pilares-titulo">Cómo gestionamos cada entrega</div>
     <div class="pilares-grid">
       <div class="pilar-box">
-        <div class="pilar-icon">📍</div>
-        <h4>Validación de direcciones</h4>
-        <p>Antes de salir a ruta validamos tu dirección para detectar posibles errores. Esto reduce fricciones y mejora la tasa de entrega en el primer intento.</p>
+        <div class="pilar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <h4>Dirección validada</h4>
+        <p>Revisamos los datos antes de preparar la ruta para reducir errores y entregas fallidas.</p>
       </div>
       <div class="pilar-box">
-        <div class="pilar-icon">💬</div>
-        <h4>WhatsApp + hora exacta</h4>
-        <p>Recibes una notificación por WhatsApp con la hora estimada de llegada para que no tengas que estar esperando sin saber.</p>
+        <div class="pilar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3 1.5-4.5A7 7 0 0 1 3 13V8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg></div>
+        <h4>Comunicación directa</h4>
+        <p>Te informamos por WhatsApp el avance del despacho y la hora estimada de llegada.</p>
       </div>
       <div class="pilar-box">
-        <div class="pilar-icon">📡</div>
-        <h4>Trazabilidad y control</h4>
-        <p>Nos apoyamos en tecnología de logística para operar con trazabilidad, control y comunicación de alto nivel en cada despacho.</p>
+        <div class="pilar-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15a10 10 0 0 1 14 0M8 18a6 6 0 0 1 8 0M12 21h.01"/></svg></div>
+        <h4>Seguimiento</h4>
+        <p>Mantenemos control del pedido desde la preparación hasta la entrega final.</p>
       </div>
     </div>
   </div>
 
-  <!-- DESPACHO REGIONES -->
   <div class="envios-card">
     <div class="envios-card-header">
-      <div class="envios-card-icon">📦</div>
-      <h2>Despacho a regiones</h2>
+      <div class="envios-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6l5-2 6 2 5-2v14l-5 2-6-2-5 2z"/><path d="M9 4v14M15 6v14"/></svg></div>
+      <h2>Envíos a regiones</h2>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">🗺️</div>
-      <div class="info-row-text"><strong>Cobertura nacional</strong>Despachamos a todas las regiones de Chile a través de servicios de mensajería.</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6l5-2 6 2 5-2v14l-5 2-6-2-5 2z"/><path d="M9 4v14M15 6v14"/></svg></div>
+      <div class="info-row-text"><strong>Cobertura nacional</strong>Despachamos a todas las regiones de Chile mediante servicios de courier.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">⏱️</div>
-      <div class="info-row-text"><strong>Plazo de entrega</strong>Entre 3 y 7 días hábiles según la región y la dirección de destino.</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+      <div class="info-row-text"><strong>Plazo estimado</strong>Entre 3 y 7 días hábiles, según la región y la dirección de destino.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">💰</div>
-      <div class="info-row-text"><strong>Costo de envío</strong>Varía según la región. El valor exacto se coordina por WhatsApp antes de confirmar el pedido.</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M7 8H5v2M17 16h2v-2"/></svg></div>
+      <div class="info-row-text"><strong>Costo del envío</strong>Se calcula según el destino y se coordina por WhatsApp antes de confirmar el pedido.</div>
     </div>
   </div>
 
-  <!-- RETIRO EN TIENDA -->
   <div class="envios-card">
     <div class="envios-card-header">
-      <div class="envios-card-icon">🏠</div>
-      <h2>Retiro en tienda</h2>
+      <div class="envios-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+      <h2>Retiro coordinado</h2>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">📍</div>
-      <div class="info-row-text"><strong>Ubicación</strong>Retiro disponible en Providencia, Santiago. Te enviamos la dirección exacta por WhatsApp una vez coordinado el horario.</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+      <div class="info-row-text"><strong>Ubicación</strong>Retiro disponible en Providencia. La dirección exacta se entrega una vez coordinado el horario.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">✅</div>
-      <div class="info-row-text"><strong>Costo</strong>El retiro en tienda es completamente gratuito.</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
+      <div class="info-row-text"><strong>Sin costo</strong>El retiro es gratuito.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">📲</div>
-      <div class="info-row-text"><strong>Coordinación</strong>Una vez realizado el pago, te contactamos por WhatsApp para coordinar el horario de retiro.</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3 1.5-4.5A7 7 0 0 1 3 13V8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg></div>
+      <div class="info-row-text"><strong>Coordinación previa</strong>Después de confirmar el pago, te contactamos por WhatsApp para acordar día y horario.</div>
     </div>
   </div>
 
-  <!-- CAMBIOS -->
   <div class="envios-card">
     <div class="envios-card-header">
-      <div class="envios-card-icon">🔄</div>
+      <div class="envios-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg></div>
       <h2>Cambios y devoluciones</h2>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">📅</div>
-      <div class="info-row-text"><strong>Plazo</strong>Tienes 10 días hábiles desde que recibes el producto para solicitar un cambio o devolución (Ley del Consumidor 19.496). En caso de falla de fábrica, el plazo se extiende a 3 meses.</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div>
+      <div class="info-row-text"><strong>Plazo informado</strong>Tienes 10 días hábiles desde la recepción para solicitar un cambio o devolución. En caso de falla de fábrica, el plazo informado es de 3 meses.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">📦</div>
-      <div class="info-row-text"><strong>Condiciones</strong>El producto debe estar sin uso, en su embalaje original y en perfectas condiciones. Es obligatorio presentar la boleta o factura de compra.</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l8-4 8 4-8 4z"/><path d="M4 7v10l8 4 8-4V7"/><path d="M12 11v10"/></svg></div>
+      <div class="info-row-text"><strong>Condiciones</strong>El producto debe estar sin uso, en su embalaje original y en perfectas condiciones. También debes presentar la boleta o factura.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">✅</div>
-      <div class="info-row-text"><strong>Resolución</strong>Puedes elegir entre cambio de producto o reembolso por transferencia bancaria, según prefieras.</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
+      <div class="info-row-text"><strong>Resolución</strong>Puedes solicitar cambio de producto o reembolso, según las condiciones aplicables.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">💬</div>
-      <div class="info-row-text"><strong>¿Cómo solicitarlo?</strong>Escríbenos por WhatsApp al +56 9 2399 7854 o a contacto@patasycaos.cl indicando tu pedido y el motivo. <a href="/devoluciones" style="color:var(--terracota);font-weight:600;">Ver política completa →</a></div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3 1.5-4.5A7 7 0 0 1 3 13V8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg></div>
+      <div class="info-row-text"><strong>Cómo solicitarlo</strong>Escríbenos por WhatsApp al +56 9 2399 7854 o a contacto@patasycaos.cl indicando tu número de pedido y el motivo. <a href="/devoluciones" style="color:var(--terracota);font-weight:600;">Ver política completa →</a></div>
     </div>
   </div>
 
-  <!-- BANNER WHATSAPP -->
   <div class="wsp-banner">
     <div class="wsp-banner-text">
-      <h3>¿Tienes dudas sobre tu envío?</h3>
-      <p>Escríbenos directamente y te respondemos en minutos.</p>
+      <h3>¿Tienes dudas sobre tu despacho?</h3>
+      <p>Envíanos tu comuna o número de pedido y revisaremos la información contigo.</p>
     </div>
     <a href="https://wa.me/56923997854" target="_blank" rel="noopener" class="btn-wsp">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Escribir por WhatsApp
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+      Consultar por WhatsApp
     </a>
   </div>
-
 </div>
 
 <!-- FOOTER -->
@@ -745,7 +812,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="auth-box">
     <button class="auth-close" onclick="cerrarAuth()">✕</button>
     <div class="auth-logo"><img src="/logo.png" alt="Patas & Caos"></div>
-    <h3>Bienvenido 🐾</h3>
+    <h3>Bienvenido</h3>
     <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
     <button class="btn-google" onclick="loginConGoogle()">
       <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>

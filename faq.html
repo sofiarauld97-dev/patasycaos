@@ -13,7 +13,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Preguntas frecuentes — Patas & Caos | Tienda de mascotas Chile</title>
-  <meta name="description" content="Respuestas a las preguntas más comunes sobre envíos, devoluciones, Flores de Bach para mascotas y productos de Patas & Caos. Todo lo que necesitas saber antes de comprar.">
+  <meta name="description" content="Encuentra respuestas sobre envíos, pedidos, cambios, devoluciones, productos y atención de Patas & Caos antes de realizar tu compra.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
@@ -338,6 +338,57 @@ function runSearch(q) {
 }
 </script>
 <link rel="canonical" href="https://www.patasycaos.cl/faq">
+
+<style id="faq-mejoras">
+.faq-hero { padding: 76px 5% 84px; }
+.faq-hero p { max-width: 600px; color: rgba(245,236,215,.68); }
+.faq-wrap { max-width: 840px; }
+.faq-seccion { margin-bottom: 42px; }
+.faq-seccion-titulo {
+  gap: 12px;
+  font-size: .74rem;
+}
+.faq-seccion-titulo .faq-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(196,98,45,.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--terracota);
+}
+.faq-seccion-titulo .faq-icon svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.faq-item {
+  box-shadow: 0 5px 18px rgba(28,16,7,.025);
+}
+.faq-pregunta {
+  padding: 19px 20px;
+  line-height: 1.45;
+}
+.faq-item.open {
+  box-shadow: 0 10px 28px rgba(196,98,45,.08);
+}
+.faq-cta { padding: 48px 34px; }
+@media (max-width: 600px) {
+  .faq-hero { padding: 54px 5% 62px; }
+  .faq-wrap { padding: 44px 5% 64px; }
+  .faq-seccion { margin-bottom: 34px; }
+  .faq-pregunta { padding: 16px; font-size: .88rem; }
+  .faq-respuesta-inner { padding: 0 16px 16px; }
+  .faq-cta { padding: 36px 20px; }
+  .faq-cta-btns a { width: 100%; text-align: center; }
+}
+</style>
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -427,15 +478,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
 <aside class="cart-sidebar" id="cart-sidebar">
   <div class="cart-header">
-    <h3>🛒 Tu carrito</h3>
+    <h3>Tu carrito</h3>
     <button class="cart-close" onclick="toggleCart()">✕</button>
   </div>
   <div class="cart-items" id="cart-items">
-    <div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>
+    <div class="cart-empty">Tu carrito está vacío.<br>Explora la tienda y agrega tus productos favoritos.</div>
   </div>
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
-    <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
+    <p class="cart-shipping">Envío calculado al momento del pago</p>
     <button class="btn-checkout" onclick="checkout()">Pagar →</button>
   </div>
 </aside>
@@ -443,10 +494,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- HERO -->
 <section class="faq-hero">
   <div class="breadcrumb">
-    <a href="/">Inicio</a><span>›</span><a href="#">Ayuda</a><span>›</span>Preguntas frecuentes
+    <a href="/">Inicio</a><span>›</span><a href="/contacto">Ayuda</a><span>›</span>Preguntas frecuentes
   </div>
   <h1>Preguntas <em>frecuentes</em></h1>
-  <p>Todo lo que necesitas saber sobre envíos, productos y Flores de Bach. Si no encuentras tu respuesta, escríbenos.</p>
+  <p>Encuentra información sobre compras, envíos, cambios, productos y atención. Si tu duda no aparece aquí, contáctanos.</p>
 </section>
 
 <!-- CONTENIDO -->
@@ -454,7 +505,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- ENVÍOS -->
   <div class="faq-seccion">
-    <div class="faq-seccion-titulo"><span class="faq-icon">🚚</span>Envíos y tiempos de entrega</div>
+    <div class="faq-seccion-titulo"><span class="faq-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h12v11H3z"/><path d="M15 9h3l3 4v4h-6z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span>Envíos y tiempos de entrega</div>
 
     <div class="faq-item">
       <button class="faq-pregunta" onclick="toggleFaq(this)">
@@ -500,7 +551,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- CAMBIOS Y DEVOLUCIONES -->
   <div class="faq-seccion">
-    <div class="faq-seccion-titulo"><span class="faq-icon">🔄</span>Cambios y devoluciones</div>
+    <div class="faq-seccion-titulo"><span class="faq-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg></span>Cambios y devoluciones</div>
 
     <div class="faq-item">
       <button class="faq-pregunta" onclick="toggleFaq(this)">
@@ -545,7 +596,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- FLORES DE BACH -->
   <div class="faq-seccion">
-    <div class="faq-seccion-titulo"><span class="faq-icon">🌿</span>Flores de Bach</div>
+    <div class="faq-seccion-titulo"><span class="faq-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4C12 4 6 8 6 15c0 3 2 5 5 5 7 0 9-8 9-16z"/><path d="M5 21c3-5 7-8 12-11"/></svg></span>Flores de Bach</div>
 
     <div class="faq-item">
       <button class="faq-pregunta" onclick="toggleFaq(this)">
@@ -636,7 +687,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- CTA -->
   <div class="faq-cta">
-    <h3>¿No encontraste tu respuesta?</h3>
+    <h3>¿Necesitas una respuesta más específica?</h3>
     <p>Escríbenos por WhatsApp o email — te respondemos rápido.</p>
     <div class="faq-cta-btns">
       <a href="https://wa.me/56923997854" target="_blank" class="btn-cta-blanco">WhatsApp</a>
@@ -744,7 +795,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="auth-box">
     <button class="auth-close" onclick="cerrarAuth()">✕</button>
     <div class="auth-logo"><img src="/logo.png" alt="Patas & Caos"></div>
-    <h3>Bienvenido 🐾</h3>
+    <h3>Bienvenido</h3>
     <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
     <button class="btn-google" onclick="loginConGoogle()">
       <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
