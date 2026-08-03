@@ -64,10 +64,64 @@
     .checkline{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--suave)}
     .checkline input{width:16px;height:16px;accent-color:var(--terracota)}
     @media(max-width:760px){.grid,.fields{grid-template-columns:1fr}.full{grid-column:auto}.head{align-items:flex-start}.badge{display:none}}
-  
-    body > header { display:none !important; }
-    main { max-width:1180px !important; padding:2rem 4% 4rem !important; }
-    </style>
+  </style>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+<style id="producto-zip-styles">
+.image-upload{
+  margin-top:14px;
+  border:2px dashed var(--borde);
+  border-radius:14px;
+  padding:16px;
+  background:#fff;
+  text-align:center;
+}
+.image-upload input{display:none}
+.image-upload label{
+  display:block;
+  cursor:pointer;
+  color:var(--terracota);
+  font-size:.78rem;
+  font-weight:800;
+}
+.image-upload p{
+  margin-top:6px;
+  color:var(--suave);
+  font-size:.7rem;
+  line-height:1.5;
+}
+.image-files{
+  display:grid;
+  gap:7px;
+  margin-top:12px;
+  text-align:left;
+}
+.image-file{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 10px;
+  border:1px solid var(--borde);
+  border-radius:9px;
+  background:#FFFDF8;
+  font-size:.72rem;
+}
+.package-note{
+  margin-top:12px;
+  color:var(--suave);
+  font-size:.72rem;
+  line-height:1.55;
+}
+.primary.package{
+  min-width:240px;
+}
+@media(max-width:600px){
+  .actions{display:grid}
+  .actions button{width:100%}
+}
+</style>
+
 </head>
 <body>
 <header>
@@ -79,10 +133,10 @@
 
 <main>
   <h1>Crear un producto nuevo</h1>
-  <p class="lead">Este panel actualiza únicamente la fuente central del catálogo. Carga <strong>data/productos.json</strong>, completa el producto y descarga el JSON actualizado. Al reemplazarlo en GitHub, el build de Vercel regenerará las fichas y páginas automáticamente.</p>
+  <p class="lead">Carga <strong>data/productos.json</strong>, completa el producto y descarga un único ZIP con el catálogo actualizado, las imágenes y las instrucciones de subida. Al reemplazar los archivos en GitHub, Vercel regenerará la ficha automáticamente.</p>
 
   <div class="notice">
-    Este panel no modifica pagos, webhooks, inventario ni Upstash. Tampoco sube imágenes a GitHub: primero agrega las imágenes al repositorio y escribe aquí sus nombres exactos.
+    El panel prepara todos los archivos necesarios en un solo ZIP. No escribe directamente en GitHub ni modifica pagos, webhooks o Mercado Pago.
   </div>
 
   <div class="grid">
@@ -144,7 +198,15 @@
       <div class="list" id="imagenes">
         <div class="row"><input placeholder="Ej: collar-luminoso-led.jpg"><button type="button" class="x" onclick="removeRow(this)">✕</button></div>
       </div>
-      <button class="small" type="button" onclick="addRow('imagenes','nombre-de-imagen.jpg')">+ Agregar imagen</button>
+      <button class="small" type="button" onclick="addRow('imagenes','nombre-de-imagen.jpg')">+ Agregar nombre manualmente</button>
+
+      <div class="image-upload">
+        <label for="imageFiles">Seleccionar imágenes del producto</label>
+        <input id="imageFiles" type="file" accept="image/*,.webp,.svg" multiple>
+        <p>Las imágenes seleccionadas se incluirán dentro del ZIP y sus nombres se agregarán automáticamente al producto.</p>
+        <div class="image-files" id="imageFileList"></div>
+      </div>
+
       <div class="field" style="margin-top:14px"><label>Emoji de respaldo</label><input id="emoji" value="🐾" maxlength="4"></div>
     </section>
 
@@ -160,10 +222,19 @@
     <section class="card full">
       <h2>7. Generar</h2>
       <div class="actions">
-        <button class="primary" id="btnGenerate" type="button" disabled>Agregar producto y preparar JSON</button>
-        <button class="secondary" id="btnDownload" type="button" disabled>Descargar productos.json actualizado</button>
-        <button class="secondary" id="btnStock" type="button" disabled>Descargar stock-patch.json</button>
+        <button class="primary" id="btnGenerate" type="button" disabled>Preparar producto</button>
+        <button class="primary package" id="btnPackage" type="button" disabled>Descargar paquete completo ZIP</button>
       </div>
+      <p class="package-note">
+        El ZIP contendrá <strong>data/productos.json</strong>, las imágenes seleccionadas, un parche de stock y un archivo LEEME con las rutas exactas.
+      </p>
+      <details style="margin-top:14px">
+        <summary>Descargas individuales avanzadas</summary>
+        <div class="actions" style="padding:0 14px 14px">
+          <button class="secondary" id="btnDownload" type="button" disabled>Descargar productos.json</button>
+          <button class="secondary" id="btnStock" type="button" disabled>Descargar stock-patch.json</button>
+        </div>
+      </details>
       <div class="status" id="status"></div>
       <details style="margin-top:16px">
         <summary>Ver objeto generado</summary>
@@ -178,6 +249,7 @@ let originalJson = null;
 let updatedJson = null;
 let containerInfo = null;
 let stockPatch = null;
+let selectedImageFiles = [];
 
 const $ = id => document.getElementById(id);
 const slugify = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
@@ -189,6 +261,33 @@ $('nombre').addEventListener('input', () => {
   if (!$('slug').dataset.touched) $('slug').value = base;
 });
 ['sku','slug'].forEach(id => $(id).addEventListener('input', () => $(id).dataset.touched='1'));
+
+
+$('imageFiles').addEventListener('change', e => {
+  selectedImageFiles = [...e.target.files];
+
+  const list = $('imageFileList');
+  list.innerHTML = '';
+
+  if (!selectedImageFiles.length) return;
+
+  const imageInputs = [...$('imagenes').querySelectorAll('input')];
+
+  selectedImageFiles.forEach((file, index) => {
+    if (imageInputs[index]) {
+      imageInputs[index].value = file.name;
+    } else {
+      addRow('imagenes', 'nombre-de-imagen.jpg');
+      const updatedInputs = [...$('imagenes').querySelectorAll('input')];
+      updatedInputs[updatedInputs.length - 1].value = file.name;
+    }
+
+    const item = document.createElement('div');
+    item.className = 'image-file';
+    item.innerHTML = `<span>${file.name}</span><strong>${Math.max(1, Math.round(file.size / 1024))} KB</strong>`;
+    list.appendChild(item);
+  });
+});
 
 $('jsonFile').addEventListener('change', async e => {
   const file = e.target.files[0];
@@ -318,12 +417,85 @@ $('btnGenerate').addEventListener('click',()=>{
     $('preview').textContent=JSON.stringify(product,null,2);
     $('btnDownload').disabled=false;
     $('btnStock').disabled=false;
-    setStatus(`Producto “${product.nombre}” preparado. Descarga el JSON y reemplaza data/productos.json en tu repositorio.`,true);
+    $('btnPackage').disabled=false;
+    setStatus(`Producto “${product.nombre}” preparado. Descarga el paquete ZIP completo.`,true);
   }catch(err){
     updatedJson=null;
     $('btnDownload').disabled=true;
     $('btnStock').disabled=true;
+    $('btnPackage').disabled=true;
     setStatus(err.message,false);
+  }
+});
+
+
+$('btnPackage').addEventListener('click', async () => {
+  try {
+    if (!updatedJson || !stockPatch) {
+      throw new Error('Primero prepara el producto.');
+    }
+    if (typeof JSZip === 'undefined') {
+      throw new Error('No se pudo cargar el generador ZIP. Recarga la página e intenta nuevamente.');
+    }
+
+    const product = makeProduct();
+    const zip = new JSZip();
+
+    zip.file('data/productos.json', JSON.stringify(updatedJson, null, 2) + '\n');
+    zip.file('stock-patch.json', JSON.stringify(stockPatch, null, 2) + '\n');
+
+    const imageFolder = zip.folder('imagenes');
+    for (const file of selectedImageFiles) {
+      imageFolder.file(file.name, file);
+    }
+
+    const imageNames = product.imagenes.map(name => `- ${name}`).join('\n');
+    const instructions = `PRODUCTO NUEVO — ${product.nombre}
+
+ARCHIVOS INCLUIDOS
+1. data/productos.json
+2. stock-patch.json
+3. Carpeta imagenes/ con los archivos seleccionados
+
+QUÉ DEBES SUBIR A GITHUB
+1. Reemplaza:
+   data/productos.json
+
+2. Copia cada imagen de la carpeta imagenes/ a la misma carpeta del repositorio donde guardas actualmente las imágenes de productos.
+   Imágenes declaradas:
+${imageNames || '- No se seleccionaron archivos; revisa los nombres escritos manualmente.'}
+
+3. No subas stock-patch.json al repositorio.
+   Stock inicial solicitado:
+   ${product.stockId}: ${Math.max(0, Number($('stock').value) || 0)}
+
+4. Haz Commit y Push.
+
+5. Vercel ejecutará el build y generará automáticamente:
+   productos/${product.slug}.html
+
+6. Después del deploy revisa:
+   https://www.patasycaos.cl/productos/${product.slug}
+
+IMPORTANTE
+- El HTML no se incluye porque scripts/generar-productos.js lo genera automáticamente desde data/productos.json.
+- El nuevo producto aparecerá también en el listado de crear pedido manual, porque ese panel carga el mismo data/productos.json.
+- El ZIP no modifica GitHub ni el stock remoto automáticamente.
+`;
+
+    zip.file('LEEME.txt', instructions);
+
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${product.slug}-paquete.zip`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    setStatus(`Paquete “${product.slug}-paquete.zip” descargado correctamente.`, true);
+  } catch (error) {
+    setStatus(error.message, false);
   }
 });
 
