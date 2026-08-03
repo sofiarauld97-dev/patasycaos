@@ -34,6 +34,25 @@
     return id;
   }
 
+
+  function resolveSearchImagePath(image) {
+    const value = String(image || '').trim();
+    if (!value) return '';
+
+    if (
+      value.startsWith('/') ||
+      value.startsWith('http://') ||
+      value.startsWith('https://') ||
+      value.startsWith('//') ||
+      value.startsWith('data:') ||
+      value.startsWith('blob:')
+    ) {
+      return value;
+    }
+
+    return '/' + value.replace(/^(\.\/)+/, '').replace(/^(\.\.\/)+/, '');
+  }
+
   window.runSearch = function runSearch(query) {
     const drop = document.getElementById('nav-drop');
     if (!drop) return;
@@ -73,9 +92,10 @@
     }
 
     drop.innerHTML = matches.map(([id, product]) => {
-      const image = Array.isArray(product?.variantes) && product.variantes.length
+      const rawImage = Array.isArray(product?.variantes) && product.variantes.length
         ? product.variantes[0]?.imagenes?.[0] || ''
         : Array.isArray(product?.imagenes) ? product.imagenes[0] || '' : '';
+      const image = resolveSearchImagePath(rawImage);
       const slug = getProductSlug(id);
       const price = product?.precio || product?.precioTexto || product?.precioDisplay || '';
       const name = product?.nombre || id;
