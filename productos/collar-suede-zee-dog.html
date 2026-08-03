@@ -39,7 +39,7 @@
     </a>
     <div class="nav-search-wrap">
       <span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
-      <input type="text" placeholder="Buscar productos..." oninput="runSearch(this.value)" onfocus="document.getElementById('nav-drop').style.display='block'" onblur="setTimeout(()=>document.getElementById('nav-drop').style.display='none',200)">
+      <input type="text" placeholder="Buscar productos...">
       <div class="nav-search-drop" id="nav-drop"></div>
     </div>
     <div class="nav-icons">
@@ -200,7 +200,6 @@
 </a>
 <script src="/products-data.js"></script>
 <script src="/product-slugs.js"></script>
-<script src="/assets/js/buscador-global.js?v=3"></script>
 <script src="/cart.js"></script>
 <script src="/assets/js/site.js"></script>
 <script src="/assets/js/producto-ajustes.js"></script>
@@ -223,5 +222,6 @@ function switchProductTab(button){
   if(panel) panel.classList.add('activo');
 }
 </script>
+<script src="/assets/js/buscador-global.js?v=4"></script>
 </body>
 </html>
