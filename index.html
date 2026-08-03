@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/home-v2.css?v=1">
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -663,12 +664,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="hero" id="inicio">
   <div class="hero-slider" id="heroSlider">
     <div class="hero-slide">
-      <img class="desktop" src="hero-slide1-desktop.jpg" alt="Collares Zee.Dog y Zee.Cat" onclick="window.location.href='/tienda?marca=zeedog'" style="cursor:pointer">
-      <img class="mobile" src="slide1-mobile.jpg" alt="Collares Zee.Dog y Zee.Cat" onclick="window.location.href='/tienda?marca=zeedog'" style="cursor:pointer">
+      <img class="desktop" src="hero-slide1-desktop.jpg" alt="Collares Zee.Dog y Zee.Cat">
+      <img class="mobile" src="slide1-mobile.jpg" alt="Collares Zee.Dog y Zee.Cat">
+      <div class="hero-cta-card">
+        <p class="hero-cta-label">Diseño para mascotas</p>
+        <h1>Accesorios que combinan estilo y bienestar.</h1>
+        <p>Explora productos seleccionados para perros y gatos.</p>
+        <a href="/tienda?marca=zeedog" class="hero-cta-button">Explorar productos</a>
+      </div>
     </div>
     <div class="hero-slide">
-      <img class="desktop" src="hero-slide2-desktop.jpg" alt="Caja Caótica Suscripciones" onclick="window.location.href='/suscripciones'" style="cursor:pointer">
-      <img class="mobile" src="slide2-mobile.jpg" alt="Caja Caótica Suscripciones" onclick="window.location.href='/suscripciones'" style="cursor:pointer">
+      <img class="desktop" src="hero-slide2-desktop.jpg" alt="Caja Caótica Suscripciones">
+      <img class="mobile" src="slide2-mobile.jpg" alt="Caja Caótica Suscripciones">
+      <div class="hero-cta-card">
+        <p class="hero-cta-label">Caja Caótica</p>
+        <h2>Su caja favorita, entregada cada mes.</h2>
+        <p>Planes pensados para las necesidades de tu mascota.</p>
+        <a href="/suscripciones" class="hero-cta-button">Conocer suscripciones</a>
+      </div>
     </div>
   </div>
   <div class="hero-dots">
@@ -677,6 +690,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
+<section class="home-trust" aria-label="Beneficios de comprar en Patas y Caos">
+  <div class="home-trust-item">
+    <strong>Envíos a todo Chile</strong>
+    <span>Despacho calculado al finalizar la compra.</span>
+  </div>
+  <div class="home-trust-item">
+    <strong>Pago seguro</strong>
+    <span>Compra protegida mediante Mercado Pago.</span>
+  </div>
+  <div class="home-trust-item">
+    <strong>Selección especializada</strong>
+    <span>Productos elegidos por calidad y bienestar.</span>
+  </div>
+  <div class="home-trust-item">
+    <strong>Atención personalizada</strong>
+    <span>Te orientamos antes y después de tu compra.</span>
+  </div>
+</section>
 
 <!-- CARRUSEL DESCUENTOS CYBER -->
 
@@ -695,7 +726,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="cat-grid" id="cat-grid">
     <div class="cat-card" onclick="window.location.href='/suscripciones'"><img class="cat-img" src="categoria-suscripciones.jpg" alt="Suscripciones" loading="lazy"></div>
     <div class="cat-card" onclick="window.location.href='/tienda?aud=Perros'"><img class="cat-img" src="categoria-perros.jpg" alt="Perros" loading="lazy"></div>
-    <div class="cat-card" onclick="window.location.href='/tienda?cat=Para Gatos'"><img class="cat-img" src="categoria-gatos.jpg" alt="Gatos" loading="lazy"></div>
+    <div class="cat-card" onclick="window.location.href='/tienda?aud=Gatos'"><img class="cat-img" src="categoria-gatos.jpg" alt="Gatos" loading="lazy"></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Alimentos'"><img class="cat-img" src="categoria-alimentos.jpg" alt="Alimentos" loading="lazy"></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Juguete'"><img class="cat-img" src="categoria-juguetes.jpg" alt="Juguetes" loading="lazy"></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Accesorio'"><img class="cat-img" src="categoria-accesorios.jpg" alt="Accesorios" loading="lazy"></div>
@@ -707,8 +738,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="all-products">
-  <p class="section-label">Catálogo completo</p>
-  <h2 class="section-title">Todo lo que<span>necesitan.</span></h2>
+  <p class="section-label">Selección destacada</p>
+  <h2 class="section-title">Favoritos del <span>caos.</span></h2>
   <div class="carousel-wrap">
         <div class="carousel-track" id="carousel-track"></div>
       </div>
@@ -719,6 +750,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
+
+<section class="home-subscription-feature" aria-labelledby="home-subscription-title">
+  <div class="home-subscription-media">
+    <img src="hero-slide2-desktop.jpg" alt="Caja Caótica de suscripción para mascotas" loading="lazy">
+  </div>
+  <div class="home-subscription-copy">
+    <p class="section-label">Suscripciones</p>
+    <h2 id="home-subscription-title">La Caja Caótica, sin compras repetitivas.</h2>
+    <p>Recibe periódicamente una selección pensada para tu mascota. Revisa los planes disponibles, su frecuencia y condiciones antes de suscribirte.</p>
+    <div class="home-subscription-points">
+      <span>Planes para gatos</span>
+      <span>Entrega programada</span>
+      <span>Gestión desde tu cuenta</span>
+    </div>
+    <a href="/suscripciones" class="home-secondary-button">Ver planes de suscripción</a>
+  </div>
+</section>
 
 <!-- BLOG -->
 <section class="blog-section" id="blog">
@@ -761,8 +809,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- NEWSLETTER -->
 <section class="newsletter" id="contacto">
   <div class="newsletter-box">
-    <h2>Únete a la manada.</h2>
-    <p>Ofertas, novedades y memes de mascotas en tu correo. Sin spam, palabra de patita.</p>
+    <h2>Novedades para cuidar mejor a tu mascota.</h2>
+    <p>Recibe lanzamientos, consejos de bienestar y beneficios exclusivos de Patas &amp; Caos.</p>
     <form class="newsletter-form" onsubmit="suscribirse(event)">
       <input type="email" id="newsletter-email" placeholder="tu@correo.com" required>
       <button type="submit" id="newsletter-btn">Suscribirme</button>
@@ -932,8 +980,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="auth-box">
     <button class="auth-close" onclick="cerrarAuth()">✕</button>
     <div class="auth-logo"><img src="/logo.png" alt="Patas & Caos"></div>
-    <h3>Bienvenido 🐾</h3>
-    <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
+    <h3>Bienvenido</h3>
+    <p>Inicia sesión para consultar tus pedidos, gestionar tus suscripciones y registrar a tus mascotas.</p>
     <button class="btn-google" onclick="loginConGoogle()">
       <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
       Continuar con Google
@@ -1176,8 +1224,11 @@ const TAGLINES = {"hey-cama-redonda-confort-verde":"\"Siesta redonda, comodidad 
 };
 
 // productos cargados desde /products-data.js
-const PRODUCT_SLUGS = {"hey-cama-redonda-confort-verde":"cama-redonda-confort-verde-hey","hey-donut-sonido-perros":"donut-con-sonido-hey","pura-natura-caldo-de-huesos-250g":"caldo-de-huesos-250g-pura-natura","pura-natura-woofers-80g":"woofer-s-80g-pura-natura","fit-formula-gato-adulto-2kg":"fit-formula-gato-adulto-2kg","leonardo-adult-gf-poultry-1-8kg":"leonardo-adult-gf-1-8kg-poultry","leonardo-adult-light-sterilised-1-8kg":"leonardo-adult-light-y-sterilised-1-8kg","leonardo-adult-duck-1-8kg":"leonardo-adult-1-8kg-duck","hey-bolsas-sanitarias-4-rollos":"bolsas-sanitarias-4-rollos-hey","pelota-snack-interactiva_Verde":"pelota-snack-interactiva-verde","collar-findmy_Amarillo":"collar-find-my-amarillo","collar-perro-acolchado_Café-S":"collar-perro-acolchado-cafe-talla-s","collar-perro-acolchado_Café-M":"collar-perro-acolchado-cafe-talla-m","collar-perro-acolchado_Rojo-S":"collar-perro-acolchado-rojo-talla-s","comedero-lento-flores-lila":"comedero-lento-flores-lila","comedero-lento-slow-feeder-rosado":"comedero-lento-slow-feeder-rosado","dog-fest-calcium-bones-chicken":"huesitos-de-calcio-con-pollo-55g-dog-fest","dog-fest-lamb-medallions":"medallones-de-cordero-55g-dog-fest","dog-fest-rabbit-ears-lamb":"orejas-de-conejo-con-cordero-55g-dog-fest","colagepet-donut-pollo":"donut-colagepet-xl-pollo","colagepet-donut-pato":"donut-colagepet-xl-pato","colagepet-donut-carne":"donut-colagepet-xl-carne","rascador-maxi-caja-de-leche---brnx":"rascador-maxi-caja-de-leche-brnx","collar-isabelino-donut-rosada---talla-s":"collar-isabelino-donut-rosada-talla-s","pelota-snack-interactiva_Roja":"pelota-snack-interactiva-roja","pelota-snack-interactiva_Azul":"pelota-snack-interactiva-azul","dispensador-de-bolsas---diseno-cafe":"dispensador-de-bolsas-diseno-cafe","calming-collar---perros":"calming-collar-perros","calming-collar---gatos":"calming-collar-gatos","botella-portatil-para-perros_Rosada":"botella-portatil-para-perros-rosada","botella-portatil-para-perros_Calipso":"botella-portatil-para-perros-calipso","arena-sanitaria-ciudad-animal-8kg":"arena-sanitaria-ciudad-animal-8kg","brit-care-sterilized-weigh-control-2kg---duck-turkey":"brit-care-sterilized-weigh-control-2kg-duck-y-turkey","pack-calma-total":"pack-calma-total","pack-sos-mascota":"pack-sos-mascota","pack-rutina-sana":"pack-rutina-sana","pack-bienvenido-a-casa":"pack-bienvenido-a-casa","pack-juega-y-relaja":"pack-juega-y-relaja","pack-cuidado-total":"pack-cuidado-total","comedero-lento-slow-feeder---catstages":"comedero-lento-slow-feeder-catstages","pack-consulta-flor-de-bach":"pack-consulta-flor-de-bach","flores-de-bach---rescue-y-alivio":"flores-de-bach-rescue-y-alivio","flores-de-bach---energia-y-animo":"flores-de-bach-energia-y-animo","flores-de-bach---equilibrio":"flores-de-bach-equilibrio","flores-de-bach---ansiedad-y-calma":"flores-de-bach-ansiedad-y-calma","cat-fest-pillows-schrimp-creme":"cat-fest-pillows-salmon-creme","cat-fest-pillows":"cat-fest-pillows-chicken-creme","tubito-atun":"tubito-cremoso-atun-con-catnip","tubito-camaron":"tubito-cremoso-camaron-con-catnip","tubito-salmon-matatabi":"tubito-cremoso-salmon-con-matatabi","lata-leonardo-kitten":"lata-leonardo-kitten-200g","lata-leonardo_Ave":"lata-leonardo-adulto-ave","lata-leonardo_Pato":"lata-leonardo-adulto-pato","lata-leonardo_Conejo":"lata-leonardo-adulto-conejo","lata-leonardo_Pescado":"lata-leonardo-adulto-pescado","lata-leonardo_Ternera":"lata-leonardo-adulto-ternera","collar-findmy_Turquesa":"collar-find-my-turquesa","collar-findmy_Negro":"collar-find-my-negro","collar-findmy_Azul":"collar-find-my-azul","fuente-agua":"fuente-de-agua-flor-usb","pajaro":"pajaro-interactivo","pelota-led":"pelota-interactiva-led","pulpo":"masajeador-pulpo","paw-balm":"paw-balm","afeitadora":"afeitadora-led-para-mascotas","cat-fest_Pato":"cat-fest-meat-sticks-pato","cat-fest_Cordero":"cat-fest-meat-sticks-cordero","cats-snack_Catnip":"cats-snack-atun-catnip","cats-snack_Matatabi":"cats-snack-atun-matatabi","cats-snack_Rellena Atún + Ostiones":"cats-snack-rellena-atun-ostiones","cats-snack_Rellena Atún + Queso":"cats-snack-rellena-atun-queso","cats-snack_Rellena Camarón":"cats-snack-rellena-camaron","cats-snack_Rellena Atún + Pollo":"cats-snack-rellena-atun-pollo","snack-calming-gato":"snack-calming-cat-treats-beaphar","suero-fisiologico":"suero-fisiologico-cloruro-de-sodio-0-9","pulmon-cordero-rahue":"pulmon-de-cordero-50g-rahue","traquea-vacuno-rahue":"traquea-de-vacuno-rahue","garra-pollo-rahue":"garra-de-pollo-65g-rahue","oreja-cerdo-rahue":"recorte-oreja-de-cerdo-100g-rahue","femur-cerdo-tasty":"femur-de-cerdo-tasty-farm","collar-zeecat-error-500":"collar-zee-cat-error-500","collar-zeecat-error-404":"collar-zee-cat-error-404","collar-zeecat-error-410":"collar-zee-cat-error-410","collar-suede-para-perro-zeedog":"collar-suede-zee-dog","collar-nox-para-perro-zeedog":"collar-nox-zee-dog","pala-arenero-marron":"pala-arenero-marron","pala-arenero-verde":"pala-arenero-verde","zupet-dental-power-suave":"snack-dental-power-75g-qchefs","zupet-dental-fitness-crocante":"snack-dental-fitness-crocante-60g-qchefs","fellini-lollipop-calabaza":"lolli-pop-calabaza-fellini","fellini-lollipop-leche-cabra":"lolli-pop-leche-de-cabra-fellini","bocados-pollo-pets-friends":"bocados-de-pollo-65g-pets-friends","cubitos-salmon-pets-friends":"cubitos-de-salmon-65g-pets-friends","doggo-traquea-vacuno-ciervo":"traquea-de-vacuno-en-crispy-de-ciervo-doggo","doggo-mix-deshidratados":"mix-deshidratados-100g-doggo","condilo-vacuno-rahue":"condilo-de-vacuno-300g-rahue","fit-formula-costillas-cordero-100g":"costillitas-de-cordero-100g-fit-formula","cats-snack-pollo-camaron":"cats-snack-rellena-pollo-camaron","rastreador-find-my":"rastreador-apple-find-my-funda-de-silicona","comedero-lento-desmontable-azul":"comedero-lento-desmontable-azul","comedero-lento-desmontable-rojo":"comedero-lento-desmontable-rojo","collar-findmy-rojo":"collar-find-my-rojo"};
-function productoUrl(id){ return "/productos/" + (PRODUCT_SLUGS[id] || id); }
+function productoUrl(id) {
+  const p = typeof productos === 'object' ? productos[id] : null;
+  const slug = p?.slug || window.PRODUCT_SLUGS?.[id] || id;
+  return '/productos/' + encodeURIComponent(slug);
+}
 
 
 function checkStockCard(id, stock) {
@@ -1542,7 +1593,8 @@ function generarCarrusel() {
       if (aS && !bS) return -1;
       if (!aS && bS) return 1;
       return 0;
-    });
+    })
+    .slice(0, 8);
 
   lista.forEach(id => {
     const p = productos[id];
@@ -1559,7 +1611,7 @@ function generarCarrusel() {
 
     card.innerHTML =
       '<div class="prod-img">' +
-        '<img src="' + img + '" alt="' + p.nombre + '" onerror="this.style.display=&quot;none&quot;;this.nextElementSibling.style.display=&quot;flex&quot;" style="width:100%;height:100%;object-fit:cover">' +
+        '<img src="' + img + '" alt="' + p.nombre + '" onerror="this.style.display=&quot;none&quot;;this.nextElementSibling.style.display=&quot;flex&quot;" style="width:100%;height:100%;object-fit:contain">' +
         '<div style="display:none;align-items:center;justify-content:center;font-size:3rem;width:100%;height:100%">' + ph + '</div>' +
         '<span class="prod-badge">' + p.categoria + '</span>' +
         ahorroHtml +
@@ -1651,7 +1703,7 @@ function runSearch(q) {
   drop.innerHTML = matches.map(([id,p])=>{
     const img = p.variantes ? p.variantes[0].imagenes[0] : (p.imagenes ? p.imagenes[0] : '');
     const ph = p.variantes ? p.variantes[0].placeholders[0] : (p.placeholders ? p.placeholders[0] : '🐾');
-    return `<a class="s-item" href="${productoUrl(id)}"><div class="s-img">${img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover">':ph}</div><div><div class="s-nombre">${p.nombre}</div><div class="s-precio">${p.precio}</div></div></a>`;
+    return `<a class="s-item" href="${productoUrl(id)}"><div class="s-img">${img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:contain">':ph}</div><div><div class="s-nombre">${p.nombre}</div><div class="s-precio">${p.precio}</div></div></a>`;
   }).join('');
   drop.style.display='block';
 }
@@ -1775,7 +1827,9 @@ function runSearch(q) {
   }
 })();
 </script>
-<script src="/product-slugs.js"></script>
-<script src="/assets/js/buscador-global.js?v=1"></script>
+
+
+<script src="/product-slugs.js?v=2"></script>
+<script src="/assets/js/buscador-global.js?v=2"></script>
 </body>
 </html>

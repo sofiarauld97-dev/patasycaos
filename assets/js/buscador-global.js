@@ -1,14 +1,8 @@
-/* =========================================================
-   PATAS & CAOS — Buscador global
-   - Ignora tildes y mayúsculas.
-   - Busca por nombre, descripción, marca, categoría, público e ID.
-   - Ordena por relevancia.
-   - Usa URLs limpias de producto.
-   ========================================================= */
+/* PATAS & CAOS — Buscador global v2 */
 (function () {
   'use strict';
 
-  function normalizarTexto(valor) {
+  function normalizar(valor) {
     return String(valor || '')
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
@@ -18,85 +12,58 @@
       .trim();
   }
 
-  function obtenerCatalogo() {
-    if (typeof window.productos === 'object' && window.productos) {
-      return window.productos;
-    }
-
+  function catalogo() {
     try {
       if (typeof productos === 'object' && productos) return productos;
     } catch (_) {}
-
-    return {};
+    return window.productos || {};
   }
 
-  function obtenerSlug(id) {
-    if (window.PRODUCT_SLUGS && window.PRODUCT_SLUGS[id]) {
-      return window.PRODUCT_SLUGS[id];
-    }
-
-    try {
-      if (typeof PRODUCT_SLUGS === 'object' && PRODUCT_SLUGS?.[id]) {
-        return PRODUCT_SLUGS[id];
-      }
-    } catch (_) {}
-
-    return id;
+  function slugProducto(id, producto) {
+    return producto?.slug || window.PRODUCT_SLUGS?.[id] || id;
   }
 
-  function obtenerImagen(producto) {
+  function imagenProducto(producto) {
     if (Array.isArray(producto?.variantes) && producto.variantes.length) {
       return producto.variantes[0]?.imagenes?.[0] || '';
     }
-    return Array.isArray(producto?.imagenes) ? producto.imagenes[0] || '' : '';
+    return producto?.imagenes?.[0] || '';
   }
 
-  function obtenerPlaceholder(producto) {
-    if (Array.isArray(producto?.variantes) && producto.variantes.length) {
-      return producto.variantes[0]?.placeholders?.[0] || '🐾';
-    }
-    return Array.isArray(producto?.placeholders)
-      ? producto.placeholders[0] || '🐾'
-      : '🐾';
-  }
-
-  function obtenerPrecio(producto) {
-    return producto?.precio ||
+  function precioProducto(producto) {
+    return producto?.precioDisplay ||
+      producto?.precio ||
       producto?.precioTexto ||
-      producto?.precioDisplay ||
       (Number.isFinite(Number(producto?.precioNum))
         ? '$' + Number(producto.precioNum).toLocaleString('es-CL')
         : '');
   }
 
-  function puntajeCoincidencia(id, producto, consulta) {
-    const nombre = normalizarTexto(producto?.nombre);
-    const marca = normalizarTexto(producto?.marca);
-    const categoria = normalizarTexto(producto?.categoria);
-    const audience = normalizarTexto(producto?.audience);
-    const descripcion = normalizarTexto(producto?.descripcion);
-    const ingredientes = normalizarTexto(producto?.ingredientes);
-    const sku = normalizarTexto(id);
+  function puntaje(id, producto, consulta) {
+    const campos = {
+      nombre: normalizar(producto?.nombre),
+      marca: normalizar(producto?.marca),
+      categoria: normalizar(producto?.categoria),
+      audience: normalizar(producto?.audience),
+      descripcion: normalizar(producto?.descripcion),
+      ingredientes: normalizar(producto?.ingredientes),
+      id: normalizar(id)
+    };
 
-    let puntaje = 0;
-
-    if (nombre === consulta) puntaje += 100;
-    else if (nombre.startsWith(consulta)) puntaje += 70;
-    else if (nombre.includes(consulta)) puntaje += 50;
-
-    if (marca.startsWith(consulta)) puntaje += 30;
-    else if (marca.includes(consulta)) puntaje += 20;
-
-    if (categoria.includes(consulta)) puntaje += 14;
-    if (audience.includes(consulta)) puntaje += 10;
-    if (sku.includes(consulta)) puntaje += 8;
-    if (descripcion.includes(consulta)) puntaje += 6;
-    if (ingredientes.includes(consulta)) puntaje += 4;
-
-    return puntaje;
+    let total = 0;
+    if (campos.nombre === consulta) total += 100;
+    else if (campos.nombre.startsWith(consulta)) total += 70;
+    else if (campos.nombre.includes(consulta)) total += 50;
+    if (campos.marca.includes(consulta)) total += 25;
+    if (campos.categoria.includes(consulta)) total += 15;
+    if (campos.audience.includes(consulta)) total += 10;
+    if (campos.id.includes(consulta)) total += 8;
+    if (campos.descripcion.includes(consulta)) total += 6;
+    if (campos.ingredientes.includes(consulta)) total += 4;
+    return total;
   }
 
-  function cerrarBuscador() {
+  function cerrar() {
     const drop = document.getElementById('nav-drop');
     if (!drop) return;
     drop.innerHTML = '';
@@ -107,52 +74,34 @@
     const drop = document.getElementById('nav-drop');
     if (!drop) return;
 
-    const consulta = normalizarTexto(valor);
-
+    const consulta = normalizar(valor);
     if (consulta.length < 2) {
-      cerrarBuscador();
+      cerrar();
       return;
     }
 
-    const catalogo = obtenerCatalogo();
-
-    const resultados = Object.entries(catalogo)
-      .map(([id, producto]) => ({
-        id,
-        producto,
-        puntaje: puntajeCoincidencia(id, producto, consulta)
-      }))
-      .filter(resultado => resultado.puntaje > 0)
-      .sort((a, b) =>
-        b.puntaje - a.puntaje ||
-        String(a.producto?.nombre || '').localeCompare(
-          String(b.producto?.nombre || ''),
-          'es'
-        )
-      )
+    const resultados = Object.entries(catalogo())
+      .map(([id, producto]) => ({ id, producto, score: puntaje(id, producto, consulta) }))
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score)
       .slice(0, 7);
 
     if (!resultados.length) {
-      drop.innerHTML =
-        '<p class="s-empty search-no-results">No encontramos productos con esa búsqueda.</p>';
+      drop.innerHTML = '<p class="s-empty search-no-results">No encontramos productos con esa búsqueda.</p>';
       drop.style.display = 'block';
       return;
     }
 
     drop.innerHTML = resultados.map(({ id, producto }) => {
-      const imagen = obtenerImagen(producto);
-      const placeholder = obtenerPlaceholder(producto);
-      const precio = obtenerPrecio(producto);
-      const slug = obtenerSlug(id);
-
+      const slug = slugProducto(id, producto);
+      const img = imagenProducto(producto);
+      const precio = precioProducto(producto);
       return `
         <a class="s-item nav-search-result" href="/productos/${encodeURIComponent(slug)}">
           <div class="s-img">
-            ${imagen
-              ? `<img src="${imagen}" alt="" loading="lazy">`
-              : `<span>${placeholder}</span>`}
+            ${img ? `<img src="${img}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:contain">` : ''}
           </div>
-          <div class="s-copy">
+          <div>
             <div class="s-nombre">${producto?.nombre || id}</div>
             ${precio ? `<div class="s-precio">${precio}</div>` : ''}
           </div>
@@ -162,41 +111,32 @@
     drop.style.display = 'block';
   };
 
-  function inicializarBuscador() {
+  function iniciar() {
     const input = document.querySelector('.nav-search-wrap input');
-    const drop = document.getElementById('nav-drop');
-
-    if (!input || !drop) return;
+    if (!input) return;
 
     input.removeAttribute('oninput');
     input.removeAttribute('onfocus');
     input.removeAttribute('onblur');
 
-    input.addEventListener('input', event => {
-      window.runSearch(event.target.value);
-    });
-
+    input.addEventListener('input', e => window.runSearch(e.target.value));
     input.addEventListener('focus', () => {
-      if (normalizarTexto(input.value).length >= 2) {
-        window.runSearch(input.value);
-      }
+      if (normalizar(input.value).length >= 2) window.runSearch(input.value);
     });
-
-    input.addEventListener('keydown', event => {
-      if (event.key === 'Escape') {
-        cerrarBuscador();
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        cerrar();
         input.blur();
       }
     });
-
-    document.addEventListener('click', event => {
-      if (!event.target.closest('.nav-search-wrap')) cerrarBuscador();
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.nav-search-wrap')) cerrar();
     });
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', inicializarBuscador);
+    document.addEventListener('DOMContentLoaded', iniciar);
   } else {
-    inicializarBuscador();
+    iniciar();
   }
 })();
