@@ -14,7 +14,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Cambios y devoluciones — Patas & Caos | Tienda de mascotas Chile</title>
-  <meta name="description" content="Política de cambios y devoluciones de Patas & Caos. Te ayudamos a resolver cualquier problema con tu compra de forma rápida y sin complicaciones.">
+  <meta name="description" content="Revisa los plazos, condiciones y pasos para solicitar cambios o devoluciones en Patas & Caos. Atención por WhatsApp y correo electrónico.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
@@ -327,6 +327,137 @@ function runSearch(q) {
 }
 </script>
 <link rel="canonical" href="https://www.patasycaos.cl/devoluciones">
+
+<style id="devoluciones-mejoras">
+/* CAMBIOS Y DEVOLUCIONES — mejora visual */
+.dev-hero {
+  padding: 72px 5% 54px;
+  background: var(--dark);
+}
+.dev-hero .breadcrumb {
+  color: rgba(245,236,215,.42);
+}
+.dev-hero .breadcrumb a {
+  color: inherit;
+}
+.dev-hero h1 {
+  color: var(--blanco);
+  max-width: 760px;
+}
+.dev-hero p {
+  color: rgba(245,236,215,.68);
+  max-width: 650px;
+}
+.dev-content {
+  max-width: 980px;
+  margin: 0 auto;
+  padding-top: 54px;
+}
+.dev-card {
+  padding: 2rem;
+  box-shadow: 0 8px 26px rgba(28,16,7,.035);
+}
+.dev-card-header {
+  margin-bottom: 1.15rem;
+}
+.dev-card-icon {
+  background: rgba(196,98,45,.12);
+  color: var(--terracota);
+}
+.dev-card-icon svg,
+.info-row-icon svg,
+.dev-nota svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.info-row-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(196,98,45,.09);
+  color: var(--terracota);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 30px;
+}
+.info-row-icon.step-number {
+  font-size: .8rem;
+  font-weight: 800;
+}
+.info-row-text strong {
+  margin-bottom: .2rem;
+}
+.dev-nota {
+  border: 1px solid rgba(196,98,45,.12);
+}
+.dev-nota svg {
+  flex: 0 0 19px;
+  margin-top: 2px;
+  color: var(--terracota);
+}
+.dev-nota-red {
+  border-color: rgba(192,57,43,.12);
+}
+.dev-nota-red svg {
+  color: #c0392b;
+}
+.tipo-box {
+  padding: 1.3rem 1.35rem;
+}
+.tipo-box .tipo-titulo {
+  color: var(--terracota);
+}
+.wsp-banner {
+  padding: 2.2rem;
+}
+.banner-btns a svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+.btn-email svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+@media (max-width: 600px) {
+  .dev-hero {
+    padding: 48px 5% 42px;
+  }
+  .dev-content {
+    padding-top: 38px;
+    gap: 1.2rem;
+  }
+  .dev-card {
+    padding: 1.3rem 1.15rem;
+  }
+  .dev-card-header {
+    align-items: flex-start;
+  }
+  .tipo-grid {
+    gap: .8rem;
+  }
+  .wsp-banner {
+    padding: 1.5rem 1.25rem;
+  }
+  .banner-btns {
+    width: 100%;
+  }
+  .banner-btns a {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -416,15 +547,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
 <aside class="cart-sidebar" id="cart-sidebar">
   <div class="cart-header">
-    <h3>🛒 Tu carrito</h3>
+    <h3>Tu carrito</h3>
     <button class="cart-close" onclick="toggleCart()">✕</button>
   </div>
   <div class="cart-items" id="cart-items">
-    <div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>
+    <div class="cart-empty">Tu carrito está vacío.<br>Explora la tienda y agrega tus productos favoritos.</div>
   </div>
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
-    <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
+    <p class="cart-shipping">Envío calculado al momento del pago</p>
     <button class="btn-checkout" onclick="checkout()">Pagar →</button>
   </div>
 </aside>
@@ -432,47 +563,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- HERO -->
 <section class="dev-hero">
   <div class="breadcrumb">
-    <a href="/">Inicio</a><span>›</span><a href="#">Ayuda</a><span>›</span>Cambios y devoluciones
+    <a href="/">Inicio</a><span>›</span><a href="/contacto">Ayuda</a><span>›</span>Cambios y devoluciones
   </div>
   <h1>Cambios y <em>devoluciones</em></h1>
-  <p>Queremos que tú y tu mascota estén felices. Si algo no resultó como esperabas, te ayudamos a resolverlo.</p>
+  <p>Revisa los plazos, condiciones y pasos necesarios para gestionar tu solicitud de forma clara y rápida.</p>
 </section>
 
 <div class="dev-content">
 
-  <!-- PLAZOS Y CONDICIONES -->
   <div class="dev-card">
     <div class="dev-card-header">
-      <div class="dev-card-icon">📋</div>
+      <div class="dev-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></div>
       <h2>Plazos y condiciones</h2>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">📅</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div>
       <div class="info-row-text"><strong>Plazo legal</strong>De acuerdo a la Ley del Consumidor (Ley 19.496), tienes <strong>10 días hábiles</strong> desde que recibes el producto para solicitar un cambio o devolución por arrepentimiento en compras online.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">📦</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l8-4 8 4-8 4z"/><path d="M4 7v10l8 4 8-4V7"/><path d="M12 11v10"/></svg></div>
       <div class="info-row-text"><strong>Estado del producto</strong>El producto debe estar sin uso, en perfectas condiciones y con su embalaje original intacto.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">🧾</div>
-      <div class="info-row-text"><strong>Comprobante de compra</strong>Es obligatorio presentar la boleta o factura para gestionar cualquier cambio o devolución.</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></div>
+      <div class="info-row-text"><strong>Comprobante de compra</strong>Debes presentar la boleta o factura para gestionar el cambio o devolución.</div>
     </div>
     <div class="dev-nota">
-      ⚡ <span><strong>Fallas de fábrica:</strong> Si el producto presenta un defecto de fabricación, el plazo se extiende a <strong>3 meses</strong> desde la compra, independiente del tipo de producto.</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 9v5M12 18h.01"/></svg><span><strong>Fallas de fábrica:</strong> Si el producto presenta un defecto de fabricación, el plazo se extiende a <strong>3 meses</strong> desde la compra, independiente del tipo de producto.</span>
     </div>
   </div>
 
-  <!-- TIPOS DE CASO -->
   <div class="dev-card">
     <div class="dev-card-header">
-      <div class="dev-card-icon">🔄</div>
-      <h2>Tipos de caso</h2>
+      <div class="dev-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg></div>
+      <h2>Tipos de solicitud</h2>
     </div>
     <div class="tipo-grid">
       <div class="tipo-box">
         <div class="tipo-titulo">Arrepentimiento</div>
-        <p>Cambiaste de opinión o el producto no era lo que esperabas. Aplica dentro de los 10 días hábiles desde la recepción, con producto sin uso y embalaje original.</p>
+        <p>Cambiaste de opinión o el producto no era lo que esperabas. Aplica dentro de los 10 días hábiles desde la recepción, con el producto sin uso y su embalaje original.</p>
       </div>
       <div class="tipo-box">
         <div class="tipo-titulo">Falla de fábrica</div>
@@ -480,62 +609,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
     <div class="dev-nota dev-nota-red">
-      🚫 <span><strong>No aplica devolución</strong> en alimentos y snacks que hayan sido abiertos, por razones de higiene y seguridad alimentaria. Si llegaron dañados o en mal estado, contáctanos de inmediato.</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 9v5M12 18h.01"/></svg><span><strong>No aplica devolución</strong> en alimentos y snacks abiertos por razones de higiene y seguridad alimentaria. Si llegaron dañados o en mal estado, contáctanos de inmediato.</span>
     </div>
   </div>
 
-  <!-- CÓMO SOLICITARLO -->
   <div class="dev-card">
     <div class="dev-card-header">
-      <div class="dev-card-icon">💬</div>
-      <h2>¿Cómo solicitarlo?</h2>
+      <div class="dev-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3 1.5-4.5A7 7 0 0 1 3 13V8a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg></div>
+      <h2>Cómo solicitar un cambio o devolución</h2>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">1️⃣</div>
-      <div class="info-row-text"><strong>Contáctanos</strong>Escríbenos por WhatsApp al <strong>+56 9 2399 7854</strong> o al email <strong>contacto@patasycaos.cl</strong> indicando tu número de pedido, el producto y el motivo de la solicitud.</div>
+      <div class="info-row-icon step-number">1</div>
+      <div class="info-row-text"><strong>Contáctanos</strong>Escríbenos por WhatsApp al <strong>+56 9 2399 7854</strong> o al correo <strong>contacto@patasycaos.cl</strong>. Indica tu número de pedido, el producto y el motivo de la solicitud.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">2️⃣</div>
-      <div class="info-row-text"><strong>Devuelve el producto</strong>Puedes traerlo personalmente a nuestro punto en <strong>Providencia</strong> (te enviamos la dirección exacta por WhatsApp al coordinar el horario) o enviarlo por tu cuenta a esa misma dirección. El costo del despacho de devolución corre por tu cuenta, salvo en casos de falla de fábrica.</div>
+      <div class="info-row-icon step-number">2</div>
+      <div class="info-row-text"><strong>Entrega o envía el producto</strong>Puedes llevarlo a nuestro punto en <strong>Providencia</strong>, previa coordinación, o enviarlo a la dirección que te informaremos. El costo del despacho de devolución corre por tu cuenta, salvo en casos de falla de fábrica.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">3️⃣</div>
-      <div class="info-row-text"><strong>Revisamos y resolvemos</strong>Una vez recibido el producto, lo revisamos y te confirmamos la resolución en un plazo máximo de 5 días hábiles.</div>
+      <div class="info-row-icon step-number">3</div>
+      <div class="info-row-text"><strong>Revisión y resolución</strong>Una vez recibido el producto, lo revisamos y te informamos la resolución en un plazo máximo de 5 días hábiles.</div>
     </div>
   </div>
 
-  <!-- QUÉ OFRECEMOS -->
   <div class="dev-card">
     <div class="dev-card-header">
-      <div class="dev-card-icon">✅</div>
-      <h2>¿Qué ofrecemos?</h2>
+      <div class="dev-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
+      <h2>Opciones disponibles</h2>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">🔁</div>
-      <div class="info-row-text"><strong>Cambio de producto</strong>Puedes cambiar por otro producto de igual o mayor valor (abonando la diferencia).</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg></div>
+      <div class="info-row-text"><strong>Cambio de producto</strong>Puedes elegir otro producto de igual o mayor valor, abonando la diferencia cuando corresponda.</div>
     </div>
     <div class="info-row">
-      <div class="info-row-icon">💸</div>
-      <div class="info-row-text"><strong>Reembolso</strong>Si prefieres la devolución del dinero, la realizamos por transferencia bancaria directa al titular de la compra, en un plazo de hasta 5 días hábiles desde que confirmamos la resolución.</div>
+      <div class="info-row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h11a5 5 0 0 1 0 10H8"/><path d="M8 3L4 7l4 4"/><path d="M15 11v4M13 13h4"/></svg></div>
+      <div class="info-row-text"><strong>Reembolso</strong>Si prefieres la devolución del dinero, la realizamos mediante transferencia bancaria al titular de la compra, en un plazo de hasta 5 días hábiles desde que confirmamos la resolución.</div>
     </div>
     <div class="dev-nota">
-      🐾 <span>La elección es tuya — te consultamos cuál prefieres antes de proceder con cualquier gestión.</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Antes de realizar cualquier gestión, confirmaremos contigo si prefieres un cambio o un reembolso.</span>
     </div>
   </div>
 
-  <!-- BANNER CONTACTO -->
   <div class="wsp-banner">
     <div class="wsp-banner-text">
-      <h3>¿Tienes dudas sobre tu cambio o devolución?</h3>
-      <p>Escríbenos y te respondemos en minutos. Sin vueltas.</p>
+      <h3>¿Necesitas ayuda con tu solicitud?</h3>
+      <p>Envíanos tu número de pedido y cuéntanos qué ocurrió. Te orientaremos sobre los pasos a seguir.</p>
     </div>
     <div class="banner-btns">
       <a href="https://wa.me/56923997854" target="_blank" rel="noopener" class="btn-wsp">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
         WhatsApp
       </a>
       <a href="mailto:contacto@patasycaos.cl" class="btn-email">
-        contacto@patasycaos.cl
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>Correo electrónico
       </a>
     </div>
   </div>
@@ -581,7 +707,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="auth-box">
     <button class="auth-close" onclick="cerrarAuth()">✕</button>
     <div class="auth-logo"><img src="/logo.png" alt="Patas & Caos"></div>
-    <h3>Bienvenido 🐾</h3>
+    <h3>Bienvenido</h3>
     <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
     <button class="btn-google" onclick="loginConGoogle()">
       <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
