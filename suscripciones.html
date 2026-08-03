@@ -13,7 +13,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Suscripciones — Patas & Caos</title>
-<meta name="description" content="Suscríbete y recibe cada mes lo que tu gato necesita: alimento Brit Care premium, arena sanitaria y sorpresas. Despacho incluido a Santiago.">
+<meta name="description" content="Recibe cada mes alimento premium, snacks, accesorios y, en planes Indoor, arena sanitaria para tu gato. Despacho incluido en Santiago y sin permanencia.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
@@ -569,6 +569,115 @@ function runSearch(q) {
 }
 </script>
 <link rel="canonical" href="https://www.patasycaos.cl/suscripciones">
+
+<style id="suscripciones-mejoras">
+/* SUSCRIPCIONES — mejora visual */
+.hero-sus {
+  padding: 88px 5% 104px;
+}
+.hero-sus h1 {
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-sus p {
+  max-width: 650px;
+}
+.hero-pill {
+  gap: 9px;
+  padding: 9px 17px;
+}
+.hero-pill svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.toggle-section {
+  padding-top: 48px;
+}
+.toggle-wrap {
+  box-shadow: 0 8px 24px rgba(28,16,7,.06);
+}
+.plans-intro {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.plan-card {
+  box-shadow: 0 8px 24px rgba(28,16,7,.04);
+}
+.plan-card.popular {
+  box-shadow: 0 16px 40px rgba(196,98,45,.14);
+}
+.popular-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.popular-badge svg {
+  width: 13px;
+  height: 13px;
+  fill: currentColor;
+}
+.how h2,
+.faq h2 {
+  line-height: 1.15;
+}
+.step p {
+  max-width: 210px;
+  margin: 0 auto;
+}
+.sus-title {
+  line-height: 1.25;
+}
+.sus-aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.sus-aviso svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  margin-top: 2px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+@media (max-width: 600px) {
+  .hero-sus {
+    padding: 64px 6% 72px;
+  }
+  .hero-sus h1 {
+    font-size: clamp(2rem, 10vw, 2.8rem);
+  }
+  .hero-pills {
+    gap: .55rem;
+  }
+  .hero-pill {
+    width: 100%;
+    max-width: 310px;
+    justify-content: flex-start;
+  }
+  .toggle-wrap {
+    width: calc(100% - 10%);
+    max-width: 420px;
+  }
+  .toggle-btn {
+    flex: 1;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+</style>
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -658,15 +767,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
 <aside class="cart-sidebar" id="cart-sidebar">
   <div class="cart-header">
-    <h3>🛒 Tu carrito</h3>
+    <h3>Tu carrito</h3>
     <button class="cart-close" onclick="toggleCart()">✕</button>
   </div>
   <div class="cart-items" id="cart-items">
-    <div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>
+    <div class="cart-empty">Tu carrito está vacío.<br>Explora la tienda y agrega tus productos favoritos.</div>
   </div>
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
-    <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
+    <p class="cart-shipping">Envío calculado al momento del pago</p>
     <button class="btn-checkout" onclick="checkout()">Pagar →</button>
   </div>
 </aside>
@@ -678,14 +787,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- HERO -->
 <section class="hero-sus">
-  <p class="section-label">Suscripciones mensuales</p>
-  <h1>Todo lo que tu GATO necesita,<br><em>sin que tengas que recordarlo.</em></h1>
-  <p>Alimento premium Brit Care, arena sanitaria y sorpresas cada mes. Despacho incluido a todo Santiago. Cancela cuando quieras.</p>
+  <p class="section-label">Suscripciones mensuales para gatos</p>
+  <h1>Su rutina mensual,<br><em>resuelta en una sola caja.</em></h1>
+  <p>Recibe alimento premium, snacks y productos seleccionados cada mes. Los planes Indoor también incluyen arena sanitaria. Despacho incluido en Santiago y sin permanencia.</p>
   <div class="hero-pills">
-    <span class="hero-pill">🐟 Brit Care Sterilized Duck & Turkey</span>
-    <span class="hero-pill">📦 Despacho incluido</span>
-    <span class="hero-pill">✨ Sorpresas cada mes</span>
-    <span class="hero-pill">🔓 Sin permanencia</span>
+    <span class="hero-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/><path d="M7 8l-3 4 3 4"/><path d="M17 8l3 4-3 4"/></svg>Alimento premium mensual</span>
+    <span class="hero-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h13v11H3z"/><path d="M16 9h3l2 3v5h-5z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>Despacho incluido</span>
+    <span class="hero-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.4 4.1L17.5 8.5l-4.1 1.4L12 14l-1.4-4.1-4.1-1.4 4.1-1.4z"/><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8z"/></svg>Productos sorpresa</span>
+    <span class="hero-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.8-1.2"/></svg>Sin permanencia</span>
   </div>
 </section>
 
@@ -694,17 +803,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- TOGGLE -->
 <div class="toggle-section">
   <div class="toggle-wrap">
-    <button class="toggle-btn activo" id="btn-felina" onclick="mostrar('felina')">🐱 Gato outdoor</button>
-    <button class="toggle-btn" id="btn-indoor" onclick="mostrar('indoor')">🏠 Gato indoor</button>
+    <button class="toggle-btn activo" id="btn-felina" onclick="mostrar('felina')">Plan Outdoor</button>
+    <button class="toggle-btn" id="btn-indoor" onclick="mostrar('indoor')">Plan Indoor</button>
   </div>
-  <p style="font-size:.82rem;color:var(--texto-suave);margin-top:.8rem;">Indoor incluye arena sanitaria 8kg · Outdoor sin arena</p>
+  <p style="font-size:.82rem;color:var(--texto-suave);margin-top:.8rem;">Indoor incluye arena sanitaria de 8 kg · Outdoor no incluye arena</p>
 </div>
 
 <!-- PLANES FELINA -->
 <section class="plans-section" id="planes-felina">
   <div class="plans-intro">
     <p class="section-label">Suscripción Felina Outdoor</p>
-    <h2>Para el gato que sale al mundo 🐱</h2>
+    <h2>Para gatos con acceso al exterior</h2>
     <p>Alimento premium + snacks y accesorios sorpresa cada mes. No incluye arena sanitaria.</p>
   </div>
   <div class="plans-grid">
@@ -721,7 +830,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <button class="plan-btn outline" onclick="abrirModalSus('felina', 'basico')">Suscribirme →</button>
     </div>
     <div class="plan-card popular">
-      <span class="popular-badge">⭐ Más popular</span>
+      <span class="popular-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.6-5 2.6 1-5.6-4.1-4 5.6-.8z"/></svg>Más elegido</span>
       <p class="plan-name">Premium</p>
       <div class="plan-price"><sup>$</sup>39.990</div>
       <p class="plan-sub">/ mes · despacho incluido</p>
@@ -753,8 +862,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="plans-section hidden" id="planes-indoor">
   <div class="plans-intro">
     <p class="section-label">Suscripción Felina Indoor</p>
-    <h2>Para el gato de interior 🏠</h2>
-    <p>Alimento premium + arena sanitaria 8kg + snacks y accesorios sorpresa. No tienes que comprar la arena aparte.</p>
+    <h2>Para gatos de interior</h2>
+    <p>Alimento premium, arena sanitaria de 8 kg, snacks y productos sorpresa en una sola entrega mensual.</p>
   </div>
   <div class="plans-grid">
     <div class="plan-card">
@@ -771,7 +880,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <button class="plan-btn outline" onclick="abrirModalSus('indoor', 'basico')">Suscribirme →</button>
     </div>
     <div class="plan-card popular">
-      <span class="popular-badge">⭐ Más popular</span>
+      <span class="popular-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.6-5 2.6 1-5.6-4.1-4 5.6-.8z"/></svg>Más elegido</span>
       <p class="plan-name">Premium</p>
       <div class="plan-price"><sup>$</sup>44.990</div>
       <p class="plan-sub">/ mes · despacho incluido</p>
@@ -806,12 +915,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- CÓMO FUNCIONA -->
 <section class="how">
   <p class="section-label">¿Cómo funciona?</p>
-  <h2>Cuatro pasos y listo 🐾</h2>
+  <h2>Cuatro pasos, sin complicaciones</h2>
   <div class="steps">
-    <div class="step"><div class="step-num">1</div><h4>Elige tu plan</h4><p>Básico, Premium o VIP — Outdoor o Indoor según si tu gato usa arena.</p></div>
-    <div class="step"><div class="step-num">2</div><h4>Completa tus datos</h4><p>Nombre, dirección en Santiago y listo.</p></div>
-    <div class="step"><div class="step-num">3</div><h4>Paga con MP</h4><p>Pago seguro con Mercado Pago. Se descuenta automático cada mes en la misma fecha.</p></div>
-    <div class="step"><div class="step-num">4</div><h4>Recibe la caja</h4><p>Tu caja llega cada mes en la misma fecha que te suscribiste. Sorpresa distinta cada mes.</p></div>
+    <div class="step"><div class="step-num">1</div><h4>Elige tu plan</h4><p>Elige Básico, Premium o VIP y selecciona Outdoor o Indoor según necesites arena sanitaria.</p></div>
+    <div class="step"><div class="step-num">2</div><h4>Completa tus datos</h4><p>Ingresa tus datos de contacto y la dirección de entrega en Santiago.</p></div>
+    <div class="step"><div class="step-num">3</div><h4>Confirma el pago</h4><p>Paga de forma segura con Mercado Pago o transferencia, según la opción disponible.</p></div>
+    <div class="step"><div class="step-num">4</div><h4>Recibe la caja</h4><p>Recibe tu caja cada mes con los productos correspondientes a tu plan.</p></div>
   </div>
 </section>
 
@@ -827,7 +936,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <tr>
             <th style="padding:14px 16px;text-align:left;border-bottom:2px solid rgba(28,16,7,.1);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--texto-suave);"></th>
             <th style="padding:14px 16px;text-align:center;border-bottom:2px solid rgba(28,16,7,.1);font-size:.82rem;font-weight:700;color:var(--negro);">Básico</th>
-            <th style="padding:14px 16px;text-align:center;border-bottom:2px solid var(--terracota);font-size:.82rem;font-weight:700;color:var(--terracota);background:rgba(196,98,45,.04);border-radius:8px 8px 0 0;">Premium ⭐</th>
+            <th style="padding:14px 16px;text-align:center;border-bottom:2px solid var(--terracota);font-size:.82rem;font-weight:700;color:var(--terracota);background:rgba(196,98,45,.04);border-radius:8px 8px 0 0;">Premium</th>
             <th style="padding:14px 16px;text-align:center;border-bottom:2px solid rgba(28,16,7,.1);font-size:.82rem;font-weight:700;color:var(--negro);">VIP</th>
           </tr>
         </thead>
@@ -891,10 +1000,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <p class="section-label">Preguntas frecuentes</p>
   <h2>Todo lo que necesitas saber</h2>
   <div class="faq-list">
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿Puedo cancelar cuando quiera? <span>+</span></button><div class="faq-a"><p>Sí, sin permanencia ni costos de cancelación. Puedes cancelar directamente desde tu cuenta en <a href="/cuenta#suscripcion" style="color:var(--terracota);font-weight:600;">patasycaos.cl/cuenta</a> — inicia sesión, ve a "Mi suscripción" y haz click en "Cancelar suscripción". Solo te pedimos hacerlo con al menos 5 días de anticipación antes de tu próxima fecha de despacho. También puedes escribirnos a <strong>contacto@patasycaos.cl</strong> o por <a href="https://wa.me/56923997854?text=Hola!%20Quiero%20cancelar%20mi%20suscripci%C3%B3n%20de%20Patas%20%26%20Caos" target="_blank" style="color:var(--terracota);font-weight:600;">WhatsApp</a>.</p></div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿Puedo cancelar cuando quiera? <span>+</span></button><div class="faq-a"><p>Sí, sin permanencia ni costos de cancelación. Puedes cancelar directamente desde tu cuenta en <a href="/cuenta#suscripcion" style="color:var(--terracota);font-weight:600;">patasycaos.cl/cuenta</a> — inicia sesión, ve a "Mi suscripción" y haz clic en "Cancelar suscripción". Solo te pedimos hacerlo con al menos 5 días de anticipación antes de tu próxima fecha de despacho. También puedes escribirnos a <strong>contacto@patasycaos.cl</strong> o por <a href="https://wa.me/56923997854?text=Hola!%20Quiero%20cancelar%20mi%20suscripci%C3%B3n%20de%20Patas%20%26%20Caos" target="_blank" style="color:var(--terracota);font-weight:600;">WhatsApp</a>.</p></div></div>
     <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿Cuándo llega la caja cada mes? <span>+</span></button><div class="faq-a"><p>Tu caja se despacha cada mes en la misma fecha en que te suscribiste — ese es tu día fijo de entrega. Recibirás un email de confirmación cuando esté en camino.</p></div></div>
     <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿Solo despachan a Santiago? <span>+</span></button><div class="faq-a"><p>Por ahora sí — solo Santiago con despacho incluido en el precio. Próximamente regiones.</p></div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿El alimento realmente alcanza el mes completo? <span>+</span></button><div class="faq-a"><p>Sí. El Brit Care Sterilized 2kg está formulado para gatos adultos esterilizados — un gato promedio come ~55g/día, por lo que las 2kg duran aproximadamente 36 días.</p></div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿El alimento realmente alcanza el mes completo? <span>+</span></button><div class="faq-a"><p>Sí. El Brit Care Sterilized 2kg está formulado para gatos adultos esterilizados — un gato promedio come aproximadamente 55 g al día, por lo que los 2 kg duran aproximadamente 36 días.</p></div></div>
     <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">¿Puedo comprar productos adicionales junto con mi suscripción? <span>+</span></button><div class="faq-a"><p>¡Claro! Puedes usar el carrito normalmente para agregar productos de la tienda y comprarlos por separado. La suscripción es independiente de tus compras normales.</p></div></div>
   </div>
 </section>
@@ -940,7 +1049,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="sus-modal" id="sus-modal">
   <button class="sus-close" onclick="cerrarModalSus()" aria-label="Cerrar">✕</button>
   <p class="sus-plan-label" id="sus-plan-label">Suscripción Felina Outdoor — Premium</p>
-  <h3 class="sus-title">¿A dónde enviamos tu caja? 🐾</h3>
+  <h3 class="sus-title">Datos de entrega</h3>
   <p class="sus-sub">Completa tus datos y te redirigimos a pagar de forma segura con Mercado Pago.</p>
 
   <span class="sus-section">Tus datos</span>
@@ -975,7 +1084,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <option>Huechuraba</option><option>San Ramón</option><option>La Granja</option>
       </optgroup>
     </select>
-    <p class="sus-aviso">📍 Solo despachamos en Santiago. Próximamente regiones.</p>
+    <p class="sus-aviso"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="2.5"/></svg>Solo despachamos en Santiago. Próximamente ampliaremos la cobertura.</p>
   </div>
   <div class="sus-field"><label>Notas adicionales (opcional)</label><input type="text" id="sus-notas" placeholder="Ej: timbre no funciona, llamar al llegar"></div>
 
@@ -985,8 +1094,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <span class="sus-section" style="margin-top:1.2rem;display:block">Método de pago</span>
   <div class="sus-sabores" style="margin-bottom:.75rem">
-    <button class="modal-variante-btn activo" id="sus-pago-mp" onclick="elegirPagoSus('mp')">💳 Mercado Pago</button>
-    <button class="modal-variante-btn" id="sus-pago-transfer" onclick="elegirPagoSus('transfer')">🏦 Transferencia</button>
+    <button class="modal-variante-btn activo" id="sus-pago-mp" onclick="elegirPagoSus('mp')">Mercado Pago</button>
+    <button class="modal-variante-btn" id="sus-pago-transfer" onclick="elegirPagoSus('transfer')">Transferencia</button>
   </div>
   <div id="sus-transfer-info" style="display:none;background:#f5ecd7;border-radius:12px;padding:1rem 1.2rem;margin-bottom:.75rem;font-size:.85rem;line-height:1.9;color:#4a3a2e">
     <div style="font-weight:700;margin-bottom:.3rem;color:#C4622D">🏦 Datos para transferir</div>
@@ -1009,7 +1118,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="auth-box">
     <button class="auth-close" onclick="cerrarAuth()">✕</button>
     <div class="auth-logo"><img src="/logo.png" alt="Patas & Caos"></div>
-    <h3>Bienvenido 🐾</h3>
+    <h3>Bienvenido</h3>
     <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
     <button class="btn-google" onclick="loginConGoogle()">
       <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
