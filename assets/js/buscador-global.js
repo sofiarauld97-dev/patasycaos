@@ -2,6 +2,130 @@
 (function () {
   'use strict';
 
+
+  function inyectarEstilos() {
+    if (document.getElementById('buscador-global-v3-estilos')) return;
+
+    const style = document.createElement('style');
+    style.id = 'buscador-global-v3-estilos';
+    style.textContent = `
+      .nav-search-wrap {
+        position: relative !important;
+        z-index: 500 !important;
+      }
+
+      #nav-drop {
+        display: none;
+        position: absolute !important;
+        top: calc(100% + 6px) !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-height: 320px !important;
+        overflow-y: auto !important;
+        background: #fff !important;
+        border: 1px solid rgba(28,16,7,.08) !important;
+        border-radius: 14px !important;
+        box-shadow: 0 12px 34px rgba(28,16,7,.14) !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        z-index: 9999 !important;
+        box-sizing: border-box !important;
+      }
+
+      #nav-drop .nav-search-result {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        width: 100% !important;
+        padding: 10px 14px !important;
+        margin: 0 !important;
+        border: 0 !important;
+        border-bottom: 1px solid rgba(28,16,7,.08) !important;
+        background: #fff !important;
+        color: #1A1A1A !important;
+        text-decoration: none !important;
+        font-family: 'Poppins', sans-serif !important;
+        line-height: 1.25 !important;
+        box-sizing: border-box !important;
+      }
+
+      #nav-drop .nav-search-result:last-child {
+        border-bottom: 0 !important;
+      }
+
+      #nav-drop .nav-search-result:hover {
+        background: #F8F3E8 !important;
+      }
+
+      #nav-drop .s-img {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: hidden !important;
+        border-radius: 8px !important;
+        background: #fff !important;
+      }
+
+      #nav-drop .s-img img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        display: block !important;
+      }
+
+      #nav-drop .s-info {
+        min-width: 0 !important;
+        flex: 1 !important;
+      }
+
+      #nav-drop .s-nombre {
+        display: block !important;
+        margin: 0 0 3px !important;
+        color: #1A1A1A !important;
+        font-size: .82rem !important;
+        font-weight: 700 !important;
+        line-height: 1.3 !important;
+        white-space: normal !important;
+        text-decoration: none !important;
+      }
+
+      #nav-drop .s-precio {
+        display: block !important;
+        margin: 0 !important;
+        color: #C4622D !important;
+        font-size: .75rem !important;
+        font-weight: 700 !important;
+        line-height: 1.2 !important;
+        text-decoration: none !important;
+      }
+
+      #nav-drop .s-empty {
+        margin: 0 !important;
+        padding: 14px !important;
+        color: #6b5a4e !important;
+        font-size: .82rem !important;
+        background: #fff !important;
+      }
+
+      @media (max-width: 768px) {
+        #nav-drop {
+          position: absolute !important;
+          top: calc(100% + 6px) !important;
+          left: 0 !important;
+          right: 0 !important;
+          width: 100% !important;
+          max-height: 300px !important;
+        }
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
   function normalizar(valor) {
     return String(valor || '')
       .normalize('NFD')
@@ -97,11 +221,11 @@
       const img = imagenProducto(producto);
       const precio = precioProducto(producto);
       return `
-        <a class="s-item nav-search-result" href="/productos/${encodeURIComponent(slug)}">
+        <a class="nav-search-result" href="/productos/${encodeURIComponent(slug)}">
           <div class="s-img">
-            ${img ? `<img src="${img}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:contain">` : ''}
+            ${img ? `<img src="${img}" alt="${producto?.nombre || id}" loading="lazy">` : ''}
           </div>
-          <div>
+          <div class="s-info">
             <div class="s-nombre">${producto?.nombre || id}</div>
             ${precio ? `<div class="s-precio">${precio}</div>` : ''}
           </div>
@@ -112,6 +236,8 @@
   };
 
   function iniciar() {
+    inyectarEstilos();
+
     const input = document.querySelector('.nav-search-wrap input');
     if (!input) return;
 
