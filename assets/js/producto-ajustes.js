@@ -48,11 +48,17 @@
 
     const matches = getCatalogEntries()
       .filter(([id, product]) => {
+        if (String(id).startsWith('pack-') || /^Pack\b/i.test(String(product?.nombre || ''))) {
+          return false;
+        }
+
         const searchable = normalizeSearchText([
           product?.nombre,
           product?.marca,
           product?.categoria,
           product?.audience,
+          product?.descripcion,
+          product?.ingredientes,
           id
         ].filter(Boolean).join(' '));
 
@@ -61,23 +67,28 @@
       .slice(0, 7);
 
     if (!matches.length) {
-      drop.innerHTML = '<div class="search-no-results">No encontramos productos con esa búsqueda.</div>';
+      drop.innerHTML = '<p class="s-empty">No encontramos productos con esa búsqueda.</p>';
       drop.style.display = 'block';
       return;
     }
 
     drop.innerHTML = matches.map(([id, product]) => {
-      const image = Array.isArray(product.imagenes) ? product.imagenes[0] : '';
+      const image = Array.isArray(product?.variantes) && product.variantes.length
+        ? product.variantes[0]?.imagenes?.[0] || ''
+        : Array.isArray(product?.imagenes) ? product.imagenes[0] || '' : '';
       const slug = getProductSlug(id);
-      const price = product.precio || product.precioTexto || '';
+      const price = product?.precio || product?.precioTexto || product?.precioDisplay || '';
+      const name = product?.nombre || id;
 
       return `
-        <a class="nav-search-result" href="/productos/${slug}">
-          ${image ? `<img src="${image}" alt="">` : ''}
-          <span>
-            <strong>${product.nombre || id}</strong>
-            ${price ? `<small>${price}</small>` : ''}
-          </span>
+        <a class="s-item" href="/productos/${encodeURIComponent(slug)}">
+          <div class="s-img">
+            ${image ? `<img src="${image}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:contain;display:block">` : ''}
+          </div>
+          <div>
+            <div class="s-nombre">${name}</div>
+            ${price ? `<div class="s-precio">${price}</div>` : ''}
+          </div>
         </a>`;
     }).join('');
 
