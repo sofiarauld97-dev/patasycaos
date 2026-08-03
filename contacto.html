@@ -115,18 +115,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .contact-icon.instagram { background: rgba(196,98,45,.1); }
   .contact-icon.email { background: rgba(28,16,7,.07); }
 
-.contact-icon svg{
-  width:32px;
-  height:32px;
-  display:block;
-  overflow:visible;
-}
-.contact-icon.whatsapp svg{
-  width:34px;
-  height:34px;
-}
+  .contact-icon svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+  .contact-icon .whatsapp-brand-icon {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    stroke: none;
+    overflow: visible;
+  }
+  .contact-icon.whatsapp {
+    color: var(--terracota);
+  }
 
-  .contact-info { flex: 1; }
+
+.contact-info { flex: 1; }
   .contact-label { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: .3rem; }
   .contact-value { font-size: 1.1rem; font-weight: 700; color: var(--negro); margin-bottom: .2rem; }
   .contact-desc { font-size: .83rem; color: var(--suave); line-height: 1.5; }
@@ -624,7 +630,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- WHATSAPP -->
   <a class="contact-card" href="https://wa.me/56923997854?text=Hola%2C%20tengo%20una%20consulta" target="_blank" rel="noopener">
-    <div class="contact-icon whatsapp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.1-4.7A8.5 8.5 0 1 1 20.5 11.5z"/><path d="M8.2 8.3c.2 2.6 2.3 4.8 4.9 5.3"/><path d="M8.2 8.3l1.5-.4.9 2-1.1 1.1"/><path d="M13.1 13.6l1.2-1.1 2 .8-.3 1.5"/></svg></div>
+    <div class="contact-icon whatsapp"><svg class="whatsapp-brand-icon" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+  <path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.989.518 3.86 1.427 5.484L2.05 21.95l4.59-1.371A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 11.999 2zm0 18a7.95 7.95 0 01-4.058-1.107l-.29-.173-3.004.896.898-2.927-.19-.302A7.926 7.926 0 014 12c0-4.418 3.581-8 7.999-8C16.419 4 20 7.582 20 12s-3.581 8-8.001 8z"/>
+</svg></div>
     <div class="contact-info">
       <p class="contact-label">WhatsApp</p>
       <p class="contact-value">+56 9 2399 7854</p>
