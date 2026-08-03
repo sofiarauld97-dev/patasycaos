@@ -31,18 +31,7 @@ function guardarCarritoLocal() {
   try { localStorage.setItem('pac_cart', JSON.stringify(cart)); } catch(e) {}
 }
 
-function toggleCart() {
-  const overlay = document.getElementById('cart-overlay');
-  const sidebar = document.getElementById('cart-sidebar');
-  if (!overlay || !sidebar) return;
-
-  overlay.classList.toggle('open');
-  sidebar.classList.toggle('open');
-
-  const isOpen = sidebar.classList.contains('open');
-  document.body.style.overflow = isOpen ? 'hidden' : '';
-  document.body.classList.toggle('cart-open', isOpen);
-}
+function toggleCart() { document.getElementById('cart-overlay').classList.toggle('open'); document.getElementById('cart-sidebar').classList.toggle('open'); document.body.style.overflow = document.getElementById('cart-sidebar').classList.contains('open') ? 'hidden' : ''; }
 function addToCart(product) {
   const stock = getStock();
   const maxQty = stock[product.id] ?? 1;
@@ -86,10 +75,10 @@ function renderCart() {
   const container = document.getElementById('cart-items'), footer = document.getElementById('cart-footer'), badge = document.getElementById('cart-badge');
   const totalItems = cart.reduce((s,i) => s+i.qty, 0), totalPrice = cart.reduce((s,i) => s+i.price*i.qty, 0);
   badge.textContent = totalItems; badge.style.display = totalItems > 0 ? 'flex' : 'none';
-  if (cart.length === 0) { container.innerHTML = '<div class="cart-empty"><strong>Tu carrito está vacío</strong><span>Agrega productos para continuar con tu compra.</span></div>'; footer.style.display = 'none'; return; }
+  if (cart.length === 0) { container.innerHTML = '<div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>'; footer.style.display = 'none'; return; }
   footer.style.display = 'block';
   document.getElementById('cart-total').textContent = '$' + totalPrice.toLocaleString('es-CL');
-  container.innerHTML = cart.map(item => `<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#ffffff'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`).join('');
+  container.innerHTML = cart.map(item => `<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`).join('');
 }
 
 const COMUNAS_CHILE = [
@@ -347,10 +336,51 @@ function actualizarEnvio() {
 }
 
 
-function checkout() {
+async function checkout() {
   if (cart.length === 0) return;
-  guardarCarritoLocal();
-  window.location.href = '/checkout';
+  // Mostrar resumen en el modal
+  const resumen = document.getElementById('checkoutResumen');
+  resumen.innerHTML = cart.map(i => `<div class="checkout-resumen-item"><span>${i.name} x${i.qty}</span><span>$${(i.price*i.qty).toLocaleString('es-CL')}</span></div>`).join('') +
+    `<div class="checkout-resumen-total"><span>Total</span><span>$${cart.reduce((s,i)=>s+i.price*i.qty,0).toLocaleString('es-CL')}</span></div>`;
+
+  // Inyectar selector de método de pago si no existe
+  if (!document.getElementById('pago-metodo-wrap')) {
+    const btns = document.querySelector('.checkout-btns');
+    if (btns) {
+      const wrap = document.createElement('div');
+      wrap.id = 'pago-metodo-wrap';
+      wrap.style.marginTop = '1rem';
+      wrap.innerHTML = `
+        <p class="checkout-section-label">Método de pago</p>
+        <div class="checkout-metodo-toggle">
+          <label class="metodo-btn activo" id="lbl-mp">
+            <input type="radio" name="metodo-pago" value="mercadopago" checked onchange="togglePagoUI()">
+            💳 Mercado Pago
+          </label>
+          <label class="metodo-btn" id="lbl-transfer">
+            <input type="radio" name="metodo-pago" value="transferencia" onchange="togglePagoUI()">
+            🏦 Transferencia bancaria
+          </label>
+        </div>
+        <div id="transfer-info" style="display:none;background:#f5ecd7;border-radius:12px;padding:1rem 1.2rem;margin-top:.75rem;font-size:.85rem;line-height:1.9;color:#4a3a2e">
+          <div style="font-weight:700;margin-bottom:.3rem;color:#C4622D">🏦 Datos para transferir</div>
+          <div><strong>Banco:</strong> Mercado Pago</div>
+          <div><strong>Tipo de cuenta:</strong> Vista</div>
+          <div><strong>N° de cuenta:</strong> 1000264809</div>
+          <div><strong>RUT:</strong> 78.413.784-8</div>
+          <div><strong>Nombre:</strong> Comercializadora Rauld SpA</div>
+          <div><strong>Email:</strong> contacto@patasycaos.cl</div>
+          <div style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(28,16,7,.1);font-size:.8rem">
+            📸 Envía el comprobante al email o por WhatsApp. Tu pedido se prepara una vez confirmado el pago.
+          </div>
+        </div>`;
+      btns.parentNode.insertBefore(wrap, btns);
+    }
+  }
+
+  document.getElementById('checkoutOverlay').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+  setTimeout(initComunaAutocomplete, 50);
 }
 
 function togglePagoUI() {
@@ -530,7 +560,12 @@ let sbUser   = null;
 let wishlist = [];
 
 /* AUTH MODAL */
-function abrirAuth() { document.getElementById('auth-overlay').classList.add('activo'); document.body.style.overflow='hidden'; }
+function abrirAuth() {
+  ensureAccountUIStyles();
+  updateAuthModalCopy();
+  document.getElementById('auth-overlay')?.classList.add('activo');
+  document.body.style.overflow='hidden';
+}
 function cerrarAuth() { document.getElementById('auth-overlay').classList.remove('activo'); document.body.style.overflow=''; document.getElementById('auth-msg').textContent=''; }
 function cerrarAuthSiFondo(e) { if(e.target.id==='auth-overlay') cerrarAuth(); }
 
@@ -579,30 +614,221 @@ async function guardarDatosUsuario({ saveCart=true, saveWishlist=true }={}) {
 }
 
 /* AUTH UI */
-function updateAuthUI() {
-  const el = document.getElementById('nav-auth');
-  if (!el) return;
-  if (sbUser) {
-    const nombre = sbUser.user_metadata?.full_name || sbUser.email?.split('@')[0] || 'Mi cuenta';
-    const avatar = sbUser.user_metadata?.avatar_url;
-    const avatarHTML = avatar
-      ? `<img src="${avatar}" class="user-avatar" style="width:38px;height:38px;border-radius:50%;object-fit:cover;cursor:pointer;border:2px solid transparent" onclick="toggleUserDropdown()" alt="${nombre}">`
-      : `<div class="user-avatar" style="width:38px;height:38px;border-radius:50%;background:var(--terracota);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer" onclick="toggleUserDropdown()">${nombre[0].toUpperCase()}</div>`;
-    el.innerHTML = `<div class="user-wrap">${avatarHTML}<div class="user-dropdown" id="user-dropdown"><span class="user-name-dd">👋 ${nombre}</span><a href="/favoritos" style="display:block;padding:.5rem .6rem;font-size:.82rem;font-weight:500;color:var(--terracota);text-decoration:none;border-radius:8px;transition:background .15s" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='none'">❤️ Mis favoritos</a><a href="/cuenta" style="display:block;padding:.5rem .6rem;font-size:.82rem;font-weight:500;color:#4a3a2e;text-decoration:none;border-radius:8px;transition:background .15s" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='none'">📦 Mis pedidos</a><a href="/cuenta#suscripcion" style="display:block;padding:.5rem .6rem;font-size:.82rem;font-weight:500;color:#4a3a2e;text-decoration:none;border-radius:8px;transition:background .15s" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='none'">🔄 Mi suscripción</a><button class="btn-signout" onclick="cerrarSesion()">Cerrar sesión</button></div></div>`;
-  } else {
-    el.innerHTML = `<button class="btn-signin" onclick="abrirAuth()" aria-label="Iniciar sesión"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></button>`;
+function ensureAccountUIStyles() {
+  if (document.getElementById('pac-account-ui-styles')) return;
+
+  const style = document.createElement('style');
+  style.id = 'pac-account-ui-styles';
+  style.textContent = `
+    .user-wrap{
+      position:relative;
+      margin-left:0!important;
+    }
+
+    .user-avatar{
+      width:38px!important;
+      height:38px!important;
+      border:1.5px solid rgba(28,16,7,.18)!important;
+      background:#FFFFFF!important;
+      color:#1A1A1A!important;
+      font-size:.88rem!important;
+      font-weight:700!important;
+      box-shadow:none!important;
+    }
+
+    .user-avatar:hover,
+    .user-avatar[aria-expanded="true"]{
+      border-color:#C4622D!important;
+      color:#C4622D!important;
+    }
+
+    .user-dropdown{
+      top:calc(100% + 12px)!important;
+      right:0!important;
+      min-width:224px!important;
+      padding:10px!important;
+      gap:2px!important;
+      border:1px solid #E6DED6!important;
+      border-radius:14px!important;
+      background:#FFFFFF!important;
+      box-shadow:0 16px 42px rgba(28,16,7,.14)!important;
+    }
+
+    .user-name-dd{
+      display:block;
+      padding:8px 10px 11px!important;
+      margin:0 0 5px!important;
+      border-bottom:1px solid #EEE8E2!important;
+      color:#1A1A1A!important;
+      font-size:.78rem!important;
+      font-weight:700!important;
+      line-height:1.4;
+      overflow-wrap:anywhere;
+    }
+
+    .pac-account-link,
+    .user-dropdown .btn-signout{
+      display:flex!important;
+      align-items:center!important;
+      width:100%!important;
+      min-height:39px!important;
+      padding:8px 10px!important;
+      border:0!important;
+      border-radius:8px!important;
+      background:transparent!important;
+      color:#4A423C!important;
+      font-family:"Poppins",sans-serif!important;
+      font-size:.78rem!important;
+      font-weight:500!important;
+      line-height:1.3!important;
+      text-align:left!important;
+      text-decoration:none!important;
+      cursor:pointer!important;
+      transition:background .15s,color .15s!important;
+    }
+
+    .pac-account-link:hover{
+      background:#F7F2EB!important;
+      color:#C4622D!important;
+    }
+
+    .user-dropdown .btn-signout{
+      margin-top:5px!important;
+      padding-top:10px!important;
+      border-top:1px solid #EEE8E2!important;
+      border-radius:0 0 8px 8px!important;
+      color:#A43A32!important;
+    }
+
+    .user-dropdown .btn-signout:hover{
+      background:#FBF1EF!important;
+      color:#8F2F28!important;
+    }
+
+    .auth-box{
+      max-width:420px!important;
+      padding:34px 36px 36px!important;
+    }
+
+    .auth-logo{
+      margin-bottom:18px!important;
+    }
+
+    .auth-logo img{
+      width:54px!important;
+      height:54px!important;
+    }
+
+    .auth-box h3{
+      margin-bottom:8px!important;
+      color:#1A1A1A!important;
+      font-size:1.25rem!important;
+      letter-spacing:-.025em;
+    }
+
+    .auth-box > p{
+      max-width:315px;
+      margin:0 auto 24px!important;
+      color:#756B63!important;
+      font-size:.8rem!important;
+      line-height:1.65!important;
+    }
+
+    @media(max-width:600px){
+      .user-dropdown{
+        position:fixed!important;
+        top:auto!important;
+        right:12px!important;
+        bottom:76px!important;
+        left:12px!important;
+        min-width:0!important;
+        max-width:none!important;
+      }
+
+      .auth-box{
+        padding:30px 22px 28px!important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+function updateAuthModalCopy() {
+  const overlay = document.getElementById('auth-overlay');
+  if (!overlay) return;
+
+  const title = overlay.querySelector('.auth-box h3');
+  const description = overlay.querySelector('.auth-box > p');
+
+  if (title) title.textContent = 'Bienvenido';
+  if (description) {
+    description.textContent =
+      'Inicia sesión para consultar tus pedidos, gestionar tus suscripciones y registrar a tus mascotas.';
   }
 }
 
-async function cerrarSesion() {
-  await _sb.auth.signOut();
-  sbUser=null; sbToken=null; cart=[]; wishlist=[];
-  guardarCarritoLocal();
-  renderCart(); actualizarWishlistUI(); updateAuthUI();
+function updateAuthUI() {
+  const el = document.getElementById('nav-auth');
+  if (!el) return;
+
+  ensureAccountUIStyles();
+  updateAuthModalCopy();
+
+  if (sbUser) {
+    const nombre =
+      sbUser.user_metadata?.full_name ||
+      sbUser.user_metadata?.name ||
+      sbUser.email?.split('@')[0] ||
+      'Mi cuenta';
+
+    const avatarUrl =
+      sbUser.user_metadata?.avatar_url ||
+      sbUser.user_metadata?.picture;
+
+    const inicial = String(nombre).trim().charAt(0).toUpperCase() || 'U';
+
+    const avatarHTML = avatarUrl
+      ? `<img src="${avatarUrl}" class="user-avatar" alt="" onclick="toggleUserDropdown()" aria-label="Abrir menú de cuenta" aria-expanded="false">`
+      : `<button type="button" class="user-avatar" onclick="toggleUserDropdown()" aria-label="Abrir menú de cuenta" aria-expanded="false">${inicial}</button>`;
+
+    el.innerHTML = `
+      <div class="user-wrap">
+        ${avatarHTML}
+        <div class="user-dropdown" id="user-dropdown">
+          <span class="user-name-dd">${nombre}</span>
+          <a class="pac-account-link" href="/cuenta">Mi cuenta</a>
+          <a class="pac-account-link" href="/cuenta#pedidos">Mis pedidos</a>
+          <a class="pac-account-link" href="/cuenta#suscripcion">Mi suscripción</a>
+          <a class="pac-account-link" href="/cuenta#mascotas">Mis mascotas</a>
+          <button class="btn-signout" type="button" onclick="cerrarSesion()">Cerrar sesión</button>
+        </div>
+      </div>`;
+  } else {
+    el.innerHTML = `
+      <button class="btn-signin" type="button" onclick="abrirAuth()" aria-label="Iniciar sesión">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </button>`;
+  }
 }
 
-function toggleUserDropdown() { document.getElementById('user-dropdown')?.classList.toggle('open'); }
-document.addEventListener('click', e => { if(!e.target.closest('.user-wrap')) document.getElementById('user-dropdown')?.classList.remove('open'); });
+function toggleUserDropdown() {
+  const dropdown = document.getElementById('user-dropdown');
+  const avatar = document.querySelector('.user-wrap .user-avatar');
+  if (!dropdown) return;
+
+  const open = dropdown.classList.toggle('open');
+  avatar?.setAttribute('aria-expanded', String(open));
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.user-wrap')) {
+    document.getElementById('user-dropdown')?.classList.remove('open');
+    document.querySelector('.user-wrap .user-avatar')?.setAttribute('aria-expanded', 'false');
+  }
+});
 
 /* WISHLIST */
 function actualizarWishlistUI() {
