@@ -849,6 +849,75 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 
 </style>
+<style id="menu-movil-v3-ajustes">
+
+/* =========================================================
+   MENÚ MÓVIL V3 — header sólido solo mientras el menú está abierto
+   ========================================================= */
+@media (max-width: 768px) {
+  body.menu-open .site-header,
+  body.menu-open .site-header.scrolled {
+    background: var(--cream) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  body.menu-open .site-header nav,
+  body.menu-open .site-header.scrolled nav,
+  body.menu-open .site-header .nav-top,
+  body.menu-open .site-header .nav-bottom {
+    background: var(--cream) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+
+  body.menu-open .hamburger,
+  body.menu-open .hamburger.open {
+    background: var(--cream) !important;
+    opacity: 1 !important;
+  }
+
+  body.menu-open .hamburger span {
+    background: var(--negro) !important;
+    opacity: 1;
+  }
+
+  .mobile-menu > a,
+  .mobile-accordion {
+    border-bottom-color: rgba(28,16,7,.06) !important;
+  }
+
+  .mobile-accordion-btn {
+    color: var(--negro) !important;
+  }
+
+  .mobile-accordion-btn[aria-expanded="true"] {
+    color: var(--terracota) !important;
+  }
+
+  .mobile-acc-arrow {
+    color: #4a4038 !important;
+    margin-right: 4px !important;
+  }
+
+  .mobile-accordion-btn[aria-expanded="true"] .mobile-acc-arrow {
+    color: var(--terracota) !important;
+  }
+
+  .mobile-menu {
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+  }
+
+  #menu-backdrop {
+    background: rgba(28,16,7,.42) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+  }
+}
+
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->

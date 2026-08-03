@@ -55,6 +55,7 @@
     backdrop.hidden = false;
     backdrop.style.display = 'block';
 
+    document.body.classList.add('menu-open');
     document.body.style.overflow = 'hidden';
   }
 
@@ -75,6 +76,7 @@
       backdrop.style.display = 'none';
     }
 
+    document.body.classList.remove('menu-open');
     document.body.style.overflow = '';
   }
 
