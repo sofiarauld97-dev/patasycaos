@@ -18,19 +18,72 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
+function normalizarBusqueda(texto) {
+  return String(texto || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function runSearch(q) {
   const drop = document.getElementById('nav-drop');
   if (!drop) return;
-  if (!q.trim()) { drop.innerHTML=''; return; }
+
+  const consulta = normalizarBusqueda(q);
+
+  if (consulta.length < 2) {
+    drop.innerHTML = '';
+    drop.style.display = 'none';
+    return;
+  }
+
   const prods = typeof productos !== 'undefined' ? productos : {};
-  const q2 = q.toLowerCase();
-  const matches = Object.entries(prods).filter(([id,p])=>p.nombre.toLowerCase().includes(q2)||(p.descripcion||'').toLowerCase().includes(q2)).slice(0,6);
-  if (!matches.length) { drop.innerHTML='<p class="s-empty">Sin resultados</p>'; return; }
-  drop.innerHTML = matches.map(([id,p])=>{
-    const img = p.variantes ? p.variantes[0].imagenes[0] : (p.imagenes ? p.imagenes[0] : '');
-    const ph = p.variantes ? p.variantes[0].placeholders[0] : (p.placeholders ? p.placeholders[0] : '🐾');
-    return `<a class="s-item" href="/tienda?producto=${id}"><div class="s-img">${img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover">':ph}</div><div><div class="s-nombre">${p.nombre}</div><div class="s-precio">${p.precio}</div></div></a>`;
+
+  const matches = Object.entries(prods)
+    .filter(([id, p]) => {
+      const textoProducto = normalizarBusqueda([
+        p.nombre,
+        p.descripcion,
+        p.marca,
+        p.categoria,
+        p.audience,
+        id
+      ].filter(Boolean).join(' '));
+
+      return textoProducto.includes(consulta);
+    })
+    .slice(0, 6);
+
+  if (!matches.length) {
+    drop.innerHTML = '<p class="s-empty">Sin resultados</p>';
+    drop.style.display = 'block';
+    return;
+  }
+
+  drop.innerHTML = matches.map(([id, p]) => {
+    const img = p.variantes
+      ? p.variantes[0]?.imagenes?.[0]
+      : p.imagenes?.[0];
+
+    const ph = p.variantes
+      ? p.variantes[0]?.placeholders?.[0]
+      : p.placeholders?.[0] || '🐾';
+
+    return `
+      <a class="s-item" href="/tienda?producto=${id}">
+        <div class="s-img">
+          ${img ? `<img src="${img}" alt="" style="width:100%;height:100%;object-fit:contain">` : ph}
+        </div>
+        <div>
+          <div class="s-nombre">${p.nombre}</div>
+          <div class="s-precio">${p.precio || p.precioTexto || ''}</div>
+        </div>
+      </a>`;
   }).join('');
+
+  drop.style.display = 'block';
 }
 </script>
 <style>
@@ -549,6 +602,56 @@ function runSearch(q) {
 }
 </script>
 <meta name="robots" content="noindex, nofollow">
+
+<style id="cuenta-pedidos-profesional">
+.cuenta-wrap{max-width:980px!important}
+.cuenta-titulo{font-size:clamp(1.7rem,3vw,2.25rem)!important;letter-spacing:-.04em}
+.cuenta-section{padding:24px!important;border:1px solid #E4DDD5!important;border-radius:18px!important;background:#FFFFFF!important;box-shadow:0 8px 28px rgba(28,16,7,.035)}
+.cuenta-section-title{margin-bottom:18px!important;color:#1A1A1A!important;font-size:.78rem!important;letter-spacing:.08em!important}
+.pedidos-lista{display:grid;gap:12px}
+.pedido-card{overflow:hidden;border:1px solid #E7E0D9;border-radius:14px;background:#FFFFFF;transition:border-color .2s,box-shadow .2s}
+.pedido-card:hover{border-color:#D8CDC3;box-shadow:0 8px 24px rgba(28,16,7,.05)}
+.pedido-resumen{width:100%;display:grid;grid-template-columns:minmax(120px,.8fr) minmax(190px,1.7fr) minmax(105px,.7fr) minmax(110px,.75fr) 28px;gap:18px;align-items:center;padding:18px 20px;border:0;background:#FFFFFF;color:#1A1A1A;font-family:"Poppins",sans-serif;text-align:left;cursor:pointer}
+.pedido-resumen:hover{background:#FCFAF7}
+.pedido-numero{display:block;color:#1A1A1A;font-size:.83rem;font-weight:800}
+.pedido-fecha{display:block;margin-top:4px;color:#827870;font-size:.68rem}
+.pedido-productos-resumen{min-width:0;color:#3F3833;font-size:.78rem;font-weight:500;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pedido-total{color:#1A1A1A;font-size:.85rem;font-weight:800;white-space:nowrap}
+.pedido-estado{justify-self:start;display:inline-flex!important;align-items:center;min-height:28px;padding:0 10px!important;border-radius:999px!important;font-size:.67rem!important;font-weight:700!important;white-space:nowrap}
+.estado-pendiente{background:#FFF3D9!important;color:#80510B!important}
+.estado-despachado{background:#EAF1FB!important;color:#285D9D!important}
+.estado-entregado{background:#E6F4ED!important;color:#226446!important}
+.estado-cancelado{background:#F8E9E7!important;color:#963D35!important}
+.pedido-arrow{justify-self:end;color:#8E837A;font-size:.9rem;transition:transform .2s}
+.pedido-card.abierto .pedido-arrow{transform:rotate(180deg)}
+.pedido-detalle-panel{display:none;padding:0 20px 20px;border-top:1px solid #EEE8E2;background:#FCFAF7}
+.pedido-card.abierto .pedido-detalle-panel{display:block}
+.pedido-detalle-grid{display:grid;grid-template-columns:1.35fr .85fr;gap:24px;padding-top:18px}
+.pedido-detalle-bloque h4{margin:0 0 10px;color:#736960;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.pedido-productos-lista{display:grid;gap:8px}
+.pedido-producto-linea{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid #EEE8E2;color:#342E29;font-size:.77rem;line-height:1.45}
+.pedido-producto-linea:last-child{border-bottom:0}
+.pedido-datos{display:grid;gap:9px}
+.pedido-dato{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;color:#4A423C;font-size:.73rem;line-height:1.5}
+.pedido-dato strong{color:#756B63;font-weight:600}
+.pedido-total-final{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid #DDD4CB;color:#1A1A1A;font-size:.85rem;font-weight:800}
+@media(max-width:760px){
+  .cuenta-wrap{padding-left:14px!important;padding-right:14px!important}
+  .cuenta-section{padding:18px!important}
+  .pedido-resumen{grid-template-columns:minmax(0,1fr) auto 22px;grid-template-areas:"numero estado arrow" "productos productos productos" "total fecha fecha";gap:8px 10px;padding:16px}
+  .pedido-identidad{grid-area:numero}
+  .pedido-productos-resumen{grid-area:productos;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .pedido-total{grid-area:total}
+  .pedido-fecha-mobile{grid-area:fecha;text-align:right}
+  .pedido-estado{grid-area:estado;justify-self:end}
+  .pedido-arrow{grid-area:arrow}
+  .pedido-identidad .pedido-fecha{display:none}
+  .pedido-detalle-grid{grid-template-columns:1fr;gap:20px}
+  .pedido-detalle-panel{padding:0 16px 18px}
+}
+@media(min-width:761px){.pedido-fecha-mobile{display:none}}
+</style>
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -673,7 +776,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <div id="cuenta-contenido" style="display:none;">
-    <h1 class="cuenta-titulo">Mi cuenta 🐾</h1>
+    <h1 class="cuenta-titulo">Mi cuenta</h1>
     <p class="cuenta-sub" id="cuenta-bienvenida">Hola, cargando...</p>
 
     <!-- SUSCRIPCIÓN -->
@@ -827,7 +930,7 @@ _sb.auth.onAuthStateChange((event, session) => {
     loginAviso.style.display = 'none';
     contenido.style.display = 'block';
     const nombre = session.user.user_metadata?.full_name || session.user.email;
-    document.getElementById('cuenta-bienvenida').textContent = `Hola, ${nombre} 👋`;
+    document.getElementById('cuenta-bienvenida').textContent = `Hola, ${nombre}`;
     cargarSuscripcion(session.user.email);
     cargarMascotas(session.user.id, session.user.email);
     cargarPedidos(session.user.email);
@@ -1084,6 +1187,48 @@ async function cargarMascotas(userId, email) {
   }
 }
 
+function escaparCuentaHtml(valor) {
+  return String(valor ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function formatearEstadoPedido(estado) {
+  const normalizado = String(estado || 'pendiente').toLowerCase();
+  const mapa = {
+    pendiente: { clase: 'estado-pendiente', texto: 'Pendiente' },
+    pagado: { clase: 'estado-pendiente', texto: 'Pagado' },
+    despachado: { clase: 'estado-despachado', texto: 'Despachado' },
+    enviado: { clase: 'estado-despachado', texto: 'Despachado' },
+    entregado: { clase: 'estado-entregado', texto: 'Entregado' },
+    cancelado: { clase: 'estado-cancelado', texto: 'Cancelado' },
+    cancelada: { clase: 'estado-cancelado', texto: 'Cancelado' }
+  };
+  return mapa[normalizado] || {
+    clase: 'estado-pendiente',
+    texto: normalizado.charAt(0).toUpperCase() + normalizado.slice(1)
+  };
+}
+
+function separarProductosPedido(texto) {
+  const valor = String(texto || '').trim();
+  if (!valor) return [];
+  const coincidencias = [
+    ...valor.matchAll(/(?:^|,\s*)(.+?\s+x\d+(?:\s*\(-?\d+%\))?)(?=,\s*|$)/g)
+  ].map(match => match[1].trim());
+  return coincidencias.length ? coincidencias : [valor];
+}
+
+function toggleDetallePedido(button) {
+  const card = button.closest('.pedido-card');
+  if (!card) return;
+  const abierto = card.classList.toggle('abierto');
+  button.setAttribute('aria-expanded', String(abierto));
+}
+
 async function cargarPedidos(email) {
   try {
     const { data, error } = await _sb
@@ -1091,32 +1236,89 @@ async function cargarPedidos(email) {
       .select('*')
       .eq('email', email)
       .order('created_at', { ascending: false })
-      .limit(10);
+      .limit(20);
 
     if (error) throw error;
 
     if (!data || data.length === 0) {
-      document.getElementById('pedidos-contenido').innerHTML = '<div class="empty-state">No tienes pedidos aún.</div>';
+      document.getElementById('pedidos-contenido').innerHTML =
+        '<div class="empty-state">Aún no tienes pedidos registrados.</div>';
       return;
     }
 
-    const rows = data.map(p => {
-      const fecha = new Date(p.created_at).toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      const estadoClass = p.estado === 'entregado' ? 'estado-entregado' : p.estado === 'despachado' ? 'estado-despachado' : 'estado-pendiente';
-      const estadoLabel = p.estado === 'entregado' ? '✅ Entregado' : p.estado === 'despachado' ? '🚚 Despachado' : '⏳ Pendiente';
+    const cards = data.map(p => {
+      const fecha = new Date(p.created_at).toLocaleDateString('es-CL', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+
+      const numeroPedido = 'PAC-' + String(p.id || '').padStart(5, '0');
+      const estado = formatearEstadoPedido(p.estado);
+      const productos = separarProductosPedido(p.productos);
+      const total = Number(p.total) || 0;
+      const subtotal = Number(p.subtotal) || Math.max(0, total - (Number(p.costo_envio) || 0));
+      const envio = Number(p.costo_envio) || 0;
+
+      const productosDetalle = productos.map(producto => `
+        <div class="pedido-producto-linea">
+          <span>${escaparCuentaHtml(producto)}</span>
+        </div>
+      `).join('');
+
+      const direccionCompleta = [p.direccion, p.comuna, p.ciudad]
+        .filter(Boolean)
+        .join(', ');
+
       return `
-        <div class="pedido-item">
-          <div>
-            <div class="pedido-nombre">${p.productos || '—'}</div>
-            <div class="pedido-detalle">${fecha} · $${(p.total || 0).toLocaleString('es-CL')}</div>
+        <article class="pedido-card">
+          <button type="button" class="pedido-resumen" onclick="toggleDetallePedido(this)" aria-expanded="false">
+            <span class="pedido-identidad">
+              <span class="pedido-numero">${numeroPedido}</span>
+              <span class="pedido-fecha">${fecha}</span>
+            </span>
+            <span class="pedido-productos-resumen">${escaparCuentaHtml(productos.join(', '))}</span>
+            <span class="pedido-total">$${total.toLocaleString('es-CL')}</span>
+            <span class="pedido-estado ${estado.clase}">${estado.texto}</span>
+            <span class="pedido-arrow" aria-hidden="true">⌄</span>
+            <span class="pedido-fecha pedido-fecha-mobile">${fecha}</span>
+          </button>
+
+          <div class="pedido-detalle-panel">
+            <div class="pedido-detalle-grid">
+              <div class="pedido-detalle-bloque">
+                <h4>Productos</h4>
+                <div class="pedido-productos-lista">${productosDetalle}</div>
+                <div class="pedido-total-final">
+                  <span>Total</span>
+                  <span>$${total.toLocaleString('es-CL')}</span>
+                </div>
+              </div>
+
+              <div class="pedido-detalle-bloque">
+                <h4>Información del pedido</h4>
+                <div class="pedido-datos">
+                  <div class="pedido-dato"><strong>N.º pedido</strong><span>${numeroPedido}</span></div>
+                  <div class="pedido-dato"><strong>Fecha</strong><span>${fecha}</span></div>
+                  <div class="pedido-dato"><strong>Estado</strong><span>${estado.texto}</span></div>
+                  <div class="pedido-dato"><strong>Documento</strong><span>${escaparCuentaHtml(p.documento || 'Boleta')}</span></div>
+                  <div class="pedido-dato"><strong>Subtotal</strong><span>$${subtotal.toLocaleString('es-CL')}</span></div>
+                  <div class="pedido-dato"><strong>Envío</strong><span>${envio > 0 ? '$' + envio.toLocaleString('es-CL') : 'Sin costo'}</span></div>
+                  <div class="pedido-dato"><strong>Entrega</strong><span>${escaparCuentaHtml(direccionCompleta || 'Retiro')}</span></div>
+                  ${p.notas ? `<div class="pedido-dato"><strong>Notas</strong><span>${escaparCuentaHtml(p.notas)}</span></div>` : ''}
+                </div>
+              </div>
+            </div>
           </div>
-          <span class="pedido-estado ${estadoClass}">${estadoLabel}</span>
-        </div>`;
+        </article>`;
     }).join('');
 
-    document.getElementById('pedidos-contenido').innerHTML = rows;
+    document.getElementById('pedidos-contenido').innerHTML =
+      `<div class="pedidos-lista">${cards}</div>`;
   } catch (e) {
-    document.getElementById('pedidos-contenido').innerHTML = '<div class="empty-state">Error al cargar. Intenta de nuevo.</div>';
+    console.error('[cuenta] Error cargando pedidos:', e);
+    document.getElementById('pedidos-contenido').innerHTML =
+      '<div class="empty-state">No fue posible cargar tus pedidos. Intenta nuevamente.</div>';
   }
 }
 </script>
