@@ -28,11 +28,15 @@ main{min-width:0;min-height:0;display:flex;flex-direction:column}.top{height:70p
 .dash-head h2{font-size:clamp(1.55rem,2.4vw,2.1rem);letter-spacing:-.04em}.dash-head p{margin-top:6px;color:var(--m);font-size:.8rem}
 .actions{display:flex;gap:9px;flex-wrap:wrap}.actions button{min-height:40px;padding:0 14px;border:1px solid var(--l);border-radius:10px;background:#fff;font-size:.72rem;font-weight:700;cursor:pointer}.actions .primary{background:var(--t);border-color:var(--t);color:#fff}
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.metric{min-height:120px;padding:20px;border:1px solid var(--l);border-radius:16px;background:#fff}
-.metric span{font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--m)}.metric strong{display:block;margin-top:14px;font-size:1.8rem}.metric small{display:block;margin-top:5px;color:var(--m);font-size:.65rem}
+.metric span{font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--m)}
+.metric strong{display:block;margin-top:14px;font-size:1.8rem;letter-spacing:-.04em}
+.metric strong.loading{color:#aaa}
+.metric strong.error{color:#a43a32;font-size:1rem}
+.metric small{display:block;margin-top:5px;color:var(--m);font-size:.65rem}
 .panels{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.card{border:1px solid var(--l);border-radius:16px;background:#fff;overflow:hidden}.card h3{padding:18px 20px;border-bottom:1px solid var(--l);font-size:.88rem}
 .row{display:flex;justify-content:space-between;gap:14px;padding:14px 20px;border-bottom:1px solid #f0ece7}.row:last-child{border:0}.row strong{font-size:.75rem}.row span{display:block;margin-top:3px;color:var(--m);font-size:.65rem}.row button{border:0;background:transparent;color:var(--t);font-size:.7rem;font-weight:700;cursor:pointer}
 .overlay,.mobile-nav{display:none}
-@media(max-width:980px){.metrics{grid-template-columns:repeat(2,1fr)}.panels{grid-template-columns:1fr}}
+@media(max-width:1180px){.metrics{grid-template-columns:repeat(2,1fr)}.panels{grid-template-columns:1fr}}
 @media(max-width:760px){
 .app{grid-template-columns:1fr}aside{position:fixed;left:0;top:0;bottom:0;width:286px;transform:translateX(-100%);transition:.25s;box-shadow:20px 0 50px #0004}aside.open{transform:none}
 .overlay{display:block;position:fixed;inset:0;z-index:20;background:#0006;opacity:0;pointer-events:none;transition:.2s}.overlay.open{opacity:1;pointer-events:auto}
@@ -63,7 +67,16 @@ main{min-width:0;min-height:0;display:flex;flex-direction:column}.top{height:70p
 <section class="content">
 <div id="dashboard" class="view active"><div class="dashboard">
 <div class="dash-head"><div><h2>Resumen general</h2><p>Accede rápidamente a las áreas principales del negocio.</p></div><div class="actions"><button data-open="inventario">Revisar inventario</button><button class="primary" data-open="productos">Crear producto</button></div></div>
-<div class="metrics"><article class="metric"><span>Productos</span><strong>102</strong><small>Catálogo publicado</small></article><article class="metric"><span>Pedidos</span><strong>—</strong><small>Consultar módulo</small></article><article class="metric"><span>Suscripciones</span><strong>—</strong><small>Consultar módulo</small></article><article class="metric"><span>Inventario</span><strong>—</strong><small>Stock sincronizado</small></article></div>
+<div class="metrics">
+<article class="metric"><span>Productos</span><strong id="metric-productos">—</strong><small>Catálogo publicado</small></article>
+<article class="metric"><span>Pedidos</span><strong id="metric-pedidos">—</strong><small>Pedidos registrados</small></article>
+<article class="metric"><span>Suscripciones</span><strong id="metric-suscripciones">—</strong><small>Suscripciones activas</small></article>
+<article class="metric"><span>Inventario</span><strong id="metric-inventario">—</strong><small>Productos con stock</small></article>
+<article class="metric"><span>Pedidos hoy</span><strong id="metric-pedidos-hoy">—</strong><small>Ingresados durante el día</small></article>
+<article class="metric"><span>Ventas del mes</span><strong id="metric-ventas-mes">—</strong><small>Total registrado en pedidos</small></article>
+<article class="metric"><span>Despachos hoy</span><strong id="metric-despachos-hoy">—</strong><small>Suscripciones activas</small></article>
+<article class="metric"><span>Stock bajo</span><strong id="metric-stock-bajo">—</strong><small>Productos con menos de 5 unidades</small></article>
+</div>
 <div class="panels"><section class="card"><h3>Accesos rápidos</h3><div class="row"><div><strong>Crear producto</strong><span>Agrega datos, imágenes y precio.</span></div><button data-open="productos">Abrir</button></div><div class="row"><div><strong>Gestionar pedidos</strong><span>Pedidos manuales, estados y suscripciones.</span></div><button data-open="pedidos">Abrir</button></div><div class="row"><div><strong>Actualizar stock</strong><span>Modifica cantidades y agotados.</span></div><button data-open="inventario">Abrir</button></div></section>
 <section class="card"><h3>Estado del sistema</h3><div class="row"><div><strong>Catálogo centralizado</strong><span>data/productos.json</span></div></div><div class="row"><div><strong>Checkout independiente</strong><span>/checkout</span></div></div><div class="row"><div><strong>Stock remoto</strong><span>Sincronizado</span></div></div></section></div>
 </div></div>
@@ -76,11 +89,125 @@ main{min-width:0;min-height:0;display:flex;flex-direction:column}.top{height:70p
 <nav class="mobile-nav"><button class="active" data-id="dashboard">Inicio</button><button data-id="productos">Productos</button><button data-id="pedidos">Pedidos</button><button data-id="inventario">Stock</button></nav>
 <script>
 const PASS='290966',titles={dashboard:['Dashboard','Resumen general del negocio'],productos:['Productos','Crear y administrar el catálogo'],pedidos:['Pedidos y suscripciones','Gestionar ventas, estados y suscripciones'],inventario:['Inventario','Consultar y modificar cantidades reales']};
-function login(){const i=document.getElementById('pw');if(i.value===PASS){sessionStorage.setItem('pac_panel_ok','1');document.getElementById('lock').style.display='none'}else{document.getElementById('error').textContent='Contraseña incorrecta';i.value='';i.focus()}}
-function openView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('[data-id]').forEach(b=>b.classList.toggle('active',b.dataset.id===id));document.getElementById('title').textContent=titles[id][0];document.getElementById('sub').textContent=titles[id][1];document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('open');sessionStorage.setItem('pac_panel_view',id)}
-document.getElementById('enter').onclick=login;document.getElementById('pw').onkeydown=e=>{if(e.key==='Enter')login()};if(sessionStorage.getItem('pac_panel_ok')==='1')document.getElementById('lock').style.display='none';
+const SUPA_URL='https://xintmnshndhtqqbouxbo.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbnRtbnNobmRodHFxYm91eGJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDc2MTAsImV4cCI6MjA5MzU4MzYxMH0.Xl5eHoNoxLrb_8jK40zPL52Qa3t696QHkaAmyJEqJac';
+
+const metricIds=[
+  'metric-productos','metric-pedidos','metric-suscripciones','metric-inventario',
+  'metric-pedidos-hoy','metric-ventas-mes','metric-despachos-hoy','metric-stock-bajo'
+];
+
+function setMetric(id,value){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.classList.remove('loading','error');
+  el.textContent=value;
+}
+
+function setMetricsLoading(){
+  metricIds.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.textContent='…';el.classList.add('loading');el.classList.remove('error')}
+  });
+}
+
+function formatoCLP(valor){
+  return '$'+Math.round(Number(valor)||0).toLocaleString('es-CL');
+}
+
+async function supabaseGet(tabla,query=''){
+  const response=await fetch(`${SUPA_URL}/rest/v1/${tabla}?${query}`,{
+    headers:{
+      apikey:SUPA_KEY,
+      Authorization:`Bearer ${SUPA_KEY}`
+    },
+    cache:'no-store'
+  });
+  if(!response.ok)throw new Error(`${tabla}: ${response.status}`);
+  return response.json();
+}
+
+async function cargarDashboard(){
+  setMetricsLoading();
+
+  const hoy=new Date();
+  const inicioHoy=new Date(hoy.getFullYear(),hoy.getMonth(),hoy.getDate()).toISOString();
+  const inicioManana=new Date(hoy.getFullYear(),hoy.getMonth(),hoy.getDate()+1).toISOString();
+  const inicioMes=new Date(hoy.getFullYear(),hoy.getMonth(),1).toISOString();
+
+  const resultados=await Promise.allSettled([
+    fetch('/data/productos.json?t='+Date.now(),{cache:'no-store'}).then(r=>{
+      if(!r.ok)throw new Error('productos.json');
+      return r.json();
+    }),
+    supabaseGet('Pedidos','select=id,total,created_at&order=created_at.desc'),
+    supabaseGet('Suscripciones','select=id,estado,created_at'),
+    fetch('/api/stock-get?t='+Date.now(),{cache:'no-store'}).then(r=>{
+      if(!r.ok)throw new Error('stock');
+      return r.json();
+    })
+  ]);
+
+  // Productos
+  if(resultados[0].status==='fulfilled'){
+    const data=resultados[0].value;
+    const productos=Array.isArray(data)?data:Array.isArray(data?.productos)?data.productos:Object.values(data||{});
+    setMetric('metric-productos',productos.length);
+  }else setMetric('metric-productos','Error');
+
+  // Pedidos y ventas
+  if(resultados[1].status==='fulfilled'){
+    const pedidos=resultados[1].value||[];
+    const pedidosHoy=pedidos.filter(p=>{
+      const fecha=new Date(p.created_at);
+      return fecha>=new Date(inicioHoy)&&fecha<new Date(inicioManana);
+    });
+    const ventasMes=pedidos
+      .filter(p=>new Date(p.created_at)>=new Date(inicioMes))
+      .reduce((s,p)=>s+(Number(p.total)||0),0);
+
+    setMetric('metric-pedidos',pedidos.length);
+    setMetric('metric-pedidos-hoy',pedidosHoy.length);
+    setMetric('metric-ventas-mes',formatoCLP(ventasMes));
+  }else{
+    setMetric('metric-pedidos','Error');
+    setMetric('metric-pedidos-hoy','Error');
+    setMetric('metric-ventas-mes','Error');
+  }
+
+  // Suscripciones
+  if(resultados[2].status==='fulfilled'){
+    const sus=resultados[2].value||[];
+    const activas=sus.filter(s=>String(s.estado||'').toLowerCase()==='activa');
+    const diaHoy=hoy.getDate();
+    const despachosHoy=activas.filter(s=>new Date(s.created_at).getDate()===diaHoy);
+
+    setMetric('metric-suscripciones',activas.length);
+    setMetric('metric-despachos-hoy',despachosHoy.length);
+  }else{
+    setMetric('metric-suscripciones','Error');
+    setMetric('metric-despachos-hoy','Error');
+  }
+
+  // Inventario
+  if(resultados[3].status==='fulfilled'){
+    const respuesta=resultados[3].value||{};
+    const stock=respuesta.stock||respuesta||{};
+    const cantidades=Object.values(stock).map(Number).filter(Number.isFinite);
+    setMetric('metric-inventario',cantidades.filter(n=>n>0).length);
+    setMetric('metric-stock-bajo',cantidades.filter(n=>n>0&&n<5).length);
+  }else{
+    setMetric('metric-inventario','Error');
+    setMetric('metric-stock-bajo','Error');
+  }
+}
+
+function login(){const i=document.getElementById('pw');if(i.value===PASS){sessionStorage.setItem('pac_panel_ok','1');document.getElementById('lock').style.display='none';cargarDashboard()}else{document.getElementById('error').textContent='Contraseña incorrecta';i.value='';i.focus()}}
+function openView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('[data-id]').forEach(b=>b.classList.toggle('active',b.dataset.id===id));document.getElementById('title').textContent=titles[id][0];document.getElementById('sub').textContent=titles[id][1];document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('open');sessionStorage.setItem('pac_panel_view',id);if(id==='dashboard')cargarDashboard()}
+document.getElementById('enter').onclick=login;document.getElementById('pw').onkeydown=e=>{if(e.key==='Enter')login()};if(sessionStorage.getItem('pac_panel_ok')==='1'){document.getElementById('lock').style.display='none';cargarDashboard()}
 document.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>openView(b.dataset.id));document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openView(b.dataset.open));
 document.getElementById('logout').onclick=()=>{sessionStorage.clear();location.reload()};document.getElementById('menu').onclick=()=>{document.getElementById('side').classList.toggle('open');document.getElementById('overlay').classList.toggle('open')};document.getElementById('overlay').onclick=()=>{document.getElementById('side').classList.remove('open');document.getElementById('overlay').classList.remove('open')};
+document.querySelectorAll('iframe').forEach(frame=>frame.addEventListener('load',()=>{if(document.getElementById('dashboard').classList.contains('active'))cargarDashboard()}));
 const saved=sessionStorage.getItem('pac_panel_view');if(saved&&document.getElementById(saved))openView(saved);
 </script>
 </body></html>
