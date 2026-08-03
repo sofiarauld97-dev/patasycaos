@@ -327,6 +327,29 @@ function runSearch(q) {
 }
 </script>
 <link rel="canonical" href="https://www.patasycaos.cl/blog">
+
+<style id="blog-mejoras">
+.blog-hero{padding:78px 5% 86px;background:var(--dark);text-align:center}
+.blog-hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(196,98,45,.14);color:#efaa7f;font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:1.3rem}
+.blog-hero-badge svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.blog-hero h1{max-width:900px;margin-left:auto;margin-right:auto;line-height:1.04}
+.blog-hero p{max-width:650px;margin-left:auto;margin-right:auto;color:rgba(245,236,215,.68)}
+.blog-section{max-width:1180px;margin:0 auto;padding:64px 5% 86px}
+.blog-grid{gap:1.5rem}
+.blog-card{border-radius:20px;overflow:hidden;border:1px solid rgba(28,16,7,.08);box-shadow:0 7px 24px rgba(28,16,7,.04);transition:transform .25s ease,box-shadow .25s ease}
+.blog-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(28,16,7,.09)}
+.blog-card-img{aspect-ratio:16/10;overflow:hidden}
+.blog-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease}
+.blog-card:hover .blog-card-img img{transform:scale(1.035)}
+.blog-card-body{padding:1.45rem 1.5rem 1.35rem}
+.blog-card-title{line-height:1.28;margin-bottom:.7rem}
+.blog-card-excerpt{line-height:1.65}
+.blog-card-footer{margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(28,16,7,.07)}
+.blog-card-read{display:inline-flex;align-items:center;gap:6px}
+.blog-card-read svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:700px){.blog-hero{padding:58px 6% 64px}.blog-hero h1 br{display:none}.blog-section{padding:44px 5% 64px}.blog-grid{grid-template-columns:1fr!important}}
+</style>
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -433,9 +456,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- HERO BLOG -->
 <section class="blog-hero">
-  <div class="blog-hero-badge">✍️ El rincón de Patas & Caos</div>
-  <h1>Tips, historias y todo el <em>caos</em><br>que tus mascotas merecen</h1>
-  <p>Consejos sin humo, recomendaciones honestas y todo lo que aprendemos criando animales con personalidad.</p>
+  <div class="blog-hero-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5A2.5 2.5 0 0 1 20 21.5z"/></svg>Guías y bienestar para mascotas</div>
+  <h1>Información útil para cuidar mejor a tus <em>perros y gatos.</em></h1>
+  <p>Guías prácticas sobre alimentación, juego, bienestar y convivencia, explicadas de forma clara y cercana.</p>
 </section>
 
 <!-- POSTS -->
@@ -447,10 +470,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="blog-card-body">
         <span class="blog-card-tag">Nutrición</span>
         <h2 class="blog-card-title">¿Qué come tu gato en realidad? Guía de alimentación felina</h2>
-        <p class="blog-card-excerpt">Todo lo que necesitas saber sobre comida seca, húmeda y snacks — y qué mirar en las etiquetas para no caer en productos de relleno.</p>
+        <p class="blog-card-excerpt">Una guía práctica sobre alimento seco, húmedo, snacks y los principales datos que conviene revisar en una etiqueta.</p>
         <div class="blog-card-footer">
           <span class="blog-card-date">Mayo 2026</span>
-          <span class="blog-card-read">Leer →</span>
+          <span class="blog-card-read">Leer artículo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M14 7l5 5-5 5"/></svg></span>
         </div>
       </div>
     </a>
@@ -460,10 +483,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="blog-card-body">
         <span class="blog-card-tag">Bienestar</span>
         <h2 class="blog-card-title">Flores de Bach para mascotas: qué son y cómo funcionan</h2>
-        <p class="blog-card-excerpt">Qué son, cómo se usan y cuál fórmula elegir según lo que le pasa a tu perro o gato.</p>
+        <p class="blog-card-excerpt">Qué son, cómo se administran y por qué deben considerarse solo como apoyo complementario al cuidado veterinario.</p>
         <div class="blog-card-footer">
           <span class="blog-card-date">Mayo 2026</span>
-          <span class="blog-card-read">Leer →</span>
+          <span class="blog-card-read">Leer artículo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M14 7l5 5-5 5"/></svg></span>
         </div>
       </div>
     </a>
@@ -473,10 +496,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="blog-card-body">
         <span class="blog-card-tag">Juguetes</span>
         <h2 class="blog-card-title">Los 5 juguetes que más estimulan a tu gato y a tu perro</h2>
-        <p class="blog-card-excerpt">Cinco juguetes que realmente funcionan para mantener a tu mascota activa, estimulada y lejos del sofá.</p>
+        <p class="blog-card-excerpt">Cinco tipos de juguetes para favorecer la actividad física, la exploración y la estimulación mental.</p>
         <div class="blog-card-footer">
           <span class="blog-card-date">Mayo 2026</span>
-          <span class="blog-card-read">Leer →</span>
+          <span class="blog-card-read">Leer artículo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M14 7l5 5-5 5"/></svg></span>
         </div>
       </div>
     </a>
