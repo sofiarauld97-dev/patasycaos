@@ -1189,3 +1189,22 @@ body.cart-open .whatsapp-float{
     background: rgba(255,255,255,.32) !important;
   }
 }
+
+
+
+/* =========================================================
+   MENÚ MÓVIL V6 — contenido comienza inmediatamente bajo el header
+   ========================================================= */
+@media (max-width: 768px) {
+  .mobile-menu,
+  .mobile-menu.open {
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    align-content: flex-start !important;
+    padding-top: 4px !important;
+  }
+
+  .mobile-menu > a:first-child {
+    margin-top: 0 !important;
+  }
+}
