@@ -582,6 +582,41 @@ async function enviarMagicLink() {
   else { msg.textContent='✅ Revisa tu email — te enviamos un enlace de acceso'; msg.className='auth-msg ok'; }
 }
 
+async function cerrarSesion() {
+  const boton = document.querySelector('.user-dropdown .btn-signout');
+
+  try {
+    if (boton) {
+      boton.disabled = true;
+      boton.textContent = 'Cerrando sesión...';
+    }
+
+    const { error } = await _sb.auth.signOut();
+
+    if (error) throw error;
+
+    sbUser = null;
+    sbToken = null;
+    wishlist = [];
+
+    document.getElementById('user-dropdown')?.classList.remove('open');
+    updateAuthUI();
+
+    if (window.location.pathname === '/cuenta' || window.location.pathname === '/cuenta.html') {
+      window.location.reload();
+    }
+  } catch (error) {
+    console.error('[auth] Error al cerrar sesión:', error);
+
+    if (boton) {
+      boton.disabled = false;
+      boton.textContent = 'Cerrar sesión';
+    }
+
+    alert('No fue posible cerrar la sesión. Intenta nuevamente.');
+  }
+}
+
 /* USER DATA */
 async function cargarDatosUsuario() {
   if (!sbToken) return;
