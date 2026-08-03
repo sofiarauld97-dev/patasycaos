@@ -1633,63 +1633,77 @@ async function cambiarEstado(id, nuevoEstado) {
 }
 
 
-async function eliminarPedido(id) {
-  const pedido = todosLosPedidos.find(p => p.id === id);
-  const numero = 'PAC-' + String(id).padStart(5, '0');
+async function eliminarRegistroAdmin(tipo, id, nombre = '') {
+  const etiqueta = tipo === 'pedido' ? 'pedido' : 'suscripción';
+  const numero = tipo === 'pedido'
+    ? 'PAC-' + String(id).padStart(5, '0')
+    : 'SUS-' + String(id).padStart(5, '0');
 
   const confirmar = confirm(
-    `¿Eliminar definitivamente el pedido ${numero}${pedido?.nombre ? ` de ${pedido.nombre}` : ''}?\n\nEsta acción no se puede deshacer.`
+    `¿Eliminar definitivamente ${etiqueta} ${numero}${nombre ? ` de ${nombre}` : ''}?
+
+Esta acción no se puede deshacer.`
   );
-  if (!confirmar) return;
+  if (!confirmar) return false;
 
-  const { error } = await _sb
-    .from('Pedidos')
-    .delete()
-    .eq('id', id);
+  const response = await fetch('/api/admin-eliminar-registro', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-key': '290966'
+    },
+    body: JSON.stringify({ tipo, id })
+  });
 
-  if (error) {
-    console.error(error);
-    alert('No fue posible eliminar el pedido.');
-    return;
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(data.error || `No fue posible eliminar ${etiqueta}.`);
   }
 
-  todosLosPedidos = todosLosPedidos.filter(p => p.id !== id);
-  actualizarStats();
-  renderTabla();
+  if (!data.deleted) {
+    throw new Error(`El servidor no confirmó la eliminación de ${etiqueta}.`);
+  }
+
+  return true;
+}
+
+async function eliminarPedido(id) {
+  const pedido = todosLosPedidos.find(p => p.id === id);
+
+  try {
+    const eliminado = await eliminarRegistroAdmin('pedido', id, pedido?.nombre || '');
+    if (!eliminado) return;
+
+    await cargarPedidos();
+    alert('Pedido eliminado definitivamente.');
+  } catch (error) {
+    console.error('[pedidos] Error eliminando pedido:', error);
+    alert(error.message);
+  }
 }
 
 async function eliminarSuscripcion(id) {
   const sus = todasLasSus.find(s => s.id === id);
   if (!sus) return;
 
-  // Evita borrar una suscripción que todavía podría seguir cobrando en Mercado Pago.
-  if (sus.estado !== 'cancelada' && sus.mp_preapproval_id) {
+  if (String(sus.estado || '').toLowerCase() !== 'cancelada' && sus.mp_preapproval_id) {
     alert(
-      'Primero cambia la suscripción a “Cancelada”. Así se detiene el cobro automático en Mercado Pago antes de eliminarla del listado.'
+      'Primero cambia la suscripción a “Cancelada”. Así se detiene el cobro automático en Mercado Pago antes de eliminarla.'
     );
     return;
   }
 
-  const numero = 'SUS-' + String(id).padStart(5, '0');
-  const confirmar = confirm(
-    `¿Eliminar definitivamente la suscripción ${numero}${sus.nombre ? ` de ${sus.nombre}` : ''}?\n\nEsta acción no se puede deshacer.`
-  );
-  if (!confirmar) return;
+  try {
+    const eliminado = await eliminarRegistroAdmin('suscripcion', id, sus.nombre || '');
+    if (!eliminado) return;
 
-  const { error } = await _sb
-    .from('Suscripciones')
-    .delete()
-    .eq('id', id);
-
-  if (error) {
-    console.error(error);
-    alert('No fue posible eliminar la suscripción.');
-    return;
+    await cargarSuscripciones();
+    alert('Suscripción eliminada definitivamente.');
+  } catch (error) {
+    console.error('[pedidos] Error eliminando suscripción:', error);
+    alert(error.message);
   }
-
-  todasLasSus = todasLasSus.filter(s => s.id !== id);
-  actualizarStatsSus();
-  renderSus();
 }
 
 let CATALOGO = [];
