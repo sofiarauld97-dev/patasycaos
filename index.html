@@ -557,6 +557,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 </style>
 
+
+<style id="hero-tarjeta-posicion-corregida">
+/* Tarjeta del hero alineada hacia la parte superior */
+.hero .hero-slide{
+  position:relative;
+}
+
+.hero .hero-cta-card{
+  top:clamp(20px,5.5vw,72px)!important;
+  bottom:auto!important;
+  left:5%!important;
+  width:min(430px,42vw)!important;
+  transform:none!important;
+}
+
+@media(max-width:850px){
+  .hero .hero-cta-card{
+    top:28px!important;
+    left:4%!important;
+    width:min(420px,52vw)!important;
+  }
+}
+
+@media(max-width:600px){
+  .hero .hero-cta-card{
+    top:16px!important;
+    right:14px!important;
+    bottom:auto!important;
+    left:14px!important;
+    width:auto!important;
+  }
+}
+</style>
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
