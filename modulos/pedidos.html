@@ -1646,13 +1646,13 @@ Esta acción no se puede deshacer.`
   );
   if (!confirmar) return false;
 
-  const response = await fetch('/api/admin-eliminar-registro', {
+  const response = await fetch('/api/webhook', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'x-admin-key': '290966'
     },
-    body: JSON.stringify({ tipo, id })
+    body: JSON.stringify({ accion: 'eliminar_registro_admin', tipo, id })
   });
 
   const data = await response.json().catch(() => ({}));

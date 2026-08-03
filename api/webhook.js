@@ -269,6 +269,116 @@ export default async function handler(req, res) {
     return res.status(405).end();
   }
 
+
+  // === ELIMINACIÓN ADMINISTRATIVA DE PEDIDOS / SUSCRIPCIONES ===
+  if (req.body?.accion === 'eliminar_registro_admin') {
+    const adminKey = req.headers['x-admin-key'];
+    const expectedKey = process.env.ADMIN_PANEL_KEY;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const { tipo, id } = req.body || {};
+    const numericId = Number(id);
+
+    if (!expectedKey || adminKey !== expectedKey) {
+      return res.status(401).json({ error: 'Clave de administrador incorrecta.' });
+    }
+
+    if (!process.env.SUPABASE_URL || !serviceKey) {
+      return res.status(500).json({
+        error: 'Faltan SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY en Vercel.'
+      });
+    }
+
+    if (!['pedido', 'suscripcion'].includes(tipo) || !Number.isInteger(numericId) || numericId <= 0) {
+      return res.status(400).json({ error: 'Tipo o ID inválido.' });
+    }
+
+    const tabla = tipo === 'pedido' ? 'Pedidos' : 'Suscripciones';
+
+    try {
+      // Antes de borrar una suscripción, verifica que Mercado Pago esté detenido.
+      if (tipo === 'suscripcion') {
+        const checkRes = await fetch(
+          `${process.env.SUPABASE_URL}/rest/v1/${tabla}?id=eq.${numericId}&select=id,estado,mp_preapproval_id`,
+          {
+            headers: {
+              apikey: serviceKey,
+              Authorization: `Bearer ${serviceKey}`
+            }
+          }
+        );
+
+        const checkText = await checkRes.text();
+        let checkData = [];
+        try { checkData = checkText ? JSON.parse(checkText) : []; } catch {}
+
+        if (!checkRes.ok) {
+          return res.status(checkRes.status).json({
+            error: checkData?.message || checkData?.error || 'No fue posible revisar la suscripción.'
+          });
+        }
+
+        const sus = Array.isArray(checkData) ? checkData[0] : null;
+
+        if (!sus) {
+          return res.status(404).json({ error: 'La suscripción ya no existe.' });
+        }
+
+        if (
+          sus.mp_preapproval_id &&
+          String(sus.estado || '').toLowerCase() !== 'cancelada'
+        ) {
+          return res.status(409).json({
+            error: 'Primero debes cancelar la suscripción para detener el cobro automático de Mercado Pago.'
+          });
+        }
+      }
+
+      const deleteRes = await fetch(
+        `${process.env.SUPABASE_URL}/rest/v1/${tabla}?id=eq.${numericId}&select=id`,
+        {
+          method: 'DELETE',
+          headers: {
+            apikey: serviceKey,
+            Authorization: `Bearer ${serviceKey}`,
+            Prefer: 'return=representation'
+          }
+        }
+      );
+
+      const deleteText = await deleteRes.text();
+      let deletedRows = [];
+      try { deletedRows = deleteText ? JSON.parse(deleteText) : []; } catch {}
+
+      if (!deleteRes.ok) {
+        return res.status(deleteRes.status).json({
+          error: deletedRows?.message || deletedRows?.error || `Supabase respondió ${deleteRes.status}.`
+        });
+      }
+
+      const deleted =
+        Array.isArray(deletedRows) &&
+        deletedRows.some(row => Number(row.id) === numericId);
+
+      if (!deleted) {
+        return res.status(409).json({
+          error: `Supabase no confirmó la eliminación en ${tabla}.`
+        });
+      }
+
+      return res.status(200).json({
+        ok: true,
+        deleted: true,
+        tipo,
+        id: numericId
+      });
+    } catch (error) {
+      console.error('[webhook] Error eliminando registro administrativo:', error);
+      return res.status(500).json({
+        error: error.message || 'Error interno eliminando el registro.'
+      });
+    }
+  }
+
   // === CAMBIO DE ESTADO / NUEVO PEDIDO MANUAL ===
   const { pedidoId, estado } = req.body || {};
   if (pedidoId && ['despachado', 'entregado', 'nuevo_pedido', 'cancelado'].includes(estado)) {
