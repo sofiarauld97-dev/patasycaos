@@ -1074,6 +1074,54 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 
 </style>
+<style id="menu-movil-v7-ajustes">
+
+/* =========================================================
+   MENÚ MÓVIL V7 — flechas pequeñas y panel con altura de contenido
+   ========================================================= */
+@media (max-width: 768px) {
+  /* El panel termina después de Blog y no ocupa toda la pantalla */
+  .mobile-menu,
+  .mobile-menu.open {
+    bottom: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: calc(100dvh - var(--mobile-menu-top, 0px)) !important;
+    overflow-y: auto !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Blog queda como último elemento, sin línea inferior */
+  .mobile-menu > a:last-child {
+    border-bottom: 0 !important;
+  }
+
+  /* Flechas más pequeñas y sin recorte en Safari */
+  .mobile-acc-arrow {
+    width: 14px !important;
+    height: 14px !important;
+    flex: 0 0 14px !important;
+    margin-right: 6px !important;
+    overflow: visible !important;
+  }
+
+  .mobile-acc-arrow::before,
+  .mobile-acc-arrow::after {
+    top: 6px !important;
+    width: 6px !important;
+    height: 1.4px !important;
+  }
+
+  .mobile-acc-arrow::before {
+    left: 1px !important;
+  }
+
+  .mobile-acc-arrow::after {
+    right: 1px !important;
+  }
+}
+
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
