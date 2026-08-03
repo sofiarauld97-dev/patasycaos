@@ -159,6 +159,179 @@ function generarHtml(p, plantilla, headerHtml, footerHtml) {
   return html;
 }
 
+
+function normalizarImagen(img) {
+  if (!img) return '';
+  return String(img).startsWith('/') || String(img).startsWith('http')
+    ? String(img)
+    : '/' + String(img);
+}
+
+function construirCatalogoFrontend(productos) {
+  const catalogo = {};
+  for (const p of productos) {
+    catalogo[p.sku] = {
+      nombre: p.nombre,
+      precio: p.precioDisplay || p.precioTexto || `$${Number(p.precio).toLocaleString('es-CL')}`,
+      precioNum: Number(p.precio),
+      audience: p.audience || '',
+      categoria: p.categoria || '',
+      marca: p.marca || '',
+      tagline: p.tagline || '',
+      descripcion: p.descripcion || p.seoDescription || '',
+      caracTitulo: p.caracTitulo || 'Características',
+      caracteristicas: Array.isArray(p.caracteristicas) ? p.caracteristicas : [],
+      ingredientes: p.ingredientes || '',
+      imagenes: (p.imagenes || []).map(normalizarImagen),
+      placeholders: Array.isArray(p.placeholders) && p.placeholders.length
+        ? p.placeholders
+        : (p.imagenes || []).map(() => p.emoji || '🐾'),
+      ahorro: p.ahorro || undefined,
+      cyber: p.cyber || undefined
+    };
+  }
+  return catalogo;
+}
+
+function construirMapaSlugs(productos) {
+  return Object.fromEntries(productos.map(p => [p.sku, p.slug]));
+}
+
+function escribirJsGlobal(ruta, nombreGlobal, valor) {
+  const contenido =
+    `// Generado automáticamente desde data/productos.json. No editar a mano.\n` +
+    `const ${nombreGlobal} = ${JSON.stringify(valor, null, 2)};\n` +
+    `if (typeof window !== 'undefined') window.${nombreGlobal} = ${nombreGlobal};\n`;
+  fs.writeFileSync(ruta, contenido, 'utf-8');
+}
+
+function parchearPaginaCatalogo(ruta, productos) {
+  if (!fs.existsSync(ruta)) {
+    console.warn(`⚠ No existe ${path.relative(ROOT, ruta)}; se omite.`);
+    return;
+  }
+
+  let html = leer(ruta);
+  const catalogo = construirCatalogoFrontend(productos);
+  const slugs = construirMapaSlugs(productos);
+
+  const patronCatalogo = /const productos = \{[\s\S]*?\n\};(?=\s*const ORDEN = \[)/;
+  if (!patronCatalogo.test(html)) {
+    throw new Error(`No se encontró el bloque "const productos" en ${path.basename(ruta)}.`);
+  }
+  html = html.replace(
+    patronCatalogo,
+    `const productos = ${JSON.stringify(catalogo, null, 2)};`
+  );
+
+  const patronSlugs = /const PRODUCT_SLUGS = \{[\s\S]*?\};/;
+  if (patronSlugs.test(html)) {
+    html = html.replace(
+      patronSlugs,
+      `const PRODUCT_SLUGS = ${JSON.stringify(slugs, null, 2)};`
+    );
+  }
+
+  // Elimina una versión anterior del bloque automático, si existe.
+  html = html.replace(
+    /\n\/\* AUTO-CATALOGO-INICIO \*\/[\s\S]*?\/\* AUTO-CATALOGO-FIN \*\/\n?/g,
+    '\n'
+  );
+
+  // Mantiene el orden editorial existente y agrega al inicio los productos nuevos.
+  const patronOrden = /(const ORDEN = \[[\s\S]*?\n\];)/;
+  if (!patronOrden.test(html)) {
+    throw new Error(`No se encontró el bloque "const ORDEN" en ${path.basename(ruta)}.`);
+  }
+  html = html.replace(
+    patronOrden,
+    `$1\n/* AUTO-CATALOGO-INICIO */\n` +
+    `Object.keys(productos).reverse().forEach(id => {\n` +
+    `  if (!ORDEN.includes(id)) ORDEN.unshift(id);\n` +
+    `});\n` +
+    `/* AUTO-CATALOGO-FIN */`
+  );
+
+  // Enlaces de búsqueda hacia la ficha pública limpia.
+  html = html.replace(
+    /href="\/tienda\?producto=\$\{id\}"/g,
+    'href="/productos/${PRODUCT_SLUGS[id] || id}"'
+  );
+
+  fs.writeFileSync(ruta, html, 'utf-8');
+  console.log(`✓ Sincronizado: ${path.relative(ROOT, ruta)}`);
+}
+
+function xmlEscape(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+function actualizarSitemap(productos) {
+  const hoy = new Date().toISOString().slice(0, 10);
+  const rutasEstaticas = [
+    ['/', 'weekly', '1.0'],
+    ['/tienda', 'weekly', '0.9'],
+    ['/suscripciones', 'monthly', '0.8'],
+    ['/blog', 'weekly', '0.7'],
+    ['/blog-alimentacion', 'monthly', '0.7'],
+    ['/blog-flores-de-bach', 'monthly', '0.7'],
+    ['/blog-juguetes', 'monthly', '0.7'],
+    ['/nosotros', 'monthly', '0.6'],
+    ['/contacto', 'monthly', '0.6'],
+    ['/envios', 'monthly', '0.5'],
+    ['/devoluciones', 'monthly', '0.5'],
+    ['/faq', 'monthly', '0.5'],
+    ['/cuenta', 'monthly', '0.4'],
+    ['/favoritos', 'monthly', '0.4']
+  ];
+
+  const urls = rutasEstaticas.map(([ruta, frecuencia, prioridad]) => `
+  <url>
+    <loc>${SITE_URL}${ruta}</loc>
+    <lastmod>${hoy}</lastmod>
+    <changefreq>${frecuencia}</changefreq>
+    <priority>${prioridad}</priority>
+  </url>`);
+
+  for (const p of productos) {
+    urls.push(`
+  <url>
+    <loc>${xmlEscape(`${SITE_URL}/productos/${p.slug}`)}</loc>
+    <lastmod>${hoy}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`);
+  }
+
+  const xml =
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+    urls.join('\n') +
+    `\n</urlset>\n`;
+
+  fs.writeFileSync(SITEMAP_PATH, xml, 'utf-8');
+  console.log(`✓ Actualizado: sitemap.xml (${productos.length} productos)`);
+}
+
+function sincronizarCatalogo(productos) {
+  const catalogo = construirCatalogoFrontend(productos);
+  const slugs = construirMapaSlugs(productos);
+
+  escribirJsGlobal(PRODUCTS_DATA_PATH, 'productos', catalogo);
+  escribirJsGlobal(PRODUCT_SLUGS_PATH, 'PRODUCT_SLUGS', slugs);
+  console.log('✓ Generado: products-data.js');
+  console.log('✓ Generado: product-slugs.js');
+
+  parchearPaginaCatalogo(INDEX_PATH, productos);
+  parchearPaginaCatalogo(TIENDA_PATH, productos);
+  actualizarSitemap(productos);
+}
+
 function main() {
   const args = process.argv.slice(2);
   const soloSlug = args.find(a => a.startsWith('--slug='))?.split('=')[1];
@@ -167,7 +340,8 @@ function main() {
   const plantilla = leer(TEMPLATE_PATH);
   const headerHtml = leer(HEADER_PATH).trim();
   const footerHtml = leer(FOOTER_PATH).trim();
-  let productos = JSON.parse(leer(DATA_PATH));
+  const productosTodos = JSON.parse(leer(DATA_PATH));
+  let productos = [...productosTodos];
 
   if (soloSlug) productos = productos.filter(p => p.slug === soloSlug);
   if (soloTest) productos = productos.filter(p => p.test === true);
