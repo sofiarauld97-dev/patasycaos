@@ -25,6 +25,7 @@
 <script type="application/ld+json">__JSONLD__</script>
 <link rel="stylesheet" href="/assets/css/site.css">
 <link rel="stylesheet" href="/assets/css/producto.css?v=3">
+<link rel="stylesheet" href="/assets/css/producto-ajustes.css">
 
 
 <style id="product-checkout-styles">
@@ -190,7 +191,15 @@ __HEADER__
 <div class="product-page-grid">
 <div class="product-gallery"><img alt="__GALLERY_ALT__" class="product-gallery-main" id="product-main-img" src="__GALLERY_MAIN_IMG__">__THUMBS_HTML__</div>
 <div class="product-info"><span class="product-tag">__PRODUCT_TAG__</span><h1>__PRODUCT_NAME__</h1><div class="product-price">__PRODUCT_PRICE_DISPLAY__</div><p class="product-description">__PRODUCT_DESCRIPTION__</p>
-<div class="product-buy"><button id="add-btn" onclick="addCurrentProduct()">Añadir al carrito</button><button class="view-cart" onclick="toggleCart()" type="button">Ver carrito</button></div><div class="product-msg" id="product-msg"></div><section class="product-info-tabs"><div aria-label="Información del producto" class="product-tabs-nav" role="tablist">__TABS_NAV_HTML__</div><div class="product-tabs-panels">__TABS_PANELS_HTML__</div></section></div>
+<div class="product-buy">
+<div class="product-qty-selector" aria-label="Seleccionar cantidad">
+  <button id="product-qty-minus" type="button" onclick="changeProductPageQty(-1)" aria-label="Disminuir cantidad">−</button>
+  <span class="product-qty-value" id="product-qty-value">1</span>
+  <button id="product-qty-plus" type="button" onclick="changeProductPageQty(1)" aria-label="Aumentar cantidad">+</button>
+</div>
+<button id="add-btn" onclick="addCurrentProduct()" type="button">Añadir al carrito</button>
+<div class="product-stock-note" id="product-stock-note"></div>
+</div><div class="product-msg" id="product-msg"></div><section class="product-info-tabs"><div aria-label="Información del producto" class="product-tabs-nav" role="tablist">__TABS_NAV_HTML__</div><div class="product-tabs-panels">__TABS_PANELS_HTML__</div></section></div>
 </div></main>
 __FOOTER__
 <!-- CHECKOUT MODAL -->
@@ -317,11 +326,11 @@ __FOOTER__
 <script src="/product-slugs.js"></script>
 <script src="/cart.js"></script>
 <script src="/assets/js/site.js"></script>
+<script src="/assets/js/producto-ajustes.js"></script>
 <script>
 __CURRENT_PRODUCT_JS__
 window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'view_item',ecommerce:{currency:'CLP',value:CURRENT_PRODUCT.price,items:[{item_id:CURRENT_PRODUCT.id,item_name:CURRENT_PRODUCT.name,item_category:"__VIEW_ITEM_CATEGORY__",price:CURRENT_PRODUCT.price,quantity:1}]}});
 document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.product-thumbs img')?.classList.add('active');});
-async function addCurrentProduct(){try{const r=await fetch('/api/stock-get');const d=await r.json();if(d.stock)localStorage.setItem('pac_stock',JSON.stringify(d.stock));}catch(e){}addToCart(CURRENT_PRODUCT);document.getElementById('product-msg').textContent='✓ Producto añadido al carrito';window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'add_to_cart',ecommerce:{currency:'CLP',value:CURRENT_PRODUCT.price,items:[{item_id:CURRENT_PRODUCT.id,item_name:CURRENT_PRODUCT.name,price:CURRENT_PRODUCT.price,quantity:1}]}});}
 function changeProductImage(el){document.getElementById('product-main-img').src=el.src;document.querySelectorAll('.product-thumbs img').forEach(x=>x.classList.remove('active'));el.classList.add('active');}
 function switchProductTab(button){
   const tabs=button.closest('.product-info-tabs');
