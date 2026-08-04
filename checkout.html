@@ -10,6 +10,44 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/checkout.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+  <style id="payment-logos-fix">
+    .payment-logos{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .payment-logos img{
+      display:block;
+      width:auto;
+      max-width:76px;
+      height:22px;
+      object-fit:contain;
+      object-position:center;
+    }
+    .payment-logos img[alt="Mastercard"]{
+      height:24px;
+      max-width:52px;
+    }
+    .payment-logos img[alt="American Express"]{
+      height:24px;
+      max-width:42px;
+    }
+    .payment-logos img[alt="Redcompra"]{
+      height:20px;
+      max-width:86px;
+    }
+    @media (max-width:768px){
+      .payment-logos{gap:10px;}
+      .payment-logos img{height:18px;max-width:66px;}
+      .payment-logos img[alt="Mastercard"]{height:20px;max-width:44px;}
+      .payment-logos img[alt="American Express"]{height:20px;max-width:36px;}
+      .payment-logos img[alt="Redcompra"]{height:17px;max-width:72px;}
+    }
+  </style>
+
 </head>
 <body class="checkout-page">
   <header class="checkout-header">
@@ -148,10 +186,10 @@
           <div class="accepted-payments" id="accepted-payments">
             <span class="accepted-label">Medios aceptados</span>
             <div class="payment-logos" aria-label="Medios de pago aceptados">
-              <img src="/assets/img/payments/visa.svg" alt="Visa">
+              <img src="/assets/img/payments/visa.png" alt="Visa">
               <img src="/assets/img/payments/mastercard.svg" alt="Mastercard">
               <img src="/assets/img/payments/american-express.svg" alt="American Express">
-              <img src="/assets/img/payments/redcompra.svg" alt="Redcompra">
+              <img src="/assets/img/payments/redcompra.png" alt="Redcompra">
             </div>
           </div>
         </section>
@@ -199,9 +237,5 @@
 
   <script src="/cart.js"></script>
   <script src="/assets/js/checkout-page.js"></script>
-
-<!-- Añadir al final de checkout.css:
-.payment-logos{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px}.payment-logos img{height:22px;width:auto;object-fit:contain;opacity:.9;transition:opacity .2s}.payment-logos img:hover{opacity:1}@media(max-width:768px){.payment-logos{gap:10px}.payment-logos img{height:18px}}
--->
 </body>
 </html>
