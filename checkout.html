@@ -15,36 +15,33 @@
     .payment-logos{
       display:flex;
       align-items:center;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-top:10px;
+      justify-content:flex-start;
+      gap:18px;
+      flex-wrap:nowrap;
+      margin-top:12px;
     }
     .payment-logos img{
       display:block;
       width:auto;
-      max-width:76px;
       height:22px;
+      max-width:none;
       object-fit:contain;
-      object-position:center;
+      flex:0 0 auto;
     }
-    .payment-logos img[alt="Mastercard"]{
-      height:24px;
-      max-width:52px;
-    }
-    .payment-logos img[alt="American Express"]{
-      height:24px;
-      max-width:42px;
-    }
-    .payment-logos img[alt="Redcompra"]{
-      height:20px;
-      max-width:86px;
-    }
+    .payment-logos img[alt="Visa"]{height:28px;}
+    .payment-logos img[alt="Mastercard"]{height:24px;}
+    .payment-logos img[alt="American Express"]{height:28px;}
+    .payment-logos img[alt="Redcompra"]{height:20px;}
+
     @media (max-width:768px){
-      .payment-logos{gap:10px;}
-      .payment-logos img{height:18px;max-width:66px;}
-      .payment-logos img[alt="Mastercard"]{height:20px;max-width:44px;}
-      .payment-logos img[alt="American Express"]{height:20px;max-width:36px;}
-      .payment-logos img[alt="Redcompra"]{height:17px;max-width:72px;}
+      .payment-logos{
+        gap:12px;
+        flex-wrap:wrap;
+      }
+      .payment-logos img[alt="Visa"]{height:22px;}
+      .payment-logos img[alt="Mastercard"]{height:19px;}
+      .payment-logos img[alt="American Express"]{height:22px;}
+      .payment-logos img[alt="Redcompra"]{height:16px;}
     }
   </style>
 
