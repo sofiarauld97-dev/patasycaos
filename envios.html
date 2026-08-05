@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es-CL">
 <head>
-  <!-- PATAS & CAOS: ENVIOS CORREGIDO V1 - SHIPPING SCHEMA -->
+  <!-- PATAS & CAOS: ENVIOS CORREGIDO V2 - FILA TRAMOS + CTA POLITICA -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
@@ -604,7 +604,105 @@
       fill: #FFFFFF !important;
     }
 
-@media (max-width: 700px) {
+
+    /* ENVÍOS V2: tramos en una sola fila y CTA de política */
+    .tipo-grid.shipping-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 1rem !important;
+      align-items: stretch;
+    }
+
+    .shipping-grid .shipping-tier {
+      min-width: 0;
+      height: 100%;
+      padding: 1.35rem 1.4rem;
+    }
+
+    .shipping-grid .shipping-tier p {
+      margin: 0;
+    }
+
+    .shipping-price {
+      margin: .2rem 0 .8rem;
+      color: var(--negro);
+      font-size: 1.55rem;
+      font-weight: 900 !important;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+    }
+
+    .shipping-price strong {
+      display: inline !important;
+      margin: 0 !important;
+      color: inherit;
+      font: inherit;
+      font-weight: 900 !important;
+    }
+
+    .policy-link-wrap {
+      margin: 1.8rem 0 0 !important;
+      padding-top: 1.45rem !important;
+      border-top: 1px solid rgba(28,16,7,.10);
+      text-align: left;
+    }
+
+    .policy-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .45rem;
+      min-height: 44px;
+      padding: .78rem 1.15rem;
+      color: #FFFFFF !important;
+      background: var(--terracota);
+      border: 1px solid var(--terracota);
+      border-radius: 999px;
+      font-size: .86rem;
+      font-weight: 700;
+      line-height: 1;
+      text-decoration: none !important;
+      box-shadow: 0 5px 14px rgba(196,98,45,.18);
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .policy-link:hover {
+      color: #FFFFFF !important;
+      background: #A8501F;
+      border-color: #A8501F;
+      text-decoration: none !important;
+      transform: translateY(-1px);
+    }
+
+    @media (min-width: 701px) and (max-width: 980px) {
+      .tipo-grid.shipping-grid {
+        gap: .75rem !important;
+      }
+
+      .shipping-grid .shipping-tier {
+        padding: 1.05rem;
+      }
+
+      .shipping-grid .tipo-titulo {
+        font-size: .7rem;
+      }
+
+      .shipping-grid .shipping-tier p {
+        font-size: .78rem;
+        line-height: 1.55;
+      }
+
+      .shipping-price {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 700px) {
+
+      .tipo-grid.shipping-grid {
+        grid-template-columns: 1fr !important;
+      }
+
       .dev-hero {
         padding: 48px 5% 42px;
       }
@@ -803,19 +901,19 @@
         <div class="tipo-grid shipping-grid">
           <article class="tipo-box shipping-tier">
             <div class="tipo-titulo">Tramo 1 — Oriente y Central</div>
-            <div class="shipping-price">$3.990</div>
+            <div class="shipping-price"><strong>$3.990</strong></div>
             <p>Providencia, Las Condes, Vitacura, Ñuñoa, La Reina, Santiago Centro y Macul.</p>
           </article>
 
           <article class="tipo-box shipping-tier">
             <div class="tipo-titulo">Tramo 2 — Sector Intermedio</div>
-            <div class="shipping-price">$4.990</div>
+            <div class="shipping-price"><strong>$4.990</strong></div>
             <p>San Miguel, San Joaquín, Pedro Aguirre Cerda, Peñalolén, La Florida, Lo Barnechea, Independencia, Recoleta, Quinta Normal, Estación Central, Cerrillos y La Cisterna.</p>
           </article>
 
           <article class="tipo-box shipping-tier">
             <div class="tipo-titulo">Tramo 3 — Periférico</div>
-            <div class="shipping-price">$5.990</div>
+            <div class="shipping-price"><strong>$5.990</strong></div>
             <p>Maipú, Puente Alto, San Bernardo, Quilicura, Pudahuel, Renca, Cerro Navia, Lo Prado, El Bosque, La Pintana, Lo Espejo, Conchalí, Huechuraba, San Ramón y La Granja.</p>
           </article>
         </div>
