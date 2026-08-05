@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * generar-productos.js v2.3
+ * generar-productos.js v2.4
  *
  * Genera los HTML estáticos de /productos a partir de:
  *   - templates/producto.html   (plantilla con tokens __ASI__)
@@ -27,6 +27,9 @@ const HEADER_PATH = path.join(ROOT, 'components', 'header.html');
 const FOOTER_PATH = path.join(ROOT, 'components', 'footer.html');
 const DATA_PATH = path.join(ROOT, 'data', 'productos.json');
 const OUTPUT_DIR = path.join(ROOT, 'productos');
+const PRODUCTS_DATA_PATH = path.join(ROOT, 'products-data.js');
+const PRODUCT_SLUGS_PATH = path.join(ROOT, 'product-slugs.js');
+const SITEMAP_PATH = path.join(ROOT, 'sitemap.xml');
 
 const SITE_URL = 'https://www.patasycaos.cl';
 
@@ -402,12 +405,11 @@ function sincronizarCatalogo(productos) {
 
   escribirJsGlobal(PRODUCTS_DATA_PATH, 'productos', catalogo);
   escribirJsGlobal(PRODUCT_SLUGS_PATH, 'PRODUCT_SLUGS', slugs);
+  actualizarSitemap(productos);
+
   console.log('✓ Generado: products-data.js');
   console.log('✓ Generado: product-slugs.js');
-
-  parchearPaginaCatalogo(INDEX_PATH, productos);
-  parchearPaginaCatalogo(TIENDA_PATH, productos);
-  actualizarSitemap(productos);
+  console.log('✓ Actualizado: sitemap.xml');
 }
 
 function main() {
@@ -419,6 +421,11 @@ function main() {
   const headerHtml = leer(HEADER_PATH).trim();
   const footerHtml = leer(FOOTER_PATH).trim();
   const productosTodos = JSON.parse(leer(DATA_PATH)).map(normalizarProducto);
+
+  // Primero valida el catálogo completo. Así el build no deja archivos
+  // derivados parcialmente actualizados si existe un producto inválido.
+  productosTodos.forEach(validarProducto);
+
   let productos = [...productosTodos];
 
   if (soloSlug) productos = productos.filter(p => p.slug === soloSlug);
@@ -434,7 +441,6 @@ function main() {
   let generados = 0;
   for (const productoOriginal of productos) {
     const p = normalizarProducto(productoOriginal);
-    validarProducto(p);
     const html = generarHtml(p, plantilla, headerHtml, footerHtml);
     const destino = path.join(OUTPUT_DIR, `${p.slug}.html`);
     fs.writeFileSync(destino, html, 'utf-8');
@@ -442,7 +448,11 @@ function main() {
     generados++;
   }
 
-  console.log(`\nTotal generado: ${generados} de ${JSON.parse(leer(DATA_PATH)).length} producto(s) en data/productos.json`);
+  // Siempre sincroniza el catálogo completo, incluso cuando se genera
+  // una sola ficha con --slug. tienda.html consume estos dos archivos.
+  sincronizarCatalogo(productosTodos);
+
+  console.log(`\nTotal generado: ${generados} de ${productosTodos.length} producto(s) en data/productos.json`);
 }
 
 main();

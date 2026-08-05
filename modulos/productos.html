@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Admin v2.3 — Patas & Caos</title>
-  <!-- ADMIN PRODUCTOS V2.3: ETIQUETA AUTOMATICA CATEGORIA + PUBLICO -->
+  <title>Admin v2.4 — Patas & Caos</title>
+  <!-- ADMIN PRODUCTOS V2.4: CATALOGO DERIVADO AUTOMATICO EN BUILD -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -128,7 +128,7 @@
 <header>
   <div class="head">
     <div class="brand"><img src="/logo.png" alt="" onerror="this.style.display='none'"><span>Patas & Caos</span></div>
-    <div class="badge">Admin v2.3 · Productos</div>
+    <div class="badge">Admin v2.4 · Productos</div>
   </div>
 </header>
 
@@ -228,7 +228,7 @@
         <button class="primary package" id="btnPackage" type="button" disabled>Descargar paquete completo ZIP</button>
       </div>
       <p class="package-note">
-        El ZIP contendrá <strong>data/productos.json</strong>, las imágenes seleccionadas, un parche de stock y un archivo LEEME con las rutas exactas.
+        El ZIP contendrá <strong>data/productos.json</strong>, las imágenes seleccionadas, un parche de stock y un archivo LEEME. Durante el build, el generador actualizará automáticamente <strong>products-data.js</strong>, <strong>product-slugs.js</strong>, las fichas y el sitemap.
       </p>
       <details style="margin-top:14px">
         <summary>Descargas individuales avanzadas</summary>
@@ -529,12 +529,17 @@ ${imageNames || '- No se seleccionaron archivos; revisa los nombres escritos man
 
 5. Vercel ejecutará el build y generará automáticamente:
    productos/${product.slug}.html
+   products-data.js
+   product-slugs.js
+   sitemap.xml
 
-6. Después del deploy revisa:
+6. tienda.html leerá products-data.js y mostrará el producto sin editar la página manualmente.
+
+7. Después del deploy revisa:
    https://www.patasycaos.cl/productos/${product.slug}
 
 IMPORTANTE
-- El HTML no se incluye porque scripts/generar-productos.js lo genera automáticamente desde data/productos.json.
+- tienda.html no se incluye ni se sobrescribe: scripts/generar-productos.js actualiza automáticamente los archivos de catálogo que la tienda consume.
 - El nuevo producto aparecerá también en el listado de crear pedido manual, porque ese panel carga el mismo data/productos.json.
 - El ZIP no modifica GitHub. El stock inicial sí se registra automáticamente en Upstash al descargar el paquete.
 `;
