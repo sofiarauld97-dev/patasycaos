@@ -151,7 +151,7 @@
       const response = await fetch('/data/productos.json?t=' + Date.now(), {
         cache: 'no-store'
       });
-      if (!response.ok) throw new Error('No se pudo cargar el catálogo.');
+      if (!response.ok) throw new Error('No se pudo cargar /data/productos.json');
 
       const data = await response.json();
       const lista = Array.isArray(data)
@@ -171,6 +171,7 @@
         if (!id) return;
 
         remoto[id] = producto;
+
         if (producto.slug) {
           window.PRODUCT_SLUGS = window.PRODUCT_SLUGS || {};
           window.PRODUCT_SLUGS[id] = producto.slug;
@@ -179,7 +180,7 @@
 
       if (Object.keys(remoto).length) catalogoRemoto = remoto;
     } catch (error) {
-      console.error('Buscador: no se pudo sincronizar el catálogo.', error);
+      console.error('Buscador global: no se pudo cargar el catálogo actualizado.', error);
     }
   }
 

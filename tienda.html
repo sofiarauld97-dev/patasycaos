@@ -722,6 +722,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="/assets/js/site.js"></script>
 <script src="/products-data.js"></script>
 <script src="/product-slugs.js"></script>
+<script src="/assets/js/buscador-global.js?v=5"></script>
 <script>
 /* ── NAV & MENU ── */
 function runSearch(q) {
@@ -1037,16 +1038,6 @@ function generarTarjetas() {
         }
       }
 
-      // Regla editorial específica: la Arena Sanitaria Michi debe quedar
-      // inmediatamente después de Arena Sanitaria Ciudad Animal 8 kg.
-      if(idNuevo==='arena-sanitaria-michi-4kg'){
-        const referencia=resultado.indexOf('arena-sanitaria-ciudad-animal-8kg');
-        if(referencia>=0){
-          resultado.splice(referencia+1,0,idNuevo);
-          return;
-        }
-      }
-
       if(indice>=0) resultado.splice(indice+1,0,idNuevo);
       else resultado.push(idNuevo);
     });
@@ -1343,43 +1334,61 @@ if (catParam) {
 // a tener el stock real antes de dibujar — así nunca se adivina "disponible"
 // ni "agotado".
 
-function normalizarProductoCatalogo(p){
-  const precioNumero=Number(p.precio ?? p.precioNum);
+function normalizarProductoCatalogo(producto){
+  const precioNumero=Number(producto.precio ?? producto.precioNum);
+
   return {
-    ...p,
-    precio: p.precioDisplay || p.precioTexto ||
+    ...producto,
+    precio: producto.precioDisplay ||
+      producto.precioTexto ||
       (Number.isFinite(precioNumero)
         ? '$'+Math.round(precioNumero).toLocaleString('es-CL')
         : ''),
     precioNum: Number.isFinite(precioNumero) ? precioNumero : 0,
-    imagenes: Array.isArray(p.imagenes)
-      ? p.imagenes.map(img=>{
+    imagenes: Array.isArray(producto.imagenes)
+      ? producto.imagenes.map(img=>{
           const value=String(img||'').trim();
           if(!value) return '';
           if(/^https?:\/\//i.test(value)||value.startsWith('/')) return value;
           return '/'+value.replace(/^\.\//,'');
         }).filter(Boolean)
-      : [],
-    placeholders: Array.isArray(p.placeholders) && p.placeholders.length
-      ? p.placeholders
-      : (Array.isArray(p.imagenes)?p.imagenes:[]).map(()=>p.emoji||'🐾')
+      : []
   };
 }
 
 async function sincronizarCatalogoDesdeJson(){
-  const response=await fetch('/data/productos.json?t='+Date.now(),{cache:'no-store'});
-  if(!response.ok) throw new Error('No se pudo cargar data/productos.json');
+  const response=await fetch('/data/productos.json?t='+Date.now(),{
+    cache:'no-store'
+  });
+
+  if(!response.ok){
+    throw new Error('No se pudo cargar /data/productos.json');
+  }
+
   const data=await response.json();
   const lista=Array.isArray(data)
     ? data
     : (Array.isArray(data?.productos) ? data.productos : Object.values(data||{}));
 
-  lista.forEach(p=>{
-    if(!p) return;
-    const id=String(p.sku||p.stockId||p.id||p.slug||'').trim();
+  lista.forEach(producto=>{
+    if(!producto) return;
+
+    const id=String(
+      producto.sku ||
+      producto.stockId ||
+      producto.id ||
+      producto.slug ||
+      ''
+    ).trim();
+
     if(!id) return;
-    productos[id]=normalizarProductoCatalogo(p);
-    if(p.slug) window.PRODUCT_SLUGS[id]=p.slug;
+
+    productos[id]=normalizarProductoCatalogo(producto);
+
+    if(producto.slug){
+      window.PRODUCT_SLUGS=window.PRODUCT_SLUGS||{};
+      window.PRODUCT_SLUGS[id]=producto.slug;
+    }
   });
 }
 
@@ -1395,12 +1404,14 @@ if (carritoParam === '1') setTimeout(() => { if (typeof toggleCart === 'function
 (async () => {
   try {
     await sincronizarCatalogoDesdeJson();
-  } catch(e) {
-    console.error('No se pudo sincronizar el catálogo:', e);
+  } catch(error) {
+    console.error('Tienda: no se pudo sincronizar el catálogo.', error);
   }
 
   try {
-    const r = await fetch('/api/stock-get?t='+Date.now(), { cache:'no-store' });
+    const r = await fetch('/api/stock-get?t='+Date.now(), {
+      cache:'no-store'
+    });
     const data = await r.json();
     if (data && data.stock && Object.keys(data.stock).length > 0) {
       localStorage.setItem('pac_stock', JSON.stringify(data.stock));
