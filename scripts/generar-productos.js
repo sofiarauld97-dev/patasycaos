@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * generar-productos.js v2.2
+ * generar-productos.js v2.3
  *
  * Genera los HTML estáticos de /productos a partir de:
  *   - templates/producto.html   (plantilla con tokens __ASI__)
@@ -51,6 +51,15 @@ const CAMPOS_OBLIGATORIOS = [
 ];
 
 
+function construirEtiquetaProducto(p) {
+  const categoria = String(p.categoria || '').trim();
+  const audience = String(p.audience || '')
+    .trim()
+    .replace(/^Para\s+/i, '');
+
+  return [categoria, audience].filter(Boolean).join(' · ');
+}
+
 function normalizarProducto(p) {
   const precio = Number(p.precio ?? p.precioNum);
   const precioDisplay =
@@ -66,9 +75,9 @@ function normalizarProducto(p) {
     precioDisplay,
     precioTexto: String(p.precioTexto || '').trim() || precioDisplay,
     etiquetaProducto:
-      typeof p.etiquetaProducto === 'string'
+      (typeof p.etiquetaProducto === 'string'
         ? p.etiquetaProducto.trim()
-        : '',
+        : '') || construirEtiquetaProducto(p),
     imagenes: Array.isArray(p.imagenes)
       ? p.imagenes.map(normalizarImagen).filter(Boolean)
       : [],

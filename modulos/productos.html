@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Admin v2.1 — Patas & Caos</title>
-  <!-- ADMIN PRODUCTOS V2.1: CAMPOS SINCRONIZADOS CON generar-productos.js -->
+  <title>Admin v2.2 — Patas & Caos</title>
+  <!-- ADMIN PRODUCTOS V2.2: ETIQUETA AUTOMATICA CATEGORIA + PUBLICO -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -128,7 +128,7 @@
 <header>
   <div class="head">
     <div class="brand"><img src="/logo.png" alt="" onerror="this.style.display='none'"><span>Patas & Caos</span></div>
-    <div class="badge">Admin v2.1 · Productos</div>
+    <div class="badge">Admin v2.2 · Productos</div>
   </div>
 </header>
 
@@ -173,7 +173,7 @@
           </select>
         </div>
         <div class="field"><label>Marca</label><input id="marca" placeholder="Ej: Rahue"></div>
-        <div class="field"><label>Etiqueta comercial (opcional)</label><input id="etiquetaProducto" placeholder="Ej: Nuevo, Oferta"></div>
+        <div class="field"><label>Etiqueta visible (opcional)</label><input id="etiquetaProducto" placeholder="Automática: categoría · público"><span class="hint">Déjala vacía para mostrar, por ejemplo, “Aseo e Higiene · Gatos”.</span></div>
       </div>
     </section>
 
@@ -375,7 +375,12 @@ function makeProduct(){
   const precioDisplay=formatPrecioCLP(precio);
   const seoTitle=escapeText($('seoTitle').value)||`${nombre} | Patas & Caos`;
   const seoDescription=escapeText($('seoDescription').value)||descripcion.slice(0,155);
-  const etiquetaProducto=escapeText($('etiquetaProducto').value);
+  const audienceEtiqueta=audience
+    .replace(/^Para\s+/i,'')
+    .replace(/^Perros\s*&\s*Gatos$/i,'Perros & Gatos');
+  const etiquetaProducto=
+    escapeText($('etiquetaProducto').value) ||
+    `${categoria} · ${audienceEtiqueta}`;
 
   return {
     sku,
