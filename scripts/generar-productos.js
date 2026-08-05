@@ -94,24 +94,50 @@ function construirTabs(p) {
 }
 
 function construirJsonLd(p) {
-  const imagenAbsoluta = p.imagenes[0].startsWith('http') ? p.imagenes[0] : `${SITE_URL}${p.imagenes[0]}`;
+  const imagenAbsoluta = p.imagenes[0].startsWith('http')
+    ? p.imagenes[0]
+    : `${SITE_URL}${p.imagenes[0]}`;
+
+  const skuValido = String(p.sku || p.slug)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/[^a-zA-Z0-9_-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Product',
+
     name: p.nombre,
     description: p.seoDescription,
     image: [imagenAbsoluta],
-    sku: p.sku,
+
+    sku: skuValido,
     category: p.categoria,
-    brand: p.marca ? { '@type': 'Brand', name: p.marca } : undefined,
+
+    brand: p.marca
+      ? {
+          '@type': 'Brand',
+          name: p.marca
+        }
+      : undefined,
+
     offers: {
       '@type': 'Offer',
       url: `${SITE_URL}/productos/${p.slug}`,
       priceCurrency: 'CLP',
       price: String(p.precio),
-      itemCondition: 'https://schema.org/NewCondition'
+
+      itemCondition: 'https://schema.org/NewCondition',
+      availability:
+        p.disponible === false
+          ? 'https://schema.org/OutOfStock'
+          : 'https://schema.org/InStock'
     }
   };
+
   return JSON.stringify(data);
 }
 
