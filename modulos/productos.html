@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Admin v2.2 — Patas & Caos</title>
-  <!-- ADMIN PRODUCTOS V2.2: ETIQUETA AUTOMATICA CATEGORIA + PUBLICO -->
+  <title>Admin v2.3 — Patas & Caos</title>
+  <!-- ADMIN PRODUCTOS V2.3: ETIQUETA AUTOMATICA CATEGORIA + PUBLICO -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -128,7 +128,7 @@
 <header>
   <div class="head">
     <div class="brand"><img src="/logo.png" alt="" onerror="this.style.display='none'"><span>Patas & Caos</span></div>
-    <div class="badge">Admin v2.2 · Productos</div>
+    <div class="badge">Admin v2.3 · Productos</div>
   </div>
 </header>
 
@@ -465,6 +465,22 @@ $('btnGenerate').addEventListener('click',()=>{
 });
 
 
+
+async function aplicarStockInicial(stockPatch){
+  const response=await fetch('/api/stock-set',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({patch:stockPatch})
+  });
+
+  const data=await response.json();
+  if(!response.ok){
+    throw new Error(data.error||'No se pudo registrar el stock inicial.');
+  }
+
+  return data;
+}
+
 $('btnPackage').addEventListener('click', async () => {
   try {
     if (!updatedJson || !stockPatch) {
@@ -475,6 +491,10 @@ $('btnPackage').addEventListener('click', async () => {
     }
 
     const product = makeProduct();
+
+    // Registra el stock inicial en Upstash sin reemplazar el inventario existente.
+    await aplicarStockInicial(stockPatch);
+
     const zip = new JSZip();
 
     zip.file('data/productos.json', JSON.stringify(updatedJson, null, 2) + '\n');
@@ -502,7 +522,7 @@ QUÉ DEBES SUBIR A GITHUB
 ${imageNames || '- No se seleccionaron archivos; revisa los nombres escritos manualmente.'}
 
 3. No subas stock-patch.json al repositorio.
-   Stock inicial solicitado:
+   El administrador ya aplicó este stock inicial al inventario remoto:
    ${product.stockId}: ${Math.max(0, Number($('stock').value) || 0)}
 
 4. Haz Commit y Push.
@@ -516,7 +536,7 @@ ${imageNames || '- No se seleccionaron archivos; revisa los nombres escritos man
 IMPORTANTE
 - El HTML no se incluye porque scripts/generar-productos.js lo genera automáticamente desde data/productos.json.
 - El nuevo producto aparecerá también en el listado de crear pedido manual, porque ese panel carga el mismo data/productos.json.
-- El ZIP no modifica GitHub ni el stock remoto automáticamente.
+- El ZIP no modifica GitHub. El stock inicial sí se registra automáticamente en Upstash al descargar el paquete.
 `;
 
     zip.file('LEEME.txt', instructions);
