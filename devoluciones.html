@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es-CL">
 <head>
+  <!-- PATAS & CAOS: DEVOLUCIONES CORREGIDO V3 - SALTOS INLINE + WHATSAPP SVG -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
@@ -311,23 +312,22 @@
       line-height: 1.65;
     }
 
-    .info-row-text > strong:first-child {
+    .info-row-title {
       display: block;
       margin-bottom: .2rem;
-      color: var(--negro);
-    }
-
-    .info-row-text strong {
-      display: inline !important;
       color: var(--negro);
       font-weight: 700;
     }
 
-    .info-row-text > strong:first-child {
-      display: block !important;
+    .info-row-text strong {
+      display: inline !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      color: var(--negro);
+      font-weight: 700;
+      white-space: normal;
     }
-
-    .dev-nota {
+.dev-nota {
       display: flex;
       align-items: flex-start;
       gap: .7rem;
@@ -459,41 +459,43 @@
       stroke-linejoin: round;
     }
 
-
     .whatsapp-float {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 56px;
-      height: 56px;
-      padding: 0;
-      overflow: hidden;
-      color: #FFFFFF;
-      background: #25D366;
-      border-radius: 50%;
-      box-shadow: 0 4px 12px rgba(0,0,0,.25);
-      text-decoration: none;
+      position: fixed !important;
+      right: 24px !important;
+      bottom: 24px !important;
+      z-index: 9999 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 56px !important;
+      height: 56px !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      color: #FFFFFF !important;
+      background: #25D366 !important;
+      border: 0 !important;
+      border-radius: 50% !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,.25) !important;
+      font-size: 0 !important;
+      line-height: 0 !important;
+      text-decoration: none !important;
       transition: transform .2s ease, box-shadow .2s ease;
     }
 
     .whatsapp-float:hover {
       transform: scale(1.08);
-      box-shadow: 0 6px 16px rgba(0,0,0,.3);
+      box-shadow: 0 6px 16px rgba(0,0,0,.3) !important;
     }
 
     .whatsapp-float svg {
-      display: block;
-      width: 28px;
-      height: 28px;
-      fill: currentColor;
-      flex: 0 0 28px;
+      display: block !important;
+      width: 28px !important;
+      height: 28px !important;
+      flex: 0 0 28px !important;
+      fill: #FFFFFF !important;
     }
 
-    @media (max-width: 700px) {
+@media (max-width: 700px) {
       .dev-hero {
         padding: 48px 5% 42px;
       }
@@ -700,7 +702,7 @@
           </div>
 
           <div class="info-row-text">
-            <strong>Derecho a retracto</strong>
+            <span class="info-row-title">Derecho a retracto</span>
             En compras realizadas por internet, puedes solicitar la devolución dentro de los <strong>10 días corridos</strong> siguientes a la recepción del producto, siempre que este no haya sido usado y se conserve en las condiciones indicadas en esta política.
           </div>
         </div>
@@ -715,7 +717,7 @@
           </div>
 
           <div class="info-row-text">
-            <strong>Estado del producto</strong>
+            <span class="info-row-title">Estado del producto</span>
             Para ejercer el derecho a retracto, el producto debe estar sin uso,
             en perfectas condiciones y con su embalaje original, accesorios,
             etiquetas y componentes.
@@ -731,7 +733,7 @@
           </div>
 
           <div class="info-row-text">
-            <strong>Comprobante de compra</strong>
+            <span class="info-row-title">Comprobante de compra</span>
             Debes presentar la boleta, factura u otro antecedente que permita
             acreditar la compra.
           </div>
@@ -822,7 +824,7 @@
         <div class="info-row">
           <div class="info-row-icon step-number" aria-hidden="true">1</div>
           <div class="info-row-text">
-            <strong>Contáctanos</strong>
+            <span class="info-row-title">Contáctanos</span>
             Escríbenos por WhatsApp al <strong>+56 9 2399 7854</strong> o al correo <strong>contacto@patasycaos.cl</strong>. Indica tu número de pedido, el producto y el motivo de la solicitud.
           </div>
         </div>
@@ -830,7 +832,7 @@
         <div class="info-row">
           <div class="info-row-icon step-number" aria-hidden="true">2</div>
           <div class="info-row-text">
-            <strong>Entrega o envía el producto</strong>
+            <span class="info-row-title">Entrega o envía el producto</span>
             Puedes llevarlo a nuestro punto de retiro en <strong>Providencia</strong>, previa coordinación, o enviarlo por courier a la dirección que te informaremos. El costo del despacho de devolución corre por tu cuenta cuando se trata de arrepentimiento. Si existe una falla de fábrica, Patas & Caos asume ese costo.
           </div>
         </div>
@@ -838,7 +840,7 @@
         <div class="info-row">
           <div class="info-row-icon step-number" aria-hidden="true">3</div>
           <div class="info-row-text">
-            <strong>Revisión y resolución</strong>
+            <span class="info-row-title">Revisión y resolución</span>
             Una vez recibido el producto, lo revisaremos y te informaremos la
             resolución en un plazo máximo de 5 días hábiles.
           </div>
@@ -868,7 +870,7 @@
           </div>
 
           <div class="info-row-text">
-            <strong>Cambio de producto</strong>
+            <span class="info-row-title">Cambio de producto</span>
             Puedes elegir otro producto de igual o mayor valor, abonando la
             diferencia cuando corresponda.
           </div>
@@ -884,7 +886,7 @@
           </div>
 
           <div class="info-row-text">
-            <strong>Reembolso</strong>
+            <span class="info-row-title">Reembolso</span>
             Si prefieres la devolución del dinero, la realizaremos mediante
             transferencia bancaria al titular de la compra, dentro de un plazo
             de hasta 5 días hábiles desde que confirmemos la resolución.
@@ -1015,7 +1017,6 @@
       <p class="auth-msg" id="auth-msg"></p>
     </div>
   </div>
-
   <a
     href="https://wa.me/56923997854"
     target="_blank"
@@ -1023,14 +1024,12 @@
     class="whatsapp-float"
     aria-label="Contactar a Patas & Caos por WhatsApp"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      width="28"
-      height="28"
-      aria-hidden="true"
-      focusable="false"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 24 24"
+         width="28"
+         height="28"
+         aria-hidden="true"
+         focusable="false">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
       <path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.532 5.855L.058 23.486a.5.5 0 0 0 .609.61l5.72-1.498A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.877 9.877 0 0 1-5.031-1.378l-.36-.214-3.733.978.997-3.645-.235-.374A9.859 9.859 0 0 1 2.118 12C2.118 6.533 6.533 2.118 12 2.118c5.466 0 9.882 4.415 9.882 9.882 0 5.466-4.416 9.882-9.882 9.882z"/>
     </svg>
