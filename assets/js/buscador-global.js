@@ -1,4 +1,4 @@
-/* PATAS & CAOS — Buscador global v2 */
+/* PATAS & CAOS — Buscador global v7 */
 (function () {
   'use strict';
 
@@ -279,34 +279,79 @@
     drop.style.display = 'block';
   };
 
-  async function iniciar() {
-    inyectarEstilos();
-    await cargarCatalogoRemoto();
+  let inicializado = false;
 
+  async function vincularBuscador() {
     const input = document.querySelector('.nav-search-wrap input');
-    if (!input) return;
+    const drop = document.getElementById('nav-drop');
+
+    if (!input || !drop) return false;
+    if (input.dataset.searchReady === 'true') return true;
+
+    input.dataset.searchReady = 'true';
+    input.setAttribute('aria-controls', 'nav-drop');
+    input.setAttribute('aria-expanded', 'false');
 
     input.removeAttribute('oninput');
     input.removeAttribute('onfocus');
     input.removeAttribute('onblur');
 
-    input.addEventListener('input', e => window.runSearch(e.target.value));
-    input.addEventListener('focus', () => {
-      if (normalizar(input.value).length >= 2) window.runSearch(input.value);
+    input.addEventListener('input', e => {
+      window.runSearch(e.target.value);
+      input.setAttribute(
+        'aria-expanded',
+        String(normalizar(e.target.value).length >= 2)
+      );
     });
+
+    input.addEventListener('focus', () => {
+      if (normalizar(input.value).length >= 2) {
+        window.runSearch(input.value);
+        input.setAttribute('aria-expanded', 'true');
+      }
+    });
+
     input.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         cerrar();
+        input.setAttribute('aria-expanded', 'false');
         input.blur();
       }
     });
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.nav-search-wrap')) cerrar();
+
+    return true;
+  }
+
+  async function iniciar() {
+    if (!inicializado) {
+      inyectarEstilos();
+      await cargarCatalogoRemoto();
+      inicializado = true;
+    }
+
+    if (await vincularBuscador()) return;
+
+    // El header se inserta dinámicamente en varias páginas.
+    const observer = new MutationObserver(async () => {
+      if (await vincularBuscador()) observer.disconnect();
+    });
+
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true
     });
   }
 
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.nav-search-wrap')) {
+      cerrar();
+      const input = document.querySelector('.nav-search-wrap input');
+      input?.setAttribute('aria-expanded', 'false');
+    }
+  });
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', iniciar);
+    document.addEventListener('DOMContentLoaded', iniciar, { once: true });
   } else {
     iniciar();
   }

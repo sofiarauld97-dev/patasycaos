@@ -2,6 +2,18 @@
 (function () {
   'use strict';
 
+  function cargarBuscadorGlobal() {
+    if (document.querySelector('script[data-pac-search]')) return;
+
+    const script = document.createElement('script');
+    script.src = '/assets/js/buscador-global.js?v=7';
+    script.defer = true;
+    script.dataset.pacSearch = 'true';
+    document.head.appendChild(script);
+  }
+
+  cargarBuscadorGlobal();
+
   function elementosMenu() {
     return {
       hamburger: document.getElementById('hamburger'),
