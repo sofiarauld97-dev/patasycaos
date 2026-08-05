@@ -1037,6 +1037,16 @@ function generarTarjetas() {
         }
       }
 
+      // Regla editorial específica: la Arena Sanitaria Michi debe quedar
+      // inmediatamente después de Arena Sanitaria Ciudad Animal 8 kg.
+      if(idNuevo==='arena-sanitaria-michi-4kg'){
+        const referencia=resultado.indexOf('arena-sanitaria-ciudad-animal-8kg');
+        if(referencia>=0){
+          resultado.splice(referencia+1,0,idNuevo);
+          return;
+        }
+      }
+
       if(indice>=0) resultado.splice(indice+1,0,idNuevo);
       else resultado.push(idNuevo);
     });
