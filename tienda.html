@@ -1332,6 +1332,47 @@ if (catParam) {
 // con ese dato (evita pantalla en blanco). Si no hay nada guardado, esperamos
 // a tener el stock real antes de dibujar — así nunca se adivina "disponible"
 // ni "agotado".
+
+function normalizarProductoCatalogo(p){
+  const precioNumero=Number(p.precio ?? p.precioNum);
+  return {
+    ...p,
+    precio: p.precioDisplay || p.precioTexto ||
+      (Number.isFinite(precioNumero)
+        ? '$'+Math.round(precioNumero).toLocaleString('es-CL')
+        : ''),
+    precioNum: Number.isFinite(precioNumero) ? precioNumero : 0,
+    imagenes: Array.isArray(p.imagenes)
+      ? p.imagenes.map(img=>{
+          const value=String(img||'').trim();
+          if(!value) return '';
+          if(/^https?:\/\//i.test(value)||value.startsWith('/')) return value;
+          return '/'+value.replace(/^\.\//,'');
+        }).filter(Boolean)
+      : [],
+    placeholders: Array.isArray(p.placeholders) && p.placeholders.length
+      ? p.placeholders
+      : (Array.isArray(p.imagenes)?p.imagenes:[]).map(()=>p.emoji||'🐾')
+  };
+}
+
+async function sincronizarCatalogoDesdeJson(){
+  const response=await fetch('/data/productos.json?t='+Date.now(),{cache:'no-store'});
+  if(!response.ok) throw new Error('No se pudo cargar data/productos.json');
+  const data=await response.json();
+  const lista=Array.isArray(data)
+    ? data
+    : (Array.isArray(data?.productos) ? data.productos : Object.values(data||{}));
+
+  lista.forEach(p=>{
+    if(!p) return;
+    const id=String(p.sku||p.stockId||p.id||p.slug||'').trim();
+    if(!id) return;
+    productos[id]=normalizarProductoCatalogo(p);
+    if(p.slug) window.PRODUCT_SLUGS[id]=p.slug;
+  });
+}
+
 const stockCacheInicial = getStock();
 if (Object.keys(stockCacheInicial).length > 0) generarTarjetas();
 
@@ -1343,13 +1384,20 @@ if (carritoParam === '1') setTimeout(() => { if (typeof toggleCart === 'function
 
 (async () => {
   try {
-    const r = await fetch('/api/stock-get');
+    await sincronizarCatalogoDesdeJson();
+  } catch(e) {
+    console.error('No se pudo sincronizar el catálogo:', e);
+  }
+
+  try {
+    const r = await fetch('/api/stock-get?t='+Date.now(), { cache:'no-store' });
     const data = await r.json();
     if (data && data.stock && Object.keys(data.stock).length > 0) {
       localStorage.setItem('pac_stock', JSON.stringify(data.stock));
     }
   } catch(e) {}
-  generarTarjetas(); // siempre se repinta con el stock real más reciente disponible
+
+  generarTarjetas();
 })();
 
 /* FILTROS MÓVIL */

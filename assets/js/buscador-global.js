@@ -136,11 +136,51 @@
       .trim();
   }
 
+  let catalogoRemoto = null;
+
   function catalogo() {
+    if (catalogoRemoto && Object.keys(catalogoRemoto).length) return catalogoRemoto;
     try {
       if (typeof productos === 'object' && productos) return productos;
     } catch (_) {}
     return window.productos || {};
+  }
+
+  async function cargarCatalogoRemoto() {
+    try {
+      const response = await fetch('/data/productos.json?t=' + Date.now(), {
+        cache: 'no-store'
+      });
+      if (!response.ok) throw new Error('No se pudo cargar el catálogo.');
+
+      const data = await response.json();
+      const lista = Array.isArray(data)
+        ? data
+        : (Array.isArray(data?.productos) ? data.productos : Object.values(data || {}));
+
+      const remoto = {};
+      lista.forEach(producto => {
+        if (!producto) return;
+        const id = String(
+          producto.sku ||
+          producto.stockId ||
+          producto.id ||
+          producto.slug ||
+          ''
+        ).trim();
+        if (!id) return;
+
+        remoto[id] = producto;
+        if (producto.slug) {
+          window.PRODUCT_SLUGS = window.PRODUCT_SLUGS || {};
+          window.PRODUCT_SLUGS[id] = producto.slug;
+        }
+      });
+
+      if (Object.keys(remoto).length) catalogoRemoto = remoto;
+    } catch (error) {
+      console.error('Buscador: no se pudo sincronizar el catálogo.', error);
+    }
   }
 
   function slugProducto(id, producto) {
@@ -148,10 +188,16 @@
   }
 
   function imagenProducto(producto) {
+    let image = '';
     if (Array.isArray(producto?.variantes) && producto.variantes.length) {
-      return producto.variantes[0]?.imagenes?.[0] || '';
+      image = producto.variantes[0]?.imagenes?.[0] || '';
+    } else {
+      image = producto?.imagenes?.[0] || '';
     }
-    return producto?.imagenes?.[0] || '';
+
+    image = String(image || '').trim();
+    if (!image || /^https?:\/\//i.test(image) || image.startsWith('/')) return image;
+    return '/' + image.replace(/^\.\//, '');
   }
 
   function precioProducto(producto) {
@@ -235,8 +281,9 @@
     drop.style.display = 'block';
   };
 
-  function iniciar() {
+  async function iniciar() {
     inyectarEstilos();
+    await cargarCatalogoRemoto();
 
     const input = document.querySelector('.nav-search-wrap input');
     if (!input) return;
