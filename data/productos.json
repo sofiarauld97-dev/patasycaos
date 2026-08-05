@@ -2312,5 +2312,41 @@
       "Campanilla incluida"
     ],
     "ingredientes": ""
+  },
+  {
+    "sku": "arena-sanitaria-michi-4kg",
+    "slug": "arena-sanitaria-michi-4kg",
+    "nombre": "Arena Sanitaria Michi 4kg",
+    "precio": 4990,
+    "precioNum": 4990,
+    "precioTexto": "$4.990",
+    "audience": "Para Gatos",
+    "categoria": "Aseo e Higiene",
+    "marca": "Michi",
+    "tagline": "\"Control de olores con aroma lavanda\"",
+    "descripcion": "La Arena Sanitaria Michi Lavanda 4 kg está elaborada con bentonita de alta calidad, ofreciendo una excelente absorción y un eficaz control de olores. Su fórmula de bajo polvo forma grumos firmes que facilitan la limpieza diaria, mientras su agradable aroma a lavanda ayuda a mantener el arenero fresco por más tiempo. Ideal para brindar comodidad e higiene tanto a tu gato como a tu hogar.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Bentonita de alta calidad.",
+      "Aroma a lavanda.",
+      "Forma grumos firmes para una limpieza sencilla.",
+      "Alta absorción de líquidos.",
+      "Bajo nivel de polvo.",
+      "Ayuda a controlar los malos olores.",
+      "Apta para gatos de todas las edades.",
+      "Contenido neto: 4 kg."
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "arena-sanitaria-4kg-michi.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "stockId": "arena-sanitaria-michi-4kg",
+    "canonical": "https://www.patasycaos.cl/productos/arena-sanitaria-michi-4kg",
+    "seoTitle": "Arena Sanitaria Michi 4 kg Lavanda | Patas & Caos",
+    "seoDescription": "Compra Arena Sanitaria Michi 4kg en Patas & Caos. Despacho a todo Chile, productos premium para perros y gatos y compra 100% online."
   }
 ]
