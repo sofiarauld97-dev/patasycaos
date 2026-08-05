@@ -2348,5 +2348,43 @@
     "canonical": "https://www.patasycaos.cl/productos/arena-sanitaria-michi-4kg",
     "seoTitle": "Arena Sanitaria Michi 4 kg Lavanda | Patas & Caos",
     "seoDescription": "Compra Arena Sanitaria Michi 4kg en Patas & Caos. Despacho a todo Chile, productos premium para perros y gatos y compra 100% online."
+  },
+  {
+    "sku": "femur-de-cerdo-gran-cani",
+    "slug": "femur-de-cerdo-gran-cani",
+    "nombre": "Fémur de Cerdo - Gran Cani",
+    "precio": 4990,
+    "precioNum": 4990,
+    "precioDisplay": "$4.990",
+    "precioTexto": "$4.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Gran Cani",
+    "tagline": "\"Snack natural para masticación prolongada\"",
+    "descripcion": "Fémur de cerdo natural, ideal para perros con gran necesidad de masticar. Ayuda a mantenerlos entretenidos, favorece la limpieza mecánica de los dientes y satisface su instinto natural de mordida. Perfecto como premio ocasional bajo supervisión.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% natural.",
+      "Favorece la masticación prolongada.",
+      "Ayuda a reducir la acumulación de placa y sarro mediante la acción mecánica de la masticación.",
+      "Alto contenido de proteína.",
+      "Sin preservantes ni aditivos.",
+      "Ideal para perros medianos y grandes.",
+      "Ideal para perros medianos y grandes."
+    ],
+    "ingredientes": "100% fémur de cerdo natural. Sin colorantes, conservantes ni aditivos.",
+    "imagenes": [
+      "/femur-de-cerdo-gran-cani.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "femur-de-cerdo-gran-cani",
+    "canonical": "https://www.patasycaos.cl/productos/femur-de-cerdo-gran-cani",
+    "seoTitle": "Fémur de Cerdo Natural para Perros | Patas & Caos",
+    "seoDescription": "Compra Fémur de Cerdo Natural para perros en Patas & Caos. Snack 100% natural ideal para una masticación prolongada, entretenimiento y cuidado dental. Envíos a todo Chile."
   }
 ]
