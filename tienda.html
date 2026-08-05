@@ -1001,12 +1001,50 @@ function generarTarjetas() {
   if (!grid) return;
   grid.innerHTML = '';
   const stock = getStock();
-  // Conserva el orden editorial existente y añade automáticamente al final
-  // cualquier producto nuevo generado en products-data.js.
-  const idsOrdenados = [
-    ...ORDEN,
-    ...Object.keys(productos).filter(id => !ORDEN.includes(id))
-  ];
+  // Conserva el orden editorial actual. Los productos nuevos se insertan
+  // junto al último producto de su misma categoría y público objetivo.
+  function construirOrdenCatalogo(){
+    const resultado=ORDEN.filter(id=>productos[id]);
+    const nuevos=Object.keys(productos).filter(id=>!resultado.includes(id));
+
+    nuevos.forEach(idNuevo=>{
+      const nuevo=productos[idNuevo]||{};
+      const categoria=String(nuevo.categoria||'').trim();
+      const audiencia=String(nuevo.audience||'').trim();
+
+      let indice=-1;
+
+      // Primera prioridad: misma categoría y mismo público.
+      for(let i=resultado.length-1;i>=0;i--){
+        const actual=productos[resultado[i]]||{};
+        if(
+          String(actual.categoria||'').trim()===categoria &&
+          String(actual.audience||'').trim()===audiencia
+        ){
+          indice=i;
+          break;
+        }
+      }
+
+      // Segunda prioridad: al final de la misma categoría.
+      if(indice<0){
+        for(let i=resultado.length-1;i>=0;i--){
+          const actual=productos[resultado[i]]||{};
+          if(String(actual.categoria||'').trim()===categoria){
+            indice=i;
+            break;
+          }
+        }
+      }
+
+      if(indice>=0) resultado.splice(indice+1,0,idNuevo);
+      else resultado.push(idNuevo);
+    });
+
+    return resultado;
+  }
+
+  const idsOrdenados=construirOrdenCatalogo();
 
   let lista = idsOrdenados.map(id => ({ id, p: productos[id] })).filter(({ p }) => {
     if (!p) return false;
