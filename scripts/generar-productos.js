@@ -47,7 +47,7 @@ function leer(rutaAbs) {
 
 const CAMPOS_OBLIGATORIOS = [
   'slug', 'nombre', 'seoTitle', 'seoDescription', 'precio', 'precioDisplay',
-  'categoria', 'etiquetaProducto', 'sku', 'imagenes', 'caracteristicas'
+  'categoria', 'sku', 'imagenes', 'caracteristicas'
 ];
 
 function validarProducto(p) {
@@ -56,11 +56,25 @@ function validarProducto(p) {
     if (Array.isArray(v)) return v.length === 0;
     return v === undefined || v === null || v === '';
   });
+
   if (faltantes.length) {
     throw new Error(
       `Producto "${p.slug || '(sin slug)'}" no tiene los campos: ${faltantes.join(', ')}. ` +
       `No se genera nada inventado — corrige data/productos.json.`
     );
+  }
+
+  const precio = Number(p.precio);
+  if (!Number.isFinite(precio) || precio <= 0) {
+    throw new Error(`Producto "${p.slug}" tiene un precio inválido.`);
+  }
+
+  if (!Array.isArray(p.imagenes) || !p.imagenes.every(img => typeof img === 'string' && img.trim())) {
+    throw new Error(`Producto "${p.slug}" tiene imágenes inválidas.`);
+  }
+
+  if (!Array.isArray(p.caracteristicas) || !p.caracteristicas.every(item => typeof item === 'string' && item.trim())) {
+    throw new Error(`Producto "${p.slug}" tiene características inválidas.`);
   }
 }
 
@@ -70,7 +84,7 @@ function construirThumbs(p) {
   if (!p.imagenes || p.imagenes.length === 0) return '';
   return `<div class="product-thumbs">` +
     p.imagenes.map(img =>
-      `<img alt="${escapeHtml(p.nombre)}" loading="lazy" onclick="changeProductImage(this)" src="${img}">`
+      `<img alt="${escapeHtml(p.nombre)}" loading="lazy" onclick="changeProductImage(this)" src="${normalizarImagen(img)}">`
     ).join('') +
     `</div>`;
 }
@@ -94,9 +108,10 @@ function construirTabs(p) {
 }
 
 function construirJsonLd(p) {
-  const imagenAbsoluta = p.imagenes[0].startsWith('http')
-    ? p.imagenes[0]
-    : `${SITE_URL}${p.imagenes[0]}`;
+  const imagenNormalizada = normalizarImagen(p.imagenes[0]);
+  const imagenAbsoluta = imagenNormalizada.startsWith('http')
+    ? imagenNormalizada
+    : `${SITE_URL}${imagenNormalizada}`;
 
   const skuValido = String(p.sku || p.slug)
     .normalize('NFD')
@@ -143,7 +158,7 @@ function construirJsonLd(p) {
 
 function generarHtml(p, plantilla, headerHtml, footerHtml) {
   const canonical = `${SITE_URL}/productos/${p.slug}`;
-  const imagenPrincipal = p.imagenes[0];
+  const imagenPrincipal = normalizarImagen(p.imagenes[0]);
   const imagenAbsoluta = imagenPrincipal.startsWith('http') ? imagenPrincipal : `${SITE_URL}${imagenPrincipal}`;
   const { nav, panels } = construirTabs(p);
 
@@ -162,7 +177,7 @@ function generarHtml(p, plantilla, headerHtml, footerHtml) {
     '__GALLERY_ALT__': escapeHtml(p.nombre),
     '__GALLERY_MAIN_IMG__': imagenPrincipal,
     '__THUMBS_HTML__': construirThumbs(p),
-    '__PRODUCT_TAG__': escapeHtml(p.etiquetaProducto),
+    '__PRODUCT_TAG__': escapeHtml(p.etiquetaProducto || ''),
     '__PRODUCT_NAME__': escapeHtml(p.nombre),
     '__PRODUCT_PRICE_DISPLAY__': escapeHtml(p.precioDisplay),
     '__PRODUCT_DESCRIPTION__': escapeHtml(p.seoDescription),

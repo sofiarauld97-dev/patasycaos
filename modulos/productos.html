@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Admin v2 — Patas & Caos</title>
+  <title>Admin v2.1 — Patas & Caos</title>
+  <!-- ADMIN PRODUCTOS V2.1: CAMPOS SINCRONIZADOS CON generar-productos.js -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -127,7 +128,7 @@
 <header>
   <div class="head">
     <div class="brand"><img src="/logo.png" alt="" onerror="this.style.display='none'"><span>Patas & Caos</span></div>
-    <div class="badge">Admin v2 · Productos</div>
+    <div class="badge">Admin v2.1 · Productos</div>
   </div>
 </header>
 
@@ -171,7 +172,8 @@
             <option>Para Gatos</option><option>Para Perros</option><option>Perros & Gatos</option>
           </select>
         </div>
-        <div class="field full"><label>Marca</label><input id="marca" placeholder="Ej: Rahue"></div>
+        <div class="field"><label>Marca</label><input id="marca" placeholder="Ej: Rahue"></div>
+        <div class="field"><label>Etiqueta comercial (opcional)</label><input id="etiquetaProducto" placeholder="Ej: Nuevo, Oferta"></div>
       </div>
     </section>
 
@@ -333,6 +335,21 @@ function values(id){
 }
 function escapeText(v){ return String(v ?? '').trim(); }
 
+function formatPrecioCLP(valor){
+  const numero=Number(valor);
+  if(!Number.isFinite(numero)||numero<=0){
+    throw new Error('El precio debe ser un número mayor que cero.');
+  }
+  return '$'+Math.round(numero).toLocaleString('es-CL');
+}
+
+function normalizeImagePath(value){
+  const image=escapeText(value);
+  if(!image) return '';
+  if(/^https?:\/\//i.test(image)||image.startsWith('/')) return image;
+  return '/'+image.replace(/^\.\//,'');
+}
+
 function makeProduct(){
   const nombre=escapeText($('nombre').value);
   const sku=slugify($('sku').value);
@@ -341,25 +358,38 @@ function makeProduct(){
   const categoria=escapeText($('categoria').value);
   const audience=escapeText($('audience').value);
   const descripcion=escapeText($('descripcion').value);
-  const imagenes=values('imagenes');
-  if(!nombre||!sku||!slug||!precio||!categoria||!audience||!descripcion||!imagenes.length){
+  const imagenes=values('imagenes').map(normalizeImagePath).filter(Boolean);
+  const caracs=values('caracteristicas');
+
+  if(!nombre||!sku||!slug||!categoria||!audience||!descripcion||!imagenes.length){
     throw new Error('Completa nombre, SKU, slug, precio, categoría, público, descripción y al menos una imagen.');
   }
-  const caracs=values('caracteristicas');
+  if(!Number.isFinite(precio)||precio<=0){
+    throw new Error('El precio debe ser un número mayor que cero.');
+  }
+  if(!caracs.length){
+    throw new Error('Agrega al menos una característica del producto.');
+  }
+
   const emoji=escapeText($('emoji').value)||'🐾';
+  const precioDisplay=formatPrecioCLP(precio);
   const seoTitle=escapeText($('seoTitle').value)||`${nombre} | Patas & Caos`;
   const seoDescription=escapeText($('seoDescription').value)||descripcion.slice(0,155);
+  const etiquetaProducto=escapeText($('etiquetaProducto').value);
+
   return {
     sku,
     slug,
     nombre,
     precio,
     precioNum: precio,
-    precioTexto: '$'+precio.toLocaleString('es-CL'),
+    precioDisplay,
+    precioTexto: precioDisplay,
+    etiquetaProducto,
     audience,
     categoria,
     marca: escapeText($('marca').value),
-    tagline: escapeText($('tagline').value)||`"${nombre}"`,
+    tagline: escapeText($('tagline').value)||nombre,
     descripcion,
     caracTitulo: escapeText($('caracTitulo').value)||'Características',
     caracteristicas: caracs,
@@ -367,6 +397,7 @@ function makeProduct(){
     imagenes,
     placeholders: imagenes.map(()=>emoji),
     emoji,
+    disponible: Math.max(0,Number($('stock').value)||0)>0,
     stockId: sku,
     canonical: `https://www.patasycaos.cl/productos/${slug}`,
     seoTitle,
