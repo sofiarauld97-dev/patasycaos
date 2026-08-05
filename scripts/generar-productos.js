@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * generar-productos.js
+ * generar-productos.js v2.2
  *
  * Genera los HTML estáticos de /productos a partir de:
  *   - templates/producto.html   (plantilla con tokens __ASI__)
@@ -49,6 +49,34 @@ const CAMPOS_OBLIGATORIOS = [
   'slug', 'nombre', 'seoTitle', 'seoDescription', 'precio', 'precioDisplay',
   'categoria', 'sku', 'imagenes', 'caracteristicas'
 ];
+
+
+function normalizarProducto(p) {
+  const precio = Number(p.precio ?? p.precioNum);
+  const precioDisplay =
+    String(p.precioDisplay || p.precioTexto || '').trim() ||
+    (Number.isFinite(precio) && precio > 0
+      ? '$' + Math.round(precio).toLocaleString('es-CL')
+      : '');
+
+  return {
+    ...p,
+    precio,
+    precioNum: Number.isFinite(Number(p.precioNum)) ? Number(p.precioNum) : precio,
+    precioDisplay,
+    precioTexto: String(p.precioTexto || '').trim() || precioDisplay,
+    etiquetaProducto:
+      typeof p.etiquetaProducto === 'string'
+        ? p.etiquetaProducto.trim()
+        : '',
+    imagenes: Array.isArray(p.imagenes)
+      ? p.imagenes.map(normalizarImagen).filter(Boolean)
+      : [],
+    caracteristicas: Array.isArray(p.caracteristicas)
+      ? p.caracteristicas.map(item => String(item).trim()).filter(Boolean)
+      : []
+  };
+}
 
 function validarProducto(p) {
   const faltantes = CAMPOS_OBLIGATORIOS.filter(campo => {
@@ -381,7 +409,7 @@ function main() {
   const plantilla = leer(TEMPLATE_PATH);
   const headerHtml = leer(HEADER_PATH).trim();
   const footerHtml = leer(FOOTER_PATH).trim();
-  const productosTodos = JSON.parse(leer(DATA_PATH));
+  const productosTodos = JSON.parse(leer(DATA_PATH)).map(normalizarProducto);
   let productos = [...productosTodos];
 
   if (soloSlug) productos = productos.filter(p => p.slug === soloSlug);
@@ -395,7 +423,8 @@ function main() {
   if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
   let generados = 0;
-  for (const p of productos) {
+  for (const productoOriginal of productos) {
+    const p = normalizarProducto(productoOriginal);
     validarProducto(p);
     const html = generarHtml(p, plantilla, headerHtml, footerHtml);
     const destino = path.join(OUTPUT_DIR, `${p.slug}.html`);
