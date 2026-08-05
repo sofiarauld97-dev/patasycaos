@@ -1,4 +1,4 @@
-/* PATAS & CAOS — Buscador global v7 */
+/* PATAS & CAOS — Buscador global v8 */
 (function () {
   'use strict';
 
@@ -175,10 +175,9 @@
 
         remoto[id] = producto;
 
-        if (producto.slug) {
-          window.PRODUCT_SLUGS = window.PRODUCT_SLUGS || {};
-          window.PRODUCT_SLUGS[id] = producto.slug;
-        }
+        // No modificamos window.PRODUCT_SLUGS: en producción puede estar
+        // congelado o definido como solo lectura. slugProducto() ya prioriza
+        // producto.slug, por lo que no es necesario escribir en ese objeto.
       });
 
       if (Object.keys(remoto).length) catalogoRemoto = remoto;
@@ -279,79 +278,34 @@
     drop.style.display = 'block';
   };
 
-  let inicializado = false;
+  async function iniciar() {
+    inyectarEstilos();
+    await cargarCatalogoRemoto();
 
-  async function vincularBuscador() {
     const input = document.querySelector('.nav-search-wrap input');
-    const drop = document.getElementById('nav-drop');
-
-    if (!input || !drop) return false;
-    if (input.dataset.searchReady === 'true') return true;
-
-    input.dataset.searchReady = 'true';
-    input.setAttribute('aria-controls', 'nav-drop');
-    input.setAttribute('aria-expanded', 'false');
+    if (!input) return;
 
     input.removeAttribute('oninput');
     input.removeAttribute('onfocus');
     input.removeAttribute('onblur');
 
-    input.addEventListener('input', e => {
-      window.runSearch(e.target.value);
-      input.setAttribute(
-        'aria-expanded',
-        String(normalizar(e.target.value).length >= 2)
-      );
-    });
-
+    input.addEventListener('input', e => window.runSearch(e.target.value));
     input.addEventListener('focus', () => {
-      if (normalizar(input.value).length >= 2) {
-        window.runSearch(input.value);
-        input.setAttribute('aria-expanded', 'true');
-      }
+      if (normalizar(input.value).length >= 2) window.runSearch(input.value);
     });
-
     input.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         cerrar();
-        input.setAttribute('aria-expanded', 'false');
         input.blur();
       }
     });
-
-    return true;
-  }
-
-  async function iniciar() {
-    if (!inicializado) {
-      inyectarEstilos();
-      await cargarCatalogoRemoto();
-      inicializado = true;
-    }
-
-    if (await vincularBuscador()) return;
-
-    // El header se inserta dinámicamente en varias páginas.
-    const observer = new MutationObserver(async () => {
-      if (await vincularBuscador()) observer.disconnect();
-    });
-
-    observer.observe(document.documentElement, {
-      childList: true,
-      subtree: true
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.nav-search-wrap')) cerrar();
     });
   }
-
-  document.addEventListener('click', e => {
-    if (!e.target.closest('.nav-search-wrap')) {
-      cerrar();
-      const input = document.querySelector('.nav-search-wrap input');
-      input?.setAttribute('aria-expanded', 'false');
-    }
-  });
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', iniciar, { once: true });
+    document.addEventListener('DOMContentLoaded', iniciar);
   } else {
     iniciar();
   }
