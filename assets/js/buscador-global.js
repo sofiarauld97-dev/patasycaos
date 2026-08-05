@@ -159,8 +159,10 @@
         : (Array.isArray(data?.productos) ? data.productos : Object.values(data || {}));
 
       const remoto = {};
+
       lista.forEach(producto => {
         if (!producto) return;
+
         const id = String(
           producto.sku ||
           producto.stockId ||
@@ -168,6 +170,7 @@
           producto.slug ||
           ''
         ).trim();
+
         if (!id) return;
 
         remoto[id] = producto;
@@ -189,16 +192,10 @@
   }
 
   function imagenProducto(producto) {
-    let image = '';
     if (Array.isArray(producto?.variantes) && producto.variantes.length) {
-      image = producto.variantes[0]?.imagenes?.[0] || '';
-    } else {
-      image = producto?.imagenes?.[0] || '';
+      return producto.variantes[0]?.imagenes?.[0] || '';
     }
-
-    image = String(image || '').trim();
-    if (!image || /^https?:\/\//i.test(image) || image.startsWith('/')) return image;
-    return '/' + image.replace(/^\.\//, '');
+    return producto?.imagenes?.[0] || '';
   }
 
   function precioProducto(producto) {
