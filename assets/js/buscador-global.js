@@ -1,4 +1,4 @@
-/* PATAS & CAOS — Buscador global v8 */
+/* PATAS & CAOS — Buscador global v9 */
 (function () {
   'use strict';
 
@@ -191,19 +191,48 @@
   }
 
   function imagenProducto(producto) {
+    let imagen = '';
+
     if (Array.isArray(producto?.variantes) && producto.variantes.length) {
-      return producto.variantes[0]?.imagenes?.[0] || '';
+      imagen = producto.variantes[0]?.imagenes?.[0] || '';
+    } else {
+      imagen = producto?.imagenes?.[0] || '';
     }
-    return producto?.imagenes?.[0] || '';
+
+    imagen = String(imagen || '').trim();
+
+    if (!imagen) return '';
+    if (/^(https?:)?\/\//i.test(imagen) || imagen.startsWith('/')) return imagen;
+
+    // Evita que una imagen como "producto.jpg" se resuelva de forma relativa
+    // como /productos/producto.jpg dentro de las fichas.
+    return '/' + imagen.replace(/^\.\//, '');
   }
 
   function precioProducto(producto) {
-    return producto?.precioDisplay ||
-      producto?.precio ||
+    const display = String(
+      producto?.precioDisplay ||
       producto?.precioTexto ||
-      (Number.isFinite(Number(producto?.precioNum))
-        ? '$' + Number(producto.precioNum).toLocaleString('es-CL')
-        : '');
+      ''
+    ).trim();
+
+    if (display) {
+      if (display.startsWith('$')) return display;
+
+      const numeroDisplay = Number(
+        display.replace(/[^0-9,-]/g, '').replace(',', '.')
+      );
+
+      if (Number.isFinite(numeroDisplay)) {
+        return '$' + Math.round(numeroDisplay).toLocaleString('es-CL');
+      }
+    }
+
+    const numero = Number(producto?.precioNum ?? producto?.precio);
+
+    return Number.isFinite(numero)
+      ? '$' + Math.round(numero).toLocaleString('es-CL')
+      : '';
   }
 
   function puntaje(id, producto, consulta) {
