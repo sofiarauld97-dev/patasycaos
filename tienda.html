@@ -724,6 +724,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="/product-slugs.js"></script>
 <script>
 /* ── NAV & MENU ── */
+function runSearch(q) {
+  const drop = document.getElementById('nav-drop');
+  if (!drop) return;
+  if (!q.trim()) { drop.innerHTML=''; drop.style.display='none'; return; }
+  const prods = typeof productos !== 'undefined' ? productos : {};
+  const q2 = q.toLowerCase();
+  const matches = Object.entries(prods).filter(([id,p])=>!String(id).startsWith('pack-')&&!/^Pack\b/i.test(String(p?.nombre||''))&&p && p.nombre && (p.nombre.toLowerCase().includes(q2)||(p.descripcion||'').toLowerCase().includes(q2))).slice(0,6);
+  if (!matches.length) { drop.innerHTML='<p class="s-empty">Sin resultados</p>'; drop.style.display='block'; return; }
+  drop.innerHTML = matches.map(([id,p])=>{
+    const img = p.variantes ? p.variantes[0].imagenes[0] : (p.imagenes ? p.imagenes[0] : '');
+    const ph = p.variantes ? p.variantes[0].placeholders[0] : (p.placeholders ? p.placeholders[0] : '🐾');
+    return `<a class="s-item" href="${productoUrl(id)}"><div class="s-img">${img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover">':ph}</div><div><div class="s-nombre">${p.nombre}</div><div class="s-precio">${p.precio}</div></div></a>`;
+  }).join('');
+  drop.style.display='block';
+}
 
 /* ── CATÁLOGO ── */
 const TAGLINES = {"hey-cama-redonda-confort-verde":"\"Siesta redonda, comodidad total.\"","hey-donut-sonido-perros":"\"Sabrosa por fuera, chillona por dentro.\"","pura-natura-caldo-de-huesos-250g":"\"Colágeno en cada gota.\"","pura-natura-woofers-80g":"\"Crocante, sabroso, 100% mereces esto.\"","fit-formula-gato-adulto-2kg":"\"32% proteína, cero relleno.\"","leonardo-adult-gf-poultry-1-8kg":"\"Pollo fresco, cero cereales.\"","leonardo-adult-light-sterilised-1-8kg":"\"Menos michelines, más siesta feliz.\"","leonardo-adult-duck-1-8kg":"\"Pato en el menú, pelaje que brilla.\"","hey-bolsas-sanitarias-4-rollos":"\"Amigables contigo, el planeta y sus fugas.\"","comedero-lento-slow-feeder-rosado":"\"Menos carreras, mejor digestión\"","dog-fest-calcium-bones-chicken":"\"Calcio y pollo de verdad. Hecho a mano, hecho con amor.\"","dog-fest-lamb-medallions":"\"Cordero de granja, tamaño perfecto. Irresistible en cada bocado.\"","dog-fest-rabbit-ears-lamb":"\"Oreja de conejo, corazón de cordero. El snack que tu perro merece.\"","colagepet-donut-pollo":"\"75g de puro colágeno. Tu perro, encantado.\"","colagepet-donut-pato":"\"75g de puro colágeno. Tu perro, encantado.\"","colagepet-donut-carne":"\"75g de puro colágeno. Tu perro, encantado.\"","rascador-maxi-caja-de-leche---brnx":"\"Casa, rascador y obra de arte. Todo en una caja 🥛🐾\"","collar-isabelino-donut-rosada---talla-s":"\"Donut rosa para curarse con estilo\"","pelota-snack-interactiva":"\"Premio adentro, caos afuera 🐶\"","dispensador-de-bolsas---diseno-cafe":"\"El dispensador más cool del parque ☕🐶\"","calming-collar---perros":"\"Menos drama, más calma 💜\"","calming-collar---gatos":"\"Calma natural para el felino más dramático de la casa 💜\"","botella-portatil-para-perros":"\"Paseo largo, cero sed 💧\"","arena-sanitaria-ciudad-animal-8kg":"\"Porque el baño de tu gato también merece lo mejor 💜\"","brit-care-sterilized-weigh-control-2kg---duck-turkey":"\"Porque los gatos esterilizados merecen comer como reyes 👑\"","pack-calma-total":"\"Porque el mundo da un poco de miedo — pero los snacks ayudan.\"","pack-sos-mascota":"\"Para el susto que no vio venir — y las patitas que lo aguantaron.\"","pack-rutina-sana":"\"Hidratación, nutrición y calma. Todo lo que tu gato necesita.\"","pack-bienvenido-a-casa":"\"Porque llegar a casa nueva da un poco de miedo — y estos tres ayudan.\"","pack-cuidado-total":"Patitas hidratadas, pelo impecable. El pack que tu mascota necesita.","pack-juega-y-relaja":"\"Para el gato que necesita cansarse — y la calma que viene después.\"" ,"comedero-lento-slow-feeder---catstages":"\"Para el gato que come como si no hubiera mañana.\"","pack-consulta-flor-de-bach":"\"Para la mascota que necesita más que un frasco.\"","flores-de-bach---rescue-y-alivio":"\"Para el susto que no vio venir.\"","flores-de-bach---energia-y-animo":"\"Para los días sin ganas de nada.\"","flores-de-bach---equilibrio":"\"Cuando tu peludo está en modo raro\"","flores-de-bach---ansiedad-y-calma":"\"Porque el mundo da un poco de miedo\"","cat-fest-pillows-schrimp-creme":"\"Crujiente por fuera, cremoso por dentro. No hay defensa.\"","collar-zeecat-error-500":"\"El collar del gato que siempre encuentra errores en tu agenda\"","collar-zeecat-error-404":"\"Para el gato que no fue encontrado — hasta que tiene hambre\"","collar-zeecat-error-410":"\"Gone forever — hasta que escucha el abrelatas\"","collar-suede-para-perro-zeedog":"\"La collab Reebok que tu perro se merece\"","collar-nox-para-perro-zeedog":"\"Reflectante de noche. Irresistible de día\"",
@@ -915,6 +930,64 @@ function checkStockCard(id, stock) {
   return (stock[id] ?? 0) > 0;
 }
 
+/* ── AUDIENCIA LEGACY ──
+   Los productos antiguos fueron creados antes de que audience fuera
+   obligatorio en data/productos.json. Estas listas recuperan la
+   clasificación original sin alterar los productos nuevos. */
+const LEGACY_SNACKS_PERROS = new Set([
+  "pulmon-cordero-rahue",
+  "garra-pollo-rahue",
+  "oreja-cerdo-rahue",
+  "femur-cerdo-tasty",
+  "traquea-vacuno-rahue",
+  "condilo-vacuno-rahue",
+  "fit-formula-costillas-cordero-100g",
+  "doggo-traquea-vacuno-ciervo",
+  "doggo-mix-deshidratados",
+  "colagepet-donut-pollo",
+  "colagepet-donut-pato",
+  "colagepet-donut-carne",
+  "dog-fest-rabbit-ears-lamb",
+  "dog-fest-lamb-medallions",
+  "dog-fest-calcium-bones-chicken",
+  "pura-natura-caldo-de-huesos-250g",
+  "zupet-dental-power-suave",
+  "pura-natura-woofers-80g"
+]);
+
+const LEGACY_SNACKS_GATOS = new Set([
+  "cat-fest-pillows-schrimp-creme",
+  "cat-fest-pillows",
+  "cat-fest_Pato",
+  "cat-fest_Cordero",
+  "tubito-atun",
+  "tubito-camaron",
+  "tubito-salmon-matatabi",
+  "cats-snack_Catnip",
+  "cats-snack_Matatabi",
+  "cats-snack_Rellena Atún + Ostiones",
+  "cats-snack_Rellena Atún + Queso",
+  "cats-snack_Rellena Camarón",
+  "cats-snack_Rellena Atún + Pollo",
+  "cats-snack-pollo-camaron",
+  "snack-calming-gato",
+  "zupet-dental-fitness-crocante",
+  "fellini-lollipop-calabaza",
+  "fellini-lollipop-leche-cabra",
+  "bocados-pollo-pets-friends",
+  "cubitos-salmon-pets-friends"
+]);
+
+function audienciaEfectiva(id, producto){
+  const declarada=String(producto?.audience||'').trim();
+  if(declarada) return declarada;
+
+  if(LEGACY_SNACKS_PERROS.has(id)) return 'Para Perros';
+  if(LEGACY_SNACKS_GATOS.has(id)) return 'Para Gatos';
+
+  return '';
+}
+
 /* ── FILTROS ── */
 const filtros = { cat: 'todos', aud: 'todos', sort: 'default', texto: '' };
 let PRODUCTOS_POR_PAGINA = window.innerWidth <= 768 ? 8 : 9;
@@ -995,7 +1068,7 @@ function generarTarjetas() {
     nuevos.forEach(idNuevo=>{
       const nuevo=productos[idNuevo]||{};
       const categoria=String(nuevo.categoria||'').trim();
-      const audiencia=String(nuevo.audience||'').trim();
+      const audiencia=audienciaEfectiva(idNuevo,nuevo);
 
       let indice=-1;
 
@@ -1004,7 +1077,7 @@ function generarTarjetas() {
         const actual=productos[resultado[i]]||{};
         if(
           String(actual.categoria||'').trim()===categoria &&
-          String(actual.audience||'').trim()===audiencia
+          audienciaEfectiva(resultado[i],actual)===audiencia
         ){
           indice=i;
           break;
@@ -1046,8 +1119,10 @@ function generarTarjetas() {
       if (!p.nombre.toLowerCase().includes(texto)) return false;
     }
     if (filtros.aud !== 'todos') {
-      const aud = p.audience || '';
-      const match = Array.isArray(aud) ? aud.includes(filtros.aud) : aud === filtros.aud;
+      const aud = audienciaEfectiva(id, p);
+      const match = Array.isArray(aud)
+        ? aud.includes(filtros.aud)
+        : aud === filtros.aud || aud === 'Perros & Gatos';
       if (!match) return false;
     }
     return true;
@@ -1639,7 +1714,6 @@ if (params.get('cat') === 'Cyber') {
 })();
 </script>
 <script src="/product-slugs.js"></script>
-<script src="/assets/js/buscador-global.js?v=6"></script>
 </body>
 </html>
 
