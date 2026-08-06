@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * generar-productos.js v2.4
+ * generar-productos.js v2.5
  *
  * Genera los HTML estáticos de /productos a partir de:
  *   - templates/producto.html   (plantilla con tokens __ASI__)
@@ -220,7 +220,7 @@ function generarHtml(p, plantilla, headerHtml, footerHtml) {
     '__PRODUCT_TAG__': escapeHtml(p.etiquetaProducto || ''),
     '__PRODUCT_NAME__': escapeHtml(p.nombre),
     '__PRODUCT_PRICE_DISPLAY__': escapeHtml(p.precioDisplay),
-    '__PRODUCT_DESCRIPTION__': escapeHtml(p.seoDescription),
+    '__PRODUCT_DESCRIPTION__': escapeHtml(p.descripcion || p.seoDescription),
     '__TABS_NAV_HTML__': nav,
     '__TABS_PANELS_HTML__': panels,
     '__CURRENT_PRODUCT_JS__': currentProductJs,
