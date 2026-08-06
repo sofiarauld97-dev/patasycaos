@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * generar-paginas.js
+ * generar-paginas.js v3.0
  *
  * Reconstruye el header y footer de las paginas generales del sitio a partir de:
  *   - components/header.html

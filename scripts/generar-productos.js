@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * generar-productos.js v2.5
+ * generar-productos.js v3.0
  *
  * Genera los HTML estáticos de /productos a partir de:
  *   - templates/producto.html   (plantilla con tokens __ASI__)
@@ -286,63 +286,6 @@ function escribirJsGlobal(ruta, nombreGlobal, valor) {
   fs.writeFileSync(ruta, contenido, 'utf-8');
 }
 
-function parchearPaginaCatalogo(ruta, productos) {
-  if (!fs.existsSync(ruta)) {
-    console.warn(`⚠ No existe ${path.relative(ROOT, ruta)}; se omite.`);
-    return;
-  }
-
-  let html = leer(ruta);
-  const catalogo = construirCatalogoFrontend(productos);
-  const slugs = construirMapaSlugs(productos);
-
-  const patronCatalogo = /const productos = \{[\s\S]*?\n\};(?=\s*const ORDEN = \[)/;
-  if (!patronCatalogo.test(html)) {
-    throw new Error(`No se encontró el bloque "const productos" en ${path.basename(ruta)}.`);
-  }
-  html = html.replace(
-    patronCatalogo,
-    `const productos = ${JSON.stringify(catalogo, null, 2)};`
-  );
-
-  const patronSlugs = /const PRODUCT_SLUGS = \{[\s\S]*?\};/;
-  if (patronSlugs.test(html)) {
-    html = html.replace(
-      patronSlugs,
-      `const PRODUCT_SLUGS = ${JSON.stringify(slugs, null, 2)};`
-    );
-  }
-
-  // Elimina una versión anterior del bloque automático, si existe.
-  html = html.replace(
-    /\n\/\* AUTO-CATALOGO-INICIO \*\/[\s\S]*?\/\* AUTO-CATALOGO-FIN \*\/\n?/g,
-    '\n'
-  );
-
-  // Mantiene el orden editorial existente y agrega al inicio los productos nuevos.
-  const patronOrden = /(const ORDEN = \[[\s\S]*?\n\];)/;
-  if (!patronOrden.test(html)) {
-    throw new Error(`No se encontró el bloque "const ORDEN" en ${path.basename(ruta)}.`);
-  }
-  html = html.replace(
-    patronOrden,
-    `$1\n/* AUTO-CATALOGO-INICIO */\n` +
-    `Object.keys(productos).reverse().forEach(id => {\n` +
-    `  if (!ORDEN.includes(id)) ORDEN.unshift(id);\n` +
-    `});\n` +
-    `/* AUTO-CATALOGO-FIN */`
-  );
-
-  // Enlaces de búsqueda hacia la ficha pública limpia.
-  html = html.replace(
-    /href="\/tienda\?producto=\$\{id\}"/g,
-    'href="/productos/${PRODUCT_SLUGS[id] || id}"'
-  );
-
-  fs.writeFileSync(ruta, html, 'utf-8');
-  console.log(`✓ Sincronizado: ${path.relative(ROOT, ruta)}`);
-}
-
 function xmlEscape(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -412,6 +355,45 @@ function sincronizarCatalogo(productos) {
   console.log('✓ Actualizado: sitemap.xml');
 }
 
+
+function validarCatalogoCompleto(productos) {
+  const errores = [];
+  const advertencias = [];
+  const skus = new Map();
+  const slugs = new Map();
+
+  productos.forEach((p, index) => {
+    const label = p.nombre || p.slug || p.sku || `Producto ${index + 1}`;
+    validarProducto(p);
+
+    if (!String(p.audience || '').trim()) {
+      advertencias.push(`${label}: audience vacío (producto heredado).`);
+    }
+
+    if (skus.has(p.sku)) {
+      errores.push(`SKU duplicado "${p.sku}": ${skus.get(p.sku)} / ${label}.`);
+    } else {
+      skus.set(p.sku, label);
+    }
+
+    if (slugs.has(p.slug)) {
+      errores.push(`Slug duplicado "${p.slug}": ${slugs.get(p.slug)} / ${label}.`);
+    } else {
+      slugs.set(p.slug, label);
+    }
+  });
+
+  if (errores.length) {
+    throw new Error(`Catálogo inválido:\n- ${errores.join('\n- ')}`);
+  }
+
+  if (advertencias.length) {
+    console.warn(`⚠ ${advertencias.length} producto(s) heredado(s) sin audience.`);
+  }
+
+  return { errores, advertencias };
+}
+
 function main() {
   const args = process.argv.slice(2);
   const soloSlug = args.find(a => a.startsWith('--slug='))?.split('=')[1];
@@ -422,9 +404,8 @@ function main() {
   const footerHtml = leer(FOOTER_PATH).trim();
   const productosTodos = JSON.parse(leer(DATA_PATH)).map(normalizarProducto);
 
-  // Primero valida el catálogo completo. Así el build no deja archivos
-  // derivados parcialmente actualizados si existe un producto inválido.
-  productosTodos.forEach(validarProducto);
+  // Valida estructura, duplicados y consistencia antes de escribir archivos.
+  validarCatalogoCompleto(productosTodos);
 
   let productos = [...productosTodos];
 

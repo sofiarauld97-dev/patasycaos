@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Admin v2.4 — Patas & Caos</title>
-  <!-- ADMIN PRODUCTOS V2.4: CATALOGO DERIVADO AUTOMATICO EN BUILD -->
+  <title>Admin v3.0 — Patas & Caos</title>
+  <!-- ADMIN PRODUCTOS V3.0: PAQUETE INTEGRAL Y VALIDACION DE CATALOGO -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -128,7 +128,7 @@
 <header>
   <div class="head">
     <div class="brand"><img src="/logo.png" alt="" onerror="this.style.display='none'"><span>Patas & Caos</span></div>
-    <div class="badge">Admin v2.4 · Productos</div>
+    <div class="badge">Admin v3.0 · Productos</div>
   </div>
 </header>
 
@@ -137,7 +137,7 @@
   <p class="lead">Carga <strong>data/productos.json</strong>, completa el producto y descarga un único ZIP con el catálogo actualizado, las imágenes y las instrucciones de subida. Al reemplazar los archivos en GitHub, Vercel regenerará la ficha automáticamente.</p>
 
   <div class="notice">
-    El panel prepara todos los archivos necesarios en un solo ZIP. No escribe directamente en GitHub ni modifica pagos, webhooks o Mercado Pago.
+    El panel valida el producto y el catálogo, registra el stock inicial y prepara un ZIP integral. No modifica GitHub, pagos, webhooks ni Mercado Pago.
   </div>
 
   <div class="grid">
@@ -228,7 +228,7 @@
         <button class="primary package" id="btnPackage" type="button" disabled>Descargar paquete completo ZIP</button>
       </div>
       <p class="package-note">
-        El ZIP contendrá <strong>data/productos.json</strong>, las imágenes seleccionadas, un parche de stock y un archivo LEEME. Durante el build, el generador actualizará automáticamente <strong>products-data.js</strong>, <strong>product-slugs.js</strong>, las fichas y el sitemap.
+        El ZIP contendrá <strong>data/productos.json</strong>, <strong>products-data.js</strong>, <strong>product-slugs.js</strong>, <strong>sitemap.xml</strong>, las imágenes, el parche de stock y un informe de validación.
       </p>
       <details style="margin-top:14px">
         <summary>Descargas individuales avanzadas</summary>
@@ -412,6 +412,146 @@ function makeProduct(){
 
 function clone(v){ return JSON.parse(JSON.stringify(v)); }
 
+function catalogItems(json){
+  if(Array.isArray(json)) return json;
+  if(json && Array.isArray(json.productos)) return json.productos;
+  if(json && typeof json==='object') return Object.values(json);
+  return [];
+}
+
+function validateCatalog(json){
+  const items=catalogItems(json);
+  const errors=[];
+  const warnings=[];
+  const skuSeen=new Map();
+  const slugSeen=new Map();
+
+  items.forEach((p,index)=>{
+    const label=p?.nombre||p?.slug||p?.sku||`Producto ${index+1}`;
+    const sku=String(p?.sku??p?.id??p?.stockId??'').trim();
+    const slug=String(p?.slug??'').trim();
+
+    if(!sku) errors.push(`${label}: falta SKU.`);
+    if(!slug) errors.push(`${label}: falta slug.`);
+    if(!String(p?.nombre||'').trim()) errors.push(`${label}: falta nombre.`);
+    if(!String(p?.categoria||'').trim()) errors.push(`${label}: falta categoría.`);
+    if(!Number.isFinite(Number(p?.precio??p?.precioNum))||Number(p?.precio??p?.precioNum)<=0){
+      errors.push(`${label}: precio inválido.`);
+    }
+    if(!Array.isArray(p?.imagenes)||!p.imagenes.length){
+      errors.push(`${label}: falta al menos una imagen.`);
+    }
+    if(!Array.isArray(p?.caracteristicas)||!p.caracteristicas.length){
+      errors.push(`${label}: falta al menos una característica.`);
+    }
+    if(!String(p?.audience||'').trim()){
+      warnings.push(`${label}: audience vacío (producto heredado).`);
+    }
+
+    if(sku){
+      if(skuSeen.has(sku)) errors.push(`SKU duplicado: ${sku} (${skuSeen.get(sku)} / ${label}).`);
+      else skuSeen.set(sku,label);
+    }
+    if(slug){
+      if(slugSeen.has(slug)) errors.push(`Slug duplicado: ${slug} (${slugSeen.get(slug)} / ${label}).`);
+      else slugSeen.set(slug,label);
+    }
+  });
+
+  return {items,errors,warnings};
+}
+
+function buildFrontendCatalog(json){
+  const catalog={};
+  for(const p of catalogItems(json)){
+    const sku=String(p.sku??p.id??p.stockId??'').trim();
+    if(!sku) continue;
+    const price=Number(p.precio??p.precioNum);
+    const priceDisplay=String(p.precioDisplay||p.precioTexto||'').trim() ||
+      (Number.isFinite(price)?'$'+Math.round(price).toLocaleString('es-CL'):'');
+    catalog[sku]={
+      nombre:p.nombre||'',
+      precio:priceDisplay,
+      precioNum:Number.isFinite(price)?price:0,
+      audience:p.audience||'',
+      categoria:p.categoria||'',
+      marca:p.marca||'',
+      tagline:p.tagline||'',
+      descripcion:p.descripcion||p.seoDescription||'',
+      caracTitulo:p.caracTitulo||'Características',
+      caracteristicas:Array.isArray(p.caracteristicas)?p.caracteristicas:[],
+      ingredientes:p.ingredientes||'',
+      imagenes:Array.isArray(p.imagenes)?p.imagenes.map(normalizeImagePath):[],
+      placeholders:Array.isArray(p.placeholders)&&p.placeholders.length
+        ? p.placeholders
+        : (Array.isArray(p.imagenes)?p.imagenes.map(()=>p.emoji||'🐾'):[]),
+      ahorro:p.ahorro||undefined,
+      cyber:p.cyber||undefined
+    };
+  }
+  return catalog;
+}
+
+function buildSlugMap(json){
+  return Object.fromEntries(
+    catalogItems(json)
+      .map(p=>[String(p.sku??p.id??p.stockId??'').trim(),String(p.slug||'').trim()])
+      .filter(([sku,slug])=>sku&&slug)
+  );
+}
+
+function buildGlobalJs(name,value){
+  return `// Generado automáticamente desde data/productos.json. No editar a mano.\n`+
+    `const ${name} = ${JSON.stringify(value,null,2)};\n`+
+    `if (typeof window !== 'undefined') window.${name} = ${name};\n`;
+}
+
+function xmlEscape(value){
+  return String(value??'')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&apos;');
+}
+
+function buildSitemap(json){
+  const today=new Date().toISOString().slice(0,10);
+  const staticRoutes=[
+    ['/', 'weekly', '1.0'], ['/tienda', 'weekly', '0.9'],
+    ['/suscripciones', 'monthly', '0.8'], ['/blog', 'weekly', '0.7'],
+    ['/blog-alimentacion', 'monthly', '0.7'], ['/blog-flores-de-bach', 'monthly', '0.7'],
+    ['/blog-juguetes', 'monthly', '0.7'], ['/nosotros', 'monthly', '0.6'],
+    ['/contacto', 'monthly', '0.6'], ['/envios', 'monthly', '0.5'],
+    ['/devoluciones', 'monthly', '0.5'], ['/faq', 'monthly', '0.5'],
+    ['/cuenta', 'monthly', '0.4'], ['/favoritos', 'monthly', '0.4']
+  ];
+  const urls=staticRoutes.map(([route,freq,priority])=>
+`  <url>
+    <loc>https://www.patasycaos.cl${route}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${freq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`);
+
+  for(const p of catalogItems(json)){
+    if(!p?.slug) continue;
+    urls.push(
+`  <url>
+    <loc>${xmlEscape(`https://www.patasycaos.cl/productos/${p.slug}`)}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`);
+  }
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n`+
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`+
+    urls.join('\n')+
+    `\n</urlset>\n`;
+}
+
+
 function mergeProduct(base, info, product, overwrite){
   const items=info.items;
   const index=items.findIndex(p => {
@@ -449,12 +589,23 @@ $('btnGenerate').addEventListener('click',()=>{
   try{
     const product=makeProduct();
     updatedJson=mergeProduct(originalJson,containerInfo,product,$('overwrite').checked);
+    const validation=validateCatalog(updatedJson);
+    if(validation.errors.length){
+      throw new Error('El catálogo no pasó la validación:\n- '+validation.errors.join('\n- '));
+    }
     stockPatch={ [product.stockId]: Math.max(0,Number($('stock').value)||0) };
-    $('preview').textContent=JSON.stringify(product,null,2);
+    $('preview').textContent=JSON.stringify({
+      producto:product,
+      catalogo:{
+        total:validation.items.length,
+        errores:validation.errors,
+        advertencias:validation.warnings
+      }
+    },null,2);
     $('btnDownload').disabled=false;
     $('btnStock').disabled=false;
     $('btnPackage').disabled=false;
-    setStatus(`Producto “${product.nombre}” preparado. Descarga el paquete ZIP completo.`,true);
+    setStatus(`Producto “${product.nombre}” preparado. Catálogo válido: ${validation.items.length} productos; ${validation.warnings.length} advertencias heredadas.`,true);
   }catch(err){
     updatedJson=null;
     $('btnDownload').disabled=true;
@@ -497,8 +648,26 @@ $('btnPackage').addEventListener('click', async () => {
 
     const zip = new JSZip();
 
+    const validation=validateCatalog(updatedJson);
+    if(validation.errors.length){
+      throw new Error('No se puede generar el paquete: '+validation.errors.join(' | '));
+    }
+
+    const frontendCatalog=buildFrontendCatalog(updatedJson);
+    const slugMap=buildSlugMap(updatedJson);
+
     zip.file('data/productos.json', JSON.stringify(updatedJson, null, 2) + '\n');
+    zip.file('products-data.js', buildGlobalJs('productos', frontendCatalog));
+    zip.file('product-slugs.js', buildGlobalJs('PRODUCT_SLUGS', slugMap));
+    zip.file('sitemap.xml', buildSitemap(updatedJson));
     zip.file('stock-patch.json', JSON.stringify(stockPatch, null, 2) + '\n');
+    zip.file('VALIDACION.json', JSON.stringify({
+      generadoEn:new Date().toISOString(),
+      totalProductos:validation.items.length,
+      errores:validation.errors,
+      advertencias:validation.warnings,
+      nuevoProducto:{sku:product.sku,slug:product.slug,nombre:product.nombre}
+    },null,2)+'\n');
 
     const imageFolder = zip.folder('imagenes');
     for (const file of selectedImageFiles) {
@@ -507,41 +676,49 @@ $('btnPackage').addEventListener('click', async () => {
 
     const imageNames = product.imagenes.map(name => `- ${name}`).join('\n');
     const instructions = `PRODUCTO NUEVO — ${product.nombre}
+ADMINISTRADOR v3.0 — PAQUETE INTEGRAL
 
 ARCHIVOS INCLUIDOS
 1. data/productos.json
-2. stock-patch.json
-3. Carpeta imagenes/ con los archivos seleccionados
+2. products-data.js
+3. product-slugs.js
+4. sitemap.xml
+5. stock-patch.json
+6. VALIDACION.json
+7. Carpeta imagenes/ con los archivos seleccionados
 
 QUÉ DEBES SUBIR A GITHUB
-1. Reemplaza:
+1. Reemplaza estos archivos:
    data/productos.json
-
-2. Copia cada imagen de la carpeta imagenes/ a la misma carpeta del repositorio donde guardas actualmente las imágenes de productos.
-   Imágenes declaradas:
-${imageNames || '- No se seleccionaron archivos; revisa los nombres escritos manualmente.'}
-
-3. No subas stock-patch.json al repositorio.
-   El administrador ya aplicó este stock inicial al inventario remoto:
-   ${product.stockId}: ${Math.max(0, Number($('stock').value) || 0)}
-
-4. Haz Commit y Push.
-
-5. Vercel ejecutará el build y generará automáticamente:
-   productos/${product.slug}.html
    products-data.js
    product-slugs.js
    sitemap.xml
 
-6. tienda.html leerá products-data.js y mostrará el producto sin editar la página manualmente.
+2. Copia las imágenes de imagenes/ a la carpeta raíz del repositorio
+   (o conserva exactamente la ruta declarada en el producto).
+   Imágenes declaradas:
+${imageNames || '- No se seleccionaron archivos; revisa los nombres escritos manualmente.'}
 
-7. Después del deploy revisa:
-   https://www.patasycaos.cl/productos/${product.slug}
+3. NO subas stock-patch.json.
+   El stock inicial ya fue registrado en el inventario remoto:
+   ${product.stockId}: ${Math.max(0, Number($('stock').value) || 0)}
+
+4. VALIDACION.json es informativo. No es obligatorio subirlo.
+
+5. Haz Commit y Push. Vercel regenerará las fichas HTML desde data/productos.json.
+
+REVISION DESPUÉS DEL DEPLOY
+- Ficha: https://www.patasycaos.cl/productos/${product.slug}
+- Tienda: https://www.patasycaos.cl/tienda
+- Buscador global
+- Filtro: ${product.categoria} / ${product.audience}
+- Inventario
 
 IMPORTANTE
-- tienda.html no se incluye ni se sobrescribe: scripts/generar-productos.js actualiza automáticamente los archivos de catálogo que la tienda consume.
-- El nuevo producto aparecerá también en el listado de crear pedido manual, porque ese panel carga el mismo data/productos.json.
-- El ZIP no modifica GitHub. El stock inicial sí se registra automáticamente en Upstash al descargar el paquete.
+- tienda.html no se reemplaza al crear productos.
+- data/productos.json es la fuente principal.
+- products-data.js, product-slugs.js y sitemap.xml se incluyen ya sincronizados.
+- El build volverá a generarlos como comprobación adicional.
 `;
 
     zip.file('LEEME.txt', instructions);
