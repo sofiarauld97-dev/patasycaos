@@ -2386,5 +2386,43 @@
     "canonical": "https://www.patasycaos.cl/productos/femur-de-cerdo-gran-cani",
     "seoTitle": "Fémur de Cerdo Natural para Perros | Patas & Caos",
     "seoDescription": "Compra Fémur de Cerdo Natural para perros en Patas & Caos. Snack 100% natural ideal para una masticación prolongada, entretenimiento y cuidado dental. Envíos a todo Chile."
+  },
+  {
+    "sku": "oreja-de-cerdo-gran-cani",
+    "slug": "oreja-de-cerdo-gran-cani",
+    "nombre": "Oreja de Cerdo - Gran Cani",
+    "precio": 2490,
+    "precioNum": 2490,
+    "precioDisplay": "$2.490",
+    "precioTexto": "$2.490",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Gran Cani",
+    "tagline": "\"Snack natural de larga duración\"",
+    "descripcion": "Oreja de cerdo 100% natural para perros, ideal para una masticación prolongada. Ayuda a satisfacer el instinto natural de mordida, favorece la higiene dental mediante la acción mecánica de la masticación y proporciona entretenimiento. Sin colorantes, conservantes ni aditivos.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% natural.",
+      "Masticación prolongada.",
+      "Favorece la limpieza mecánica de dientes y encías.",
+      "Alto contenido de proteína.",
+      "Sin preservantes ni aditivos.",
+      "Ideal para perros medianos y grandes.",
+      "Administrar siempre bajo supervisión y con agua fresca disponible."
+    ],
+    "ingredientes": "100% oreja de cerdo natural. Sin colorantes, conservantes ni aditivos.",
+    "imagenes": [
+      "/oreja-de-cerdo-gran-cani.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "oreja-de-cerdo-gran-cani",
+    "canonical": "https://www.patasycaos.cl/productos/oreja-de-cerdo-gran-cani",
+    "seoTitle": "Oreja de Cerdo Natural para Perros | Patas & Caos",
+    "seoDescription": "Compra Oreja de Cerdo Natural para perros en Patas & Caos. Snack 100% natural ideal para una masticación prolongada, entretenimiento y cuidado dental. Envíos a todo Chile."
   }
 ]
