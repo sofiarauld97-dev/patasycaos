@@ -1104,7 +1104,7 @@ function generarTarjetas() {
 
   const idsOrdenados=construirOrdenCatalogo();
 
-  let lista = idsOrdenados.map(id => ({ id, p: productos[id] })).filter(({ p }) => {
+  let lista = idsOrdenados.map(id => ({ id, p: productos[id] })).filter(({ id, p }) => {
     if (!p) return false;
     if (filtros.cat !== 'todos') {
       if (filtros.cat === 'Cyber') {
