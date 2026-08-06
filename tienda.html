@@ -1213,7 +1213,17 @@ function generarTarjetas() {
     } else {
       precioMostrar = '<span class="prod-price">' + p.precio + '</span>';
     }
-    info.innerHTML = '<h4>' + p.nombre + '</h4><p class="tagline">' + (TAGLINES[id] || '') + '</p><div class="prod-footer">' + precioMostrar + '<button class="btn-add" id="' + btnId + '">' + (p.variantes ? ((['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c => id.startsWith(c))) ? 'Elegir color' : 'Elegir sabor') : 'Añadir') + '</button></div>';
+    const taglineMostrar = String(p.tagline || TAGLINES[id] || '').trim();
+    info.innerHTML = '<h4>' + p.nombre + '</h4>' +
+      (taglineMostrar ? '<p class="tagline">' + taglineMostrar + '</p>' : '') +
+      '<div class="prod-footer">' + precioMostrar +
+      '<button class="btn-add" id="' + btnId + '">' +
+      (p.variantes
+        ? ((['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c => id.startsWith(c)))
+          ? 'Elegir color'
+          : 'Elegir sabor')
+        : 'Añadir') +
+      '</button></div>';
     card.appendChild(carrusel); card.appendChild(info); grid.appendChild(card);
     const btn = document.getElementById(btnId);
     if (btn) {
