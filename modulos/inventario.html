@@ -928,23 +928,21 @@ let filtroAudiencia = null;
 
     stock={...remoto};
 
-    // Todo producto publicado debe aparecer en inventario, incluso si aún no
-    // tiene cantidad registrada. Los nuevos comienzan en 0 hasta aplicar
-    // su stock inicial o modificarlo desde este panel.
-    let agregados=0;
-    SKUS.forEach(producto=>{
-      if(!Object.prototype.hasOwnProperty.call(stock,producto.id)){
-        stock[producto.id]=0;
-        agregados++;
-      }
-    });
-
-    localStorage.setItem(STOCK_KEY,JSON.stringify(stock));
-
-    // Persiste de una sola vez las claves nuevas sin borrar el stock existente.
-    if(agregados>0){
-      await guardarStockRemoto(stock);
+    // Upstash es la fuente de verdad del stock.
+    // IMPORTANTE: el inventario NO crea claves nuevas automáticamente.
+    // Si un producto del catálogo no coincide con una clave existente, se
+    // mantiene sin cantidad y se informa en consola para corregir el stockId/SKU.
+    const faltantes=SKUS.filter(producto=>
+      !Object.prototype.hasOwnProperty.call(stock,producto.id)
+    );
+    if(faltantes.length){
+      console.warn('Productos del catálogo sin clave de stock en Upstash:',
+        faltantes.map(p=>({id:p.id,nombre:p.nombre}))
+      );
     }
+
+    // No escribir de vuelta a Upstash durante la carga. Solo cache local.
+    localStorage.setItem(STOCK_KEY,JSON.stringify(stock));
   }catch(error){
     console.error(error);
     stock=cargarStock();

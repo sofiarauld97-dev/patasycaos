@@ -254,7 +254,8 @@ function normalizarImagen(img) {
 function construirCatalogoFrontend(productos) {
   const catalogo = {};
   for (const p of productos) {
-    catalogo[p.sku] = {
+    const stockId = String(p.stockId || p.sku || p.slug).trim();
+    catalogo[stockId] = {
       nombre: p.nombre,
       precio: p.precioDisplay || p.precioTexto || `$${Number(p.precio).toLocaleString('es-CL')}`,
       precioNum: Number(p.precio),
@@ -278,7 +279,7 @@ function construirCatalogoFrontend(productos) {
 }
 
 function construirMapaSlugs(productos) {
-  return Object.fromEntries(productos.map(p => [p.sku, p.slug]));
+  return Object.fromEntries(productos.map(p => [String(p.stockId || p.sku || p.slug).trim(), p.slug]));
 }
 
 function escribirJsGlobal(ruta, nombreGlobal, valor) {
