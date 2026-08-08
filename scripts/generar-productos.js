@@ -202,7 +202,10 @@ function generarHtml(p, plantilla, headerHtml, footerHtml) {
   const imagenAbsoluta = imagenPrincipal.startsWith('http') ? imagenPrincipal : `${SITE_URL}${imagenPrincipal}`;
   const { nav, panels } = construirTabs(p);
 
-  const currentProductJs = `const CURRENT_PRODUCT={id:"${p.sku}",name:${JSON.stringify(p.nombre)},price:${p.precio},img:${JSON.stringify(imagenPrincipal)}};`;
+  // El stock usa un identificador estable. Si el producto define stockId,
+  // se usa ese valor; si no, se mantiene compatibilidad con los SKU actuales.
+  const stockId = String(p.stockId || p.sku || p.slug).trim();
+  const currentProductJs = `const CURRENT_PRODUCT={id:${JSON.stringify(stockId)},name:${JSON.stringify(p.nombre)},price:${p.precio},img:${JSON.stringify(imagenPrincipal)}};`;
 
   const reemplazos = {
     '__SEO_TITLE__': escapeHtml(p.seoTitle),
