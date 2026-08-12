@@ -486,13 +486,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="/cart.js"></script>
 <script src="/assets/js/site.js"></script>
+<script src="/products-data.js"></script>
+<script>
+  // Google Customer Reviews: español Latinoamérica.
+  window.___gcfg = { lang: 'es-419' };
+</script>
 <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
 <script>
 // ── RESEÑAS DE CLIENTES EN GOOGLE ──
-// Se muestra recién cuando (a) platform.js terminó de cargar Y (b) ya tenemos
-// los datos reales del pedido. Cualquiera de los dos puede llegar primero.
+// Google exige datos dinámicos y reales en la página de confirmación.
+// El módulo solo se intenta mostrar una vez y solo cuando tenemos:
+// order_id, email, país y fecha estimada de entrega.
+const GCR_MERCHANT_ID = 5806255829;
+const GCR_DELIVERY_BUSINESS_DAYS = 5; // Ajustable según operación real.
+const GCR_TRANSFER_EXTRA_BUSINESS_DAYS = 2; // Ventana de confirmación de transferencia.
+
 let _gcrGapiListo = false;
 let _gcrDatosPedido = null;
+let _gcrRenderizado = false;
 
 window.renderOptIn = function() {
   _gcrGapiListo = true;
@@ -500,25 +511,74 @@ window.renderOptIn = function() {
 };
 
 function _gcrIntentarMostrar() {
-  if (!_gcrGapiListo || !_gcrDatosPedido) return;
+  if (_gcrRenderizado || !_gcrGapiListo || !_gcrDatosPedido) return;
+  if (!window.gapi || typeof window.gapi.load !== 'function') return;
+
+  const datos = _gcrDatosPedido;
+  if (!datos.order_id || !datos.email || !datos.estimated_delivery_date) {
+    console.warn('Google Customer Reviews: faltan datos obligatorios.', datos);
+    return;
+  }
+
+  _gcrRenderizado = true;
+
   window.gapi.load('surveyoptin', function() {
     window.gapi.surveyoptin.render({
-      "merchant_id": 5806255829,
-      "order_id": _gcrDatosPedido.order_id,
-      "email": _gcrDatosPedido.email,
-      "delivery_country": "CL",
-      "estimated_delivery_date": _gcrDatosPedido.estimated_delivery_date,
+      merchant_id: GCR_MERCHANT_ID,
+      order_id: String(datos.order_id),
+      email: String(datos.email),
+      delivery_country: 'CL',
+      estimated_delivery_date: datos.estimated_delivery_date,
+      opt_in_style: 'BOTTOM_RIGHT_DIALOG'
     });
   });
 }
 
-// Estima la fecha de entrega según el plazo que ya le mostramos al cliente
-// (24-48h hábiles para despacho, 1-2 días hábiles para retiro) — se usa un
-// cálculo simple y conservador (hoy + 3 días corridos) para no prometer de más.
-function _gcrFechaEstimada() {
-  const d = new Date();
-  d.setDate(d.getDate() + 3);
-  return d.toISOString().split('T')[0]; // YYYY-MM-DD
+function _gcrSumarDiasHabiles(fechaBase, diasHabiles) {
+  const d = new Date(fechaBase);
+  let agregados = 0;
+
+  while (agregados < diasHabiles) {
+    d.setDate(d.getDate() + 1);
+    const dia = d.getDay();
+    if (dia !== 0 && dia !== 6) agregados++;
+  }
+
+  return d;
+}
+
+function _gcrFechaEstimada(order, metodoPago) {
+  const esRetiro = String(order?.metodoEntrega || '').toLowerCase() === 'retiro';
+
+  // Retiro: 2 días hábiles.
+  // Despacho: 5 días hábiles configurables.
+  // Transferencia suma 2 días hábiles por la ventana de confirmación del pago.
+  let dias = esRetiro ? 2 : GCR_DELIVERY_BUSINESS_DAYS;
+  if (metodoPago === 'transferencia') dias += GCR_TRANSFER_EXTRA_BUSINESS_DAYS;
+
+  const d = _gcrSumarDiasHabiles(new Date(), dias);
+  return d.toISOString().slice(0, 10);
+}
+
+function _gcrPreparar(orderId, order, metodoPago) {
+  const email = String(order?.email || '').trim();
+  const id = String(orderId || '').trim();
+
+  if (!id || !email) {
+    console.warn('Google Customer Reviews: no se pudo preparar el opt-in.', {
+      order_id: id,
+      email
+    });
+    return;
+  }
+
+  _gcrDatosPedido = {
+    order_id: id,
+    email,
+    estimated_delivery_date: _gcrFechaEstimada(order, metodoPago)
+  };
+
+  _gcrIntentarMostrar();
 }
 </script>
 <script>
@@ -532,34 +592,67 @@ function runSearch(q) {
 (async function() {
   const params = new URLSearchParams(window.location.search);
   const prefId = params.get('preference_id');
+  const metodo = params.get('metodo');
+  const pedidoId = params.get('pedido');
   const contenido = document.getElementById('pedido-contenido');
 
-  if (!prefId) {
-    contenido.innerHTML = errorHTML('No encontramos tu pedido.', 'Si completaste el pago, revisa tu correo — enviamos una confirmación automática.');
-    return;
-  }
+  // 1) TRANSFERENCIA
+  // El pedido ya fue creado en Supabase por /api/checkout-transferencia.
+  // Para no exponer email/dirección en la URL, el checkout dejó una copia
+  // temporal de los datos de confirmación en sessionStorage.
+  if (metodo === 'transferencia' && pedidoId) {
+    try {
+      const raw = sessionStorage.getItem('pac_pedido_transferencia');
+      if (!raw) throw new Error('sin datos locales');
 
-  try {
-    const res = await fetch('/api/webhook?preference_id=' + encodeURIComponent(prefId));
-    if (!res.ok) throw new Error('not found');
-    const order = await res.json();
-    contenido.innerHTML = renderPedido(order);
+      const order = JSON.parse(raw);
+      if (String(order.numeroPedido || '') !== String(pedidoId)) {
+        throw new Error('pedido no coincide');
+      }
 
-    // Habilitar Reseñas de Clientes en Google con los datos reales del pedido
-    if (order.email) {
-      _gcrDatosPedido = {
-        order_id: prefId,
-        email: order.email,
-        estimated_delivery_date: _gcrFechaEstimada(),
-      };
-      _gcrIntentarMostrar();
+      contenido.innerHTML = renderPedido(order);
+      _gcrPreparar('PAC-' + String(pedidoId).padStart(5, '0'), order, 'transferencia');
+
+      // Se conserva durante esta sesión para permitir un refresh de la página.
+      return;
+    } catch (e) {
+      console.error('No se pudo recuperar el pedido por transferencia:', e);
+      contenido.innerHTML = errorHTML(
+        'Tu pedido fue registrado.',
+        'No pudimos recuperar el detalle completo en esta pantalla. Revisa tu correo: allí encontrarás el número de pedido y las instrucciones para realizar la transferencia.'
+      );
+      return;
     }
-  } catch(e) {
-    contenido.innerHTML = errorHTML(
-      'No pudimos cargar el detalle de tu pedido.',
-      'Si completaste el pago con Mercado Pago, el cobro fue procesado correctamente. Recibirás la confirmación en tu correo en los próximos minutos.'
-    );
   }
+
+  // 2) MERCADO PAGO
+  // Mercado Pago vuelve a esta página con preference_id. El endpoint /api/webhook
+  // devuelve los datos reales del pedido guardados para esa preferencia.
+  if (prefId) {
+    try {
+      const res = await fetch('/api/webhook?preference_id=' + encodeURIComponent(prefId), {
+        cache: 'no-store'
+      });
+      if (!res.ok) throw new Error('not found');
+
+      const order = await res.json();
+      contenido.innerHTML = renderPedido(order);
+      _gcrPreparar(prefId, order, 'mercadopago');
+      return;
+    } catch(e) {
+      console.error('No se pudo cargar el pedido de Mercado Pago:', e);
+      contenido.innerHTML = errorHTML(
+        'No pudimos cargar el detalle de tu pedido.',
+        'Si completaste el pago con Mercado Pago, el cobro puede haberse procesado correctamente. Recibirás la confirmación en tu correo en los próximos minutos.'
+      );
+      return;
+    }
+  }
+
+  contenido.innerHTML = errorHTML(
+    'No encontramos tu pedido.',
+    'Si completaste una compra, revisa tu correo: enviamos una confirmación automática.'
+  );
 })();
 
 function fmt(n) {
@@ -568,7 +661,8 @@ function fmt(n) {
 
 function renderPedido(o) {
   const esRetiro = o.metodoEntrega === 'retiro';
-  const itemsHTML = o.items.map(i => `
+  const items = Array.isArray(o.items) ? o.items : [];
+  const itemsHTML = items.map(i => `
     <div class="pedido-item">
       <span class="pedido-item-name">${i.name}</span>
       <span class="pedido-item-qty">x${i.qty}</span>
@@ -678,7 +772,5 @@ function errorHTML(titulo, msg) {
 }
 </style>
 
-<script src="/products-data.js"></script>
-<script src="/product-slugs.js"></script>
 </body>
 </html>

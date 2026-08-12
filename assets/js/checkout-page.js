@@ -138,9 +138,39 @@
 
     try{
       if(metodo==='transferencia'){
+        const itemsPedido=cart.map(item=>({
+          id:item.id,
+          name:item.name,
+          price:Number(item.price)||0,
+          qty:Number(item.qty)||0
+        }));
+        const subtotalPedido=itemsPedido.reduce((s,i)=>s+i.price*i.qty,0);
+        const costoEnvioPedido=Number(cliente.costoEnvio)||0;
+
         const res=await fetch('/api/checkout-transferencia',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:cart,cliente})});
         const data=await res.json();
         if(!res.ok)throw new Error(data.error||'No se pudo crear el pedido');
+
+        // La página /pedido-ok necesita estos datos para mostrar el pedido
+        // y alimentar Google Customer Reviews sin exponer datos en la URL.
+        sessionStorage.setItem('pac_pedido_transferencia',JSON.stringify({
+          numeroPedido:String(data.numeroPedido||''),
+          nombre:cliente.nombre,
+          email:cliente.email,
+          telefono:cliente.telefono,
+          direccion:cliente.direccion,
+          comuna:cliente.comuna,
+          ciudad:cliente.ciudad,
+          notas:cliente.notas||'',
+          costoEnvio:costoEnvioPedido,
+          metodoEntrega:esRetiro?'retiro':'despacho',
+          documento:cliente.documento||'Boleta',
+          items:itemsPedido,
+          subtotal:subtotalPedido,
+          total:subtotalPedido+costoEnvioPedido,
+          metodoPago:'transferencia'
+        }));
+
         localStorage.removeItem('pac_cart'); cart=[];
         window.location.href='/pedido-ok?metodo=transferencia&pedido='+encodeURIComponent(data.numeroPedido||'');
         return;
