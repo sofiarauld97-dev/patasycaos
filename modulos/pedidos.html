@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pedidos — Patas & Caos</title>
+<!-- Inventario pedidos: sincronización robusta v6 -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1764,22 +1765,26 @@ async function cargarCatalogoProductos(forzar = false) {
     const productos = obtenerProductosCatalogo(data);
 
     CATALOGO = productos
-      .map(producto => ({
-        id: String(
-          producto.sku ??
-          producto.id ??
-          producto.stockId ??
-          producto.slug ??
-          ''
-        ).trim(),
-        nombre: String(
-          producto.nombre ??
-          producto.name ??
-          producto.titulo ??
-          ''
-        ).trim(),
-        precio: precioCatalogo(producto)
-      }))
+      .map(producto => {
+        const sku = String(producto.sku ?? producto.id ?? producto.stockId ?? producto.slug ?? '').trim();
+        const stockId = String(producto.stockId ?? producto.sku ?? producto.id ?? producto.slug ?? '').trim();
+        const slug = String(producto.slug ?? '').trim();
+
+        return {
+          id: sku,
+          sku,
+          stockId,
+          slug,
+          stockKeys: [...new Set([stockId, sku, String(producto.id ?? '').trim(), slug].filter(Boolean))],
+          nombre: String(
+            producto.nombre ??
+            producto.name ??
+            producto.titulo ??
+            ''
+          ).trim(),
+          precio: precioCatalogo(producto)
+        };
+      })
       .filter(producto =>
         producto.id &&
         producto.nombre &&
@@ -1877,6 +1882,85 @@ function cerrarNuevoPedido() {
   document.getElementById('np-items-lista').innerHTML = '';
 }
 
+
+function obtenerClaveStock(item, stock) {
+  const candidatos = Array.isArray(item.stockKeys) ? item.stockKeys : [item.stockId, item.id];
+  const existente = candidatos.find(clave => clave && Object.prototype.hasOwnProperty.call(stock, clave));
+  return existente || candidatos.find(Boolean) || '';
+}
+
+async function descontarStockPedido(items) {
+  const stockRes = await fetch('/api/stock-get?t=' + Date.now(), { cache: 'no-store' });
+  if (!stockRes.ok) {
+    throw new Error(`No se pudo leer el inventario (${stockRes.status}).`);
+  }
+
+  const stockData = await stockRes.json();
+  const stock = stockData.stock || stockData || {};
+
+  if (!stock || typeof stock !== 'object' || Array.isArray(stock)) {
+    throw new Error('La API de inventario devolvió un formato inválido.');
+  }
+
+  const cambios = [];
+
+  for (const item of items) {
+    const clave = obtenerClaveStock(item, stock);
+    if (!clave) {
+      throw new Error(`No se encontró una clave de inventario para "${item.nombre}".`);
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(stock, clave)) {
+      throw new Error(
+        `El producto "${item.nombre}" no existe en el inventario remoto. ` +
+        `Claves probadas: ${(item.stockKeys || [item.stockId, item.id]).filter(Boolean).join(', ')}`
+      );
+    }
+
+    const actual = Number(stock[clave]);
+    if (!Number.isFinite(actual)) {
+      throw new Error(`El stock de "${item.nombre}" no es numérico.`);
+    }
+
+    const cantidad = Math.max(1, Number(item.qty) || 1);
+    const nuevo = Math.max(0, actual - cantidad);
+    stock[clave] = nuevo;
+    cambios.push({ clave, nombre: item.nombre, antes: actual, cantidad, despues: nuevo });
+  }
+
+  const setRes = await fetch('/api/stock-set', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ stock })
+  });
+
+  if (!setRes.ok) {
+    let detalle = '';
+    try { detalle = await setRes.text(); } catch (_) {}
+    throw new Error(`No se pudo guardar el inventario (${setRes.status})${detalle ? ': ' + detalle.slice(0,160) : ''}.`);
+  }
+
+  // Comprobación real: volver a leer el stock y verificar las cantidades persistidas.
+  const verifyRes = await fetch('/api/stock-get?t=' + Date.now(), { cache: 'no-store' });
+  if (!verifyRes.ok) {
+    throw new Error('El inventario se guardó, pero no se pudo verificar el resultado.');
+  }
+
+  const verifyData = await verifyRes.json();
+  const verifyStock = verifyData.stock || verifyData || {};
+
+  const fallos = cambios.filter(c => Number(verifyStock[c.clave]) !== c.despues);
+  if (fallos.length) {
+    throw new Error(
+      'El servidor respondió, pero el stock no quedó persistido para: ' +
+      fallos.map(f => f.nombre).join(', ')
+    );
+  }
+
+  console.table(cambios);
+  return cambios;
+}
+
 async function guardarNuevoPedido() {
   const btn = document.querySelector('#modal-nuevo .btn-guardar');
   btn.textContent = 'Guardando...'; btn.disabled = true;
@@ -1891,7 +1975,17 @@ async function guardarNuevoPedido() {
       const prod = CATALOGO.find(p => p.id === sel.value);
       if (prod) {
         const precioFinal = Math.round(prod.precio * (1 - dcto / 100));
-        itemsSeleccionados.push({ id: prod.id, nombre: prod.nombre, precio: precioFinal, precioOriginal: prod.precio, dcto, qty });
+        itemsSeleccionados.push({
+          id: prod.id,
+          sku: prod.sku,
+          stockId: prod.stockId,
+          stockKeys: prod.stockKeys,
+          nombre: prod.nombre,
+          precio: precioFinal,
+          precioOriginal: prod.precio,
+          dcto,
+          qty
+        });
       }
     });
 
@@ -1932,22 +2026,34 @@ async function guardarNuevoPedido() {
       } catch(e) { console.error('Error enviando email confirmación:', e); }
     }
 
-    // Descontar stock en Redis
-    const stockRes = await fetch('/api/stock-get');
-    const stockData = await stockRes.json();
-    const stock = stockData.stock || {};
-    for (const item of itemsSeleccionados) {
-      const cur = typeof stock[item.id] === 'number' ? stock[item.id] : 0;
-      stock[item.id] = Math.max(0, cur - item.qty);
+    // Descontar stock y COMPROBAR que realmente quedó persistido.
+    try {
+      await descontarStockPedido(itemsSeleccionados);
+    } catch (stockError) {
+      console.error('[pedidos] Pedido creado, pero falló el descuento de stock:', stockError);
+
+      // El pedido YA existe en Supabase. Cerramos el modal para evitar que
+      // un segundo clic cree un pedido duplicado y mostramos un aviso explícito.
+      cerrarNuevoPedido();
+      await cargarPedidos();
+
+      alert(
+        `El pedido PAC-${String(pedidoId || '').padStart(5,'0')} fue creado, ` +
+        `pero NO se pudo descontar el inventario.\n\n${stockError.message}\n\n` +
+        `No vuelvas a crear el pedido. Revisa Inventario y corrige el stock manualmente.`
+      );
+      return;
     }
-    await fetch('/api/stock-set', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ stock })
-    });
 
     cerrarNuevoPedido();
     await cargarPedidos();
+
+    // Actualizar también el dashboard del admin padre si está disponible.
+    try {
+      if (window.parent && window.parent !== window && typeof window.parent.cargarDashboard === 'function') {
+        window.parent.cargarDashboard();
+      }
+    } catch (_) {}
   } catch(e) {
     alert('Error al guardar el pedido. Intenta de nuevo.');
   } finally {
@@ -2249,7 +2355,16 @@ async function guardarEditarPedido() {
       const prod = CATALOGO.find(p => p.id === sel.value);
       if (prod) {
         const precioFinal = Math.round(prod.precio * (1 - dcto / 100));
-        items.push({ id: prod.id, nombre: prod.nombre, precio: precioFinal, qty, dcto });
+        items.push({
+          id: prod.id,
+          sku: prod.sku,
+          stockId: prod.stockId,
+          stockKeys: prod.stockKeys,
+          nombre: prod.nombre,
+          precio: precioFinal,
+          qty,
+          dcto
+        });
       }
     });
 
@@ -2272,21 +2387,10 @@ async function guardarEditarPedido() {
     const { error } = await _sb.from('Pedidos').update(updates).eq('id', id);
     if (error) throw error;
 
-    // Descontar stock solo si el checkbox está marcado
+    // Descontar stock solo si el checkbox está marcado.
+    // Se usa la misma lógica verificada del pedido manual.
     if (document.getElementById('ep-descontar-stock').checked) {
-      const stockRes = await fetch('/api/stock-get');
-      const stockData = await stockRes.json();
-      const stock = stockData.stock || {};
-      for (const item of items) {
-        if (typeof stock[item.id] === 'number') {
-          stock[item.id] = Math.max(0, stock[item.id] - item.qty);
-        }
-      }
-      await fetch('/api/stock-set', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ stock })
-      });
+      await descontarStockPedido(items);
     }
 
     const idx = todosLosPedidos.findIndex(p => p.id === id);
