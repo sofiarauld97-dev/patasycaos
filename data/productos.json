@@ -2424,5 +2424,40 @@
     "canonical": "https://www.patasycaos.cl/productos/oreja-de-cerdo-gran-cani",
     "seoTitle": "Oreja de Cerdo Natural para Perros | Patas & Caos",
     "seoDescription": "Compra Oreja de Cerdo Natural para perros en Patas & Caos. Snack 100% natural ideal para una masticación prolongada, entretenimiento y cuidado dental. Envíos a todo Chile."
+  },
+  {
+    "sku": "mousse-salmon-y-cangrejo-60g-ikai",
+    "slug": "mousse-salmon-y-cangrejo-60g-ikai",
+    "nombre": "Mousse Salmón & Cangrejo 60g - Ikai",
+    "precio": 2990,
+    "precioNum": 2990,
+    "precioDisplay": "$2.990",
+    "precioTexto": "$2.990",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Ikai",
+    "tagline": "Sabor irresistible en textura cremosa",
+    "descripcion": "Delicioso snack tipo mousse para gatos, elaborado con sabor a salmón y cangrejo. Su textura suave y cremosa lo convierte en una opción práctica para complementar su alimentación y ofrecerle un momento especial durante el día. Ideal para servir directamente como premio o complemento.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack cremoso para gatos",
+      "Textura suave tipo mousse",
+      "Para gatos de todas las etapas de vida",
+      "Formato de 60 g"
+    ],
+    "ingredientes": "Salmón, cangrejo, zapallo, almidón de tapioca, goma guar, taurina, tocoferoles mixtos y extracto de romero.",
+    "imagenes": [
+      "/mousse-salmon-y-cangrejo-ikai.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "mousse-salmon-y-cangrejo-60g-ikai",
+    "canonical": "https://www.patasycaos.cl/productos/mousse-salmon-y-cangrejo-60g-ikai",
+    "seoTitle": "Ikai Mousse Salmón & Cangrejo Digestivo 60g para Gatos",
+    "seoDescription": "Snack cremoso Ikai para gatos con salmón, cangrejo y zapallo. Mousse Cuidado Digestivo de 60 g, con taurina y textura suave."
   }
 ]
