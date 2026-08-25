@@ -2610,5 +2610,43 @@
     "canonical": "https://www.patasycaos.cl/productos/mantequilla-de-mani-banana-bliss-260g-smuttdog",
     "seoTitle": "Smuttdog Banana Bliss Crema de Maní 260g para Perros",
     "seoDescription": "Crema de maní Smuttdog Banana Bliss para perros, con banana y textura cremosa. Ideal como premio, sobre el alimento o para rellenar juguetes."
+  },
+  {
+    "sku": "medallones-de-avestruz-90g-dogfest",
+    "slug": "medallones-de-avestruz-90g-dogfest",
+    "nombre": "Medallones de Avestruz 90g - Dogfest",
+    "precio": 5490,
+    "precioNum": 5490,
+    "precioDisplay": "$5.490",
+    "precioTexto": "$5.490",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Dogfest",
+    "tagline": "Medallones naturales de pato y avestruz",
+    "descripcion": "Snack natural para perros elaborado con pato y avestruz. Sus medallones de textura suave y masticable son ideales para ofrecer como premio ocasional o durante el entrenamiento. Elaborados sin preservantes, colorantes ni aditivos artificiales.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Con pato y avestruz",
+      "Ingredientes de origen natural",
+      "Textura suave y masticable",
+      "Sin colorantes ni preservantes artificiales",
+      "Ideal como premio o entrenamiento",
+      "Envase resellable",
+      "Para perros adultos de todas las razas"
+    ],
+    "ingredientes": "Pato 50,3%, avestruz 30%, derivados de origen vegetal y minerales.",
+    "imagenes": [
+      "/medallones-de-avestruz-dogfest.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "medallones-de-avestruz-90g-dogfest",
+    "canonical": "https://www.patasycaos.cl/productos/medallones-de-avestruz-90g-dogfest",
+    "seoTitle": "Dog Fest Medallones de Avestruz 90g para Perros",
+    "seoDescription": "Snack Dog Fest para perros con pato y avestruz. Medallones naturales de textura suave, ideales como premio o para entrenamiento. Formato 90 g."
   }
 ]
