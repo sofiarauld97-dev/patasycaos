@@ -2572,5 +2572,43 @@
     "canonical": "https://www.patasycaos.cl/productos/yogurt-natural-en-cubos-20-unidades-goofy",
     "seoTitle": "Goofy Yogurt Natural 20 Unidades para Perros",
     "seoDescription": "Snack Goofy de yogurt natural y pollo liofilizado para perros. Formato de 20 unidades, ideal como premio o complemento de su alimentación."
+  },
+  {
+    "sku": "mantequilla-de-mani-banana-bliss-260g-smuttdog",
+    "slug": "mantequilla-de-mani-banana-bliss-260g-smuttdog",
+    "nombre": "Mantequilla de Maní Banana Bliss 260g - Smuttdog",
+    "precio": 4990,
+    "precioNum": 4990,
+    "precioDisplay": "$4.990",
+    "precioTexto": "$4.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Smuttdog",
+    "tagline": "Crema de maní con sabor a banana",
+    "descripcion": "Crema de maní natural para perros, en su variedad Banana Bliss con banana. Su textura cremosa permite ofrecerla directamente como premio, agregarla sobre el alimento o utilizarla para rellenar juguetes y snacks. Una alternativa versátil para hacer más entretenidos los momentos de alimentación y juego.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Crema de maní para perros",
+      "Variedad Banana Bliss",
+      "Textura cremosa",
+      "Ideal para rellenar juguetes",
+      "Puede agregarse sobre el alimento",
+      "Formato 260 g",
+      "Para perros desde los 3 meses"
+    ],
+    "ingredientes": "Maní tostado natural, plátano y almidón de maíz.",
+    "imagenes": [
+      "/crema-de-mani-banana-bliss-smuttdog.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "mantequilla-de-mani-banana-bliss-260g-smuttdog",
+    "canonical": "https://www.patasycaos.cl/productos/mantequilla-de-mani-banana-bliss-260g-smuttdog",
+    "seoTitle": "Smuttdog Banana Bliss Crema de Maní 260g para Perros",
+    "seoDescription": "Crema de maní Smuttdog Banana Bliss para perros, con banana y textura cremosa. Ideal como premio, sobre el alimento o para rellenar juguetes."
   }
 ]
