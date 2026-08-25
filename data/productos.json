@@ -2535,5 +2535,42 @@
     "canonical": "https://www.patasycaos.cl/productos/lolli-pop-arandano-fellini",
     "seoTitle": "Fellini Lollipop Arándano 3 Unidades para Gatos",
     "seoDescription": "Snack liofilizado Fellini para gatos con pollo, hígado de pollo y arándanos. Formato lollipop de 3 unidades, ideal como premio o complemento."
+  },
+  {
+    "sku": "yogurt-natural-en-cubos-20-unidades-goofy",
+    "slug": "yogurt-natural-en-cubos-20-unidades-goofy",
+    "nombre": "Yogurt Natural en Cubos 20 Unidades - Goofy",
+    "precio": 4990,
+    "precioNum": 4990,
+    "precioDisplay": "$4.990",
+    "precioTexto": "$4.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Goofy",
+    "tagline": "Yogurt natural en bocados liofilizados",
+    "descripcion": "Snack liofilizado para perros elaborado con yogurt y pollo. Sus prácticos cubos son ideales para ofrecer como premio o complemento de la alimentación habitual. Una alternativa simple y natural, sin colorantes, conservantes ni aditivos añadidos.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack liofilizado",
+      "Con yogurt y pollo",
+      "Alto en proteínas",
+      "Sin colorantes, sin conservantes y sin aditivos",
+      "20 unidades",
+      "Para perros de todas las edades"
+    ],
+    "ingredientes": "Yogurt y pollo liofilizado.",
+    "imagenes": [
+      "/yogurt-en-cubos-goofy.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "yogurt-natural-en-cubos-20-unidades-goofy",
+    "canonical": "https://www.patasycaos.cl/productos/yogurt-natural-en-cubos-20-unidades-goofy",
+    "seoTitle": "Goofy Yogurt Natural 20 Unidades para Perros",
+    "seoDescription": "Snack Goofy de yogurt natural y pollo liofilizado para perros. Formato de 20 unidades, ideal como premio o complemento de su alimentación."
   }
 ]
