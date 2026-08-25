@@ -2496,5 +2496,44 @@
     "canonical": "https://www.patasycaos.cl/productos/mousse-salmon-y-camaron-60g-ikai",
     "seoTitle": "Ikai Mousse Salmón & Camarón 60g para Gatos",
     "seoDescription": "Snack cremoso Ikai para gatos con salmón y camarón. Mousse natural de 60 g, de textura suave, ideal como premio o complemento de su alimentación."
+  },
+  {
+    "sku": "lolli-pop-arandano-fellini",
+    "slug": "lolli-pop-arandano-fellini",
+    "nombre": "Lolli Pop Arándano - Fellini",
+    "precio": 2990,
+    "precioNum": 2990,
+    "precioDisplay": "$2.990",
+    "precioTexto": "$2.990",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Fellini",
+    "tagline": "Diversión y sabor en cada premio",
+    "descripcion": "Snack liofilizado para gatos en entretenido formato lollipop, elaborado con pollo, hígado de pollo y arándanos. Su receta contiene solo tres ingredientes y puede ofrecerse como premio para agregar variedad y estimulación a la rutina de tu gato.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack liofilizado",
+      "Solo 3 ingredientes",
+      "Monoproteico a base de pollo",
+      "Alto en proteínas",
+      "Sin colorantes ni preservantes",
+      "Formato lollipop",
+      "3 unidades",
+      "Para gatos de todas las edades"
+    ],
+    "ingredientes": "Pollo congelado liofilizado, hígado de pollo liofilizado y polvo de arándanos.",
+    "imagenes": [
+      "/lollipop-arandano-fellini.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "lolli-pop-arandano-fellini",
+    "canonical": "https://www.patasycaos.cl/productos/lolli-pop-arandano-fellini",
+    "seoTitle": "Fellini Lollipop Arándano 3 Unidades para Gatos",
+    "seoDescription": "Snack liofilizado Fellini para gatos con pollo, hígado de pollo y arándanos. Formato lollipop de 3 unidades, ideal como premio o complemento."
   }
 ]
