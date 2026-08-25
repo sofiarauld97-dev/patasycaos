@@ -2459,5 +2459,42 @@
     "canonical": "https://www.patasycaos.cl/productos/mousse-salmon-y-cangrejo-60g-ikai",
     "seoTitle": "Ikai Mousse Salmón & Cangrejo Digestivo 60g para Gatos",
     "seoDescription": "Snack cremoso Ikai para gatos con salmón, cangrejo y zapallo. Mousse Cuidado Digestivo de 60 g, con taurina y textura suave."
+  },
+  {
+    "sku": "mousse-salmon-y-camaron-60g-ikai",
+    "slug": "mousse-salmon-y-camaron-60g-ikai",
+    "nombre": "Mousse Salmón & Camarón 60g - Ikai",
+    "precio": 2990,
+    "precioNum": 2990,
+    "precioDisplay": "$2.990",
+    "precioTexto": "$2.990",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Ikai",
+    "tagline": "Sabor irresistible en textura cremosa",
+    "descripcion": "Delicioso snack tipo mousse para gatos con salmón y camarón. Su textura suave y cremosa lo convierte en una opción ideal para consentir a tu gato como premio o complemento de su alimentación habitual. Presentación de 60 g.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100% natural",
+      "Con salmón y camarón",
+      "Textura cremosa tipo mousse",
+      "Fuente de Omega 3 y 6",
+      "Sin colorantes ni conservantes artificiales",
+      "Para gatos de todas las edades"
+    ],
+    "ingredientes": "Agua, salmón fresco, camarón, tapioca, goma xanthan, prebióticos (betaglucanos), mix de tocoferoles y extracto de aceite de romero.",
+    "imagenes": [
+      "/mousse-salmon-y-camaron-ikai.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "mousse-salmon-y-camaron-60g-ikai",
+    "canonical": "https://www.patasycaos.cl/productos/mousse-salmon-y-camaron-60g-ikai",
+    "seoTitle": "Ikai Mousse Salmón & Camarón 60g para Gatos",
+    "seoDescription": "Snack cremoso Ikai para gatos con salmón y camarón. Mousse natural de 60 g, de textura suave, ideal como premio o complemento de su alimentación."
   }
 ]
