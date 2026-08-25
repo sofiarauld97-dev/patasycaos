@@ -2685,5 +2685,42 @@
     "canonical": "https://www.patasycaos.cl/productos/meat-duck-drum-stick-90g-naturalistic",
     "seoTitle": "Naturalistic Meat Duck Drum Stick 90g para Perros",
     "seoDescription": "Snack Naturalistic para perros con pato y hueso de calcio. Tutos Meat Duck Drum Stick en formato de 90 g con 6 unidades, ideales como premio."
+  },
+  {
+    "sku": "salmon-nuggets-100g-naturalistic",
+    "slug": "salmon-nuggets-100g-naturalistic",
+    "nombre": "Salmon Nuggets 100g - Naturalistic",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Naturalistic",
+    "tagline": "Nuggets de salmón, suaves y sabrosos",
+    "descripcion": "Snack para perros elaborado con 78% de carne de salmón, de textura suave y alta palatabilidad. Aporta Omega 3 y 6 y es ideal para ofrecer como premio o recompensa. Apto para perros de todas las razas y etapas de vida. Presentación de 100 g.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "78% de carne de salmón",
+      "Fuente de Omega 3 y 6",
+      "Bajo en grasas",
+      "Sin azúcar adicionada",
+      "Sin colorantes ni conservantes artificiales",
+      "Para perros de todas las edades"
+    ],
+    "ingredientes": "Salmón, proteína de soya, harina de trigo, glicerina vegetal, almidón y sal.",
+    "imagenes": [
+      "/salmon-nugget-naturalistic.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "salmon-nuggets-100g-naturalistic",
+    "canonical": "https://www.patasycaos.cl/productos/salmon-nuggets-100g-naturalistic",
+    "seoTitle": "Naturalistic Salmon Nuggets 100g para Perros",
+    "seoDescription": "Snack Naturalistic para perros elaborado con 78% de salmón. Nuggets suaves con Omega 3 y 6, ideales como premio. Formato de 100 g."
   }
 ]
