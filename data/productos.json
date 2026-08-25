@@ -2648,5 +2648,42 @@
     "canonical": "https://www.patasycaos.cl/productos/medallones-de-avestruz-90g-dogfest",
     "seoTitle": "Dog Fest Medallones de Avestruz 90g para Perros",
     "seoDescription": "Snack Dog Fest para perros con pato y avestruz. Medallones naturales de textura suave, ideales como premio o para entrenamiento. Formato 90 g."
+  },
+  {
+    "sku": "meat-duck-drum-stick-90g-naturalistic",
+    "slug": "meat-duck-drum-stick-90g-naturalistic",
+    "nombre": "Meat Duck Drum Stick 90g - Naturalistic",
+    "precio": 4290,
+    "precioNum": 4290,
+    "precioDisplay": "$4.290",
+    "precioTexto": "$4.290",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Naturalistic",
+    "tagline": "Tutos de pato para disfrutar y masticar",
+    "descripcion": "Snack para perros en forma de tutos, elaborado principalmente con pato y hueso de calcio. Una alternativa sabrosa para ofrecer como premio o recompensa entre comidas. Presentación de 90 g con 6 unidades.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Con 52% de pato",
+      "Con hueso de calcio",
+      "Libre de granos",
+      "Formato tipo tuto",
+      "6 unidades",
+      "Ideal como premio o recompensa"
+    ],
+    "ingredientes": "Pato 52%, hueso de calcio 38%, almidón de papa 2%, glicerina vegetal 2% y sorbitol 2%.",
+    "imagenes": [
+      "/snack-meat-duck-drum-sticks-naturalistic.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "meat-duck-drum-stick-90g-naturalistic",
+    "canonical": "https://www.patasycaos.cl/productos/meat-duck-drum-stick-90g-naturalistic",
+    "seoTitle": "Naturalistic Meat Duck Drum Stick 90g para Perros",
+    "seoDescription": "Snack Naturalistic para perros con pato y hueso de calcio. Tutos Meat Duck Drum Stick en formato de 90 g con 6 unidades, ideales como premio."
   }
 ]
