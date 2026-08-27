@@ -548,9 +548,39 @@ export default async function handler(req, res) {
       headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
     });
     const redisData = await redisRes.json();
-    if (!redisData.result) return res.status(200).end();
+    if (!redisData.result) {
+      console.error('[webhook] PEDIDO TEMPORAL NO ENCONTRADO', {
+        payment_id: payment.id,
+        preference_id: payment.preference_id
+      });
+      return res.status(500).json({
+        error: 'Pedido temporal no encontrado',
+        payment_id: payment.id,
+        preference_id: payment.preference_id
+      });
+    }
 
     const order = JSON.parse(redisData.result);
+
+    // Respaldo inmediato de todo pago aprobado antes de continuar.
+    const backupKey = `paid_order:${payment.id}`;
+    const backupRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify([['SET', backupKey, JSON.stringify({
+        payment_id: payment.id,
+        preference_id: payment.preference_id,
+        status: payment.status,
+        processed_at: new Date().toISOString(),
+        order
+      })]])
+    });
+    if (!backupRes.ok) {
+      throw new Error(`No se pudo respaldar el pago aprobado en Upstash (${backupRes.status})`);
+    }
     const subtotal = order.items.reduce((s, i) => s + i.price * i.qty, 0);
     const costoEnvio = order.costoEnvio || 0;
     const total = subtotal + costoEnvio;
@@ -592,8 +622,30 @@ export default async function handler(req, res) {
         mp_preference_id: payment.preference_id,
       }),
     });
-    const supaInsertData = await supaInsertRes.json();
+    const supaInsertText = await supaInsertRes.text();
+    let supaInsertData = [];
+    try { supaInsertData = supaInsertText ? JSON.parse(supaInsertText) : []; } catch {}
+
+    if (!supaInsertRes.ok) {
+      console.error('[webhook] SUPABASE INSERT FALLÓ', {
+        payment_id: payment.id,
+        preference_id: payment.preference_id,
+        status: supaInsertRes.status,
+        response: supaInsertText
+      });
+      throw new Error(`Supabase rechazó el pedido (${supaInsertRes.status}): ${supaInsertText}`);
+    }
+
     const numeroPedido = supaInsertData?.[0]?.id;
+    if (!numeroPedido) {
+      throw new Error('Supabase no devolvió el ID del pedido creado.');
+    }
+
+    console.log('[webhook] PEDIDO CREADO', {
+      numeroPedido,
+      payment_id: payment.id,
+      preference_id: payment.preference_id
+    });
 
     // Email interno a Sofía
     const productosEmail = order.items.map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toLocaleString('es-CL')}`).join('\n');
