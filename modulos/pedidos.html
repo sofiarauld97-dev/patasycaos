@@ -1605,34 +1605,100 @@ function renderTabla() {
     </table>`;
 }
 
-async function cambiarEstado(id, nuevoEstado) {
-  const { error } = await _sb
-    .from('Pedidos')
-    .update({ estado: nuevoEstado })
-    .eq('id', id);
+async function itemsDesdePedidoParaStock(pedido) {
+  await cargarCatalogoProductos();
+  const partes = String(pedido?.productos || '').split(/,\s*/).filter(Boolean);
+  const items = [];
 
-  if (error) {
-    alert('Error al actualizar el estado. Intenta de nuevo.');
-    return;
+  for (const parte of partes) {
+    const match = parte.match(/^(.*?)\s+x(\d+)(?:\s+\(-?\d+(?:\.\d+)?%\))?$/i);
+    const nombre = (match ? match[1] : parte).trim();
+    const qty = match ? Math.max(1, parseInt(match[2], 10) || 1) : 1;
+    const prod = CATALOGO.find(p => String(p.nombre || '').trim().toLowerCase() === nombre.toLowerCase());
+    if (!prod) throw new Error(`No pude relacionar "${nombre}" con productos.json.`);
+    items.push({ id: prod.id, sku: prod.sku, stockId: prod.stockId, stockKeys: prod.stockKeys, nombre: prod.nombre, qty });
   }
-  const pedido = todosLosPedidos.find(p => p.id === id);
-  if (pedido) pedido.estado = nuevoEstado;
-  actualizarStats();
-
-  // Enviar email al cliente según el nuevo estado
-  if ((nuevoEstado === 'despachado' || nuevoEstado === 'entregado' || nuevoEstado === 'cancelado') && pedido?.email) {
-    try {
-      await fetch('/api/webhook', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pedidoId: id, estado: nuevoEstado }),
-      });
-    } catch(e) {
-      console.error('Error enviando email de estado:', e);
-    }
-  }
+  if (!items.length) throw new Error('El pedido no contiene productos válidos para ajustar inventario.');
+  return items;
 }
 
+async function reponerStockPedido(items) {
+  const stockRes = await fetch('/api/stock-get?t=' + Date.now(), { cache: 'no-store' });
+  if (!stockRes.ok) throw new Error(`No se pudo leer el inventario (${stockRes.status}).`);
+  const stockData = await stockRes.json();
+  const stock = stockData.stock || stockData || {};
+  const incrementos = {};
+
+  for (const item of items) {
+    const clave = obtenerClaveStock(item, stock);
+    if (!clave || !Object.prototype.hasOwnProperty.call(stock, clave)) {
+      throw new Error(`El producto "${item.nombre}" no existe en el inventario remoto.`);
+    }
+    const cantidad = Math.max(1, Math.floor(Number(item.qty) || 1));
+    incrementos[clave] = (incrementos[clave] || 0) + cantidad;
+  }
+
+  const setRes = await fetch('/api/stock-set', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ incrementos })
+  });
+  const resultado = await setRes.json().catch(() => ({}));
+  if (!setRes.ok || !resultado.ok) throw new Error(resultado.error || `No se pudo reponer el inventario (${setRes.status}).`);
+  console.table(resultado.cambios || []);
+  return resultado.cambios || [];
+}
+
+async function cambiarEstado(id, nuevoEstado) {
+  const pedido = todosLosPedidos.find(p => p.id === id);
+  if (!pedido) { alert('No se encontró el pedido. Actualiza el panel e intenta de nuevo.'); return; }
+
+  const estadoAnterior = String(pedido.estado || '').toLowerCase();
+  nuevoEstado = String(nuevoEstado || '').toLowerCase();
+  if (estadoAnterior === nuevoEstado) return;
+
+  // El inventario se ajusta ANTES de cambiar el estado. Si falla, el estado no cambia.
+  try {
+    if (nuevoEstado === 'cancelado' && estadoAnterior !== 'cancelado') {
+      const items = await itemsDesdePedidoParaStock(pedido);
+      await reponerStockPedido(items);
+    } else if (estadoAnterior === 'cancelado' && nuevoEstado !== 'cancelado') {
+      const items = await itemsDesdePedidoParaStock(pedido);
+      await descontarStockPedido(items);
+    }
+  } catch (stockError) {
+    console.error('[pedidos] No se pudo ajustar stock al cambiar estado:', stockError);
+    alert(`No se cambió el estado porque falló el ajuste de inventario.\n\n${stockError.message}`);
+    await cargarPedidos();
+    return;
+  }
+
+  const { error } = await _sb.from('Pedidos').update({ estado: nuevoEstado }).eq('id', id);
+  if (error) {
+    // Compensar el inventario si Supabase falla después del ajuste.
+    try {
+      const items = await itemsDesdePedidoParaStock(pedido);
+      if (nuevoEstado === 'cancelado' && estadoAnterior !== 'cancelado') await descontarStockPedido(items);
+      else if (estadoAnterior === 'cancelado' && nuevoEstado !== 'cancelado') await reponerStockPedido(items);
+    } catch (rollbackError) {
+      console.error('[pedidos] ERROR CRÍTICO: falló rollback de stock:', rollbackError);
+      alert('Falló el cambio de estado y también la reversión automática del stock. Revisa Inventario antes de continuar.');
+      await cargarPedidos();
+      return;
+    }
+    alert('Error al actualizar el estado. El inventario fue devuelto a su valor anterior.');
+    await cargarPedidos();
+    return;
+  }
+
+  pedido.estado = nuevoEstado;
+  actualizarStats();
+
+  if ((nuevoEstado === 'despachado' || nuevoEstado === 'entregado' || nuevoEstado === 'cancelado') && pedido?.email) {
+    try {
+      await fetch('/api/webhook', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pedidoId: id, estado: nuevoEstado }) });
+    } catch(e) { console.error('Error enviando email de estado:', e); }
+  }
+}
 
 async function eliminarRegistroAdmin(tipo, id, nombre = '') {
   const etiqueta = tipo === 'pedido' ? 'pedido' : 'suscripción';

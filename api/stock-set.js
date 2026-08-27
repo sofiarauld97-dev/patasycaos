@@ -50,7 +50,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    let { stock, patch, decrementos } = req.body || {};
+    let { stock, patch, decrementos, incrementos } = req.body || {};
 
     if (typeof stock === 'string') {
       try { stock = JSON.parse(stock); } catch {}
@@ -60,6 +60,9 @@ export default async function handler(req, res) {
     }
     if (typeof decrementos === 'string') {
       try { decrementos = JSON.parse(decrementos); } catch {}
+    }
+    if (typeof incrementos === 'string') {
+      try { incrementos = JSON.parse(incrementos); } catch {}
     }
 
     let stockFinal;
@@ -115,6 +118,48 @@ export default async function handler(req, res) {
       });
     }
 
+    if (incrementos && typeof incrementos === 'object' && !Array.isArray(incrementos)) {
+      const incLimpios = limpiarCantidades(incrementos);
+      if (!Object.keys(incLimpios).length) {
+        return res.status(400).json({ error: 'No hay cantidades válidas para reponer.' });
+      }
+
+      // Reposición atómica: Redis lee, suma y guarda dentro de un único EVAL.
+      const lua = `
+        local raw = redis.call('GET', KEYS[1])
+        if not raw or raw == '' then return redis.error_reply('Inventario inexistente') end
+        local ok, stockActual = pcall(cjson.decode, raw)
+        if not ok or type(stockActual) ~= 'table' then return redis.error_reply('Inventario inválido') end
+        local inc = cjson.decode(ARGV[1])
+        local cambios = {}
+        for clave, cantidad in pairs(inc) do
+          if stockActual[clave] == nil then return redis.error_reply('SKU inexistente: ' .. clave) end
+          local antes = tonumber(stockActual[clave])
+          local qty = tonumber(cantidad)
+          if antes == nil or qty == nil then return redis.error_reply('Cantidad inválida: ' .. clave) end
+          local despues = antes + qty
+          stockActual[clave] = despues
+          table.insert(cambios, { clave = clave, antes = antes, cantidad = qty, despues = despues })
+        end
+        redis.call('SET', KEYS[1], cjson.encode(stockActual))
+        return cjson.encode({ stock = stockActual, cambios = cambios })
+      `;
+
+      const escritura = await fetch(`${UPSTASH_URL}/pipeline`, {
+        method: 'POST', headers,
+        body: JSON.stringify([['EVAL', lua, '1', 'pac_stock', JSON.stringify(incLimpios)]])
+      });
+      const resultado = await escritura.json();
+      const evalResult = resultado?.[0];
+      if (!escritura.ok || evalResult?.error) {
+        return res.status(escritura.ok ? 409 : escritura.status).json({
+          error: evalResult?.error || 'Upstash rechazó la reposición de inventario.', detail: resultado
+        });
+      }
+      const payload = normalizarObjeto(evalResult?.result);
+      return res.status(200).json({ ok: true, mode: 'increment-atomic', stock: payload.stock || {}, cambios: payload.cambios || [], result: resultado });
+    }
+
     if (patch && typeof patch === 'object' && !Array.isArray(patch)) {
       const lectura = await fetch(`${UPSTASH_URL}/get/pac_stock`, {
         headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` },
@@ -130,7 +175,7 @@ export default async function handler(req, res) {
     } else if (stock && typeof stock === 'object' && !Array.isArray(stock)) {
       stockFinal = limpiarCantidades(stock);
     } else {
-      return res.status(400).json({ error: 'Debes enviar stock, patch o decrementos.' });
+      return res.status(400).json({ error: 'Debes enviar stock, patch, decrementos o incrementos.' });
     }
 
     const stockStr = JSON.stringify(stockFinal);
