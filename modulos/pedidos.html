@@ -1890,75 +1890,41 @@ function obtenerClaveStock(item, stock) {
 }
 
 async function descontarStockPedido(items) {
+  // Leer una vez solo para resolver la clave real de cada producto.
   const stockRes = await fetch('/api/stock-get?t=' + Date.now(), { cache: 'no-store' });
-  if (!stockRes.ok) {
-    throw new Error(`No se pudo leer el inventario (${stockRes.status}).`);
-  }
+  if (!stockRes.ok) throw new Error(`No se pudo leer el inventario (${stockRes.status}).`);
 
   const stockData = await stockRes.json();
   const stock = stockData.stock || stockData || {};
-
   if (!stock || typeof stock !== 'object' || Array.isArray(stock)) {
     throw new Error('La API de inventario devolvió un formato inválido.');
   }
 
-  const cambios = [];
-
+  const decrementos = {};
   for (const item of items) {
     const clave = obtenerClaveStock(item, stock);
-    if (!clave) {
-      throw new Error(`No se encontró una clave de inventario para "${item.nombre}".`);
+    if (!clave || !Object.prototype.hasOwnProperty.call(stock, clave)) {
+      throw new Error(`El producto "${item.nombre}" no existe en el inventario remoto.`);
     }
-
-    if (!Object.prototype.hasOwnProperty.call(stock, clave)) {
-      throw new Error(
-        `El producto "${item.nombre}" no existe en el inventario remoto. ` +
-        `Claves probadas: ${(item.stockKeys || [item.stockId, item.id]).filter(Boolean).join(', ')}`
-      );
-    }
-
-    const actual = Number(stock[clave]);
-    if (!Number.isFinite(actual)) {
-      throw new Error(`El stock de "${item.nombre}" no es numérico.`);
-    }
-
-    const cantidad = Math.max(1, Number(item.qty) || 1);
-    const nuevo = Math.max(0, actual - cantidad);
-    stock[clave] = nuevo;
-    cambios.push({ clave, nombre: item.nombre, antes: actual, cantidad, despues: nuevo });
+    const cantidad = Math.max(1, Math.floor(Number(item.qty) || 1));
+    decrementos[clave] = (decrementos[clave] || 0) + cantidad;
   }
 
+  // El descuento se calcula y persiste ATÓMICAMENTE en Redis.
+  // Ya no enviamos el objeto completo de stock desde el navegador.
   const setRes = await fetch('/api/stock-set', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ stock })
+    body: JSON.stringify({ decrementos })
   });
 
-  if (!setRes.ok) {
-    let detalle = '';
-    try { detalle = await setRes.text(); } catch (_) {}
-    throw new Error(`No se pudo guardar el inventario (${setRes.status})${detalle ? ': ' + detalle.slice(0,160) : ''}.`);
+  const resultado = await setRes.json().catch(() => ({}));
+  if (!setRes.ok || !resultado.ok) {
+    throw new Error(resultado.error || `No se pudo descontar el inventario (${setRes.status}).`);
   }
 
-  // Comprobación real: volver a leer el stock y verificar las cantidades persistidas.
-  const verifyRes = await fetch('/api/stock-get?t=' + Date.now(), { cache: 'no-store' });
-  if (!verifyRes.ok) {
-    throw new Error('El inventario se guardó, pero no se pudo verificar el resultado.');
-  }
-
-  const verifyData = await verifyRes.json();
-  const verifyStock = verifyData.stock || verifyData || {};
-
-  const fallos = cambios.filter(c => Number(verifyStock[c.clave]) !== c.despues);
-  if (fallos.length) {
-    throw new Error(
-      'El servidor respondió, pero el stock no quedó persistido para: ' +
-      fallos.map(f => f.nombre).join(', ')
-    );
-  }
-
-  console.table(cambios);
-  return cambios;
+  console.table(resultado.cambios || []);
+  return resultado.cambios || [];
 }
 
 async function guardarNuevoPedido() {
