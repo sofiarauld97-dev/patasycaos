@@ -1012,11 +1012,21 @@ const LEGACY_SNACKS_GATOS = new Set([
 ]);
 
 function audienciaEfectiva(id, producto){
-  const declarada=String(producto?.audience||'').trim();
-  if(declarada) return declarada;
+  const declarada = producto?.audience;
 
-  if(LEGACY_SNACKS_PERROS.has(id)) return 'Para Perros';
-  if(LEGACY_SNACKS_GATOS.has(id)) return 'Para Gatos';
+  // Algunos productos sirven para perros Y gatos y guardan audience como array.
+  // No convertir el array a String(), porque "Para Gatos,Para Perros"
+  // deja de coincidir con los filtros individuales.
+  if (Array.isArray(declarada)) {
+    const valores = declarada.map(v => String(v || '').trim()).filter(Boolean);
+    if (valores.length) return valores;
+  }
+
+  const texto = String(declarada || '').trim();
+  if (texto) return texto;
+
+  if (LEGACY_SNACKS_PERROS.has(id)) return 'Para Perros';
+  if (LEGACY_SNACKS_GATOS.has(id)) return 'Para Gatos';
 
   return '';
 }
@@ -1426,7 +1436,8 @@ if (catParam) {
   const audValues = ['Para Gatos', 'Para Perros'];
   if (audValues.includes(catParam)) {
     filtros.aud = catParam;
-    const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.includes('Gatos'));
+    const textoAudiencia = catParam === 'Para Perros' ? 'Perros' : 'Gatos';
+    const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.includes(textoAudiencia));
     if (pill) { document.querySelectorAll('#filter-aud .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
   } else {
     filtros.cat = catParam;
