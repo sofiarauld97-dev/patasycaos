@@ -135,7 +135,10 @@ function renderCart() {
   if (cart.length === 0) { container.innerHTML = '<div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>'; footer.style.display = 'none'; return; }
   footer.style.display = 'block';
   document.getElementById('cart-total').textContent = '$' + totalPrice.toLocaleString('es-CL');
-  container.innerHTML = cart.map(item => `<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`).join('');
+  container.innerHTML = cart.map(item => {
+    const imagenSrc = normalizarImagenCarrito(item.img || '');
+    return `<div class="cart-item"><img class="cart-item-img" src="${imagenSrc}" alt="${item.name}" onerror="this.onerror=null;this.src='https://www.patasycaos.cl/assets/placeholder.png'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`;
+  }).join('');
 }
 
 const COMUNAS_CHILE = [
