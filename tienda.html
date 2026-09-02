@@ -721,6 +721,101 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="cart.js"></script>
 <script src="/assets/js/site.js"></script>
 <script src="/products-data.js"></script>
+<script>
+
+/* ── FIX ÚNICO: fotos al agregar desde tarjetas ──
+   Usa la URL REAL de la imagen que el navegador ya está mostrando en la tarjeta.
+   Así evitamos reconstruir rutas manualmente y también actualizamos un ítem antiguo
+   del carrito si quedó guardado sin foto o con una URL incorrecta. */
+function agregarProductoDesdeCard(id, p, card, fallbackImg) {
+  const imgEl = card ? card.querySelector('.prod-img img') : null;
+  let imgCarrito = '';
+
+  if (imgEl) {
+    imgCarrito = imgEl.currentSrc || imgEl.src || '';
+  }
+
+  if (!imgCarrito && fallbackImg) {
+    try {
+      imgCarrito = new URL(String(fallbackImg).replace(/^\/+/, ''), window.location.origin + '/').href;
+    } catch (e) {
+      imgCarrito = String(fallbackImg || '');
+    }
+  }
+
+  // Si el producto ya estaba en el carrito con una imagen mala, corregirla
+  // antes de que addToCart simplemente aumente la cantidad.
+  try {
+    if (typeof cart !== 'undefined' && Array.isArray(cart)) {
+      const existente = cart.find(item => item.id === id);
+      if (existente && imgCarrito) existente.img = imgCarrito;
+    }
+  } catch (e) {}
+
+  addToCart({
+    id: id,
+    name: p.nombre,
+    price: p.precioNum,
+    img: imgCarrito
+  });
+}
+
+/* Repara también fotos antiguas ya guardadas en el carrito al entrar a home/tienda. */
+function repararFotosCarritoDesdeCatalogo() {
+  try {
+    if (typeof cart === 'undefined' || !Array.isArray(cart) || typeof productos !== 'object') return;
+
+    let huboCambios = false;
+
+    cart.forEach(item => {
+      if (!item || !item.id) return;
+
+      let productId = item.id;
+      let varianteIdx = null;
+      let p = productos[productId];
+
+      // IDs de variantes guardados como producto-0, producto-1, etc.
+      if (!p) {
+        const m = String(productId).match(/^(.*)-(\d+)$/);
+        if (m && productos[m[1]]) {
+          productId = m[1];
+          varianteIdx = Number(m[2]);
+          p = productos[productId];
+        }
+      }
+
+      if (!p) return;
+
+      let rawImg = '';
+      if (varianteIdx !== null && Array.isArray(p.variantes) && p.variantes[varianteIdx]) {
+        rawImg = p.variantes[varianteIdx].imagenes?.[0] || '';
+      } else if (Array.isArray(p.imagenes)) {
+        rawImg = p.imagenes[0] || '';
+      } else if (Array.isArray(p.variantes) && p.variantes[0]) {
+        rawImg = p.variantes[0].imagenes?.[0] || '';
+      }
+
+      if (!rawImg) return;
+
+      const correcta = new URL(String(rawImg).replace(/^\/+/, ''), window.location.origin + '/').href;
+      if (item.img !== correcta) {
+        item.img = correcta;
+        huboCambios = true;
+      }
+    });
+
+    if (huboCambios) {
+      if (typeof guardarCarritoLocal === 'function') guardarCarritoLocal();
+      if (typeof renderCart === 'function') renderCart();
+    }
+  } catch (e) {
+    console.warn('No se pudieron reparar las fotos antiguas del carrito:', e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', repararFotosCarritoDesdeCatalogo);
+
+</script>
 <script src="/product-slugs.js"></script>
 <script>
 /* ── NAV & MENU ── */
@@ -1229,7 +1324,7 @@ function generarTarjetas() {
     if (btn) {
       if (!enStock) { btn.textContent = 'Agotado'; btn.disabled = true; }
       else if (p.variantes) btn.addEventListener('click', (e) => { e.stopPropagation(); abrirModal(id); });
-      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: '/' + imagenes[0] }); });
+      else btn.addEventListener('click', (e) => { e.stopPropagation(); agregarProductoDesdeCard(id, p, card, imagenes[0]); });
     }
   });
 }
