@@ -23,11 +23,32 @@ function normalizarImagenCarrito(src) {
 
   let ruta = src.trim().replace(/\\/g, '/');
 
-  // URLs externas/data/blob válidas: conservarlas tal cual.
-  if (/^(https?:|data:|blob:)/i.test(ruta)) return ruta;
+  // data/blob sí son URLs válidas y deben conservarse.
+  if (/^(data:|blob:)/i.test(ruta)) return ruta;
+
+  // Reparar el caso en que una ruta //archivo.jpg fue interpretada por el
+  // navegador y terminó guardada como https://archivo.jpg/
+  if (/^https?:\/\//i.test(ruta)) {
+    try {
+      const u = new URL(ruta);
+      const host = (u.hostname || '').toLowerCase();
+
+      // Si el "host" en realidad termina en extensión de imagen y la URL no
+      // tiene un dominio real, recuperar el nombre como archivo local.
+      if (/\.(?:jpe?g|png|webp|gif|avif|svg)$/i.test(host) && (u.pathname === '/' || u.pathname === '')) {
+        return '/' + u.hostname;
+      }
+
+      // URL externa real: conservarla.
+      return ruta;
+    } catch (e) {}
+  }
 
   // Evitar que //archivo.jpg sea interpretado como URL protocol-relative.
   ruta = ruta.replace(/^\/+/, '/');
+
+  // Quitar slash final accidental después de una extensión de imagen.
+  ruta = ruta.replace(/(\.(?:jpe?g|png|webp|gif|avif|svg))\/+$/i, '$1');
 
   // Normalizar rutas locales relativas para que siempre partan desde la raíz del sitio.
   ruta = ruta.replace(/^(\.\/)+/, '');
@@ -105,6 +126,12 @@ function mostrarToastCarrito(msg) {
 }
 function removeItem(id) { cart = cart.filter(i => i.id !== id); renderCart(); guardarCarritoLocal(); }
 function renderCart() {
+  // Reparar también rutas antiguas guardadas en localStorage/Supabase
+  // antes de volver a persistir el carrito.
+  cart = cart.map(item => ({
+    ...item,
+    img: normalizarImagenCarrito(item.img || '')
+  }));
   guardarCarritoLocal();
   const container = document.getElementById('cart-items'), footer = document.getElementById('cart-footer'), badge = document.getElementById('cart-badge');
   const totalItems = cart.reduce((s,i) => s+i.qty, 0), totalPrice = cart.reduce((s,i) => s+i.price*i.qty, 0);
@@ -113,7 +140,6 @@ function renderCart() {
   footer.style.display = 'block';
   document.getElementById('cart-total').textContent = '$' + totalPrice.toLocaleString('es-CL');
   container.innerHTML = cart.map(item => {
-    item.img = normalizarImagenCarrito(item.img || '');
     return `<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`;
   }).join('');
 }
