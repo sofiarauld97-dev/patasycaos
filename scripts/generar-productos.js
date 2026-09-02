@@ -267,7 +267,10 @@ function construirCatalogoFrontend(productos) {
       caracTitulo: p.caracTitulo || 'Características',
       caracteristicas: Array.isArray(p.caracteristicas) ? p.caracteristicas : [],
       ingredientes: p.ingredientes || '',
-      imagenes: (p.imagenes || []).map(normalizarImagen),
+      imagenes: (p.imagenes || []).map(img => {
+        const normalizada = normalizarImagen(img);
+        return normalizada.startsWith('/') ? normalizada.slice(1) : normalizada;
+      }),
       placeholders: Array.isArray(p.placeholders) && p.placeholders.length
         ? p.placeholders
         : (p.imagenes || []).map(() => p.emoji || '🐾'),
