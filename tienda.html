@@ -1057,10 +1057,24 @@ function normalizarAudienciaValor(valor) {
 function audienciaEfectiva(id, producto){
   const categoria = normalizarCategoria(producto?.categoria);
 
+  // La fuente principal del catálogo es etiquetaProducto:
+  // "Accesorio · Perros", "Juguete · Gatos", "Accesorio · Gatos · Perros", etc.
+  const etiqueta = String(producto?.etiquetaProducto || '').trim();
+  if (etiqueta) {
+    const audienciasEtiqueta = [];
+    if (/\bGatos\b/i.test(etiqueta)) audienciasEtiqueta.push('Para Gatos');
+    if (/\bPerros\b/i.test(etiqueta)) audienciasEtiqueta.push('Para Perros');
+
+    if (audienciasEtiqueta.length === 2) return audienciasEtiqueta;
+    if (audienciasEtiqueta.length === 1) return audienciasEtiqueta[0];
+  }
+
+  // Estas categorías corresponden a ambas especies.
   if (categoria === 'Flores de Bach' || categoria === 'Insumos Veterinarios') {
     return ['Para Gatos', 'Para Perros'];
   }
 
+  // Leonardo corresponde a alimentación felina.
   if (
     /^leonardo-/i.test(id) ||
     /^lata-leonardo/i.test(id) ||
@@ -1069,6 +1083,7 @@ function audienciaEfectiva(id, producto){
     return 'Para Gatos';
   }
 
+  // Compatibilidad con products-data.js si ya trae audience.
   const declarada = producto?.audience;
 
   if (Array.isArray(declarada)) {
