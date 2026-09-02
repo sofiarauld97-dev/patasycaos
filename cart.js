@@ -23,30 +23,54 @@ function normalizarImagenCarrito(src) {
 
   let ruta = src.trim().replace(/\\/g, '/');
 
-  // 1. Si es base64 o blob, devolver directo
+  // Base64 / blob: no tocar
   if (/^(data:|blob:)/i.test(ruta)) return ruta;
 
-  // 2. Si ya es una URL completa válida que empieza por http:// o https://
+  // URL completa
   if (/^https?:\/\//i.test(ruta)) {
-    // Si la URL contiene patasycaos.cl pero tiene duplicados, corregirla
-    if (ruta.includes('patasycaos.cl')) {
-      return ruta.replace(/^https?:\/\/(?:www\.)?patasycaos\.cl\/https?:\/\/(?:www\.)?patasycaos\.cl\//i, 'https://www.patasycaos.cl/');
-    }
+    try {
+      const u = new URL(ruta);
 
-    // Si traía un protocolo falso (ej: "https://alimento-leonardo..."), se lo quitamos limpiamente
-    if (ruta.match(/^https?:\/\/[^\/]+\.(jpg|jpeg|png|webp|gif|svg)/i)) {
-      ruta = ruta.replace(/^https?:\/\//i, '');
-    } else {
+      // Caso roto observado:
+      // https://alimento-leonardo-sterilized-light.jpg/
+      // El navegador tomó el nombre del archivo como hostname.
+      if (
+        /\.(?:jpe?g|png|webp|gif|avif|svg)$/i.test(u.hostname) &&
+        (!u.pathname || u.pathname === '/')
+      ) {
+        return 'https://www.patasycaos.cl/' + u.hostname;
+      }
+
+      // URL válida de Patas & Caos: dejarla normalizada
+      if (/^(?:www\.)?patasycaos\.cl$/i.test(u.hostname)) {
+        // Reparar un dominio duplicado incrustado en el path
+        const path = u.pathname.replace(
+          /^\/https?:\/\/(?:www\.)?patasycaos\.cl\//i,
+          '/'
+        );
+        return 'https://www.patasycaos.cl' + path + u.search + u.hash;
+      }
+
+      // URL externa real: conservarla
       return ruta;
+    } catch (e) {
+      // Si no se puede parsear, continuar como ruta local
+      ruta = ruta.replace(/^https?:\/\//i, '');
     }
   }
 
-  // 3. Limpiar barras, puntos e identificadores raros al inicio del nombre del archivo
-  ruta = ruta.replace(/^[\/\.]+/, '');
+  // Ruta local: limpiar ./, ../ y barras iniciales
+  ruta = ruta.replace(/^(\.\.\/)+/, '');
+  ruta = ruta.replace(/^(\.\/)+/, '');
+  ruta = ruta.replace(/^\/+/, '');
+
+  // Evitar slash final accidental en nombres de archivo
+  if (/\.(?:jpe?g|png|webp|gif|avif|svg)\/+$/i.test(ruta)) {
+    ruta = ruta.replace(/\/+$/, '');
+  }
 
   if (!ruta) return '';
 
-  // 4. Retornar la URL limpia con tu dominio oficial al inicio
   return 'https://www.patasycaos.cl/' + ruta;
 }
 
