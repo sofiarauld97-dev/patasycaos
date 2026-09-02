@@ -53,14 +53,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .nav-icon-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
     .nav-icon-btn.ig svg { stroke: none; fill: currentColor; }
     .nav-cart-wrap { position: relative; }
-    .nav-bottom { border-top: none; }
-    .nav-bottom ul { display: flex; gap: 0; list-style: none; padding: 0 5%; }
-    .nav-bottom ul li a { display: block; padding: 11px 16px; font-size: .83rem; font-weight: 600; color: var(--negro); text-decoration: none; transition: color .2s; white-space: nowrap; }
-    .nav-bottom ul li a:hover { color: var(--terracota); }
-    .nav-bottom ul li a.activo { color: var(--terracota); border-bottom: 2px solid var(--terracota); }
-    .mega-menu { display: none; }
-    .hamburger { display: none; width: 36px; height: 36px; background: none; border: 1.5px solid rgba(28,16,7,.18); border-radius: 50%; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; }
-    .hamburger span { display: block; width: 14px; height: 1.5px; background: var(--negro); border-radius: 2px; transition: all .3s; }
+
+    /* FILA 3 */
+    .nav-bottom { display: flex; justify-content: center; padding: 0 5%; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+    .nav-links > li > a { display: flex; align-items: center; gap: 3px; text-decoration: none; color: var(--negro); font-size: .87rem; font-weight: 500; padding: 11px 14px; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
+    .nav-links > li > a:hover, .nav-links > li > a.activo { color: var(--terracota); border-bottom-color: var(--terracota); }
+
+    /* MEGA MENÚ */
+    .nav-item { position: relative; }
+    .nav-item > a::after { content: ' ▾'; font-size: .65rem; }
+    .mega-menu { display: none; position: absolute; top: 100%; left: 0; background: #fff; border-radius: 0 0 14px 14px; box-shadow: 0 8px 32px rgba(0,0,0,.12); padding: 1.2rem 1.5rem; min-width: 200px; z-index: 200; }
+    .nav-item:hover .mega-menu { display: flex; flex-direction: column; gap: 0; }
+    .mega-col h4 { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: 0; white-space: nowrap; transition: color .2s; }
+    .mega-col a { display: block; text-decoration: none; padding: 6px 0; transition: color .2s; }
+    .mega-col a h4 { color: var(--terracota); }
+    .mega-col a:hover h4 { color: var(--negro); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--negro); border-radius: 2px; transition: all .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
     .anuncio-bar{background:#4A7C59;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
     .anuncio-track{display:inline-block;animation:marquee 22s linear infinite;font-size:13px;font-weight:500;letter-spacing:.04em;}
     @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
@@ -484,7 +498,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="/cart.js"></script>
+<script src="/cart.js?v=20260902-img-final"></script>
 <script src="/assets/js/site.js"></script>
 <script src="/products-data.js"></script>
 <script>
