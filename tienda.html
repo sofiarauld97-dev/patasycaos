@@ -1011,19 +1011,80 @@ const LEGACY_SNACKS_GATOS = new Set([
   "cubitos-salmon-pets-friends"
 ]);
 
-function audienciaEfectiva(id, producto){
-  const declarada = producto?.audience;
+function normalizarCategoria(valor) {
+  const v = String(valor || '')
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
 
-  // Algunos productos sirven para perros Y gatos y guardan audience como array.
-  // No convertir el array a String(), porque "Para Gatos,Para Perros"
-  // deja de coincidir con los filtros individuales.
-  if (Array.isArray(declarada)) {
-    const valores = declarada.map(v => String(v || '').trim()).filter(Boolean);
-    if (valores.length) return valores;
+  const mapa = {
+    'accesorio': 'Accesorio',
+    'accesorios': 'Accesorio',
+    'juguete': 'Juguete',
+    'juguetes': 'Juguete',
+    'aseo e higiene': 'Aseo e Higiene',
+    'alimento': 'Alimentos',
+    'alimentos': 'Alimentos',
+    'snack': 'Snacks y Golosinas',
+    'snacks': 'Snacks y Golosinas',
+    'snacks y golosinas': 'Snacks y Golosinas',
+    'flores de bach': 'Flores de Bach',
+    'insumo veterinario': 'Insumos Veterinarios',
+    'insumos veterinarios': 'Insumos Veterinarios'
+  };
+
+  return mapa[v] || String(valor || '').trim();
+}
+
+function normalizarAudienciaValor(valor) {
+  const v = String(valor || '').trim().toLowerCase();
+
+  if (v === 'gatos' || v === 'para gatos') return 'Para Gatos';
+  if (v === 'perros' || v === 'para perros') return 'Para Perros';
+  if (
+    v === 'perros & gatos' ||
+    v === 'gatos & perros' ||
+    v === 'para perros y gatos' ||
+    v === 'para gatos y perros'
+  ) {
+    return ['Para Gatos', 'Para Perros'];
   }
 
-  const texto = String(declarada || '').trim();
-  if (texto) return texto;
+  return String(valor || '').trim();
+}
+
+function audienciaEfectiva(id, producto){
+  const categoria = normalizarCategoria(producto?.categoria);
+
+  if (categoria === 'Flores de Bach' || categoria === 'Insumos Veterinarios') {
+    return ['Para Gatos', 'Para Perros'];
+  }
+
+  if (
+    /^leonardo-/i.test(id) ||
+    /^lata-leonardo/i.test(id) ||
+    /\bleonardo\b/i.test(String(producto?.nombre || ''))
+  ) {
+    return 'Para Gatos';
+  }
+
+  const declarada = producto?.audience;
+
+  if (Array.isArray(declarada)) {
+    const valores = declarada
+      .flatMap(v => {
+        const normalizada = normalizarAudienciaValor(v);
+        return Array.isArray(normalizada) ? normalizada : [normalizada];
+      })
+      .filter(Boolean);
+
+    if (valores.length) return [...new Set(valores)];
+  }
+
+  const normalizada = normalizarAudienciaValor(declarada);
+  if (Array.isArray(normalizada)) return normalizada;
+  if (normalizada) return normalizada;
 
   if (LEGACY_SNACKS_PERROS.has(id)) return 'Para Perros';
   if (LEGACY_SNACKS_GATOS.has(id)) return 'Para Gatos';
@@ -1110,7 +1171,7 @@ function generarTarjetas() {
 
     nuevos.forEach(idNuevo=>{
       const nuevo=productos[idNuevo]||{};
-      const categoria=String(nuevo.categoria||'').trim();
+      const categoria=normalizarCategoria(nuevo.categoria);
       const audiencia=audienciaEfectiva(idNuevo,nuevo);
 
       let indice=-1;
@@ -1119,7 +1180,7 @@ function generarTarjetas() {
       for(let i=resultado.length-1;i>=0;i--){
         const actual=productos[resultado[i]]||{};
         if(
-          String(actual.categoria||'').trim()===categoria &&
+          normalizarCategoria(actual.categoria)===categoria &&
           audienciaEfectiva(resultado[i],actual)===audiencia
         ){
           indice=i;
@@ -1131,7 +1192,7 @@ function generarTarjetas() {
       if(indice<0){
         for(let i=resultado.length-1;i>=0;i--){
           const actual=productos[resultado[i]]||{};
-          if(String(actual.categoria||'').trim()===categoria){
+          if(normalizarCategoria(actual.categoria)===categoria){
             indice=i;
             break;
           }
@@ -1153,7 +1214,7 @@ function generarTarjetas() {
       if (filtros.cat === 'Cyber') {
         if (!p.cyber) return false;
       } else {
-        if (p.categoria !== filtros.cat) return false;
+        if (normalizarCategoria(p.categoria) !== normalizarCategoria(filtros.cat)) return false;
       }
     }
     if (filtros.marca && p.marca !== filtros.marca) return false;
@@ -1162,10 +1223,11 @@ function generarTarjetas() {
       if (!p.nombre.toLowerCase().includes(texto)) return false;
     }
     if (filtros.aud !== 'todos') {
+      const audBuscada = normalizarAudienciaValor(filtros.aud);
+      const objetivo = Array.isArray(audBuscada) ? audBuscada : [audBuscada];
       const aud = audienciaEfectiva(id, p);
-      const match = Array.isArray(aud)
-        ? aud.includes(filtros.aud)
-        : aud === filtros.aud || aud === 'Perros & Gatos';
+      const disponibles = Array.isArray(aud) ? aud : [aud];
+      const match = objetivo.some(a => disponibles.includes(a));
       if (!match) return false;
     }
     return true;
@@ -1421,8 +1483,10 @@ if (buscarParam) {
 
 // Filtro por audiencia via ?aud=Perros o ?aud=Gatos
 if (audParam) {
-  filtros.aud = audParam === 'Perros' ? 'Para Perros' : (audParam === 'Gatos' ? 'Para Gatos' : audParam);
-  const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.includes(audParam));
+  const audNormalizada = normalizarAudienciaValor(audParam);
+  filtros.aud = Array.isArray(audNormalizada) ? 'todos' : audNormalizada;
+  const etiquetaAud = filtros.aud === 'Para Perros' ? 'Perros' : (filtros.aud === 'Para Gatos' ? 'Gatos' : '');
+  const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => etiquetaAud && b.textContent.trim() === etiquetaAud);
   if (pill) { document.querySelectorAll('#filter-aud .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
 }
 
@@ -1436,11 +1500,11 @@ if (catParam) {
   const audValues = ['Para Gatos', 'Para Perros'];
   if (audValues.includes(catParam)) {
     filtros.aud = catParam;
-    const textoAudiencia = catParam === 'Para Perros' ? 'Perros' : 'Gatos';
-    const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.includes(textoAudiencia));
+    const etiquetaAud = catParam === 'Para Perros' ? 'Perros' : 'Gatos';
+    const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.trim() === etiquetaAud);
     if (pill) { document.querySelectorAll('#filter-aud .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
   } else {
-    filtros.cat = catParam;
+    filtros.cat = normalizarCategoria(catParam);
     const pill = [...document.querySelectorAll('#filter-cat .filter-pill')].find(b => b.textContent.includes(catParam));
     if (pill) { document.querySelectorAll('#filter-cat .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
   }
