@@ -1054,38 +1054,19 @@ function normalizarAudienciaValor(valor) {
   return String(valor || '').trim();
 }
 
+const AUDIENCIA_POR_SKU = {"hey-cama-redonda-confort-verde":["Para Gatos","Para Perros"],"hey-donut-sonido-perros":"Para Perros","pura-natura-caldo-de-huesos-250g":["Para Gatos","Para Perros"],"pura-natura-woofers-80g":"Para Perros","fit-formula-gato-adulto-2kg":"Para Gatos","leonardo-adult-gf-poultry-1-8kg":"Para Gatos","leonardo-adult-light-sterilised-1-8kg":"Para Gatos","leonardo-adult-duck-1-8kg":"Para Gatos","hey-bolsas-sanitarias-4-rollos":"Para Perros","pelota-snack-interactiva_Verde":"Para Perros","collar-findmy_Amarillo":"Para Gatos","collar-perro-acolchado_Café-S":"Para Perros","collar-perro-acolchado_Café-M":"Para Perros","collar-perro-acolchado_Rojo-S":"Para Perros","comedero-lento-flores-lila":["Para Gatos","Para Perros"],"comedero-lento-slow-feeder-rosado":"Para Perros","dog-fest-calcium-bones-chicken":"Para Perros","dog-fest-lamb-medallions":"Para Perros","dog-fest-rabbit-ears-lamb":"Para Perros","colagepet-donut-pollo":"Para Perros","colagepet-donut-pato":"Para Perros","colagepet-donut-carne":"Para Perros","rascador-maxi-caja-de-leche---brnx":"Para Gatos","collar-isabelino-donut-rosada---talla-s":["Para Gatos","Para Perros"],"pelota-snack-interactiva_Roja":"Para Perros","pelota-snack-interactiva_Azul":"Para Perros","dispensador-de-bolsas---diseno-cafe":"Para Perros","calming-collar---perros":"Para Perros","calming-collar---gatos":"Para Gatos","botella-portatil-para-perros_Rosada":"Para Perros","botella-portatil-para-perros_Calipso":"Para Perros","arena-sanitaria-ciudad-animal-8kg":"Para Gatos","brit-care-sterilized-weigh-control-2kg---duck-turkey":"Para Gatos","comedero-lento-slow-feeder---catstages":"Para Gatos","flores-de-bach---rescue-y-alivio":["Para Gatos","Para Perros"],"flores-de-bach---energia-y-animo":["Para Gatos","Para Perros"],"flores-de-bach---equilibrio":"Para Gatos","flores-de-bach---ansiedad-y-calma":["Para Gatos","Para Perros"],"cat-fest-pillows-schrimp-creme":"Para Gatos","cat-fest-pillows":"Para Gatos","tubito-atun":"Para Gatos","tubito-camaron":"Para Gatos","tubito-salmon-matatabi":"Para Gatos","lata-leonardo-kitten":"Para Gatos","lata-leonardo_Ave":"Para Gatos","lata-leonardo_Pato":"Para Gatos","lata-leonardo_Conejo":"Para Gatos","lata-leonardo_Pescado":"Para Gatos","lata-leonardo_Ternera":"Para Gatos","collar-findmy_Turquesa":"Para Gatos","collar-findmy_Negro":"Para Gatos","collar-findmy_Azul":"Para Gatos","fuente-agua":"Para Gatos","pajaro":"Para Gatos","pelota-led":"Para Gatos","pulpo":"Para Gatos","paw-balm":["Para Gatos","Para Perros"],"afeitadora":["Para Gatos","Para Perros"],"cat-fest_Pato":"Para Gatos","cat-fest_Cordero":"Para Gatos","cats-snack_Catnip":"Para Gatos","cats-snack_Matatabi":"Para Gatos","cats-snack_Rellena Atún + Ostiones":"Para Gatos","cats-snack_Rellena Atún + Queso":"Para Gatos","cats-snack_Rellena Camarón":"Para Gatos","cats-snack_Rellena Atún + Pollo":"Para Gatos","snack-calming-gato":"Para Gatos","suero-fisiologico":["Para Gatos","Para Perros"],"pulmon-cordero-rahue":"Para Perros","traquea-vacuno-rahue":"Para Perros","garra-pollo-rahue":"Para Perros","oreja-cerdo-rahue":"Para Perros","femur-cerdo-tasty":"Para Perros","collar-zeecat-error-500":"Para Gatos","collar-zeecat-error-404":"Para Gatos","collar-zeecat-error-410":"Para Gatos","collar-suede-para-perro-zeedog":"Para Perros","collar-nox-para-perro-zeedog":"Para Perros","pala-arenero-marron":"Para Gatos","pala-arenero-verde":"Para Gatos","zupet-dental-power-suave":"Para Perros","zupet-dental-fitness-crocante":"Para Gatos","fellini-lollipop-calabaza":"Para Gatos","fellini-lollipop-leche-cabra":"Para Gatos","bocados-pollo-pets-friends":"Para Gatos","cubitos-salmon-pets-friends":"Para Gatos","doggo-traquea-vacuno-ciervo":"Para Perros","doggo-mix-deshidratados":"Para Perros","condilo-vacuno-rahue":"Para Perros","fit-formula-costillas-cordero-100g":"Para Perros","cats-snack-pollo-camaron":"Para Gatos","rastreador-find-my":["Para Gatos","Para Perros"],"comedero-lento-desmontable-azul":["Para Gatos","Para Perros"],"comedero-lento-desmontable-rojo":["Para Gatos","Para Perros"],"collar-findmy-rojo":"Para Gatos","femur-de-cerdo-gran-cani":"Para Perros","oreja-de-cerdo-gran-cani":"Para Perros","mousse-salmon-y-cangrejo-60g-ikai":"Para Gatos","mousse-salmon-y-camaron-60g-ikai":"Para Gatos","lolli-pop-arandano-fellini":"Para Gatos","yogurt-natural-en-cubos-20-unidades-goofy":"Para Perros","mantequilla-de-mani-banana-bliss-260g-smuttdog":"Para Perros","medallones-de-avestruz-90g-dogfest":"Para Perros","meat-duck-drum-stick-90g-naturalistic":"Para Perros","salmon-nuggets-100g-naturalistic":"Para Perros","old-prince-gato-adulto-cordero-y-arroz-3kg":"Para Gatos"};
+
 function audienciaEfectiva(id, producto){
-  const categoria = normalizarCategoria(producto?.categoria);
+  // Fuente autoritativa: productos.json actual, indexada por SKU.
+  const desdeSku = AUDIENCIA_POR_SKU[id];
+  if (desdeSku) return desdeSku;
 
-  // La fuente principal del catálogo es etiquetaProducto:
-  // "Accesorio · Perros", "Juguete · Gatos", "Accesorio · Gatos · Perros", etc.
-  const etiqueta = String(producto?.etiquetaProducto || '').trim();
-  if (etiqueta) {
-    const audienciasEtiqueta = [];
-    if (/\bGatos\b/i.test(etiqueta)) audienciasEtiqueta.push('Para Gatos');
-    if (/\bPerros\b/i.test(etiqueta)) audienciasEtiqueta.push('Para Perros');
+  // Fallback por si el objeto trae su SKU explícito.
+  const skuProducto = String(producto?.sku || '').trim();
+  if (skuProducto && AUDIENCIA_POR_SKU[skuProducto]) return AUDIENCIA_POR_SKU[skuProducto];
 
-    if (audienciasEtiqueta.length === 2) return audienciasEtiqueta;
-    if (audienciasEtiqueta.length === 1) return audienciasEtiqueta[0];
-  }
-
-  // Estas categorías corresponden a ambas especies.
-  if (categoria === 'Flores de Bach' || categoria === 'Insumos Veterinarios') {
-    return ['Para Gatos', 'Para Perros'];
-  }
-
-  // Leonardo corresponde a alimentación felina.
-  if (
-    /^leonardo-/i.test(id) ||
-    /^lata-leonardo/i.test(id) ||
-    /\bleonardo\b/i.test(String(producto?.nombre || ''))
-  ) {
-    return 'Para Gatos';
-  }
-
-  // Compatibilidad con products-data.js si ya trae audience.
+  // Compatibilidad con products-data.js.
   const declarada = producto?.audience;
-
   if (Array.isArray(declarada)) {
     const valores = declarada
       .flatMap(v => {
@@ -1093,7 +1074,6 @@ function audienciaEfectiva(id, producto){
         return Array.isArray(normalizada) ? normalizada : [normalizada];
       })
       .filter(Boolean);
-
     if (valores.length) return [...new Set(valores)];
   }
 
