@@ -718,9 +718,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="cart.js"></script>
+<script src="/cart.js?v=20260902-urlfix"></script>
 <script src="/assets/js/site.js"></script>
 <script src="/products-data.js"></script>
+<script>
+
+function imagenCarritoAbsoluta(src) {
+  let s = String(src || '').trim();
+  if (!s) return '';
+
+  // Si ya viene con el dominio correcto, dejarla igual.
+  if (/^https:\/\/www\.patasycaos\.cl\//i.test(s)) return s;
+
+  // Reparar URLs protocol-relative o absolutas mal formadas con el nombre del archivo como host.
+  s = s.replace(/^https?:\/\/[^/]+\/?/i, '');
+  s = s.replace(/^\/+/, '');
+
+  return 'https://www.patasycaos.cl/' + s;
+}
+
+</script>
 <script src="/product-slugs.js"></script>
 <script>
 /* ── NAV & MENU ── */
@@ -1229,7 +1246,7 @@ function generarTarjetas() {
     if (btn) {
       if (!enStock) { btn.textContent = 'Agotado'; btn.disabled = true; }
       else if (p.variantes) btn.addEventListener('click', (e) => { e.stopPropagation(); abrirModal(id); });
-      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: 'https://www.patasycaos.cl/' + String(imagenes[0] || '').replace(/^\/+/, '') }); });
+      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: imagenCarritoAbsoluta(imagenes[0]) }); });
     }
   });
 }
@@ -1353,7 +1370,7 @@ function agregarAlCarritoDesdeModal() {
   const stock = getStock();
   if (stock[skuKey] === 0) { const btn = document.getElementById('modalBtnCarrito'); btn.textContent = 'Agotado 😢'; btn.style.background = '#c0392b'; setTimeout(() => { btn.textContent = 'Añadir al carrito'; btn.style.background = ''; }, 2000); return; }
   const imgCarrito = fuenteActual.imagenes?.[0] || '';
-  addToCart({ id: productoActual.id + (productoActual.variantes ? '-' + varianteActualIdx : ''), name: nombreCompleto, price: productoActual.precioNum, img: imgCarrito.startsWith('/') ? imgCarrito : '/' + imgCarrito });
+  addToCart({ id: productoActual.id + (productoActual.variantes ? '-' + varianteActualIdx : ''), name: nombreCompleto, price: productoActual.precioNum, img: imagenCarritoAbsoluta(imgCarrito) });
   const btn = document.getElementById('modalBtnCarrito');
   btn.textContent = '✓ ¡Añadido!'; btn.style.background = '#4A7C59';
   setTimeout(() => { btn.textContent = 'Añadir al carrito'; btn.style.background = ''; cerrarModal(); }, 1200);
