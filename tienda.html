@@ -1208,30 +1208,48 @@ function generarTarjetas() {
 
   const idsOrdenados=construirOrdenCatalogo();
 
-  let lista = idsOrdenados.map(id => ({ id, p: productos[id] })).filter(({ id, p }) => {
+  function productoCoincideFiltros(id, p) {
     if (!p) return false;
+
+    const categoriaProducto = normalizarCategoria(p.categoria);
+    const categoriaBuscada = normalizarCategoria(filtros.cat);
+
     if (filtros.cat !== 'todos') {
       if (filtros.cat === 'Cyber') {
         if (!p.cyber) return false;
-      } else {
-        if (normalizarCategoria(p.categoria) !== normalizarCategoria(filtros.cat)) return false;
+      } else if (categoriaProducto !== categoriaBuscada) {
+        return false;
       }
     }
+
     if (filtros.marca && p.marca !== filtros.marca) return false;
+
     if (filtros.texto) {
-      const texto = filtros.texto.toLowerCase();
-      if (!p.nombre.toLowerCase().includes(texto)) return false;
+      const texto = String(filtros.texto).toLowerCase();
+      if (!String(p.nombre || '').toLowerCase().includes(texto)) return false;
     }
+
     if (filtros.aud !== 'todos') {
-      const audBuscada = normalizarAudienciaValor(filtros.aud);
-      const objetivo = Array.isArray(audBuscada) ? audBuscada : [audBuscada];
-      const aud = audienciaEfectiva(id, p);
-      const disponibles = Array.isArray(aud) ? aud : [aud];
-      const match = objetivo.some(a => disponibles.includes(a));
-      if (!match) return false;
+      const buscadaRaw = normalizarAudienciaValor(filtros.aud);
+      const buscadas = Array.isArray(buscadaRaw) ? buscadaRaw : [buscadaRaw];
+
+      const productoRaw = audienciaEfectiva(id, p);
+      const productoAudiencias = (Array.isArray(productoRaw) ? productoRaw : [productoRaw])
+        .flatMap(v => {
+          const n = normalizarAudienciaValor(v);
+          return Array.isArray(n) ? n : [n];
+        })
+        .filter(Boolean);
+
+      if (!buscadas.some(a => productoAudiencias.includes(a))) return false;
     }
+
     return true;
-  });
+  }
+
+  let lista = idsOrdenados
+    .map(id => ({ id, p: productos[id] }))
+    .filter(({ id, p }) => productoCoincideFiltros(id, p));
   if (filtros.sort === 'price-asc') lista.sort((a, b) => a.p.precioNum - b.p.precioNum);
   if (filtros.sort === 'price-desc') lista.sort((a, b) => b.p.precioNum - a.p.precioNum);
   if (filtros.sort === 'az') lista.sort((a, b) => a.p.nombre.localeCompare(b.p.nombre));
@@ -1475,6 +1493,20 @@ const audParam = urlParams.get('aud');
 const marcaParam = urlParams.get('marca');
 const buscarParam = urlParams.get('buscar');
 
+function aplicarAliasFiltrosURL() {
+  if (!catParam) return;
+
+  const limpio = String(catParam).trim();
+  const compuesto = limpio.match(/^(Accesorios?|Juguetes?)\s+(?:para\s+)?(Perros|Gatos)$/i);
+
+  if (compuesto) {
+    filtros.cat = normalizarCategoria(compuesto[1]);
+    filtros.aud = normalizarAudienciaValor(compuesto[2]);
+  }
+}
+
+aplicarAliasFiltrosURL();
+
 // Filtro por texto via ?buscar=botella — solo funciona como link directo,
 // no tiene ningún botón/pill visible en la tienda.
 if (buscarParam) {
@@ -1496,7 +1528,7 @@ if (marcaParam) {
 }
 
 // Filtro por categoría via ?cat=
-if (catParam) {
+if (catParam && !/^(Accesorios?|Juguetes?)\s+(?:para\s+)?(Perros|Gatos)$/i.test(String(catParam).trim())) {
   const audValues = ['Para Gatos', 'Para Perros'];
   if (audValues.includes(catParam)) {
     filtros.aud = catParam;
