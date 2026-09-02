@@ -1229,7 +1229,7 @@ function generarTarjetas() {
     if (btn) {
       if (!enStock) { btn.textContent = 'Agotado'; btn.disabled = true; }
       else if (p.variantes) btn.addEventListener('click', (e) => { e.stopPropagation(); abrirModal(id); });
-      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: imagenes[0] }); });
+      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: 'https://www.patasycaos.cl/' + String(imagenes[0] || '').replace(/^\/+/, '') }); });
     }
   });
 }
