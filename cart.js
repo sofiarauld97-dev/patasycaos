@@ -23,30 +23,24 @@ function normalizarImagenCarrito(src) {
 
   let ruta = src.trim().replace(/\\/g, '/');
 
+  // 1. Si es base64 o blob, devolver directo
   if (/^(data:|blob:)/i.test(ruta)) return ruta;
 
+  // 2. Si ya viene con http:// o https://, limpiar si se duplicó el dominio
   if (/^https?:\/\//i.test(ruta)) {
-    try {
-      const u = new URL(ruta);
-
-      // Repara datos antiguos tipo https://lata-leonardo-kitten.jpg/
-      if (/\.(?:jpe?g|png|webp|gif|avif|svg)$/i.test(u.hostname) &&
-          (!u.pathname || u.pathname === '/')) {
-        return window.location.origin + '/' + u.hostname;
-      }
-
-      return u.href;
-    } catch (e) {
-      return ruta;
-    }
+    const matchDuplicado = ruta.match(/(https?:\/\/[^\/]+)\/(https?:\/\/.*)/i);
+    if (matchDuplicado) return matchDuplicado[2];
+    return ruta;
   }
 
-  ruta = ruta.replace(/^\/+/, '');
-  ruta = ruta.replace(/^(\.\/)+/, '');
+  // 3. Limpiar ./, ../ y barras al inicio
   ruta = ruta.replace(/^(\.\.\/)+/, '');
+  ruta = ruta.replace(/^(\.\/)+/, '');
+  ruta = ruta.replace(/^\/+/, '');
 
   if (!ruta) return '';
 
+  // 4. Asegurar URL absoluta en el dominio actual
   return window.location.origin + '/' + ruta;
 }
 
