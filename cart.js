@@ -23,25 +23,32 @@ function normalizarImagenCarrito(src) {
 
   let ruta = src.trim().replace(/\\/g, '/');
 
-  // 1. Si es base64 o blob, devolver directo
+  // Si es base64 o blob
   if (/^(data:|blob:)/i.test(ruta)) return ruta;
 
-  // 2. Si ya viene con http:// o https://, limpiar si se duplicó el dominio
+  // Si ya es un enlace completo válido a Patas & Caos
   if (/^https?:\/\//i.test(ruta)) {
-    const matchDuplicado = ruta.match(/(https?:\/\/[^\/]+)\/(https?:\/\/.*)/i);
-    if (matchDuplicado) return matchDuplicado[2];
-    return ruta;
+    // Si por error se creó un enlace como "https://alimento-..."
+    // o "https://www.patasycaos.cl/https://..."
+    if (!ruta.includes('patasycaos.cl')) {
+      ruta = ruta.replace(/^https?:\/\//i, '');
+    } else {
+      // Reparar posible dominio duplicado dentro de la ruta
+      ruta = ruta.replace(
+        /^https?:\/\/(?:www\.)?patasycaos\.cl\/https?:\/\/(?:www\.)?patasycaos\.cl\//i,
+        'https://www.patasycaos.cl/'
+      );
+      return ruta;
+    }
   }
 
-  // 3. Limpiar ./, ../ y barras al inicio
-  ruta = ruta.replace(/^(\.\.\/)+/, '');
-  ruta = ruta.replace(/^(\.\/)+/, '');
-  ruta = ruta.replace(/^\/+/, '');
+  // Limpiar barras y puntos al inicio
+  ruta = ruta.replace(/^[\/\.]+/, '');
 
   if (!ruta) return '';
 
-  // 4. Asegurar URL absoluta en el dominio actual
-  return window.location.origin + '/' + ruta;
+  // Forzar las imágenes locales al dominio correcto
+  return 'https://www.patasycaos.cl/' + ruta;
 }
 
 let cart = [];
