@@ -23,31 +23,30 @@ function normalizarImagenCarrito(src) {
 
   let ruta = src.trim().replace(/\\/g, '/');
 
-  // Si es base64 o blob
+  // 1. Si es base64 o blob, devolver directo
   if (/^(data:|blob:)/i.test(ruta)) return ruta;
 
-  // Si ya es un enlace completo válido a Patas & Caos
+  // 2. Si ya es una URL completa válida que empieza por http:// o https://
   if (/^https?:\/\//i.test(ruta)) {
-    // Si por error se creó un enlace como "https://alimento-..."
-    // o "https://www.patasycaos.cl/https://..."
-    if (!ruta.includes('patasycaos.cl')) {
+    // Si la URL contiene patasycaos.cl pero tiene duplicados, corregirla
+    if (ruta.includes('patasycaos.cl')) {
+      return ruta.replace(/^https?:\/\/(?:www\.)?patasycaos\.cl\/https?:\/\/(?:www\.)?patasycaos\.cl\//i, 'https://www.patasycaos.cl/');
+    }
+
+    // Si traía un protocolo falso (ej: "https://alimento-leonardo..."), se lo quitamos limpiamente
+    if (ruta.match(/^https?:\/\/[^\/]+\.(jpg|jpeg|png|webp|gif|svg)/i)) {
       ruta = ruta.replace(/^https?:\/\//i, '');
     } else {
-      // Reparar posible dominio duplicado dentro de la ruta
-      ruta = ruta.replace(
-        /^https?:\/\/(?:www\.)?patasycaos\.cl\/https?:\/\/(?:www\.)?patasycaos\.cl\//i,
-        'https://www.patasycaos.cl/'
-      );
       return ruta;
     }
   }
 
-  // Limpiar barras y puntos al inicio
+  // 3. Limpiar barras, puntos e identificadores raros al inicio del nombre del archivo
   ruta = ruta.replace(/^[\/\.]+/, '');
 
   if (!ruta) return '';
 
-  // Forzar las imágenes locales al dominio correcto
+  // 4. Retornar la URL limpia con tu dominio oficial al inicio
   return 'https://www.patasycaos.cl/' + ruta;
 }
 
