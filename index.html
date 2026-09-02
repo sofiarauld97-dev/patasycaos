@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
 <link rel="stylesheet" href="/assets/css/site.css">
-<link rel="stylesheet" href="/assets/css/home-v2.css?v=1">
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -116,7 +115,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .products-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2.5rem; }
   .products .section-label { color: var(--terracota); }
   .products .section-title { color: var(--blanco); margin-bottom: 0; }
-  .products .section-title span { display: inline; color: var(--terracota); margin-left:.12em; }
+  .products .section-title span { display: block; color: var(--terracota); }
 
   /* PROD GRID */
   .prod-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.1rem; }
@@ -149,7 +148,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* NEWSLETTER */
   .newsletter { padding: 80px 5%; }
   .newsletter-box { background: var(--terracota); border-radius: 24px; padding: 56px 64px; max-width: 680px; margin: 0 auto; }
-  .newsletter-box h2 { font-size: 2.2rem; font-weight: 900; color: var(--blanco); margin-bottom: .7rem; line-height: 1.04 !important; }
+  .newsletter-box h2 { font-size: 2.2rem; font-weight: 900; color: var(--blanco); margin-bottom: .7rem; }
   .newsletter-box p { color: rgba(255,255,255,.85); font-size: .92rem; line-height: 1.6; margin-bottom: 1.8rem; }
   .newsletter-form { display: flex; gap: .8rem; }
   .newsletter-form input { flex: 1; border: none; border-radius: 50px; padding: 14px 22px; font-family: 'Poppins', sans-serif; font-size: .9rem; color: var(--negro); background: var(--cream); outline: none; }
@@ -306,7 +305,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .all-products { padding: 56px 5% 80px; background: var(--dark); }
   .all-products .section-label { font-size: .72rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--terracota); margin-bottom: .5rem; }
   .all-products .section-title { font-size: 2rem; font-weight: 900; line-height: 1.15; margin-bottom: 1.8rem; color: var(--cream); }
-  .all-products .section-title span { display: inline !important; color: var(--terracota); font-style: italic; margin-left: .12em !important; }
+  .all-products .section-title span { display: block; color: var(--terracota); font-style: italic; }
   .carousel-wrap { position: relative; }
   .carousel-track { display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; will-change: scroll-position; scrollbar-width: none; padding-bottom: 8px; }
   .carousel-track::-webkit-scrollbar { display: none; }
@@ -326,202 +325,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .prod-info .tagline { font-size: .72rem; margin-bottom: .5rem; }
   }
 
-  /* SECCION BLOG — CARRUSEL */
-  .blog-section { padding: 64px 5%; overflow: hidden; }
-  .blog-section-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1.5rem;
-    margin-bottom: 1.8rem;
-  }
-  .blog-section-heading .section-label {
-    font-size: .72rem;
-    font-weight: 700;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--terracota);
-    margin-bottom: .5rem;
-  }
-  .blog-section-heading .section-title {
-    font-size: 2rem;
-    font-weight: 900;
-    line-height: 1.15;
-    margin-bottom: 0;
-    color: var(--negro);
-  }
-  .blog-section-heading .section-title span {
-    display: inline;
-    color: var(--terracota);
-    font-style: italic;
-    margin-left: .12em;
-  }
-  .blog-carousel-controls {
-    display: flex;
-    align-items: center;
-    gap: .65rem;
-    flex-shrink: 0;
-  }
-  .blog-carousel-arrow {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(28,16,7,.16);
-    background: rgba(255,255,255,.82);
-    color: var(--negro);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background .2s, color .2s, border-color .2s, transform .2s, opacity .2s;
-    box-shadow: 0 5px 18px rgba(28,16,7,.06);
-    padding: 0;
-  }
-  .blog-carousel-arrow svg {
-    width: 18px;
-    height: 18px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .blog-carousel-arrow:hover {
-    background: var(--terracota);
-    color: var(--blanco);
-    border-color: var(--terracota);
-    transform: translateY(-2px);
-  }
-  .blog-carousel-arrow:disabled {
-    opacity: .35;
-    cursor: default;
-    transform: none;
-    background: rgba(255,255,255,.55);
-    color: var(--negro);
-    border-color: rgba(28,16,7,.12);
-  }
-  .blog-carousel {
-    position: relative;
-    width: 100%;
-  }
-  .blog-grid {
-    display: flex;
-    gap: 1.5rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    padding: 4px 2px 12px;
-  }
-  .blog-grid::-webkit-scrollbar { display: none; }
-  .blog-card {
-    flex: 0 0 calc((100% - 3rem) / 3);
-    min-width: 0;
-    scroll-snap-align: start;
-    background: var(--blanco);
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid rgba(28,16,7,.07);
-    text-decoration: none;
-    color: var(--negro);
-    transition: transform .25s, box-shadow .25s;
-    display: flex;
-    flex-direction: column;
-  }
-  .blog-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 16px 36px rgba(28,16,7,.10);
-  }
-  .blog-card-img {
-    height: 180px;
-    background: var(--card-bg);
-    overflow: hidden;
-  }
-  .blog-card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform .4s;
-  }
-  .blog-card:hover .blog-card-img img { transform: scale(1.035); }
-  .blog-card-body {
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-  .blog-cat {
-    font-size: .68rem;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--terracota);
-    margin-bottom: .55rem;
-  }
-  .blog-card-body h3 {
-    font-size: .95rem;
-    font-weight: 700;
-    line-height: 1.4;
-    margin-bottom: .55rem;
-    color: var(--negro);
-  }
-  .blog-card-body p {
-    font-size: .78rem;
-    color: #6b5a4e;
-    line-height: 1.6;
-  }
-  .blog-dots {
-    display: flex;
-    justify-content: center;
-    gap: 7px;
-    margin-top: 1rem;
-  }
-  .blog-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: rgba(28,16,7,.17);
-    cursor: pointer;
-    transition: background .2s, transform .2s;
-    border: none;
-    padding: 0;
-  }
-  .blog-dot.activo {
-    background: var(--terracota);
-    transform: scale(1.3);
-  }
-  .blog-ver-mas { text-align: center; margin-top: 1.8rem; }
-  .blog-ver-mas a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    border: 2px solid #4A7C59;
-    color: #4A7C59;
-    border-radius: 50px;
-    padding: 12px 30px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: .9rem;
-    text-decoration: none;
-    transition: all .2s;
-  }
+  /* SECCION BLOG */
+  .blog-section { padding: 60px 5%; }
+  .blog-section .section-label { font-size: .72rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--terracota); margin-bottom: .5rem; }
+  .blog-section .section-title { font-size: 2rem; font-weight: 900; line-height: 1.15; margin-bottom: 1.8rem; }
+  .blog-section .section-title span { display: block; color: var(--terracota); font-style: italic; }
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .blog-card { background: var(--blanco); border-radius: 18px; overflow: hidden; border: 1px solid rgba(28,16,7,.07); text-decoration: none; color: var(--negro); transition: transform .2s, box-shadow .2s; display: block; }
+  .blog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(28,16,7,.1); }
+  .blog-dots { display: none; justify-content: center; gap: 6px; margin-top: 1.2rem; }
+  .blog-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(28,16,7,.18); cursor: pointer; transition: background .2s, transform .2s; border: none; padding: 0; }
+  .blog-dot.activo { background: var(--terracota); transform: scale(1.3); }
+  .blog-card-img { height: 160px; background: var(--card-bg); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
+  .blog-card-body { padding: 1.2rem; }
+  .blog-cat { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: .5rem; }
+  .blog-card-body h3 { font-size: .95rem; font-weight: 700; line-height: 1.4; margin-bottom: .5rem; }
+  .blog-card-body p { font-size: .78rem; color: #6b5a4e; line-height: 1.6; }
+  .blog-ver-mas { text-align: center; margin-top: 2rem; }
+  .blog-ver-mas a { display: inline-block; border: 2px solid #4A7C59; color: #4A7C59; border-radius: 50px; padding: 12px 32px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .9rem; text-decoration: none; transition: all .2s; }
   .blog-ver-mas a:hover { background: #4A7C59; color: #fff; }
-
-  @media (max-width: 900px) {
-    .blog-card { flex-basis: calc((100% - 1.2rem) / 2); }
-  }
+  @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) {
-    .blog-section { padding: 52px 5%; }
-    .blog-section-header { align-items: center; }
-    .blog-section-heading .section-title { font-size: 1.8rem; }
-    .blog-section-heading .section-title span { display: block; margin-left: 0; }
-    .blog-carousel-arrow { width: 38px; height: 38px; }
-    .blog-carousel-arrow svg { width: 16px; height: 16px; }
-    .blog-grid { gap: 1rem; }
-    .blog-card { flex: 0 0 82vw; }
-    .blog-card-img { height: 170px; }
+    .blog-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; gap: 1rem; padding-bottom: 4px; cursor: grab; }
+    .blog-grid::-webkit-scrollbar { display: none; }
+    .blog-grid.grabbing { cursor: grabbing; }
+    .blog-card { flex: 0 0 82vw; scroll-snap-align: start; }
+    .blog-dots { display: flex; }
   }
 
   /* CHECKOUT MODAL */
@@ -673,625 +502,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .anuncio-track{display:inline-block;animation:marquee 22s linear infinite;font-size:13px;font-weight:500;letter-spacing:.04em;}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 </style>
-<style id="hero-tarjeta-posicion-corregida">
-/* Tarjeta del hero alineada hacia la parte superior */
-.hero .hero-slide{
-  position:relative;
-}
-
-.hero .hero-cta-card{
-  top:clamp(20px,5.5vw,72px)!important;
-  bottom:auto!important;
-  left:5%!important;
-  width:min(430px,42vw)!important;
-  transform:none!important;
-}
-
-@media(max-width:850px){
-  .hero .hero-cta-card{
-    top:28px!important;
-    left:4%!important;
-    width:min(420px,52vw)!important;
-  }
-}
-
-@media(max-width:600px){
-  .hero .hero-cta-card{
-    top:16px!important;
-    right:14px!important;
-    bottom:auto!important;
-    left:14px!important;
-    width:auto!important;
-  }
-}
-</style>
-
-
-<style id="home-trust-iconos">
-  .home-trust .home-trust-item{
-    display:flex !important;
-    align-items:center !important;
-    justify-content:flex-start !important;
-    gap:14px !important;
-  }
-
-  .home-trust .home-trust-icon{
-    width:36px !important;
-    height:36px !important;
-    min-width:36px !important;
-    margin:0 !important;
-    padding:0 !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    align-self:center !important;
-    border-radius:50%;
-    background:rgba(196,98,45,.10);
-    color:var(--terracota);
-    line-height:1 !important;
-  }
-
-  .home-trust .home-trust-icon svg{
-    display:block !important;
-    width:18px !important;
-    height:18px !important;
-    margin:0 !important;
-    stroke:currentColor;
-    fill:none;
-    stroke-width:1.8;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-  }
-
-  .home-trust .home-trust-copy{
-    min-width:0;
-    flex:1;
-  }
-
-  .home-trust .home-trust-copy strong{
-    display:block;
-    margin:0 0 4px !important;
-    line-height:1.2 !important;
-  }
-
-  .home-trust .home-trust-copy span{
-    display:block;
-    margin:0 !important;
-    line-height:1.45 !important;
-  }
-
-  @media (max-width:700px){
-    .home-trust .home-trust-item{
-      gap:12px !important;
-    }
-
-    .home-trust .home-trust-icon{
-      width:32px !important;
-      height:32px !important;
-      min-width:32px !important;
-    }
-
-    .home-trust .home-trust-icon svg{
-      width:16px !important;
-      height:16px !important;
-    }
-  }
-</style>
-
-
-<style id="ajustes-tipograficos-finales">
-  .all-products .section-title span{
-    display:inline !important;
-    margin-left:.12em !important;
-  }
-
-  .newsletter .newsletter-box h2{
-    line-height:1.04 !important;
-  }
-</style>
-
-<style id="menu-movil-rediseño">
-
-/* =========================================================
-   MENÚ MÓVIL — REDISEÑO FINAL
-   ========================================================= */
-@media (max-width: 768px) {
-  .hamburger {
-    position: relative !important;
-    display: flex !important;
-    width: 38px !important;
-    height: 38px !important;
-    min-width: 38px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    gap: 0 !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border: 0 !important;
-    background: transparent !important;
-    z-index: 1003 !important;
-  }
-
-  .hamburger span {
-    position: absolute !important;
-    left: 8px !important;
-    width: 22px !important;
-    height: 2px !important;
-    margin: 0 !important;
-    background: var(--negro) !important;
-    border-radius: 99px !important;
-    transform-origin: center !important;
-    transition: transform .25s ease, opacity .18s ease !important;
-  }
-
-  .hamburger span:nth-child(1) {
-    transform: translateY(-7px) !important;
-  }
-
-  .hamburger span:nth-child(2) {
-    transform: translateY(0) !important;
-  }
-
-  .hamburger span:nth-child(3) {
-    transform: translateY(7px) !important;
-  }
-
-  .hamburger.open span:nth-child(1) {
-    transform: rotate(45deg) !important;
-  }
-
-  .hamburger.open span:nth-child(2) {
-    opacity: 0 !important;
-    transform: scaleX(0) !important;
-  }
-
-  .hamburger.open span:nth-child(3) {
-    transform: rotate(-45deg) !important;
-  }
-
-  .mobile-menu {
-    position: fixed !important;
-    top: var(--mobile-menu-top, 0px) !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    height: auto !important;
-    max-height: none !important;
-    padding: 14px 22px calc(28px + env(safe-area-inset-bottom)) !important;
-    margin: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0 !important;
-    overflow-y: auto !important;
-    overscroll-behavior: contain !important;
-    background: var(--cream) !important;
-    border-top: 1px solid rgba(28,16,7,.08) !important;
-    box-shadow: 0 18px 40px rgba(28,16,7,.14) !important;
-    z-index: 1001 !important;
-    transform: translateX(100%) !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    transition: transform .28s cubic-bezier(.4,0,.2,1),
-                opacity .2s ease,
-                visibility 0s linear .28s !important;
-  }
-
-  .mobile-menu.open {
-    transform: translateX(0) !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transition: transform .28s cubic-bezier(.4,0,.2,1),
-                opacity .2s ease,
-                visibility 0s !important;
-  }
-
-  .mobile-menu > a,
-  .mobile-accordion {
-    width: 100% !important;
-    margin: 0 !important;
-    border: 0 !important;
-    border-bottom: 1px solid rgba(28,16,7,.09) !important;
-  }
-
-  .mobile-menu > a {
-    min-height: 62px !important;
-    padding: 0 2px !important;
-    display: flex !important;
-    align-items: center !important;
-    color: var(--negro) !important;
-    text-decoration: none !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-size: 1.06rem !important;
-    font-weight: 700 !important;
-    line-height: 1.2 !important;
-  }
-
-  .mobile-menu > a.activo {
-    color: var(--terracota) !important;
-  }
-
-  .mobile-accordion-btn {
-    width: 100% !important;
-    min-height: 62px !important;
-    padding: 0 2px !important;
-    margin: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 16px !important;
-    border: 0 !important;
-    background: transparent !important;
-    color: var(--negro) !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-size: 1.06rem !important;
-    font-weight: 700 !important;
-    line-height: 1.2 !important;
-    text-align: left !important;
-    cursor: pointer !important;
-  }
-
-  .mobile-acc-arrow {
-    position: relative !important;
-    width: 18px !important;
-    height: 18px !important;
-    flex: 0 0 18px !important;
-    font-size: 0 !important;
-    transition: transform .25s ease !important;
-  }
-
-  .mobile-acc-arrow::before,
-  .mobile-acc-arrow::after {
-    content: '' !important;
-    position: absolute !important;
-    top: 8px !important;
-    width: 8px !important;
-    height: 1.7px !important;
-    border-radius: 99px !important;
-    background: currentColor !important;
-  }
-
-  .mobile-acc-arrow::before {
-    left: 2px !important;
-    transform: rotate(45deg) !important;
-  }
-
-  .mobile-acc-arrow::after {
-    right: 2px !important;
-    transform: rotate(-45deg) !important;
-  }
-
-  .mobile-accordion-btn[aria-expanded="true"] .mobile-acc-arrow {
-    transform: rotate(180deg) !important;
-  }
-
-  .mobile-accordion-body {
-    display: flex !important;
-    flex-direction: column !important;
-    max-height: 0 !important;
-    overflow: hidden !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    background: rgba(255,255,255,.35) !important;
-    transition: max-height .28s ease, opacity .2s ease, visibility 0s linear .28s !important;
-  }
-
-  .mobile-accordion-body.open {
-    max-height: 320px !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transition: max-height .28s ease, opacity .2s ease, visibility 0s !important;
-  }
-
-  .mobile-accordion-body > a {
-    min-height: 48px !important;
-    width: 100% !important;
-    padding: 0 16px !important;
-    margin: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    border: 0 !important;
-    border-top: 1px solid rgba(28,16,7,.055) !important;
-    color: #5f5146 !important;
-    text-decoration: none !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-size: .9rem !important;
-    font-weight: 500 !important;
-    line-height: 1.3 !important;
-  }
-
-  .mobile-accordion-body > a:hover,
-  .mobile-menu > a:hover,
-  .mobile-accordion-btn:hover {
-    color: var(--terracota) !important;
-  }
-
-  #menu-backdrop {
-    position: fixed !important;
-    inset: 0 !important;
-    background: rgba(28,16,7,.34) !important;
-    backdrop-filter: blur(2px) !important;
-    -webkit-backdrop-filter: blur(2px) !important;
-    z-index: 1000 !important;
-  }
-}
-
-</style>
-<style id="menu-movil-v3-ajustes">
-
-/* =========================================================
-   MENÚ MÓVIL V3 — header sólido solo mientras el menú está abierto
-   ========================================================= */
-@media (max-width: 768px) {
-  body.menu-open .site-header,
-  body.menu-open .site-header.scrolled {
-    background: var(--cream) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  body.menu-open .site-header nav,
-  body.menu-open .site-header.scrolled nav,
-  body.menu-open .site-header .nav-top,
-  body.menu-open .site-header .nav-bottom {
-    background: var(--cream) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    box-shadow: none !important;
-  }
-
-  body.menu-open .hamburger,
-  body.menu-open .hamburger.open {
-    background: var(--cream) !important;
-    opacity: 1 !important;
-  }
-
-  body.menu-open .hamburger span {
-    background: var(--negro) !important;
-    opacity: 1;
-  }
-
-  .mobile-menu > a,
-  .mobile-accordion {
-    border-bottom-color: rgba(28,16,7,.06) !important;
-  }
-
-  .mobile-accordion-btn {
-    color: var(--negro) !important;
-  }
-
-  .mobile-accordion-btn[aria-expanded="true"] {
-    color: var(--terracota) !important;
-  }
-
-  .mobile-acc-arrow {
-    color: #4a4038 !important;
-    margin-right: 4px !important;
-  }
-
-  .mobile-accordion-btn[aria-expanded="true"] .mobile-acc-arrow {
-    color: var(--terracota) !important;
-  }
-
-  .mobile-menu {
-    padding-left: 28px !important;
-    padding-right: 28px !important;
-  }
-
-  #menu-backdrop {
-    background: rgba(28,16,7,.42) !important;
-    backdrop-filter: blur(4px) !important;
-    -webkit-backdrop-filter: blur(4px) !important;
-  }
-}
-
-</style>
-<style id="menu-movil-v4-ajustes">
-
-/* =========================================================
-   MENÚ MÓVIL V4 — sin capa oscura sobre el header
-   ========================================================= */
-@media (max-width: 768px) {
-  body.menu-open .site-header,
-  body.menu-open .site-header.scrolled {
-    position: relative !important;
-    z-index: 1003 !important;
-    background: var(--cream) !important;
-    opacity: 1 !important;
-  }
-
-  body.menu-open .site-header nav,
-  body.menu-open .site-header.scrolled nav,
-  body.menu-open .site-header .nav-top {
-    background: var(--cream) !important;
-    opacity: 1 !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  body.menu-open .hamburger,
-  body.menu-open .hamburger.open {
-    background: var(--cream) !important;
-    opacity: 1 !important;
-  }
-
-  /* El menú ocupa todo el ancho; no se necesita una capa oscura encima del header */
-  #menu-backdrop {
-    display: none !important;
-    background: transparent !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-}
-
-</style>
-<style id="menu-movil-v5-ajustes">
-
-/* =========================================================
-   MENÚ MÓVIL V5 — header sólido y submenús alineados
-   ========================================================= */
-@media (max-width: 768px) {
-  /* El header se mantiene completamente sólido solo con el menú abierto */
-  body.menu-open .site-header,
-  body.menu-open .site-header.scrolled,
-  body.menu-open .site-header nav,
-  body.menu-open .site-header.scrolled nav,
-  body.menu-open .site-header .nav-top,
-  body.menu-open .site-header.scrolled .nav-top {
-    background: var(--cream) !important;
-    background-color: var(--cream) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    filter: none !important;
-    opacity: 1 !important;
-    box-shadow: none !important;
-  }
-
-  body.menu-open .site-header {
-    position: relative !important;
-    z-index: 1100 !important;
-  }
-
-  body.menu-open .anuncio-bar {
-    background: #4A7C59 !important;
-    opacity: 1 !important;
-    filter: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  body.menu-open .hamburger,
-  body.menu-open .hamburger.open {
-    background: var(--cream) !important;
-    opacity: 1 !important;
-    filter: none !important;
-  }
-
-  body.menu-open .hamburger span {
-    background: var(--negro) !important;
-    opacity: 1 !important;
-  }
-
-  /* Eliminar cualquier capa o desenfoque encima del header */
-  #menu-backdrop {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  /* Submenús limpios y perfectamente alineados */
-  .mobile-accordion-body {
-    margin: 0 !important;
-    padding: 0 !important;
-    background: transparent !important;
-    border: 0 !important;
-  }
-
-  .mobile-accordion-body > a,
-  .mobile-accordion-body > a.mobile-cat-link {
-    width: 100% !important;
-    min-height: 48px !important;
-    margin: 0 !important;
-    padding: 0 2px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    border: 0 !important;
-    border-top: 1px solid rgba(28,16,7,.055) !important;
-    background: transparent !important;
-    color: #5f5146 !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-size: .9rem !important;
-    font-weight: 500 !important;
-    line-height: 1.2 !important;
-    text-align: left !important;
-    text-indent: 0 !important;
-  }
-
-  .mobile-accordion-body > a:first-child {
-    border-top-color: rgba(28,16,7,.07) !important;
-  }
-
-  .mobile-accordion-body > a:hover {
-    color: var(--terracota) !important;
-    background: rgba(255,255,255,.32) !important;
-  }
-}
-
-</style>
-<style id="menu-movil-v6-ajustes">
-
-/* =========================================================
-   MENÚ MÓVIL V6 — contenido comienza inmediatamente bajo el header
-   ========================================================= */
-@media (max-width: 768px) {
-  .mobile-menu,
-  .mobile-menu.open {
-    justify-content: flex-start !important;
-    align-items: stretch !important;
-    align-content: flex-start !important;
-    padding-top: 4px !important;
-  }
-
-  .mobile-menu > a:first-child {
-    margin-top: 0 !important;
-  }
-}
-
-</style>
-<style id="menu-movil-v7-ajustes">
-
-/* =========================================================
-   MENÚ MÓVIL V7 — flechas pequeñas y panel con altura de contenido
-   ========================================================= */
-@media (max-width: 768px) {
-  /* El panel termina después de Blog y no ocupa toda la pantalla */
-  .mobile-menu,
-  .mobile-menu.open {
-    bottom: auto !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: calc(100dvh - var(--mobile-menu-top, 0px)) !important;
-    overflow-y: auto !important;
-    padding-bottom: 0 !important;
-  }
-
-  /* Blog queda como último elemento, sin línea inferior */
-  .mobile-menu > a:last-child {
-    border-bottom: 0 !important;
-  }
-
-  /* Flechas más pequeñas y sin recorte en Safari */
-  .mobile-acc-arrow {
-    width: 14px !important;
-    height: 14px !important;
-    flex: 0 0 14px !important;
-    margin-right: 6px !important;
-    overflow: visible !important;
-  }
-
-  .mobile-acc-arrow::before,
-  .mobile-acc-arrow::after {
-    top: 6px !important;
-    width: 6px !important;
-    height: 1.4px !important;
-  }
-
-  .mobile-acc-arrow::before {
-    left: 1px !important;
-  }
-
-  .mobile-acc-arrow::after {
-    right: 1px !important;
-  }
-}
-
-</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1322,7 +532,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="nav-icon-btn" onclick="toggleCart()" aria-label="Carrito"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
         <span class="cart-badge" id="cart-badge">0</span>
       </div>
-      <button class="hamburger" id="hamburger" type="button" onclick="toggleMenu()" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -1391,7 +601,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-subtotal"><span>Total</span><strong id="cart-total">$0</strong></div>
     <p class="cart-shipping">🚚 Envío calculado al momento del pago</p>
-    <button class="btn-checkout" onclick="checkout()">Continuar compra →</button>
+    <button class="btn-checkout" onclick="checkout()">Pagar →</button>
   </div>
 </aside>
 
@@ -1399,24 +609,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="hero" id="inicio">
   <div class="hero-slider" id="heroSlider">
     <div class="hero-slide">
-      <img class="desktop" src="hero-slide1-desktop.jpg" alt="Collares Zee.Dog y Zee.Cat">
-      <img class="mobile" src="slide1-mobile.jpg" alt="Collares Zee.Dog y Zee.Cat">
-      <div class="hero-cta-card">
-        <p class="hero-cta-label">Snacks para perros y gatos</p>
-        <h1>Premios que los harán mover la cola.</h1>
-        <p>Descubre snacks y golosinas para premiar cada momento.</p>
-        <a href="https://patasycaos.cl/tienda?cat=Snacks%20y%20Golosinas" class="hero-cta-button">Ver snacks</a>
-      </div>
+      <img class="desktop" src="hero-slide1-desktop.jpg" alt="Collares Zee.Dog y Zee.Cat" onclick="window.location.href='/tienda?marca=zeedog'" style="cursor:pointer">
+      <img class="mobile" src="slide1-mobile.jpg" alt="Collares Zee.Dog y Zee.Cat" onclick="window.location.href='/tienda?marca=zeedog'" style="cursor:pointer">
     </div>
     <div class="hero-slide">
-      <img class="desktop" src="hero-slide2-desktop.jpg" alt="Alimentos y arena Suscripciones">
-      <img class="mobile" src="slide2-mobile.jpg" alt="Alimentos y arena Suscripciones">
-      <div class="hero-cta-card">
-        <p class="hero-cta-label">Alimentos y arena</p>
-        <h2>Todo para su alimentación diaria.</h2>
-        <p>Encuentra alimento y arena sanitaria para perros y gatos.</p>
-        <a href="https://patasycaos.cl/tienda?cat=Alimentos" class="hero-cta-button">Ver alimentos</a>
-      </div>
+      <img class="desktop" src="hero-slide2-desktop.jpg" alt="Caja Caótica Suscripciones" onclick="window.location.href='/suscripciones'" style="cursor:pointer">
+      <img class="mobile" src="slide2-mobile.jpg" alt="Caja Caótica Suscripciones" onclick="window.location.href='/suscripciones'" style="cursor:pointer">
     </div>
   </div>
   <div class="hero-dots">
@@ -1425,62 +623,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<section class="home-trust" aria-label="Beneficios de comprar en Patas y Caos">
-  <div class="home-trust-item">
-    <span class="home-trust-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24">
-        <path d="M3 7h11v10H3z"></path>
-        <path d="M14 10h4l3 3v4h-7z"></path>
-        <circle cx="7" cy="18" r="2"></circle>
-        <circle cx="18" cy="18" r="2"></circle>
-      </svg>
-    </span>
-    <div class="home-trust-copy">
-      <strong>Envíos a todo Chile</strong>
-      <span>Despacho calculado al finalizar la compra.</span>
-    </div>
-  </div>
-
-  <div class="home-trust-item">
-    <span class="home-trust-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24">
-        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-        <path d="M3 10h18"></path>
-        <path d="M7 15h3"></path>
-      </svg>
-    </span>
-    <div class="home-trust-copy">
-      <strong>Pago seguro</strong>
-      <span>Compra protegida mediante Mercado Pago.</span>
-    </div>
-  </div>
-
-  <div class="home-trust-item">
-    <span class="home-trust-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 3l2.2 4.5L19 8.2l-3.5 3.4.8 4.8L12 14.1 7.7 16.4l.8-4.8L5 8.2l4.8-.7z"></path>
-      </svg>
-    </span>
-    <div class="home-trust-copy">
-      <strong>Selección especializada</strong>
-      <span>Productos elegidos por calidad y bienestar.</span>
-    </div>
-  </div>
-
-  <div class="home-trust-item">
-    <span class="home-trust-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24">
-        <path d="M4 13a8 8 0 0 1 16 0"></path>
-        <path d="M4 13v4a2 2 0 0 0 2 2h2v-6H4z"></path>
-        <path d="M20 13v4a2 2 0 0 1-2 2h-2v-6h4z"></path>
-      </svg>
-    </span>
-    <div class="home-trust-copy">
-      <strong>Atención personalizada</strong>
-      <span>Te orientamos antes y después de tu compra.</span>
-    </div>
-  </div>
-</section>
 
 <!-- CARRUSEL DESCUENTOS CYBER -->
 
@@ -1499,7 +641,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="cat-grid" id="cat-grid">
     <div class="cat-card" onclick="window.location.href='/suscripciones'"><img class="cat-img" src="categoria-suscripciones.jpg" alt="Suscripciones" loading="lazy"></div>
     <div class="cat-card" onclick="window.location.href='/tienda?aud=Perros'"><img class="cat-img" src="categoria-perros.jpg" alt="Perros" loading="lazy"></div>
-    <div class="cat-card" onclick="window.location.href='/tienda?aud=Gatos'"><img class="cat-img" src="categoria-gatos.jpg" alt="Gatos" loading="lazy"></div>
+    <div class="cat-card" onclick="window.location.href='/tienda?cat=Para Gatos'"><img class="cat-img" src="categoria-gatos.jpg" alt="Gatos" loading="lazy"></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Alimentos'"><img class="cat-img" src="categoria-alimentos.jpg" alt="Alimentos" loading="lazy"></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Juguete'"><img class="cat-img" src="categoria-juguetes.jpg" alt="Juguetes" loading="lazy"></div>
     <div class="cat-card" onclick="window.location.href='/tienda?cat=Accesorio'"><img class="cat-img" src="categoria-accesorios.jpg" alt="Accesorios" loading="lazy"></div>
@@ -1511,8 +653,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <section class="all-products">
-  <p class="section-label">Selección destacada</p>
-  <h2 class="section-title">Favoritos del <span>caos.</span></h2>
+  <p class="section-label">Catálogo completo</p>
+  <h2 class="section-title">Todo lo que<span>necesitan.</span></h2>
   <div class="carousel-wrap">
         <div class="carousel-track" id="carousel-track"></div>
       </div>
@@ -1524,115 +666,49 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="home-subscription-feature" aria-labelledby="home-subscription-title">
-  <div class="home-subscription-media">
-    <img src="hero-slide2-desktop.jpg" alt="Alimentos y arena de suscripción para mascotas" loading="lazy">
-  </div>
-  <div class="home-subscription-copy">
-    <p class="section-label">Suscripciones</p>
-    <h2 id="home-subscription-title">La Alimentos y arena, sin compras repetitivas.</h2>
-    <p>Recibe periódicamente una selección pensada para tu mascota. Revisa los planes disponibles, su frecuencia y condiciones antes de suscribirte.</p>
-    <div class="home-subscription-points">
-      <span>Planes para gatos</span>
-      <span>Entrega programada</span>
-      <span>Gestión desde tu cuenta</span>
-    </div>
-    <a href="/suscripciones" class="home-secondary-button">Ver planes de suscripción</a>
-  </div>
-</section>
-
 <!-- BLOG -->
 <section class="blog-section" id="blog">
-  <div class="blog-section-header">
-    <div class="blog-section-heading">
-      <p class="section-label">Blog</p>
-      <h2 class="section-title">Consejos para el <span>caos peludo.</span></h2>
-    </div>
-    <div class="blog-carousel-controls" aria-label="Navegación de artículos">
-      <button class="blog-carousel-arrow" id="blog-prev" type="button" aria-label="Ver artículos anteriores">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <button class="blog-carousel-arrow" id="blog-next" type="button" aria-label="Ver artículos siguientes">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-      </button>
-    </div>
+  <p class="section-label">Blog</p>
+  <h2 class="section-title">Consejos para el<span>caos peludo.</span></h2>
+  <div class="blog-grid" id="blog-grid">
+    <a href="/blog-alimentacion" class="blog-card">
+      <div class="blog-card-img"><img src="view-cat-eating-food-from-bowl.jpg" alt="Guía alimentación felina" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="blog-card-body">
+        <p class="blog-cat">Nutrición</p>
+        <h3>¿Qué come tu gato en realidad? Guía de alimentación felina</h3>
+        <p>Todo lo que necesitas saber sobre comida húmeda, seca y snacks para gatos.</p>
+      </div>
+    </a>
+    <a href="/blog-flores-de-bach" class="blog-card">
+      <div class="blog-card-img"><img src="gato_flores_de_bach.jpg" alt="Flores de Bach para mascotas" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="blog-card-body">
+        <p class="blog-cat">Bienestar</p>
+        <h3>Flores de Bach para mascotas: qué son y cómo funcionan</h3>
+        <p>Una guía completa sobre terapia floral para perros y gatos ansiosos.</p>
+      </div>
+    </a>
+    <a href="/blog-juguetes" class="blog-card">
+      <div class="blog-card-img"><img src="gato_jugando_pelota.jpg" alt="Los 5 juguetes para mascotas" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="blog-card-body">
+        <p class="blog-cat">Juguetes</p>
+        <h3>Los 5 juguetes que más estimulan a tu gato y a tu perro</h3>
+        <p>Cómo mantener a tu mascota activa y entretenida sin que destruya el sofá.</p>
+      </div>
+    </a>
   </div>
-
-  <div class="blog-carousel">
-    <div class="blog-grid" id="blog-grid">
-      
-      
-      <a href="/blog-como-saber-si-mi-perro-esta-estresado" class="blog-card"><div class="blog-card-img"><img src="perro-estresado-en-casa.jpg" alt="Perro estresado en casa"></div><div class="blog-card-body"><p class="blog-cat">Bienestar</p><h3>¿Cómo saber si mi perro está estresado?</h3><p>Señales frecuentes, causas posibles y formas responsables de ayudarlo a recuperar la calma.</p></div></a>
-
-      <a href="/blog-por-que-mi-gato-no-toma-agua" class="blog-card">
-        <div class="blog-card-img">
-          <img src="gato-tomando-agua.jpg" alt="Gato tomando agua">
-        </div>
-        <div class="blog-card-body">
-          <p class="blog-cat">Bienestar</p>
-          <h3>¿Por qué mi gato no toma agua? Causas y cómo ayudarlo</h3>
-          <p>Consejos para favorecer su hidratación y reconocer señales que requieren atención veterinaria.</p>
-        </div>
-      </a>
-
-      <a href="/blog-snacks-naturales-para-perros" class="blog-card">
-        <div class="blog-card-img">
-          <img src="snacks-naturales-para-perros.jpg" alt="Snacks naturales para perros">
-        </div>
-        <div class="blog-card-body">
-          <p class="blog-cat">Nutrición</p>
-          <h3>Snacks naturales para perros: beneficios y cómo elegirlos</h3>
-          <p>Cómo escoger premios naturales y snacks deshidratados según el tamaño, la textura y las necesidades de tu perro.</p>
-        </div>
-      </a>
-
-      <a href="/blog-alimentacion" class="blog-card">
-        <div class="blog-card-img">
-          <img src="view-cat-eating-food-from-bowl.jpg" alt="Guía de alimentación felina">
-        </div>
-        <div class="blog-card-body">
-          <p class="blog-cat">Nutrición</p>
-          <h3>¿Qué come tu gato en realidad? Guía de alimentación felina</h3>
-          <p>Todo lo que necesitas saber sobre comida húmeda, seca y snacks para gatos.</p>
-        </div>
-      </a>
-
-      <a href="/blog-flores-de-bach" class="blog-card">
-        <div class="blog-card-img">
-          <img src="gato_flores_de_bach.jpg" alt="Flores de Bach para mascotas">
-        </div>
-        <div class="blog-card-body">
-          <p class="blog-cat">Bienestar</p>
-          <h3>Flores de Bach para mascotas: qué son y cómo funcionan</h3>
-          <p>Una guía completa sobre terapia floral para perros y gatos ansiosos.</p>
-        </div>
-      </a>
-
-      <a href="/blog-juguetes" class="blog-card">
-        <div class="blog-card-img">
-          <img src="gato_jugando_pelota.jpg" alt="Juguetes para estimular perros y gatos">
-        </div>
-        <div class="blog-card-body">
-          <p class="blog-cat">Juguetes</p>
-          <h3>Los 5 juguetes que más estimulan a tu gato y a tu perro</h3>
-          <p>Cómo mantener a tu mascota activa y entretenida sin que destruya el sofá.</p>
-        </div>
-      </a>
-    </div>
+  <div class="blog-dots" id="blog-dots">
+    <button class="blog-dot activo" onclick="blogScrollTo(0)"></button>
+    <button class="blog-dot" onclick="blogScrollTo(1)"></button>
+    <button class="blog-dot" onclick="blogScrollTo(2)"></button>
   </div>
-
-  <div class="blog-dots" id="blog-dots" aria-label="Indicadores del carrusel"></div>
-
-  <div class="blog-ver-mas">
-    <a href="/blog">Ver todos los artículos <span aria-hidden="true">→</span></a>
-  </div>
+  <div class="blog-ver-mas"><a href="/blog">Ver todos los artículos →</a></div>
 </section>
 
 <!-- NEWSLETTER -->
 <section class="newsletter" id="contacto">
   <div class="newsletter-box">
-    <h2>Novedades para cuidar mejor a tu mascota.</h2>
-    <p>Recibe lanzamientos, consejos de bienestar y beneficios exclusivos de Patas &amp; Caos.</p>
+    <h2>Únete a la manada.</h2>
+    <p>Ofertas, novedades y memes de mascotas en tu correo. Sin spam, palabra de patita.</p>
     <form class="newsletter-form" onsubmit="suscribirse(event)">
       <input type="email" id="newsletter-email" placeholder="tu@correo.com" required>
       <button type="submit" id="newsletter-btn">Suscribirme</button>
@@ -1676,14 +752,134 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-bottom">© 2026 Patas & Caos. Todos los ladridos reservados.</div>
 </footer>
 
+<!-- CHECKOUT MODAL -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-box">
+  <button class="checkout-close" onclick="cerrarCheckout()" aria-label="Cerrar">✕</button>
+    <h3>¿A dónde enviamos tu pedido?</h3>
+    <p class="checkout-sub">Completa tus datos y te contactamos por WhatsApp para coordinar. 🐾</p>
+
+    <div class="checkout-resumen" id="checkoutResumen"></div>
+
+    <p class="checkout-section-label">Tus datos</p>
+    <div class="checkout-grid">
+      <div class="checkout-field">
+        <label>Nombre completo *</label>
+        <input type="text" id="co-nombre" placeholder="Ej: María González">
+      </div>
+      <div class="checkout-field">
+        <label>Teléfono *</label>
+        <input type="tel" id="co-telefono" placeholder="+56 9 1234 5678">
+      </div>
+    </div>
+    <div class="checkout-grid full" style="margin-top:.75rem">
+      <div class="checkout-field">
+        <label>Email *</label>
+        <input type="email" id="co-email" placeholder="tu@correo.com">
+      </div>
+    </div>
+
+    <p class="checkout-section-label">Método de entrega</p>
+    <div class="checkout-metodo-toggle">
+      <label class="metodo-btn activo" id="lbl-despacho">
+        <input type="radio" name="metodo-envio" value="despacho" checked onchange="actualizarEnvio()">
+        🚚 Despacho a domicilio
+      </label>
+      <label class="metodo-btn" id="lbl-retiro">
+        <input type="radio" name="metodo-envio" value="retiro" onchange="actualizarEnvio()">
+        🏠 Retiro en tienda
+      </label>
+    </div>
+
+    <div id="campos-envio">
+      <p class="checkout-section-label" style="margin-top:1rem">Dirección de envío</p>
+      <div class="checkout-grid full">
+        <div class="checkout-field">
+          <label>Calle y número *</label>
+          <input type="text" id="co-direccion" placeholder="Av. Providencia 1234, Depto 5B">
+        </div>
+      </div>
+      <div class="checkout-grid" style="margin-top:.75rem">
+        <div class="checkout-field">
+          <label>Comuna *</label>
+          <input type="text" id="co-comuna" placeholder="Providencia" oninput="actualizarEnvio()">
+        </div>
+        <div class="checkout-field">
+          <label>Ciudad *</label>
+          <input type="text" id="co-ciudad" placeholder="Santiago">
+        </div>
+      </div>
+      <div class="checkout-envio-info" id="envio-info" style="display:none">
+        <span>🚚 Envío estimado</span>
+        <span id="envio-precio">$4.990</span>
+      </div>
+      <p class="checkout-envio-aviso" id="envio-aviso"></p>
+    </div>
+
+    <div id="retiro-info" style="display:none;background:var(--cream);border-radius:12px;padding:1rem 1.2rem;margin-top:.75rem;font-size:.85rem;line-height:1.7;color:#4a3a2e">
+      <div style="font-weight:700;margin-bottom:.3rem;color:var(--terracota)">📦 Retiro gratuito — $0</div>
+      <div>📍 <strong>Retiro en Providencia, Santiago</strong> — te enviamos la dirección exacta por WhatsApp</div>
+      <div>🕐 Lunes a domingo, 11:00 a 20:00</div>
+      <div>⏱ Listo en 1 a 2 días hábiles</div>
+      <div style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(28,16,7,.1)">✉️ Te avisaremos por email cuando tu pedido esté listo para retiro.</div>
+    </div>
+
+    <div class="checkout-grid full" style="margin-top:.75rem">
+      <div class="checkout-field">
+        <label>Notas adicionales (opcional)</label>
+        <input type="text" id="co-notas" placeholder="Ej: timbre no funciona, llamar al llegar">
+      </div>
+    </div>
+
+    <p class="checkout-section-label">Documento tributario</p>
+    <div class="checkout-doc-toggle">
+      <button class="doc-btn activo" id="btn-boleta" onclick="seleccionarDoc('boleta')">🧾 Boleta</button>
+      <button class="doc-btn" id="btn-factura" onclick="seleccionarDoc('factura')">📄 Factura</button>
+    </div>
+    <div id="factura-fields" style="display:none;margin-top:.75rem">
+      <div class="checkout-grid full">
+        <div class="checkout-field">
+          <label>RUT empresa *</label>
+          <input type="text" id="co-rut" placeholder="Ej: 76.123.456-7">
+        </div>
+      </div>
+      <div class="checkout-grid full" style="margin-top:.75rem">
+        <div class="checkout-field">
+          <label>Razón social *</label>
+          <input type="text" id="co-razon" placeholder="Ej: Empresa S.A.">
+        </div>
+      </div>
+      <div class="checkout-grid full" style="margin-top:.75rem">
+        <div class="checkout-field">
+          <label>Giro *</label>
+          <input type="text" id="co-giro" placeholder="Ej: Comercio al por menor">
+        </div>
+      </div>
+      <div class="checkout-grid full" style="margin-top:.75rem">
+        <div class="checkout-field">
+          <label>Dirección de facturación *</label>
+          <input type="text" id="co-dir-factura" placeholder="Dirección legal de la empresa">
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-btns">
+      <button class="btn-checkout-cancel" onclick="cerrarCheckout()">Volver</button>
+      <button class="btn-checkout-confirm" onclick="confirmarCheckout()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Confirmar y pagar
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- AUTH MODAL -->
 <div class="auth-overlay" id="auth-overlay" onclick="cerrarAuthSiFondo(event)">
   <div class="auth-box">
     <button class="auth-close" onclick="cerrarAuth()">✕</button>
     <div class="auth-logo"><img src="/logo.png" alt="Patas & Caos"></div>
-    <h3>Bienvenido</h3>
-    <p>Inicia sesión para consultar tus pedidos, gestionar tus suscripciones y registrar a tus mascotas.</p>
+    <h3>Bienvenido 🐾</h3>
+    <p>Inicia sesión para guardar tu carrito y tus favoritos.</p>
     <button class="btn-google" onclick="loginConGoogle()">
       <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
       Continuar con Google
@@ -1741,8 +937,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="cart.js"></script>
-<script src="/assets/js/site.js?v=4"></script>
+<script src="/cart.js"></script>
+<script src="/assets/js/site.js"></script>
 <script src="/products-data.js"></script>
 <script>
 // Orden curado del catalogo (identico al usado en tienda.html)
@@ -1926,11 +1122,8 @@ const TAGLINES = {"hey-cama-redonda-confort-verde":"\"Siesta redonda, comodidad 
 };
 
 // productos cargados desde /products-data.js
-function productoUrl(id) {
-  const p = typeof productos === 'object' ? productos[id] : null;
-  const slug = p?.slug || window.PRODUCT_SLUGS?.[id] || id;
-  return '/productos/' + encodeURIComponent(slug);
-}
+const PRODUCT_SLUGS = {"hey-cama-redonda-confort-verde":"cama-redonda-confort-verde-hey","hey-donut-sonido-perros":"donut-con-sonido-hey","pura-natura-caldo-de-huesos-250g":"caldo-de-huesos-250g-pura-natura","pura-natura-woofers-80g":"woofer-s-80g-pura-natura","fit-formula-gato-adulto-2kg":"fit-formula-gato-adulto-2kg","leonardo-adult-gf-poultry-1-8kg":"leonardo-adult-gf-1-8kg-poultry","leonardo-adult-light-sterilised-1-8kg":"leonardo-adult-light-y-sterilised-1-8kg","leonardo-adult-duck-1-8kg":"leonardo-adult-1-8kg-duck","hey-bolsas-sanitarias-4-rollos":"bolsas-sanitarias-4-rollos-hey","pelota-snack-interactiva_Verde":"pelota-snack-interactiva-verde","collar-findmy_Amarillo":"collar-find-my-amarillo","collar-perro-acolchado_Café-S":"collar-perro-acolchado-cafe-talla-s","collar-perro-acolchado_Café-M":"collar-perro-acolchado-cafe-talla-m","collar-perro-acolchado_Rojo-S":"collar-perro-acolchado-rojo-talla-s","comedero-lento-flores-lila":"comedero-lento-flores-lila","comedero-lento-slow-feeder-rosado":"comedero-lento-slow-feeder-rosado","dog-fest-calcium-bones-chicken":"huesitos-de-calcio-con-pollo-55g-dog-fest","dog-fest-lamb-medallions":"medallones-de-cordero-55g-dog-fest","dog-fest-rabbit-ears-lamb":"orejas-de-conejo-con-cordero-55g-dog-fest","colagepet-donut-pollo":"donut-colagepet-xl-pollo","colagepet-donut-pato":"donut-colagepet-xl-pato","colagepet-donut-carne":"donut-colagepet-xl-carne","rascador-maxi-caja-de-leche---brnx":"rascador-maxi-caja-de-leche-brnx","collar-isabelino-donut-rosada---talla-s":"collar-isabelino-donut-rosada-talla-s","pelota-snack-interactiva_Roja":"pelota-snack-interactiva-roja","pelota-snack-interactiva_Azul":"pelota-snack-interactiva-azul","dispensador-de-bolsas---diseno-cafe":"dispensador-de-bolsas-diseno-cafe","calming-collar---perros":"calming-collar-perros","calming-collar---gatos":"calming-collar-gatos","botella-portatil-para-perros_Rosada":"botella-portatil-para-perros-rosada","botella-portatil-para-perros_Calipso":"botella-portatil-para-perros-calipso","arena-sanitaria-ciudad-animal-8kg":"arena-sanitaria-ciudad-animal-8kg","brit-care-sterilized-weigh-control-2kg---duck-turkey":"brit-care-sterilized-weigh-control-2kg-duck-y-turkey","pack-calma-total":"pack-calma-total","pack-sos-mascota":"pack-sos-mascota","pack-rutina-sana":"pack-rutina-sana","pack-bienvenido-a-casa":"pack-bienvenido-a-casa","pack-juega-y-relaja":"pack-juega-y-relaja","pack-cuidado-total":"pack-cuidado-total","comedero-lento-slow-feeder---catstages":"comedero-lento-slow-feeder-catstages","pack-consulta-flor-de-bach":"pack-consulta-flor-de-bach","flores-de-bach---rescue-y-alivio":"flores-de-bach-rescue-y-alivio","flores-de-bach---energia-y-animo":"flores-de-bach-energia-y-animo","flores-de-bach---equilibrio":"flores-de-bach-equilibrio","flores-de-bach---ansiedad-y-calma":"flores-de-bach-ansiedad-y-calma","cat-fest-pillows-schrimp-creme":"cat-fest-pillows-salmon-creme","cat-fest-pillows":"cat-fest-pillows-chicken-creme","tubito-atun":"tubito-cremoso-atun-con-catnip","tubito-camaron":"tubito-cremoso-camaron-con-catnip","tubito-salmon-matatabi":"tubito-cremoso-salmon-con-matatabi","lata-leonardo-kitten":"lata-leonardo-kitten-200g","lata-leonardo_Ave":"lata-leonardo-adulto-ave","lata-leonardo_Pato":"lata-leonardo-adulto-pato","lata-leonardo_Conejo":"lata-leonardo-adulto-conejo","lata-leonardo_Pescado":"lata-leonardo-adulto-pescado","lata-leonardo_Ternera":"lata-leonardo-adulto-ternera","collar-findmy_Turquesa":"collar-find-my-turquesa","collar-findmy_Negro":"collar-find-my-negro","collar-findmy_Azul":"collar-find-my-azul","fuente-agua":"fuente-de-agua-flor-usb","pajaro":"pajaro-interactivo","pelota-led":"pelota-interactiva-led","pulpo":"masajeador-pulpo","paw-balm":"paw-balm","afeitadora":"afeitadora-led-para-mascotas","cat-fest_Pato":"cat-fest-meat-sticks-pato","cat-fest_Cordero":"cat-fest-meat-sticks-cordero","cats-snack_Catnip":"cats-snack-atun-catnip","cats-snack_Matatabi":"cats-snack-atun-matatabi","cats-snack_Rellena Atún + Ostiones":"cats-snack-rellena-atun-ostiones","cats-snack_Rellena Atún + Queso":"cats-snack-rellena-atun-queso","cats-snack_Rellena Camarón":"cats-snack-rellena-camaron","cats-snack_Rellena Atún + Pollo":"cats-snack-rellena-atun-pollo","snack-calming-gato":"snack-calming-cat-treats-beaphar","suero-fisiologico":"suero-fisiologico-cloruro-de-sodio-0-9","pulmon-cordero-rahue":"pulmon-de-cordero-50g-rahue","traquea-vacuno-rahue":"traquea-de-vacuno-rahue","garra-pollo-rahue":"garra-de-pollo-65g-rahue","oreja-cerdo-rahue":"recorte-oreja-de-cerdo-100g-rahue","femur-cerdo-tasty":"femur-de-cerdo-tasty-farm","collar-zeecat-error-500":"collar-zee-cat-error-500","collar-zeecat-error-404":"collar-zee-cat-error-404","collar-zeecat-error-410":"collar-zee-cat-error-410","collar-suede-para-perro-zeedog":"collar-suede-zee-dog","collar-nox-para-perro-zeedog":"collar-nox-zee-dog","pala-arenero-marron":"pala-arenero-marron","pala-arenero-verde":"pala-arenero-verde","zupet-dental-power-suave":"snack-dental-power-75g-qchefs","zupet-dental-fitness-crocante":"snack-dental-fitness-crocante-60g-qchefs","fellini-lollipop-calabaza":"lolli-pop-calabaza-fellini","fellini-lollipop-leche-cabra":"lolli-pop-leche-de-cabra-fellini","bocados-pollo-pets-friends":"bocados-de-pollo-65g-pets-friends","cubitos-salmon-pets-friends":"cubitos-de-salmon-65g-pets-friends","doggo-traquea-vacuno-ciervo":"traquea-de-vacuno-en-crispy-de-ciervo-doggo","doggo-mix-deshidratados":"mix-deshidratados-100g-doggo","condilo-vacuno-rahue":"condilo-de-vacuno-300g-rahue","fit-formula-costillas-cordero-100g":"costillitas-de-cordero-100g-fit-formula","cats-snack-pollo-camaron":"cats-snack-rellena-pollo-camaron","rastreador-find-my":"rastreador-apple-find-my-funda-de-silicona","comedero-lento-desmontable-azul":"comedero-lento-desmontable-azul","comedero-lento-desmontable-rojo":"comedero-lento-desmontable-rojo","collar-findmy-rojo":"collar-find-my-rojo"};
+function productoUrl(id){ return "/productos/" + (PRODUCT_SLUGS[id] || id); }
 
 
 function checkStockCard(id, stock) {
@@ -2093,7 +1286,7 @@ function generarTarjetas() {
     if (btn) {
       if (!enStock) { btn.textContent = 'Agotado'; btn.disabled = true; }
       else if (p.variantes) btn.addEventListener('click', (e) => { e.stopPropagation(); abrirModal(id); });
-      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: '/' + imagenes[0] }); });
+      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: imagenes[0].startsWith('/') ? imagenes[0] : '/' + imagenes[0] }); });
     }
   });
 }
@@ -2295,8 +1488,7 @@ function generarCarrusel() {
       if (aS && !bS) return -1;
       if (!aS && bS) return 1;
       return 0;
-    })
-    .slice(0, 8);
+    });
 
   lista.forEach(id => {
     const p = productos[id];
@@ -2313,7 +1505,7 @@ function generarCarrusel() {
 
     card.innerHTML =
       '<div class="prod-img">' +
-        '<img src="' + img + '" alt="' + p.nombre + '" onerror="this.style.display=&quot;none&quot;;this.nextElementSibling.style.display=&quot;flex&quot;" style="width:100%;height:100%;object-fit:contain">' +
+        '<img src="' + img + '" alt="' + p.nombre + '" onerror="this.style.display=&quot;none&quot;;this.nextElementSibling.style.display=&quot;flex&quot;" style="width:100%;height:100%;object-fit:cover">' +
         '<div style="display:none;align-items:center;justify-content:center;font-size:3rem;width:100%;height:100%">' + ph + '</div>' +
         '<span class="prod-badge">' + p.categoria + '</span>' +
         ahorroHtml +
@@ -2333,7 +1525,7 @@ function generarCarrusel() {
     if (btn && enStock) {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
-        addToCart({ id: id, name: p.nombre, price: p.precioNum, img: '/' + img });
+        addToCart({ id: id, name: p.nombre, price: p.precioNum, img: img.startsWith('/') ? img : '/' + img });
       });
     }
 
@@ -2405,7 +1597,7 @@ function runSearch(q) {
   drop.innerHTML = matches.map(([id,p])=>{
     const img = p.variantes ? p.variantes[0].imagenes[0] : (p.imagenes ? p.imagenes[0] : '');
     const ph = p.variantes ? p.variantes[0].placeholders[0] : (p.placeholders ? p.placeholders[0] : '🐾');
-    return `<a class="s-item" href="${productoUrl(id)}"><div class="s-img">${img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:contain">':ph}</div><div><div class="s-nombre">${p.nombre}</div><div class="s-precio">${p.precio}</div></div></a>`;
+    return `<a class="s-item" href="${productoUrl(id)}"><div class="s-img">${img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover">':ph}</div><div><div class="s-nombre">${p.nombre}</div><div class="s-precio">${p.precio}</div></div></a>`;
   }).join('');
   drop.style.display='block';
 }
@@ -2529,90 +1721,5 @@ function runSearch(q) {
   }
 })();
 </script>
-
-
-<script src="/product-slugs.js?v=2"></script>
-
-<script id="blog-carousel-script">
-(function () {
-  const track = document.getElementById('blog-grid');
-  const prev = document.getElementById('blog-prev');
-  const next = document.getElementById('blog-next');
-  const dotsWrap = document.getElementById('blog-dots');
-
-  if (!track || !prev || !next || !dotsWrap) return;
-
-  const cards = Array.from(track.querySelectorAll('.blog-card'));
-
-  function visibleCards() {
-    if (window.innerWidth <= 600) return 1;
-    if (window.innerWidth <= 900) return 2;
-    return 3;
-  }
-
-  function maxIndex() {
-    return Math.max(0, cards.length - visibleCards());
-  }
-
-  function cardStep() {
-    if (!cards.length) return track.clientWidth;
-    const styles = window.getComputedStyle(track);
-    const gap = parseFloat(styles.columnGap || styles.gap) || 0;
-    return cards[0].getBoundingClientRect().width + gap;
-  }
-
-  function currentIndex() {
-    const step = cardStep();
-    return step ? Math.round(track.scrollLeft / step) : 0;
-  }
-
-  function scrollToIndex(index) {
-    const safeIndex = Math.max(0, Math.min(index, maxIndex()));
-    track.scrollTo({ left: safeIndex * cardStep(), behavior: 'smooth' });
-  }
-
-  function buildDots() {
-    dotsWrap.innerHTML = '';
-    const total = maxIndex() + 1;
-
-    for (let i = 0; i < total; i++) {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'blog-dot';
-      dot.setAttribute('aria-label', `Ir al grupo de artículos ${i + 1}`);
-      dot.addEventListener('click', () => scrollToIndex(i));
-      dotsWrap.appendChild(dot);
-    }
-  }
-
-  function update() {
-    const index = Math.max(0, Math.min(currentIndex(), maxIndex()));
-    prev.disabled = index === 0;
-    next.disabled = index >= maxIndex();
-
-    dotsWrap.querySelectorAll('.blog-dot').forEach((dot, i) => {
-      dot.classList.toggle('activo', i === index);
-    });
-  }
-
-  prev.addEventListener('click', () => scrollToIndex(currentIndex() - 1));
-  next.addEventListener('click', () => scrollToIndex(currentIndex() + 1));
-  track.addEventListener('scroll', () => window.requestAnimationFrame(update), { passive: true });
-
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      buildDots();
-      scrollToIndex(Math.min(currentIndex(), maxIndex()));
-      update();
-    }, 120);
-  });
-
-  buildDots();
-  update();
-})();
-</script>
-
 </body>
 </html>
