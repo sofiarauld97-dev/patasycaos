@@ -17,13 +17,41 @@ function getStock() {
   return {};
 }
 
+
+function normalizarImagenCarrito(src) {
+  if (!src || typeof src !== 'string') return '';
+
+  let ruta = src.trim().replace(/\\/g, '/');
+
+  // URLs externas/data/blob válidas: conservarlas tal cual.
+  if (/^(https?:|data:|blob:)/i.test(ruta)) return ruta;
+
+  // Evitar que //archivo.jpg sea interpretado como URL protocol-relative.
+  ruta = ruta.replace(/^\/+/, '/');
+
+  // Normalizar rutas locales relativas para que siempre partan desde la raíz del sitio.
+  ruta = ruta.replace(/^(\.\/)+/, '');
+  ruta = ruta.replace(/^(\.\.\/)+/, '');
+  if (!ruta.startsWith('/')) ruta = '/' + ruta;
+
+  return ruta;
+}
+
 let cart = [];
 
 // Cargar carrito desde localStorage al iniciar
 (function() {
   try {
     const saved = localStorage.getItem('pac_cart');
-    if (saved) cart = JSON.parse(saved);
+    if (saved) {
+      cart = JSON.parse(saved);
+      if (Array.isArray(cart)) {
+        cart = cart.map(item => ({
+          ...item,
+          img: normalizarImagenCarrito(item.img || '')
+        }));
+      }
+    }
   } catch(e) {}
 })();
 
@@ -33,10 +61,16 @@ function guardarCarritoLocal() {
 
 function toggleCart() { document.getElementById('cart-overlay').classList.toggle('open'); document.getElementById('cart-sidebar').classList.toggle('open'); document.body.style.overflow = document.getElementById('cart-sidebar').classList.contains('open') ? 'hidden' : ''; }
 function addToCart(product) {
+  product = {
+    ...product,
+    img: normalizarImagenCarrito(product?.img || '')
+  };
+
   const stock = getStock();
   const maxQty = stock[product.id] ?? 1;
   const existing = cart.find(i => i.id === product.id);
   if (existing) {
+    if (product.img) existing.img = product.img;
     if (existing.qty >= existing.maxQty) { mostrarToastCarrito(`Solo quedan ${existing.maxQty} unidades disponibles 🐾`); if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart(); return; }
     existing.qty++;
     renderCart();
@@ -78,7 +112,10 @@ function renderCart() {
   if (cart.length === 0) { container.innerHTML = '<div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>'; footer.style.display = 'none'; return; }
   footer.style.display = 'block';
   document.getElementById('cart-total').textContent = '$' + totalPrice.toLocaleString('es-CL');
-  container.innerHTML = cart.map(item => `<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`).join('');
+  container.innerHTML = cart.map(item => {
+    item.img = normalizarImagenCarrito(item.img || '');
+    return `<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`;
+  }).join('');
 }
 
 const COMUNAS_CHILE = [
