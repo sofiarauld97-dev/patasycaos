@@ -25,97 +25,31 @@ function normalizarImagenCarrito(src) {
 
   if (/^(data:|blob:)/i.test(ruta)) return ruta;
 
-  // Si una ruta //archivo.jpg ya fue convertida por el navegador a
-  // https://archivo.jpg/, rescatar el nombre del archivo.
+  // Caso viejo/corrupto: //archivo.jpg terminó convertido en https://archivo.jpg/
   if (/^https?:\/\//i.test(ruta)) {
     try {
       const u = new URL(ruta);
-      const host = (u.hostname || '').toLowerCase();
-      if (/\.(?:jpe?g|png|webp|gif|avif|svg)$/i.test(host) &&
+      if (/\.(?:jpe?g|png|webp|gif|avif|svg)$/i.test(u.hostname) &&
           (!u.pathname || u.pathname === '/')) {
-        return '/' + u.hostname;
+        return new URL('/' + u.hostname, window.location.origin).href;
       }
       return ruta;
-    } catch (e) {}
+    } catch (e) {
+      return ruta;
+    }
   }
 
-  ruta = ruta.replace(/^\/+/, '/');
+  ruta = ruta.replace(/^\/+/, '');
   ruta = ruta.replace(/^(\.\/)+/, '');
   ruta = ruta.replace(/^(\.\.\/)+/, '');
-  ruta = ruta.replace(/(\.(?:jpe?g|png|webp|gif|avif|svg))\/+$/i, '$1');
 
-  if (!ruta.startsWith('/')) ruta = '/' + ruta;
-  return ruta;
-}
+  if (!ruta) return '';
 
-// Reparación de último recurso directamente sobre la <img> si el navegador
-// ya intentó abrir una URL incorrecta como https://archivo.jpg/
-function repararImagenCarrito(imgEl, srcOriginal, productId) {
-  if (!imgEl || imgEl.dataset.pacRepairing === '1') return;
-
-  const candidatos = [];
-
-  // 1. Ruta original guardada en el carrito.
-  if (srcOriginal) candidatos.push(normalizarImagenCarrito(srcOriginal));
-
-  // 2. Recuperar desde la URL fallida real del navegador.
   try {
-    const actual = imgEl.currentSrc || imgEl.src || '';
-    if (/^https?:\/\//i.test(actual)) {
-      const u = new URL(actual);
-      if (/\.(?:jpe?g|png|webp|gif|avif|svg)$/i.test(u.hostname)) {
-        candidatos.push('/' + u.hostname);
-      }
-    }
-  } catch (e) {}
-
-  // 3. Recuperar la foto desde products-data.js usando el ID del producto.
-  try {
-    const catalogo =
-      (typeof productos !== 'undefined' && productos) ? productos :
-      (window.productos || null);
-
-    if (catalogo && productId) {
-      let baseId = productId;
-      let p = catalogo[baseId];
-
-      // Algunos ítems del carrito agregan sufijos por variante.
-      if (!p) {
-        const ids = Object.keys(catalogo);
-        const match = ids.find(id => baseId === id || baseId.startsWith(id + '-'));
-        if (match) p = catalogo[match];
-      }
-
-      if (p) {
-        const raw =
-          Array.isArray(p.variantes) && p.variantes.length
-            ? p.variantes[0]?.imagenes?.[0]
-            : Array.isArray(p.imagenes) ? p.imagenes[0] : '';
-
-        if (raw) candidatos.push(normalizarImagenCarrito(raw));
-      }
-    }
-  } catch (e) {}
-
-  const siguiente = candidatos.find(r =>
-    r && r !== imgEl.getAttribute('src') && r !== imgEl.src
-  );
-
-  if (siguiente) {
-    imgEl.dataset.pacRepairing = '1';
-    imgEl.onload = function() {
-      this.dataset.pacRepairing = '';
-      this.style.background = '';
-    };
-    imgEl.onerror = function() {
-      this.dataset.pacRepairing = '';
-      this.style.background = '#f0dfc0';
-    };
-    imgEl.src = siguiente;
-    return;
+    return new URL('/' + ruta, window.location.origin).href;
+  } catch (e) {
+    return '/' + ruta;
   }
-
-  imgEl.style.background = '#f0dfc0';
 }
 
 let cart = [];
@@ -150,15 +84,27 @@ function addToCart(product) {
   const stock = getStock();
   const maxQty = stock[product.id] ?? 1;
   const existing = cart.find(i => i.id === product.id);
+
   if (existing) {
+    // IMPORTANTE: si el producto ya existía con una foto rota, reemplazarla.
     if (product.img) existing.img = product.img;
-    if (existing.qty >= existing.maxQty) { mostrarToastCarrito(`Solo quedan ${existing.maxQty} unidades disponibles 🐾`); if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart(); return; }
+    existing.maxQty = maxQty;
+
+    if (existing.qty >= existing.maxQty) {
+      mostrarToastCarrito(`Solo quedan ${existing.maxQty} unidades disponibles 🐾`);
+      if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart();
+      renderCart();
+      return;
+    }
+
     existing.qty++;
     renderCart();
     return;
   }
+
   cart.push({...product, qty: 1, maxQty});
   renderCart();
+
   if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart();
 }
 function changeQty(id, delta) {
@@ -197,10 +143,7 @@ function renderCart() {
   if (cart.length === 0) { container.innerHTML = '<div class="cart-empty"><span>🐾</span>Tu carrito está vacío.<br>¡Agrega algo de caos!</div>'; footer.style.display = 'none'; return; }
   footer.style.display = 'block';
   document.getElementById('cart-total').textContent = '$' + totalPrice.toLocaleString('es-CL');
-  container.innerHTML = cart.map(item => {
-    item.img = normalizarImagenCarrito(item.img || '');
-    return `<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="repararImagenCarrito(this, item.img, item.id)"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`;
-  }).join('');
+  container.innerHTML = cart.map(item => `<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`).join('');
 }
 
 const COMUNAS_CHILE = [
@@ -717,7 +660,23 @@ async function cargarDatosUsuario() {
         ...item,
         img: normalizarImagenCarrito(item.img || '')
       }));
-      local.forEach(item => { if (!cart.find(i=>i.id===item.id)) cart.push(item); });
+
+      local.forEach(localItem => {
+        const cloudItem = cart.find(i => i.id === localItem.id);
+
+        if (!cloudItem) {
+          cart.push({
+            ...localItem,
+            img: normalizarImagenCarrito(localItem.img || '')
+          });
+          return;
+        }
+
+        // Si local tiene una imagen válida, no dejar que una imagen antigua
+        // guardada en la cuenta vuelva a romper el carrito.
+        const localImg = normalizarImagenCarrito(localItem.img || '');
+        if (localImg) cloudItem.img = localImg;
+      });
       guardarCarritoLocal();
       renderCart();
     }
