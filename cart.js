@@ -23,39 +23,99 @@ function normalizarImagenCarrito(src) {
 
   let ruta = src.trim().replace(/\\/g, '/');
 
-  // data/blob sí son URLs válidas y deben conservarse.
   if (/^(data:|blob:)/i.test(ruta)) return ruta;
 
-  // Reparar el caso en que una ruta //archivo.jpg fue interpretada por el
-  // navegador y terminó guardada como https://archivo.jpg/
+  // Si una ruta //archivo.jpg ya fue convertida por el navegador a
+  // https://archivo.jpg/, rescatar el nombre del archivo.
   if (/^https?:\/\//i.test(ruta)) {
     try {
       const u = new URL(ruta);
       const host = (u.hostname || '').toLowerCase();
-
-      // Si el "host" en realidad termina en extensión de imagen y la URL no
-      // tiene un dominio real, recuperar el nombre como archivo local.
-      if (/\.(?:jpe?g|png|webp|gif|avif|svg)$/i.test(host) && (u.pathname === '/' || u.pathname === '')) {
+      if (/\.(?:jpe?g|png|webp|gif|avif|svg)$/i.test(host) &&
+          (!u.pathname || u.pathname === '/')) {
         return '/' + u.hostname;
       }
-
-      // URL externa real: conservarla.
       return ruta;
     } catch (e) {}
   }
 
-  // Evitar que //archivo.jpg sea interpretado como URL protocol-relative.
   ruta = ruta.replace(/^\/+/, '/');
-
-  // Quitar slash final accidental después de una extensión de imagen.
-  ruta = ruta.replace(/(\.(?:jpe?g|png|webp|gif|avif|svg))\/+$/i, '$1');
-
-  // Normalizar rutas locales relativas para que siempre partan desde la raíz del sitio.
   ruta = ruta.replace(/^(\.\/)+/, '');
   ruta = ruta.replace(/^(\.\.\/)+/, '');
-  if (!ruta.startsWith('/')) ruta = '/' + ruta;
+  ruta = ruta.replace(/(\.(?:jpe?g|png|webp|gif|avif|svg))\/+$/i, '$1');
 
+  if (!ruta.startsWith('/')) ruta = '/' + ruta;
   return ruta;
+}
+
+// Reparación de último recurso directamente sobre la <img> si el navegador
+// ya intentó abrir una URL incorrecta como https://archivo.jpg/
+function repararImagenCarrito(imgEl, srcOriginal, productId) {
+  if (!imgEl || imgEl.dataset.pacRepairing === '1') return;
+
+  const candidatos = [];
+
+  // 1. Ruta original guardada en el carrito.
+  if (srcOriginal) candidatos.push(normalizarImagenCarrito(srcOriginal));
+
+  // 2. Recuperar desde la URL fallida real del navegador.
+  try {
+    const actual = imgEl.currentSrc || imgEl.src || '';
+    if (/^https?:\/\//i.test(actual)) {
+      const u = new URL(actual);
+      if (/\.(?:jpe?g|png|webp|gif|avif|svg)$/i.test(u.hostname)) {
+        candidatos.push('/' + u.hostname);
+      }
+    }
+  } catch (e) {}
+
+  // 3. Recuperar la foto desde products-data.js usando el ID del producto.
+  try {
+    const catalogo =
+      (typeof productos !== 'undefined' && productos) ? productos :
+      (window.productos || null);
+
+    if (catalogo && productId) {
+      let baseId = productId;
+      let p = catalogo[baseId];
+
+      // Algunos ítems del carrito agregan sufijos por variante.
+      if (!p) {
+        const ids = Object.keys(catalogo);
+        const match = ids.find(id => baseId === id || baseId.startsWith(id + '-'));
+        if (match) p = catalogo[match];
+      }
+
+      if (p) {
+        const raw =
+          Array.isArray(p.variantes) && p.variantes.length
+            ? p.variantes[0]?.imagenes?.[0]
+            : Array.isArray(p.imagenes) ? p.imagenes[0] : '';
+
+        if (raw) candidatos.push(normalizarImagenCarrito(raw));
+      }
+    }
+  } catch (e) {}
+
+  const siguiente = candidatos.find(r =>
+    r && r !== imgEl.getAttribute('src') && r !== imgEl.src
+  );
+
+  if (siguiente) {
+    imgEl.dataset.pacRepairing = '1';
+    imgEl.onload = function() {
+      this.dataset.pacRepairing = '';
+      this.style.background = '';
+    };
+    imgEl.onerror = function() {
+      this.dataset.pacRepairing = '';
+      this.style.background = '#f0dfc0';
+    };
+    imgEl.src = siguiente;
+    return;
+  }
+
+  imgEl.style.background = '#f0dfc0';
 }
 
 let cart = [];
@@ -126,8 +186,6 @@ function mostrarToastCarrito(msg) {
 }
 function removeItem(id) { cart = cart.filter(i => i.id !== id); renderCart(); guardarCarritoLocal(); }
 function renderCart() {
-  // Reparar también rutas antiguas guardadas en localStorage/Supabase
-  // antes de volver a persistir el carrito.
   cart = cart.map(item => ({
     ...item,
     img: normalizarImagenCarrito(item.img || '')
@@ -140,7 +198,8 @@ function renderCart() {
   footer.style.display = 'block';
   document.getElementById('cart-total').textContent = '$' + totalPrice.toLocaleString('es-CL');
   container.innerHTML = cart.map(item => {
-    return `<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.style.background='#f0dfc0'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`;
+    item.img = normalizarImagenCarrito(item.img || '');
+    return `<div class="cart-item"><img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="repararImagenCarrito(this, item.img, item.id)"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`;
   }).join('');
 }
 
@@ -654,7 +713,10 @@ async function cargarDatosUsuario() {
     const data = await r.json();
     if (data.cart && Array.isArray(data.cart) && data.cart.length > 0) {
       const local = [...cart];
-      cart = data.cart;
+      cart = data.cart.map(item => ({
+        ...item,
+        img: normalizarImagenCarrito(item.img || '')
+      }));
       local.forEach(item => { if (!cart.find(i=>i.id===item.id)) cart.push(item); });
       guardarCarritoLocal();
       renderCart();
