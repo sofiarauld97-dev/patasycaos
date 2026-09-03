@@ -791,34 +791,6 @@
     "ingredientes": "Carne fresca de pato (26%), deshidratada pavo (26%), guisantes amarillos (16%), garbanzos (10%), secos manzanas (7%), grasa de ave (conservada con tocoferoles, 4%), aceite de salmón (2%), hígado de pollo hidrolizado (2%), psyllium cascarilla y semillas (2%), levadura de cerveza (2%), linaza (1%), capuchina seca (0,5%), manzanilla seca (0,5%), minerales, espino amarillo seco (0,3%), arándanos secos (0,2%), fructo-oligosacáridos (0,015%), manano-oligosacáridos (0,015%), yuca de Mojave (0,008%), Lactobacillus acidophilus HA-122 inactivado (15×109 células / kg)."
   },
   {
-    "slug": "comedero-lento-slow-feeder-catstages",
-    "nombre": "Comedero Lento Slow Feeder - Catstages",
-    "seoTitle": "Comedero Lento Slow Feeder - Catstages | Patas & Caos Chile",
-    "seoDescription": "¿Tu gato termina su plato en tres segundos y después vomita todo? Este comedero lento tiene laberintos y crestas internas que lo obligan a comer más despacio, mejor digestión, menos vómitos y una hora de comida mucho más tranquila. Base antideslizante para que no ande empujando el plato por toda la cocina.",
-    "precio": 7990,
-    "precioDisplay": "$7.990",
-    "categoria": "Accesorio",
-    "etiquetaProducto": "Accesorio · Gatos",
-    "marca": "Patas & Caos",
-    "sku": "comedero-lento-slow-feeder---catstages",
-    "imagenes": [
-      "/Plato_con_Comida.jpg",
-      "/Plato_Vacio.jpg",
-      "/Milo_con_Plato.jpg"
-    ],
-    "caracTitulo": "Características",
-    "caracteristicas": [
-      "Laberintos y crestas interiores que ralentizan la comida y mejoran la digestión",
-      "Libre de BPA, PVC y ftalatos, sin químicos raros cerca de tu gato",
-      "Apto para lavavajillas, fácil de limpiar",
-      "Base antideslizante para que no ande de paseo por la cocina",
-      "Compatible con croquetas, comida húmeda y snacks (capacidad hasta ¾ taza)",
-      "Tamaño compacto: 13,8 x 13,8 cm",
-      "Mantiene a tu gato entretenido mientras come"
-    ],
-    "ingredientes": ""
-  },
-  {
     "slug": "flores-de-bach-rescue-y-alivio",
     "nombre": "Flores de Bach - Rescue y Alivio",
     "seoTitle": "Flores de Bach - Rescue y Alivio | Patas & Caos Chile",
@@ -909,51 +881,6 @@
       "Modo de uso: 4 gotas directo en el hocico, 4 veces al día o 16 gotas en el agua, asegurándote que se la tome"
     ],
     "ingredientes": ""
-  },
-  {
-    "slug": "cat-fest-pillows-salmon-creme",
-    "nombre": "Cat Fest Pillows Salmon Creme",
-    "seoTitle": "Cat Fest Pillows Salmon Creme | Patas & Caos Chile",
-    "seoDescription": "Pillows crujientes por fuera y cremosos por dentro con sabor a salmón",
-    "precio": 1990,
-    "precioDisplay": "$1.990",
-    "categoria": "Snacks y Golosinas",
-    "etiquetaProducto": "Snacks y Golosinas · Gatos",
-    "marca": "Patas & Caos",
-    "sku": "cat-fest-pillows-schrimp-creme",
-    "imagenes": [
-      "/catfest_pillows_salmon_creme.jpg"
-    ],
-    "caracTitulo": "Características",
-    "caracteristicas": [
-      "Relleno cremoso sabor salmón",
-      "Cáscara crujiente irresistible",
-      "Sin colorantes artificiales",
-      "Estructura porosa que ayuda al cuidado dental"
-    ],
-    "ingredientes": "Harina de maíz, harina de papa, harina de arroz, aislado de proteína de soya, harina de yema de huevo, harina de salmón, harina de camarón, harina de pescado (5%), harina de catnip, manteca, aceite de soya, semillas y productos de frutas y verduras (polvo de semilla de granada, polvo de arándano)."
-  },
-  {
-    "slug": "cat-fest-pillows-chicken-creme",
-    "nombre": "Cat Fest Pillows Chicken Creme",
-    "seoTitle": "Cat Fest Pillows Chicken Creme | Patas & Caos Chile",
-    "seoDescription": "Pillows crujientes por fuera y cremosos por dentro con sabor a pollo.",
-    "precio": 1990,
-    "precioDisplay": "$1.990",
-    "categoria": "Snacks y Golosinas",
-    "etiquetaProducto": "Snacks y Golosinas · Gatos",
-    "marca": "Patas & Caos",
-    "sku": "cat-fest-pillows",
-    "imagenes": [
-      "/Cat_Fest_Pillows_Chicken.jpg"
-    ],
-    "caracTitulo": "Características",
-    "caracteristicas": [
-      "Relleno cremoso sabor pollo",
-      "Cáscara crujiente irresistible",
-      "Sin colorantes artificiales"
-    ],
-    "ingredientes": "Harina de maíz, harina de papa, harina de arroz, aislado de proteína de soya, harina de yema de huevo, harina de pollo (5%), harina de camarón, harina de pescado, manteca, aceite de soya, semillas y productos de frutas y verduras (harina de semilla de granada, harina de arándano)."
   },
   {
     "slug": "tubito-cremoso-atun-con-catnip",
@@ -1289,55 +1216,6 @@
     "ingredientes": ""
   },
   {
-    "slug": "pelota-interactiva-led",
-    "nombre": "Pelota Interactiva LED",
-    "seoTitle": "Pelota Interactiva LED | Patas & Caos Chile",
-    "seoDescription": "Brilla, rebota y arrastra cintas holográficas. Carga USB tipo C.",
-    "precio": 8990,
-    "precioDisplay": "$8.990",
-    "categoria": "Juguete",
-    "etiquetaProducto": "Juguete · Gatos",
-    "marca": "Patas & Caos",
-    "sku": "pelota-led",
-    "imagenes": [
-      "/Pelota_Interactiva_Gato.jpg",
-      "/Milo_Jugando_Pelota_Interactiva.jpg"
-    ],
-    "caracTitulo": "Características",
-    "caracteristicas": [
-      "Luz LED integrada",
-      "Cintas holográficas",
-      "Carga USB tipo C"
-    ],
-    "ingredientes": ""
-  },
-  {
-    "slug": "masajeador-pulpo",
-    "nombre": "Masajeador Pulpo",
-    "seoTitle": "Masajeador Pulpo | Patas & Caos Chile",
-    "seoDescription": "Ocho tentáculos de plástico que masajean la cabeza de tu gato mientras tú lo miras con ternura. Tiene ruedas en la base: lo empujas, rueda solo por el piso y el caos empieza sin necesidad de baterías ni cables. Masajeador, juguete y fuente de drama felino, todo en uno.",
-    "precio": 6990,
-    "precioDisplay": "$6.990",
-    "categoria": "Juguete",
-    "etiquetaProducto": "Juguete · Gatos",
-    "marca": "Patas & Caos",
-    "sku": "pulpo",
-    "imagenes": [
-      "/pulpo_para_gatos_masajeador.jpg",
-      "/pulpo_y_gato_masaje.jpg",
-      "/pulpo_masajeador_2.jpg"
-    ],
-    "caracTitulo": "Características",
-    "caracteristicas": [
-      "Tentáculos de plástico flexibles, ideales para masajes en cabeza y lomo",
-      "Ruedas en la base: rueda solo por el piso sin necesidad de batería",
-      "Doble función: masajeador manual y juguete rodante",
-      "Diseño adorable con carita que tu gato ignorará completamente",
-      "Fácil de limpiar"
-    ],
-    "ingredientes": ""
-  },
-  {
     "slug": "paw-balm",
     "nombre": "Paw Balm",
     "seoTitle": "Paw Balm | Patas & Caos Chile",
@@ -1362,76 +1240,6 @@
       "Cera de carnauba"
     ],
     "ingredientes": ""
-  },
-  {
-    "slug": "afeitadora-led-para-mascotas",
-    "nombre": "Afeitadora LED para Mascotas",
-    "seoTitle": "Afeitadora LED para Mascotas | Patas & Caos Chile",
-    "seoDescription": "Con luz LED para ver exactamente dónde cortas. Silenciosa y recargable.",
-    "precio": 9990,
-    "precioDisplay": "$9.990",
-    "categoria": "Aseo e Higiene",
-    "etiquetaProducto": "Aseo e Higiene · Gatos · Perros",
-    "marca": "Patas & Caos",
-    "sku": "afeitadora",
-    "imagenes": [
-      "/Afeitadora_Gatos_1.jpg",
-      "/Afeitadora_Gatos_2.jpg",
-      "/Afeitadora_Gatos_3.jpg"
-    ],
-    "caracTitulo": "Características",
-    "caracteristicas": [
-      "Luz LED integrada",
-      "Motor silencioso",
-      "Recargable USB"
-    ],
-    "ingredientes": ""
-  },
-  {
-    "slug": "cat-fest-meat-sticks-pato",
-    "nombre": "Cat Fest Meat Sticks — Pato",
-    "seoTitle": "Cat Fest Meat Sticks — Pato | Patas & Caos Chile",
-    "seoDescription": "Palitos de carne de pato 100% natural. Sin azúcar ni cereales, con cierre zip lock. 45g.",
-    "precio": 3490,
-    "precioDisplay": "$3.490",
-    "categoria": "Snacks y Golosinas",
-    "etiquetaProducto": "Snacks y Golosinas · Gatos",
-    "marca": "Patas & Caos",
-    "sku": "cat-fest_Pato",
-    "imagenes": [
-      "/Lamb_Meat_Sticks.jpg"
-    ],
-    "caracTitulo": "Características",
-    "caracteristicas": [
-      "100% carne natural",
-      "Sin cereales",
-      "Cierre zip lock",
-      "45g"
-    ],
-    "ingredientes": "Pechuga de Pato 82,7%, subproductos de origen vegetal, sustancias minerales."
-  },
-  {
-    "slug": "cat-fest-meat-sticks-cordero",
-    "nombre": "Cat Fest Meat Sticks — Cordero",
-    "seoTitle": "Cat Fest Meat Sticks — Cordero | Patas & Caos Chile",
-    "seoDescription": "Palitos de carne de cordero 100% natural. Sin azúcar ni cereales, con cierre zip lock. 45g.",
-    "precio": 3490,
-    "precioDisplay": "$3.490",
-    "categoria": "Snacks y Golosinas",
-    "etiquetaProducto": "Snacks y Golosinas · Gatos",
-    "marca": "Patas & Caos",
-    "sku": "cat-fest_Cordero",
-    "imagenes": [
-      "/Lamb_Meat_Sticks.jpg"
-    ],
-    "caracTitulo": "Características",
-    "caracteristicas": [
-      "100% carne natural",
-      "Sin cereales",
-      "Cierre zip lock",
-      "45g"
-    ],
-    "ingredientes": "Vacuno 79,2%, subproductos de origen vegetal, sustancias minerales."
   },
   {
     "slug": "cats-snack-atun-catnip",
