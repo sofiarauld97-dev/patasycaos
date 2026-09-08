@@ -305,24 +305,26 @@ const COMUNAS_CHILE = [
 ];
 
 const TARIFAS_COMUNA = {
-  // Tramo 1 — Sector Oriente y Central — $3.990
-  'providencia': 3990, 'las condes': 3990, 'vitacura': 3990, 'nunoa': 3990,
-  'la reina': 3990, 'santiago': 3990, 'macul': 3990,
-  // Tramo 2 — Sector Intermedio — $4.990
-  'san miguel': 4990, 'san joaquin': 4990, 'pedro aguirre cerda': 4990,
-  'penalolen': 4990, 'la florida': 4990, 'lo barnechea': 4990,
-  'independencia': 4990, 'recoleta': 4990, 'quinta normal': 4990,
-  'estacion central': 4990, 'cerrillos': 4990, 'la cisterna': 4990,
-  // Tramo 3 — Sector Periférico / Extremo — $5.990
-  'maipu': 5990, 'puente alto': 5990, 'san bernardo': 5990, 'quilicura': 5990,
-  'pudahuel': 5990, 'renca': 5990, 'cerro navia': 5990, 'lo prado': 5990,
-  'el bosque': 5990, 'la pintana': 5990, 'lo espejo': 5990, 'conchali': 5990,
-  'huechuraba': 5990, 'san ramon': 5990, 'la granja': 5990,
+  // Despacho Santiago — tarifa general $2.800
+  'cerrillos': 2800, 'cerro navia': 2800, 'conchali': 2800, 'el bosque': 2800,
+  'estacion central': 2800, 'huechuraba': 2800, 'independencia': 2800,
+  'la cisterna': 2800, 'la florida': 2800, 'la granja': 2800, 'la pintana': 2800,
+  'la reina': 2800, 'las condes': 2800, 'lo barnechea': 2800, 'lo espejo': 2800,
+  'lo prado': 2800, 'macul': 2800, 'maipu': 2800, 'nunoa': 2800,
+  'pedro aguirre cerda': 2800, 'penalolen': 2800, 'providencia': 2800,
+  'pudahuel': 2800, 'puente alto': 2800, 'quilicura': 2800, 'quinta normal': 2800,
+  'recoleta': 2800, 'renca': 2800, 'san bernardo': 2800, 'san joaquin': 2800,
+  'san miguel': 2800, 'san ramon': 2800, 'santiago': 2800, 'vitacura': 2800,
+
+  // Excepciones
+  'padre hurtado': 3000,
+  'colina': 3000,
+  'lampa': 4600,
 };
 
 const COMUNAS_EXCLUIDAS_RADIO = [
-  'colina', 'chicureo', 'lampa', 'til til',
-  'padre hurtado', 'penaflor', 'talagante', 'el monte', 'melipilla',
+  'chicureo', 'til til',
+  'penaflor', 'talagante', 'el monte', 'melipilla',
   'buin', 'paine', 'calera de tango',
   'pirque', 'san jose de maipo',
 ];
