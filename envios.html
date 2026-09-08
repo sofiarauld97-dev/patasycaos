@@ -73,7 +73,7 @@
             "@type": "ShippingService",
             "@id": "https://www.patasycaos.cl/envios#delivery",
             "name": "Despacho a domicilio en Chile",
-            "description": "Despacho a domicilio en Santiago y regiones. Las tarifas bajo $39.990 dependen de la comuna o del courier. Envío gratis desde $39.990.",
+            "description": "Despacho a domicilio en Santiago y regiones. Las tarifas se calculan automáticamente según la comuna y, para regiones, según la talla del pedido. Envío gratis desde $39.990.",
             "fulfillmentType": "https://schema.org/FulfillmentTypeDelivery",
             "handlingTime": {
               "@type": "ServicePeriod",
@@ -899,19 +899,19 @@
           <article class="tipo-box shipping-tier">
             <div class="tipo-titulo">Santiago — Tarifa general</div>
             <div class="shipping-price"><strong>$2.800</strong></div>
-            <p>Despacho a comunas de Santiago, excepto las comunas indicadas en las tarifas especiales.</p>
+            <p>Todas las comunas de la Región Metropolitana, excepto Colina, Padre Hurtado y Lampa.</p>
           </article>
 
           <article class="tipo-box shipping-tier">
-            <div class="tipo-titulo">Tarifa especial</div>
+            <div class="tipo-titulo">Colina y Padre Hurtado</div>
             <div class="shipping-price"><strong>$3.000</strong></div>
-            <p>Colina y Padre Hurtado.</p>
+            <p>Tarifa especial de despacho a domicilio.</p>
           </article>
 
           <article class="tipo-box shipping-tier">
-            <div class="tipo-titulo">Tarifa especial — Lampa</div>
+            <div class="tipo-titulo">Lampa</div>
             <div class="shipping-price"><strong>$4.600</strong></div>
-            <p>Lampa.</p>
+            <p>Tarifa especial de despacho a domicilio.</p>
           </article>
         </div>
 
@@ -923,13 +923,7 @@
           <span><strong>Entrega el mismo día:</strong> disponible para pedidos realizados antes de las 10:00 en días hábiles. Los pedidos posteriores se despachan al día hábil siguiente.</span>
         </div>
 
-        <div class="dev-nota courier-note">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 18h16"></path>
-            <path d="M6 18V8l6-4 6 4v10"></path>
-          </svg>
-          <span><strong>Otras comunas de la RM:</strong> Chicureo, Til Til, Peñaflor, Talagante, El Monte, Melipilla, Buin, Paine, Calera de Tango, Pirque y San José de Maipo se coordinan mediante courier externo.</span>
-        </div>
+        
       </section>
 
       <section class="dev-card" aria-labelledby="gestion-entrega">
@@ -982,25 +976,24 @@
         <div class="info-row">
           <div class="info-row-icon" aria-hidden="true">✓</div>
           <div class="info-row-text">
-            <span class="info-row-title">Cobertura nacional</span>
-            Despachamos a todas las regiones de Chile mediante servicios de courier.
+            <span class="info-row-title">Cálculo automático en el checkout</span>
+            Al seleccionar tu comuna, el valor del despacho se calcula de inmediato según la zona de destino y la talla del pedido.
           </div>
         </div>
 
-        <div class="info-row">
-          <div class="info-row-icon" aria-hidden="true">✓</div>
-          <div class="info-row-text">
-            <span class="info-row-title">Plazo estimado</span>
-            Entre <strong>3 y 7 días hábiles</strong>, según la región y la dirección de destino.
-          </div>
+        <div class="tipo-grid shipping-grid">
+          <article class="tipo-box shipping-tier">
+            <div class="tipo-titulo">Blue Express — Zona Centro</div>
+            <p><strong>XS $4.300</strong> · <strong>S $5.600</strong> · <strong>M $7.300</strong> · <strong>L $9.200</strong></p>
+          </article>
+          <article class="tipo-box shipping-tier">
+            <div class="tipo-titulo">Blue Express — Zona Extremo / Otra zona</div>
+            <p><strong>XS $5.200</strong> · <strong>S $9.500</strong> · <strong>M $14.500</strong> · <strong>L $17.000</strong></p>
+          </article>
         </div>
 
-        <div class="info-row">
-          <div class="info-row-icon" aria-hidden="true">✓</div>
-          <div class="info-row-text">
-            <span class="info-row-title">Costo del envío</span>
-            Se calcula según el destino y se coordina por WhatsApp antes de confirmar el pedido.
-          </div>
+        <div class="dev-nota">
+          <span><strong>Tallas:</strong> snacks XS; alimentos S; productos voluminosos M. Los productos que superan 6 kg, como la arena de 8 kg, se consideran talla L. Si un pedido combina distintas tallas, se cobra la talla mayor.</span>
         </div>
       </section>
 

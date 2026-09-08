@@ -305,16 +305,8 @@ const COMUNAS_CHILE = [
 ];
 
 const TARIFAS_COMUNA = {
-  // Despacho Santiago — tarifa general $2.800
-  'cerrillos': 2800, 'cerro navia': 2800, 'conchali': 2800, 'el bosque': 2800,
-  'estacion central': 2800, 'huechuraba': 2800, 'independencia': 2800,
-  'la cisterna': 2800, 'la florida': 2800, 'la granja': 2800, 'la pintana': 2800,
-  'la reina': 2800, 'las condes': 2800, 'lo barnechea': 2800, 'lo espejo': 2800,
-  'lo prado': 2800, 'macul': 2800, 'maipu': 2800, 'nunoa': 2800,
-  'pedro aguirre cerda': 2800, 'penalolen': 2800, 'providencia': 2800,
-  'pudahuel': 2800, 'puente alto': 2800, 'quilicura': 2800, 'quinta normal': 2800,
-  'recoleta': 2800, 'renca': 2800, 'san bernardo': 2800, 'san joaquin': 2800,
-  'san miguel': 2800, 'san ramon': 2800, 'santiago': 2800, 'vitacura': 2800,
+  // Región Metropolitana — tarifa general $2.800
+  'cerrillos': 2800, 'cerro navia': 2800, 'conchali': 2800, 'el bosque': 2800, 'estacion central': 2800, 'huechuraba': 2800, 'independencia': 2800, 'la cisterna': 2800, 'la florida': 2800, 'la granja': 2800, 'la pintana': 2800, 'la reina': 2800, 'las condes': 2800, 'lo barnechea': 2800, 'lo espejo': 2800, 'lo prado': 2800, 'macul': 2800, 'maipu': 2800, 'nunoa': 2800, 'pedro aguirre cerda': 2800, 'penalolen': 2800, 'providencia': 2800, 'pudahuel': 2800, 'puente alto': 2800, 'quilicura': 2800, 'quinta normal': 2800, 'recoleta': 2800, 'renca': 2800, 'san bernardo': 2800, 'san joaquin': 2800, 'san miguel': 2800, 'san ramon': 2800, 'santiago': 2800, 'vitacura': 2800, 'chicureo': 2800, 'til til': 2800, 'buin': 2800, 'calera de tango': 2800, 'paine': 2800, 'san jose de maipo': 2800, 'alhue': 2800, 'curacavi': 2800, 'el monte': 2800, 'isla de maipo': 2800, 'melipilla': 2800, 'penaflor': 2800, 'san pedro': 2800, 'talagante': 2800, 'pirque': 2800,
 
   // Excepciones
   'padre hurtado': 3000,
@@ -322,31 +314,137 @@ const TARIFAS_COMUNA = {
   'lampa': 4600,
 };
 
-const COMUNAS_EXCLUIDAS_RADIO = [
-  'chicureo', 'til til',
-  'penaflor', 'talagante', 'el monte', 'melipilla',
-  'buin', 'paine', 'calera de tango',
-  'pirque', 'san jose de maipo',
-];
-
 function normalizarComuna(str) {
   return str.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 }
 
+
+// ── BLUE EXPRESS REGIONES ──────────────────────────────────────────────────
+// Tarifario Pyme a domicilio entregado por Patas & Caos.
+// Santiago/RM usa TARIFAS_COMUNA y NO usa estas tarifas.
+const TARIFAS_BLUE = {
+  centro:  { XS: 4300, S: 5600, M: 7300, L: 9200 },
+  extremo: { XS: 5200, S: 9500, M: 14500, L: 17000 },
+};
+
+// Clasificación del mapa Blue Express:
+// Centro: Atacama a Los Lagos.
+// Extremo/Otra zona: Arica-Parinacota, Tarapacá, Antofagasta, Aysén, Magallanes e Isla de Pascua.
+const CIUDADES_BLUE_CENTRO = new Set([
+  'Copiapó','Chañaral','Vallenar',
+  'La Serena','Ovalle','Illapel',
+  'Valparaíso','San Felipe','Los Andes',
+  'Rancagua','Pichilemu','San Fernando',
+  'Talca','Cauquenes','Curicó','Linares',
+  'Chillán',
+  'Concepción','Los Ángeles',
+  'Temuco','Angol',
+  'Valdivia',
+  'Puerto Montt','Osorno','Castro','Ancud','Chaitén'
+].map(normalizarComuna));
+
+const CIUDADES_BLUE_EXTREMO = new Set([
+  'Arica','Iquique',
+  'Antofagasta','Calama','Tocopilla',
+  'Coyhaique','Aysén','Cochrane','Chile Chico',
+  'Punta Arenas','Puerto Williams','Porvenir','Puerto Natales',
+  'Isla de Pascua'
+].map(normalizarComuna));
+
+const TALLA_ENVIO_POR_SKU = {"hey-cama-redonda-confort-verde":"M","hey-donut-sonido-perros":"XS","pura-natura-caldo-de-huesos-250g":"S","pura-natura-woofers-80g":"XS","fit-formula-gato-adulto-2kg":"S","leonardo-adult-gf-poultry-1-8kg":"S","leonardo-adult-light-sterilised-1-8kg":"S","leonardo-adult-duck-1-8kg":"S","hey-bolsas-sanitarias-4-rollos":"XS","pelota-snack-interactiva_Verde":"XS","collar-findmy_Amarillo":"XS","collar-perro-acolchado_Café-S":"XS","collar-perro-acolchado_Café-M":"XS","collar-perro-acolchado_Rojo-S":"XS","comedero-lento-slow-feeder-rosado":"S","dog-fest-calcium-bones-chicken":"XS","dog-fest-lamb-medallions":"XS","dog-fest-rabbit-ears-lamb":"XS","colagepet-donut-pollo":"XS","colagepet-donut-pato":"XS","colagepet-donut-carne":"XS","rascador-maxi-caja-de-leche---brnx":"M","collar-isabelino-donut-rosada---talla-s":"S","pelota-snack-interactiva_Roja":"XS","pelota-snack-interactiva_Azul":"XS","dispensador-de-bolsas---diseno-cafe":"XS","calming-collar---perros":"XS","botella-portatil-para-perros_Rosada":"S","botella-portatil-para-perros_Calipso":"S","arena-sanitaria-ciudad-animal-8kg":"L","brit-care-sterilized-weigh-control-2kg---duck-turkey":"S","flores-de-bach---rescue-y-alivio":"XS","flores-de-bach---energia-y-animo":"XS","flores-de-bach---equilibrio":"XS","flores-de-bach---ansiedad-y-calma":"XS","tubito-atun":"XS","tubito-camaron":"XS","tubito-salmon-matatabi":"XS","lata-leonardo-kitten":"S","lata-leonardo_Ave":"S","lata-leonardo_Pato":"S","lata-leonardo_Conejo":"S","lata-leonardo_Pescado":"S","lata-leonardo_Ternera":"S","collar-findmy_Turquesa":"XS","collar-findmy_Negro":"XS","collar-findmy_Azul":"XS","fuente-agua":"M","pajaro":"XS","paw-balm":"XS","cats-snack_Catnip":"XS","cats-snack_Matatabi":"XS","cats-snack_Rellena Atún + Ostiones":"XS","cats-snack_Rellena Atún + Queso":"XS","cats-snack_Rellena Camarón":"XS","cats-snack_Rellena Atún + Pollo":"XS","snack-calming-gato":"XS","suero-fisiologico":"XS","pulmon-cordero-rahue":"XS","traquea-vacuno-rahue":"XS","garra-pollo-rahue":"XS","oreja-cerdo-rahue":"XS","femur-cerdo-tasty":"XS","collar-zeecat-error-500":"XS","collar-zeecat-error-404":"XS","collar-zeecat-error-410":"XS","collar-suede-para-perro-zeedog":"XS","collar-nox-para-perro-zeedog":"XS","pala-arenero-marron":"XS","pala-arenero-verde":"XS","zupet-dental-power-suave":"XS","zupet-dental-fitness-crocante":"XS","fellini-lollipop-calabaza":"XS","fellini-lollipop-leche-cabra":"XS","bocados-pollo-pets-friends":"XS","cubitos-salmon-pets-friends":"XS","doggo-traquea-vacuno-ciervo":"XS","doggo-mix-deshidratados":"XS","condilo-vacuno-rahue":"XS","fit-formula-costillas-cordero-100g":"XS","cats-snack-pollo-camaron":"XS","rastreador-find-my":"XS","comedero-lento-desmontable-azul":"S","comedero-lento-desmontable-rojo":"S","collar-findmy-rojo":"XS","arena-sanitaria-michi-4kg":"M","femur-de-cerdo-gran-cani":"XS","oreja-de-cerdo-gran-cani":"XS","mousse-salmon-y-cangrejo-60g-ikai":"XS","mousse-salmon-y-camaron-60g-ikai":"XS","lolli-pop-arandano-fellini":"XS","yogurt-natural-en-cubos-20-unidades-goofy":"XS","mantequilla-de-mani-banana-bliss-260g-smuttdog":"XS","medallones-de-avestruz-90g-dogfest":"XS","meat-duck-drum-stick-90g-naturalistic":"XS","salmon-nuggets-100g-naturalistic":"XS","old-prince-gato-adulto-cordero-y-arroz-3kg":"S"};
+
+function obtenerTallaEnvioItem(item) {
+  const declarada = String(item?.tallaEnvio || '').toUpperCase();
+  if (['XS','S','M','L'].includes(declarada)) return declarada;
+
+  const sku = item?.sku || item?.id || '';
+  const desdeSku = TALLA_ENVIO_POR_SKU[sku];
+  if (desdeSku) return desdeSku;
+
+  const categoria = String(item?.categoria || '').toLowerCase();
+  const nombre = String(item?.name || item?.nombre || '').toLowerCase();
+
+  if (nombre.includes('arena sanitaria ciudad animal 8kg')) return 'L';
+  if (categoria.includes('snack')) return 'XS';
+  if (categoria.includes('alimento')) return 'S';
+  if (
+    nombre.includes('cama redonda') ||
+    nombre.includes('rascador') ||
+    nombre.includes('fuente de agua')
+  ) return 'M';
+
+  return 'XS';
+}
+
+function obtenerTallaPedido() {
+  const orden = { XS: 0, S: 1, M: 2, L: 3 };
+  let talla = 'XS';
+
+  cart.forEach(item => {
+    const t = obtenerTallaEnvioItem(item);
+    if ((orden[t] ?? 0) > orden[talla]) talla = t;
+  });
+
+  return talla;
+}
+
+function obtenerCiudadComuna(comuna) {
+  const c = normalizarComuna(comuna);
+  const entrada = COMUNAS_CHILE.find(x => normalizarComuna(x.c) === c);
+  return entrada ? entrada.city : '';
+}
+
+function obtenerZonaBlue(comuna) {
+  const ciudad = normalizarComuna(obtenerCiudadComuna(comuna));
+  if (CIUDADES_BLUE_CENTRO.has(ciudad)) return 'centro';
+  if (CIUDADES_BLUE_EXTREMO.has(ciudad)) return 'extremo';
+  return null;
+}
+
 function calcularEnvio(comuna) {
   if (!comuna) return null;
+
   const c = normalizarComuna(comuna);
   const horaActual = new Date().getHours();
-  const entregaHoy = horaActual < 10 ? ' \u2022 Entrega hoy si compras antes de las 10:00 AM \ud83d\ude80' : '';
+  const entregaHoy = horaActual < 10
+    ? ' • Entrega hoy si compras antes de las 10:00 AM 🚀'
+    : '';
 
+  // Santiago / Región Metropolitana
   if (Object.prototype.hasOwnProperty.call(TARIFAS_COMUNA, c)) {
     const precio = TARIFAS_COMUNA[c];
-    return { precio, texto: '$' + precio.toLocaleString('es-CL'), aviso: 'Despacho a domicilio' + entregaHoy };
+    return {
+      precio,
+      texto: '$' + precio.toLocaleString('es-CL'),
+      aviso: 'Despacho a domicilio' + entregaHoy,
+      tipo: 'santiago'
+    };
   }
-  if (COMUNAS_EXCLUIDAS_RADIO.includes(c)) {
-    return { precio: 0, texto: 'A coordinar', aviso: 'Fuera de nuestro radio de despacho interno \u2014 se coordina por courier externo (Starken, Blue Express o Correos Chile)' };
+
+  // Regiones — cálculo automático Blue Express
+  const zona = obtenerZonaBlue(comuna);
+  if (zona) {
+    const talla = obtenerTallaPedido();
+    const precio = TARIFAS_BLUE[zona][talla];
+    const nombreZona = zona === 'centro' ? 'Zona Centro' : 'Zona Extremo/Otra zona';
+
+    return {
+      precio,
+      texto: '$' + precio.toLocaleString('es-CL'),
+      aviso: `Blue Express · ${nombreZona} · Talla ${talla}`,
+      tipo: 'blue',
+      zona,
+      talla
+    };
   }
-  return { precio: 0, texto: 'A coordinar', aviso: 'Para regiones el env\u00edo se coordina por WhatsApp' };
+
+  // Solo debería ocurrir si se escribe manualmente una comuna no incluida en el listado.
+  return {
+    precio: 0,
+    texto: 'Revisar comuna',
+    aviso: 'Selecciona una comuna válida del listado para calcular el despacho.',
+    tipo: 'sin-cobertura'
+  };
 }
 
 
