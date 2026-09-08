@@ -728,6 +728,49 @@
         width: 100%;
       }
     }
+  
+    /* ENVÍOS A REGIONES — mejor separación visual */
+    #envios-regiones .shipping-grid{
+      margin-top: 1.35rem !important;
+      margin-bottom: 1.35rem !important;
+      gap: 1.15rem !important;
+    }
+
+    #envios-regiones .shipping-tier{
+      padding: 1.5rem 1.55rem !important;
+      border-radius: 16px;
+    }
+
+    #envios-regiones .shipping-tier .tipo-titulo{
+      margin-bottom: .8rem !important;
+      line-height: 1.45;
+    }
+
+    #envios-regiones .shipping-tier p{
+      line-height: 1.9 !important;
+    }
+
+    #envios-regiones .dev-nota{
+      margin-top: 1.35rem !important;
+      padding: 1.15rem 1.25rem !important;
+    }
+
+    #envios-regiones .info-row{
+      padding-bottom: 1.2rem;
+      margin-bottom: .2rem;
+    }
+
+    @media (max-width: 700px){
+      #envios-regiones .shipping-grid{
+        margin-top: 1rem !important;
+        gap: .9rem !important;
+      }
+
+      #envios-regiones .shipping-tier{
+        padding: 1.25rem !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -984,11 +1027,11 @@
         <div class="tipo-grid shipping-grid">
           <article class="tipo-box shipping-tier">
             <div class="tipo-titulo">Blue Express — Zona Centro</div>
-            <p><strong>XS $4.300</strong> · <strong>S $5.600</strong> · <strong>M $7.300</strong> · <strong>L $9.200</strong></p>
+            <p><strong>XS</strong> $4.300 &nbsp;·&nbsp; <strong>S</strong> $5.600<br><strong>M</strong> $7.300 &nbsp;·&nbsp; <strong>L</strong> $9.200</p>
           </article>
           <article class="tipo-box shipping-tier">
             <div class="tipo-titulo">Blue Express — Zona Extremo / Otra zona</div>
-            <p><strong>XS $5.200</strong> · <strong>S $9.500</strong> · <strong>M $14.500</strong> · <strong>L $17.000</strong></p>
+            <p><strong>XS</strong> $5.200 &nbsp;·&nbsp; <strong>S</strong> $9.500<br><strong>M</strong> $14.500 &nbsp;·&nbsp; <strong>L</strong> $17.000</p>
           </article>
         </div>
 
