@@ -46,8 +46,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* HERO */
   .hero { min-height: auto; padding: 0; position: relative; overflow: clip; }
-  .hero-slider { display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1); width: 200%; }
-  .hero-slide { min-width: 50%; width: 50%; flex-shrink: 0; }
+  .hero-slider { display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1); width: 300%; }
+  .hero-slide { min-width: 33.333333%; width: 33.333333%; flex-shrink: 0; }
   .hero-slide img { width: 100%; height: auto; display: block; max-width: 100%; object-fit: contain; }
   .hero-slide img.mobile { display: none; }
   .hero-slide img.desktop { display: block; }
@@ -1398,9 +1398,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- HERO -->
 <section class="hero" id="inicio">
   <div class="hero-slider" id="heroSlider">
+    <!-- Slide 1: Iron Can -->
     <div class="hero-slide">
-      <img class="desktop" src="hero-slide1-desktop.jpg" alt="Collares Zee.Dog y Zee.Cat">
-      <img class="mobile" src="slide1-mobile.jpg" alt="Collares Zee.Dog y Zee.Cat">
+      <img class="desktop" src="hero-slide1-desktop.jpg" alt="Patas & Caos en Carrera Iron Can">
+      <img class="mobile" src="slide1-mobile.jpg" alt="Patas & Caos en Carrera Iron Can">
+    </div>
+
+    <!-- Slide 2: Snacks (antes slide 1) -->
+    <div class="hero-slide">
+      <img class="desktop" src="hero-slide2-desktop.jpg" alt="Snacks para perros y gatos">
+      <img class="mobile" src="slide2-mobile.jpg" alt="Snacks para perros y gatos">
       <div class="hero-cta-card">
         <p class="hero-cta-label">Snacks para perros y gatos</p>
         <h1>Premios que los harán mover la cola.</h1>
@@ -1408,9 +1415,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="https://patasycaos.cl/tienda?cat=Snacks%20y%20Golosinas" class="hero-cta-button">Ver snacks</a>
       </div>
     </div>
+
+    <!-- Slide 3: Alimentos y arena (antes slide 2) -->
     <div class="hero-slide">
-      <img class="desktop" src="hero-slide2-desktop.jpg" alt="Alimentos y arena Suscripciones">
-      <img class="mobile" src="slide2-mobile.jpg" alt="Alimentos y arena Suscripciones">
+      <img class="desktop" src="hero-slide3-desktop.jpg" alt="Alimentos y arena Suscripciones">
+      <img class="mobile" src="slide3-mobile.jpg" alt="Alimentos y arena Suscripciones">
       <div class="hero-cta-card">
         <p class="hero-cta-label">Alimentos y arena</p>
         <h2>Todo para su alimentación diaria.</h2>
@@ -1422,6 +1431,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="hero-dots">
     <button class="hero-dot activo" onclick="irASlide(0)" aria-label="Slide 1"></button>
     <button class="hero-dot" onclick="irASlide(1)" aria-label="Slide 2"></button>
+    <button class="hero-dot" onclick="irASlide(2)" aria-label="Slide 3"></button>
   </div>
 </section>
 
@@ -2385,11 +2395,11 @@ function generarCarrusel() {
 let heroIdx = 0;
 function irASlide(n) {
   heroIdx = n;
-  document.getElementById('heroSlider').style.transform = `translateX(-${n * 50}%)`;
+  document.getElementById('heroSlider').style.transform = `translateX(-${n * (100 / 3)}%)`;
   document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('activo', i === n));
 }
 // Auto-avance cada 5 segundos
-setInterval(() => irASlide((heroIdx + 1) % 2), 5000);
+setInterval(() => irASlide((heroIdx + 1) % 3), 5000);
 // Swipe táctil
 (function() {
   const el = document.getElementById('heroSlider');
@@ -2398,7 +2408,7 @@ setInterval(() => irASlide((heroIdx + 1) % 2), 5000);
   el.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
   el.addEventListener('touchend', e => {
     const diff = startX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) irASlide(diff > 0 ? Math.min(heroIdx + 1, 1) : Math.max(heroIdx - 1, 0));
+    if (Math.abs(diff) > 40) irASlide(diff > 0 ? Math.min(heroIdx + 1, 2) : Math.max(heroIdx - 1, 0));
   });
 })();
 
