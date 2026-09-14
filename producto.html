@@ -184,12 +184,13 @@
 </style>
 
 
-<style id="product-offer-styles">
-.product-offer-badge{display:inline-flex;align-items:center;background:#4A7C59;color:#fff;border-radius:50px;padding:6px 11px;font-size:.72rem;font-weight:800;letter-spacing:.04em;margin-left:7px;vertical-align:middle}
-.product-price-sale{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.product-price-original{text-decoration:line-through;color:#8b8179;font-size:.95rem;font-weight:600}
-.product-price-current{color:#4A7C59;font-weight:900}
-.product-saving{margin-top:7px;color:#4A7C59;font-size:.86rem;font-weight:700}
+<style id="pac-product-offer-css">
+.product-tag-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.product-offer-badge{display:inline-flex;align-items:center;background:#4A7C59;color:#fff;border-radius:50px;padding:6px 11px;font-size:.72rem;font-weight:800;letter-spacing:.04em;line-height:1}
+.product-price-offer-wrap{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.product-price-original-offer{text-decoration:line-through;color:#8b8179;font-size:1rem;font-weight:600}
+.product-price-current-offer{color:#4A7C59;font-weight:900}
+.product-saving{margin-top:7px;color:#4A7C59;font-size:.88rem;font-weight:700}
 </style>
 
 </head>
@@ -199,7 +200,7 @@ __HEADER__
 <div class="product-breadcrumb"><a href="/">Inicio</a> / <a href="/tienda">Tienda</a> / __BREADCRUMB_NOMBRE__</div>
 <div class="product-page-grid">
 <div class="product-gallery"><img alt="__GALLERY_ALT__" class="product-gallery-main" id="product-main-img" src="__GALLERY_MAIN_IMG__">__THUMBS_HTML__</div>
-<div class="product-info"><span class="product-tag">__PRODUCT_TAG__</span><h1>__PRODUCT_NAME__</h1><div class="product-price">__PRODUCT_PRICE_DISPLAY__</div><p class="product-description">__PRODUCT_DESCRIPTION__</p>
+<div class="product-info"><div class="product-tag-row"><span class="product-tag">__PRODUCT_TAG__</span><span class="product-offer-badge" id="product-offer-badge" style="display:none">OFERTA</span></div><h1>__PRODUCT_NAME__</h1><div class="product-price">__PRODUCT_PRICE_DISPLAY__</div><p class="product-description">__PRODUCT_DESCRIPTION__</p>
 <div class="product-buy">
 <div class="product-qty-selector" aria-label="Seleccionar cantidad">
   <button id="product-qty-minus" type="button" onclick="changeProductPageQty(-1)" aria-label="Disminuir cantidad">−</button>
@@ -331,7 +332,7 @@ __FOOTER__
     </div>
   </div>
 </div>
-<script src="/products-data.js"></script>
+<script src="/products-data.js?v=ofertas-20260914"></script>
 <script src="/product-slugs.js"></script>
 <script src="/cart.js"></script>
 <script src="/assets/js/site.js"></script>
@@ -356,30 +357,44 @@ function switchProductTab(button){
 }
 </script>
 
-<script id="product-offer-runtime">
-document.addEventListener('DOMContentLoaded', function () {
-  if (typeof CURRENT_PRODUCT === 'undefined' || typeof productos === 'undefined') return;
-  const p = productos[CURRENT_PRODUCT.id];
-  if (!p || p.oferta !== true || !(p.precioOriginalNum > p.precioNum)) return;
+<script id="pac-product-offers">
+const PAC_OFERTAS_PRODUCTO = {
+  "dispensador-de-bolsas---diseno-cafe": { original: 5990, precio: 4990 },
+  "fuente-agua": { original: 21990, precio: 17990 },
+  "lata-leonardo_Pescado": { original: 3790, precio: 3290 },
+  "lata-leonardo-kitten": { original: 3790, precio: 3290 },
+  "paw-balm": { original: 5990, precio: 3990 },
+  "rascador-maxi-caja-de-leche---brnx": { original: 13990, precio: 11990 },
+  "zupet-dental-fitness-crocante": { original: 9990, precio: 7990 },
+  "zupet-dental-power-suave": { original: 9990, precio: 7990 }
+};
 
-  CURRENT_PRODUCT.price = p.precioNum;
+document.addEventListener('DOMContentLoaded', function(){
+  if (typeof CURRENT_PRODUCT === 'undefined') return;
+  const o = PAC_OFERTAS_PRODUCTO[CURRENT_PRODUCT.id];
+  if (!o) return;
 
-  const tag = document.querySelector('.product-tag');
-  if (tag && !document.querySelector('.product-offer-badge')) {
-    const badge = document.createElement('span');
-    badge.className = 'product-offer-badge';
-    badge.textContent = 'OFERTA';
-    tag.insertAdjacentElement('afterend', badge);
+  CURRENT_PRODUCT.price = o.precio;
+
+  if (typeof productos === 'object' && productos[CURRENT_PRODUCT.id]) {
+    productos[CURRENT_PRODUCT.id].precioNum = o.precio;
+    productos[CURRENT_PRODUCT.id].precio = '$' + o.precio.toLocaleString('es-CL');
+    productos[CURRENT_PRODUCT.id].precioOriginalNum = o.original;
+    productos[CURRENT_PRODUCT.id].ahorro = o.original - o.precio;
+    productos[CURRENT_PRODUCT.id].oferta = true;
   }
 
-  const price = document.querySelector('.product-price');
-  if (price) {
-    price.innerHTML =
-      '<div class="product-price-sale">' +
-        '<span class="product-price-original">$' + p.precioOriginalNum.toLocaleString('es-CL') + '</span>' +
-        '<span class="product-price-current">' + p.precio + '</span>' +
+  const badge = document.getElementById('product-offer-badge');
+  if (badge) badge.style.display = 'inline-flex';
+
+  const priceBox = document.querySelector('.product-price');
+  if (priceBox) {
+    priceBox.innerHTML =
+      '<div class="product-price-offer-wrap">' +
+        '<span class="product-price-original-offer">$' + o.original.toLocaleString('es-CL') + '</span>' +
+        '<span class="product-price-current-offer">$' + o.precio.toLocaleString('es-CL') + '</span>' +
       '</div>' +
-      '<div class="product-saving">Ahorras $' + (p.precioOriginalNum - p.precioNum).toLocaleString('es-CL') + '</div>';
+      '<div class="product-saving">Ahorras $' + (o.original - o.precio).toLocaleString('es-CL') + '</div>';
   }
 });
 </script>
