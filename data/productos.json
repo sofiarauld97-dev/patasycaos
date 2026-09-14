@@ -2801,5 +2801,41 @@
     "canonical": "https://www.patasycaos.cl/productos/bocados-de-cerdo-catgo",
     "seoTitle": "Catgo Cubitos de Cerdo 50 g | Snack para Gatos",
     "seoDescription": "Catgo Cubitos de Cerdo 50 g, un snack natural para gatos en prácticos bocados. Ideal como premio entre comidas, sabroso y fácil de servir."
+  },
+  {
+    "sku": "dashi-delights-pollo-con-atun-y-ostiones-inaba",
+    "slug": "dashi-delights-pollo-con-atun-y-ostiones-inaba",
+    "nombre": "Dashi Delights Pollo con Atún y Ostiones - Inaba",
+    "precio": 3290,
+    "precioNum": 3290,
+    "precioDisplay": "$3.290",
+    "precioTexto": "$3.290",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Inaba",
+    "tagline": "Caldito irresistible con sabor a mar 🐱",
+    "descripcion": "Descripción: Delicioso snack húmedo para gatos elaborado con pollo, atún y ostiones en un sabroso caldo Dashi. Ideal para ofrecer como premio, complementar sus comidas o aportar una experiencia diferente a su alimentación.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack húmedo para gatos",
+      "Pollo con atún y ostiones",
+      "Textura suave en caldo Dashi",
+      "Ideal como premio o complemento",
+      "Fácil de servir"
+    ],
+    "ingredientes": "Pollo, atún, vieira, almidón de tapioca, sabores naturales, goma guar, sabor natural de vieira, hojuelas de bonito, suplemento de vitamina E, extracto de té verde.",
+    "imagenes": [
+      "/dashi-delights-pollo-con-atun-y-ostiones.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "dashi-delights-pollo-con-atun-y-ostiones-inaba",
+    "canonical": "https://www.patasycaos.cl/productos/dashi-delights-pollo-con-atun-y-ostiones-inaba",
+    "seoTitle": "Inaba Dashi Delights Pollo, Atún y Ostiones | Gatos",
+    "seoDescription": "Inaba Dashi Delights de pollo con atún y ostiones, un delicioso snack húmedo para gatos en caldo Dashi, ideal como premio o complemento."
   }
 ]
