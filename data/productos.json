@@ -2691,5 +2691,41 @@
     "canonical": "https://www.patasycaos.cl/productos/tubito-cremoso-conejo-con-catnip",
     "seoTitle": "Snack Cremoso para Gatos Conejo con Catnip | Cats Snack",
     "seoDescription": "Snack cremoso para gatos sabor conejo con catnip. Un premio suave y delicioso, ideal para regalonear a tu gato o complementar su alimentación."
+  },
+  {
+    "sku": "bocados-de-choritos-catgo",
+    "slug": "bocados-de-choritos-catgo",
+    "nombre": "Bocados de Choritos - Catgo",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Catgo",
+    "tagline": "Bocaditos irresistibles sabor a mar 🐱",
+    "descripcion": "Snack para gatos elaborado con choritos, ideal para ofrecer como premio entre comidas. Sus pequeños bocados son fáciles de servir y perfectos para regalonear a tu gato con un sabor diferente.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack para gatos",
+      "Bocados de choritos",
+      "Ideal como premio entre comidas",
+      "Formato práctico y fácil de servir",
+      "Perfecto para complementar su alimentación"
+    ],
+    "ingredientes": "Choritos deshidratados a bajas temperaturas.",
+    "imagenes": [
+      "/bocados-de-choritos-catgo.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "bocados-de-choritos-catgo",
+    "canonical": "https://www.patasycaos.cl/productos/bocados-de-choritos-catgo",
+    "seoTitle": "Catgo Bocados de Choritos | Snack para Gatos",
+    "seoDescription": "Catgo Bocados de Choritos, un delicioso snack para gatos ideal como premio entre comidas. Práctico, sabroso y fácil de servir."
   }
 ]
