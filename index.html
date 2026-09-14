@@ -1536,7 +1536,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <section class="home-subscription-feature" aria-labelledby="home-subscription-title">
   <div class="home-subscription-media">
-    <img src="hero-slide2-desktop.jpg" alt="Alimentos y arena de suscripción para mascotas" loading="lazy">
+    <picture>
+      <source media="(max-width: 600px)" srcset="slide3-mobile.jpg">
+      <img src="hero-slide3-desktop.jpg" alt="Alimentos y arena de suscripción para mascotas" loading="lazy">
+    </picture>
   </div>
   <div class="home-subscription-copy">
     <p class="section-label">Suscripciones</p>
@@ -2334,7 +2337,10 @@ function generarCarrusel() {
   track.innerHTML = '';
   const stock = typeof getStock === 'function' ? getStock() : {};
 
-  const DESTACADOS_HOME = [
+  // Selección destacada del home:
+  // - Conserva los productos anteriores que tengan stock.
+  // - Reemplaza los agotados con 2 Catgo, 2 tubitos nuevos y 2 Inaba.
+  const DESTACADOS_BASE = [
     "cubitos-salmon-pets-friends",
     "medallones-de-avestruz-90g-dogfest",
     "snack-calming-gato",
@@ -2345,7 +2351,32 @@ function generarCarrusel() {
     "meat-duck-drum-stick-90g-naturalistic"
   ];
 
-  const lista = DESTACADOS_HOME.filter(id => productos[id]);
+  const buscarProductoPorNombre = (...fragmentos) => {
+    const buscados = fragmentos.map(x => String(x).toLowerCase());
+    return Object.keys(productos).find(id => {
+      const nombre = String(productos[id]?.nombre || '').toLowerCase();
+      return buscados.every(txt => nombre.includes(txt));
+    });
+  };
+
+  const NUEVOS_DESTACADOS = [
+    // Catgo
+    buscarProductoPorNombre('catgo', 'choritos'),
+    buscarProductoPorNombre('catgo', 'salmón'),
+
+    // Tubitos nuevos
+    buscarProductoPorNombre('tubito cremoso', 'cangrejo', 'catnip'),
+    buscarProductoPorNombre('tubito cremoso', 'conejo', 'catnip'),
+
+    // Inaba Dashi Delights
+    buscarProductoPorNombre('inaba', 'dashi delights', 'atún', 'ostiones'),
+    buscarProductoPorNombre('inaba', 'dashi delights', 'salmón')
+  ].filter(Boolean);
+
+  const lista = [...new Set([
+    ...DESTACADOS_BASE.filter(id => productos[id] && checkStockCard(id, stock)),
+    ...NUEVOS_DESTACADOS.filter(id => productos[id] && checkStockCard(id, stock))
+  ])];
 
   lista.forEach(id => {
     const p = productos[id];
