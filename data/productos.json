@@ -2764,5 +2764,42 @@
     "canonical": "https://www.patasycaos.cl/productos/bocados-de-salmon-catgo",
     "seoTitle": "Catgo Cubitos de Salmón 50 g | Snack para Gatos",
     "seoDescription": "Catgo Cubitos de Salmón 50 g, un snack natural para gatos en prácticos bocados. Ideal como premio entre comidas, sabroso y fácil de servir."
+  },
+  {
+    "sku": "bocados-de-cerdo-catgo",
+    "slug": "bocados-de-cerdo-catgo",
+    "nombre": "Bocados de Cerdo - Catgo",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Catgo",
+    "tagline": "Cubitos de cerdo para regalonearlo 🐱",
+    "descripcion": "Snack para gatos en prácticos cubitos de cerdo, ideal para ofrecer como premio entre comidas. Una alternativa sabrosa y fácil de servir para consentir a tu gato.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack para gatos",
+      "Cubitos de cerdo",
+      "Contenido neto: 50 g",
+      "Ideal como premio entre comidas",
+      "Formato práctico y fácil de servir",
+      "Snack 100% natural"
+    ],
+    "ingredientes": "Carne de cerdo deshidratada a bajas temperaturas.",
+    "imagenes": [
+      "/bocados-de-cerdo-catgo.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "bocados-de-cerdo-catgo",
+    "canonical": "https://www.patasycaos.cl/productos/bocados-de-cerdo-catgo",
+    "seoTitle": "Catgo Cubitos de Cerdo 50 g | Snack para Gatos",
+    "seoDescription": "Catgo Cubitos de Cerdo 50 g, un snack natural para gatos en prácticos bocados. Ideal como premio entre comidas, sabroso y fácil de servir."
   }
 ]
