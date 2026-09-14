@@ -2617,5 +2617,42 @@
     "seoTitle": "Old Prince Gato Adulto Cordero y Arroz 3kg",
     "seoDescription": "Alimento Old Prince para gatos adultos con cordero y arroz integral. 34% de proteína, Omega 3 y 6 y nutrientes para la salud digestiva, urinaria y del pelaje.",
     "tallaEnvio": "S"
+  },
+  {
+    "sku": "tubito-cremoso-cangrejo-con-catnip",
+    "slug": "tubito-cremoso-cangrejo-con-catnip",
+    "nombre": "Tubito Cremoso Cangrejo con Catnip",
+    "precio": 2990,
+    "precioNum": 2990,
+    "precioDisplay": "$2.990",
+    "precioTexto": "$2.990",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Cats Snack",
+    "tagline": "Cremoso, sabroso y con catnip 🐱",
+    "descripcion": "Snack cremoso para gatos sabor cangrejo con catnip. Su textura suave y deliciosa lo convierte en un premio ideal para regalonear a tu gato, ofrecer directamente del tubito o complementar su alimentación.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack cremoso para gatos",
+      "Sabor cangrejo",
+      "Con catnip",
+      "Textura suave y cremosa",
+      "Ideal como premio o complemento",
+      "Fácil de servir directamente del tubito"
+    ],
+    "ingredientes": "Agua, palitos de cangrejo, atún, pechuga de pollo, hierba gatera, proteína hidrolizada de atún, isomaltooligosacáridos, aceite de soja, almidón de maíz, carragenina, nutrientes completos (metionina, vitaminas A, B, D, E, pantotenato cálcico, folato, cobre, manganeso, zinc, yodo, selenio), goma guar, sal.",
+    "imagenes": [
+      "/cats-snack-tubito-cremoso-cangrejo-con-catnip.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "tubito-cremoso-cangrejo-con-catnip",
+    "canonical": "https://www.patasycaos.cl/productos/tubito-cremoso-cangrejo-con-catnip",
+    "seoTitle": "Snack Cremoso para Gatos Cangrejo con Catnip | Cats Snack",
+    "seoDescription": "Snack cremoso para gatos sabor cangrejo con catnip. Un premio suave y delicioso, ideal para regalonear a tu gato o complementar su alimentación."
   }
 ]
