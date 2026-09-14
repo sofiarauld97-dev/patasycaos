@@ -1,8 +1,31 @@
 
-<style id="ofertas-nav-hover">
-.nav-ofertas-link:hover{background:#A94F26!important;color:#fff!important;}
-.nav-ofertas-link.activo{background:#C4622D!important;color:#fff!important;}
-.nav-ofertas-link.activo::after{display:none!important;}
+<style id="ofertas-nav-align">
+.nav-bottom{
+  display:flex!important;
+  align-items:center!important;
+}
+.nav-links{
+  display:flex!important;
+  align-items:center!important;
+}
+.nav-links > li{
+  display:flex!important;
+  align-items:center!important;
+}
+.nav-links .nav-ofertas-link{
+  align-self:center!important;
+}
+.nav-ofertas-link:hover{
+  background:#A94F26!important;
+  color:#fff!important;
+}
+.nav-ofertas-link.activo{
+  background:#C4622D!important;
+  color:#fff!important;
+}
+.nav-ofertas-link.activo::after{
+  display:none!important;
+}
 </style>
 
 
@@ -37,7 +60,7 @@
     <ul class="nav-links">
       <li><a href="/">Inicio</a></li>
       <li><a href="/tienda" class="activo">Tienda</a></li>
-      <li><a href="/tienda?ofertas=1" class="nav-ofertas-link" style="display:inline-flex!important;align-items:center!important;justify-content:center!important;height:34px!important;min-height:34px!important;padding:0 15px!important;margin:0!important;background:#C4622D!important;color:#FFFFFF!important;border-radius:999px!important;font-family:Poppins,sans-serif!important;font-size:13px!important;font-weight:700!important;letter-spacing:.01em!important;line-height:34px!important;text-transform:none!important;text-decoration:none!important;border:0!important;box-shadow:none!important;white-space:nowrap!important;">✦ Ofertas</a></li>
+      <li><a href="/tienda?ofertas=1" class="nav-ofertas-link" style="display:inline-flex!important;align-items:center!important;justify-content:center!important;height:32px!important;min-height:32px!important;padding:0 16px!important;margin:0!important;background:#C4622D!important;color:#FFFFFF!important;border-radius:999px!important;font-family:Poppins,sans-serif!important;font-size:13px!important;font-weight:700!important;letter-spacing:0!important;line-height:32px!important;text-transform:none!important;text-decoration:none!important;border:0!important;box-shadow:none!important;white-space:nowrap!important;position:relative!important;top:0!important;">Ofertas</a></li>
       <li class="nav-item"><a href="/tienda?aud=Perros">Perros</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Perros&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
       <li class="nav-item"><a href="/tienda?aud=Gatos">Gatos</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
       <li><a href="/suscripciones">Suscripciones</a></li>
@@ -51,7 +74,7 @@
 <div class="mobile-menu" id="mobile-menu">
   <a href="/" onclick="toggleMenu()">Inicio</a>
   <a href="/tienda" class="activo" onclick="toggleMenu()">Tienda</a>
-  <a href="/tienda?ofertas=1" class="nav-ofertas-link" style="display:inline-flex!important;align-items:center!important;justify-content:center!important;height:34px!important;min-height:34px!important;padding:0 15px!important;margin:0!important;background:#C4622D!important;color:#FFFFFF!important;border-radius:999px!important;font-family:Poppins,sans-serif!important;font-size:13px!important;font-weight:700!important;letter-spacing:.01em!important;line-height:34px!important;text-transform:none!important;text-decoration:none!important;border:0!important;box-shadow:none!important;white-space:nowrap!important;width:max-content!important;margin:4px 0 10px!important;" onclick="toggleMenu()">✦ Ofertas</a>
+  <a href="/tienda?ofertas=1" class="nav-ofertas-link" style="display:inline-flex!important;align-items:center!important;justify-content:center!important;height:32px!important;min-height:32px!important;padding:0 16px!important;margin:0!important;background:#C4622D!important;color:#FFFFFF!important;border-radius:999px!important;font-family:Poppins,sans-serif!important;font-size:13px!important;font-weight:700!important;letter-spacing:0!important;line-height:32px!important;text-transform:none!important;text-decoration:none!important;border:0!important;box-shadow:none!important;white-space:nowrap!important;position:relative!important;top:0!important;width:max-content!important;margin:6px 0 10px!important;" onclick="toggleMenu()">Ofertas</a>
 
   <!-- ACORDEÓN PERROS -->
   <div class="mobile-accordion">
