@@ -2373,17 +2373,43 @@ function generarCarrusel() {
     buscarProductoPorNombre('inaba', 'dashi delights', 'salmón')
   ].filter(Boolean);
 
+  // Los productos nuevos van primero para darles mayor visibilidad.
+  // Después se conservan los destacados anteriores que sigan teniendo stock.
   const lista = [...new Set([
-    ...DESTACADOS_BASE.filter(id => productos[id] && checkStockCard(id, stock)),
-    ...NUEVOS_DESTACADOS.filter(id => productos[id] && checkStockCard(id, stock))
+    ...NUEVOS_DESTACADOS.filter(id => productos[id] && checkStockCard(id, stock)),
+    ...DESTACADOS_BASE.filter(id => productos[id] && checkStockCard(id, stock))
   ])];
+
+  // Taglines de respaldo para productos creados recientemente.
+  // Se usan solo si todavía no existen en el objeto TAGLINES global.
+  const TAGLINES_NUEVOS = {
+    catgoChoritos: 'Sabor a mar en cada bocado 🐱',
+    catgoSalmon: 'Cubitos de salmón para regalonearlo 🐱',
+    tubitoCangrejo: 'Cremoso, sabroso y con catnip 🐱',
+    tubitoConejo: 'Cremoso, sabroso y con catnip 🐱',
+    inabaOstiones: 'Pollo, atún y ostiones en delicioso Dashi 🐱',
+    inabaSalmon: 'Pollo y salmón para regalonearlo 🐱'
+  };
+
+  const taglineNuevoPorProducto = (id, p) => {
+    const n = String(p?.nombre || '').toLowerCase();
+    if (n.includes('catgo') && n.includes('choritos')) return TAGLINES_NUEVOS.catgoChoritos;
+    if (n.includes('catgo') && (n.includes('salmón') || n.includes('salmon'))) return TAGLINES_NUEVOS.catgoSalmon;
+    if (n.includes('tubito cremoso') && n.includes('cangrejo')) return TAGLINES_NUEVOS.tubitoCangrejo;
+    if (n.includes('tubito cremoso') && n.includes('conejo')) return TAGLINES_NUEVOS.tubitoConejo;
+    if (n.includes('dashi delights') && n.includes('ostiones')) return TAGLINES_NUEVOS.inabaOstiones;
+    if (n.includes('dashi delights') && (n.includes('salmón') || n.includes('salmon'))) return TAGLINES_NUEVOS.inabaSalmon;
+    return '';
+  };
 
   lista.forEach(id => {
     const p = productos[id];
     const img = p.imagenes ? p.imagenes[0] : '';
     const ph = p.placeholders ? p.placeholders[0] : '🐾';
     const enStock = checkStockCard(id, stock);
-    const tagline = (typeof TAGLINES !== 'undefined' && TAGLINES[id]) ? TAGLINES[id] : '';
+    const tagline = (typeof TAGLINES !== 'undefined' && TAGLINES[id])
+      ? TAGLINES[id]
+      : taglineNuevoPorProducto(id, p);
     const ahorroHtml = p.ahorro ? '<span class="badge-ahorro">Ahorras $' + p.ahorro.toLocaleString('es-CL') + '</span>' : '';
 
     const card = document.createElement('div');
