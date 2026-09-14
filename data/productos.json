@@ -2727,5 +2727,42 @@
     "canonical": "https://www.patasycaos.cl/productos/bocados-de-choritos-catgo",
     "seoTitle": "Catgo Bocados de Choritos | Snack para Gatos",
     "seoDescription": "Catgo Bocados de Choritos, un delicioso snack para gatos ideal como premio entre comidas. Práctico, sabroso y fácil de servir."
+  },
+  {
+    "sku": "bocados-de-salmon-catgo",
+    "slug": "bocados-de-salmon-catgo",
+    "nombre": "Bocados de Salmón - Catgo",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Catgo",
+    "tagline": "Cubitos de salmón para regalonearlo 🐱",
+    "descripcion": "Snack para gatos en prácticos cubitos de salmón, ideal para ofrecer como premio entre comidas. Una alternativa sabrosa y fácil de servir para consentir a tu gato.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack para gatos",
+      "Cubitos de salmón",
+      "Contenido neto: 50 g",
+      "Ideal como premio entre comidas",
+      "Formato práctico y fácil de servir",
+      "Snack 100% natural"
+    ],
+    "ingredientes": "Cubos de salmón deshidratados a bajas temperaturas.",
+    "imagenes": [
+      "/bocados-de-salmon-catgo.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "bocados-de-salmon-catgo",
+    "canonical": "https://www.patasycaos.cl/productos/bocados-de-salmon-catgo",
+    "seoTitle": "Catgo Cubitos de Salmón 50 g | Snack para Gatos",
+    "seoDescription": "Catgo Cubitos de Salmón 50 g, un snack natural para gatos en prácticos bocados. Ideal como premio entre comidas, sabroso y fácil de servir."
   }
 ]
