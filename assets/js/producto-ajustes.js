@@ -115,6 +115,109 @@
     drop.style.display = 'block';
   };
 
+
+  const PRODUCT_OFFERS = {
+    "dispensador-de-bolsas---diseno-cafe": { original: 5990, price: 4990 },
+    "fuente-agua": { original: 21990, price: 17990 },
+    "lata-leonardo_Pescado": { original: 3790, price: 3290 },
+    "lata-leonardo-kitten": { original: 3790, price: 3290 },
+    "paw-balm": { original: 5990, price: 3990 },
+    "rascador-maxi-caja-de-leche---brnx": { original: 13990, price: 11990 },
+    "zupet-dental-fitness-crocante": { original: 9990, price: 7990 },
+    "zupet-dental-power-suave": { original: 9990, price: 7990 }
+  };
+
+  function normalizeOfferName(value) {
+    return String(value || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[–—]/g, '-')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  const PRODUCT_OFFER_NAMES = {
+    "dispensador de bolsas - diseno cafe": "dispensador-de-bolsas---diseno-cafe",
+    "fuente de agua flor usb": "fuente-agua",
+    "lata leonardo adulto - pescado": "lata-leonardo_Pescado",
+    "lata leonardo kitten 200g": "lata-leonardo-kitten",
+    "paw balm": "paw-balm",
+    "rascador maxi caja de leche - brnx": "rascador-maxi-caja-de-leche---brnx",
+    "snack dental fitness crocante 60g - qchefs": "zupet-dental-fitness-crocante",
+    "snack dental power 75g - qchefs": "zupet-dental-power-suave"
+  };
+
+  function getCurrentOffer() {
+    try {
+      if (typeof CURRENT_PRODUCT === 'undefined' || !CURRENT_PRODUCT) return null;
+
+      const directId = String(CURRENT_PRODUCT.id || '');
+      if (PRODUCT_OFFERS[directId]) return { id: directId, ...PRODUCT_OFFERS[directId] };
+
+      const productName = normalizeOfferName(CURRENT_PRODUCT.name || CURRENT_PRODUCT.nombre);
+      const mappedId = PRODUCT_OFFER_NAMES[productName];
+      if (mappedId && PRODUCT_OFFERS[mappedId]) return { id: mappedId, ...PRODUCT_OFFERS[mappedId] };
+
+      // Extra fallback: find same product by name in products-data.js
+      const catalogMatch = getCatalogEntries().find(([id, p]) =>
+        normalizeOfferName(p?.nombre) === productName && PRODUCT_OFFERS[id]
+      );
+      if (catalogMatch) {
+        const [id] = catalogMatch;
+        return { id, ...PRODUCT_OFFERS[id] };
+      }
+    } catch (error) {}
+    return null;
+  }
+
+  function applyCurrentOffer() {
+    const offer = getCurrentOffer();
+    if (!offer || typeof CURRENT_PRODUCT === 'undefined') return null;
+
+    CURRENT_PRODUCT.price = offer.price;
+    CURRENT_PRODUCT.precioNum = offer.price;
+    CURRENT_PRODUCT.precio = '$' + offer.price.toLocaleString('es-CL');
+    CURRENT_PRODUCT.precioOriginalNum = offer.original;
+    CURRENT_PRODUCT.ahorro = offer.original - offer.price;
+    CURRENT_PRODUCT.oferta = true;
+
+    try {
+      const catalogId = PRODUCT_OFFERS[CURRENT_PRODUCT.id] ? CURRENT_PRODUCT.id : offer.id;
+      if (typeof productos !== 'undefined' && productos?.[catalogId]) {
+        productos[catalogId].precioNum = offer.price;
+        productos[catalogId].precio = '$' + offer.price.toLocaleString('es-CL');
+        productos[catalogId].precioOriginalNum = offer.original;
+        productos[catalogId].ahorro = offer.original - offer.price;
+        productos[catalogId].oferta = true;
+      }
+    } catch (error) {}
+
+    return offer;
+  }
+
+  function renderCurrentOffer() {
+    const offer = applyCurrentOffer();
+    const badge = document.getElementById('product-offer-badge');
+    const priceBox = document.querySelector('.product-price');
+
+    if (!offer) {
+      if (badge) badge.style.display = 'none';
+      return;
+    }
+
+    if (badge) badge.style.display = 'inline-flex';
+
+    if (priceBox) {
+      priceBox.innerHTML =
+        '<div class="product-price-offer-wrap">' +
+          '<span class="product-price-original-offer">$' + offer.original.toLocaleString('es-CL') + '</span>' +
+          '<span class="product-price-current-offer">$' + offer.price.toLocaleString('es-CL') + '</span>' +
+        '</div>' +
+        '<div class="product-saving">Ahorras $' + (offer.original - offer.price).toLocaleString('es-CL') + '</div>';
+    }
+  }
+
   function currentCartQty() {
     try {
       if (typeof cart === 'undefined' || !Array.isArray(cart)) return 0;
@@ -208,6 +311,7 @@
   }
 
   window.addCurrentProduct = async function addCurrentProduct() {
+    applyCurrentOffer();
     await loadCurrentProductStock();
 
     const alreadyInCart = currentCartQty();
@@ -228,6 +332,9 @@
       const existing = cart.find(item => item.id === CURRENT_PRODUCT.id);
 
       if (existing) {
+        // Refresh price in case this product was already in the cart before the offer.
+        existing.price = CURRENT_PRODUCT.price;
+        existing.name = CURRENT_PRODUCT.name;
         existing.maxQty = productStock === null ? Math.max(existing.maxQty || 1, existing.qty + quantityToAdd) : productStock;
         existing.qty = Math.min(existing.maxQty, existing.qty + quantityToAdd);
       } else {
@@ -280,6 +387,7 @@
   };
 
   document.addEventListener('DOMContentLoaded', function () {
+    renderCurrentOffer();
     updateQtyUI();
     loadCurrentProductStock();
 
