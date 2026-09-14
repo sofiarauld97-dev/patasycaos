@@ -2837,5 +2837,41 @@
     "canonical": "https://www.patasycaos.cl/productos/dashi-delights-pollo-con-atun-y-ostiones-inaba",
     "seoTitle": "Inaba Dashi Delights Pollo, Atún y Ostiones | Gatos",
     "seoDescription": "Inaba Dashi Delights de pollo con atún y ostiones, un delicioso snack húmedo para gatos en caldo Dashi, ideal como premio o complemento."
+  },
+  {
+    "sku": "dashi-delights-pollo-con-atun-inaba",
+    "slug": "dashi-delights-pollo-con-atun-inaba",
+    "nombre": "Dashi Delights Pollo con Atún - Inaba",
+    "precio": 3290,
+    "precioNum": 3290,
+    "precioDisplay": "$3.290",
+    "precioTexto": "$3.290",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Inaba",
+    "tagline": "Pollo y atún en delicioso Dashi 🐱",
+    "descripcion": "Delicioso snack húmedo para gatos elaborado con pollo y atún en un sabroso caldo Dashi. Ideal para ofrecer como premio, complementar sus comidas o simplemente regalonearlo con algo especial.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack húmedo para gatos",
+      "Pollo con atún",
+      "Textura suave en caldo Dashi",
+      "Ideal como premio o complemento",
+      "Fácil de servir"
+    ],
+    "ingredientes": "Pollo, atún, almidón de tapioca, goma guar, sabor natural de vieira, hojuelas de bonito, vitamina E, extracto de té verde.",
+    "imagenes": [
+      "/dashi-delights-pollo-con-atun.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "dashi-delights-pollo-con-atun-inaba",
+    "canonical": "https://www.patasycaos.cl/productos/dashi-delights-pollo-con-atun-inaba",
+    "seoTitle": "Inaba Dashi Delights Pollo con Atún | Snack para Gatos",
+    "seoDescription": "Inaba Dashi Delights de pollo con atún, un sabroso snack húmedo para gatos en caldo Dashi, ideal como premio o complemento."
   }
 ]
