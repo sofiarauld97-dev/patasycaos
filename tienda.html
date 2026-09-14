@@ -465,6 +465,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     object-fit: cover;
   }
 
+
+  /* OFERTAS */
+  .prod-badges-wrap{position:absolute;top:12px;left:12px;z-index:5;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .prod-badges-wrap .prod-badge{position:static!important}
+  .prod-badge-oferta{display:inline-flex;align-items:center;background:#4A7C59;color:#fff;border-radius:50px;padding:5px 10px;font-size:.68rem;font-weight:800;letter-spacing:.04em;line-height:1}
+  .prod-precios{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .prod-precio-original{text-decoration:line-through;color:#8b8179;font-size:.82rem;font-weight:600}
+  .prod-card.oferta .prod-price{color:#4A7C59}
+
 </style>
 <style>
 .anuncio-bar{background:#4A7C59;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
@@ -1359,10 +1368,21 @@ function generarTarjetas() {
       badgeCyber.textContent = '-' + descPct + '%';
       carrusel.appendChild(badgeCyber);
     } else {
-      const badge = document.createElement('span'); badge.className = 'prod-badge'; badge.textContent = p.categoria;
-      carrusel.appendChild(badge);
+      const badgesWrap = document.createElement('div');
+      badgesWrap.className = 'prod-badges-wrap';
+      const badge = document.createElement('span');
+      badge.className = 'prod-badge';
+      badge.textContent = p.categoria;
+      badgesWrap.appendChild(badge);
+      if (p.oferta === true && p.precioOriginalNum > p.precioNum) {
+        const badgeOferta = document.createElement('span');
+        badgeOferta.className = 'prod-badge-oferta';
+        badgeOferta.textContent = 'OFERTA';
+        badgesWrap.appendChild(badgeOferta);
+        card.classList.add('oferta');
+      }
+      carrusel.appendChild(badgesWrap);
     }
-    if (p.ahorro) { const ahorroEl = document.createElement('span'); ahorroEl.className = 'badge-ahorro'; ahorroEl.textContent = 'Ahorras $' + p.ahorro.toLocaleString('es-CL'); carrusel.appendChild(ahorroEl); }
     const btnId = 'btn-' + id;
     const info = document.createElement('div'); info.className = 'prod-info';
     // Precio: si es Cyber mostrar original tachado + precio con descuento en terracota
@@ -1372,6 +1392,10 @@ function generarTarjetas() {
       const pOrigFinal = pOrigNum > p.precioNum ? pOrigNum : (CYBER_PRECIOS_2[id] || 0);
       const pOrigStr = pOrigFinal > 0 ? '$' + pOrigFinal.toLocaleString('es-CL') : '';
       precioMostrar = '<div class="prod-precios">' + (pOrigStr ? '<span class="prod-precio-original">' + pOrigStr + '</span>' : '') + '<span class="prod-price">' + p.precio + '</span></div>';
+    } else if (p.oferta === true && p.precioOriginalNum > p.precioNum) {
+      precioMostrar = '<div class="prod-precios"><span class="prod-precio-original">$' +
+        p.precioOriginalNum.toLocaleString('es-CL') +
+        '</span><span class="prod-price">' + p.precio + '</span></div>';
     } else {
       precioMostrar = '<span class="prod-price">' + p.precio + '</span>';
     }
