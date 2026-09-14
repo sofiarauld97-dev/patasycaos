@@ -1244,17 +1244,23 @@ tbody tr:hover td{background:#FCFAF7!important}
     <div class="form-grid">
       <div class="form-field">
         <label>Nombre</label>
-        <input type="text" id="np-nombre" placeholder="María González">
+        <input type="text" id="np-nombre" placeholder="María González" list="np-clientes-anteriores" autocomplete="off"
+          oninput="buscarYCompletarCliente('nombre', this.value, false)"
+          onchange="buscarYCompletarCliente('nombre', this.value, true)">
+        <datalist id="np-clientes-anteriores"></datalist>
+        <div id="np-cliente-existente" class="catalog-source-note" style="display:none;color:#2F7650;font-weight:600"></div>
       </div>
       <div class="form-field">
         <label>Teléfono</label>
-        <input type="tel" id="np-telefono" placeholder="+56 9 1234 5678">
+        <input type="tel" id="np-telefono" placeholder="+56 9 1234 5678"
+          onblur="buscarYCompletarCliente('telefono', this.value, true)">
       </div>
     </div>
     <div class="form-grid full">
       <div class="form-field">
         <label>Email</label>
-        <input type="email" id="np-email" placeholder="tu@correo.com">
+        <input type="email" id="np-email" placeholder="tu@correo.com"
+          onblur="buscarYCompletarCliente('email', this.value, true)">
       </div>
     </div>
     <div class="form-grid full">
@@ -1523,9 +1529,122 @@ async function cargarPedidos() {
     todosLosPedidos = data || [];
     actualizarStats();
     renderTabla();
+    actualizarSugerenciasClientes();
   } catch (e) {
     document.getElementById('tabla-contenido').innerHTML = '<div class="empty-state"><span>⚠️</span>Error al cargar los pedidos. Intenta de nuevo.</div>';
   }
+}
+
+
+function normalizarTextoCliente(valor) {
+  return String(valor || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, ' ');
+}
+
+function normalizarTelefonoCliente(valor) {
+  const digitos = String(valor || '').replace(/\D/g, '');
+  // Permite encontrar el mismo número aunque antes se haya guardado
+  // con +56, espacios, guiones o sin código de país.
+  return digitos.length > 8 ? digitos.slice(-8) : digitos;
+}
+
+function claveClientePedido(pedido) {
+  const email = normalizarTextoCliente(pedido?.email);
+  const telefono = normalizarTelefonoCliente(pedido?.telefono);
+  const nombre = normalizarTextoCliente(pedido?.nombre);
+  return email || telefono || nombre;
+}
+
+function actualizarSugerenciasClientes() {
+  const lista = document.getElementById('np-clientes-anteriores');
+  if (!lista) return;
+
+  // todosLosPedidos ya viene ordenado del más reciente al más antiguo.
+  // Conservamos un solo registro por cliente, por lo que las sugerencias
+  // usan la información más reciente disponible.
+  const vistos = new Set();
+  const clientes = [];
+
+  for (const pedido of todosLosPedidos) {
+    const clave = claveClientePedido(pedido);
+    if (!clave || vistos.has(clave) || !String(pedido?.nombre || '').trim()) continue;
+    vistos.add(clave);
+    clientes.push(pedido);
+  }
+
+  lista.innerHTML = clientes.map(cliente => {
+    const detalles = [
+      cliente.email || '',
+      cliente.telefono || '',
+      cliente.comuna || ''
+    ].filter(Boolean).join(' · ');
+
+    return `<option value="${escaparCatalogoHtml(cliente.nombre || '')}" label="${escaparCatalogoHtml(detalles)}"></option>`;
+  }).join('');
+}
+
+function encontrarClienteAnterior(campo, valor) {
+  if (!valor) return null;
+
+  if (campo === 'telefono') {
+    const buscado = normalizarTelefonoCliente(valor);
+    if (!buscado) return null;
+    return todosLosPedidos.find(p =>
+      normalizarTelefonoCliente(p.telefono) === buscado
+    ) || null;
+  }
+
+  const buscado = normalizarTextoCliente(valor);
+  if (!buscado) return null;
+
+  return todosLosPedidos.find(p =>
+    normalizarTextoCliente(p?.[campo]) === buscado
+  ) || null;
+}
+
+function completarDatosCliente(pedido) {
+  if (!pedido) return false;
+
+  const campos = {
+    'np-nombre': pedido.nombre,
+    'np-telefono': pedido.telefono,
+    'np-email': pedido.email,
+    'np-direccion': pedido.direccion,
+    'np-comuna': pedido.comuna,
+    'np-ciudad': pedido.ciudad
+  };
+
+  Object.entries(campos).forEach(([id, valor]) => {
+    const el = document.getElementById(id);
+    if (el && valor != null && String(valor).trim()) {
+      el.value = valor;
+    }
+  });
+
+  const aviso = document.getElementById('np-cliente-existente');
+  if (aviso) {
+    aviso.textContent = 'Cliente existente: datos cargados desde su pedido más reciente.';
+    aviso.style.display = 'block';
+  }
+
+  return true;
+}
+
+function buscarYCompletarCliente(campo, valor, completar = true) {
+  const pedido = encontrarClienteAnterior(campo, valor);
+  const aviso = document.getElementById('np-cliente-existente');
+
+  if (!pedido) {
+    if (completar && aviso) aviso.style.display = 'none';
+    return false;
+  }
+
+  if (completar) completarDatosCliente(pedido);
+  return true;
 }
 
 function actualizarStats() {
@@ -2012,8 +2131,11 @@ async function abrirNuevoPedido() {
     return;
   }
 
+  actualizarSugerenciasClientes();
   document.getElementById('np-items-lista').innerHTML = '';
   agregarItemPedido();
+  const avisoCliente = document.getElementById('np-cliente-existente');
+  if (avisoCliente) avisoCliente.style.display = 'none';
   document.getElementById('modal-nuevo').classList.add('activo');
 }
 
@@ -2024,6 +2146,8 @@ function cerrarNuevoPedido() {
     if (el) el.value = '';
   });
   document.getElementById('np-items-lista').innerHTML = '';
+  const avisoCliente = document.getElementById('np-cliente-existente');
+  if (avisoCliente) avisoCliente.style.display = 'none';
 }
 
 
