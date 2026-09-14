@@ -2393,12 +2393,26 @@ function generarCarrusel() {
 
   const taglineNuevoPorProducto = (id, p) => {
     const n = String(p?.nombre || '').toLowerCase();
+
+    // Nuevos productos
     if (n.includes('catgo') && n.includes('choritos')) return TAGLINES_NUEVOS.catgoChoritos;
     if (n.includes('catgo') && (n.includes('salmón') || n.includes('salmon'))) return TAGLINES_NUEVOS.catgoSalmon;
     if (n.includes('tubito cremoso') && n.includes('cangrejo')) return TAGLINES_NUEVOS.tubitoCangrejo;
     if (n.includes('tubito cremoso') && n.includes('conejo')) return TAGLINES_NUEVOS.tubitoConejo;
     if (n.includes('dashi delights') && n.includes('ostiones')) return TAGLINES_NUEVOS.inabaOstiones;
     if (n.includes('dashi delights') && (n.includes('salmón') || n.includes('salmon'))) return TAGLINES_NUEVOS.inabaSalmon;
+
+    // Respaldos para los destacados anteriores. Algunos IDs del catálogo nuevo
+    // no coinciden con las claves históricas del objeto TAGLINES.
+    if (n.includes('cubitos') && n.includes('salmón') && n.includes('pets friends')) return 'Salmón puro, pelaje de revista 🐟✨';
+    if (n.includes('medallones') && n.includes('avestruz')) return 'Avestruz en cada bocado. Premio de otro nivel 🐶';
+    if (n.includes('calming') && n.includes('cat')) return 'Gato en pánico no, gato zen sí 💜';
+    if (n.includes('fémur') || n.includes('femur')) return 'Para el perro que muerde todo. Dáselo a él 🦴';
+    if (n.includes('mantequilla') && n.includes('maní') && n.includes('banana')) return 'Cremosa, rica y hecha para regalonear 🍌🥜';
+    if (n.includes('tráquea') && n.includes('ciervo')) return 'Articulaciones blindadas, pelaje de estrella 🦌🐕';
+    if (n.includes('oreja') && n.includes('cerdo') && n.includes('rahue')) return 'El clásico que nunca falla 🐷';
+    if (n.includes('duck drum stick') || (n.includes('naturalistic') && n.includes('pato'))) return 'Pato crujiente para premiar como corresponde 🦆';
+
     return '';
   };
 
