@@ -395,13 +395,13 @@ const COMUNAS_CHILE = [
 ];
 
 const TARIFAS_COMUNA = {
-  // Región Metropolitana — tarifa general $2.800
-  'cerrillos': 2800, 'cerro navia': 2800, 'conchali': 2800, 'el bosque': 2800, 'estacion central': 2800, 'huechuraba': 2800, 'independencia': 2800, 'la cisterna': 2800, 'la florida': 2800, 'la granja': 2800, 'la pintana': 2800, 'la reina': 2800, 'las condes': 2800, 'lo barnechea': 2800, 'lo espejo': 2800, 'lo prado': 2800, 'macul': 2800, 'maipu': 2800, 'nunoa': 2800, 'pedro aguirre cerda': 2800, 'penalolen': 2800, 'providencia': 2800, 'pudahuel': 2800, 'puente alto': 2800, 'quilicura': 2800, 'quinta normal': 2800, 'recoleta': 2800, 'renca': 2800, 'san bernardo': 2800, 'san joaquin': 2800, 'san miguel': 2800, 'san ramon': 2800, 'santiago': 2800, 'vitacura': 2800, 'chicureo': 2800, 'til til': 2800, 'buin': 2800, 'calera de tango': 2800, 'paine': 2800, 'san jose de maipo': 2800, 'alhue': 2800, 'curacavi': 2800, 'el monte': 2800, 'isla de maipo': 2800, 'melipilla': 2800, 'penaflor': 2800, 'san pedro': 2800, 'talagante': 2800, 'pirque': 2800,
+  // Región Metropolitana — tarifa general $3.400
+  'cerrillos': 3400, 'cerro navia': 3400, 'conchali': 3400, 'el bosque': 3400, 'estacion central': 3400, 'huechuraba': 3400, 'independencia': 3400, 'la cisterna': 3400, 'la florida': 3400, 'la granja': 3400, 'la pintana': 3400, 'la reina': 3400, 'las condes': 3400, 'lo barnechea': 3400, 'lo espejo': 3400, 'lo prado': 3400, 'macul': 3400, 'maipu': 3400, 'nunoa': 3400, 'pedro aguirre cerda': 3400, 'penalolen': 3400, 'providencia': 3400, 'pudahuel': 3400, 'puente alto': 3400, 'quilicura': 3400, 'quinta normal': 3400, 'recoleta': 3400, 'renca': 3400, 'san bernardo': 3400, 'san joaquin': 3400, 'san miguel': 3400, 'san ramon': 3400, 'santiago': 3400, 'vitacura': 3400, 'chicureo': 3400, 'til til': 3400, 'buin': 3400, 'calera de tango': 3400, 'paine': 3400, 'san jose de maipo': 3400, 'alhue': 3400, 'curacavi': 3400, 'el monte': 3400, 'isla de maipo': 3400, 'melipilla': 3400, 'penaflor': 3400, 'san pedro': 3400, 'talagante': 3400, 'pirque': 3400,
 
   // Excepciones
-  'padre hurtado': 3000,
-  'colina': 3000,
-  'lampa': 4600,
+  'padre hurtado': 3600,
+  'colina': 3600,
+  'lampa': 5500,
 };
 
 function normalizarComuna(str) {
