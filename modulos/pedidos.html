@@ -750,6 +750,63 @@ tbody tr:hover td{background:#FCFAF7!important}
 </style>
 
 
+
+<style id="clientes-autocomplete-style">
+.cliente-autocomplete{
+  position:relative;
+  width:100%;
+}
+.cliente-autocomplete > input{
+  width:100%;
+}
+.cliente-dropdown{
+  position:absolute;
+  left:0;
+  right:0;
+  top:calc(100% + 6px);
+  z-index:50;
+  max-height:230px;
+  overflow-y:auto;
+  border:1px solid var(--borde);
+  border-radius:10px;
+  background:#fff;
+  box-shadow:0 14px 34px rgba(22,18,15,.14);
+}
+.cliente-opcion{
+  width:100%;
+  padding:10px 12px;
+  border:0;
+  border-bottom:1px solid #F0ECE7;
+  background:#fff;
+  text-align:left;
+  cursor:pointer;
+  font-family:'Poppins',sans-serif;
+}
+.cliente-opcion:last-child{border-bottom:0}
+.cliente-opcion:hover,
+.cliente-opcion.activa{
+  background:#FFF7F2;
+}
+.cliente-opcion strong{
+  display:block;
+  margin-bottom:2px;
+  color:var(--negro);
+  font-size:.78rem;
+}
+.cliente-opcion span{
+  display:block;
+  color:var(--suave);
+  font-size:.66rem;
+  line-height:1.45;
+}
+@media(max-width:760px){
+  .cliente-dropdown{
+    max-height:190px;
+  }
+}
+</style>
+
+
 <style id="suscripciones-columnas-y-eliminar">
 /* Suscripciones: 7 columnas reales */
 #seccion-suscripciones .tabla-wrap table{
@@ -1244,10 +1301,13 @@ tbody tr:hover td{background:#FCFAF7!important}
     <div class="form-grid">
       <div class="form-field">
         <label>Nombre</label>
-        <input type="text" id="np-nombre" placeholder="María González" list="np-clientes-anteriores" autocomplete="off"
-          oninput="buscarYCompletarCliente('nombre', this.value, false)"
-          onchange="buscarYCompletarCliente('nombre', this.value, true)">
-        <datalist id="np-clientes-anteriores"></datalist>
+        <div class="cliente-autocomplete">
+          <input type="text" id="np-nombre" placeholder="María González" autocomplete="off"
+            oninput="mostrarSugerenciasClientes(this.value)"
+            onfocus="mostrarSugerenciasClientes(this.value)"
+            onkeydown="manejarTeclasCliente(event)">
+          <div id="np-clientes-dropdown" class="cliente-dropdown" style="display:none"></div>
+        </div>
         <div id="np-cliente-existente" class="catalog-source-note" style="display:none;color:#2F7650;font-weight:600"></div>
       </div>
       <div class="form-field">
@@ -1536,6 +1596,7 @@ async function cargarPedidos() {
 }
 
 
+
 function normalizarTextoCliente(valor) {
   return String(valor || '')
     .normalize('NFD')
@@ -1547,8 +1608,6 @@ function normalizarTextoCliente(valor) {
 
 function normalizarTelefonoCliente(valor) {
   const digitos = String(valor || '').replace(/\D/g, '');
-  // Permite encontrar el mismo número aunque antes se haya guardado
-  // con +56, espacios, guiones o sin código de país.
   return digitos.length > 8 ? digitos.slice(-8) : digitos;
 }
 
@@ -1559,32 +1618,126 @@ function claveClientePedido(pedido) {
   return email || telefono || nombre;
 }
 
-function actualizarSugerenciasClientes() {
-  const lista = document.getElementById('np-clientes-anteriores');
-  if (!lista) return;
-
-  // todosLosPedidos ya viene ordenado del más reciente al más antiguo.
-  // Conservamos un solo registro por cliente, por lo que las sugerencias
-  // usan la información más reciente disponible.
+function obtenerClientesUnicos() {
   const vistos = new Set();
   const clientes = [];
 
+  // todosLosPedidos ya está ordenado del más reciente al más antiguo.
   for (const pedido of todosLosPedidos) {
     const clave = claveClientePedido(pedido);
     if (!clave || vistos.has(clave) || !String(pedido?.nombre || '').trim()) continue;
     vistos.add(clave);
     clientes.push(pedido);
   }
+  return clientes;
+}
 
-  lista.innerHTML = clientes.map(cliente => {
-    const detalles = [
+function actualizarSugerenciasClientes() {
+  // Ya no usamos datalist del navegador.
+  // Las sugerencias se renderizan dentro del modal con mostrarSugerenciasClientes().
+}
+
+let clienteOpcionActiva = -1;
+
+function clientesCoincidentes(valor) {
+  const q = normalizarTextoCliente(valor);
+  if (!q) return [];
+
+  return obtenerClientesUnicos().filter(cliente => {
+    const nombre = normalizarTextoCliente(cliente.nombre);
+    const email = normalizarTextoCliente(cliente.email);
+    const telefono = normalizarTelefonoCliente(cliente.telefono);
+    const comuna = normalizarTextoCliente(cliente.comuna);
+    const direccion = normalizarTextoCliente(cliente.direccion);
+
+    // Busca en cualquier parte del nombre, no solo coincidencia exacta.
+    // Ej.: escribir "jean" encuentra "Jean Asenjo".
+    return nombre.includes(q) ||
+           email.includes(q) ||
+           telefono.includes(String(valor || '').replace(/\D/g, '')) ||
+           comuna.includes(q) ||
+           direccion.includes(q);
+  }).slice(0, 8);
+}
+
+function mostrarSugerenciasClientes(valor) {
+  const dropdown = document.getElementById('np-clientes-dropdown');
+  if (!dropdown) return;
+
+  const q = String(valor || '').trim();
+  if (q.length < 2) {
+    dropdown.style.display = 'none';
+    dropdown.innerHTML = '';
+    clienteOpcionActiva = -1;
+    return;
+  }
+
+  const coincidencias = clientesCoincidentes(q);
+  if (!coincidencias.length) {
+    dropdown.style.display = 'none';
+    dropdown.innerHTML = '';
+    clienteOpcionActiva = -1;
+    return;
+  }
+
+  dropdown.innerHTML = coincidencias.map((cliente, index) => {
+    const detalle = [
       cliente.email || '',
       cliente.telefono || '',
       cliente.comuna || ''
     ].filter(Boolean).join(' · ');
 
-    return `<option value="${escaparCatalogoHtml(cliente.nombre || '')}" label="${escaparCatalogoHtml(detalles)}"></option>`;
+    return `<button type="button" class="cliente-opcion" data-index="${index}"
+      onmousedown="event.preventDefault(); seleccionarClienteSugerido(${index})">
+      <strong>${escaparCatalogoHtml(cliente.nombre || '')}</strong>
+      <span>${escaparCatalogoHtml(detalle)}</span>
+    </button>`;
   }).join('');
+
+  dropdown._coincidencias = coincidencias;
+  dropdown.style.display = 'block';
+  clienteOpcionActiva = -1;
+}
+
+function seleccionarClienteSugerido(index) {
+  const dropdown = document.getElementById('np-clientes-dropdown');
+  const coincidencias = dropdown?._coincidencias || [];
+  const cliente = coincidencias[index];
+  if (!cliente) return;
+
+  completarDatosCliente(cliente);
+  dropdown.style.display = 'none';
+  dropdown.innerHTML = '';
+  clienteOpcionActiva = -1;
+}
+
+function manejarTeclasCliente(event) {
+  const dropdown = document.getElementById('np-clientes-dropdown');
+  if (!dropdown || dropdown.style.display === 'none') return;
+
+  const opciones = [...dropdown.querySelectorAll('.cliente-opcion')];
+  if (!opciones.length) return;
+
+  if (event.key === 'ArrowDown') {
+    event.preventDefault();
+    clienteOpcionActiva = Math.min(clienteOpcionActiva + 1, opciones.length - 1);
+  } else if (event.key === 'ArrowUp') {
+    event.preventDefault();
+    clienteOpcionActiva = Math.max(clienteOpcionActiva - 1, 0);
+  } else if (event.key === 'Enter' && clienteOpcionActiva >= 0) {
+    event.preventDefault();
+    seleccionarClienteSugerido(clienteOpcionActiva);
+    return;
+  } else if (event.key === 'Escape') {
+    dropdown.style.display = 'none';
+    clienteOpcionActiva = -1;
+    return;
+  } else {
+    return;
+  }
+
+  opciones.forEach((op, i) => op.classList.toggle('activa', i === clienteOpcionActiva));
+  opciones[clienteOpcionActiva]?.scrollIntoView({ block:'nearest' });
 }
 
 function encontrarClienteAnterior(campo, valor) {
@@ -1646,6 +1799,14 @@ function buscarYCompletarCliente(campo, valor, completar = true) {
   if (completar) completarDatosCliente(pedido);
   return true;
 }
+
+document.addEventListener('click', event => {
+  const contenedor = event.target.closest('.cliente-autocomplete');
+  if (!contenedor) {
+    const dropdown = document.getElementById('np-clientes-dropdown');
+    if (dropdown) dropdown.style.display = 'none';
+  }
+});
 
 function actualizarStats() {
   document.getElementById('stat-total').textContent = todosLosPedidos.length;
@@ -2136,6 +2297,8 @@ async function abrirNuevoPedido() {
   agregarItemPedido();
   const avisoCliente = document.getElementById('np-cliente-existente');
   if (avisoCliente) avisoCliente.style.display = 'none';
+  const dropdownCliente = document.getElementById('np-clientes-dropdown');
+  if (dropdownCliente) { dropdownCliente.style.display = 'none'; dropdownCliente.innerHTML = ''; }
   document.getElementById('modal-nuevo').classList.add('activo');
 }
 
@@ -2148,6 +2311,8 @@ function cerrarNuevoPedido() {
   document.getElementById('np-items-lista').innerHTML = '';
   const avisoCliente = document.getElementById('np-cliente-existente');
   if (avisoCliente) avisoCliente.style.display = 'none';
+  const dropdownCliente = document.getElementById('np-clientes-dropdown');
+  if (dropdownCliente) { dropdownCliente.style.display = 'none'; dropdownCliente.innerHTML = ''; }
 }
 
 
