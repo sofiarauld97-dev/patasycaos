@@ -1625,27 +1625,59 @@ async function itemsDesdePedidoParaStock(pedido) {
 async function reponerStockPedido(items) {
   const stockRes = await fetch('/api/stock-get?t=' + Date.now(), { cache: 'no-store' });
   if (!stockRes.ok) throw new Error(`No se pudo leer el inventario (${stockRes.status}).`);
+
   const stockData = await stockRes.json();
-  const stock = stockData.stock || stockData || {};
-  const incrementos = {};
+  let stock = stockData.stock || stockData || {};
+  if (typeof stock === 'string') {
+    try { stock = JSON.parse(stock); } catch (_) { stock = {}; }
+  }
+  if (!stock || typeof stock !== 'object' || Array.isArray(stock)) {
+    throw new Error('La API de inventario devolvió un formato inválido.');
+  }
+
+  const nuevoStock = { ...stock };
+  const cambiosEsperados = {};
 
   for (const item of items) {
     const clave = obtenerClaveStock(item, stock);
     if (!clave || !Object.prototype.hasOwnProperty.call(stock, clave)) {
       throw new Error(`El producto "${item.nombre}" no existe en el inventario remoto.`);
     }
+
     const cantidad = Math.max(1, Math.floor(Number(item.qty) || 1));
-    incrementos[clave] = (incrementos[clave] || 0) + cantidad;
+    const anterior = Math.max(0, Number(stock[clave]) || 0);
+    const nuevo = anterior + cantidad;
+
+    nuevoStock[clave] = nuevo;
+    cambiosEsperados[clave] = { anterior, nuevo };
   }
 
   const setRes = await fetch('/api/stock-set', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ incrementos })
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ stock: nuevoStock })
   });
+
   const resultado = await setRes.json().catch(() => ({}));
-  if (!setRes.ok || !resultado.ok) throw new Error(resultado.error || `No se pudo reponer el inventario (${setRes.status}).`);
-  console.table(resultado.cambios || []);
-  return resultado.cambios || [];
+  if (!setRes.ok) throw new Error(resultado.error || `No se pudo reponer el inventario (${setRes.status}).`);
+
+  const verificarRes = await fetch('/api/stock-get?t=' + Date.now(), { cache: 'no-store' });
+  if (!verificarRes.ok) throw new Error('El inventario se repuso, pero no se pudo verificar.');
+
+  const verificarData = await verificarRes.json();
+  let stockVerificado = verificarData.stock || verificarData || {};
+  if (typeof stockVerificado === 'string') {
+    try { stockVerificado = JSON.parse(stockVerificado); } catch (_) { stockVerificado = {}; }
+  }
+
+  for (const [clave, cambio] of Object.entries(cambiosEsperados)) {
+    const actual = Number(stockVerificado[clave]);
+    if (actual !== cambio.nuevo) {
+      throw new Error(`La reposición de "${clave}" no quedó persistida.`);
+    }
+  }
+
+  return cambiosEsperados;
 }
 
 async function cambiarEstado(id, nuevoEstado) {
@@ -1776,6 +1808,31 @@ async function eliminarSuscripcion(id) {
 let CATALOGO = [];
 let catalogoPromise = null;
 
+// Ofertas vigentes de la tienda.
+// En pedidos manuales, este precio se aplica automáticamente.
+// El campo de descuento manual sigue disponible y se aplica SOBRE el precio de oferta.
+const PAC_OFERTAS_ADMIN = {
+  "dispensador-de-bolsas---diseno-cafe": { original: 5990, oferta: 4990 },
+  "fuente-agua": { original: 21990, oferta: 17990 },
+  "lata-leonardo_Pescado": { original: 3790, oferta: 3290 },
+  "lata-leonardo-kitten": { original: 3790, oferta: 3290 },
+  "paw-balm": { original: 5990, oferta: 3990 },
+  "rascador-maxi-caja-de-leche---brnx": { original: 13990, oferta: 11990 },
+  "zupet-dental-fitness-crocante": { original: 9990, oferta: 7990 },
+  "zupet-dental-power-suave": { original: 9990, oferta: 7990 }
+};
+
+function obtenerOfertaProducto(producto, sku) {
+  const directa = PAC_OFERTAS_ADMIN[sku];
+  if (directa) return directa;
+
+  const original = Number(producto?.precioOriginalNum || producto?.originalPrice || 0);
+  const actual = Number(producto?.precioNum || producto?.precio || 0);
+  if (original > actual && actual > 0) return { original, oferta: actual };
+
+  return null;
+}
+
 function escaparCatalogoHtml(valor) {
   return String(valor ?? '')
     .replaceAll('&', '&amp;')
@@ -1836,6 +1893,9 @@ async function cargarCatalogoProductos(forzar = false) {
         const stockId = String(producto.stockId ?? producto.sku ?? producto.id ?? producto.slug ?? '').trim();
         const slug = String(producto.slug ?? '').trim();
 
+        const precioBase = precioCatalogo(producto);
+        const oferta = obtenerOfertaProducto(producto, sku);
+
         return {
           id: sku,
           sku,
@@ -1848,7 +1908,10 @@ async function cargarCatalogoProductos(forzar = false) {
             producto.titulo ??
             ''
           ).trim(),
-          precio: precioCatalogo(producto)
+          precio: oferta ? oferta.oferta : precioBase,
+          precioOriginal: oferta ? oferta.original : precioBase,
+          oferta: !!oferta,
+          ahorroOferta: oferta ? (oferta.original - oferta.oferta) : 0
         };
       })
       .filter(producto =>
@@ -1880,12 +1943,18 @@ function opcionesSelect(idSeleccionado = '') {
     return '<option value="">Catálogo no disponible</option>';
   }
 
-  return CATALOGO.map(producto => `
-    <option value="${escaparCatalogoHtml(producto.id)}"
-      ${producto.id === idSeleccionado ? 'selected' : ''}>
-      ${escaparCatalogoHtml(producto.nombre)} — $${producto.precio.toLocaleString('es-CL')}
-    </option>
-  `).join('');
+  return CATALOGO.map(producto => {
+    const precioTexto = producto.oferta
+      ? `OFERTA $${producto.precio.toLocaleString('es-CL')} · antes $${producto.precioOriginal.toLocaleString('es-CL')}`
+      : `$${producto.precio.toLocaleString('es-CL')}`;
+
+    return `
+      <option value="${escaparCatalogoHtml(producto.id)}"
+        ${producto.id === idSeleccionado ? 'selected' : ''}>
+        ${escaparCatalogoHtml(producto.nombre)} — ${precioTexto}
+      </option>
+    `;
+  }).join('');
 }
 
 function recalcularTotal() {
@@ -1902,9 +1971,18 @@ function recalcularTotal() {
       const subtotalItem = precioConDcto * qty;
       total += subtotalItem;
       const precioEl = row.querySelector('.item-precio');
-      if (precioEl) precioEl.textContent = dcto > 0
-        ? `$${precioConDcto.toLocaleString('es-CL')} x${qty} = $${subtotalItem.toLocaleString('es-CL')}`
-        : `$${(prod.precio * qty).toLocaleString('es-CL')}`;
+      if (precioEl) {
+        if (prod.oferta) {
+          const extra = dcto > 0 ? ` · -${dcto}% adicional` : '';
+          precioEl.innerHTML =
+            `<span style="text-decoration:line-through;color:#8B8179;font-weight:500">$${(prod.precioOriginal * qty).toLocaleString('es-CL')}</span> ` +
+            `<span style="color:var(--terracota);font-weight:800">$${subtotalItem.toLocaleString('es-CL')}</span>${extra}`;
+        } else {
+          precioEl.textContent = dcto > 0
+            ? `$${precioConDcto.toLocaleString('es-CL')} x${qty} = $${subtotalItem.toLocaleString('es-CL')}`
+            : `$${(prod.precio * qty).toLocaleString('es-CL')}`;
+        }
+      }
     }
   });
   document.getElementById('np-total').value = total || '';
@@ -1956,41 +2034,75 @@ function obtenerClaveStock(item, stock) {
 }
 
 async function descontarStockPedido(items) {
-  // Leer una vez solo para resolver la clave real de cada producto.
+  // Upstash es la fuente de verdad. Leemos el stock vigente, modificamos SOLO
+  // las claves del pedido y persistimos el objeto completo usando el mismo
+  // formato que utiliza Inventario ({ stock }), que es el flujo estable.
   const stockRes = await fetch('/api/stock-get?t=' + Date.now(), { cache: 'no-store' });
   if (!stockRes.ok) throw new Error(`No se pudo leer el inventario (${stockRes.status}).`);
 
   const stockData = await stockRes.json();
-  const stock = stockData.stock || stockData || {};
+  let stock = stockData.stock || stockData || {};
+  if (typeof stock === 'string') {
+    try { stock = JSON.parse(stock); } catch (_) { stock = {}; }
+  }
   if (!stock || typeof stock !== 'object' || Array.isArray(stock)) {
     throw new Error('La API de inventario devolvió un formato inválido.');
   }
 
-  const decrementos = {};
+  const nuevoStock = { ...stock };
+  const cambiosEsperados = {};
+
   for (const item of items) {
     const clave = obtenerClaveStock(item, stock);
     if (!clave || !Object.prototype.hasOwnProperty.call(stock, clave)) {
       throw new Error(`El producto "${item.nombre}" no existe en el inventario remoto.`);
     }
+
     const cantidad = Math.max(1, Math.floor(Number(item.qty) || 1));
-    decrementos[clave] = (decrementos[clave] || 0) + cantidad;
+    const anterior = Math.max(0, Number(stock[clave]) || 0);
+
+    if (cantidad > anterior) {
+      throw new Error(`Stock insuficiente para "${item.nombre}". Disponible: ${anterior}, solicitado: ${cantidad}.`);
+    }
+
+    const nuevo = anterior - cantidad;
+    nuevoStock[clave] = nuevo;
+    cambiosEsperados[clave] = { anterior, nuevo };
   }
 
-  // El descuento se calcula y persiste ATÓMICAMENTE en Redis.
-  // Ya no enviamos el objeto completo de stock desde el navegador.
   const setRes = await fetch('/api/stock-set', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ decrementos })
+    body: JSON.stringify({ stock: nuevoStock })
   });
 
   const resultado = await setRes.json().catch(() => ({}));
-  if (!setRes.ok || !resultado.ok) {
-    throw new Error(resultado.error || `No se pudo descontar el inventario (${setRes.status}).`);
+  if (!setRes.ok) {
+    throw new Error(resultado.error || `No se pudo guardar el inventario (${setRes.status}).`);
   }
 
-  console.table(resultado.cambios || []);
-  return resultado.cambios || [];
+  // Verificación real: no damos por bueno el guardado hasta volver a leer Redis.
+  const verificarRes = await fetch('/api/stock-get?t=' + Date.now(), { cache: 'no-store' });
+  if (!verificarRes.ok) throw new Error('El inventario se guardó, pero no se pudo verificar.');
+
+  const verificarData = await verificarRes.json();
+  let stockVerificado = verificarData.stock || verificarData || {};
+  if (typeof stockVerificado === 'string') {
+    try { stockVerificado = JSON.parse(stockVerificado); } catch (_) { stockVerificado = {}; }
+  }
+
+  for (const [clave, cambio] of Object.entries(cambiosEsperados)) {
+    const actual = Number(stockVerificado[clave]);
+    if (actual !== cambio.nuevo) {
+      throw new Error(
+        `El stock de "${clave}" no quedó persistido. ` +
+        `Esperado: ${cambio.nuevo}; actual: ${Number.isFinite(actual) ? actual : 'sin dato'}.`
+      );
+    }
+  }
+
+  console.table(Object.entries(cambiosEsperados).map(([id, c]) => ({ id, ...c })));
+  return cambiosEsperados;
 }
 
 async function guardarNuevoPedido() {
@@ -2014,7 +2126,9 @@ async function guardarNuevoPedido() {
           stockKeys: prod.stockKeys,
           nombre: prod.nombre,
           precio: precioFinal,
-          precioOriginal: prod.precio,
+          precioOriginal: prod.precioOriginal || prod.precio,
+          precioOferta: prod.oferta ? prod.precio : null,
+          oferta: !!prod.oferta,
           dcto,
           qty
         });
@@ -2295,9 +2409,18 @@ function recalcularTotalEditar() {
       const subtotalItem = precioFinal * qty;
       total += subtotalItem;
       const precioEl = row.querySelector('.item-precio');
-      if (precioEl) precioEl.textContent = dcto > 0
-        ? `$${precioFinal.toLocaleString('es-CL')} x${qty} = $${subtotalItem.toLocaleString('es-CL')}`
-        : `$${(prod.precio * qty).toLocaleString('es-CL')}`;
+      if (precioEl) {
+        if (prod.oferta) {
+          const extra = dcto > 0 ? ` · -${dcto}% adicional` : '';
+          precioEl.innerHTML =
+            `<span style="text-decoration:line-through;color:#8B8179;font-weight:500">$${(prod.precioOriginal * qty).toLocaleString('es-CL')}</span> ` +
+            `<span style="color:var(--terracota);font-weight:800">$${subtotalItem.toLocaleString('es-CL')}</span>${extra}`;
+        } else {
+          precioEl.textContent = dcto > 0
+            ? `$${precioFinal.toLocaleString('es-CL')} x${qty} = $${subtotalItem.toLocaleString('es-CL')}`
+            : `$${(prod.precio * qty).toLocaleString('es-CL')}`;
+        }
+      }
     }
   });
   document.getElementById('ep-total').value = total || '';
@@ -2394,6 +2517,9 @@ async function guardarEditarPedido() {
           stockKeys: prod.stockKeys,
           nombre: prod.nombre,
           precio: precioFinal,
+          precioOriginal: prod.precioOriginal || prod.precio,
+          precioOferta: prod.oferta ? prod.precio : null,
+          oferta: !!prod.oferta,
           qty,
           dcto
         });
