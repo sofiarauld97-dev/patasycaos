@@ -46,6 +46,47 @@
       .payment-logos img[alt="American Express"]{height:20px;max-width:36px;}
       .payment-logos img[alt="Redcompra"]{height:17px;max-width:72px;}
     }
+  
+    /* Precios de oferta en resumen del checkout */
+    .summary-item{
+      align-items:flex-start;
+    }
+    .summary-item-price-wrap{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:3px;
+      margin-left:auto;
+      text-align:right;
+    }
+    .summary-item-price-line{
+      display:flex;
+      align-items:baseline;
+      justify-content:flex-end;
+      gap:7px;
+      flex-wrap:wrap;
+    }
+    .summary-item-price-original{
+      color:#8B8179;
+      font-size:.76rem;
+      font-weight:600;
+      text-decoration:line-through;
+      text-decoration-thickness:1.3px;
+    }
+    .summary-item-price-sale{
+      color:#C4622D;
+      font-size:.92rem;
+      font-weight:800;
+    }
+    .summary-item-saving{
+      display:inline-flex;
+      align-items:center;
+      color:#4A7C59;
+      font-size:.70rem;
+      font-weight:700;
+      line-height:1.2;
+    }
+
   </style>
 
 </head>
