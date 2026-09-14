@@ -103,6 +103,15 @@ function addToCart(product) {
     img: normalizarImagenCarrito(product?.img || '')
   };
 
+  const ofertaActual = PAC_OFERTAS_CARRITO[product.id];
+  if (ofertaActual) {
+    product.price = ofertaActual.oferta;
+    product.precioNum = ofertaActual.oferta;
+    product.precioOriginalNum = ofertaActual.original;
+    product.ahorro = ofertaActual.original - ofertaActual.oferta;
+    product.oferta = true;
+  }
+
   const stock = getStock();
   const maxQty = stock[product.id] ?? 1;
   const existing = cart.find(i => i.id === product.id);
@@ -111,6 +120,14 @@ function addToCart(product) {
     // IMPORTANTE: si el producto ya existía con una foto rota, reemplazarla.
     if (product.img) existing.img = product.img;
     existing.maxQty = maxQty;
+
+    if (ofertaActual) {
+      existing.price = ofertaActual.oferta;
+      existing.precioNum = ofertaActual.oferta;
+      existing.precioOriginalNum = ofertaActual.original;
+      existing.ahorro = ofertaActual.original - ofertaActual.oferta;
+      existing.oferta = true;
+    }
 
     if (existing.qty >= existing.maxQty) {
       mostrarToastCarrito(`Solo quedan ${existing.maxQty} unidades disponibles 🐾`);
@@ -153,7 +170,71 @@ function mostrarToastCarrito(msg) {
   toastTimer = setTimeout(() => toast.style.opacity = '0', 2500);
 }
 function removeItem(id) { cart = cart.filter(i => i.id !== id); renderCart(); guardarCarritoLocal(); }
+
+
+// ── OFERTAS — visualización en carrito ───────────────────────────────────────
+// Mantiene el precio rebajado como precio real del carrito y conserva el original
+// solo para mostrarlo tachado.
+const PAC_OFERTAS_CARRITO = {
+  "dispensador-de-bolsas---diseno-cafe": { original: 5990, oferta: 4990 },
+  "fuente-agua": { original: 21990, oferta: 17990 },
+  "lata-leonardo_Pescado": { original: 3790, oferta: 3290 },
+  "lata-leonardo-kitten": { original: 3790, oferta: 3290 },
+  "paw-balm": { original: 5990, oferta: 3990 },
+  "rascador-maxi-caja-de-leche---brnx": { original: 13990, oferta: 11990 },
+  "zupet-dental-fitness-crocante": { original: 9990, oferta: 7990 },
+  "zupet-dental-power-suave": { original: 9990, oferta: 7990 }
+};
+
+function aplicarOfertasCarrito() {
+  cart = cart.map(item => {
+    const oferta = PAC_OFERTAS_CARRITO[item.id];
+    if (!oferta) return item;
+
+    return {
+      ...item,
+      price: oferta.oferta,
+      precioNum: oferta.oferta,
+      precioOriginalNum: oferta.original,
+      ahorro: oferta.original - oferta.oferta,
+      oferta: true
+    };
+  });
+}
+
+function asegurarEstilosOfertasCarrito() {
+  if (document.getElementById('pac-cart-offer-styles')) return;
+
+  const style = document.createElement('style');
+  style.id = 'pac-cart-offer-styles';
+  style.textContent = `
+    .cart-price-offer{
+      display:flex;
+      align-items:baseline;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:2px;
+    }
+    .cart-price-original{
+      color:#8B8179;
+      font-size:.76rem;
+      font-weight:600;
+      text-decoration:line-through;
+      text-decoration-thickness:1.3px;
+    }
+    .cart-price-sale{
+      color:var(--terracota,#C4622D);
+      font-size:.96rem;
+      font-weight:800;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 function renderCart() {
+  aplicarOfertasCarrito();
+  asegurarEstilosOfertasCarrito();
+
   cart = cart.map(item => ({
     ...item,
     img: normalizarImagenCarrito(item.img || '')
@@ -167,7 +248,16 @@ function renderCart() {
   document.getElementById('cart-total').textContent = '$' + totalPrice.toLocaleString('es-CL');
   container.innerHTML = cart.map(item => {
     const imagenSrc = normalizarImagenCarrito(item.img || '');
-    return `<div class="cart-item"><img class="cart-item-img" src="${imagenSrc}" alt="${item.name}" onerror="this.onerror=null;this.src='https://www.patasycaos.cl/assets/placeholder.png'"><div class="cart-item-info"><h4>${item.name}</h4><div class="price">$${(item.price*item.qty).toLocaleString('es-CL')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`;
+    const oferta = PAC_OFERTAS_CARRITO[item.id];
+
+    const precioHtml = oferta
+      ? `<div class="cart-price-offer">
+           <span class="cart-price-original">$${(oferta.original * item.qty).toLocaleString('es-CL')}</span>
+           <span class="cart-price-sale">$${(oferta.oferta * item.qty).toLocaleString('es-CL')}</span>
+         </div>`
+      : `<div class="price">$${(item.price * item.qty).toLocaleString('es-CL')}</div>`;
+
+    return `<div class="cart-item"><img class="cart-item-img" src="${imagenSrc}" alt="${item.name}" onerror="this.onerror=null;this.src='https://www.patasycaos.cl/assets/placeholder.png'"><div class="cart-item-info"><h4>${item.name}</h4>${precioHtml}<div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`;
   }).join('');
 }
 
