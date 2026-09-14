@@ -1198,6 +1198,50 @@ function generarTarjetas() {
       else resultado.push(idNuevo);
     });
 
+    // Orden especial de Snacks para gatos:
+    // 1) todos los tubitos juntos, aunque sean productos nuevos
+    // 2) inmediatamente después, los productos nuevos de Inaba
+    // 3) luego los productos Catgo
+    // El resto del catálogo conserva exactamente su orden actual.
+    const esTubito = id => {
+      const p = productos[id] || {};
+      const texto = `${id} ${p.nombre || ''} ${p.marca || ''}`.toLowerCase();
+      return texto.includes('tubito') || texto.includes('tubitos');
+    };
+    const esInaba = id => {
+      const p = productos[id] || {};
+      const texto = `${id} ${p.nombre || ''} ${p.marca || ''}`.toLowerCase();
+      return texto.includes('inaba') || texto.includes('dashi delights');
+    };
+    const esCatgo = id => {
+      const p = productos[id] || {};
+      const texto = `${id} ${p.nombre || ''} ${p.marca || ''}`.toLowerCase();
+      return texto.includes('catgo');
+    };
+
+    const bloqueTubitos = resultado.filter(esTubito);
+    const bloqueInaba = resultado.filter(id => !esTubito(id) && esInaba(id));
+    const bloqueCatgo = resultado.filter(id => !esTubito(id) && !esInaba(id) && esCatgo(id));
+
+    if (bloqueTubitos.length) {
+      const idsBloque = new Set([...bloqueTubitos, ...bloqueInaba, ...bloqueCatgo]);
+      const primeraPosicionTubito = resultado.findIndex(esTubito);
+      const antesDelBloque = resultado
+        .slice(0, primeraPosicionTubito)
+        .filter(id => !idsBloque.has(id));
+      const despuesDelBloque = resultado
+        .slice(primeraPosicionTubito)
+        .filter(id => !idsBloque.has(id));
+
+      return [
+        ...antesDelBloque,
+        ...bloqueTubitos,
+        ...bloqueInaba,
+        ...bloqueCatgo,
+        ...despuesDelBloque
+      ];
+    }
+
     return resultado;
   }
 
