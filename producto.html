@@ -184,13 +184,13 @@
 </style>
 
 
-<style id="pac-product-offer-css">
-.product-tag-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.product-offer-badge{display:inline-flex;align-items:center;background:#4A7C59;color:#fff;border-radius:50px;padding:6px 11px;font-size:.72rem;font-weight:800;letter-spacing:.04em;line-height:1}
+<style id="pac-product-offers-v2">
+.product-tag-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.product-offer-badge{display:none;align-items:center;background:#4A7C59;color:#fff;border-radius:999px;padding:6px 11px;font-size:.72rem;font-weight:800;letter-spacing:.05em;line-height:1}
 .product-price-offer-wrap{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .product-price-original-offer{text-decoration:line-through;color:#8b8179;font-size:1rem;font-weight:600}
-.product-price-current-offer{color:#4A7C59;font-weight:900}
-.product-saving{margin-top:7px;color:#4A7C59;font-size:.88rem;font-weight:700}
+.product-price-current-offer{color:#4A7C59;font-size:1.6rem;font-weight:900}
+.product-saving{margin-top:6px;color:#4A7C59;font-size:.88rem;font-weight:700}
 </style>
 
 </head>
@@ -200,7 +200,7 @@ __HEADER__
 <div class="product-breadcrumb"><a href="/">Inicio</a> / <a href="/tienda">Tienda</a> / __BREADCRUMB_NOMBRE__</div>
 <div class="product-page-grid">
 <div class="product-gallery"><img alt="__GALLERY_ALT__" class="product-gallery-main" id="product-main-img" src="__GALLERY_MAIN_IMG__">__THUMBS_HTML__</div>
-<div class="product-info"><div class="product-tag-row"><span class="product-tag">__PRODUCT_TAG__</span><span class="product-offer-badge" id="product-offer-badge" style="display:none">OFERTA</span></div><h1>__PRODUCT_NAME__</h1><div class="product-price">__PRODUCT_PRICE_DISPLAY__</div><p class="product-description">__PRODUCT_DESCRIPTION__</p>
+<div class="product-info"><div class="product-tag-row"><span class="product-tag">__PRODUCT_TAG__</span><span class="product-offer-badge" id="product-offer-badge">OFERTA</span></div><h1>__PRODUCT_NAME__</h1><div class="product-price">__PRODUCT_PRICE_DISPLAY__</div><p class="product-description">__PRODUCT_DESCRIPTION__</p>
 <div class="product-buy">
 <div class="product-qty-selector" aria-label="Seleccionar cantidad">
   <button id="product-qty-minus" type="button" onclick="changeProductPageQty(-1)" aria-label="Disminuir cantidad">−</button>
@@ -332,7 +332,7 @@ __FOOTER__
     </div>
   </div>
 </div>
-<script src="/products-data.js?v=ofertas-20260914"></script>
+<script src="/products-data.js?v=ofertas-20260914b"></script>
 <script src="/product-slugs.js"></script>
 <script src="/cart.js"></script>
 <script src="/assets/js/site.js"></script>
@@ -357,46 +357,100 @@ function switchProductTab(button){
 }
 </script>
 
-<script id="pac-product-offers">
-const PAC_OFERTAS_PRODUCTO = {
-  "dispensador-de-bolsas---diseno-cafe": { original: 5990, precio: 4990 },
-  "fuente-agua": { original: 21990, precio: 17990 },
-  "lata-leonardo_Pescado": { original: 3790, precio: 3290 },
-  "lata-leonardo-kitten": { original: 3790, precio: 3290 },
-  "paw-balm": { original: 5990, precio: 3990 },
-  "rascador-maxi-caja-de-leche---brnx": { original: 13990, precio: 11990 },
-  "zupet-dental-fitness-crocante": { original: 9990, precio: 7990 },
-  "zupet-dental-power-suave": { original: 9990, precio: 7990 }
-};
+<script id="pac-product-offers-runtime-v2">
+(function(){
+  const OFFERS = [
+    { ids:['dispensador-de-bolsas---diseno-cafe'], names:['Dispensador de Bolsas - Diseño Café'], original:5990, price:4990 },
+    { ids:['fuente-agua'], names:['Fuente de Agua Flor USB'], original:21990, price:17990 },
+    { ids:['lata-leonardo_Pescado'], names:['Lata Leonardo Adulto — Pescado','Lata Leonardo Adulto - Pescado'], original:3790, price:3290 },
+    { ids:['lata-leonardo-kitten'], names:['Lata Leonardo Kitten 200g'], original:3790, price:3290 },
+    { ids:['paw-balm'], names:['Paw Balm'], original:5990, price:3990 },
+    { ids:['rascador-maxi-caja-de-leche---brnx'], names:['Rascador Maxi Caja de Leche - Brnx'], original:13990, price:11990 },
+    { ids:['zupet-dental-fitness-crocante'], names:['Snack Dental Fitness Crocante 60g - QChefs'], original:9990, price:7990 },
+    { ids:['zupet-dental-power-suave'], names:['Snack Dental Power 75g - QChefs'], original:9990, price:7990 }
+  ];
 
-document.addEventListener('DOMContentLoaded', function(){
-  if (typeof CURRENT_PRODUCT === 'undefined') return;
-  const o = PAC_OFERTAS_PRODUCTO[CURRENT_PRODUCT.id];
-  if (!o) return;
+  function norm(s){ return String(s||'').trim().toLowerCase().replace(/[–—]/g,'-').replace(/\s+/g,' '); }
 
-  CURRENT_PRODUCT.price = o.precio;
-
-  if (typeof productos === 'object' && productos[CURRENT_PRODUCT.id]) {
-    productos[CURRENT_PRODUCT.id].precioNum = o.precio;
-    productos[CURRENT_PRODUCT.id].precio = '$' + o.precio.toLocaleString('es-CL');
-    productos[CURRENT_PRODUCT.id].precioOriginalNum = o.original;
-    productos[CURRENT_PRODUCT.id].ahorro = o.original - o.precio;
-    productos[CURRENT_PRODUCT.id].oferta = true;
+  function findOffer(){
+    if (typeof CURRENT_PRODUCT === 'undefined') return null;
+    const cid = String(CURRENT_PRODUCT.id || '');
+    const cname = norm(CURRENT_PRODUCT.name || CURRENT_PRODUCT.nombre || '');
+    return OFFERS.find(o =>
+      o.ids.includes(cid) ||
+      o.names.some(n => norm(n) === cname)
+    ) || null;
   }
 
-  const badge = document.getElementById('product-offer-badge');
-  if (badge) badge.style.display = 'inline-flex';
+  function applyOffer(){
+    const o = findOffer();
+    if (!o) return null;
 
-  const priceBox = document.querySelector('.product-price');
-  if (priceBox) {
-    priceBox.innerHTML =
-      '<div class="product-price-offer-wrap">' +
-        '<span class="product-price-original-offer">$' + o.original.toLocaleString('es-CL') + '</span>' +
-        '<span class="product-price-current-offer">$' + o.precio.toLocaleString('es-CL') + '</span>' +
-      '</div>' +
-      '<div class="product-saving">Ahorras $' + (o.original - o.precio).toLocaleString('es-CL') + '</div>';
+    // Patch every price field likely used by the generated product-page logic/cart.
+    CURRENT_PRODUCT.price = o.price;
+    CURRENT_PRODUCT.precio = '$' + o.price.toLocaleString('es-CL');
+    CURRENT_PRODUCT.precioNum = o.price;
+    CURRENT_PRODUCT.originalPrice = o.original;
+    CURRENT_PRODUCT.precioOriginalNum = o.original;
+    CURRENT_PRODUCT.ahorro = o.original - o.price;
+    CURRENT_PRODUCT.oferta = true;
+
+    if (typeof productos === 'object') {
+      const byId = CURRENT_PRODUCT.id && productos[CURRENT_PRODUCT.id];
+      if (byId) {
+        byId.precio = '$' + o.price.toLocaleString('es-CL');
+        byId.precioNum = o.price;
+        byId.precioOriginalNum = o.original;
+        byId.ahorro = o.original - o.price;
+        byId.oferta = true;
+      }
+    }
+
+    const badge = document.getElementById('product-offer-badge');
+    if (badge) badge.style.display = 'inline-flex';
+
+    const priceBox = document.querySelector('.product-price');
+    if (priceBox) {
+      priceBox.innerHTML =
+        '<div class="product-price-offer-wrap">' +
+          '<span class="product-price-original-offer">$' + o.original.toLocaleString('es-CL') + '</span>' +
+          '<span class="product-price-current-offer">$' + o.price.toLocaleString('es-CL') + '</span>' +
+        '</div>' +
+        '<div class="product-saving">Ahorras $' + (o.original - o.price).toLocaleString('es-CL') + '</div>';
+    }
+    return o;
   }
-});
+
+  // Apply immediately because CURRENT_PRODUCT is defined in the script just before this one.
+  let activeOffer = applyOffer();
+
+  document.addEventListener('DOMContentLoaded', function(){
+    activeOffer = applyOffer() || activeOffer;
+  });
+
+  // Patch the generated Add-to-cart function too, so the cart always receives sale price.
+  const originalAddCurrentProduct = window.addCurrentProduct;
+  if (typeof originalAddCurrentProduct === 'function') {
+    window.addCurrentProduct = function(){
+      activeOffer = applyOffer() || activeOffer;
+      return originalAddCurrentProduct.apply(this, arguments);
+    };
+  }
+
+  // As a second safeguard, patch addToCart for this product page.
+  const originalAddToCart = window.addToCart;
+  if (typeof originalAddToCart === 'function') {
+    window.addToCart = function(item){
+      const o = applyOffer() || activeOffer;
+      if (o && item) {
+        item.price = o.price;
+        if ('precio' in item) item.precio = o.price;
+        if ('precioNum' in item) item.precioNum = o.price;
+      }
+      return originalAddToCart.apply(this, arguments);
+    };
+  }
+})();
 </script>
 
 </body>
