@@ -116,7 +116,7 @@
   };
 
 
-  const PRODUCT_OFFERS = {
+  const PAC_PRODUCT_OFFERS = {
     "dispensador-de-bolsas---diseno-cafe": { original: 5990, price: 4990 },
     "fuente-agua": { original: 21990, price: 17990 },
     "lata-leonardo_Pescado": { original: 3790, price: 3290 },
@@ -127,17 +127,7 @@
     "zupet-dental-power-suave": { original: 9990, price: 7990 }
   };
 
-  function normalizeOfferName(value) {
-    return String(value || '')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase()
-      .replace(/[–—]/g, '-')
-      .replace(/\s+/g, ' ')
-      .trim();
-  }
-
-  const PRODUCT_OFFER_NAMES = {
+  const PAC_PRODUCT_OFFER_NAMES = {
     "dispensador de bolsas - diseno cafe": "dispensador-de-bolsas---diseno-cafe",
     "fuente de agua flor usb": "fuente-agua",
     "lata leonardo adulto - pescado": "lata-leonardo_Pescado",
@@ -148,32 +138,104 @@
     "snack dental power 75g - qchefs": "zupet-dental-power-suave"
   };
 
-  function getCurrentOffer() {
-    try {
-      if (typeof CURRENT_PRODUCT === 'undefined' || !CURRENT_PRODUCT) return null;
+  function pacNormOffer(value) {
+    return String(value || '')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase().replace(/[–—]/g, '-')
+      .replace(/\s+/g, ' ').trim();
+  }
 
-      const directId = String(CURRENT_PRODUCT.id || '');
-      if (PRODUCT_OFFERS[directId]) return { id: directId, ...PRODUCT_OFFERS[directId] };
+  function pacGetOffer() {
+    if (typeof CURRENT_PRODUCT === 'undefined' || !CURRENT_PRODUCT) return null;
 
-      const productName = normalizeOfferName(CURRENT_PRODUCT.name || CURRENT_PRODUCT.nombre);
-      const mappedId = PRODUCT_OFFER_NAMES[productName];
-      if (mappedId && PRODUCT_OFFERS[mappedId]) return { id: mappedId, ...PRODUCT_OFFERS[mappedId] };
+    const id = String(CURRENT_PRODUCT.id || '');
+    if (PAC_PRODUCT_OFFERS[id]) return { id, ...PAC_PRODUCT_OFFERS[id] };
 
-      // Extra fallback: find same product by name in products-data.js
-      const catalogMatch = getCatalogEntries().find(([id, p]) =>
-        normalizeOfferName(p?.nombre) === productName && PRODUCT_OFFERS[id]
-      );
-      if (catalogMatch) {
-        const [id] = catalogMatch;
-        return { id, ...PRODUCT_OFFERS[id] };
-      }
-    } catch (error) {}
+    const name = pacNormOffer(CURRENT_PRODUCT.name || CURRENT_PRODUCT.nombre);
+    const mapped = PAC_PRODUCT_OFFER_NAMES[name];
+    if (mapped && PAC_PRODUCT_OFFERS[mapped]) return { id: mapped, ...PAC_PRODUCT_OFFERS[mapped] };
+
     return null;
   }
 
-  function applyCurrentOffer() {
-    const offer = getCurrentOffer();
-    if (!offer || typeof CURRENT_PRODUCT === 'undefined') return null;
+  function pacInjectOfferStyles() {
+    if (document.getElementById('pac-live-offer-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'pac-live-offer-styles';
+    style.textContent = `
+      .product-tag-row-live{
+        display:flex!important;
+        align-items:center!important;
+        gap:8px!important;
+        flex-wrap:wrap!important;
+        margin-bottom:0!important;
+      }
+      .product-offer-badge-live{
+        display:inline-flex!important;
+        align-items:center!important;
+        justify-content:center!important;
+        background:#4A7C59!important;
+        color:#fff!important;
+        border-radius:999px!important;
+        padding:5px 10px!important;
+        font-family:'Poppins',sans-serif!important;
+        font-size:.68rem!important;
+        font-weight:800!important;
+        letter-spacing:.05em!important;
+        line-height:1!important;
+        text-transform:uppercase!important;
+      }
+      .product-price.product-price-live-offer{
+        display:block!important;
+        margin-top:14px!important;
+        color:inherit!important;
+        font-size:initial!important;
+        line-height:normal!important;
+      }
+      .product-price-offer-line-live{
+        display:flex!important;
+        align-items:baseline!important;
+        gap:10px!important;
+        flex-wrap:wrap!important;
+      }
+      .product-price-original-live{
+        display:inline-block!important;
+        color:#8B8179!important;
+        font-family:'Poppins',sans-serif!important;
+        font-size:.95rem!important;
+        font-weight:600!important;
+        line-height:1.2!important;
+        text-decoration:line-through!important;
+        text-decoration-thickness:1.5px!important;
+      }
+      .product-price-current-live{
+        display:inline-block!important;
+        color:#C4622D!important;
+        font-family:'Poppins',sans-serif!important;
+        font-size:1.55rem!important;
+        font-weight:900!important;
+        line-height:1.1!important;
+      }
+      .product-saving-live{
+        display:inline-flex!important;
+        align-items:center!important;
+        margin-top:8px!important;
+        padding:5px 10px!important;
+        border-radius:999px!important;
+        background:rgba(74,124,89,.10)!important;
+        color:#4A7C59!important;
+        font-family:'Poppins',sans-serif!important;
+        font-size:.76rem!important;
+        font-weight:700!important;
+        line-height:1!important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function pacApplyOfferToCurrentProduct() {
+    const offer = pacGetOffer();
+    if (!offer) return null;
 
     CURRENT_PRODUCT.price = offer.price;
     CURRENT_PRODUCT.precioNum = offer.price;
@@ -183,38 +245,48 @@
     CURRENT_PRODUCT.oferta = true;
 
     try {
-      const catalogId = PRODUCT_OFFERS[CURRENT_PRODUCT.id] ? CURRENT_PRODUCT.id : offer.id;
-      if (typeof productos !== 'undefined' && productos?.[catalogId]) {
-        productos[catalogId].precioNum = offer.price;
-        productos[catalogId].precio = '$' + offer.price.toLocaleString('es-CL');
-        productos[catalogId].precioOriginalNum = offer.original;
-        productos[catalogId].ahorro = offer.original - offer.price;
-        productos[catalogId].oferta = true;
+      if (typeof productos !== 'undefined' && productos?.[offer.id]) {
+        productos[offer.id].precioNum = offer.price;
+        productos[offer.id].precio = '$' + offer.price.toLocaleString('es-CL');
+        productos[offer.id].precioOriginalNum = offer.original;
+        productos[offer.id].ahorro = offer.original - offer.price;
+        productos[offer.id].oferta = true;
       }
-    } catch (error) {}
+    } catch (e) {}
 
     return offer;
   }
 
-  function renderCurrentOffer() {
-    const offer = applyCurrentOffer();
-    const badge = document.getElementById('product-offer-badge');
-    const priceBox = document.querySelector('.product-price');
+  function pacRenderProductOffer() {
+    const offer = pacApplyOfferToCurrentProduct();
+    if (!offer) return;
 
-    if (!offer) {
-      if (badge) badge.style.display = 'none';
-      return;
+    pacInjectOfferStyles();
+
+    const tag = document.querySelector('.product-info .product-tag');
+    if (tag && !document.querySelector('.product-offer-badge-live')) {
+      const row = document.createElement('div');
+      row.className = 'product-tag-row-live';
+      tag.parentNode.insertBefore(row, tag);
+      row.appendChild(tag);
+
+      const badge = document.createElement('span');
+      badge.className = 'product-offer-badge-live';
+      badge.textContent = 'OFERTA';
+      row.appendChild(badge);
     }
 
-    if (badge) badge.style.display = 'inline-flex';
-
+    const priceBox = document.querySelector('.product-info .product-price');
     if (priceBox) {
+      priceBox.classList.add('product-price-live-offer');
       priceBox.innerHTML =
-        '<div class="product-price-offer-wrap">' +
-          '<span class="product-price-original-offer">$' + offer.original.toLocaleString('es-CL') + '</span>' +
-          '<span class="product-price-current-offer">$' + offer.price.toLocaleString('es-CL') + '</span>' +
+        '<div class="product-price-offer-line-live">' +
+          '<span class="product-price-original-live">$' + offer.original.toLocaleString('es-CL') + '</span>' +
+          '<span class="product-price-current-live">$' + offer.price.toLocaleString('es-CL') + '</span>' +
         '</div>' +
-        '<div class="product-saving">Ahorras $' + (offer.original - offer.price).toLocaleString('es-CL') + '</div>';
+        '<span class="product-saving-live">Ahorras $' +
+          (offer.original - offer.price).toLocaleString('es-CL') +
+        '</span>';
     }
   }
 
@@ -311,7 +383,7 @@
   }
 
   window.addCurrentProduct = async function addCurrentProduct() {
-    applyCurrentOffer();
+    pacApplyOfferToCurrentProduct();
     await loadCurrentProductStock();
 
     const alreadyInCart = currentCartQty();
@@ -332,9 +404,8 @@
       const existing = cart.find(item => item.id === CURRENT_PRODUCT.id);
 
       if (existing) {
-        // Refresh price in case this product was already in the cart before the offer.
         existing.price = CURRENT_PRODUCT.price;
-        existing.name = CURRENT_PRODUCT.name;
+        if ('precioNum' in existing) existing.precioNum = CURRENT_PRODUCT.price;
         existing.maxQty = productStock === null ? Math.max(existing.maxQty || 1, existing.qty + quantityToAdd) : productStock;
         existing.qty = Math.min(existing.maxQty, existing.qty + quantityToAdd);
       } else {
@@ -387,7 +458,7 @@
   };
 
   document.addEventListener('DOMContentLoaded', function () {
-    renderCurrentOffer();
+    pacRenderProductOffer();
     updateQtyUI();
     loadCurrentProductStock();
 
