@@ -520,6 +520,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <ul class="nav-links">
       <li><a href="/">Inicio</a></li>
       <li><a href="/tienda" class="activo">Tienda</a></li>
+      <li><a href="/tienda?ofertas=1" class="nav-ofertas-link">Ofertas</a></li>
       <li class="nav-item"><a href="/tienda?aud=Perros">Perros</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Perros&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
       <li class="nav-item"><a href="/tienda?aud=Gatos">Gatos</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
       <li><a href="/suscripciones">Suscripciones</a></li>
@@ -533,6 +534,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="mobile-menu" id="mobile-menu">
   <a href="/" onclick="toggleMenu()">Inicio</a>
   <a href="/tienda" class="activo" onclick="toggleMenu()">Tienda</a>
+  <a href="/tienda?ofertas=1" class="nav-ofertas-link" onclick="toggleMenu()">Ofertas</a>
 
   <!-- ACORDEÓN PERROS -->
   <div class="mobile-accordion">
@@ -1281,6 +1283,12 @@ function generarTarjetas() {
   function productoCoincideFiltros(id, p) {
     if (!p) return false;
 
+    if (ofertasParam === '1') {
+      const esOferta = p.oferta === true ||
+        (Number(p.precioOriginalNum || 0) > Number(p.precioNum || 0));
+      if (!esOferta) return false;
+    }
+
     const categoriaProducto = normalizarCategoria(p.categoria);
     const categoriaBuscada = normalizarCategoria(filtros.cat);
 
@@ -1580,6 +1588,7 @@ const catParam = urlParams.get('cat');
 const audParam = urlParams.get('aud');
 const marcaParam = urlParams.get('marca');
 const buscarParam = urlParams.get('buscar');
+const ofertasParam = urlParams.get('ofertas');
 
 function aplicarAliasFiltrosURL() {
   if (!catParam) return;
@@ -1594,6 +1603,26 @@ function aplicarAliasFiltrosURL() {
 }
 
 aplicarAliasFiltrosURL();
+
+// Estado visual de la vista Ofertas
+if (ofertasParam === '1') {
+  document.querySelectorAll('a[href="/tienda"]').forEach(a => a.classList.remove('activo'));
+  document.querySelectorAll('a[href="/tienda?ofertas=1"]').forEach(a => a.classList.add('activo'));
+
+  const heroEyebrow = document.querySelector('.tienda-hero span');
+  const heroTitle = document.querySelector('.tienda-hero h1');
+
+  if (heroEyebrow) heroEyebrow.textContent = 'Ofertas';
+  if (heroTitle) heroTitle.innerHTML = 'Productos en <em>oferta.</em>';
+
+  document.title = 'Ofertas para mascotas — Patas & Caos';
+}
+
+if (ofertasParam === '1') {
+  const titulo = [...document.querySelectorAll('h1')].find(el => el.textContent.includes('Toda la'));
+  if (titulo) titulo.innerHTML = 'Productos en <em>oferta.</em>';
+}
+
 
 // Filtro por texto via ?buscar=botella — solo funciona como link directo,
 // no tiene ningún botón/pill visible en la tienda.
