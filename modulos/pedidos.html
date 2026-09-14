@@ -1640,24 +1640,36 @@ function actualizarSugerenciasClientes() {
 let clienteOpcionActiva = -1;
 
 function clientesCoincidentes(valor) {
-  const q = normalizarTextoCliente(valor);
+  const textoOriginal = String(valor || '').trim();
+  const q = normalizarTextoCliente(textoOriginal);
+  const qTelefono = textoOriginal.replace(/\D/g, '');
+
   if (!q) return [];
 
-  return obtenerClientesUnicos().filter(cliente => {
-    const nombre = normalizarTextoCliente(cliente.nombre);
-    const email = normalizarTextoCliente(cliente.email);
-    const telefono = normalizarTelefonoCliente(cliente.telefono);
-    const comuna = normalizarTextoCliente(cliente.comuna);
-    const direccion = normalizarTextoCliente(cliente.direccion);
+  const resultados = obtenerClientesUnicos()
+    .map(cliente => {
+      const nombre = normalizarTextoCliente(cliente.nombre);
+      const email = normalizarTextoCliente(cliente.email);
+      const telefono = normalizarTelefonoCliente(cliente.telefono);
+      const comuna = normalizarTextoCliente(cliente.comuna);
+      const direccion = normalizarTextoCliente(cliente.direccion);
 
-    // Busca en cualquier parte del nombre, no solo coincidencia exacta.
-    // Ej.: escribir "jean" encuentra "Jean Asenjo".
-    return nombre.includes(q) ||
-           email.includes(q) ||
-           telefono.includes(String(valor || '').replace(/\D/g, '')) ||
-           comuna.includes(q) ||
-           direccion.includes(q);
-  }).slice(0, 8);
+      let puntaje = 0;
+
+      if (nombre.startsWith(q)) puntaje = 100;
+      else if (nombre.split(' ').some(parte => parte.startsWith(q))) puntaje = 90;
+      else if (nombre.includes(q)) puntaje = 80;
+      else if (email.includes(q)) puntaje = 60;
+      else if (qTelefono && telefono.includes(qTelefono)) puntaje = 50;
+      else if (comuna.includes(q)) puntaje = 40;
+      else if (direccion.includes(q)) puntaje = 30;
+
+      return { cliente, puntaje };
+    })
+    .filter(item => item.puntaje > 0)
+    .sort((a, b) => b.puntaje - a.puntaje);
+
+  return resultados.slice(0, 8).map(item => item.cliente);
 }
 
 function mostrarSugerenciasClientes(valor) {
