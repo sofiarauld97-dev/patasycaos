@@ -3,29 +3,6 @@
   const $ = id => document.getElementById(id);
   let documento = 'boleta';
 
-  const OFERTAS_CHECKOUT = {
-    "dispensador-de-bolsas---diseno-cafe": { original: 5990, oferta: 4990 },
-    "fuente-agua": { original: 21990, oferta: 17990 },
-    "lata-leonardo_Pescado": { original: 3790, oferta: 3290 },
-    "lata-leonardo-kitten": { original: 3790, oferta: 3290 },
-    "paw-balm": { original: 5990, oferta: 3990 },
-    "rascador-maxi-caja-de-leche---brnx": { original: 13990, oferta: 11990 },
-    "zupet-dental-fitness-crocante": { original: 9990, oferta: 7990 },
-    "zupet-dental-power-suave": { original: 9990, oferta: 7990 }
-  };
-
-  function ofertaCheckout(item){
-    const directa = OFERTAS_CHECKOUT[item?.id];
-    if (directa) return directa;
-
-    const original = Number(item?.precioOriginalNum || item?.originalPrice || 0);
-    const actual = Number(item?.price || item?.precioNum || 0);
-    if (original > actual && actual > 0) return { original, oferta: actual };
-
-    return null;
-  }
-
-
   function subtotal(){
     return cart.reduce((sum,item)=>sum + Number(item.price||0)*Number(item.qty||0),0);
   }
@@ -42,6 +19,18 @@
     return calcularEnvio(comuna)?.precio || 0;
   }
 
+  function esCalipsoPreventa(item){
+    const nombre = String(item?.name || '').toLowerCase();
+    const id = String(item?.id || '').toLowerCase();
+    const stockId = String(item?.stockId || '').toLowerCase();
+
+    return item?.preventa === true ||
+      stockId === 'botella-portatil-para-perros_calipso' ||
+      id === 'botella-portatil-para-perros_calipso' ||
+      (nombre.includes('botella portátil para perros') && nombre.includes('calipso')) ||
+      (nombre.includes('botella portatil para perros') && nombre.includes('calipso'));
+  }
+
   function actualizarResumen(){
     if(!cart.length){
       $('checkoutResumenPagina').innerHTML = '<p style="font-size:.86rem;color:#6B625B">Tu carrito está vacío.</p>';
@@ -53,22 +42,19 @@
     }
 
     $('checkoutResumenPagina').innerHTML = cart.map(item => {
-      const oferta = ofertaCheckout(item);
-
-      const precioHtml = oferta
-        ? `<span class="summary-item-price-wrap">
-             <span class="summary-item-price-line">
-               <span class="summary-item-price-original">$${(oferta.original * item.qty).toLocaleString('es-CL')}</span>
-               <strong class="summary-item-price-sale">$${(oferta.oferta * item.qty).toLocaleString('es-CL')}</strong>
-             </span>
-             <span class="summary-item-saving">Ahorras $${((oferta.original - oferta.oferta) * item.qty).toLocaleString('es-CL')}</span>
-           </span>`
-        : `<strong>$${(item.price * item.qty).toLocaleString('es-CL')}</strong>`;
-
+      const preventa = esCalipsoPreventa(item);
       return `
         <div class="summary-item">
-          <span>${item.name} x${item.qty}</span>
-          ${precioHtml}
+          <div class="summary-item-main">
+            <span>${item.name} x${item.qty}</span>
+            ${preventa ? `
+              <div class="summary-preorder-line">
+                <span class="summary-preorder-badge">PREVENTA</span>
+                <span class="summary-preorder-text">Despacho a partir del 28 de septiembre</span>
+              </div>
+            ` : ''}
+          </div>
+          <strong>$${(item.price*item.qty).toLocaleString('es-CL')}</strong>
         </div>`;
     }).join('');
 
@@ -169,6 +155,15 @@
       documento:documento==='factura'?'Factura':'Boleta',
       ...docInfo
     };
+
+    cart = cart.map(item => esCalipsoPreventa(item) ? {
+      ...item,
+      preventa: true,
+      preventaFecha: '28 de septiembre',
+      preventaTexto: 'Despacho a partir del 28 de septiembre',
+      stockId: item.stockId || 'botella-portatil-para-perros_Calipso'
+    } : item);
+    localStorage.setItem('pac_cart', JSON.stringify(cart));
 
     const metodo=document.querySelector('input[name="metodo-pago"]:checked')?.value || 'mercadopago';
     const btn=$('confirmar-pago'); btn.disabled=true; btn.textContent='Procesando...';
