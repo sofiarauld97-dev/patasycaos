@@ -328,7 +328,8 @@
       }
       const badge = document.createElement('span');
       badge.className = 'product-offer-badge-live product-preorder-badge-live';
-      badge.style.background = '#C4622D';
+      badge.style.background = 'rgba(74,124,89,.13)';
+      badge.style.color = '#4A7C59';
       badge.textContent = 'PREVENTA';
       row.appendChild(badge);
     }
@@ -342,8 +343,10 @@
       if (priceBox) priceBox.insertAdjacentElement('afterend', notice);
     }
     notice.innerHTML =
-      '<div style="color:#4A7C59;font-size:.84rem;font-weight:800;">Disponible para preventa</div>' +
-      '<div style="margin-top:2px;color:#6B625B;font-size:.78rem;font-weight:500;">' + PAC_CURRENT_PREORDER.texto + '</div>';
+      '<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">' +
+        '<span style="display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;background:rgba(74,124,89,.13);color:#4A7C59;font-size:.68rem;font-weight:800;letter-spacing:.03em;">PREVENTA</span>' +
+        '<span style="color:#6B625B;font-size:.78rem;font-weight:600;">' + PAC_CURRENT_PREORDER.texto + '</span>' +
+      '</div>';
   }
 
   function updateQtyUI() {

@@ -238,7 +238,7 @@ function asegurarEstilosPreventaCarrito() {
   style.textContent = `
     .cart-preorder-note{
       margin-top:5px;
-      color:#8f431f;
+      color:#6B625B;
       font-size:.72rem;
       font-weight:700;
       line-height:1.35;
@@ -248,8 +248,8 @@ function asegurarEstilosPreventaCarrito() {
       margin-right:5px;
       padding:2px 6px;
       border-radius:999px;
-      background:rgba(196,98,45,.12);
-      color:#C4622D;
+      background:rgba(74,124,89,.13);
+      color:#4A7C59;
       font-size:.64rem;
       font-weight:800;
       letter-spacing:.04em;
