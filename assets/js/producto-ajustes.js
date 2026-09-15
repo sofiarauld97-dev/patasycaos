@@ -337,11 +337,13 @@
     if (!notice) {
       notice = document.createElement('div');
       notice.id = 'pac-product-preorder-notice';
-      notice.style.cssText = 'margin:12px 0 4px;padding:10px 12px;border-radius:10px;background:rgba(196,98,45,.10);color:#8f431f;font-family:Poppins,sans-serif;font-size:.82rem;font-weight:700;line-height:1.45;';
+      notice.style.cssText = 'margin:12px 0 4px;padding:0;background:transparent;font-family:Poppins,sans-serif;line-height:1.45;';
       const priceBox = document.querySelector('.product-info .product-price');
       if (priceBox) priceBox.insertAdjacentElement('afterend', notice);
     }
-    notice.innerHTML = '<strong>Disponible para preventa</strong><br>' + PAC_CURRENT_PREORDER.texto;
+    notice.innerHTML =
+      '<div style="color:#4A7C59;font-size:.84rem;font-weight:800;">Disponible para preventa</div>' +
+      '<div style="margin-top:2px;color:#6B625B;font-size:.78rem;font-weight:500;">' + PAC_CURRENT_PREORDER.texto + '</div>';
   }
 
   function updateQtyUI() {
