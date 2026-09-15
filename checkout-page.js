@@ -29,11 +29,38 @@
       return;
     }
 
-    $('checkoutResumenPagina').innerHTML = cart.map(item => `
-      <div class="summary-item">
-        <span>${item.name} x${item.qty}</span>
-        <strong>$${(item.price*item.qty).toLocaleString('es-CL')}</strong>
-      </div>`).join('');
+    $('checkoutResumenPagina').innerHTML = cart.map(item => {
+      const preventaHtml = item.preventa
+        ? `<div class="summary-preorder-note">
+             <span class="summary-preorder-badge">PREVENTA</span>
+             <span>${item.preventaTexto || 'Despacho a partir del 28 de septiembre'}</span>
+           </div>`
+        : '';
+
+      return `
+        <div class="summary-item">
+          <div class="summary-item-main">
+            <span>${item.name} x${item.qty}</span>
+            ${preventaHtml}
+          </div>
+          <strong>$${(item.price*item.qty).toLocaleString('es-CL')}</strong>
+        </div>`;
+    }).join('');
+
+    const hayPreventa = cart.some(item => item.preventa);
+    let avisoPreventa = document.getElementById('checkout-preventa-aviso');
+    if (hayPreventa) {
+      if (!avisoPreventa) {
+        avisoPreventa = document.createElement('div');
+        avisoPreventa.id = 'checkout-preventa-aviso';
+        avisoPreventa.style.cssText = 'margin:0 0 14px;padding:10px 12px;border-radius:10px;background:rgba(196,98,45,.10);color:#8f431f;font-size:.76rem;font-weight:700;line-height:1.45;';
+        $('checkoutResumenPagina').insertAdjacentElement('beforebegin', avisoPreventa);
+      }
+      avisoPreventa.innerHTML = '<strong>Tu pedido incluye un producto en preventa.</strong><br>La Botella Portátil Calipso se despacha a partir del 28 de septiembre.';
+      avisoPreventa.hidden = false;
+    } else if (avisoPreventa) {
+      avisoPreventa.hidden = true;
+    }
 
     const sub = subtotal();
     const cost = costoEnvioActual();
