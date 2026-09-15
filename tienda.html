@@ -1021,6 +1021,22 @@ function productoUrl(id){
 }
 
 
+// ── PREVENTA ────────────────────────────────────────────────────────────────
+const PAC_PREVENTAS = {
+  "botella-portatil-para-perros_Calipso": {
+    fecha: "28 de septiembre",
+    texto: "Despacho a partir del 28 de septiembre"
+  }
+};
+
+function pacGetPreventa(id) {
+  return PAC_PREVENTAS[id] || null;
+}
+
+function pacPreventaSku(productoId, varianteLabel) {
+  return productoId + '_' + varianteLabel;
+}
+
 function checkStockCard(id, stock) {
   const p = productos[id];
   if (!p) return true;
@@ -1518,14 +1534,21 @@ function abrirModal(productoId) {
       const btn = document.createElement('button');
       const skuKey = productoId + '_' + v.label;
       const enStock = stock[skuKey] !== 0;
+      const preventa = pacGetPreventa(skuKey);
       btn.className = 'modal-variante-btn' + (idx === 0 ? ' activo' : '');
-      btn.textContent = enStock ? v.label : v.label + ' — Agotado';
+      btn.textContent = enStock
+        ? (preventa ? v.label + ' — PREVENTA' : v.label)
+        : v.label + ' — Agotado';
       btn.disabled = !enStock;
       btn.onclick = () => { if (enStock) seleccionarVariante(idx); };
       opcionesEl.appendChild(btn);
     });
     const primerDisponible = p.variantes.findIndex((v) => getStock()[productoId + '_' + v.label] !== 0);
-    construirGaleria(p.variantes[Math.max(0, primerDisponible)]);
+    varianteActualIdx = Math.max(0, primerDisponible);
+    document.querySelectorAll('.modal-variante-btn').forEach((btn, i) => btn.classList.toggle('activo', i === varianteActualIdx));
+    construirGaleria(p.variantes[varianteActualIdx]);
+    actualizarIngredientesModal(p, p.variantes[varianteActualIdx]?.label);
+    actualizarPreventaModal();
   } else { variantesEl.classList.remove('visible'); construirGaleria(p); }
   document.getElementById('modalProducto').classList.add('activo');
   document.body.style.overflow = 'hidden';
@@ -1562,11 +1585,39 @@ function actualizarIngredientesModal(p, varianteLabel) {
   seleccionarTabModal('carac');
 }
 
+function actualizarPreventaModal() {
+  if (!productoActual || !productoActual.variantes) return;
+  const variante = productoActual.variantes[varianteActualIdx];
+  const skuKey = pacPreventaSku(productoActual.id, variante.label);
+  const preventa = pacGetPreventa(skuKey);
+
+  let aviso = document.getElementById('pac-preventa-modal');
+  if (!aviso) {
+    aviso = document.createElement('div');
+    aviso.id = 'pac-preventa-modal';
+    aviso.style.cssText = 'display:none;margin:12px 0 4px;padding:10px 12px;border-radius:10px;background:rgba(196,98,45,.10);color:#8f431f;font-size:.8rem;font-weight:700;line-height:1.45;';
+    const opciones = document.getElementById('modalVariantesOpciones');
+    if (opciones && opciones.parentNode) opciones.parentNode.appendChild(aviso);
+  }
+
+  if (preventa) {
+    aviso.innerHTML = '<strong>PREVENTA</strong><br>' + preventa.texto;
+    aviso.style.display = 'block';
+    const btn = document.getElementById('modalBtnCarrito');
+    if (btn) btn.textContent = 'Comprar en preventa';
+  } else {
+    aviso.style.display = 'none';
+    const btn = document.getElementById('modalBtnCarrito');
+    if (btn) btn.textContent = 'Añadir al carrito';
+  }
+}
+
 function seleccionarVariante(idx) {
   varianteActualIdx = idx; imagenActualIdx = 0;
   document.querySelectorAll('.modal-variante-btn').forEach((btn, i) => btn.classList.toggle('activo', i === idx));
   construirGaleria(productoActual.variantes[idx]);
   actualizarIngredientesModal(productoActual, productoActual.variantes[idx].label);
+  actualizarPreventaModal();
 }
 function construirGaleria(fuente) {
   const thumbsEl = document.getElementById('modalThumbnails'); thumbsEl.innerHTML = '';
@@ -1608,10 +1659,24 @@ function agregarAlCarritoDesdeModal() {
   const stock = getStock();
   if (stock[skuKey] === 0) { const btn = document.getElementById('modalBtnCarrito'); btn.textContent = 'Agotado 😢'; btn.style.background = '#c0392b'; setTimeout(() => { btn.textContent = 'Añadir al carrito'; btn.style.background = ''; }, 2000); return; }
   const imgCarrito = fuenteActual.imagenes?.[0] || '';
-  addToCart({ id: productoActual.id + (productoActual.variantes ? '-' + varianteActualIdx : ''), name: nombreCompleto, price: productoActual.precioNum, img: imagenCarritoDesdeProducto(imgCarrito) });
+  const preventa = pacGetPreventa(skuKey);
+  addToCart({
+    id: productoActual.id + (productoActual.variantes ? '-' + varianteActualIdx : ''),
+    stockId: skuKey,
+    name: nombreCompleto,
+    price: productoActual.precioNum,
+    img: imagenCarritoDesdeProducto(imgCarrito),
+    preventa: !!preventa,
+    preventaFecha: preventa?.fecha || null,
+    preventaTexto: preventa?.texto || null
+  });
   const btn = document.getElementById('modalBtnCarrito');
   btn.textContent = '✓ ¡Añadido!'; btn.style.background = '#4A7C59';
-  setTimeout(() => { btn.textContent = 'Añadir al carrito'; btn.style.background = ''; cerrarModal(); }, 1200);
+  setTimeout(() => {
+    btn.textContent = pacGetPreventa(skuKey) ? 'Comprar en preventa' : 'Añadir al carrito';
+    btn.style.background = '';
+    cerrarModal();
+  }, 1200);
 }
 
 // Verificar si hay filtro en URL (?cat=Juguete)

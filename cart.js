@@ -113,7 +113,7 @@ function addToCart(product) {
   }
 
   const stock = getStock();
-  const maxQty = stock[product.id] ?? 1;
+  const maxQty = stock[product.stockId || product.id] ?? 1;
   const existing = cart.find(i => i.id === product.id);
 
   if (existing) {
@@ -231,9 +231,37 @@ function asegurarEstilosOfertasCarrito() {
   document.head.appendChild(style);
 }
 
+function asegurarEstilosPreventaCarrito() {
+  if (document.getElementById('pac-cart-preorder-styles')) return;
+  const style = document.createElement('style');
+  style.id = 'pac-cart-preorder-styles';
+  style.textContent = `
+    .cart-preorder-note{
+      margin-top:5px;
+      color:#8f431f;
+      font-size:.72rem;
+      font-weight:700;
+      line-height:1.35;
+    }
+    .cart-preorder-badge{
+      display:inline-block;
+      margin-right:5px;
+      padding:2px 6px;
+      border-radius:999px;
+      background:rgba(196,98,45,.12);
+      color:#C4622D;
+      font-size:.64rem;
+      font-weight:800;
+      letter-spacing:.04em;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 function renderCart() {
   aplicarOfertasCarrito();
   asegurarEstilosOfertasCarrito();
+  asegurarEstilosPreventaCarrito();
 
   cart = cart.map(item => ({
     ...item,
@@ -250,6 +278,10 @@ function renderCart() {
     const imagenSrc = normalizarImagenCarrito(item.img || '');
     const oferta = PAC_OFERTAS_CARRITO[item.id];
 
+    const preventaHtml = item.preventa
+      ? `<div class="cart-preorder-note"><span class="cart-preorder-badge">PREVENTA</span>${item.preventaTexto || 'Despacho a partir del 28 de septiembre'}</div>`
+      : '';
+
     const precioHtml = oferta
       ? `<div class="cart-price-offer">
            <span class="cart-price-original">$${(oferta.original * item.qty).toLocaleString('es-CL')}</span>
@@ -257,7 +289,7 @@ function renderCart() {
          </div>`
       : `<div class="price">$${(item.price * item.qty).toLocaleString('es-CL')}</div>`;
 
-    return `<div class="cart-item"><img class="cart-item-img" src="${imagenSrc}" alt="${item.name}" onerror="this.onerror=null;this.src='https://www.patasycaos.cl/assets/placeholder.png'"><div class="cart-item-info"><h4>${item.name}</h4>${precioHtml}<div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`;
+    return `<div class="cart-item"><img class="cart-item-img" src="${imagenSrc}" alt="${item.name}" onerror="this.onerror=null;this.src='https://www.patasycaos.cl/assets/placeholder.png'"><div class="cart-item-info"><h4>${item.name}</h4>${precioHtml}${preventaHtml}<div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-num">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)" ${item.qty >= item.maxQty ? 'disabled style="opacity:.35;cursor:not-allowed"' : ''}>+</button></div></div><button class="cart-item-remove" onclick="removeItem('${item.id}')">✕</button></div>`;
   }).join('');
 }
 

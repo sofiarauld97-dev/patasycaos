@@ -299,6 +299,51 @@
     }
   }
 
+  // ── PREVENTA: Botella Portátil Calipso ───────────────────────────────────
+  const PAC_CURRENT_PREORDER = {
+    id: 'botella-portatil-para-perros_Calipso',
+    fecha: '28 de septiembre',
+    texto: 'Despacho a partir del 28 de septiembre'
+  };
+
+  function pacIsCurrentPreorder() {
+    return typeof CURRENT_PRODUCT !== 'undefined' &&
+      CURRENT_PRODUCT &&
+      String(CURRENT_PRODUCT.id || '') === PAC_CURRENT_PREORDER.id;
+  }
+
+  function pacRenderCurrentPreorder() {
+    if (!pacIsCurrentPreorder()) return;
+
+    pacInjectOfferStyles();
+
+    const tag = document.querySelector('.product-info .product-tag');
+    if (tag && !document.querySelector('.product-preorder-badge-live')) {
+      let row = tag.closest('.product-tag-row-live');
+      if (!row) {
+        row = document.createElement('div');
+        row.className = 'product-tag-row-live';
+        tag.parentNode.insertBefore(row, tag);
+        row.appendChild(tag);
+      }
+      const badge = document.createElement('span');
+      badge.className = 'product-offer-badge-live product-preorder-badge-live';
+      badge.style.background = '#C4622D';
+      badge.textContent = 'PREVENTA';
+      row.appendChild(badge);
+    }
+
+    let notice = document.getElementById('pac-product-preorder-notice');
+    if (!notice) {
+      notice = document.createElement('div');
+      notice.id = 'pac-product-preorder-notice';
+      notice.style.cssText = 'margin:12px 0 4px;padding:10px 12px;border-radius:10px;background:rgba(196,98,45,.10);color:#8f431f;font-family:Poppins,sans-serif;font-size:.82rem;font-weight:700;line-height:1.45;';
+      const priceBox = document.querySelector('.product-info .product-price');
+      if (priceBox) priceBox.insertAdjacentElement('afterend', notice);
+    }
+    notice.innerHTML = '<strong>Disponible para preventa</strong><br>' + PAC_CURRENT_PREORDER.texto;
+  }
+
   function updateQtyUI() {
     const value = document.getElementById('product-qty-value');
     const minus = document.getElementById('product-qty-minus');
@@ -324,14 +369,17 @@
     }
 
     add.disabled = false;
-    add.textContent = 'Añadir al carrito';
+    add.textContent = pacIsCurrentPreorder() ? 'Comprar en preventa' : 'Añadir al carrito';
 
     const alreadyInCart = currentCartQty();
     const remaining = productStock === null ? null : Math.max(0, productStock - alreadyInCart);
     plus.disabled = remaining !== null && productQty >= remaining;
 
     if (note) {
-      if (remaining === null) {
+      if (pacIsCurrentPreorder() && remaining !== null && remaining > 0) {
+        note.textContent = PAC_CURRENT_PREORDER.texto;
+        note.className = 'product-stock-note';
+      } else if (remaining === null) {
         note.textContent = '';
         note.className = 'product-stock-note';
       } else if (remaining <= 0) {
@@ -408,11 +456,21 @@
         if ('precioNum' in existing) existing.precioNum = CURRENT_PRODUCT.price;
         existing.maxQty = productStock === null ? Math.max(existing.maxQty || 1, existing.qty + quantityToAdd) : productStock;
         existing.qty = Math.min(existing.maxQty, existing.qty + quantityToAdd);
+        if (pacIsCurrentPreorder()) {
+          existing.preventa = true;
+          existing.preventaFecha = PAC_CURRENT_PREORDER.fecha;
+          existing.preventaTexto = PAC_CURRENT_PREORDER.texto;
+          existing.stockId = PAC_CURRENT_PREORDER.id;
+        }
       } else {
         cart.push({
           ...CURRENT_PRODUCT,
           qty: quantityToAdd,
-          maxQty: productStock === null ? quantityToAdd : productStock
+          maxQty: productStock === null ? quantityToAdd : productStock,
+          stockId: pacIsCurrentPreorder() ? PAC_CURRENT_PREORDER.id : CURRENT_PRODUCT.id,
+          preventa: pacIsCurrentPreorder(),
+          preventaFecha: pacIsCurrentPreorder() ? PAC_CURRENT_PREORDER.fecha : null,
+          preventaTexto: pacIsCurrentPreorder() ? PAC_CURRENT_PREORDER.texto : null
         });
       }
 
@@ -459,6 +517,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     pacRenderProductOffer();
+    pacRenderCurrentPreorder();
     updateQtyUI();
     loadCurrentProductStock();
 
