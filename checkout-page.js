@@ -27,6 +27,7 @@
     return item?.preventa === true ||
       stockId === 'botella-portatil-para-perros_Calipso' ||
       id === 'botella-portatil-para-perros_Calipso' ||
+      id.startsWith('botella-portatil-para-perros') && nombre.includes('calipso') ||
       (nombre.includes('botella') && nombre.includes('calipso'));
   }
 
@@ -71,8 +72,8 @@
         avisoPreventa.style.cssText = 'margin:0 0 14px;padding:10px 12px;border-radius:10px;background:rgba(196,98,45,.10);color:#8f431f;font-size:.76rem;font-weight:700;line-height:1.45;';
         $('checkoutResumenPagina').insertAdjacentElement('beforebegin', avisoPreventa);
       }
-      avisoPreventa.innerHTML = '<strong>Tu pedido incluye un producto en preventa.</strong><br>La Botella Portátil Calipso se despacha a partir del 28 de septiembre.';
-      avisoPreventa.hidden = false;
+      avisoPreventa.innerHTML = '';
+      avisoPreventa.hidden = true;
     } else if (avisoPreventa) {
       avisoPreventa.hidden = true;
     }
