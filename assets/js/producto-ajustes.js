@@ -119,7 +119,7 @@
   const PAC_PRODUCT_OFFERS = {
     "dispensador-de-bolsas---diseno-cafe": { original: 5990, price: 4990 },
     "fuente-agua": { original: 21990, price: 17990 },
-    "lata-leonardo_Pescado": { original: 3790, price: 3290 },
+    "lata-leonardo_Ternera": { original: 3790, price: 3290 },
     "lata-leonardo-kitten": { original: 3790, price: 3290 },
     "paw-balm": { original: 5990, price: 3990 },
     "rascador-maxi-caja-de-leche---brnx": { original: 13990, price: 11990 },
@@ -130,7 +130,7 @@
   const PAC_PRODUCT_OFFER_NAMES = {
     "dispensador de bolsas - diseno cafe": "dispensador-de-bolsas---diseno-cafe",
     "fuente de agua flor usb": "fuente-agua",
-    "lata leonardo adulto - pescado": "lata-leonardo_Pescado",
+    "lata leonardo adulto - ternera": "lata-leonardo_Ternera",
     "lata leonardo kitten 200g": "lata-leonardo-kitten",
     "paw balm": "paw-balm",
     "rascador maxi caja de leche - brnx": "rascador-maxi-caja-de-leche---brnx",
