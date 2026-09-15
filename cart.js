@@ -178,8 +178,7 @@ function removeItem(id) { cart = cart.filter(i => i.id !== id); renderCart(); gu
 const PAC_OFERTAS_CARRITO = {
   "dispensador-de-bolsas---diseno-cafe": { original: 5990, oferta: 4990 },
   "fuente-agua": { original: 21990, oferta: 17990 },
-  "lata-leonardo_Pescado": { original: 3790, oferta: 3290 },
-  "lata-leonardo_ternera": { original: 3790, oferta: 3290 },
+  "lata-leonardo_Ternera": { original: 3790, oferta: 3290 },
   "lata-leonardo-kitten": { original: 3790, oferta: 3290 },
   "paw-balm": { original: 5990, oferta: 3990 },
   "rascador-maxi-caja-de-leche---brnx": { original: 13990, oferta: 11990 },
