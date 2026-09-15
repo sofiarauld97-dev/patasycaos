@@ -19,20 +19,16 @@
     return calcularEnvio(comuna)?.precio || 0;
   }
 
-  function esPreventaCalipso(item){
-    const stockId = String(item?.stockId || '');
-    const id = String(item?.id || '');
+  function esCalipsoPreventa(item){
     const nombre = String(item?.name || '').toLowerCase();
+    const id = String(item?.id || '').toLowerCase();
+    const stockId = String(item?.stockId || '').toLowerCase();
 
     return item?.preventa === true ||
-      stockId === 'botella-portatil-para-perros_Calipso' ||
-      id === 'botella-portatil-para-perros_Calipso' ||
-      id.startsWith('botella-portatil-para-perros') && nombre.includes('calipso') ||
-      (nombre.includes('botella') && nombre.includes('calipso'));
-  }
-
-  function textoPreventa(item){
-    return item?.preventaTexto || 'Despacho a partir del 28 de septiembre';
+      stockId === 'botella-portatil-para-perros_calipso' ||
+      id === 'botella-portatil-para-perros_calipso' ||
+      (nombre.includes('botella portátil para perros') && nombre.includes('calipso')) ||
+      (nombre.includes('botella portatil para perros') && nombre.includes('calipso'));
   }
 
   function actualizarResumen(){
@@ -46,37 +42,21 @@
     }
 
     $('checkoutResumenPagina').innerHTML = cart.map(item => {
-      const preventaHtml = esPreventaCalipso(item)
-        ? `<div class="summary-preorder-note">
-             <span class="summary-preorder-badge">PREVENTA</span>
-             <span>${textoPreventa(item)}</span>
-           </div>`
-        : '';
-
+      const preventa = esCalipsoPreventa(item);
       return `
         <div class="summary-item">
           <div class="summary-item-main">
             <span>${item.name} x${item.qty}</span>
-            ${preventaHtml}
+            ${preventa ? `
+              <div class="summary-preorder-line">
+                <span class="summary-preorder-badge">PREVENTA</span>
+                <span class="summary-preorder-text">Despacho a partir del 28 de septiembre</span>
+              </div>
+            ` : ''}
           </div>
           <strong>$${(item.price*item.qty).toLocaleString('es-CL')}</strong>
         </div>`;
     }).join('');
-
-    const hayPreventa = cart.some(esPreventaCalipso);
-    let avisoPreventa = document.getElementById('checkout-preventa-aviso');
-    if (hayPreventa) {
-      if (!avisoPreventa) {
-        avisoPreventa = document.createElement('div');
-        avisoPreventa.id = 'checkout-preventa-aviso';
-        avisoPreventa.style.cssText = 'margin:0 0 14px;padding:10px 12px;border-radius:10px;background:rgba(196,98,45,.10);color:#8f431f;font-size:.76rem;font-weight:700;line-height:1.45;';
-        $('checkoutResumenPagina').insertAdjacentElement('beforebegin', avisoPreventa);
-      }
-      avisoPreventa.innerHTML = '';
-      avisoPreventa.hidden = true;
-    } else if (avisoPreventa) {
-      avisoPreventa.hidden = true;
-    }
 
     const sub = subtotal();
     const cost = costoEnvioActual();
@@ -176,13 +156,11 @@
       ...docInfo
     };
 
-    // Normaliza la preventa antes de enviar el pedido, incluso si el producto
-    // entró al carrito desde una versión anterior que no guardaba estos campos.
-    cart = cart.map(item => esPreventaCalipso(item) ? {
+    cart = cart.map(item => esCalipsoPreventa(item) ? {
       ...item,
       preventa: true,
-      preventaFecha: item.preventaFecha || '28 de septiembre',
-      preventaTexto: textoPreventa(item),
+      preventaFecha: '28 de septiembre',
+      preventaTexto: 'Despacho a partir del 28 de septiembre',
       stockId: item.stockId || 'botella-portatil-para-perros_Calipso'
     } : item);
     localStorage.setItem('pac_cart', JSON.stringify(cart));
