@@ -667,6 +667,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     object-fit: cover;
   }
 
+
+  /* LOS CAOTICOS — galeria continua */
+  .caoticos-section { padding: 58px 0 64px; overflow: hidden; background: var(--cream); }
+  .caoticos-header { padding: 0 5%; margin-bottom: 24px; }
+  .caoticos-header .section-title { margin: 4px 0 0; }
+  .caoticos-marquee { width: 100%; overflow: hidden; }
+  .caoticos-track { display: flex; width: max-content; animation: caoticos-scroll 55s linear infinite; will-change: transform; }
+  .caoticos-group { display: flex; gap: 14px; padding-right: 14px; }
+  .caotico-card { position: relative; flex: 0 0 220px; width: 220px; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 20px; background: #eee7de; }
+  .caotico-card img { width: 100%; height: 100%; display: block; object-fit: cover; }
+  .caotico-name { position: absolute; left: 12px; bottom: 12px; margin: 0; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.90); color: var(--text); font-family: 'Poppins',sans-serif; font-size: .78rem; font-weight: 600; line-height: 1.2; box-shadow: 0 3px 12px rgba(0,0,0,.08); }
+  .caoticos-marquee:hover .caoticos-track { animation-play-state: paused; }
+  @keyframes caoticos-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (max-width: 600px) {
+    .caoticos-section { padding: 46px 0 52px; }
+    .caoticos-header { margin-bottom: 18px; }
+    .caotico-card { flex-basis: 158px; width: 158px; border-radius: 16px; }
+    .caoticos-group { gap: 10px; padding-right: 10px; }
+    .caotico-name { left: 9px; bottom: 9px; padding: 5px 9px; font-size: .7rem; }
+    .caoticos-track { animation-duration: 48s; }
+  }
+  @media (prefers-reduced-motion: reduce) { .caoticos-track { animation: none; } }
 </style>
 <style>
 .anuncio-bar{background:#4A7C59;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
@@ -1551,6 +1573,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span>Gestión desde tu cuenta</span>
     </div>
     <a href="/suscripciones" class="home-secondary-button">Ver planes de suscripción</a>
+  </div>
+</section>
+
+
+<!-- LOS CAOTICOS -->
+<section class="caoticos-section" aria-labelledby="caoticos-title">
+  <div class="caoticos-header">
+    <p class="section-label">Nuestra comunidad</p>
+    <h2 class="section-title" id="caoticos-title">Los <span>Caóticos.</span></h2>
+  </div>
+  <div class="caoticos-marquee">
+    <div class="caoticos-track">
+    <div class="caoticos-group">
+      <figure class="caotico-card"><img src="/caotico-gohan2.jpg" alt="Gohan" loading="lazy"><figcaption class="caotico-name">Gohan</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-milo.jpg" alt="Milo" loading="lazy"><figcaption class="caotico-name">Milo</figcaption></figure>
+      <figure class="caotico-card"><img src="/caoticos-skunk-chancho-y-baby.jpg" alt="Skunk, Chancho y Baby" loading="lazy"><figcaption class="caotico-name">Skunk, Chancho y Baby</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-lucas-y-amigos.jpg" alt="Lucas y amigos" loading="lazy"><figcaption class="caotico-name">Lucas y amigos</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-oddie.jpg" alt="Oddie" loading="lazy"><figcaption class="caotico-name">Oddie</figcaption></figure>
+      <figure class="caotico-card"><img src="/caoticos-skunk-y-baby.jpg" alt="Skunk y Baby" loading="lazy"><figcaption class="caotico-name">Skunk y Baby</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-turco.jpg" alt="Turco" loading="lazy"><figcaption class="caotico-name">Turco</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-mango.jpg" alt="Mango" loading="lazy"><figcaption class="caotico-name">Mango</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-kokoro.jpg" alt="Kokoro" loading="lazy"><figcaption class="caotico-name">Kokoro</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-merken.jpg" alt="Merken" loading="lazy"><figcaption class="caotico-name">Merken</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-chancho.jpg" alt="Chancho" loading="lazy"><figcaption class="caotico-name">Chancho</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-eto.jpg" alt="Eto" loading="lazy"><figcaption class="caotico-name">Eto</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-loki.jpg" alt="Loki" loading="lazy"><figcaption class="caotico-name">Loki</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-gohan.jpg" alt="Gohan" loading="lazy"><figcaption class="caotico-name">Gohan</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-eto-2.jpg" alt="Eto" loading="lazy"><figcaption class="caotico-name">Eto</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-loki-2.jpg" alt="Loki" loading="lazy"><figcaption class="caotico-name">Loki</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-gato.jpg" alt="Gato" loading="lazy"><figcaption class="caotico-name">Gato</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-clara.jpg" alt="Clara" loading="lazy"><figcaption class="caotico-name">Clara</figcaption></figure>
+    </div>
+    <div class="caoticos-group" aria-hidden="true">
+      <figure class="caotico-card"><img src="/caotico-gohan2.jpg" alt="Gohan" loading="lazy"><figcaption class="caotico-name">Gohan</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-milo.jpg" alt="Milo" loading="lazy"><figcaption class="caotico-name">Milo</figcaption></figure>
+      <figure class="caotico-card"><img src="/caoticos-skunk-chancho-y-baby.jpg" alt="Skunk, Chancho y Baby" loading="lazy"><figcaption class="caotico-name">Skunk, Chancho y Baby</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-lucas-y-amigos.jpg" alt="Lucas y amigos" loading="lazy"><figcaption class="caotico-name">Lucas y amigos</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-oddie.jpg" alt="Oddie" loading="lazy"><figcaption class="caotico-name">Oddie</figcaption></figure>
+      <figure class="caotico-card"><img src="/caoticos-skunk-y-baby.jpg" alt="Skunk y Baby" loading="lazy"><figcaption class="caotico-name">Skunk y Baby</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-turco.jpg" alt="Turco" loading="lazy"><figcaption class="caotico-name">Turco</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-mango.jpg" alt="Mango" loading="lazy"><figcaption class="caotico-name">Mango</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-kokoro.jpg" alt="Kokoro" loading="lazy"><figcaption class="caotico-name">Kokoro</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-merken.jpg" alt="Merken" loading="lazy"><figcaption class="caotico-name">Merken</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-chancho.jpg" alt="Chancho" loading="lazy"><figcaption class="caotico-name">Chancho</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-eto.jpg" alt="Eto" loading="lazy"><figcaption class="caotico-name">Eto</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-loki.jpg" alt="Loki" loading="lazy"><figcaption class="caotico-name">Loki</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-gohan.jpg" alt="Gohan" loading="lazy"><figcaption class="caotico-name">Gohan</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-eto-2.jpg" alt="Eto" loading="lazy"><figcaption class="caotico-name">Eto</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-loki-2.jpg" alt="Loki" loading="lazy"><figcaption class="caotico-name">Loki</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-gato.jpg" alt="Gato" loading="lazy"><figcaption class="caotico-name">Gato</figcaption></figure>
+      <figure class="caotico-card"><img src="/caotico-clara.jpg" alt="Clara" loading="lazy"><figcaption class="caotico-name">Clara</figcaption></figure>
+    </div>
+    </div>
   </div>
 </section>
 
