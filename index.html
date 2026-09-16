@@ -46,8 +46,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* HERO */
   .hero { min-height: auto; padding: 0; position: relative; overflow: clip; }
-  .hero-slider { display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1); width: 300%; }
-  .hero-slide { min-width: 33.333333%; width: 33.333333%; flex-shrink: 0; }
+  .hero-slider { display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1); width: 200%; }
+  .hero-slide { min-width: 50%; width: 50%; flex-shrink: 0; }
   .hero-slide img { width: 100%; height: auto; display: block; max-width: 100%; object-fit: contain; }
   .hero-slide img.mobile { display: none; }
   .hero-slide img.desktop { display: block; }
@@ -327,7 +327,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* SECCION BLOG — CARRUSEL */
-  .blog-section { padding: 36px 5% 64px; overflow: hidden; }
+  .blog-section { padding: 64px 5%; overflow: hidden; }
   .blog-section-header {
     display: flex;
     align-items: flex-end;
@@ -667,28 +667,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     object-fit: cover;
   }
 
-
-  /* LOS CAOTICOS — galeria continua */
-  .caoticos-section { padding: 58px 0 28px; overflow: hidden; background: var(--cream); }
-  .caoticos-header { padding: 0 5%; margin-bottom: 24px; }
-  .caoticos-header .section-title { margin: 4px 0 0; }
-  .caoticos-marquee { width: 100%; overflow: hidden; }
-  .caoticos-track { display: flex; width: max-content; animation: caoticos-scroll 55s linear infinite; will-change: transform; }
-  .caoticos-group { display: flex; gap: 14px; padding-right: 14px; }
-  .caotico-card { position: relative; flex: 0 0 260px; width: 260px; height: 325px; overflow: hidden; border-radius: 20px; background: #eee7de; }
-  .caotico-card img { width: 100%; height: 100%; display: block; object-fit: cover; }
-  .caotico-name { position: absolute; left: 12px; bottom: 12px; margin: 0; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.90); color: var(--text); font-family: 'Poppins',sans-serif; font-size: .78rem; font-weight: 600; line-height: 1.2; box-shadow: 0 3px 12px rgba(0,0,0,.08); }
-  .caoticos-marquee:hover .caoticos-track { animation-play-state: paused; }
-  @keyframes caoticos-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @media (max-width: 600px) {
-    .caoticos-section { padding: 46px 0 26px; }
-    .caoticos-header { margin-bottom: 18px; }
-    .caotico-card { flex-basis: 180px; width: 180px; height: 225px; border-radius: 16px; }
-    .caoticos-group { gap: 10px; padding-right: 10px; }
-    .caotico-name { left: 9px; bottom: 9px; padding: 5px 9px; font-size: .7rem; }
-    .caoticos-track { animation-duration: 48s; }
-  }
-  @media (prefers-reduced-motion: reduce) { .caoticos-track { animation: none; } }
 </style>
 <style>
 .anuncio-bar{background:#4A7C59;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
@@ -1314,6 +1292,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 
 </style>
+
+<style id="fix-nav-bottom-mobile-final">
+/* En móvil se usa únicamente el menú hamburguesa */
+@media (max-width: 768px) {
+  .site-header nav > .nav-bottom,
+  header.site-header .nav-bottom,
+  .nav-bottom {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+  }
+}
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1420,16 +1417,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- HERO -->
 <section class="hero" id="inicio">
   <div class="hero-slider" id="heroSlider">
-    <!-- Slide 1: Iron Can -->
     <div class="hero-slide">
-      <img class="desktop" src="hero-slide1-desktop.jpg" alt="Patas & Caos en Carrera Iron Can">
-      <img class="mobile" src="slide1-mobile.jpg" alt="Patas & Caos en Carrera Iron Can">
-    </div>
-
-    <!-- Slide 2: Snacks (antes slide 1) -->
-    <div class="hero-slide">
-      <img class="desktop" src="hero-slide2-desktop.jpg" alt="Snacks para perros y gatos">
-      <img class="mobile" src="slide2-mobile.jpg" alt="Snacks para perros y gatos">
+      <img class="desktop" src="hero-slide1-desktop.jpg" alt="Collares Zee.Dog y Zee.Cat">
+      <img class="mobile" src="slide1-mobile.jpg" alt="Collares Zee.Dog y Zee.Cat">
       <div class="hero-cta-card">
         <p class="hero-cta-label">Snacks para perros y gatos</p>
         <h1>Premios que los harán mover la cola.</h1>
@@ -1437,11 +1427,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="https://patasycaos.cl/tienda?cat=Snacks%20y%20Golosinas" class="hero-cta-button">Ver snacks</a>
       </div>
     </div>
-
-    <!-- Slide 3: Alimentos y arena (antes slide 2) -->
     <div class="hero-slide">
-      <img class="desktop" src="hero-slide3-desktop.jpg" alt="Alimentos y arena Suscripciones">
-      <img class="mobile" src="slide3-mobile.jpg" alt="Alimentos y arena Suscripciones">
+      <img class="desktop" src="hero-slide2-desktop.jpg" alt="Alimentos y arena Suscripciones">
+      <img class="mobile" src="slide2-mobile.jpg" alt="Alimentos y arena Suscripciones">
       <div class="hero-cta-card">
         <p class="hero-cta-label">Alimentos y arena</p>
         <h2>Todo para su alimentación diaria.</h2>
@@ -1453,7 +1441,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="hero-dots">
     <button class="hero-dot activo" onclick="irASlide(0)" aria-label="Slide 1"></button>
     <button class="hero-dot" onclick="irASlide(1)" aria-label="Slide 2"></button>
-    <button class="hero-dot" onclick="irASlide(2)" aria-label="Slide 3"></button>
   </div>
 </section>
 
@@ -1558,10 +1545,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <section class="home-subscription-feature" aria-labelledby="home-subscription-title">
   <div class="home-subscription-media">
-    <picture>
-      <source media="(max-width: 600px)" srcset="slide3-mobile.jpg">
-      <img src="hero-slide3-desktop.jpg" alt="Alimentos y arena de suscripción para mascotas" loading="lazy">
-    </picture>
+    <img src="hero-slide2-desktop.jpg" alt="Alimentos y arena de suscripción para mascotas" loading="lazy">
   </div>
   <div class="home-subscription-copy">
     <p class="section-label">Suscripciones</p>
@@ -1573,59 +1557,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span>Gestión desde tu cuenta</span>
     </div>
     <a href="/suscripciones" class="home-secondary-button">Ver planes de suscripción</a>
-  </div>
-</section>
-
-
-<!-- LOS CAOTICOS -->
-<section class="caoticos-section" aria-labelledby="caoticos-title">
-  <div class="caoticos-header">
-    <p class="section-label">Nuestra comunidad</p>
-    <h2 class="section-title" id="caoticos-title">Los <span>Caóticos.</span></h2>
-  </div>
-  <div class="caoticos-marquee">
-    <div class="caoticos-track">
-    <div class="caoticos-group">
-      <figure class="caotico-card"><img src="/caotico-gohan2.jpg" alt="Gohan" loading="lazy"><figcaption class="caotico-name">Gohan</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-milo.jpg" alt="Milo" loading="lazy"><figcaption class="caotico-name">Milo</figcaption></figure>
-      <figure class="caotico-card"><img src="/caoticos-skunk-chancho-y-baby.jpg" alt="Skunk, Chancho y Baby" loading="lazy"><figcaption class="caotico-name">Skunk, Chancho y Baby</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-lucas-y-amigos.jpg" alt="Lucas y amigos" loading="lazy"><figcaption class="caotico-name">Lucas y amigos</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-oddie.jpg" alt="Oddie" loading="lazy"><figcaption class="caotico-name">Oddie</figcaption></figure>
-      <figure class="caotico-card"><img src="/caoticos-skunk-y-baby.jpg" alt="Skunk y Baby" loading="lazy"><figcaption class="caotico-name">Skunk y Baby</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-turco.jpg" alt="Turco" loading="lazy"><figcaption class="caotico-name">Turco</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-mango.jpg" alt="Mango" loading="lazy"><figcaption class="caotico-name">Mango</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-kokoro.jpg" alt="Kokoro" loading="lazy"><figcaption class="caotico-name">Kokoro</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-merken.jpg" alt="Merken" loading="lazy"><figcaption class="caotico-name">Merkén</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-chancho.jpg" alt="Chancho" loading="lazy"><figcaption class="caotico-name">Chancho</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-eto.jpg" alt="Eto" loading="lazy"><figcaption class="caotico-name">Etó</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-loki.jpg" alt="Loki" loading="lazy"><figcaption class="caotico-name">Loki</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-gohan.jpg" alt="Gohan" loading="lazy"><figcaption class="caotico-name">Gohan</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-eto-2.jpg" alt="Eto" loading="lazy"><figcaption class="caotico-name">Etó</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-loki-2.jpg" alt="Loki" loading="lazy"><figcaption class="caotico-name">Loki</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-gato.jpg" alt="Gato" loading="lazy"><figcaption class="caotico-name">Gato</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-clara.jpg" alt="Clara" loading="lazy"><figcaption class="caotico-name">Clara</figcaption></figure>
-    </div>
-    <div class="caoticos-group" aria-hidden="true">
-      <figure class="caotico-card"><img src="/caotico-gohan2.jpg" alt="Gohan" loading="lazy"><figcaption class="caotico-name">Gohan</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-milo.jpg" alt="Milo" loading="lazy"><figcaption class="caotico-name">Milo</figcaption></figure>
-      <figure class="caotico-card"><img src="/caoticos-skunk-chancho-y-baby.jpg" alt="Skunk, Chancho y Baby" loading="lazy"><figcaption class="caotico-name">Skunk, Chancho y Baby</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-lucas-y-amigos.jpg" alt="Lucas y amigos" loading="lazy"><figcaption class="caotico-name">Lucas y amigos</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-oddie.jpg" alt="Oddie" loading="lazy"><figcaption class="caotico-name">Oddie</figcaption></figure>
-      <figure class="caotico-card"><img src="/caoticos-skunk-y-baby.jpg" alt="Skunk y Baby" loading="lazy"><figcaption class="caotico-name">Skunk y Baby</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-turco.jpg" alt="Turco" loading="lazy"><figcaption class="caotico-name">Turco</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-mango.jpg" alt="Mango" loading="lazy"><figcaption class="caotico-name">Mango</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-kokoro.jpg" alt="Kokoro" loading="lazy"><figcaption class="caotico-name">Kokoro</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-merken.jpg" alt="Merken" loading="lazy"><figcaption class="caotico-name">Merkén</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-chancho.jpg" alt="Chancho" loading="lazy"><figcaption class="caotico-name">Chancho</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-eto.jpg" alt="Eto" loading="lazy"><figcaption class="caotico-name">Etó</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-loki.jpg" alt="Loki" loading="lazy"><figcaption class="caotico-name">Loki</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-gohan.jpg" alt="Gohan" loading="lazy"><figcaption class="caotico-name">Gohan</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-eto-2.jpg" alt="Eto" loading="lazy"><figcaption class="caotico-name">Etó</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-loki-2.jpg" alt="Loki" loading="lazy"><figcaption class="caotico-name">Loki</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-gato.jpg" alt="Gato" loading="lazy"><figcaption class="caotico-name">Gato</figcaption></figure>
-      <figure class="caotico-card"><img src="/caotico-clara.jpg" alt="Clara" loading="lazy"><figcaption class="caotico-name">Clara</figcaption></figure>
-    </div>
-    </div>
   </div>
 </section>
 
@@ -2412,93 +2343,23 @@ function generarCarrusel() {
   track.innerHTML = '';
   const stock = typeof getStock === 'function' ? getStock() : {};
 
-  // Selección destacada del home:
-  // - Conserva los productos anteriores que tengan stock.
-  // - Reemplaza los agotados con 2 Catgo, 2 tubitos nuevos y 2 Inaba.
-  const DESTACADOS_BASE = [
-    "cubitos-salmon-pets-friends",
-    "medallones-de-avestruz-90g-dogfest",
-    "snack-calming-gato",
-    "femur-de-cerdo-gran-cani",
-    "mantequilla-de-mani-banana-bliss-260g-smuttdog",
-    "doggo-traquea-vacuno-ciervo",
-    "oreja-cerdo-rahue",
-    "meat-duck-drum-stick-90g-naturalistic"
-  ];
-
-  const buscarProductoPorNombre = (...fragmentos) => {
-    const buscados = fragmentos.map(x => String(x).toLowerCase());
-    return Object.keys(productos).find(id => {
-      const nombre = String(productos[id]?.nombre || '').toLowerCase();
-      return buscados.every(txt => nombre.includes(txt));
-    });
-  };
-
-  const NUEVOS_DESTACADOS = [
-    // Catgo
-    buscarProductoPorNombre('catgo', 'choritos'),
-    buscarProductoPorNombre('catgo', 'salmón'),
-
-    // Tubitos nuevos
-    buscarProductoPorNombre('tubito cremoso', 'cangrejo', 'catnip'),
-    buscarProductoPorNombre('tubito cremoso', 'conejo', 'catnip'),
-
-    // Inaba Dashi Delights
-    buscarProductoPorNombre('inaba', 'dashi delights', 'atún', 'ostiones'),
-    buscarProductoPorNombre('inaba', 'dashi delights', 'salmón')
-  ].filter(Boolean);
-
-  // Los productos nuevos van primero para darles mayor visibilidad.
-  // Después se conservan los destacados anteriores que sigan teniendo stock.
-  const lista = [...new Set([
-    ...NUEVOS_DESTACADOS.filter(id => productos[id] && checkStockCard(id, stock)),
-    ...DESTACADOS_BASE.filter(id => productos[id] && checkStockCard(id, stock))
-  ])];
-
-  // Taglines de respaldo para productos creados recientemente.
-  // Se usan solo si todavía no existen en el objeto TAGLINES global.
-  const TAGLINES_NUEVOS = {
-    catgoChoritos: 'Sabor a mar en cada bocado 🐱',
-    catgoSalmon: 'Cubitos de salmón para regalonearlo 🐱',
-    tubitoCangrejo: 'Cremoso, sabroso y con catnip 🐱',
-    tubitoConejo: 'Cremoso, sabroso y con catnip 🐱',
-    inabaOstiones: 'Pollo, atún y ostiones en delicioso Dashi 🐱',
-    inabaSalmon: 'Pollo y salmón para regalonearlo 🐱'
-  };
-
-  const taglineNuevoPorProducto = (id, p) => {
-    const n = String(p?.nombre || '').toLowerCase();
-
-    // Nuevos productos
-    if (n.includes('catgo') && n.includes('choritos')) return TAGLINES_NUEVOS.catgoChoritos;
-    if (n.includes('catgo') && (n.includes('salmón') || n.includes('salmon'))) return TAGLINES_NUEVOS.catgoSalmon;
-    if (n.includes('tubito cremoso') && n.includes('cangrejo')) return TAGLINES_NUEVOS.tubitoCangrejo;
-    if (n.includes('tubito cremoso') && n.includes('conejo')) return TAGLINES_NUEVOS.tubitoConejo;
-    if (n.includes('dashi delights') && n.includes('ostiones')) return TAGLINES_NUEVOS.inabaOstiones;
-    if (n.includes('dashi delights') && (n.includes('salmón') || n.includes('salmon'))) return TAGLINES_NUEVOS.inabaSalmon;
-
-    // Respaldos para los destacados anteriores. Algunos IDs del catálogo nuevo
-    // no coinciden con las claves históricas del objeto TAGLINES.
-    if (n.includes('cubitos') && n.includes('salmón') && n.includes('pets friends')) return 'Salmón puro, pelaje de revista 🐟✨';
-    if (n.includes('medallones') && n.includes('avestruz')) return 'Avestruz en cada bocado. Premio de otro nivel 🐶';
-    if (n.includes('calming') && n.includes('cat')) return 'Gato en pánico no, gato zen sí 💜';
-    if (n.includes('fémur') || n.includes('femur')) return 'Para el perro que muerde todo. Dáselo a él 🦴';
-    if (n.includes('mantequilla') && n.includes('maní') && n.includes('banana')) return 'Cremosa, rica y hecha para regalonear 🍌🥜';
-    if (n.includes('tráquea') && n.includes('ciervo')) return 'Articulaciones blindadas, pelaje de estrella 🦌🐕';
-    if (n.includes('oreja') && n.includes('cerdo') && n.includes('rahue')) return 'El clásico que nunca falla 🐷';
-    if (n.includes('duck drum stick') || (n.includes('naturalistic') && n.includes('pato'))) return 'Pato crujiente para premiar como corresponde 🦆';
-
-    return '';
-  };
+  const lista = ORDEN
+    .filter(id => productos[id])
+    .sort((a, b) => {
+      const aS = checkStockCard(a, stock);
+      const bS = checkStockCard(b, stock);
+      if (aS && !bS) return -1;
+      if (!aS && bS) return 1;
+      return 0;
+    })
+    .slice(0, 8);
 
   lista.forEach(id => {
     const p = productos[id];
     const img = p.imagenes ? p.imagenes[0] : '';
     const ph = p.placeholders ? p.placeholders[0] : '🐾';
     const enStock = checkStockCard(id, stock);
-    const tagline = (typeof TAGLINES !== 'undefined' && TAGLINES[id])
-      ? TAGLINES[id]
-      : taglineNuevoPorProducto(id, p);
+    const tagline = (typeof TAGLINES !== 'undefined' && TAGLINES[id]) ? TAGLINES[id] : '';
     const ahorroHtml = p.ahorro ? '<span class="badge-ahorro">Ahorras $' + p.ahorro.toLocaleString('es-CL') + '</span>' : '';
 
     const card = document.createElement('div');
@@ -2541,11 +2402,11 @@ function generarCarrusel() {
 let heroIdx = 0;
 function irASlide(n) {
   heroIdx = n;
-  document.getElementById('heroSlider').style.transform = `translateX(-${n * (100 / 3)}%)`;
+  document.getElementById('heroSlider').style.transform = `translateX(-${n * 50}%)`;
   document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('activo', i === n));
 }
 // Auto-avance cada 5 segundos
-setInterval(() => irASlide((heroIdx + 1) % 3), 5000);
+setInterval(() => irASlide((heroIdx + 1) % 2), 5000);
 // Swipe táctil
 (function() {
   const el = document.getElementById('heroSlider');
@@ -2554,7 +2415,7 @@ setInterval(() => irASlide((heroIdx + 1) % 3), 5000);
   el.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
   el.addEventListener('touchend', e => {
     const diff = startX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) irASlide(diff > 0 ? Math.min(heroIdx + 1, 2) : Math.max(heroIdx - 1, 0));
+    if (Math.abs(diff) > 40) irASlide(diff > 0 ? Math.min(heroIdx + 1, 1) : Math.max(heroIdx - 1, 0));
   });
 })();
 
