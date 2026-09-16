@@ -678,6 +678,26 @@ function runSearch(q) {
 }
 </style>
 
+<!-- FIX MENÚ MÓVIL: ocultar navegación horizontal y dejar solo hamburguesa -->
+<style id="fix-nav-bottom-mobile-global">
+@media (max-width: 768px) {
+  .site-header .nav-bottom,
+  header .nav-bottom,
+  nav .nav-bottom,
+  .nav-bottom {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
