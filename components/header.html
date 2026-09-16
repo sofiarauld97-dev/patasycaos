@@ -26,6 +26,13 @@
 .nav-ofertas-link.activo::after{
   display:none!important;
 }
+
+/* FIX: en móvil se usa solo el menú hamburguesa; ocultar navegación desktop */
+@media (max-width: 900px) {
+  .site-header .nav-bottom {
+    display: none !important;
+  }
+}
 </style>
 
 
