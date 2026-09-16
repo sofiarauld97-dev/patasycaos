@@ -465,15 +465,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     object-fit: cover;
   }
 
-
-  /* OFERTAS */
-  .prod-badges-wrap{position:absolute;top:12px;left:12px;z-index:6;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-  .prod-badges-wrap .prod-badge{position:static!important;top:auto!important;left:auto!important}
-  .prod-badge-oferta{display:inline-flex;align-items:center;background:#4A7C59;color:#fff;border-radius:50px;padding:5px 10px;font-size:.68rem;font-weight:800;letter-spacing:.04em;line-height:1}
-  .prod-precios-oferta{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
-  .prod-precio-original-oferta{text-decoration:line-through;color:#8b8179;font-size:.82rem;font-weight:600}
-  .prod-card.oferta .prod-price{color:#4A7C59!important}
-
 </style>
 <style>
 .anuncio-bar{background:#4A7C59;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
@@ -481,34 +472,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 </style>
 
-
-
-<style id="ofertas-nav-align">
-.nav-bottom{
-  display:flex!important;
-  align-items:center!important;
-}
-.nav-links{
-  display:flex!important;
-  align-items:center!important;
-}
-.nav-links > li{
-  display:flex!important;
-  align-items:center!important;
-}
-.nav-links .nav-ofertas-link{
-  align-self:center!important;
-}
-.nav-ofertas-link:hover{
-  background:#A94F26!important;
-  color:#fff!important;
-}
-.nav-ofertas-link.activo{
-  background:#C4622D!important;
-  color:#fff!important;
-}
-.nav-ofertas-link.activo::after{
-  display:none!important;
+<!-- FIX MENÚ MÓVIL: ocultar navegación horizontal y dejar solo hamburguesa -->
+<style id="fix-nav-bottom-mobile-global">
+@media (max-width: 768px) {
+  .site-header .nav-bottom,
+  header .nav-bottom,
+  nav .nav-bottom,
+  .nav-bottom {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+  }
 }
 </style>
 
@@ -552,7 +532,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <ul class="nav-links">
       <li><a href="/">Inicio</a></li>
       <li><a href="/tienda" class="activo">Tienda</a></li>
-      <li><a href="/tienda?ofertas=1" class="nav-ofertas-link" style="display:inline-flex!important;align-items:center!important;justify-content:center!important;height:32px!important;min-height:32px!important;padding:0 16px!important;margin:0!important;background:#C4622D!important;color:#FFFFFF!important;border-radius:999px!important;font-family:Poppins,sans-serif!important;font-size:13px!important;font-weight:700!important;letter-spacing:0!important;line-height:32px!important;text-transform:none!important;text-decoration:none!important;border:0!important;box-shadow:none!important;white-space:nowrap!important;position:relative!important;top:0!important;">Ofertas</a></li>
       <li class="nav-item"><a href="/tienda?aud=Perros">Perros</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Perros&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Perros&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
       <li class="nav-item"><a href="/tienda?aud=Gatos">Gatos</a><div class="mega-menu"><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Alimentos"><h4>Alimentos</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Snacks y Golosinas"><h4>Snacks</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Accesorio"><h4>Accesorios</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Aseo e Higiene"><h4>Cuidado e Higiene</h4></a></div><div class="mega-col"><a href="/tienda?aud=Gatos&cat=Flores de Bach"><h4>Bienestar Natural</h4></a></div></div></li>
       <li><a href="/suscripciones">Suscripciones</a></li>
@@ -566,7 +545,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="mobile-menu" id="mobile-menu">
   <a href="/" onclick="toggleMenu()">Inicio</a>
   <a href="/tienda" class="activo" onclick="toggleMenu()">Tienda</a>
-  <a href="/tienda?ofertas=1" class="nav-ofertas-link" style="display:inline-flex!important;align-items:center!important;justify-content:center!important;height:32px!important;min-height:32px!important;padding:0 16px!important;margin:0!important;background:#C4622D!important;color:#FFFFFF!important;border-radius:999px!important;font-family:Poppins,sans-serif!important;font-size:13px!important;font-weight:700!important;letter-spacing:0!important;line-height:32px!important;text-transform:none!important;text-decoration:none!important;border:0!important;box-shadow:none!important;white-space:nowrap!important;position:relative!important;top:0!important;width:max-content!important;margin:6px 0 10px!important;" onclick="toggleMenu()">Ofertas</a>
 
   <!-- ACORDEÓN PERROS -->
   <div class="mobile-accordion">
@@ -625,7 +603,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span>Tienda</span>
   </div>
   <h1>Toda la <em>tienda.</em></h1>
-  <p class="shop-subtitle">Alimentos, snacks, juguetes, accesorios, higiene y bienestar para perros y gatos.</p>
+  <p class="shop-subtitle">Accesorios, juguetes, cuidado y snacks para tu peludo favorito.</p>
 </div>
 
 <!-- FILTROS (sticky) -->
@@ -637,13 +615,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="filter-pills" id="filter-cat">
         <button class="filter-pill activo" onclick="setFiltro('cat','todos',this)">Todos</button>
         
-        <button class="filter-pill" onclick="setFiltro('cat','Accesorio',this)">Accesorios</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Juguete',this)">Juguetes</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Aseo e Higiene',this)">Aseo e Higiene</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Alimentos',this)">Alimentos</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Snacks y Golosinas',this)">Snacks y Golosinas</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Flores de Bach',this)">Flores de Bach</button>
-        <button class="filter-pill" onclick="setFiltro('cat','Insumos Veterinarios',this)">Insumos Veterinarios</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Accesorio',this)">🎀 Accesorios</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Juguete',this)">🎾 Juguetes</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Aseo e Higiene',this)">✨ Aseo e Higiene</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Alimentos',this)">🍽️ Alimentos</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Snacks y Golosinas',this)">🍪 Snacks y Golosinas</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Flores de Bach',this)">🌿 Flores de Bach</button>
+        <button class="filter-pill" onclick="setFiltro('cat','Insumos Veterinarios',this)">💊 Insumos Veterinarios</button>
       </div>
     </div>
     <div class="filter-divider"></div>
@@ -651,8 +629,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="filter-label">Para</span>
       <div class="filter-pills" id="filter-aud">
         <button class="filter-pill activo" onclick="setFiltro('aud','todos',this)">Todos</button>
-        <button class="filter-pill" onclick="setFiltro('aud','Para Gatos',this)">Gatos</button>
-        <button class="filter-pill" onclick="setFiltro('aud','Para Perros',this)">Perros</button>
+        <button class="filter-pill" onclick="setFiltro('aud','Para Gatos',this)">🐱 Gatos</button>
+        <button class="filter-pill" onclick="setFiltro('aud','Para Perros',this)">🐶 Perros</button>
       </div>
     </div>
     <div class="filter-divider"></div>
@@ -761,65 +739,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="/cart.js?v=20260902-img-final"></script>
+<script src="/cart.js"></script>
 <script src="/assets/js/site.js"></script>
-<script src="/products-data.js?v=ofertas-20260914"></script>
-
-<script id="pac-offers-config">
-const PAC_OFERTAS = {
-  "dispensador-de-bolsas---diseno-cafe": { original: 5990, precio: 4990 },
-  "fuente-agua": { original: 21990, precio: 17990 },
-  "lata-leonardo_Ternera": { original: 3790, precio: 3290 },
-  "lata-leonardo-kitten": { original: 3790, precio: 3290 },
-  "paw-balm": { original: 5990, precio: 3990 },
-  "rascador-maxi-caja-de-leche---brnx": { original: 13990, precio: 11990 },
-  "zupet-dental-fitness-crocante": { original: 9990, precio: 7990 },
-  "zupet-dental-power-suave": { original: 9990, precio: 7990 }
-};
-Object.entries(PAC_OFERTAS).forEach(([id, o]) => {
-  if (!productos[id]) return;
-  productos[id].precioOriginalNum = o.original;
-  productos[id].precioNum = o.precio;
-  productos[id].precio = '$' + o.precio.toLocaleString('es-CL');
-  productos[id].ahorro = o.original - o.precio;
-  productos[id].oferta = true;
-});
-</script>
-
-<script>
-
-function imagenCarritoDesdeProducto(src) {
-  if (!src || typeof src !== 'string') return '';
-  let ruta = src.trim().replace(/\\/g, '/');
-
-  if (/^(data:|blob:)/i.test(ruta)) return ruta;
-
-  // Si ya viene completa y correcta, no tocarla.
-  if (/^https?:\/\//i.test(ruta)) {
-    try {
-      const u = new URL(ruta);
-
-      // Repara el caso roto: https://archivo.jpg/
-      if (/\.(?:jpe?g|png|webp|gif|avif|svg)$/i.test(u.hostname) &&
-          (!u.pathname || u.pathname === '/')) {
-        return window.location.origin + '/' + u.hostname;
-      }
-
-      return u.href;
-    } catch (e) {
-      return ruta;
-    }
-  }
-
-  ruta = ruta.replace(/^\/+/, '');
-  ruta = ruta.replace(/^(\.\/)+/, '');
-  ruta = ruta.replace(/^(\.\.\/)+/, '');
-
-  return ruta ? window.location.origin + '/' + ruta : '';
-}
-
-</script>
-<script src="/product-slugs.js"></script>
+<script src="/products-data.js"></script>
 <script>
 /* ── NAV & MENU ── */
 function runSearch(q) {
@@ -1013,159 +935,15 @@ const ORDEN = [
 ];
 
 // productos cargados desde /products-data.js
-window.PRODUCT_SLUGS = window.PRODUCT_SLUGS || {"hey-cama-redonda-confort-verde":"cama-redonda-confort-verde-hey","hey-donut-sonido-perros":"donut-con-sonido-hey","pura-natura-caldo-de-huesos-250g":"caldo-de-huesos-250g-pura-natura","pura-natura-woofers-80g":"woofer-s-80g-pura-natura","fit-formula-gato-adulto-2kg":"fit-formula-gato-adulto-2kg","leonardo-adult-gf-poultry-1-8kg":"leonardo-adult-gf-1-8kg-poultry","leonardo-adult-light-sterilised-1-8kg":"leonardo-adult-light-y-sterilised-1-8kg","leonardo-adult-duck-1-8kg":"leonardo-adult-1-8kg-duck","hey-bolsas-sanitarias-4-rollos":"bolsas-sanitarias-4-rollos-hey","pelota-snack-interactiva_Verde":"pelota-snack-interactiva-verde","collar-findmy_Amarillo":"collar-find-my-amarillo","collar-perro-acolchado_Café-S":"collar-perro-acolchado-cafe-talla-s","collar-perro-acolchado_Café-M":"collar-perro-acolchado-cafe-talla-m","collar-perro-acolchado_Rojo-S":"collar-perro-acolchado-rojo-talla-s","comedero-lento-flores-lila":"comedero-lento-flores-lila","comedero-lento-slow-feeder-rosado":"comedero-lento-slow-feeder-rosado","dog-fest-calcium-bones-chicken":"huesitos-de-calcio-con-pollo-55g-dog-fest","dog-fest-lamb-medallions":"medallones-de-cordero-55g-dog-fest","dog-fest-rabbit-ears-lamb":"orejas-de-conejo-con-cordero-55g-dog-fest","colagepet-donut-pollo":"donut-colagepet-xl-pollo","colagepet-donut-pato":"donut-colagepet-xl-pato","colagepet-donut-carne":"donut-colagepet-xl-carne","rascador-maxi-caja-de-leche---brnx":"rascador-maxi-caja-de-leche-brnx","collar-isabelino-donut-rosada---talla-s":"collar-isabelino-donut-rosada-talla-s","pelota-snack-interactiva_Roja":"pelota-snack-interactiva-roja","pelota-snack-interactiva_Azul":"pelota-snack-interactiva-azul","dispensador-de-bolsas---diseno-cafe":"dispensador-de-bolsas-diseno-cafe","calming-collar---perros":"calming-collar-perros","calming-collar---gatos":"calming-collar-gatos","botella-portatil-para-perros_Rosada":"botella-portatil-para-perros-rosada","botella-portatil-para-perros_Calipso":"botella-portatil-para-perros-calipso","arena-sanitaria-ciudad-animal-8kg":"arena-sanitaria-ciudad-animal-8kg","brit-care-sterilized-weigh-control-2kg---duck-turkey":"brit-care-sterilized-weigh-control-2kg-duck-y-turkey","pack-calma-total":"pack-calma-total","pack-sos-mascota":"pack-sos-mascota","pack-rutina-sana":"pack-rutina-sana","pack-bienvenido-a-casa":"pack-bienvenido-a-casa","pack-juega-y-relaja":"pack-juega-y-relaja","pack-cuidado-total":"pack-cuidado-total","comedero-lento-slow-feeder---catstages":"comedero-lento-slow-feeder-catstages","pack-consulta-flor-de-bach":"pack-consulta-flor-de-bach","flores-de-bach---rescue-y-alivio":"flores-de-bach-rescue-y-alivio","flores-de-bach---energia-y-animo":"flores-de-bach-energia-y-animo","flores-de-bach---equilibrio":"flores-de-bach-equilibrio","flores-de-bach---ansiedad-y-calma":"flores-de-bach-ansiedad-y-calma","cat-fest-pillows-schrimp-creme":"cat-fest-pillows-salmon-creme","cat-fest-pillows":"cat-fest-pillows-chicken-creme","tubito-atun":"tubito-cremoso-atun-con-catnip","tubito-camaron":"tubito-cremoso-camaron-con-catnip","tubito-salmon-matatabi":"tubito-cremoso-salmon-con-matatabi","lata-leonardo-kitten":"lata-leonardo-kitten-200g","lata-leonardo_Ave":"lata-leonardo-adulto-ave","lata-leonardo_Pato":"lata-leonardo-adulto-pato","lata-leonardo_Conejo":"lata-leonardo-adulto-conejo","lata-leonardo_Pescado":"lata-leonardo-adulto-pescado","lata-leonardo_Ternera":"lata-leonardo-adulto-ternera","collar-findmy_Turquesa":"collar-find-my-turquesa","collar-findmy_Negro":"collar-find-my-negro","collar-findmy_Azul":"collar-find-my-azul","fuente-agua":"fuente-de-agua-flor-usb","pajaro":"pajaro-interactivo","pelota-led":"pelota-interactiva-led","pulpo":"masajeador-pulpo","paw-balm":"paw-balm","afeitadora":"afeitadora-led-para-mascotas","cat-fest_Pato":"cat-fest-meat-sticks-pato","cat-fest_Cordero":"cat-fest-meat-sticks-cordero","cats-snack_Catnip":"cats-snack-atun-catnip","cats-snack_Matatabi":"cats-snack-atun-matatabi","cats-snack_Rellena Atún + Ostiones":"cats-snack-rellena-atun-ostiones","cats-snack_Rellena Atún + Queso":"cats-snack-rellena-atun-queso","cats-snack_Rellena Camarón":"cats-snack-rellena-camaron","cats-snack_Rellena Atún + Pollo":"cats-snack-rellena-atun-pollo","snack-calming-gato":"snack-calming-cat-treats-beaphar","suero-fisiologico":"suero-fisiologico-cloruro-de-sodio-0-9","pulmon-cordero-rahue":"pulmon-de-cordero-50g-rahue","traquea-vacuno-rahue":"traquea-de-vacuno-rahue","garra-pollo-rahue":"garra-de-pollo-65g-rahue","oreja-cerdo-rahue":"recorte-oreja-de-cerdo-100g-rahue","femur-cerdo-tasty":"femur-de-cerdo-tasty-farm","collar-zeecat-error-500":"collar-zee-cat-error-500","collar-zeecat-error-404":"collar-zee-cat-error-404","collar-zeecat-error-410":"collar-zee-cat-error-410","collar-suede-para-perro-zeedog":"collar-suede-zee-dog","collar-nox-para-perro-zeedog":"collar-nox-zee-dog","pala-arenero-marron":"pala-arenero-marron","pala-arenero-verde":"pala-arenero-verde","zupet-dental-power-suave":"snack-dental-power-75g-qchefs","zupet-dental-fitness-crocante":"snack-dental-fitness-crocante-60g-qchefs","fellini-lollipop-calabaza":"lolli-pop-calabaza-fellini","fellini-lollipop-leche-cabra":"lolli-pop-leche-de-cabra-fellini","bocados-pollo-pets-friends":"bocados-de-pollo-65g-pets-friends","cubitos-salmon-pets-friends":"cubitos-de-salmon-65g-pets-friends","doggo-traquea-vacuno-ciervo":"traquea-de-vacuno-en-crispy-de-ciervo-doggo","doggo-mix-deshidratados":"mix-deshidratados-100g-doggo","condilo-vacuno-rahue":"condilo-de-vacuno-300g-rahue","fit-formula-costillas-cordero-100g":"costillitas-de-cordero-100g-fit-formula","cats-snack-pollo-camaron":"cats-snack-rellena-pollo-camaron","rastreador-find-my":"rastreador-apple-find-my-funda-de-silicona","comedero-lento-desmontable-azul":"comedero-lento-desmontable-azul","comedero-lento-desmontable-rojo":"comedero-lento-desmontable-rojo","collar-findmy-rojo":"collar-find-my-rojo"};
-const PRODUCT_SLUGS_LOCAL = window.PRODUCT_SLUGS || {};
-function productoUrl(id){
-  const producto = productos?.[id] || {};
-  return "/productos/" + (PRODUCT_SLUGS_LOCAL[id] || producto.slug || id);
-}
+const PRODUCT_SLUGS = {"hey-cama-redonda-confort-verde":"cama-redonda-confort-verde-hey","hey-donut-sonido-perros":"donut-con-sonido-hey","pura-natura-caldo-de-huesos-250g":"caldo-de-huesos-250g-pura-natura","pura-natura-woofers-80g":"woofer-s-80g-pura-natura","fit-formula-gato-adulto-2kg":"fit-formula-gato-adulto-2kg","leonardo-adult-gf-poultry-1-8kg":"leonardo-adult-gf-1-8kg-poultry","leonardo-adult-light-sterilised-1-8kg":"leonardo-adult-light-y-sterilised-1-8kg","leonardo-adult-duck-1-8kg":"leonardo-adult-1-8kg-duck","hey-bolsas-sanitarias-4-rollos":"bolsas-sanitarias-4-rollos-hey","pelota-snack-interactiva_Verde":"pelota-snack-interactiva-verde","collar-findmy_Amarillo":"collar-find-my-amarillo","collar-perro-acolchado_Café-S":"collar-perro-acolchado-cafe-talla-s","collar-perro-acolchado_Café-M":"collar-perro-acolchado-cafe-talla-m","collar-perro-acolchado_Rojo-S":"collar-perro-acolchado-rojo-talla-s","comedero-lento-flores-lila":"comedero-lento-flores-lila","comedero-lento-slow-feeder-rosado":"comedero-lento-slow-feeder-rosado","dog-fest-calcium-bones-chicken":"huesitos-de-calcio-con-pollo-55g-dog-fest","dog-fest-lamb-medallions":"medallones-de-cordero-55g-dog-fest","dog-fest-rabbit-ears-lamb":"orejas-de-conejo-con-cordero-55g-dog-fest","colagepet-donut-pollo":"donut-colagepet-xl-pollo","colagepet-donut-pato":"donut-colagepet-xl-pato","colagepet-donut-carne":"donut-colagepet-xl-carne","rascador-maxi-caja-de-leche---brnx":"rascador-maxi-caja-de-leche-brnx","collar-isabelino-donut-rosada---talla-s":"collar-isabelino-donut-rosada-talla-s","pelota-snack-interactiva_Roja":"pelota-snack-interactiva-roja","pelota-snack-interactiva_Azul":"pelota-snack-interactiva-azul","dispensador-de-bolsas---diseno-cafe":"dispensador-de-bolsas-diseno-cafe","calming-collar---perros":"calming-collar-perros","calming-collar---gatos":"calming-collar-gatos","botella-portatil-para-perros_Rosada":"botella-portatil-para-perros-rosada","botella-portatil-para-perros_Calipso":"botella-portatil-para-perros-calipso","arena-sanitaria-ciudad-animal-8kg":"arena-sanitaria-ciudad-animal-8kg","brit-care-sterilized-weigh-control-2kg---duck-turkey":"brit-care-sterilized-weigh-control-2kg-duck-y-turkey","pack-calma-total":"pack-calma-total","pack-sos-mascota":"pack-sos-mascota","pack-rutina-sana":"pack-rutina-sana","pack-bienvenido-a-casa":"pack-bienvenido-a-casa","pack-juega-y-relaja":"pack-juega-y-relaja","pack-cuidado-total":"pack-cuidado-total","comedero-lento-slow-feeder---catstages":"comedero-lento-slow-feeder-catstages","pack-consulta-flor-de-bach":"pack-consulta-flor-de-bach","flores-de-bach---rescue-y-alivio":"flores-de-bach-rescue-y-alivio","flores-de-bach---energia-y-animo":"flores-de-bach-energia-y-animo","flores-de-bach---equilibrio":"flores-de-bach-equilibrio","flores-de-bach---ansiedad-y-calma":"flores-de-bach-ansiedad-y-calma","cat-fest-pillows-schrimp-creme":"cat-fest-pillows-salmon-creme","cat-fest-pillows":"cat-fest-pillows-chicken-creme","tubito-atun":"tubito-cremoso-atun-con-catnip","tubito-camaron":"tubito-cremoso-camaron-con-catnip","tubito-salmon-matatabi":"tubito-cremoso-salmon-con-matatabi","lata-leonardo-kitten":"lata-leonardo-kitten-200g","lata-leonardo_Ave":"lata-leonardo-adulto-ave","lata-leonardo_Pato":"lata-leonardo-adulto-pato","lata-leonardo_Conejo":"lata-leonardo-adulto-conejo","lata-leonardo_Pescado":"lata-leonardo-adulto-pescado","lata-leonardo_Ternera":"lata-leonardo-adulto-ternera","collar-findmy_Turquesa":"collar-find-my-turquesa","collar-findmy_Negro":"collar-find-my-negro","collar-findmy_Azul":"collar-find-my-azul","fuente-agua":"fuente-de-agua-flor-usb","pajaro":"pajaro-interactivo","pelota-led":"pelota-interactiva-led","pulpo":"masajeador-pulpo","paw-balm":"paw-balm","afeitadora":"afeitadora-led-para-mascotas","cat-fest_Pato":"cat-fest-meat-sticks-pato","cat-fest_Cordero":"cat-fest-meat-sticks-cordero","cats-snack_Catnip":"cats-snack-atun-catnip","cats-snack_Matatabi":"cats-snack-atun-matatabi","cats-snack_Rellena Atún + Ostiones":"cats-snack-rellena-atun-ostiones","cats-snack_Rellena Atún + Queso":"cats-snack-rellena-atun-queso","cats-snack_Rellena Camarón":"cats-snack-rellena-camaron","cats-snack_Rellena Atún + Pollo":"cats-snack-rellena-atun-pollo","snack-calming-gato":"snack-calming-cat-treats-beaphar","suero-fisiologico":"suero-fisiologico-cloruro-de-sodio-0-9","pulmon-cordero-rahue":"pulmon-de-cordero-50g-rahue","traquea-vacuno-rahue":"traquea-de-vacuno-rahue","garra-pollo-rahue":"garra-de-pollo-65g-rahue","oreja-cerdo-rahue":"recorte-oreja-de-cerdo-100g-rahue","femur-cerdo-tasty":"femur-de-cerdo-tasty-farm","collar-zeecat-error-500":"collar-zee-cat-error-500","collar-zeecat-error-404":"collar-zee-cat-error-404","collar-zeecat-error-410":"collar-zee-cat-error-410","collar-suede-para-perro-zeedog":"collar-suede-zee-dog","collar-nox-para-perro-zeedog":"collar-nox-zee-dog","pala-arenero-marron":"pala-arenero-marron","pala-arenero-verde":"pala-arenero-verde","zupet-dental-power-suave":"snack-dental-power-75g-qchefs","zupet-dental-fitness-crocante":"snack-dental-fitness-crocante-60g-qchefs","fellini-lollipop-calabaza":"lolli-pop-calabaza-fellini","fellini-lollipop-leche-cabra":"lolli-pop-leche-de-cabra-fellini","bocados-pollo-pets-friends":"bocados-de-pollo-65g-pets-friends","cubitos-salmon-pets-friends":"cubitos-de-salmon-65g-pets-friends","doggo-traquea-vacuno-ciervo":"traquea-de-vacuno-en-crispy-de-ciervo-doggo","doggo-mix-deshidratados":"mix-deshidratados-100g-doggo","condilo-vacuno-rahue":"condilo-de-vacuno-300g-rahue","fit-formula-costillas-cordero-100g":"costillitas-de-cordero-100g-fit-formula","cats-snack-pollo-camaron":"cats-snack-rellena-pollo-camaron","rastreador-find-my":"rastreador-apple-find-my-funda-de-silicona","comedero-lento-desmontable-azul":"comedero-lento-desmontable-azul","comedero-lento-desmontable-rojo":"comedero-lento-desmontable-rojo","collar-findmy-rojo":"collar-find-my-rojo"};
+function productoUrl(id){ return "/productos/" + (PRODUCT_SLUGS[id] || id); }
 
-
-// ── PREVENTA ────────────────────────────────────────────────────────────────
-const PAC_PREVENTAS = {
-  "botella-portatil-para-perros_Calipso": {
-    fecha: "28 de septiembre",
-    texto: "Despacho a partir del 28 de septiembre"
-  }
-};
-
-function pacGetPreventa(id) {
-  return PAC_PREVENTAS[id] || null;
-}
-
-function pacPreventaSku(productoId, varianteLabel) {
-  return productoId + '_' + varianteLabel;
-}
 
 function checkStockCard(id, stock) {
   const p = productos[id];
   if (!p) return true;
   if (p.variantes) return p.variantes.some(v => (stock[id + '_' + v.label] ?? 0) > 0);
   return (stock[id] ?? 0) > 0;
-}
-
-/* ── AUDIENCIA LEGACY ──
-   Los productos antiguos fueron creados antes de que audience fuera
-   obligatorio en data/productos.json. Estas listas recuperan la
-   clasificación original sin alterar los productos nuevos. */
-const LEGACY_SNACKS_PERROS = new Set([
-  "pulmon-cordero-rahue",
-  "garra-pollo-rahue",
-  "oreja-cerdo-rahue",
-  "femur-cerdo-tasty",
-  "traquea-vacuno-rahue",
-  "condilo-vacuno-rahue",
-  "fit-formula-costillas-cordero-100g",
-  "doggo-traquea-vacuno-ciervo",
-  "doggo-mix-deshidratados",
-  "colagepet-donut-pollo",
-  "colagepet-donut-pato",
-  "colagepet-donut-carne",
-  "dog-fest-rabbit-ears-lamb",
-  "dog-fest-lamb-medallions",
-  "dog-fest-calcium-bones-chicken",
-  "pura-natura-caldo-de-huesos-250g",
-  "zupet-dental-power-suave",
-  "pura-natura-woofers-80g"
-]);
-
-const LEGACY_SNACKS_GATOS = new Set([
-  "cat-fest-pillows-schrimp-creme",
-  "cat-fest-pillows",
-  "cat-fest_Pato",
-  "cat-fest_Cordero",
-  "tubito-atun",
-  "tubito-camaron",
-  "tubito-salmon-matatabi",
-  "cats-snack_Catnip",
-  "cats-snack_Matatabi",
-  "cats-snack_Rellena Atún + Ostiones",
-  "cats-snack_Rellena Atún + Queso",
-  "cats-snack_Rellena Camarón",
-  "cats-snack_Rellena Atún + Pollo",
-  "cats-snack-pollo-camaron",
-  "snack-calming-gato",
-  "zupet-dental-fitness-crocante",
-  "fellini-lollipop-calabaza",
-  "fellini-lollipop-leche-cabra",
-  "bocados-pollo-pets-friends",
-  "cubitos-salmon-pets-friends"
-]);
-
-function normalizarCategoria(valor) {
-  const v = String(valor || '')
-    .trim()
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
-
-  const mapa = {
-    'accesorio': 'Accesorio',
-    'accesorios': 'Accesorio',
-    'juguete': 'Juguete',
-    'juguetes': 'Juguete',
-    'aseo e higiene': 'Aseo e Higiene',
-    'alimento': 'Alimentos',
-    'alimentos': 'Alimentos',
-    'snack': 'Snacks y Golosinas',
-    'snacks': 'Snacks y Golosinas',
-    'snacks y golosinas': 'Snacks y Golosinas',
-    'flores de bach': 'Flores de Bach',
-    'insumo veterinario': 'Insumos Veterinarios',
-    'insumos veterinarios': 'Insumos Veterinarios'
-  };
-
-  return mapa[v] || String(valor || '').trim();
-}
-
-function normalizarAudienciaValor(valor) {
-  const v = String(valor || '').trim().toLowerCase();
-
-  if (v === 'gatos' || v === 'para gatos') return 'Para Gatos';
-  if (v === 'perros' || v === 'para perros') return 'Para Perros';
-  if (
-    v === 'perros & gatos' ||
-    v === 'gatos & perros' ||
-    v === 'para perros y gatos' ||
-    v === 'para gatos y perros'
-  ) {
-    return ['Para Gatos', 'Para Perros'];
-  }
-
-  return String(valor || '').trim();
-}
-
-const AUDIENCIA_POR_SKU = {"hey-cama-redonda-confort-verde":["Para Gatos","Para Perros"],"hey-donut-sonido-perros":"Para Perros","pura-natura-caldo-de-huesos-250g":["Para Gatos","Para Perros"],"pura-natura-woofers-80g":"Para Perros","fit-formula-gato-adulto-2kg":"Para Gatos","leonardo-adult-gf-poultry-1-8kg":"Para Gatos","leonardo-adult-light-sterilised-1-8kg":"Para Gatos","leonardo-adult-duck-1-8kg":"Para Gatos","hey-bolsas-sanitarias-4-rollos":"Para Perros","pelota-snack-interactiva_Verde":"Para Perros","collar-findmy_Amarillo":"Para Gatos","collar-perro-acolchado_Café-S":"Para Perros","collar-perro-acolchado_Café-M":"Para Perros","collar-perro-acolchado_Rojo-S":"Para Perros","comedero-lento-flores-lila":["Para Gatos","Para Perros"],"comedero-lento-slow-feeder-rosado":"Para Perros","dog-fest-calcium-bones-chicken":"Para Perros","dog-fest-lamb-medallions":"Para Perros","dog-fest-rabbit-ears-lamb":"Para Perros","colagepet-donut-pollo":"Para Perros","colagepet-donut-pato":"Para Perros","colagepet-donut-carne":"Para Perros","rascador-maxi-caja-de-leche---brnx":"Para Gatos","collar-isabelino-donut-rosada---talla-s":["Para Gatos","Para Perros"],"pelota-snack-interactiva_Roja":"Para Perros","pelota-snack-interactiva_Azul":"Para Perros","dispensador-de-bolsas---diseno-cafe":"Para Perros","calming-collar---perros":"Para Perros","calming-collar---gatos":"Para Gatos","botella-portatil-para-perros_Rosada":"Para Perros","botella-portatil-para-perros_Calipso":"Para Perros","arena-sanitaria-ciudad-animal-8kg":"Para Gatos","brit-care-sterilized-weigh-control-2kg---duck-turkey":"Para Gatos","comedero-lento-slow-feeder---catstages":"Para Gatos","flores-de-bach---rescue-y-alivio":["Para Gatos","Para Perros"],"flores-de-bach---energia-y-animo":["Para Gatos","Para Perros"],"flores-de-bach---equilibrio":"Para Gatos","flores-de-bach---ansiedad-y-calma":["Para Gatos","Para Perros"],"cat-fest-pillows-schrimp-creme":"Para Gatos","cat-fest-pillows":"Para Gatos","tubito-atun":"Para Gatos","tubito-camaron":"Para Gatos","tubito-salmon-matatabi":"Para Gatos","lata-leonardo-kitten":"Para Gatos","lata-leonardo_Ave":"Para Gatos","lata-leonardo_Pato":"Para Gatos","lata-leonardo_Conejo":"Para Gatos","lata-leonardo_Pescado":"Para Gatos","lata-leonardo_Ternera":"Para Gatos","collar-findmy_Turquesa":"Para Gatos","collar-findmy_Negro":"Para Gatos","collar-findmy_Azul":"Para Gatos","fuente-agua":"Para Gatos","pajaro":"Para Gatos","pelota-led":"Para Gatos","pulpo":"Para Gatos","paw-balm":["Para Gatos","Para Perros"],"afeitadora":["Para Gatos","Para Perros"],"cat-fest_Pato":"Para Gatos","cat-fest_Cordero":"Para Gatos","cats-snack_Catnip":"Para Gatos","cats-snack_Matatabi":"Para Gatos","cats-snack_Rellena Atún + Ostiones":"Para Gatos","cats-snack_Rellena Atún + Queso":"Para Gatos","cats-snack_Rellena Camarón":"Para Gatos","cats-snack_Rellena Atún + Pollo":"Para Gatos","snack-calming-gato":"Para Gatos","suero-fisiologico":["Para Gatos","Para Perros"],"pulmon-cordero-rahue":"Para Perros","traquea-vacuno-rahue":"Para Perros","garra-pollo-rahue":"Para Perros","oreja-cerdo-rahue":"Para Perros","femur-cerdo-tasty":"Para Perros","collar-zeecat-error-500":"Para Gatos","collar-zeecat-error-404":"Para Gatos","collar-zeecat-error-410":"Para Gatos","collar-suede-para-perro-zeedog":"Para Perros","collar-nox-para-perro-zeedog":"Para Perros","pala-arenero-marron":"Para Gatos","pala-arenero-verde":"Para Gatos","zupet-dental-power-suave":"Para Perros","zupet-dental-fitness-crocante":"Para Gatos","fellini-lollipop-calabaza":"Para Gatos","fellini-lollipop-leche-cabra":"Para Gatos","bocados-pollo-pets-friends":"Para Gatos","cubitos-salmon-pets-friends":"Para Gatos","doggo-traquea-vacuno-ciervo":"Para Perros","doggo-mix-deshidratados":"Para Perros","condilo-vacuno-rahue":"Para Perros","fit-formula-costillas-cordero-100g":"Para Perros","cats-snack-pollo-camaron":"Para Gatos","rastreador-find-my":["Para Gatos","Para Perros"],"comedero-lento-desmontable-azul":["Para Gatos","Para Perros"],"comedero-lento-desmontable-rojo":["Para Gatos","Para Perros"],"collar-findmy-rojo":"Para Gatos","femur-de-cerdo-gran-cani":"Para Perros","oreja-de-cerdo-gran-cani":"Para Perros","mousse-salmon-y-cangrejo-60g-ikai":"Para Gatos","mousse-salmon-y-camaron-60g-ikai":"Para Gatos","lolli-pop-arandano-fellini":"Para Gatos","yogurt-natural-en-cubos-20-unidades-goofy":"Para Perros","mantequilla-de-mani-banana-bliss-260g-smuttdog":"Para Perros","medallones-de-avestruz-90g-dogfest":"Para Perros","meat-duck-drum-stick-90g-naturalistic":"Para Perros","salmon-nuggets-100g-naturalistic":"Para Perros","old-prince-gato-adulto-cordero-y-arroz-3kg":"Para Gatos"};
-
-function audienciaEfectiva(id, producto){
-  // Fuente autoritativa: productos.json actual, indexada por SKU.
-  const desdeSku = AUDIENCIA_POR_SKU[id];
-  if (desdeSku) return desdeSku;
-
-  // Fallback por si el objeto trae su SKU explícito.
-  const skuProducto = String(producto?.sku || '').trim();
-  if (skuProducto && AUDIENCIA_POR_SKU[skuProducto]) return AUDIENCIA_POR_SKU[skuProducto];
-
-  // Compatibilidad con products-data.js.
-  const declarada = producto?.audience;
-  if (Array.isArray(declarada)) {
-    const valores = declarada
-      .flatMap(v => {
-        const normalizada = normalizarAudienciaValor(v);
-        return Array.isArray(normalizada) ? normalizada : [normalizada];
-      })
-      .filter(Boolean);
-    if (valores.length) return [...new Set(valores)];
-  }
-
-  const normalizada = normalizarAudienciaValor(declarada);
-  if (Array.isArray(normalizada)) return normalizada;
-  if (normalizada) return normalizada;
-
-  if (LEGACY_SNACKS_PERROS.has(id)) return 'Para Perros';
-  if (LEGACY_SNACKS_GATOS.has(id)) return 'Para Gatos';
-
-  return '';
 }
 
 /* ── FILTROS ── */
@@ -1239,143 +1017,27 @@ function generarTarjetas() {
   if (!grid) return;
   grid.innerHTML = '';
   const stock = getStock();
-  // Conserva el orden editorial actual. Los productos nuevos se insertan
-  // junto al último producto de su misma categoría y público objetivo.
-  function construirOrdenCatalogo(){
-    const resultado=ORDEN.filter(id=>productos[id]);
-    const nuevos=Object.keys(productos).filter(id=>!resultado.includes(id));
-
-    nuevos.forEach(idNuevo=>{
-      const nuevo=productos[idNuevo]||{};
-      const categoria=normalizarCategoria(nuevo.categoria);
-      const audiencia=audienciaEfectiva(idNuevo,nuevo);
-
-      let indice=-1;
-
-      // Primera prioridad: misma categoría y mismo público.
-      for(let i=resultado.length-1;i>=0;i--){
-        const actual=productos[resultado[i]]||{};
-        if(
-          normalizarCategoria(actual.categoria)===categoria &&
-          audienciaEfectiva(resultado[i],actual)===audiencia
-        ){
-          indice=i;
-          break;
-        }
-      }
-
-      // Segunda prioridad: al final de la misma categoría.
-      if(indice<0){
-        for(let i=resultado.length-1;i>=0;i--){
-          const actual=productos[resultado[i]]||{};
-          if(normalizarCategoria(actual.categoria)===categoria){
-            indice=i;
-            break;
-          }
-        }
-      }
-
-      if(indice>=0) resultado.splice(indice+1,0,idNuevo);
-      else resultado.push(idNuevo);
-    });
-
-    // Orden especial de Snacks para gatos:
-    // 1) todos los tubitos juntos, aunque sean productos nuevos
-    // 2) inmediatamente después, los productos nuevos de Inaba
-    // 3) luego los productos Catgo
-    // El resto del catálogo conserva exactamente su orden actual.
-    const esTubito = id => {
-      const p = productos[id] || {};
-      const texto = `${id} ${p.nombre || ''} ${p.marca || ''}`.toLowerCase();
-      return texto.includes('tubito') || texto.includes('tubitos');
-    };
-    const esInaba = id => {
-      const p = productos[id] || {};
-      const texto = `${id} ${p.nombre || ''} ${p.marca || ''}`.toLowerCase();
-      return texto.includes('inaba') || texto.includes('dashi delights');
-    };
-    const esCatgo = id => {
-      const p = productos[id] || {};
-      const texto = `${id} ${p.nombre || ''} ${p.marca || ''}`.toLowerCase();
-      return texto.includes('catgo');
-    };
-
-    const bloqueTubitos = resultado.filter(esTubito);
-    const bloqueInaba = resultado.filter(id => !esTubito(id) && esInaba(id));
-    const bloqueCatgo = resultado.filter(id => !esTubito(id) && !esInaba(id) && esCatgo(id));
-
-    if (bloqueTubitos.length) {
-      const idsBloque = new Set([...bloqueTubitos, ...bloqueInaba, ...bloqueCatgo]);
-      const primeraPosicionTubito = resultado.findIndex(esTubito);
-      const antesDelBloque = resultado
-        .slice(0, primeraPosicionTubito)
-        .filter(id => !idsBloque.has(id));
-      const despuesDelBloque = resultado
-        .slice(primeraPosicionTubito)
-        .filter(id => !idsBloque.has(id));
-
-      return [
-        ...antesDelBloque,
-        ...bloqueTubitos,
-        ...bloqueInaba,
-        ...bloqueCatgo,
-        ...despuesDelBloque
-      ];
-    }
-
-    return resultado;
-  }
-
-  const idsOrdenados=construirOrdenCatalogo();
-
-  function productoCoincideFiltros(id, p) {
+  let lista = ORDEN.map(id => ({ id, p: productos[id] })).filter(({ p }) => {
     if (!p) return false;
-
-    if (ofertasParam === '1') {
-      const esOferta = p.oferta === true ||
-        (Number(p.precioOriginalNum || 0) > Number(p.precioNum || 0));
-      if (!esOferta) return false;
-    }
-
-    const categoriaProducto = normalizarCategoria(p.categoria);
-    const categoriaBuscada = normalizarCategoria(filtros.cat);
-
     if (filtros.cat !== 'todos') {
       if (filtros.cat === 'Cyber') {
         if (!p.cyber) return false;
-      } else if (categoriaProducto !== categoriaBuscada) {
-        return false;
+      } else {
+        if (p.categoria !== filtros.cat) return false;
       }
     }
-
     if (filtros.marca && p.marca !== filtros.marca) return false;
-
     if (filtros.texto) {
-      const texto = String(filtros.texto).toLowerCase();
-      if (!String(p.nombre || '').toLowerCase().includes(texto)) return false;
+      const texto = filtros.texto.toLowerCase();
+      if (!p.nombre.toLowerCase().includes(texto)) return false;
     }
-
     if (filtros.aud !== 'todos') {
-      const buscadaRaw = normalizarAudienciaValor(filtros.aud);
-      const buscadas = Array.isArray(buscadaRaw) ? buscadaRaw : [buscadaRaw];
-
-      const productoRaw = audienciaEfectiva(id, p);
-      const productoAudiencias = (Array.isArray(productoRaw) ? productoRaw : [productoRaw])
-        .flatMap(v => {
-          const n = normalizarAudienciaValor(v);
-          return Array.isArray(n) ? n : [n];
-        })
-        .filter(Boolean);
-
-      if (!buscadas.some(a => productoAudiencias.includes(a))) return false;
+      const aud = p.audience || '';
+      const match = Array.isArray(aud) ? aud.includes(filtros.aud) : aud === filtros.aud;
+      if (!match) return false;
     }
-
     return true;
-  }
-
-  let lista = idsOrdenados
-    .map(id => ({ id, p: productos[id] }))
-    .filter(({ id, p }) => productoCoincideFiltros(id, p));
+  });
   if (filtros.sort === 'price-asc') lista.sort((a, b) => a.p.precioNum - b.p.precioNum);
   if (filtros.sort === 'price-desc') lista.sort((a, b) => b.p.precioNum - a.p.precioNum);
   if (filtros.sort === 'az') lista.sort((a, b) => a.p.nombre.localeCompare(b.p.nombre));
@@ -1427,7 +1089,6 @@ function generarTarjetas() {
     card.className = 'prod-card' + (enStock ? '' : ' agotado');
     card.addEventListener('click', () => { window.location.href = productoUrl(id); });
     const carrusel = crearCarrusel(imagenes, placeholders);
-    const ofertaActual = (typeof PAC_OFERTAS !== 'undefined') ? PAC_OFERTAS[id] : null;
     // Badge y precio: detectar si es Cyber por p.,
     const pOrigNum = p.precioOriginalNum || 0;
     const esCyber = p.cyber === true;
@@ -1447,21 +1108,10 @@ function generarTarjetas() {
       badgeCyber.textContent = '-' + descPct + '%';
       carrusel.appendChild(badgeCyber);
     } else {
-      const badgesWrap = document.createElement('div');
-      badgesWrap.className = 'prod-badges-wrap';
-      const badge = document.createElement('span');
-      badge.className = 'prod-badge';
-      badge.textContent = p.categoria;
-      badgesWrap.appendChild(badge);
-      if (ofertaActual) {
-        const ofertaBadge = document.createElement('span');
-        ofertaBadge.className = 'prod-badge-oferta';
-        ofertaBadge.textContent = 'OFERTA';
-        badgesWrap.appendChild(ofertaBadge);
-        card.classList.add('oferta');
-      }
-      carrusel.appendChild(badgesWrap);
+      const badge = document.createElement('span'); badge.className = 'prod-badge'; badge.textContent = p.categoria;
+      carrusel.appendChild(badge);
     }
+    if (p.ahorro) { const ahorroEl = document.createElement('span'); ahorroEl.className = 'badge-ahorro'; ahorroEl.textContent = 'Ahorras $' + p.ahorro.toLocaleString('es-CL'); carrusel.appendChild(ahorroEl); }
     const btnId = 'btn-' + id;
     const info = document.createElement('div'); info.className = 'prod-info';
     // Precio: si es Cyber mostrar original tachado + precio con descuento en terracota
@@ -1471,36 +1121,16 @@ function generarTarjetas() {
       const pOrigFinal = pOrigNum > p.precioNum ? pOrigNum : (CYBER_PRECIOS_2[id] || 0);
       const pOrigStr = pOrigFinal > 0 ? '$' + pOrigFinal.toLocaleString('es-CL') : '';
       precioMostrar = '<div class="prod-precios">' + (pOrigStr ? '<span class="prod-precio-original">' + pOrigStr + '</span>' : '') + '<span class="prod-price">' + p.precio + '</span></div>';
-    } else if (ofertaActual) {
-      precioMostrar =
-        '<div class="prod-precios-oferta">' +
-          '<span class="prod-precio-original-oferta">$' + ofertaActual.original.toLocaleString('es-CL') + '</span>' +
-          '<span class="prod-price">$' + ofertaActual.precio.toLocaleString('es-CL') + '</span>' +
-        '</div>';
     } else {
       precioMostrar = '<span class="prod-price">' + p.precio + '</span>';
     }
-    const taglineMostrar = String(p.tagline || TAGLINES[id] || '').trim();
-    info.innerHTML = '<h4>' + p.nombre + '</h4>' +
-      (taglineMostrar ? '<p class="tagline">' + taglineMostrar + '</p>' : '') +
-      '<div class="prod-footer">' + precioMostrar +
-      '<button class="btn-add" id="' + btnId + '">' +
-      (p.variantes
-        ? ((['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c => id.startsWith(c)))
-          ? 'Elegir color'
-          : 'Elegir sabor')
-        : 'Añadir') +
-      '</button></div>';
+    info.innerHTML = '<h4>' + p.nombre + '</h4><p class="tagline">' + (TAGLINES[id] || '') + '</p><div class="prod-footer">' + precioMostrar + '<button class="btn-add" id="' + btnId + '">' + (p.variantes ? ((['collar-findmy', 'botella-portatil-para-perros', 'pelota-snack-interactiva'].some(c => id.startsWith(c))) ? 'Elegir color' : 'Elegir sabor') : 'Añadir') + '</button></div>';
     card.appendChild(carrusel); card.appendChild(info); grid.appendChild(card);
     const btn = document.getElementById(btnId);
     if (btn) {
       if (!enStock) { btn.textContent = 'Agotado'; btn.disabled = true; }
       else if (p.variantes) btn.addEventListener('click', (e) => { e.stopPropagation(); abrirModal(id); });
-      else btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const foto = (p.imagenes && p.imagenes[0]) || (p.variantes && p.variantes[0] && p.variantes[0].imagenes && p.variantes[0].imagenes[0]) || '';
-        addToCart({ id: id, name: p.nombre, price: p.precioNum, img: imagenCarritoDesdeProducto(foto) });
-      });
+      else btn.addEventListener('click', (e) => { e.stopPropagation(); addToCart({ id, name: p.nombre, price: p.precioNum, img: '/' + imagenes[0] }); });
     }
   });
 }
@@ -1534,21 +1164,14 @@ function abrirModal(productoId) {
       const btn = document.createElement('button');
       const skuKey = productoId + '_' + v.label;
       const enStock = stock[skuKey] !== 0;
-      const preventa = pacGetPreventa(skuKey);
       btn.className = 'modal-variante-btn' + (idx === 0 ? ' activo' : '');
-      btn.textContent = enStock
-        ? (preventa ? v.label + ' — PREVENTA' : v.label)
-        : v.label + ' — Agotado';
+      btn.textContent = enStock ? v.label : v.label + ' — Agotado';
       btn.disabled = !enStock;
       btn.onclick = () => { if (enStock) seleccionarVariante(idx); };
       opcionesEl.appendChild(btn);
     });
     const primerDisponible = p.variantes.findIndex((v) => getStock()[productoId + '_' + v.label] !== 0);
-    varianteActualIdx = Math.max(0, primerDisponible);
-    document.querySelectorAll('.modal-variante-btn').forEach((btn, i) => btn.classList.toggle('activo', i === varianteActualIdx));
-    construirGaleria(p.variantes[varianteActualIdx]);
-    actualizarIngredientesModal(p, p.variantes[varianteActualIdx]?.label);
-    actualizarPreventaModal();
+    construirGaleria(p.variantes[Math.max(0, primerDisponible)]);
   } else { variantesEl.classList.remove('visible'); construirGaleria(p); }
   document.getElementById('modalProducto').classList.add('activo');
   document.body.style.overflow = 'hidden';
@@ -1585,39 +1208,11 @@ function actualizarIngredientesModal(p, varianteLabel) {
   seleccionarTabModal('carac');
 }
 
-function actualizarPreventaModal() {
-  if (!productoActual || !productoActual.variantes) return;
-  const variante = productoActual.variantes[varianteActualIdx];
-  const skuKey = pacPreventaSku(productoActual.id, variante.label);
-  const preventa = pacGetPreventa(skuKey);
-
-  let aviso = document.getElementById('pac-preventa-modal');
-  if (!aviso) {
-    aviso = document.createElement('div');
-    aviso.id = 'pac-preventa-modal';
-    aviso.style.cssText = 'display:none;margin:12px 0 4px;padding:10px 12px;border-radius:10px;background:rgba(196,98,45,.10);color:#8f431f;font-size:.8rem;font-weight:700;line-height:1.45;';
-    const opciones = document.getElementById('modalVariantesOpciones');
-    if (opciones && opciones.parentNode) opciones.parentNode.appendChild(aviso);
-  }
-
-  if (preventa) {
-    aviso.innerHTML = '<strong>PREVENTA</strong><br>' + preventa.texto;
-    aviso.style.display = 'block';
-    const btn = document.getElementById('modalBtnCarrito');
-    if (btn) btn.textContent = 'Comprar en preventa';
-  } else {
-    aviso.style.display = 'none';
-    const btn = document.getElementById('modalBtnCarrito');
-    if (btn) btn.textContent = 'Añadir al carrito';
-  }
-}
-
 function seleccionarVariante(idx) {
   varianteActualIdx = idx; imagenActualIdx = 0;
   document.querySelectorAll('.modal-variante-btn').forEach((btn, i) => btn.classList.toggle('activo', i === idx));
   construirGaleria(productoActual.variantes[idx]);
   actualizarIngredientesModal(productoActual, productoActual.variantes[idx].label);
-  actualizarPreventaModal();
 }
 function construirGaleria(fuente) {
   const thumbsEl = document.getElementById('modalThumbnails'); thumbsEl.innerHTML = '';
@@ -1659,24 +1254,10 @@ function agregarAlCarritoDesdeModal() {
   const stock = getStock();
   if (stock[skuKey] === 0) { const btn = document.getElementById('modalBtnCarrito'); btn.textContent = 'Agotado 😢'; btn.style.background = '#c0392b'; setTimeout(() => { btn.textContent = 'Añadir al carrito'; btn.style.background = ''; }, 2000); return; }
   const imgCarrito = fuenteActual.imagenes?.[0] || '';
-  const preventa = pacGetPreventa(skuKey);
-  addToCart({
-    id: productoActual.id + (productoActual.variantes ? '-' + varianteActualIdx : ''),
-    stockId: skuKey,
-    name: nombreCompleto,
-    price: productoActual.precioNum,
-    img: imagenCarritoDesdeProducto(imgCarrito),
-    preventa: !!preventa,
-    preventaFecha: preventa?.fecha || null,
-    preventaTexto: preventa?.texto || null
-  });
+  addToCart({ id: productoActual.id + (productoActual.variantes ? '-' + varianteActualIdx : ''), name: nombreCompleto, price: productoActual.precioNum, img: imgCarrito.startsWith('/') ? imgCarrito : '/' + imgCarrito });
   const btn = document.getElementById('modalBtnCarrito');
   btn.textContent = '✓ ¡Añadido!'; btn.style.background = '#4A7C59';
-  setTimeout(() => {
-    btn.textContent = pacGetPreventa(skuKey) ? 'Comprar en preventa' : 'Añadir al carrito';
-    btn.style.background = '';
-    cerrarModal();
-  }, 1200);
+  setTimeout(() => { btn.textContent = 'Añadir al carrito'; btn.style.background = ''; cerrarModal(); }, 1200);
 }
 
 // Verificar si hay filtro en URL (?cat=Juguete)
@@ -1685,41 +1266,6 @@ const catParam = urlParams.get('cat');
 const audParam = urlParams.get('aud');
 const marcaParam = urlParams.get('marca');
 const buscarParam = urlParams.get('buscar');
-const ofertasParam = urlParams.get('ofertas');
-
-function aplicarAliasFiltrosURL() {
-  if (!catParam) return;
-
-  const limpio = String(catParam).trim();
-  const compuesto = limpio.match(/^(Accesorios?|Juguetes?)\s+(?:para\s+)?(Perros|Gatos)$/i);
-
-  if (compuesto) {
-    filtros.cat = normalizarCategoria(compuesto[1]);
-    filtros.aud = normalizarAudienciaValor(compuesto[2]);
-  }
-}
-
-aplicarAliasFiltrosURL();
-
-// Estado visual de la vista Ofertas
-if (ofertasParam === '1') {
-  document.querySelectorAll('a[href="/tienda"]').forEach(a => a.classList.remove('activo'));
-  document.querySelectorAll('a[href="/tienda?ofertas=1"]').forEach(a => a.classList.add('activo'));
-
-  const heroEyebrow = document.querySelector('.tienda-hero span');
-  const heroTitle = document.querySelector('.tienda-hero h1');
-
-  if (heroEyebrow) heroEyebrow.textContent = 'Ofertas';
-  if (heroTitle) heroTitle.innerHTML = 'Productos en <em>oferta.</em>';
-
-  document.title = 'Ofertas para mascotas — Patas & Caos';
-}
-
-if (ofertasParam === '1') {
-  const titulo = [...document.querySelectorAll('h1')].find(el => el.textContent.includes('Toda la'));
-  if (titulo) titulo.innerHTML = 'Productos en <em>oferta.</em>';
-}
-
 
 // Filtro por texto via ?buscar=botella — solo funciona como link directo,
 // no tiene ningún botón/pill visible en la tienda.
@@ -1729,10 +1275,8 @@ if (buscarParam) {
 
 // Filtro por audiencia via ?aud=Perros o ?aud=Gatos
 if (audParam) {
-  const audNormalizada = normalizarAudienciaValor(audParam);
-  filtros.aud = Array.isArray(audNormalizada) ? 'todos' : audNormalizada;
-  const etiquetaAud = filtros.aud === 'Para Perros' ? 'Perros' : (filtros.aud === 'Para Gatos' ? 'Gatos' : '');
-  const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => etiquetaAud && b.textContent.trim() === etiquetaAud);
+  filtros.aud = audParam === 'Perros' ? 'Para Perros' : (audParam === 'Gatos' ? 'Para Gatos' : audParam);
+  const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.includes(audParam));
   if (pill) { document.querySelectorAll('#filter-aud .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
 }
 
@@ -1742,15 +1286,14 @@ if (marcaParam) {
 }
 
 // Filtro por categoría via ?cat=
-if (catParam && !/^(Accesorios?|Juguetes?)\s+(?:para\s+)?(Perros|Gatos)$/i.test(String(catParam).trim())) {
+if (catParam) {
   const audValues = ['Para Gatos', 'Para Perros'];
   if (audValues.includes(catParam)) {
     filtros.aud = catParam;
-    const etiquetaAud = catParam === 'Para Perros' ? 'Perros' : 'Gatos';
-    const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.trim() === etiquetaAud);
+    const pill = [...document.querySelectorAll('#filter-aud .filter-pill')].find(b => b.textContent.includes('Gatos'));
     if (pill) { document.querySelectorAll('#filter-aud .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
   } else {
-    filtros.cat = normalizarCategoria(catParam);
+    filtros.cat = catParam;
     const pill = [...document.querySelectorAll('#filter-cat .filter-pill')].find(b => b.textContent.includes(catParam));
     if (pill) { document.querySelectorAll('#filter-cat .filter-pill').forEach(b => b.classList.remove('activo')); pill.classList.add('activo'); }
   }
@@ -2081,7 +1624,6 @@ if (params.get('cat') === 'Cyber') {
   }
 })();
 </script>
-<script src="/product-slugs.js"></script>
 </body>
 </html>
 

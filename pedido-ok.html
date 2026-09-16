@@ -53,28 +53,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .nav-icon-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
     .nav-icon-btn.ig svg { stroke: none; fill: currentColor; }
     .nav-cart-wrap { position: relative; }
-
-    /* FILA 3 */
-    .nav-bottom { display: flex; justify-content: center; padding: 0 5%; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
-    .nav-links > li > a { display: flex; align-items: center; gap: 3px; text-decoration: none; color: var(--negro); font-size: .87rem; font-weight: 500; padding: 11px 14px; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
-    .nav-links > li > a:hover, .nav-links > li > a.activo { color: var(--terracota); border-bottom-color: var(--terracota); }
-
-    /* MEGA MENÚ */
-    .nav-item { position: relative; }
-    .nav-item > a::after { content: ' ▾'; font-size: .65rem; }
-    .mega-menu { display: none; position: absolute; top: 100%; left: 0; background: #fff; border-radius: 0 0 14px 14px; box-shadow: 0 8px 32px rgba(0,0,0,.12); padding: 1.2rem 1.5rem; min-width: 200px; z-index: 200; }
-    .nav-item:hover .mega-menu { display: flex; flex-direction: column; gap: 0; }
-    .mega-col h4 { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terracota); margin-bottom: 0; white-space: nowrap; transition: color .2s; }
-    .mega-col a { display: block; text-decoration: none; padding: 6px 0; transition: color .2s; }
-    .mega-col a h4 { color: var(--terracota); }
-    .mega-col a:hover h4 { color: var(--negro); }
-
-    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--negro); border-radius: 2px; transition: all .3s; }
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-bottom { border-top: none; }
+    .nav-bottom ul { display: flex; gap: 0; list-style: none; padding: 0 5%; }
+    .nav-bottom ul li a { display: block; padding: 11px 16px; font-size: .83rem; font-weight: 600; color: var(--negro); text-decoration: none; transition: color .2s; white-space: nowrap; }
+    .nav-bottom ul li a:hover { color: var(--terracota); }
+    .nav-bottom ul li a.activo { color: var(--terracota); border-bottom: 2px solid var(--terracota); }
+    .mega-menu { display: none; }
+    .hamburger { display: none; width: 36px; height: 36px; background: none; border: 1.5px solid rgba(28,16,7,.18); border-radius: 50%; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; }
+    .hamburger span { display: block; width: 14px; height: 1.5px; background: var(--negro); border-radius: 2px; transition: all .3s; }
     .anuncio-bar{background:#4A7C59;color:#fff;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;}
     .anuncio-track{display:inline-block;animation:marquee 22s linear infinite;font-size:13px;font-weight:500;letter-spacing:.04em;}
     @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
@@ -209,6 +195,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .pedido-ok-hero h1 { font-size: 1.45rem; }
     }
   </style>
+
+<!-- FIX MENÚ MÓVIL: ocultar navegación horizontal y dejar solo hamburguesa -->
+<style id="fix-nav-bottom-mobile-global">
+@media (max-width: 768px) {
+  .site-header .nav-bottom,
+  header .nav-bottom,
+  nav .nav-bottom,
+  .nav-bottom {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -498,26 +505,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="/cart.js?v=20260902-img-final"></script>
+<script src="/cart.js"></script>
 <script src="/assets/js/site.js"></script>
 <script src="/products-data.js"></script>
-<script>
-  // Google Customer Reviews: español Latinoamérica.
-  window.___gcfg = { lang: 'es-419' };
-</script>
 <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
 <script>
 // ── RESEÑAS DE CLIENTES EN GOOGLE ──
-// Google exige datos dinámicos y reales en la página de confirmación.
-// El módulo solo se intenta mostrar una vez y solo cuando tenemos:
-// order_id, email, país y fecha estimada de entrega.
-const GCR_MERCHANT_ID = 5806255829;
-const GCR_DELIVERY_BUSINESS_DAYS = 5; // Ajustable según operación real.
-const GCR_TRANSFER_EXTRA_BUSINESS_DAYS = 2; // Ventana de confirmación de transferencia.
-
+// Se muestra recién cuando (a) platform.js terminó de cargar Y (b) ya tenemos
+// los datos reales del pedido. Cualquiera de los dos puede llegar primero.
 let _gcrGapiListo = false;
 let _gcrDatosPedido = null;
-let _gcrRenderizado = false;
 
 window.renderOptIn = function() {
   _gcrGapiListo = true;
@@ -525,74 +522,25 @@ window.renderOptIn = function() {
 };
 
 function _gcrIntentarMostrar() {
-  if (_gcrRenderizado || !_gcrGapiListo || !_gcrDatosPedido) return;
-  if (!window.gapi || typeof window.gapi.load !== 'function') return;
-
-  const datos = _gcrDatosPedido;
-  if (!datos.order_id || !datos.email || !datos.estimated_delivery_date) {
-    console.warn('Google Customer Reviews: faltan datos obligatorios.', datos);
-    return;
-  }
-
-  _gcrRenderizado = true;
-
+  if (!_gcrGapiListo || !_gcrDatosPedido) return;
   window.gapi.load('surveyoptin', function() {
     window.gapi.surveyoptin.render({
-      merchant_id: GCR_MERCHANT_ID,
-      order_id: String(datos.order_id),
-      email: String(datos.email),
-      delivery_country: 'CL',
-      estimated_delivery_date: datos.estimated_delivery_date,
-      opt_in_style: 'BOTTOM_RIGHT_DIALOG'
+      "merchant_id": 5806255829,
+      "order_id": _gcrDatosPedido.order_id,
+      "email": _gcrDatosPedido.email,
+      "delivery_country": "CL",
+      "estimated_delivery_date": _gcrDatosPedido.estimated_delivery_date,
     });
   });
 }
 
-function _gcrSumarDiasHabiles(fechaBase, diasHabiles) {
-  const d = new Date(fechaBase);
-  let agregados = 0;
-
-  while (agregados < diasHabiles) {
-    d.setDate(d.getDate() + 1);
-    const dia = d.getDay();
-    if (dia !== 0 && dia !== 6) agregados++;
-  }
-
-  return d;
-}
-
-function _gcrFechaEstimada(order, metodoPago) {
-  const esRetiro = String(order?.metodoEntrega || '').toLowerCase() === 'retiro';
-
-  // Retiro: 2 días hábiles.
-  // Despacho: 5 días hábiles configurables.
-  // Transferencia suma 2 días hábiles por la ventana de confirmación del pago.
-  let dias = esRetiro ? 2 : GCR_DELIVERY_BUSINESS_DAYS;
-  if (metodoPago === 'transferencia') dias += GCR_TRANSFER_EXTRA_BUSINESS_DAYS;
-
-  const d = _gcrSumarDiasHabiles(new Date(), dias);
-  return d.toISOString().slice(0, 10);
-}
-
-function _gcrPreparar(orderId, order, metodoPago) {
-  const email = String(order?.email || '').trim();
-  const id = String(orderId || '').trim();
-
-  if (!id || !email) {
-    console.warn('Google Customer Reviews: no se pudo preparar el opt-in.', {
-      order_id: id,
-      email
-    });
-    return;
-  }
-
-  _gcrDatosPedido = {
-    order_id: id,
-    email,
-    estimated_delivery_date: _gcrFechaEstimada(order, metodoPago)
-  };
-
-  _gcrIntentarMostrar();
+// Estima la fecha de entrega según el plazo que ya le mostramos al cliente
+// (24-48h hábiles para despacho, 1-2 días hábiles para retiro) — se usa un
+// cálculo simple y conservador (hoy + 3 días corridos) para no prometer de más.
+function _gcrFechaEstimada() {
+  const d = new Date();
+  d.setDate(d.getDate() + 3);
+  return d.toISOString().split('T')[0]; // YYYY-MM-DD
 }
 </script>
 <script>
@@ -606,67 +554,34 @@ function runSearch(q) {
 (async function() {
   const params = new URLSearchParams(window.location.search);
   const prefId = params.get('preference_id');
-  const metodo = params.get('metodo');
-  const pedidoId = params.get('pedido');
   const contenido = document.getElementById('pedido-contenido');
 
-  // 1) TRANSFERENCIA
-  // El pedido ya fue creado en Supabase por /api/checkout-transferencia.
-  // Para no exponer email/dirección en la URL, el checkout dejó una copia
-  // temporal de los datos de confirmación en sessionStorage.
-  if (metodo === 'transferencia' && pedidoId) {
-    try {
-      const raw = sessionStorage.getItem('pac_pedido_transferencia');
-      if (!raw) throw new Error('sin datos locales');
-
-      const order = JSON.parse(raw);
-      if (String(order.numeroPedido || '') !== String(pedidoId)) {
-        throw new Error('pedido no coincide');
-      }
-
-      contenido.innerHTML = renderPedido(order);
-      _gcrPreparar('PAC-' + String(pedidoId).padStart(5, '0'), order, 'transferencia');
-
-      // Se conserva durante esta sesión para permitir un refresh de la página.
-      return;
-    } catch (e) {
-      console.error('No se pudo recuperar el pedido por transferencia:', e);
-      contenido.innerHTML = errorHTML(
-        'Tu pedido fue registrado.',
-        'No pudimos recuperar el detalle completo en esta pantalla. Revisa tu correo: allí encontrarás el número de pedido y las instrucciones para realizar la transferencia.'
-      );
-      return;
-    }
+  if (!prefId) {
+    contenido.innerHTML = errorHTML('No encontramos tu pedido.', 'Si completaste el pago, revisa tu correo — enviamos una confirmación automática.');
+    return;
   }
 
-  // 2) MERCADO PAGO
-  // Mercado Pago vuelve a esta página con preference_id. El endpoint /api/webhook
-  // devuelve los datos reales del pedido guardados para esa preferencia.
-  if (prefId) {
-    try {
-      const res = await fetch('/api/webhook?preference_id=' + encodeURIComponent(prefId), {
-        cache: 'no-store'
-      });
-      if (!res.ok) throw new Error('not found');
+  try {
+    const res = await fetch('/api/webhook?preference_id=' + encodeURIComponent(prefId));
+    if (!res.ok) throw new Error('not found');
+    const order = await res.json();
+    contenido.innerHTML = renderPedido(order);
 
-      const order = await res.json();
-      contenido.innerHTML = renderPedido(order);
-      _gcrPreparar(prefId, order, 'mercadopago');
-      return;
-    } catch(e) {
-      console.error('No se pudo cargar el pedido de Mercado Pago:', e);
-      contenido.innerHTML = errorHTML(
-        'No pudimos cargar el detalle de tu pedido.',
-        'Si completaste el pago con Mercado Pago, el cobro puede haberse procesado correctamente. Recibirás la confirmación en tu correo en los próximos minutos.'
-      );
-      return;
+    // Habilitar Reseñas de Clientes en Google con los datos reales del pedido
+    if (order.email) {
+      _gcrDatosPedido = {
+        order_id: prefId,
+        email: order.email,
+        estimated_delivery_date: _gcrFechaEstimada(),
+      };
+      _gcrIntentarMostrar();
     }
+  } catch(e) {
+    contenido.innerHTML = errorHTML(
+      'No pudimos cargar el detalle de tu pedido.',
+      'Si completaste el pago con Mercado Pago, el cobro fue procesado correctamente. Recibirás la confirmación en tu correo en los próximos minutos.'
+    );
   }
-
-  contenido.innerHTML = errorHTML(
-    'No encontramos tu pedido.',
-    'Si completaste una compra, revisa tu correo: enviamos una confirmación automática.'
-  );
 })();
 
 function fmt(n) {
@@ -675,8 +590,7 @@ function fmt(n) {
 
 function renderPedido(o) {
   const esRetiro = o.metodoEntrega === 'retiro';
-  const items = Array.isArray(o.items) ? o.items : [];
-  const itemsHTML = items.map(i => `
+  const itemsHTML = o.items.map(i => `
     <div class="pedido-item">
       <span class="pedido-item-name">${i.name}</span>
       <span class="pedido-item-qty">x${i.qty}</span>

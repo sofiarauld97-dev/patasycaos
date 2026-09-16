@@ -366,6 +366,27 @@ function runSearch(q) {
 @media(max-width:680px){.article-hero{margin-top:24px;padding:0 4%}.article-hero img{height:300px;border-radius:18px}.article-wrap{padding:32px 5% 60px}.article-title{font-size:clamp(2rem,10vw,2.8rem)}.article-body{font-size:.96rem;line-height:1.76}.article-cta{grid-template-columns:1fr!important}.article-cta img{width:100%!important;height:190px!important}}
 </style>
 
+
+<!-- FIX MENÚ MÓVIL: ocultar navegación horizontal y dejar solo hamburguesa -->
+<style id="fix-nav-bottom-mobile-global">
+@media (max-width: 768px) {
+  .site-header .nav-bottom,
+  header .nav-bottom,
+  nav .nav-bottom,
+  .nav-bottom {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
