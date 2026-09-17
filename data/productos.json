@@ -3017,5 +3017,42 @@
     "canonical": "https://www.patasycaos.cl/productos/trocitos-de-pato-100g-tasty-farm",
     "seoTitle": "Trocitos de Pato Tasty Farm 100 g para Perros",
     "seoDescription": "Trocitos de Pato Tasty Farm 100 g para perros. Un snack sabroso ideal como premio, recompensa de entrenamiento o para regalonear durante el día."
+  },
+  {
+    "sku": "salchichas-de-cordero-100g-tasty-farm",
+    "slug": "salchichas-de-cordero-100g-tasty-farm",
+    "nombre": "Salchichas de Cordero 100g - Tasty Farm",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Tasty Farm",
+    "tagline": "Un premio de esos que desaparecen en segundos 🐑💚",
+    "descripcion": "Los snacks de Cordero Tasty Farm son una alternativa sabrosa para premiar a tu perro durante el día. Elaborados a base de cordero y derivados, pueden ofrecerse entre comidas como recompensa, sin reemplazar su alimentación completa.\n\nSu formato de 100 g es ideal para tener en casa o llevar durante paseos y entrenamientos. La información publicada para los snacks Tasty Farm de cordero indica que son de uso exclusivo para perros y que siempre deben ofrecerse manteniendo agua limpia y fresca disponible.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack para perros",
+      "Sabor cordero",
+      "Ideal como premio o recompensa",
+      "Formato de 100g",
+      "Práctico para ofrecer entre comidas",
+      "Envase resellable"
+    ],
+    "ingredientes": "Cordero y derivados, almidón de maíz, glicerina, sorbitol, proteína de soja, sal y sorbato potásico.",
+    "imagenes": [
+      "/salchichas-de-cordero-tasty-farm.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "salchichas-de-cordero-100g-tasty-farm",
+    "canonical": "https://www.patasycaos.cl/productos/salchichas-de-cordero-100g-tasty-farm",
+    "seoTitle": "Snack de Cordero Tasty Farm 100 g para Perros",
+    "seoDescription": "Snack de Cordero Tasty Farm 100 g para perros. Una rica opción para premiar, regalonear o recompensar a tu perro entre comidas."
   }
 ]
