@@ -3054,5 +3054,42 @@
     "canonical": "https://www.patasycaos.cl/productos/salchichas-de-cordero-100g-tasty-farm",
     "seoTitle": "Snack de Cordero Tasty Farm 100 g para Perros",
     "seoDescription": "Snack de Cordero Tasty Farm 100 g para perros. Una rica opción para premiar, regalonear o recompensar a tu perro entre comidas."
+  },
+  {
+    "sku": "tiritas-de-pato-100g-tasty-farm",
+    "slug": "tiritas-de-pato-100g-tasty-farm",
+    "nombre": "Tiritas de Pato 100g - Tasty Farm",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Tasty Farm",
+    "tagline": "Para cuando “sentado” merece premio 🦆🐾",
+    "descripcion": "Las Tiritas de Pato Tasty Farm son un snack complementario para perros, presentado en cómodas tiras que puedes ofrecer como premio durante el día.\n\nSon una alternativa práctica para recompensar buenas conductas, acompañar entrenamientos o simplemente sumar un momento rico a su rutina. Vienen en un envase resellable de 100 g para conservarlas y tenerlas siempre a mano.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack para perros",
+      "Sabor pato",
+      "Presentación en tiritas",
+      "Formato de 100 g",
+      "Ideal como premio o recompensa",
+      "Envase resellable"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/tiritas-de-pato-tasty-farm.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "tiritas-de-pato-100g-tasty-farm",
+    "canonical": "https://www.patasycaos.cl/productos/tiritas-de-pato-100g-tasty-farm",
+    "seoTitle": "Tiritas de Pato Tasty Farm 100 g para Perros",
+    "seoDescription": "Tiritas de Pato Tasty Farm 100 g para perros. Un rico snack para premiar, entrenar o regalonear a tu perro durante el día."
   }
 ]
