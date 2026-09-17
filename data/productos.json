@@ -2945,5 +2945,41 @@
     "canonical": "https://www.patasycaos.cl/productos/dashi-delights-pollo-con-salmon-inaba",
     "seoTitle": "Inaba Dashi Delights Pollo con Salmón | Gatos",
     "seoDescription": "Inaba Dashi Delights de pollo con salmón, un delicioso snack húmedo para gatos en caldo Dashi, ideal como premio o complemento."
+  },
+  {
+    "sku": "arena-sanitaria-turbo-clean-4kg",
+    "slug": "arena-sanitaria-turbo-clean-4kg",
+    "nombre": "Arena Sanitaria Turbo Clean 4kg",
+    "precio": 4990,
+    "precioNum": 4990,
+    "precioDisplay": "$4.990",
+    "precioTexto": "$4.990",
+    "etiquetaProducto": "Aseo e Higiene · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Aseo e Higiene",
+    "marca": "Turbo Clean",
+    "tagline": "Menos olor, más ronroneos 💜",
+    "descripcion": "La Arena Sanitaria Turbo Clean está elaborada con bentonita sódica y diseñada para absorber rápidamente la orina, formando grumos compactos que facilitan la limpieza diaria del arenero.\n\nSus partículas con aroma a lavanda ayudan a mantener una sensación de frescura, mientras que su grano de tamaño estándar resulta cómodo para las almohadillas del gato. Su fórmula alcanza una rápida absorción y está indicada para gatos de todas las edades.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Aglutinante",
+      "Bentonita sódica",
+      "Aroma a lavanda",
+      "Ayuda al control de olores",
+      "Formato: 4 kg"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/arena-sanitaria-turbo-clean-4kg.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "arena-sanitaria-turbo-clean-4kg",
+    "canonical": "https://www.patasycaos.cl/productos/arena-sanitaria-turbo-clean-4kg",
+    "seoTitle": "Arena Sanitaria Turbo Clean Lavanda 4 kg para Gatos",
+    "seoDescription": "Arena sanitaria aglutinante Turbo Clean 4 kg con aroma a lavanda. Rápida absorción, fácil limpieza y control de olores para el arenero de tu gato."
   }
 ]
