@@ -2981,5 +2981,41 @@
     "canonical": "https://www.patasycaos.cl/productos/arena-sanitaria-turbo-clean-4kg",
     "seoTitle": "Arena Sanitaria Turbo Clean Lavanda 4 kg para Gatos",
     "seoDescription": "Arena sanitaria aglutinante Turbo Clean 4 kg con aroma a lavanda. Rápida absorción, fácil limpieza y control de olores para el arenero de tu gato."
+  },
+  {
+    "sku": "trocitos-de-pato-100g-tasty-farm",
+    "slug": "trocitos-de-pato-100g-tasty-farm",
+    "nombre": "Trocitos de Pato 100g - Tasty Farm",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Tasty Farm",
+    "tagline": "Un patito y se portó bien 🦆💜",
+    "descripcion": "Los Trocitos de Pato Tasty Farm son un snack para perros pensado para esos momentos en que se merecen un premio extra. Su formato en pequeños trozos permite ofrecerlos fácilmente como recompensa durante el entrenamiento o como snack entre comidas.\n\nTienen sabor a pato y vienen en un práctico envase resellable de 100 g. Están recomendados para perros de distintas razas y tamaños.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack para perros",
+      "Sabor a pato",
+      "Presentación de 100g",
+      "Ideal como premio o recompensa",
+      "Apto para perros de distintas razas y tamaños"
+    ],
+    "ingredientes": "Pato, bacalao, sorbitol, glicerina, harina de trigo, proteína de soja, sal y sorbato potásico.",
+    "imagenes": [
+      "/trocitos-de-pato-tasty-farm.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "trocitos-de-pato-100g-tasty-farm",
+    "canonical": "https://www.patasycaos.cl/productos/trocitos-de-pato-100g-tasty-farm",
+    "seoTitle": "Trocitos de Pato Tasty Farm 100 g para Perros",
+    "seoDescription": "Trocitos de Pato Tasty Farm 100 g para perros. Un snack sabroso ideal como premio, recompensa de entrenamiento o para regalonear durante el día."
   }
 ]
