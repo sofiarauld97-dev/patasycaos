@@ -3091,5 +3091,42 @@
     "canonical": "https://www.patasycaos.cl/productos/tiritas-de-pato-100g-tasty-farm",
     "seoTitle": "Tiritas de Pato Tasty Farm 100 g para Perros",
     "seoDescription": "Tiritas de Pato Tasty Farm 100 g para perros. Un rico snack para premiar, entrenar o regalonear a tu perro durante el día."
+  },
+  {
+    "sku": "rebanadas-de-vacuno-100g-tasty-farm",
+    "slug": "rebanadas-de-vacuno-100g-tasty-farm",
+    "nombre": "Rebanadas de Vacuno 100g - Tasty Farm",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Tasty Farm",
+    "tagline": "Para premiarlo como si no hiciera ningún caos 🐶❤️",
+    "descripcion": "Las Rebanadas de Vacuno Tasty Farm son un snack complementario para perros elaborado con carne de vacuno y derivados, además de bacalao. Su formato en rebanadas permite ofrecerlas fácilmente como premio durante el día.\n\nSon aptas para perros de distintos tamaños desde los 3 meses y pueden darse como recompensa entre comidas, sin reemplazar su alimentación completa. La recomendación publicada para este producto es administrar entre 2 y 3 unidades al día y mantener siempre agua limpia y fresca disponible.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack complementario para perros",
+      "Elaborado con carne de vacuno y derivados",
+      "Con bacalao",
+      "Formato en rebanadas",
+      "22% de proteína declarada",
+      "Para perros de todos los tamaños desde los 3 meses"
+    ],
+    "ingredientes": "Carne de vacuno y derivados, bacalao, sorbitol, glicerina, harina de trigo, proteína de soja, sal y sorbato potásico.",
+    "imagenes": [
+      "/rebanadas-de-vacuno-tasty-farm.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "rebanadas-de-vacuno-100g-tasty-farm",
+    "canonical": "https://www.patasycaos.cl/productos/rebanadas-de-vacuno-100g-tasty-farm",
+    "seoTitle": "Rebanadas de Vacuno Tasty Farm 100 g para Perros",
+    "seoDescription": "Rebanadas de Vacuno Tasty Farm 100 g para perros. Un sabroso snack para premiar, entrenar o regalonear a tu perro entre comidas."
   }
 ]
