@@ -2860,8 +2860,19 @@ function irASlide(n) {
   document.getElementById('heroSlider').style.transform = `translateX(-${n * (100 / 3)}%)`;
   document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('activo', i === n));
 }
-// Auto-avance cada 5 segundos
-setInterval(() => irASlide((heroIdx + 1) % 3), 5000);
+// Auto-avance: el primer slide tiene más tiempo porque contiene más información
+const HERO_TIEMPOS = [12000, 7000, 7000];
+let heroTimer;
+
+function programarSiguienteHero() {
+  clearTimeout(heroTimer);
+  heroTimer = setTimeout(() => {
+    irASlide((heroIdx + 1) % 3);
+    programarSiguienteHero();
+  }, HERO_TIEMPOS[heroIdx]);
+}
+
+programarSiguienteHero();
 // Swipe táctil
 (function() {
   const el = document.getElementById('heroSlider');
