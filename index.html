@@ -1342,19 +1342,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .iron-card{
   position:absolute;
   z-index:8;
-  top:clamp(22px,4.6vw,70px);
+  top:7%;
+  bottom:7%;
   left:4.2%;
-  width:min(520px,43vw);
-  padding:clamp(22px,2.2vw,34px);
-  border-radius:20px;
-  background:rgba(255,255,255,.94);
+  width:min(535px,43vw);
+  padding:clamp(24px,2.4vw,38px);
+  border-radius:22px;
+  background:rgba(255,255,255,.95);
   box-shadow:0 14px 40px rgba(28,16,7,.13);
   color:var(--negro);
   backdrop-filter:blur(2px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
 .iron-card-kicker{
-  margin:0 0 8px;
+  margin:0 0 10px;
   color:var(--terracota);
   font-size:.72rem;
   font-weight:800;
@@ -1363,7 +1367,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 
 .iron-card h1{
-  margin:0 0 8px;
+  margin:0 0 12px;
   font-size:clamp(1.55rem,2.25vw,2.45rem);
   line-height:1.02;
   font-weight:900;
@@ -1371,50 +1375,54 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 }
 
 .iron-card-sub{
-  margin:0 0 18px;
+  margin:0 0 20px;
   max-width:460px;
-  font-size:clamp(.78rem,1vw,.94rem);
-  line-height:1.5;
+  font-size:clamp(.8rem,1vw,.96rem);
+  line-height:1.55;
   color:#5f5147;
 }
 
-.iron-benefits{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:0;
-  margin:4px 0 18px;
-}
-
-.iron-benefit{
+.iron-highlights{
   display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  gap:5px;
-  padding:0 10px;
-  text-align:center;
-  font-size:.76rem;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 22px;
+}
+
+.iron-highlight{
+  padding:7px 12px;
+  border-radius:999px;
+  background:#f7efe5;
+  color:#5f5147;
+  font-size:.72rem;
+  font-weight:600;
   line-height:1.2;
-  font-weight:500;
 }
 
-.iron-benefit + .iron-benefit{
-  border-left:1px solid rgba(196,98,45,.35);
+.iron-extra{
+  margin:0 0 20px;
+  padding:15px 0;
+  border-top:1px solid rgba(196,98,45,.18);
+  border-bottom:1px solid rgba(196,98,45,.18);
 }
 
-.iron-benefit svg{
-  width:29px;
-  height:29px;
-  stroke:var(--terracota);
-  fill:none;
-  stroke-width:1.8;
-  stroke-linecap:round;
-  stroke-linejoin:round;
+.iron-extra strong{
+  display:block;
+  margin-bottom:4px;
+  font-size:.9rem;
+  color:var(--negro);
+}
+
+.iron-extra p{
+  margin:0;
+  font-size:.78rem;
+  line-height:1.5;
+  color:#6b5c4e;
 }
 
 .iron-bottom{
   display:flex;
-  align-items:center;
+  align-items:stretch;
   gap:12px;
 }
 
@@ -1424,15 +1432,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   align-items:center;
   gap:12px;
   min-width:0;
-  padding:11px 15px;
+  padding:12px 15px;
   border-radius:16px;
   background:#f2e7d7;
 }
 
 .iron-date svg{
-  width:32px;
-  height:32px;
-  flex:0 0 32px;
+  width:31px;
+  height:31px;
+  flex:0 0 31px;
   stroke:var(--negro);
   fill:none;
   stroke-width:1.8;
@@ -1440,32 +1448,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   stroke-linejoin:round;
 }
 
-.iron-date-copy{
-  min-width:0;
-  line-height:1.05;
-}
-
-.iron-date-copy small{
-  display:block;
-  margin-bottom:3px;
-  font-size:.65rem;
-  font-weight:800;
-  letter-spacing:.03em;
-}
-
-.iron-date-copy strong{
-  display:block;
-  font-size:clamp(.95rem,1.25vw,1.2rem);
-  font-weight:900;
-  white-space:nowrap;
-}
-
-.iron-date-copy span{
-  display:block;
-  margin-top:4px;
-  font-size:.73rem;
-  white-space:nowrap;
-}
+.iron-date-copy{ min-width:0; line-height:1.05; }
+.iron-date-copy small{ display:block; margin-bottom:3px; font-size:.65rem; font-weight:800; letter-spacing:.03em; }
+.iron-date-copy strong{ display:block; font-size:clamp(.95rem,1.25vw,1.2rem); font-weight:900; white-space:nowrap; }
+.iron-date-copy span{ display:block; margin-top:4px; font-size:.73rem; white-space:nowrap; }
 
 .iron-visit{
   flex:0 0 auto;
@@ -1474,124 +1460,71 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   border-radius:18px 28px 20px 30px;
   background:var(--terracota);
   color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   text-align:center;
-  font-size:.92rem;
-  line-height:1.15;
-  font-weight:600;
+  font-size:.9rem;
+  line-height:1.18;
+  font-weight:700;
   transform:rotate(-1.5deg);
 }
 
-.iron-visit span{
-  display:block;
-  margin-top:3px;
-  font-size:1.15rem;
-}
-
 @media(max-width:850px) and (min-width:601px){
-  .iron-card{
-    top:24px;
-    left:3.5%;
-    width:min(470px,48vw);
-    padding:20px;
-  }
-  .iron-card-sub{ margin-bottom:13px; }
-  .iron-benefits{ margin-bottom:13px; }
-  .iron-benefit{ padding:0 6px; font-size:.68rem; }
-  .iron-benefit svg{ width:24px; height:24px; }
+  .iron-card{ top:5%; bottom:5%; left:3.5%; width:min(480px,49vw); padding:20px; }
+  .iron-card-sub{ margin-bottom:14px; }
+  .iron-highlights{ margin-bottom:14px; gap:6px; }
+  .iron-highlight{ font-size:.64rem; padding:6px 9px; }
+  .iron-extra{ margin-bottom:14px; padding:11px 0; }
+  .iron-extra strong{ font-size:.8rem; }
+  .iron-extra p{ font-size:.69rem; }
   .iron-date{ padding:9px 11px; gap:8px; }
   .iron-date svg{ width:27px; height:27px; flex-basis:27px; }
-  .iron-visit{ min-width:100px; padding:11px 12px; font-size:.8rem; }
+  .iron-visit{ min-width:100px; padding:11px 12px; font-size:.78rem; }
 }
 
-/* En móvil la tarjeta ocupa la zona superior y deja respirar la foto */
+/* Móvil: tarjeta amplia arriba y fotografía visible abajo */
 @media(max-width:600px){
   .iron-card{
-    top:18px;
+    top:16px;
+    bottom:auto;
     left:5%;
     right:5%;
     width:auto;
-    padding:18px 16px 16px;
+    min-height:52%;
+    padding:19px 17px 17px;
     border-radius:18px;
     text-align:center;
-    background:rgba(255,255,255,.94);
+    background:rgba(255,255,255,.95);
     box-shadow:0 10px 28px rgba(28,16,7,.11);
+    justify-content:flex-start;
   }
-
-  .iron-card-kicker{
-    margin-bottom:5px;
-    font-size:.61rem;
-  }
-
-  .iron-card h1{
-    margin-bottom:6px;
-    font-size:clamp(1.38rem,7vw,1.8rem);
-  }
-
-  .iron-card-sub{
-    max-width:330px;
-    margin:0 auto 13px;
-    font-size:.71rem;
-    line-height:1.4;
-  }
-
-  .iron-benefits{
-    margin:0 0 13px;
-  }
-
-  .iron-benefit{
-    padding:0 5px;
-    gap:3px;
-    font-size:.62rem;
-  }
-
-  .iron-benefit svg{
-    width:22px;
-    height:22px;
-  }
-
-  .iron-bottom{
-    gap:8px;
-    align-items:stretch;
-  }
-
-  .iron-date{
-    gap:8px;
-    padding:9px 10px;
-    border-radius:14px;
-    text-align:left;
-  }
-
-  .iron-date svg{
-    width:27px;
-    height:27px;
-    flex-basis:27px;
-  }
-
-  .iron-date-copy small{ font-size:.55rem; }
-  .iron-date-copy strong{ font-size:.88rem; }
-  .iron-date-copy span{ font-size:.62rem; }
-
-  .iron-visit{
-    min-width:92px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    padding:9px 10px;
-    border-radius:16px 22px 17px 24px;
-    font-size:.73rem;
-  }
-  .iron-visit span{ font-size:.95rem; }
+  .iron-card-kicker{ margin-bottom:5px; font-size:.6rem; }
+  .iron-card h1{ margin-bottom:7px; font-size:clamp(1.32rem,6.8vw,1.75rem); }
+  .iron-card-sub{ max-width:335px; margin:0 auto 12px; font-size:.7rem; line-height:1.42; }
+  .iron-highlights{ justify-content:center; gap:6px; margin-bottom:12px; }
+  .iron-highlight{ padding:5px 8px; font-size:.58rem; }
+  .iron-extra{ margin:0 0 12px; padding:9px 0; }
+  .iron-extra strong{ margin-bottom:2px; font-size:.73rem; }
+  .iron-extra p{ font-size:.62rem; line-height:1.4; }
+  .iron-bottom{ gap:8px; align-items:stretch; margin-top:auto; }
+  .iron-date{ gap:8px; padding:9px 10px; border-radius:14px; text-align:left; }
+  .iron-date svg{ width:26px; height:26px; flex-basis:26px; }
+  .iron-date-copy small{ font-size:.53rem; }
+  .iron-date-copy strong{ font-size:.84rem; }
+  .iron-date-copy span{ font-size:.6rem; }
+  .iron-visit{ min-width:92px; padding:9px 10px; border-radius:16px 22px 17px 24px; font-size:.7rem; }
 }
 
 @media(max-width:390px){
-  .iron-card{ top:12px; padding:14px 12px 13px; }
-  .iron-card-sub{ margin-bottom:10px; }
-  .iron-benefits{ margin-bottom:10px; }
-  .iron-benefit{ font-size:.56rem; }
-  .iron-benefit svg{ width:19px; height:19px; }
-  .iron-date-copy strong{ font-size:.78rem; }
-  .iron-date-copy span{ font-size:.56rem; }
-  .iron-visit{ min-width:82px; font-size:.66rem; }
+  .iron-card{ top:12px; min-height:54%; padding:14px 12px 13px; }
+  .iron-card-sub{ margin-bottom:9px; }
+  .iron-highlights{ margin-bottom:9px; }
+  .iron-extra{ margin-bottom:9px; padding:7px 0; }
+  .iron-extra p{ font-size:.57rem; }
+  .iron-date-copy strong{ font-size:.76rem; }
+  .iron-date-copy span{ font-size:.54rem; }
+  .iron-visit{ min-width:82px; font-size:.64rem; }
 }
 </style>
 
@@ -1711,19 +1644,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h1>Nos vemos en la<br>CARRERA IRON CAN</h1>
         <p class="iron-card-sub">Estaremos con un stand lleno de snacks naturales y premios para tu compañero de aventuras.</p>
 
-        <div class="iron-benefits" aria-label="Lo que encontrarás en nuestro stand">
-          <div class="iron-benefit">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4C13 4 6 7 4 14c4 1 8 0 11-3-2 4-5 7-9 9"/><path d="M5 19c3-5 7-8 13-11"/></svg>
-            <span>Snacks<br>naturales</span>
-          </div>
-          <div class="iron-benefit">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
-            <span>Variedad<br>de marcas</span>
-          </div>
-          <div class="iron-benefit">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="2"/><circle cx="7" cy="10" r="1.7"/><circle cx="17" cy="10" r="1.7"/><circle cx="5.5" cy="14" r="1.5"/><circle cx="18.5" cy="14" r="1.5"/><path d="M8 18c0-2.2 1.8-4 4-4s4 1.8 4 4c0 1.5-1.3 2.5-4 2.5S8 19.5 8 18Z"/></svg>
-            <span>Perfecto para<br>perros activos</span>
-          </div>
+        <div class="iron-highlights" aria-label="Lo que encontrarás en nuestro stand">
+          <span class="iron-highlight">Snacks naturales</span>
+          <span class="iron-highlight">Variedad de marcas</span>
+          <span class="iron-highlight">Premios para regalonear</span>
+        </div>
+
+        <div class="iron-extra">
+          <strong>Una jornada para disfrutar juntos</strong>
+          <p>Pasa por nuestro stand, conoce nuestros productos y encuentra un premio rico para tu compañero de aventuras.</p>
         </div>
 
         <div class="iron-bottom">
