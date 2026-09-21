@@ -3128,5 +3128,41 @@
     "canonical": "https://www.patasycaos.cl/productos/rebanadas-de-vacuno-100g-tasty-farm",
     "seoTitle": "Rebanadas de Vacuno Tasty Farm 100 g para Perros",
     "seoDescription": "Rebanadas de Vacuno Tasty Farm 100 g para perros. Un sabroso snack para premiar, entrenar o regalonear a tu perro entre comidas."
+  },
+  {
+    "sku": "pack-3-arenas-sanitarias-turbo-clean",
+    "slug": "pack-3-arenas-sanitarias-turbo-clean",
+    "nombre": "Pack 3 Arenas Sanitarias - Turbo Clean",
+    "precio": 11990,
+    "precioNum": 11990,
+    "precioDisplay": "$11.990",
+    "precioTexto": "$11.990",
+    "etiquetaProducto": "Aseo e Higiene · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Aseo e Higiene",
+    "marca": "Turbo Clean",
+    "tagline": "\"Tres veces menos drama en el arenero 😸💜\"",
+    "descripcion": "Más arena, mejor precio y menos posibilidades de quedarse sin stock justo cuando el michi decide que su baño necesita renovación.\n\nEste pack incluye 3 bolsas de Arena Sanitaria Turbo Clean Lavanda de 4 kg, para un total de 12 kg.\n\nEstá elaborada con bentonita sódica y tiene propiedades aglutinantes: al entrar en contacto con la orina forma grumos que pueden retirarse fácilmente, permitiendo limpiar las zonas utilizadas sin tener que reemplazar toda la arena. Absorción rápida, aroma a lavanda y grano de tamaño estándar pensado para resultar cómodo en las almohadillas del gato.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "12kg",
+      "Aglutinante",
+      "Bentonita sódica",
+      "Aroma a lavanda",
+      "Ayuda al control de olores"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/pack-12kg-arena-sanitaria-turbo-clean.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "pack-3-arenas-sanitarias-turbo-clean",
+    "canonical": "https://www.patasycaos.cl/productos/pack-3-arenas-sanitarias-turbo-clean",
+    "seoTitle": "Pack 3 Arena Sanitaria Turbo Clean Lavanda 4 kg",
+    "seoDescription": "Pack de 3 arenas sanitarias Turbo Clean Lavanda de 4 kg. Arena aglutinante de rápida absorción, fácil limpieza y control de olores. 12 kg en total."
   }
 ]
