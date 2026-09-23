@@ -1421,21 +1421,61 @@ function generarTarjetas() {
     return String(p?.marca || '').trim() || 'Sin marca';
   }
 
+  // Orden editorial de la tienda:
+  // 1) Perros: Snacks y Golosinas primero; luego accesorios/resto.
+  // 2) Productos compartidos Perros y Gatos.
+  // 3) Gatos: Alimentos primero; luego Snacks y Golosinas y accesorios/resto.
+  // Dentro de cada bloque/categoría, los productos se agrupan por MARCA A-Z.
+  function prioridadCategoriaOrden(id, p) {
+    const grupo = grupoAudienciaOrden(id, p);
+    const categoria = normalizarCategoria(p?.categoria || '');
+    const cat = String(categoria || '').toLowerCase();
+
+    const esAlimento = cat.includes('alimento');
+    const esSnack = cat.includes('snack') || cat.includes('golosina');
+
+    // Perros: snacks antes que accesorios/resto.
+    if (grupo === 0) {
+      if (esSnack) return 0;
+      return 1;
+    }
+
+    // Compartidos: mantenerlos después del bloque exclusivo de perros.
+    if (grupo === 1) {
+      if (esSnack) return 0;
+      if (esAlimento) return 1;
+      return 2;
+    }
+
+    // Gatos: alimentos abren la sección de gatos.
+    if (grupo === 2) {
+      if (esAlimento) return 0;
+      if (esSnack) return 1;
+      return 2;
+    }
+
+    return 9;
+  }
+
   if (filtros.sort === 'default') {
     lista.sort((a, b) => {
+      // Regla global: cualquier producto agotado va SIEMPRE al final de la tienda.
+      const aStock = checkStockCard(a.id, stock);
+      const bStock = checkStockCard(b.id, stock);
+      if (aStock && !bStock) return -1;
+      if (!aStock && bStock) return 1;
+
+      // Entre productos con el mismo estado de stock se mantiene el orden editorial.
       const grupo = grupoAudienciaOrden(a.id, a.p) - grupoAudienciaOrden(b.id, b.p);
       if (grupo !== 0) return grupo;
+
+      const prioridadCategoria = prioridadCategoriaOrden(a.id, a.p) - prioridadCategoriaOrden(b.id, b.p);
+      if (prioridadCategoria !== 0) return prioridadCategoria;
 
       const marcaA = marcaParaOrden(a.p);
       const marcaB = marcaParaOrden(b.p);
       const porMarca = marcaA.localeCompare(marcaB, 'es', { sensitivity: 'base' });
       if (porMarca !== 0) return porMarca;
-
-      // Dentro de la misma marca, disponibles primero sin separar la marca.
-      const aStock = checkStockCard(a.id, stock);
-      const bStock = checkStockCard(b.id, stock);
-      if (aStock && !bStock) return -1;
-      if (!aStock && bStock) return 1;
 
       return String(a.p.nombre || '').localeCompare(String(b.p.nombre || ''), 'es', { sensitivity: 'base' });
     });
