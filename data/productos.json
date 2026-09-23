@@ -3833,5 +3833,43 @@
     "seoTitle": "Belcando Bits Duck 90 g | Snack de Pato para Perros",
     "seoDescription": "Belcando Bits Duck 90 g, snack de pato para perros adultos con una sola proteína animal, receta sin cereales y sin azúcar añadida.",
     "tallaEnvio": "XS"
+  },
+  {
+    "sku": "kit-huellita-de-recuerdo-perros-y-gatos",
+    "slug": "kit-huellita-de-recuerdo-perros-y-gatos",
+    "nombre": "Kit Huellita de Recuerdo - Perros y Gatos",
+    "precio": 5990,
+    "precioNum": 5990,
+    "precioDisplay": "$5.990",
+    "precioTexto": "$5.990",
+    "etiquetaProducto": "Accesorio · Perros & Gatos",
+    "audience": "Perros & Gatos",
+    "categoria": "Accesorio",
+    "marca": "Patas & Caos",
+    "tagline": "Su huellita, para siempre 🐾",
+    "descripcion": "Guarda una huellita de tu regalón como un recuerdo para siempre. Este kit permite crear una impresión de su patita de forma simple y sin contacto directo con la tinta: solo debes presionar suavemente su patita sobre la almohadilla y la huella quedará marcada en la tarjeta.\n\nIncluye 1 almohadilla de tinta de 8 × 12,5 cm y 2 tarjetas de impresión, para que puedas conservar su huellita, enmarcarla o usarla como inspiración para un recuerdo especial.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Incluye 1 almohadilla de tinta y 2 tarjetas de impresión.",
+      "Almohadilla de 8 × 12,5 cm.",
+      "La patita no entra en contacto directo con la tinta.",
+      "Permite obtener la impresión de la huella de tu mascota.",
+      "Ideal para guardar o enmarcar como recuerdo.",
+      "Apto para perros y gatos cuya huella quepa dentro del área útil de impresión.",
+      "Fácil de usar en casa."
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/kit-de-impresion-huella.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "kit-huellita-de-recuerdo-perros-y-gatos",
+    "canonical": "https://www.patasycaos.cl/productos/kit-huellita-de-recuerdo-perros-y-gatos",
+    "seoTitle": "Kit Huellita de Recuerdo para Perros y Gatos | Patas & Caos",
+    "seoDescription": "Guarda la huellita de tu mascota para siempre. Kit con almohadilla de tinta sin contacto directo y 2 tarjetas de impresión para perros y gatos."
   }
 ]
