@@ -299,55 +299,9 @@
     }
   }
 
-  // ── PREVENTA: Botella Portátil Calipso ───────────────────────────────────
-  const PAC_CURRENT_PREORDER = {
-    id: 'botella-portatil-para-perros_Calipso',
-    fecha: '28 de septiembre',
-    texto: 'Despacho a partir del 28 de septiembre'
-  };
-
-  function pacIsCurrentPreorder() {
-    return typeof CURRENT_PRODUCT !== 'undefined' &&
-      CURRENT_PRODUCT &&
-      String(CURRENT_PRODUCT.id || '') === PAC_CURRENT_PREORDER.id;
-  }
-
-  function pacRenderCurrentPreorder() {
-    if (!pacIsCurrentPreorder()) return;
-
-    pacInjectOfferStyles();
-
-    const tag = document.querySelector('.product-info .product-tag');
-    if (tag && !document.querySelector('.product-preorder-badge-live')) {
-      let row = tag.closest('.product-tag-row-live');
-      if (!row) {
-        row = document.createElement('div');
-        row.className = 'product-tag-row-live';
-        tag.parentNode.insertBefore(row, tag);
-        row.appendChild(tag);
-      }
-      const badge = document.createElement('span');
-      badge.className = 'product-offer-badge-live product-preorder-badge-live';
-      badge.style.background = 'rgba(74,124,89,.13)';
-      badge.style.color = '#4A7C59';
-      badge.textContent = 'PREVENTA';
-      row.appendChild(badge);
-    }
-
-    let notice = document.getElementById('pac-product-preorder-notice');
-    if (!notice) {
-      notice = document.createElement('div');
-      notice.id = 'pac-product-preorder-notice';
-      notice.style.cssText = 'margin:12px 0 4px;padding:0;background:transparent;font-family:Poppins,sans-serif;line-height:1.45;';
-      const priceBox = document.querySelector('.product-info .product-price');
-      if (priceBox) priceBox.insertAdjacentElement('afterend', notice);
-    }
-    notice.innerHTML =
-      '<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">' +
-        '<span style="display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;background:rgba(74,124,89,.13);color:#4A7C59;font-size:.68rem;font-weight:800;letter-spacing:.03em;">PREVENTA</span>' +
-        '<span style="color:#6B625B;font-size:.78rem;font-weight:600;">' + PAC_CURRENT_PREORDER.texto + '</span>' +
-      '</div>';
-  }
+  // Preventa desactivada: ningún producto se trata como preventa.
+  function pacIsCurrentPreorder() { return false; }
+  function pacRenderCurrentPreorder() {}
 
   function updateQtyUI() {
     const value = document.getElementById('product-qty-value');
@@ -374,17 +328,14 @@
     }
 
     add.disabled = false;
-    add.textContent = pacIsCurrentPreorder() ? 'Comprar en preventa' : 'Añadir al carrito';
+    add.textContent = 'Añadir al carrito';
 
     const alreadyInCart = currentCartQty();
     const remaining = productStock === null ? null : Math.max(0, productStock - alreadyInCart);
     plus.disabled = remaining !== null && productQty >= remaining;
 
     if (note) {
-      if (pacIsCurrentPreorder() && remaining !== null && remaining > 0) {
-        note.textContent = PAC_CURRENT_PREORDER.texto;
-        note.className = 'product-stock-note';
-      } else if (remaining === null) {
+      if (remaining === null) {
         note.textContent = '';
         note.className = 'product-stock-note';
       } else if (remaining <= 0) {
@@ -461,21 +412,12 @@
         if ('precioNum' in existing) existing.precioNum = CURRENT_PRODUCT.price;
         existing.maxQty = productStock === null ? Math.max(existing.maxQty || 1, existing.qty + quantityToAdd) : productStock;
         existing.qty = Math.min(existing.maxQty, existing.qty + quantityToAdd);
-        if (pacIsCurrentPreorder()) {
-          existing.preventa = true;
-          existing.preventaFecha = PAC_CURRENT_PREORDER.fecha;
-          existing.preventaTexto = PAC_CURRENT_PREORDER.texto;
-          existing.stockId = PAC_CURRENT_PREORDER.id;
-        }
       } else {
         cart.push({
           ...CURRENT_PRODUCT,
           qty: quantityToAdd,
           maxQty: productStock === null ? quantityToAdd : productStock,
-          stockId: pacIsCurrentPreorder() ? PAC_CURRENT_PREORDER.id : CURRENT_PRODUCT.id,
-          preventa: pacIsCurrentPreorder(),
-          preventaFecha: pacIsCurrentPreorder() ? PAC_CURRENT_PREORDER.fecha : null,
-          preventaTexto: pacIsCurrentPreorder() ? PAC_CURRENT_PREORDER.texto : null
+          stockId: CURRENT_PRODUCT.id
         });
       }
 
