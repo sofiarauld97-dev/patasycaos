@@ -679,7 +679,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="filter-group">
       <span class="filter-label">Ordenar</span>
       <select class="sort-select" id="sort-select" onchange="aplicarFiltros()">
-        <option value="default">Destacados</option>
+        <option value="default">Por marca</option>
         <option value="price-asc">Precio ↑</option>
         <option value="price-desc">Precio ↓</option>
         <option value="az">A → Z</option>
@@ -1396,9 +1396,20 @@ function generarTarjetas() {
   let lista = idsOrdenados
     .map(id => ({ id, p: productos[id] }))
     .filter(({ id, p }) => productoCoincideFiltros(id, p));
+  // Orden predeterminado: agrupar productos por marca (A → Z)
+  // y, dentro de cada marca, ordenar los productos por nombre.
+  if (filtros.sort === 'default') {
+    lista.sort((a, b) => {
+      const marcaA = String(a.p.marca || '').trim();
+      const marcaB = String(b.p.marca || '').trim();
+      const porMarca = marcaA.localeCompare(marcaB, 'es', { sensitivity: 'base' });
+      if (porMarca !== 0) return porMarca;
+      return String(a.p.nombre || '').localeCompare(String(b.p.nombre || ''), 'es', { sensitivity: 'base' });
+    });
+  }
   if (filtros.sort === 'price-asc') lista.sort((a, b) => a.p.precioNum - b.p.precioNum);
   if (filtros.sort === 'price-desc') lista.sort((a, b) => b.p.precioNum - a.p.precioNum);
-  if (filtros.sort === 'az') lista.sort((a, b) => a.p.nombre.localeCompare(b.p.nombre));
+  if (filtros.sort === 'az') lista.sort((a, b) => a.p.nombre.localeCompare(b.p.nombre, 'es', { sensitivity: 'base' }));
   // Agotados siempre al final
   lista.sort((a, b) => {
     const aStock = checkStockCard(a.id, stock);
