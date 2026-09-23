@@ -1396,92 +1396,175 @@ function generarTarjetas() {
   let lista = idsOrdenados
     .map(id => ({ id, p: productos[id] }))
     .filter(({ id, p }) => productoCoincideFiltros(id, p));
-  // Orden por defecto: primero Perros, luego productos compartidos y finalmente Gatos.
-  // Dentro de cada grupo, todos los productos de una misma marca quedan juntos.
-  // Casos como Colagepet se reconocen por el nombre aunque el fabricante figure como Marben Pets.
-  function grupoAudienciaOrden(id, p) {
-    const audRaw = audienciaEfectiva(id, p);
-    const audiencias = (Array.isArray(audRaw) ? audRaw : [audRaw])
-      .flatMap(v => {
-        const n = normalizarAudienciaValor(v);
-        return Array.isArray(n) ? n : [n];
-      })
-      .filter(Boolean);
-    const esPerro = audiencias.includes('Para Perros');
-    const esGato = audiencias.includes('Para Gatos');
-    if (esPerro && !esGato) return 0;
-    if (esPerro && esGato) return 1;
-    if (esGato) return 2;
-    return 3;
-  }
+  // ORDEN EDITORIAL MANUAL definido por Patas & Caos.
+  // La única regla que se antepone es stock: disponibles primero y agotados al final.
+  // Dentro de ambos grupos se respeta exactamente este mismo orden.
+  const ORDEN_MANUAL_PRODUCTOS = [
+    "Sachet de Venado, Mijo & Arándano 125g - Belcando",
+    "Sachet de Pato, Arroz & Arándano 125g - Belcando",
+    "Sachet Menú de Carnes Senior 125g - Belcando",
+    "Topping de Pavo 100g - Belcando",
+    "Topping de Ternera 100g - Belcando",
+    "Huesitos de Calcio con Pollo 55g - Dog Fest",
+    "Medallones de Cordero 55g - Dog Fest",
+    "Orejas de Conejo con Cordero 55g - Dog Fest",
+    "Medallones de Avestruz 90g - Dog Fest",
+    "Donut Colagepet XL - Pollo",
+    "Donut Colagepet XL - Pato",
+    "Donut Colagepet XL - Carne",
+    "Sticks Colagepet Carne 6uds - Marben Pets",
+    "Pulmón de Cordero 50g - Rahue",
+    "Tráquea de Vacuno - Rahue",
+    "Garra de Pollo 65g - Rahue",
+    "Recorte Oreja de Cerdo 100g - Rahue",
+    "Cóndilo de Vacuno 300g - Rahue",
+    "Fémur de Cerdo - Rahue",
+    "Fémur de Cerdo - Tasty Farm",
+    "Salchichas de Cordero 100g - Tasty Farm",
+    "Tiritas de Pato 100g - Tasty Farm",
+    "Rebanadas de Vacuno 100g - Tasty Farm",
+    "Trocitos de Pato 100g - Tasty Farm",
+    "Tráquea de Vacuno en Crispy de Ciervo - Doggo",
+    "Mix Deshidratados 100g - Doggo",
+    "Costillitas de Cordero 100g - Fit Fórmula",
+    "Treats de Conejo 100g - Fit Formula",
+    "Tiritas de Pollo Deshidratadas 100g - Fit Formula",
+    "Trutros de Pollo Deshidratados 100g - Fit Formula",
+    "Mousse de Salmón Piel & Pelaje 150g - Ikai",
+    "Sopa de Salmón 150g - Ikai",
+    "Meat Duck Drum Stick 90g - Naturalistic",
+    "Salmon Nuggets 100g - Naturalistic",
+    "Lamb Strips 100g - Naturalistic",
+    "Fémur de Cerdo - Gran Cani",
+    "Oreja de Cerdo - Gran Cani",
+    "Cuerno Masticable Cuidado Inmunológico L - Tasty Farm",
+    "Churu Dog Meal Topper Chicken & Pumpkin 4uds",
+    "Yogurt Natural en Cubos 20 Unidades - Goofy",
+    "Mantequilla de Maní Banana Bliss 260g - Smuttdog",
+    "Woofer's 80g - Pura Natura",
+    "Caldo de Huesos 250g - Pura Natura",
+    "Snack Dental Power 75g - QChefs",
+    "Snack Dental Fitness Crocante 60g - QChefs",
+    "Dashi Delights Pollo con Atún y Ostiones - Inaba",
+    "Dashi Delights Pollo con Atún - Inaba",
+    "Dashi Delights Pollo - Inaba",
+    "Dashi Delights Pollo con Salmón - Inaba",
+    "Tubito Cremoso Atún con Catnip",
+    "Tubito Cremoso Camarón con Catnip",
+    "Tubito Cremoso Salmón con Matatabi",
+    "Tubito Cremoso Cangrejo con Catnip",
+    "Tubito Cremoso Conejo con Catnip",
+    "Lolli Pop Arándano - Fellini",
+    "Lolli Pop Calabaza - Fellini",
+    "Lolli Pop Leche de Cabra - Fellini",
+    "Bocados de Pollo 65g - Pets Friends",
+    "Cubitos de Salmón 65g - Pets Friends",
+    "Cats Snack — Atún + Catnip",
+    "Cats Snack — Atún + Matatabi",
+    "Cats Snack — Rellena Atún + Ostiones",
+    "Cats Snack — Rellena Atún + Queso",
+    "Cats Snack — Rellena Camarón",
+    "Cats Snack — Rellena Atún + Pollo",
+    "Cats Snack - Rellena Pollo + Camarón",
+    "Bocados de Choritos - Catgo",
+    "Bocados de Salmón - Catgo",
+    "Bocados de Cerdo - Catgo",
+    "Snack Calming Cat Treats - Beaphar",
+    "Mousse Salmón & Cangrejo 60g - Ikai",
+    "Mousse Salmón & Camarón 60g - Ikai",
+    "Leonardo Adult GF 1,8kg - Poultry",
+    "Leonardo Adult Light & Sterilised 1,8kg",
+    "Leonardo Adult 1,8kg - Duck",
+    "Brit Care Sterilized Weigh Control 2kg - Duck & Turkey",
+    "Old Prince Gato Adulto Cordero & Arroz 3kg",
+    "Fit Formula Gato Adulto 2kg",
+    "Lata Leonardo Kitten 200g",
+    "Lata Leonardo Adulto — Ave",
+    "Lata Leonardo Adulto — Pato",
+    "Lata Leonardo Adulto — Conejo",
+    "Lata Leonardo Adulto — Pescado",
+    "Lata Leonardo Adulto — Ternera",
+    "Arena Sanitaria Ciudad Animal 8kg",
+    "Arena Sanitaria Michi 4kg",
+    "Arena Sanitaria Turbo Clean 4kg",
+    "Pack 3 Arenas Sanitarias - Turbo Clean",
+    "Collar Perro Acolchado — Café Talla S",
+    "Collar Perro Acolchado — Café Talla M",
+    "Collar Perro Acolchado — Rojo Talla S",
+    "Collar Suede Zee.Dog",
+    "Collar Nox Zee.Dog",
+    "Collar Zee.Cat Error 500",
+    "Collar Zee.Cat Error 404",
+    "Collar Zee.Cat Error 410",
+    "Collar Find My — Turquesa",
+    "Collar Find My — Negro",
+    "Collar Find My — Azul",
+    "Collar Find My — Amarillo",
+    "Collar Find My — Rojo",
+    "Rastreador Apple Find My + Funda de Silicona",
+    "Calming Collar - Perros",
+    "Botella Portátil para Perros — Rosada",
+    "Botella Portátil para Perros — Calipso",
+    "Comedero Lento Desmontable — Azul",
+    "Comedero Lento Desmontable — Rojo",
+    "Comedero Lento Slow Feeder - Rosado",
+    "Rascador Maxi Caja de Leche - Brnx",
+    "Bolsas Sanitarias 4 Rollos - Hey!",
+    "Bolsas Sanitarias 4 Rollos - Marben Pets",
+    "Dispensador de Bolsas - Diseño Café",
+    "Pala Arenero — Marrón",
+    "Pala Arenero — Verde",
+    "Fuente de Agua Flor USB",
+    "Cama Redonda Confort Verde - Hey!",
+    "Donut con Sonido - Hey!",
+    "Pelota Snack Interactiva — Verde",
+    "Pelota Snack Interactiva — Roja",
+    "Pelota Snack Interactiva — Azul",
+    "Pájaro Interactivo",
+    "Collar Isabelino Donut Rosada - Talla S",
+    "Paw Balm",
+    "Suero Fisiológico — Cloruro de Sodio 0.9%",
+    "Shampoo Aloe Vera 250ml - Bioline",
+    "Flores de Bach - Rescue y Alivio",
+    "Flores de Bach - Energía y Ánimo",
+    "Flores de Bach - Equilibrio",
+    "Flores de Bach - Ansiedad y Calma"
+];
 
-  function marcaParaOrden(p) {
-    const nombre = String(p?.nombre || '').trim();
-    const marcaOriginal = String(p?.marca || '').trim();
-
-    // Normaliza tildes y variantes de escritura para que una misma marca
-    // nunca se separe en el orden de la tienda (ej. Fit Formula / Fit Fórmula).
-    const normalizarMarca = (valor) => String(valor || '')
+  function claveNombreOrden(valor) {
+    return String(valor || '')
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[–—]/g, '-')
+      .replace(/\s+/g, ' ')
       .trim()
       .toLowerCase();
-
-    const nombreNormalizado = normalizarMarca(nombre);
-    const marcaNormalizada = normalizarMarca(marcaOriginal);
-
-    if (nombreNormalizado.includes('colagepet') || marcaNormalizada.includes('colagepet')) return 'colagepet';
-    if (nombreNormalizado.includes('fit formula') || marcaNormalizada.includes('fit formula')) return 'fit formula';
-
-    return marcaNormalizada || 'sin marca';
   }
 
-  // Orden editorial definitivo:
-  // - El stock manda: agotados siempre al final.
-  // - Dentro de cada audiencia, alimentos y snacks comparten el mismo bloque principal.
-  //   Así una marca NO se parte por categoría (Rahue, Fit Formula, Belcando, Ikai, etc.).
-  // - Accesorios, Flores de Bach e insumos veterinarios se relegan al final del bloque disponible.
-  // - Dentro de cada bloque, la MARCA es la clave principal de orden.
-  function prioridadBloqueOrden(p) {
-    const categoria = String(normalizarCategoria(p?.categoria || '') || '')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase();
-
-    const texto = `${categoria} ${String(p?.nombre || '')}`
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase();
-
-    const esAccesorio = texto.includes('accesorio');
-    const esFloresBach = texto.includes('flor de bach') || texto.includes('flores de bach');
-    const esVeterinario = texto.includes('veterin') || texto.includes('insumo veterin');
-
-    return (esAccesorio || esFloresBach || esVeterinario) ? 1 : 0;
-  }
+  const indiceOrdenManual = new Map(
+    ORDEN_MANUAL_PRODUCTOS.map((nombre, indice) => [claveNombreOrden(nombre), indice])
+  );
 
   if (filtros.sort === 'default') {
     lista.sort((a, b) => {
-      // 1. Regla global: cualquier producto agotado va al final de TODA la tienda.
+      // 1) Todo lo agotado SIEMPRE al final.
       const aStock = checkStockCard(a.id, stock);
       const bStock = checkStockCard(b.id, stock);
       if (aStock && !bStock) return -1;
       if (!aStock && bStock) return 1;
 
-      // 2. Mantener primero Perros, luego compartidos y después Gatos.
-      const grupo = grupoAudienciaOrden(a.id, a.p) - grupoAudienciaOrden(b.id, b.p);
-      if (grupo !== 0) return grupo;
+      // 2) Dentro de disponibles y dentro de agotados, respetar el orden manual exacto.
+      const ia = indiceOrdenManual.has(claveNombreOrden(a.p?.nombre))
+        ? indiceOrdenManual.get(claveNombreOrden(a.p?.nombre))
+        : Number.MAX_SAFE_INTEGER;
+      const ib = indiceOrdenManual.has(claveNombreOrden(b.p?.nombre))
+        ? indiceOrdenManual.get(claveNombreOrden(b.p?.nombre))
+        : Number.MAX_SAFE_INTEGER;
+      if (ia !== ib) return ia - ib;
 
-      // 3. ORDEN ESTRICTO POR MARCA. No se usa la categoría antes de la marca,
-      //    para que Rahue, Dog Fest, Doggo, Belcando, Ikai, Fit Formula, etc.
-      //    formen bloques completos y nunca se intercalen entre sí.
-      const marcaA = marcaParaOrden(a.p);
-      const marcaB = marcaParaOrden(b.p);
-      const porMarca = marcaA.localeCompare(marcaB, 'es', { sensitivity: 'base' });
-      if (porMarca !== 0) return porMarca;
-
-      // 4. Dentro de la misma marca, conservar un orden estable por nombre.
-      return String(a.p.nombre || '').localeCompare(String(b.p.nombre || ''), 'es', { sensitivity: 'base' });
+      // 3) Si apareciera un producto nuevo no incluido aún en la lista manual,
+      // conservar su orden original en el catálogo sin alterar el resto.
+      return idsOrdenados.indexOf(a.id) - idsOrdenados.indexOf(b.id);
     });
   }
   if (filtros.sort === 'price-asc') lista.sort((a, b) => a.p.precioNum - b.p.precioNum);
