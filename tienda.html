@@ -1417,8 +1417,23 @@ function generarTarjetas() {
 
   function marcaParaOrden(p) {
     const nombre = String(p?.nombre || '').trim();
-    if (/\bcolagepet\b/i.test(nombre)) return 'Colagepet';
-    return String(p?.marca || '').trim() || 'Sin marca';
+    const marcaOriginal = String(p?.marca || '').trim();
+
+    // Normaliza tildes y variantes de escritura para que una misma marca
+    // nunca se separe en el orden de la tienda (ej. Fit Formula / Fit Fórmula).
+    const normalizarMarca = (valor) => String(valor || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim()
+      .toLowerCase();
+
+    const nombreNormalizado = normalizarMarca(nombre);
+    const marcaNormalizada = normalizarMarca(marcaOriginal);
+
+    if (nombreNormalizado.includes('colagepet') || marcaNormalizada.includes('colagepet')) return 'colagepet';
+    if (nombreNormalizado.includes('fit formula') || marcaNormalizada.includes('fit formula')) return 'fit formula';
+
+    return marcaNormalizada || 'sin marca';
   }
 
   // Orden editorial de la tienda:
@@ -1465,13 +1480,16 @@ function generarTarjetas() {
       if (aStock && !bStock) return -1;
       if (!aStock && bStock) return 1;
 
-      // Entre productos con el mismo estado de stock se mantiene el orden editorial.
+      // Entre productos con el mismo estado de stock: primero se respeta la sección
+      // Perros / compartidos / Gatos. Luego se prioriza el tipo de producto para que
+      // alimentos y snacks aparezcan antes que accesorios, Flores de Bach e insumos veterinarios.
       const grupo = grupoAudienciaOrden(a.id, a.p) - grupoAudienciaOrden(b.id, b.p);
       if (grupo !== 0) return grupo;
 
       const prioridadCategoria = prioridadCategoriaOrden(a.id, a.p) - prioridadCategoriaOrden(b.id, b.p);
       if (prioridadCategoria !== 0) return prioridadCategoria;
 
+      // Dentro de cada bloque editorial, mantener cada marca completamente junta.
       const marcaA = marcaParaOrden(a.p);
       const marcaB = marcaParaOrden(b.p);
       const porMarca = marcaA.localeCompare(marcaB, 'es', { sensitivity: 'base' });
