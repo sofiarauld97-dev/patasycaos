@@ -3164,5 +3164,674 @@
     "canonical": "https://www.patasycaos.cl/productos/pack-3-arenas-sanitarias-turbo-clean",
     "seoTitle": "Pack 3 Arena Sanitaria Turbo Clean Lavanda 4 kg",
     "seoDescription": "Pack de 3 arenas sanitarias Turbo Clean Lavanda de 4 kg. Arena aglutinante de rápida absorción, fácil limpieza y control de olores. 12 kg en total."
+  },
+  {
+    "sku": "bolsas-sanitarias-4-rollos-marben-pets",
+    "slug": "bolsas-sanitarias-4-rollos-marben-pets",
+    "nombre": "Bolsas Sanitarias 4 Rollos - Marben Pets",
+    "precio": 2190,
+    "precioNum": 2190,
+    "precioDisplay": "$2.190",
+    "precioTexto": "$2.190",
+    "etiquetaProducto": "Aseo e Higiene · Perros",
+    "audience": "Para Perros",
+    "categoria": "Aseo e Higiene",
+    "marca": "Marben Pets",
+    "tagline": "Paseos limpios, caos controlado 🐶",
+    "descripcion": "Bolsas sanitarias Marben Pets en formato de 4 rollos, prácticas para llevar en los paseos y tener siempre a mano al momento de recoger los desechos de tu perro. El pack contiene 60 bolsas en total y su formato en rollo es compatible con el uso diario y fácil de guardar en dispensadores o bolsos de paseo.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Pack de 4 rollos",
+      "60 bolsas en total",
+      "Para recoger desechos durante los paseos",
+      "Formato compacto y fácil de transportar"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/bolsas-sanitarias-marben-pets.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "bolsas-sanitarias-4-rollos-marben-pets",
+    "canonical": "https://www.patasycaos.cl/productos/bolsas-sanitarias-4-rollos-marben-pets",
+    "seoTitle": "Bolsas Sanitarias 4 Rollos Marben Pets | 60 Bolsas",
+    "seoDescription": "Bolsas Sanitarias Marben Pets en pack de 4 rollos con 60 bolsas en total. Prácticas y fáciles de llevar para los paseos diarios con tu perro.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "femur-de-cerdo-rahue",
+    "slug": "femur-de-cerdo-rahue",
+    "nombre": "Fémur de Cerdo - Rahue",
+    "precio": 4990,
+    "precioNum": 4990,
+    "precioDisplay": "$4.990",
+    "precioTexto": "$4.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Rahue",
+    "tagline": "Para mordidas con ganas 🦴",
+    "descripcion": "Fémur de cerdo Rahue, un snack masticable para perros pensado para esos momentos en que necesitan entretenerse mordiendo. Su formato de hueso ofrece una experiencia de masticación prolongada y puede darse como premio ocasional, siempre bajo supervisión.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack masticable para perros",
+      "Fémur de cerdo",
+      "Ideal como premio ocasional",
+      "Ofrecer siempre bajo supervisión"
+    ],
+    "ingredientes": "Fémur de cerdo.",
+    "imagenes": [
+      "/femur-de-cerdo-rahue.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "femur-de-cerdo-rahue",
+    "canonical": "https://www.patasycaos.cl/productos/femur-de-cerdo-rahue",
+    "seoTitle": "Fémur de Cerdo Rahue | Snack Masticable para Perros",
+    "seoDescription": "Fémur de Cerdo Rahue, snack masticable para perros ideal como premio ocasional y para disfrutar de un buen momento de masticación.",
+    "tallaEnvio": "S"
+  },
+  {
+    "sku": "cuerno-masticable-cuidado-inmunologico-l-tasty-farm",
+    "slug": "cuerno-masticable-cuidado-inmunologico-l-tasty-farm",
+    "nombre": "Cuerno Masticable Cuidado Inmunológico L - Tasty Farm",
+    "precio": 4990,
+    "precioNum": 4990,
+    "precioDisplay": "$4.990",
+    "precioTexto": "$4.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Tasty Farm",
+    "tagline": "Masticar también es panorama 🐶",
+    "descripcion": "Cuerno masticable Tasty Farm tamaño L, diseñado como snack de larga masticación para perros. Su formato firme ayuda a mantenerlos entretenidos mientras disfrutan de su premio. Esta variedad corresponde a la línea Cuidado Inmunológico.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack masticable para perros",
+      "Tamaño L",
+      "Línea Cuidado Inmunológico",
+      "Textura firme para una masticación prolongada",
+      "Ofrecer bajo supervisión"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/cuerno-masticable-cuidado-inmunologico-tasty-farm.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "cuerno-masticable-cuidado-inmunologico-l-tasty-farm",
+    "canonical": "https://www.patasycaos.cl/productos/cuerno-masticable-cuidado-inmunologico-l-tasty-farm",
+    "seoTitle": "Cuerno Masticable Cuidado Inmunológico L Tasty Farm",
+    "seoDescription": "Cuerno Masticable Cuidado Inmunológico Tasty Farm tamaño L para perros. Snack firme pensado para entretener y disfrutar de una larga masticación.",
+    "tallaEnvio": "S"
+  },
+  {
+    "sku": "lamb-strips-100g-naturalistic",
+    "slug": "lamb-strips-100g-naturalistic",
+    "nombre": "Lamb Strips 100g - Naturalistic",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Naturalistic",
+    "tagline": "Cordero en tiras, premio asegurado 🐑",
+    "descripcion": "Naturalistic Lamb Strips es un snack para perros elaborado con carne de cordero y pechuga de pato. Su formato en tiras es práctico para ofrecer como premio, recompensa durante el entrenamiento o simplemente para regalonear entre comidas.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Snack en tiras para perros",
+      "Con carne de cordero y pechuga de pato",
+      "74% de carne declarado por la marca",
+      "Formato de 100 g",
+      "Ideal como premio o recompensa"
+    ],
+    "ingredientes": "Carne de cordero, pechuga de pato, proteína de soya, glicerina vegetal, almidón y sal.",
+    "imagenes": [
+      "/lamb-strips-naturalistic.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "lamb-strips-100g-naturalistic",
+    "canonical": "https://www.patasycaos.cl/productos/lamb-strips-100g-naturalistic",
+    "seoTitle": "Lamb Strips Naturalistic 100 g | Snack para Perros",
+    "seoDescription": "Naturalistic Lamb Strips 100 g, snack en tiras con cordero y pechuga de pato. Una opción práctica y sabrosa para premiar a tu perro.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "mousse-salmon-piel-pelaje-150g-ikai",
+    "slug": "mousse-salmon-piel-pelaje-150g-ikai",
+    "nombre": "Mousse de Salmón Piel & Pelaje 150g - Ikai",
+    "precio": 4190,
+    "precioNum": 4190,
+    "precioDisplay": "$4.190",
+    "precioTexto": "$4.190",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Ikai",
+    "tagline": "Salmón cremoso para brillar ✨",
+    "descripcion": "Mousse funcional de salmón Ikai para perros, formulado para complementar su alimentación con una textura cremosa y fácil de servir. Contiene Omega 3 y 6, zinc y vitamina E, nutrientes asociados al cuidado de la piel y el pelaje. Puede ofrecerse directamente o mezclado con su comida.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Formato de 150 g",
+      "Mousse funcional para perros",
+      "Con Omega 3 y 6, zinc y vitamina E",
+      "Sin granos",
+      "Sin colorantes ni sal añadida",
+      "Puede darse solo o mezclado con su alimento"
+    ],
+    "ingredientes": "Salmón, tapioca, goma xantana, zinc, vitamina E y antioxidantes naturales (tocoferoles mixtos).",
+    "imagenes": [
+      "/mousse-salmon-para-perros-piel-y-pelaje-ikai.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "mousse-salmon-piel-pelaje-150g-ikai",
+    "canonical": "https://www.patasycaos.cl/productos/mousse-salmon-piel-pelaje-150g-ikai",
+    "seoTitle": "Mousse de Salmón Piel y Pelaje Ikai 150 g | Perros",
+    "seoDescription": "Mousse de Salmón Ikai Piel y Pelaje 150 g para perros, con Omega 3 y 6, zinc y vitamina E. Cremoso, fácil de servir y sin granos.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "sopa-salmon-150g-ikai",
+    "slug": "sopa-salmon-150g-ikai",
+    "nombre": "Sopa de Salmón 150g - Ikai",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Ikai",
+    "tagline": "Un caldito con sabor a salmón 🐟",
+    "descripcion": "Sopa de salmón Ikai para perros en formato de 150 g. Una alternativa húmeda y sabrosa para complementar su alimentación, agregar sobre sus croquetas o servir como un premio especial durante el día.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Formato de 150 g",
+      "Sopa de salmón para perros",
+      "Textura líquida y fácil de servir",
+      "Ideal como complemento o topping",
+      "Puede agregarse sobre su alimento habitual"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/sopa-salmon-para-perros-ikai.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "sopa-salmon-150g-ikai",
+    "canonical": "https://www.patasycaos.cl/productos/sopa-salmon-150g-ikai",
+    "seoTitle": "Sopa de Salmón Ikai 150 g para Perros | Patas & Caos",
+    "seoDescription": "Sopa de Salmón Ikai 150 g para perros. Una opción húmeda y sabrosa para servir como complemento, topping o premio junto a su alimentación.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "treats-conejo-100g-fit-formula",
+    "slug": "treats-conejo-100g-fit-formula",
+    "nombre": "Treats de Conejo 100g - Fit Formula",
+    "precio": 2990,
+    "precioNum": 2990,
+    "precioDisplay": "$2.990",
+    "precioTexto": "$2.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Fit Formula",
+    "tagline": "Un conejito por portarse bien 🐰",
+    "descripcion": "Treats de Conejo Fit Formula para perros, pensados para usar como premio mientras los mantienes entretenidos. Su textura contribuye al cuidado dental mediante la masticación y están recomendados para perros desde los 3 meses.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Formato de 100 g",
+      "Para perros desde los 3 meses",
+      "Ideal como premio",
+      "Ayuda al cuidado dental mediante la masticación",
+      "Con carne de conejo"
+    ],
+    "ingredientes": "Carne de conejo, almidón de maíz, proteína de arveja, glicerina, sorbitol y sal.",
+    "imagenes": [
+      "/snack-conejo-fit-formula.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "treats-conejo-100g-fit-formula",
+    "canonical": "https://www.patasycaos.cl/productos/treats-conejo-100g-fit-formula",
+    "seoTitle": "Treats de Conejo Fit Formula 100 g para Perros",
+    "seoDescription": "Treats de Conejo Fit Formula 100 g para perros desde los 3 meses. Snack sabroso ideal como premio y para acompañar sus momentos de masticación.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "tiritas-pollo-deshidratadas-100g-fit-formula",
+    "slug": "tiritas-pollo-deshidratadas-100g-fit-formula",
+    "nombre": "Tiritas de Pollo Deshidratadas 100g - Fit Formula",
+    "precio": 2990,
+    "precioNum": 2990,
+    "precioDisplay": "$2.990",
+    "precioTexto": "$2.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Fit Formula",
+    "tagline": "Tiritas que hacen aparecer la obediencia 🐔",
+    "descripcion": "Tiritas de Pollo Deshidratadas Fit Formula para perros, ideales como premio o recompensa. Su formato permite una masticación entretenida que contribuye al cuidado dental. Recomendadas para perros desde los 3 meses.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Formato de 100 g",
+      "Para perros desde los 3 meses",
+      "Ideal como premio",
+      "Alto contenido de proteína",
+      "Ayuda al cuidado dental mediante la masticación"
+    ],
+    "ingredientes": "Carne de pollo, almidón de maíz, sorbitol, glicerina y sal.",
+    "imagenes": [
+      "/tiritas-de-pollo-deshidratado-fit-formula.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "tiritas-pollo-deshidratadas-100g-fit-formula",
+    "canonical": "https://www.patasycaos.cl/productos/tiritas-pollo-deshidratadas-100g-fit-formula",
+    "seoTitle": "Tiritas de Pollo Fit Formula 100 g | Snack para Perros",
+    "seoDescription": "Tiritas de Pollo Deshidratadas Fit Formula 100 g para perros. Snack alto en proteína, ideal como premio y para acompañar la masticación.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "trutros-pollo-deshidratados-100g-fit-formula",
+    "slug": "trutros-pollo-deshidratados-100g-fit-formula",
+    "nombre": "Trutros de Pollo Deshidratados 100g - Fit Formula",
+    "precio": 2990,
+    "precioNum": 2990,
+    "precioDisplay": "$2.990",
+    "precioTexto": "$2.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Fit Formula",
+    "tagline": "Un trutro y vuelve la paz 🐔",
+    "descripcion": "Trutros de Pollo Deshidratados Fit Formula para perros desde los 3 meses. Su textura firme los convierte en un premio entretenido para masticar y ayuda al cuidado dental por acción mecánica durante la masticación.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Formato de 100 g",
+      "Para perros desde los 3 meses",
+      "Ideal como premio",
+      "Textura firme para masticar",
+      "Ayuda al cuidado dental mediante la masticación"
+    ],
+    "ingredientes": "Carne de pollo, hueso de calcio, almidón de maíz, sorbitol, glicerina y sal.",
+    "imagenes": [
+      "/trutros-de-pollo-fit-formula.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "trutros-pollo-deshidratados-100g-fit-formula",
+    "canonical": "https://www.patasycaos.cl/productos/trutros-pollo-deshidratados-100g-fit-formula",
+    "seoTitle": "Trutros de Pollo Fit Formula 100 g | Snack para Perros",
+    "seoDescription": "Trutros de Pollo Deshidratados Fit Formula 100 g para perros. Snack para premiar y entretener, con textura firme que acompaña la masticación.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "sticks-colagepet-carne-6uds-150g-marben-pets",
+    "slug": "sticks-colagepet-carne-6uds-150g-marben-pets",
+    "nombre": "Sticks Colagepet Carne 6uds - Marben Pets",
+    "precio": 4990,
+    "precioNum": 4990,
+    "precioDisplay": "$4.990",
+    "precioTexto": "$4.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Marben Pets",
+    "tagline": "Seis razones para mover la cola 🐶",
+    "descripcion": "Sticks Colagepet sabor carne de Marben Pets, un snack masticable para perros presentado en un práctico pack de 6 unidades. Ideal para ofrecer como premio ocasional y sumar un momento de masticación a su rutina.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Pack de 6 unidades",
+      "Contenido total: 150 g",
+      "Sabor carne",
+      "Snack masticable para perros",
+      "Ideal como premio ocasional"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/sticks-carne-colagepet-6uds.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "sticks-colagepet-carne-6uds-150g-marben-pets",
+    "canonical": "https://www.patasycaos.cl/productos/sticks-colagepet-carne-6uds-150g-marben-pets",
+    "seoTitle": "Sticks Colagepet Carne 6 uds Marben Pets | Perros",
+    "seoDescription": "Sticks Colagepet sabor carne Marben Pets, pack de 6 unidades y 150 g. Snack masticable para perros ideal como premio ocasional.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "churu-dog-meal-topper-chicken-pumpkin-4uds",
+    "slug": "churu-dog-meal-topper-chicken-pumpkin-4uds",
+    "nombre": "Churu Dog Meal Topper Chicken & Pumpkin 4uds",
+    "precio": 3290,
+    "precioNum": 3290,
+    "precioDisplay": "$3.290",
+    "precioTexto": "$3.290",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Inaba",
+    "tagline": "Un toque cremoso y desaparece el plato 🐶",
+    "descripcion": "Churu Dog Meal Topper Chicken & Pumpkin es un snack cremoso para perros con pollo y calabaza, pensado para servir directamente como premio o agregar sobre su alimento habitual. El envase contiene 4 tubitos individuales de 14 g, para un total de 56 g.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Pack de 4 tubitos",
+      "14 g por unidad / 56 g total",
+      "Con pollo y calabaza",
+      "Textura cremosa",
+      "Ideal como topping o premio"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/churu-dog-meal-topper-chicken-and-pumpkin.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "churu-dog-meal-topper-chicken-pumpkin-4uds",
+    "canonical": "https://www.patasycaos.cl/productos/churu-dog-meal-topper-chicken-pumpkin-4uds",
+    "seoTitle": "Churu Dog Chicken & Pumpkin 4 uds | Meal Topper Perros",
+    "seoDescription": "Churu Dog Meal Topper Chicken & Pumpkin, pack de 4 tubitos de 14 g. Snack cremoso para perros ideal como premio o topping para sus comidas.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "shampoo-aloe-vera-250ml-bioline",
+    "slug": "shampoo-aloe-vera-250ml-bioline",
+    "nombre": "Shampoo Aloe Vera 250ml - Bioline",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Aseo e Higiene · Perros · Gatos",
+    "audience": "Para Perros y Gatos",
+    "categoria": "Aseo e Higiene",
+    "marca": "Bioline",
+    "tagline": "Baño suave, pelito feliz 🫧",
+    "descripcion": "Shampoo Aloe Vera Bioline para el cuidado de la piel y el pelaje de tu mascota. Su fórmula con aloe vera está especialmente orientada a pieles sensibles y ayuda a mantener el pelaje limpio durante la rutina de baño.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Formato de 250 ml",
+      "Con aloe vera",
+      "Especialmente indicado para piel sensible",
+      "Para la rutina de limpieza de piel y pelaje",
+      "Uso externo"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/shampoo-aloevera-bioline.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "shampoo-aloe-vera-250ml-bioline",
+    "canonical": "https://www.patasycaos.cl/productos/shampoo-aloe-vera-250ml-bioline",
+    "seoTitle": "Shampoo Aloe Vera Bioline 250 ml para Mascotas",
+    "seoDescription": "Shampoo Aloe Vera Bioline 250 ml para la limpieza de piel y pelaje. Fórmula con aloe vera especialmente adecuada para mascotas con piel sensible.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "sachet-venado-mijo-arandano-125g-belcando",
+    "slug": "sachet-venado-mijo-arandano-125g-belcando",
+    "nombre": "Sachet de Venado, Mijo & Arándano 125g - Belcando",
+    "precio": 3490,
+    "precioNum": 3490,
+    "precioDisplay": "$3.490",
+    "precioTexto": "$3.490",
+    "etiquetaProducto": "Alimentos · Perros",
+    "audience": "Para Perros",
+    "categoria": "Alimentos",
+    "marca": "Belcando",
+    "tagline": "Venado para paladares con estándares 🦌",
+    "descripcion": "Belcando Finest Selection de venado con mijo y arándanos rojos silvestres es un alimento húmedo completo para perros adultos. Combina venado y cordero con mijo cocido y arándanos en un práctico sachet de 125 g.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sachet de 125 g",
+      "Alimento húmedo completo para perros adultos",
+      "34% de venado",
+      "Con cordero, mijo y arándanos rojos silvestres",
+      "Con aceite de cártamo"
+    ],
+    "ingredientes": "Carne, corazón, hígado y pulmón de venado (34%); carne, hígado, panza, pulmón y corazón de cordero (31%); caldo de carne (27,5%); mijo cocido (4%); arándanos rojos silvestres (2%); aceite de cártamo (0,5%); cáscaras de huevo secas (0,5%); minerales (0,5%).",
+    "imagenes": [
+      "/sachet-venado-mijo-arandanos-wild-belcando.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "sachet-venado-mijo-arandano-125g-belcando",
+    "canonical": "https://www.patasycaos.cl/productos/sachet-venado-mijo-arandano-125g-belcando",
+    "seoTitle": "Belcando Venado, Mijo y Arándano 125 g | Perros",
+    "seoDescription": "Belcando Finest Selection Venado, Mijo y Arándano 125 g. Alimento húmedo completo para perros adultos con venado, cordero y arándanos.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "sachet-pato-arroz-arandano-125g-belcando",
+    "slug": "sachet-pato-arroz-arandano-125g-belcando",
+    "nombre": "Sachet de Pato, Arroz & Arándano 125g - Belcando",
+    "precio": 3490,
+    "precioNum": 3490,
+    "precioDisplay": "$3.490",
+    "precioTexto": "$3.490",
+    "etiquetaProducto": "Alimentos · Perros",
+    "audience": "Para Perros",
+    "categoria": "Alimentos",
+    "marca": "Belcando",
+    "tagline": "Pato, arándanos y plato limpio 🦆",
+    "descripcion": "Belcando Finest Selection de pato con arroz y arándanos rojos silvestres es un alimento húmedo completo para perros adultos. Su receta combina pato y cordero con arroz cocido, arándanos y aceite de cártamo en un sachet de 125 g.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sachet de 125 g",
+      "Alimento húmedo completo para perros adultos",
+      "34% de pato",
+      "Con cordero, arroz y arándanos rojos silvestres",
+      "Con aceite de cártamo"
+    ],
+    "ingredientes": "Carne, corazón y hígado de pato (34%); carne, hígado, panza, pulmón y corazón de cordero (31%); caldo de carne de pato y cordero (27,5%); arroz cocido (4%); arándanos rojos silvestres (2%); aceite de cártamo (0,5%); cáscaras de huevo secas (0,5%); minerales (0,5%).",
+    "imagenes": [
+      "/sachet-pato-con-arroz-ente-belcando.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "sachet-pato-arroz-arandano-125g-belcando",
+    "canonical": "https://www.patasycaos.cl/productos/sachet-pato-arroz-arandano-125g-belcando",
+    "seoTitle": "Belcando Pato, Arroz y Arándano 125 g | Perros",
+    "seoDescription": "Belcando Finest Selection Pato, Arroz y Arándano 125 g. Alimento húmedo completo para perros adultos con pato, cordero, arroz y arándanos.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "sachet-menu-carnes-senior-125g-belcando",
+    "slug": "sachet-menu-carnes-senior-125g-belcando",
+    "nombre": "Sachet Menú de Carnes Senior 125g - Belcando",
+    "precio": 3490,
+    "precioNum": 3490,
+    "precioDisplay": "$3.490",
+    "precioTexto": "$3.490",
+    "etiquetaProducto": "Alimentos · Perros",
+    "audience": "Para Perros",
+    "categoria": "Alimentos",
+    "marca": "Belcando",
+    "tagline": "Para seniors que siguen exigiendo menú 💜",
+    "descripcion": "Belcando Finest Selection Senior Menú de Carnes con arroz y calabaza es un alimento húmedo completo para perros senior. Combina pollo, ternera y vacuno con arroz, calabaza y krill en una receta jugosa de 125 g.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sachet de 125 g",
+      "Alimento completo para perros senior",
+      "Con pollo, ternera y vacuno",
+      "Con arroz y calabaza",
+      "Con krill",
+      "Receta sin gluten"
+    ],
+    "ingredientes": "Carne y hígado de pollo (25%); pulmón y corazón de ternera (21%); carne y ubre de vacuno (9%); caldo de pollo, ternera y vacuno (23,5%); arroz cocido (12%); calabaza (4%); zooplancton marino (krill) molido (4%); minerales (1%); cáscaras de huevo secas (0,5%).",
+    "imagenes": [
+      "/sachet-menu-de-carnes-senior-belcando.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "sachet-menu-carnes-senior-125g-belcando",
+    "canonical": "https://www.patasycaos.cl/productos/sachet-menu-carnes-senior-125g-belcando",
+    "seoTitle": "Belcando Menú de Carnes Senior 125 g | Perros",
+    "seoDescription": "Belcando Finest Selection Menú de Carnes Senior 125 g con pollo, ternera, vacuno, arroz y calabaza. Alimento húmedo completo para perros senior.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "topping-pavo-100g-belcando",
+    "slug": "topping-pavo-100g-belcando",
+    "nombre": "Topping de Pavo 100g - Belcando",
+    "precio": 3490,
+    "precioNum": 3490,
+    "precioDisplay": "$3.490",
+    "precioTexto": "$3.490",
+    "etiquetaProducto": "Alimentos · Perros",
+    "audience": "Para Perros",
+    "categoria": "Alimentos",
+    "marca": "Belcando",
+    "tagline": "Un topping y el plato cambia de nivel 🦃",
+    "descripcion": "Belcando Mastercraft Topping de Pavo con perejil es un alimento complementario para perros adultos, pensado para servir sobre su alimento seco. Contiene tiernos trozos de pavo cocinados en su propio caldo y un toque de perejil.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sachet de 100 g",
+      "Alimento complementario para perros adultos",
+      "Con pavo y perejil",
+      "Una sola fuente de proteína animal",
+      "Receta sin cereales",
+      "Ideal para servir sobre alimento seco"
+    ],
+    "ingredientes": "Carne y corazón de pavo (50%); caldo de pavo (49,8%); perejil (0,2%).",
+    "imagenes": [
+      "/topping-pavo-mastercraft-belcando.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "topping-pavo-100g-belcando",
+    "canonical": "https://www.patasycaos.cl/productos/topping-pavo-100g-belcando",
+    "seoTitle": "Belcando Topping de Pavo 100 g | Topping para Perros",
+    "seoDescription": "Belcando Mastercraft Topping de Pavo 100 g con perejil. Alimento complementario sin cereales para servir sobre el alimento habitual de tu perro.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "topping-ternera-100g-belcando",
+    "slug": "topping-ternera-100g-belcando",
+    "nombre": "Topping de Ternera 100g - Belcando",
+    "precio": 3490,
+    "precioNum": 3490,
+    "precioDisplay": "$3.490",
+    "precioTexto": "$3.490",
+    "etiquetaProducto": "Alimentos · Perros",
+    "audience": "Para Perros",
+    "categoria": "Alimentos",
+    "marca": "Belcando",
+    "tagline": "Ternera arriba, plato vacío después 🥩",
+    "descripcion": "Belcando Mastercraft Topping de Ternera con zanahoria es un alimento complementario para perros adultos, ideal para servir sobre el alimento seco. Combina trozos de vacuno cocinados en su propio caldo con zanahoria.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Sachet de 100 g",
+      "Alimento complementario para perros adultos",
+      "Con vacuno y zanahoria",
+      "Una sola fuente de proteína animal",
+      "Receta sin cereales",
+      "Ideal para servir sobre alimento seco"
+    ],
+    "ingredientes": "Carne muscular y corazón de vacuno (50%); caldo de vacuno (44%); zanahorias (6%).",
+    "imagenes": [
+      "/topping-ternera-mastercraft-belcando.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "topping-ternera-100g-belcando",
+    "canonical": "https://www.patasycaos.cl/productos/topping-ternera-100g-belcando",
+    "seoTitle": "Belcando Topping de Ternera 100 g | Topping para Perros",
+    "seoDescription": "Belcando Mastercraft Topping de Ternera 100 g con zanahoria. Alimento complementario sin cereales para servir sobre el alimento habitual de tu perro.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "bits-duck-90g-belcando",
+    "slug": "bits-duck-90g-belcando",
+    "nombre": "Bits Duck 90g - Belcando",
+    "precio": 5990,
+    "precioNum": 5990,
+    "precioDisplay": "$5.990",
+    "precioTexto": "$5.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Belcando",
+    "tagline": "Pedacitos de pato, felicidad instantánea 🦆",
+    "descripcion": "Belcando Bits Duck es un snack complementario para perros adultos elaborado con pato como única fuente de proteína animal. Su receta es sin cereales y sin azúcar añadida, con extra de carne y un proceso de secado suave.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Formato de 90 g",
+      "Para perros adultos",
+      "Pato como única fuente de proteína animal",
+      "Receta sin cereales",
+      "Sin azúcar añadida",
+      "Secado suave"
+    ],
+    "ingredientes": "Carne de pato (72,5%); proteína de pato deshidratada (16,5%); glicerina vegetal (5%); lignocelulosa (3%); aceite de colza (1,5%); minerales.",
+    "imagenes": [
+      "/bits-duck-90g-belcando.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "bits-duck-90g-belcando",
+    "canonical": "https://www.patasycaos.cl/productos/bits-duck-90g-belcando",
+    "seoTitle": "Belcando Bits Duck 90 g | Snack de Pato para Perros",
+    "seoDescription": "Belcando Bits Duck 90 g, snack de pato para perros adultos con una sola proteína animal, receta sin cereales y sin azúcar añadida.",
+    "tallaEnvio": "XS"
   }
 ]
