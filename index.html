@@ -1428,6 +1428,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   color:#6b5c4e;
 }
 
+.iron-extra-points{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:7px;
+  margin-top:14px;
+}
+
+.iron-extra-points span{
+  display:block;
+  font-size:.74rem;
+  line-height:1.35;
+  color:#5f5147;
+}
+
 .iron-bottom{
   display:flex;
   align-items:stretch;
@@ -1488,6 +1502,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .iron-extra{ margin-bottom:14px; padding:11px 0; }
   .iron-extra strong{ font-size:.8rem; }
   .iron-extra p{ font-size:.69rem; }
+  .iron-extra-points{ gap:4px; margin-top:8px; }
+  .iron-extra-points span{ font-size:.64rem; }
   .iron-date{ padding:9px 11px; gap:8px; }
   .iron-date svg{ width:27px; height:27px; flex-basis:27px; }
   .iron-visit{ min-width:100px; padding:11px 12px; font-size:.78rem; }
@@ -1495,6 +1511,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 /* Móvil: tarjeta amplia arriba y fotografía visible abajo */
 @media(max-width:600px){
+  .iron-extra-points{ display:none; }
   .iron-card{
     top:16px;
     bottom:auto;
@@ -1726,6 +1743,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="iron-extra">
           <strong>Una jornada para disfrutar juntos</strong>
           <p>Pasa por nuestro stand, conoce nuestros productos y encuentra un premio rico para tu compañero de aventuras.</p>
+          <div class="iron-extra-points" aria-label="En nuestro stand">
+            <span>🐾 Snacks para premiar después de la aventura</span>
+            <span>🦴 Distintas opciones para regalonearlos</span>
+            <span>🎁 Y algunas sorpresas para quienes nos visiten</span>
+          </div>
         </div>
 
         <div class="iron-bottom">
