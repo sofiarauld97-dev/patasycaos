@@ -1396,28 +1396,53 @@ function generarTarjetas() {
   let lista = idsOrdenados
     .map(id => ({ id, p: productos[id] }))
     .filter(({ id, p }) => productoCoincideFiltros(id, p));
-  // Orden predeterminado: agrupar productos por marca (A → Z)
-  // y, dentro de cada marca, ordenar los productos por nombre.
+  // Orden por defecto: primero Perros, luego productos compartidos y finalmente Gatos.
+  // Dentro de cada grupo, todos los productos de una misma marca quedan juntos.
+  // Casos como Colagepet se reconocen por el nombre aunque el fabricante figure como Marben Pets.
+  function grupoAudienciaOrden(id, p) {
+    const audRaw = audienciaEfectiva(id, p);
+    const audiencias = (Array.isArray(audRaw) ? audRaw : [audRaw])
+      .flatMap(v => {
+        const n = normalizarAudienciaValor(v);
+        return Array.isArray(n) ? n : [n];
+      })
+      .filter(Boolean);
+    const esPerro = audiencias.includes('Para Perros');
+    const esGato = audiencias.includes('Para Gatos');
+    if (esPerro && !esGato) return 0;
+    if (esPerro && esGato) return 1;
+    if (esGato) return 2;
+    return 3;
+  }
+
+  function marcaParaOrden(p) {
+    const nombre = String(p?.nombre || '').trim();
+    if (/\bcolagepet\b/i.test(nombre)) return 'Colagepet';
+    return String(p?.marca || '').trim() || 'Sin marca';
+  }
+
   if (filtros.sort === 'default') {
     lista.sort((a, b) => {
-      const marcaA = String(a.p.marca || '').trim();
-      const marcaB = String(b.p.marca || '').trim();
+      const grupo = grupoAudienciaOrden(a.id, a.p) - grupoAudienciaOrden(b.id, b.p);
+      if (grupo !== 0) return grupo;
+
+      const marcaA = marcaParaOrden(a.p);
+      const marcaB = marcaParaOrden(b.p);
       const porMarca = marcaA.localeCompare(marcaB, 'es', { sensitivity: 'base' });
       if (porMarca !== 0) return porMarca;
+
+      // Dentro de la misma marca, disponibles primero sin separar la marca.
+      const aStock = checkStockCard(a.id, stock);
+      const bStock = checkStockCard(b.id, stock);
+      if (aStock && !bStock) return -1;
+      if (!aStock && bStock) return 1;
+
       return String(a.p.nombre || '').localeCompare(String(b.p.nombre || ''), 'es', { sensitivity: 'base' });
     });
   }
   if (filtros.sort === 'price-asc') lista.sort((a, b) => a.p.precioNum - b.p.precioNum);
   if (filtros.sort === 'price-desc') lista.sort((a, b) => b.p.precioNum - a.p.precioNum);
   if (filtros.sort === 'az') lista.sort((a, b) => a.p.nombre.localeCompare(b.p.nombre, 'es', { sensitivity: 'base' }));
-  // Agotados siempre al final
-  lista.sort((a, b) => {
-    const aStock = checkStockCard(a.id, stock);
-    const bStock = checkStockCard(b.id, stock);
-    if (aStock && !bStock) return -1;
-    if (!aStock && bStock) return 1;
-    return 0;
-  });
   const totalPaginas = Math.ceil(lista.length / PRODUCTOS_POR_PAGINA);
   if (paginaActual > totalPaginas) paginaActual = 1;
   const inicio = (paginaActual - 1) * PRODUCTOS_POR_PAGINA;
