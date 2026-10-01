@@ -533,21 +533,54 @@ export default async function handler(req, res) {
   }
 
   // === NOTIFICACIÓN MERCADO PAGO ===
+  // Mercado Pago puede enviar el id del pago en el body moderno
+  // ({ type: 'payment', data: { id } }) o, en algunos reintentos/formatos,
+  // mediante query params (?topic=payment&id=...). Aceptamos ambos.
   const { type, data } = req.body || {};
-  if (type !== 'payment' || !data?.id) return res.status(200).end();
+  const topic = type || req.query?.type || req.query?.topic;
+  const paymentId = data?.id || req.query?.['data.id'] || req.query?.id;
+  if (topic !== 'payment' || !paymentId) return res.status(200).end();
 
   try {
-    const mpRes = await fetch(`https://api.mercadopago.com/v1/payments/${data.id}`, {
+    const mpRes = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
       headers: { Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}` },
     });
     const payment = await mpRes.json();
+    if (!mpRes.ok) {
+      console.error('[webhook] MERCADO PAGO CONSULTA FALLÓ', { paymentId, status: mpRes.status, response: payment });
+      return res.status(500).json({ error: 'No se pudo consultar el pago en Mercado Pago' });
+    }
     console.log('[webhook] status:', payment.status, '| pref:', payment.preference_id);
     if (payment.status !== 'approved') return res.status(200).end();
+    if (!payment.preference_id) {
+      console.error('[webhook] PAGO APROBADO SIN PREFERENCE_ID', { payment_id: payment.id });
+      return res.status(500).json({ error: 'Pago aprobado sin preference_id' });
+    }
+
+    // Idempotencia: Mercado Pago reintenta webhooks. Si este preference_id ya
+    // creó un pedido, respondemos OK sin volver a descontar stock ni duplicar emails.
+    const existingRes = await fetch(
+      `${process.env.SUPABASE_URL}/rest/v1/Pedidos?mp_preference_id=eq.${encodeURIComponent(payment.preference_id)}&select=id&limit=1`,
+      { headers: { apikey: process.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}` } }
+    );
+    if (existingRes.ok) {
+      const existing = await existingRes.json();
+      if (Array.isArray(existing) && existing.length > 0) {
+        console.log('[webhook] PAGO YA PROCESADO', { payment_id: payment.id, preference_id: payment.preference_id, pedido_id: existing[0].id });
+        return res.status(200).end();
+      }
+    } else {
+      console.warn('[webhook] No se pudo comprobar idempotencia en Supabase:', existingRes.status);
+    }
 
     const redisRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/order:${payment.preference_id}`, {
       headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
     });
     const redisData = await redisRes.json();
+    if (!redisRes.ok) {
+      console.error('[webhook] UPSTASH GET FALLÓ', { status: redisRes.status, response: redisData, preference_id: payment.preference_id });
+      return res.status(500).json({ error: 'No se pudo consultar el pedido temporal' });
+    }
     if (!redisData.result) {
       console.error('[webhook] PEDIDO TEMPORAL NO ENCONTRADO', {
         payment_id: payment.id,
@@ -649,7 +682,7 @@ export default async function handler(req, res) {
 
     // Email interno a Sofía
     const productosEmail = order.items.map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toLocaleString('es-CL')}`).join('\n');
-    await fetch('https://api.resend.com/emails', {
+    const notifyRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
       body: JSON.stringify({
@@ -658,6 +691,9 @@ export default async function handler(req, res) {
         text: `NUEVO PEDIDO\n\nCliente: ${order.nombre}\nEmail: ${order.email}\nTeléfono: ${order.telefono}\nDirección: ${order.direccion || 'Retiro'}\nComuna: ${order.comuna || '-'}\nCiudad: ${order.ciudad || '-'}\nNotas: ${order.notas || 'Sin notas'}\n\nProductos:\n${productosEmail}\n\nTotal: $${total.toLocaleString('es-CL')}`,
       }),
     });
+    if (!notifyRes.ok) {
+      console.error('[webhook] EMAIL INTERNO FALLÓ', notifyRes.status, await notifyRes.text());
+    }
 
     // Email confirmación al cliente
     if (order.email) {
@@ -667,11 +703,14 @@ export default async function handler(req, res) {
         documento: order.documento || 'Boleta', esRetiro,
         numeroPedido,
       });
-      await fetch('https://api.resend.com/emails', {
+      const customerEmailRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
         body: JSON.stringify({ from: 'Patas & Caos <contacto@patasycaos.cl>', to: [order.email], subject, html }),
       });
+      if (!customerEmailRes.ok) {
+        console.error('[webhook] EMAIL CLIENTE FALLÓ', customerEmailRes.status, await customerEmailRes.text());
+      }
     }
 
     return res.status(200).end();
