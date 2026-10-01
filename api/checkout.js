@@ -47,18 +47,37 @@ export default async function handler(req, res) {
     const data = await response.json();
     if (!response.ok) return res.status(500).json({ error: 'Error al crear preferencia de pago' });
 
-    // Guardar datos del cliente en Redis con expiración de 24h
-    if (cliente && data.id) {
-      await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify([
-          ['SET', `order:${data.id}`, JSON.stringify({ ...cliente, items }), 'EX', 86400]
-        ]),
-      });
+    // Guardar datos del cliente en Redis con expiración de 24h.
+    // IMPORTANTE: no enviar al cliente a Mercado Pago si este respaldo falla,
+    // porque el webhook necesita order:<preference_id> para crear el pedido.
+    if (!cliente || !data.id) {
+      return res.status(500).json({ error: 'No se pudo preparar el pedido para el pago' });
+    }
+
+    const redisResponse = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([
+        ['SET', `order:${data.id}`, JSON.stringify({ ...cliente, items }), 'EX', 86400]
+      ]),
+    });
+
+    if (!redisResponse.ok) {
+      const redisError = await redisResponse.text();
+      console.error('[checkout] No se pudo guardar pedido temporal en Upstash:', redisResponse.status, redisError);
+      return res.status(500).json({ error: 'No se pudo guardar el pedido antes del pago' });
+    }
+
+    const redisResult = await redisResponse.json();
+    const commandResult = Array.isArray(redisResult) ? redisResult[0] : null;
+    const setOk = commandResult?.result === 'OK';
+
+    if (!setOk) {
+      console.error('[checkout] Upstash no confirmó SET order:', data.id, redisResult);
+      return res.status(500).json({ error: 'No se pudo confirmar el pedido antes del pago' });
     }
 
     return res.status(200).json({ init_point: data.init_point });
