@@ -11,6 +11,19 @@ export default async function handler(req, res) {
     currency_id: 'CLP',
   }));
 
+  // El checkout envía el costo de despacho dentro de cliente.costoEnvio.
+  // Mercado Pago solo cobra los elementos incluidos en `items`, por eso
+  // agregamos el despacho como un ítem separado cuando corresponde.
+  const costoEnvio = Number(cliente?.costoEnvio || 0);
+  if (costoEnvio > 0) {
+    mpItems.push({
+      title: 'Envío',
+      quantity: 1,
+      unit_price: costoEnvio,
+      currency_id: 'CLP',
+    });
+  }
+
   try {
     const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
       method: 'POST',
