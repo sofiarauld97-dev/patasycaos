@@ -3168,7 +3168,7 @@
   {
     "sku": "bolsas-sanitarias-4-rollos-marben-pets",
     "slug": "bolsas-sanitarias-4-rollos-marben-pets",
-    "nombre": "Bolsas Sanitarias 4 Rollos Emoji - Marben Pets",
+    "nombre": "Bolsas Sanitarias 4 Rollos - Marben Pets",
     "precio": 1990,
     "precioNum": 1990,
     "precioDisplay": "$1.990",
@@ -3871,5 +3871,40 @@
     "canonical": "https://www.patasycaos.cl/productos/kit-huellita-de-recuerdo-perros-y-gatos",
     "seoTitle": "Kit Huellita de Recuerdo para Perros y Gatos | Patas & Caos",
     "seoDescription": "Guarda la huellita de tu mascota para siempre. Kit con almohadilla de tinta sin contacto directo y 2 tarjetas de impresión para perros y gatos."
+  },
+  {
+    "sku": "bolsas-sanitarias-4-rollos-huesitos-marben-pets",
+    "slug": "bolsas-sanitarias-4-rollos-huesitos-marben-pets",
+    "nombre": "Bolsas Sanitarias 4 Rollos Huesitos - Marben Pets",
+    "precio": 2490,
+    "precioNum": 2490,
+    "precioDisplay": "$2.490",
+    "precioTexto": "$2.490",
+    "etiquetaProducto": "Aseo e Higiene · Perros",
+    "audience": "Para Perros",
+    "categoria": "Aseo e Higiene",
+    "marca": "Marben Pets",
+    "tagline": "Paseos limpios, dramas bajo control 💩",
+    "descripcion": "Bolsas sanitarias Marben Pets en formato de 4 rollos, prácticas para llevar en los paseos y tener siempre a mano al momento de recoger los desechos de tu perro. El pack contiene 60 bolsas en total y su formato en rollo es compatible con el uso diario y fácil de guardar en dispensadores o bolsos de paseo.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Pack de 4 rollos",
+      "80 bolsas en total",
+      "Para recoger desechos durante los paseos",
+      "Formato compacto y fácil de transportar"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/bolsas-sanitarias-marben-pets-huesitos.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "bolsas-sanitarias-4-rollos-huesitos-marben-pets",
+    "canonical": "https://www.patasycaos.cl/productos/bolsas-sanitarias-4-rollos-huesitos-marben-pets",
+    "seoTitle": "Bolsas Sanitarias 4 Rollos Marben Pets | Patas & Caos",
+    "seoDescription": "Bolsas sanitarias Marben Pets para perros. Pack de 4 rollos con 80 bolsas resistentes y prácticas para recoger desechos durante los paseos. ¡Compra online!"
   }
 ]
