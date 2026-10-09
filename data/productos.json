@@ -3797,19 +3797,19 @@
     "tallaEnvio": "XS"
   },
   {
-    "sku": "bits-duck-90g-belcando",
-    "slug": "bits-duck-90g-belcando",
-    "nombre": "Bits Duck 90g - Belcando",
-    "precio": 5990,
-    "precioNum": 5990,
-    "precioDisplay": "$5.990",
-    "precioTexto": "$5.990",
+    "sku": "stripes-duck-70g-belcando",
+    "slug": "stripes-duck-70g-belcando",
+    "nombre": "Stripes Duck 70g - Belcando",
+    "precio": 5490,
+    "precioNum": 5490,
+    "precioDisplay": "$5.490",
+    "precioTexto": "$5.490",
     "etiquetaProducto": "Snacks y Golosinas · Perros",
     "audience": "Para Perros",
     "categoria": "Snacks y Golosinas",
     "marca": "Belcando",
-    "tagline": "Pedacitos de pato, felicidad instantánea 🦆",
-    "descripcion": "Belcando Bits Duck es un snack complementario para perros adultos elaborado con pato como única fuente de proteína animal. Su receta es sin cereales y sin azúcar añadida, con extra de carne y un proceso de secado suave.",
+    "tagline": "Tiritas de pato, felicidad instantánea 🦆",
+    "descripcion": "Belcando Stripes Duck es un snack complementario para perros adultos elaborado con pato como única fuente de proteína animal. Su receta es sin cereales y sin azúcar añadida, con extra de carne y un proceso de secado suave.",
     "caracTitulo": "Características",
     "caracteristicas": [
       "Formato de 90 g",
@@ -3819,19 +3819,19 @@
       "Sin azúcar añadida",
       "Secado suave"
     ],
-    "ingredientes": "Carne de pato (72,5%); proteína de pato deshidratada (16,5%); glicerina vegetal (5%); lignocelulosa (3%); aceite de colza (1,5%); minerales.",
+    "ingredientes": "Carne de pato (71%); proteína de pato deshidratada (16,5%); glicerina vegetal (5%); lignocelulosa (3%); aceite de colza (1,5%); minerales.",
     "imagenes": [
-      "/bits-duck-90g-belcando.jpg"
+      "/stripes-duck-70g-belcando.jpg"
     ],
     "placeholders": [
       "🐾"
     ],
     "emoji": "🐾",
     "disponible": true,
-    "stockId": "bits-duck-90g-belcando",
-    "canonical": "https://www.patasycaos.cl/productos/bits-duck-90g-belcando",
-    "seoTitle": "Belcando Bits Duck 90 g | Snack de Pato para Perros",
-    "seoDescription": "Belcando Bits Duck 90 g, snack de pato para perros adultos con una sola proteína animal, receta sin cereales y sin azúcar añadida.",
+    "stockId": "stripes-duck-70g-belcando",
+    "canonical": "https://www.patasycaos.cl/productos/stripes-duck-90g-belcando",
+    "seoTitle": "Belcando Stripes Duck 70 g | Snack de Pato para Perros",
+    "seoDescription": "Belcando Stripes Duck 70 g, snack de pato para perros adultos con una sola proteína animal, receta sin cereales y sin azúcar añadida.",
     "tallaEnvio": "XS"
   },
   {
