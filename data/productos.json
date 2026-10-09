@@ -3906,5 +3906,44 @@
     "canonical": "https://www.patasycaos.cl/productos/bolsas-sanitarias-4-rollos-huesitos-marben-pets",
     "seoTitle": "Bolsas Sanitarias 4 Rollos Marben Pets | Patas & Caos",
     "seoDescription": "Bolsas sanitarias Marben Pets para perros. Pack de 4 rollos con 80 bolsas resistentes y prácticas para recoger desechos durante los paseos. ¡Compra online!"
+  },
+  {
+    "sku": "toallitas-humedas-de-bamboo-100-unidades-eco-traper",
+    "slug": "toallitas-humedas-de-bamboo-100-unidades-eco-traper",
+    "nombre": "Toallitas Húmedas de Bamboo 100 Unidades - Eco Traper",
+    "precio": 5990,
+    "precioNum": 5990,
+    "precioDisplay": "$5.990",
+    "precioTexto": "$5.990",
+    "etiquetaProducto": "Aseo e Higiene · Gatos · Perros",
+    "audience": "Perros & Gatos",
+    "categoria": "Aseo e Higiene",
+    "marca": "Traper",
+    "tagline": "Patitas limpias, donde sea 🐾",
+    "descripcion": "Toallitas húmedas de bamboo pensadas para la higiene diaria de perros y gatos. Una opción práctica para limpiar patitas, pelaje y esas pequeñas suciedades del día a día sin tener que pasar directo al baño.\n\nSu fórmula es hipoalergénica, antibacteriana y libre de alcohol, elaborada con 99% de agua purificada. Además, sus toallitas son 100% biodegradables, una alternativa más consciente para mantener limpia a tu mascota.\n\nEl envase incluye 100 unidades y cuenta con tapa para mantener las toallitas protegidas y húmedas entre usos.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "100 toallitas húmedas",
+      "Tela de bamboo",
+      "100% biodegradables",
+      "Hipoalergénicas",
+      "Antibacterianas",
+      "Libres de alcohol",
+      "99% agua purificada",
+      "Para perros y gatos"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/toallitas-humedas-eco-traper-100uds.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "toallitas-humedas-de-bamboo-100-unidades-eco-traper",
+    "canonical": "https://www.patasycaos.cl/productos/toallitas-humedas-de-bamboo-100-unidades-eco-traper",
+    "seoTitle": "Toallitas Húmedas Bamboo 100 Unidades - Eco Traper | Patas & Caos",
+    "seoDescription": "Toallitas húmedas Eco Traper de bamboo para perros y gatos. 100 unidades, hipoalergénicas, antibacterianas, biodegradables y libres de alcohol."
   }
 ]
