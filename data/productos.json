@@ -3945,5 +3945,43 @@
     "canonical": "https://www.patasycaos.cl/productos/toallitas-humedas-de-bamboo-100-unidades-eco-traper",
     "seoTitle": "Toallitas Húmedas Bamboo 100 Unidades - Eco Traper | Patas & Caos",
     "seoDescription": "Toallitas húmedas Eco Traper de bamboo para perros y gatos. 100 unidades, hipoalergénicas, antibacterianas, biodegradables y libres de alcohol."
+  },
+  {
+    "sku": "crackers-brisket-beef-100g-naturalistic",
+    "slug": "crackers-brisket-beef-100g-naturalistic",
+    "nombre": "Crackers Brisket Beef 100g - Naturalistic",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Naturalistic",
+    "tagline": "Un crunch y ya lo tienes pidiendo otro 🐶",
+    "descripcion": "Galletas crocantes sabor Brisket Beef para convertir cualquier momento en hora del premio. Naturalistic Crackers tiene una textura crujiente ideal para regalonear a tu perro durante el día, usar como recompensa o simplemente porque se lo ganó.\n\nSu receta es grain free, vegan y libre de aditivos, y está elaborada con ingredientes Human Grade. Vienen en un práctico formato de 100 g, perfecto para tener siempre a mano cuando aparece esa mirada que claramente está pidiendo un snack.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Galletas crocantes para perros",
+      "Sabor Brisket Beef",
+      "Human Grade y Grain Free",
+      "Vegano",
+      "Libre de aditivos",
+      "Formato de 200g",
+      "Ideales como premio o recompensa"
+    ],
+    "ingredientes": "Harina de garbanzos, manteca de palma, almidón modificado de papa, harina de mandioca, harina de papa, jarabe de glucosa, sal, levadura, bicarbonato de amonio, bicarbonato de sodio, sal emulsionante (SSL), Fosfato Tricálcico, goma Xantan, carreginina, saborizante carne ahumada, extracto de romero.",
+    "imagenes": [
+      "/crackers-brisket-beef-naturalistic-200g.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "crackers-brisket-beef-100g-naturalistic",
+    "canonical": "https://www.patasycaos.cl/productos/crackers-brisket-beef-100g-naturalistic",
+    "seoTitle": "Crackers Brisket Beef 100g - Naturalistic | Patas & Caos",
+    "seoDescription": "Naturalistic Crackers Brisket Beef 100g para perros. Galletas crocantes Human Grade, grain free, vegan y libres de aditivos. Ideales como premio."
   }
 ]
