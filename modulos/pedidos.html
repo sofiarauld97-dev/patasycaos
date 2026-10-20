@@ -1262,6 +1262,13 @@ tbody tr:hover td{background:#FCFAF7!important}
         <button type="button" class="btn-agregar-item" onclick="agregarItemEditar()">+ Agregar producto</button>
       </div>
     </div>
+    <div class="form-grid full" style="margin-top:.75rem">
+      <div class="form-field">
+        <label for="ep-costo-envio">Despacho ($) — monto manual</label>
+        <input type="number" id="ep-costo-envio" min="0" step="1" value="0" placeholder="Ej: 4500" oninput="recalcularTotalEditar()">
+        <span class="catalog-source-note">Se suma al subtotal; no se registra como producto ni descuenta stock.</span>
+      </div>
+    </div>
     <div class="form-grid">
       <div class="form-field">
         <label>Total ($) <span id="ep-total-calculado" style="color:var(--terracota);font-size:.8rem"></span></label>
@@ -1345,6 +1352,13 @@ tbody tr:hover td{background:#FCFAF7!important}
         <div class="catalog-source-note">El listado se carga automáticamente desde data/productos.json.</div>
         <div id="np-items-lista"></div>
         <button type="button" class="btn-agregar-item" onclick="agregarItemPedido()">+ Agregar producto</button>
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-top:.75rem">
+      <div class="form-field">
+        <label for="np-costo-envio">Despacho ($) — monto manual</label>
+        <input type="number" id="np-costo-envio" min="0" step="1" value="0" placeholder="Ej: 4500" oninput="recalcularTotal()">
+        <span class="catalog-source-note">Se suma al subtotal; no se registra como producto ni descuenta stock.</span>
       </div>
     </div>
     <div class="form-grid">
@@ -2277,8 +2291,10 @@ function recalcularTotal() {
       }
     }
   });
-  document.getElementById('np-total').value = total || '';
-  document.getElementById('np-total-calculado').textContent = total ? `= $${total.toLocaleString('es-CL')}` : '';
+  const costoEnvio = Math.max(0, Math.round(Number(document.getElementById('np-costo-envio').value) || 0));
+  const totalPedido = total + costoEnvio;
+  document.getElementById('np-total').value = totalPedido;
+  document.getElementById('np-total-calculado').textContent = `Productos $${total.toLocaleString('es-CL')} + despacho $${costoEnvio.toLocaleString('es-CL')} = $${totalPedido.toLocaleString('es-CL')}`;
 }
 
 function agregarItemPedido() {
@@ -2305,6 +2321,7 @@ async function abrirNuevoPedido() {
   }
 
   actualizarSugerenciasClientes();
+  document.getElementById('np-costo-envio').value = '0';
   document.getElementById('np-items-lista').innerHTML = '';
   agregarItemPedido();
   const avisoCliente = document.getElementById('np-cliente-existente');
@@ -2316,7 +2333,7 @@ async function abrirNuevoPedido() {
 
 function cerrarNuevoPedido() {
   document.getElementById('modal-nuevo').classList.remove('activo');
-  ['np-nombre','np-telefono','np-email','np-direccion','np-comuna','np-ciudad','np-total','np-notas'].forEach(id => {
+  ['np-nombre','np-telefono','np-email','np-direccion','np-comuna','np-ciudad','np-total','np-costo-envio','np-notas'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
@@ -2440,7 +2457,12 @@ async function guardarNuevoPedido() {
 
     const productosTexto = itemsSeleccionados.map(i => i.dcto > 0 ? `${i.nombre} x${i.qty} (-${i.dcto}%)` : `${i.nombre} x${i.qty}`).join(', ');
     const subtotal = itemsSeleccionados.reduce((s, i) => s + i.precio * i.qty, 0);
-    const total = parseInt(document.getElementById('np-total').value) || subtotal;
+    const costoEnvio = Number(document.getElementById('np-costo-envio').value);
+    if (!Number.isInteger(costoEnvio) || costoEnvio < 0) throw new Error('Ingresa un costo de despacho válido (0 o más).');
+    // Conserva la opción existente de ajustar manualmente el total.
+    const totalIntroducido = Number(document.getElementById('np-total').value);
+    const total = Number.isFinite(totalIntroducido) && totalIntroducido >= 0
+      ? totalIntroducido : subtotal + costoEnvio;
 
     // Guardar pedido en Supabase y obtener el ID
     const { data: pedidoData, error } = await _sb.from('Pedidos').insert([{
@@ -2453,7 +2475,7 @@ async function guardarNuevoPedido() {
       productos: productosTexto,
       total,
       subtotal,
-      costo_envio: 0,
+      costo_envio: costoEnvio,
       documento: document.getElementById('np-documento').value,
       notas:     document.getElementById('np-notas').value || '',
       estado:    'pendiente'
@@ -2724,8 +2746,10 @@ function recalcularTotalEditar() {
       }
     }
   });
-  document.getElementById('ep-total').value = total || '';
-  document.getElementById('ep-total-calculado').textContent = total ? `= $${total.toLocaleString('es-CL')}` : '';
+  const costoEnvio = Math.max(0, Math.round(Number(document.getElementById('ep-costo-envio').value) || 0));
+  const totalPedido = total + costoEnvio;
+  document.getElementById('ep-total').value = totalPedido;
+  document.getElementById('ep-total-calculado').textContent = `Productos $${total.toLocaleString('es-CL')} + despacho $${costoEnvio.toLocaleString('es-CL')} = $${totalPedido.toLocaleString('es-CL')}`;
 }
 
 function agregarItemEditar(idProducto) {
@@ -2759,7 +2783,8 @@ async function abrirEditarPedido(id) {
   document.getElementById('ep-direccion').value = p.direccion || '';
   document.getElementById('ep-comuna').value = p.comuna || '';
   document.getElementById('ep-ciudad').value = p.ciudad || '';
-  document.getElementById('ep-total').value = p.total || '';
+  document.getElementById('ep-costo-envio').value = Math.max(0, Number(p.costo_envio) || 0);
+  document.getElementById('ep-total').value = p.total ?? '';
   document.getElementById('ep-documento').value = p.documento || 'Boleta';
   document.getElementById('ep-notas').value = p.notas || '';
   document.getElementById('ep-descontar-stock').checked = false;
@@ -2828,7 +2853,13 @@ async function guardarEditarPedido() {
     });
 
     const productosTexto = items.map(i => i.dcto > 0 ? `${i.nombre} x${i.qty} (-${i.dcto}%)` : `${i.nombre} x${i.qty}`).join(', ');
-    const total = parseFloat(document.getElementById('ep-total').value) || items.reduce((s, i) => s + i.precio * i.qty, 0);
+    const subtotal = items.reduce((s, i) => s + i.precio * i.qty, 0);
+    const costoEnvio = Number(document.getElementById('ep-costo-envio').value);
+    if (!Number.isInteger(costoEnvio) || costoEnvio < 0) throw new Error('Ingresa un costo de despacho válido (0 o más).');
+    // Conserva la posibilidad de corregir el total manualmente.
+    const totalIntroducido = Number(document.getElementById('ep-total').value);
+    const total = Number.isFinite(totalIntroducido) && totalIntroducido >= 0
+      ? totalIntroducido : subtotal + costoEnvio;
 
     const updates = {
       nombre:    document.getElementById('ep-nombre').value,
@@ -2838,6 +2869,8 @@ async function guardarEditarPedido() {
       comuna:    document.getElementById('ep-comuna').value,
       ciudad:    document.getElementById('ep-ciudad').value,
       productos: productosTexto,
+      subtotal,
+      costo_envio: costoEnvio,
       total,
       documento: document.getElementById('ep-documento').value,
       notas:     document.getElementById('ep-notas').value,
