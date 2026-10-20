@@ -9,9 +9,12 @@ function emailBase(contenido) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { margin:0; padding:0; background:#F5ECD7; font-family:Arial,Helvetica,sans-serif; color:#1A1A1A; }
-    .wrapper { max-width:600px; margin:0 auto; padding:28px 14px; }
+    body { margin:0; padding:0; background:#F5ECD7; font-family:'Poppins',Arial,sans-serif; color:#1A1A1A; }
+    .wrapper { font-family:'Poppins',Arial,sans-serif; max-width:600px; margin:0 auto; padding:28px 14px; }
     .card { background:#FFFFFF; border-radius:18px; overflow:hidden; border:1px solid #E9D9C6; }
     .header { background:#F5ECD7; padding:28px 20px 23px; text-align:center; border-top:5px solid #C4622D; border-bottom:1px solid #E7D8C5; }
     .header img { display:block; height:70px; width:auto; max-width:210px; margin:0 auto; object-fit:contain; }
@@ -19,7 +22,7 @@ function emailBase(contenido) {
     .body { padding:32px; }
     .titulo { font-size:23px; line-height:1.3; font-weight:800; color:#1C1007; margin:0 0 10px; }
     .subtitulo { font-size:14px; color:#6B5A4E; line-height:1.65; margin:0 0 24px; }
-    .productos-tabla { width:100%; border-collapse:collapse; margin:20px 0; }
+    .productos-tabla { font-family:'Poppins',Arial,sans-serif; width:100%; border-collapse:collapse; margin:20px 0; }
     .productos-tabla th { background:#F8F2E7; text-align:left; padding:12px; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:#715F50; border-bottom:1px solid #E7D8C5; }
     .productos-tabla td { padding:14px 12px; border-bottom:1px solid #F0E8DF; font-size:13px; color:#1C1007; vertical-align:middle; }
     .total-row { display:block; padding:16px 0; margin-top:8px; }
@@ -41,8 +44,8 @@ function emailBase(contenido) {
     @media only screen and (max-width:480px) { .wrapper{padding:12px 8px;} .body{padding:24px 18px;} .header{padding:24px 12px 20px;} .titulo{font-size:21px;} .productos-tabla td{padding:11px 7px;} }
   </style>
 </head>
-<body>
-  <div class="wrapper">
+<body style="font-family:'Poppins',Arial,sans-serif">
+  <div class="wrapper" style="font-family:'Poppins',Arial,sans-serif">
     <div class="card">
       <div class="header" style="background:#F5ECD7;border-top:5px solid #C4622D;border-bottom:1px solid #E7D8C5;text-align:center;padding:28px 20px 23px">
         <img src="https://www.patasycaos.cl/logo.png" alt="Patas & Caos" width="140" style="display:block;height:70px;width:auto;max-width:210px;margin:0 auto;object-fit:contain">
