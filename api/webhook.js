@@ -235,6 +235,38 @@ function getStockId(nombre) {
   return key ? ID_POR_NOMBRE[key] : null;
 }
 
+// Adjunta la imagen principal del catálogo vigente, sin modificar productos ni stock.
+// Si el catálogo no responde o no hay coincidencia, el email sigue sin imagen.
+async function agregarFotosEmail(items) {
+  if (!Array.isArray(items) || items.length === 0) return items;
+  try {
+    const respuesta = await fetch('https://www.patasycaos.cl/data/productos.json', {
+      signal: AbortSignal.timeout(4500), headers: { Accept: 'application/json' }
+    });
+    if (!respuesta.ok) return items;
+    const datos = await respuesta.json();
+    const productos = Array.isArray(datos) ? datos : (Array.isArray(datos.productos) ? datos.productos : []);
+    const normalizar = valor => String(valor || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    const porId = new Map();
+    const porNombre = new Map();
+    for (const producto of productos) {
+      if (producto.sku) porId.set(normalizar(producto.sku), producto);
+      if (producto.nombre) porNombre.set(normalizar(producto.nombre), producto);
+    }
+    return items.map(item => {
+      const producto = porId.get(normalizar(item.id || item.stockId)) || porNombre.get(normalizar(item.name));
+      const ruta = producto?.imagenes?.[0];
+      if (typeof ruta !== 'string' || !ruta.trim()) return item;
+      const image = ruta.startsWith('/') ? 'https://www.patasycaos.cl' + ruta : ruta;
+      if (!/^https:\/\/www\.patasycaos\.cl\//i.test(image)) return item;
+      return { ...item, image };
+    });
+  } catch (e) {
+    console.warn('[webhook] No se pudieron cargar miniaturas para emails:', e.message);
+    return items;
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     // GET: consulta de pedido para la página pedido-ok
@@ -403,13 +435,14 @@ export default async function handler(req, res) {
       }).filter(Boolean);
 
       // En pedidos manuales, ausencia de costo de despacho significa retiro en tienda.
+      const itemsConFoto = await agregarFotosEmail(items);
       const esRetiro = Number(pedido.costo_envio || 0) === 0;
 
       let subject, html;
       if (estado === 'nuevo_pedido') {
         ({ subject, html } = emailConfirmacion({
           nombre: pedido.nombre,
-          items,
+          items: itemsConFoto,
           subtotal: pedido.subtotal || pedido.total,
           costoEnvio: pedido.costo_envio || 0,
           total: pedido.total,
@@ -423,7 +456,7 @@ export default async function handler(req, res) {
         }));
       } else if (estado === 'despachado') {
         ({ subject, html } = emailDespacho({
-          nombre: pedido.nombre, items,
+          nombre: pedido.nombre, items: itemsConFoto,
           subtotal: pedido.subtotal || pedido.total,
           costoEnvio: pedido.costo_envio || 0,
           total: pedido.total,
@@ -432,7 +465,7 @@ export default async function handler(req, res) {
         }));
       } else if (estado === 'entregado') {
         ({ subject, html } = emailEntregado({
-          nombre: pedido.nombre, items,
+          nombre: pedido.nombre, items: itemsConFoto,
           subtotal: pedido.subtotal || pedido.total,
           costoEnvio: pedido.costo_envio || 0,
           total: pedido.total,
@@ -441,7 +474,7 @@ export default async function handler(req, res) {
         }));
       } else {
         ({ subject, html } = emailCancelado({
-          nombre: pedido.nombre, items,
+          nombre: pedido.nombre, items: itemsConFoto,
           subtotal: pedido.subtotal || pedido.total,
           costoEnvio: pedido.costo_envio || 0,
           total: pedido.total,
@@ -703,8 +736,9 @@ export default async function handler(req, res) {
 
     // Email confirmación al cliente
     if (order.email) {
+      const itemsConFoto = await agregarFotosEmail(order.items);
       const { subject, html } = emailConfirmacion({
-        nombre: order.nombre, items: order.items, subtotal, costoEnvio, total,
+        nombre: order.nombre, items: itemsConFoto, subtotal, costoEnvio, total,
         direccion: order.direccion || '', comuna: order.comuna || '', ciudad: order.ciudad || '',
         documento: order.documento || 'Boleta', esRetiro,
         numeroPedido,

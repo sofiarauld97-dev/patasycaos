@@ -62,26 +62,30 @@ function emailBase(contenido) {
 </html>`;
 }
 
+function escaparHtml(valor) {
+  return String(valor ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function imagenProducto(item) {
+  const url = item?.image || item?.imagen || '';
+  if (typeof url !== 'string' || !/^https:\/\/www\.patasycaos\.cl\//i.test(url)) return '';
+  return `<img src="${escaparHtml(url)}" width="56" height="56" alt="" style="display:block;width:56px;height:56px;object-fit:cover;border-radius:9px;border:1px solid #E9E1D5;" />`;
+}
+
 function tablaProductos(items) {
-  const filas = items.map(i => `
-    <tr>
-      <td>${i.name}</td>
-      <td style="text-align:center">${i.qty}</td>
-      <td style="text-align:right;font-weight:700">$${(i.price * i.qty).toLocaleString('es-CL')}</td>
-    </tr>
-  `).join('');
-  return `
-    <table class="productos-tabla">
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th style="text-align:center">Cant.</th>
-          <th style="text-align:right">Subtotal</th>
-        </tr>
-      </thead>
-      <tbody>${filas}</tbody>
-    </table>
-  `;
+  const filas = (Array.isArray(items) ? items : []).map(i => {
+    const foto = imagenProducto(i);
+    const precio = (Number(i.price) || 0) * (Number(i.qty) || 0);
+    return `<tr>
+      ${foto ? `<td width="68" style="width:68px;padding:12px 12px 12px 0;vertical-align:middle;">${foto}</td>` : ''}
+      <td style="padding:12px 6px 12px 0;vertical-align:middle;overflow-wrap:anywhere;">
+        <div style="font-size:13px;font-weight:600;line-height:1.5;color:#1C1007;">${escaparHtml(i.name)}</div>
+        <div style="font-size:11px;line-height:1.5;color:#7B7169;margin-top:3px;">Cantidad: ${Number(i.qty) || 0}</div>
+      </td>
+      <td style="text-align:right;padding:12px 0 12px 6px;white-space:nowrap;vertical-align:middle;font-size:13px;font-weight:700;color:#1C1007;">$${precio.toLocaleString('es-CL')}</td>
+    </tr>`;
+  }).join('');
+  return `<table class="productos-tabla" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;margin:20px 0;table-layout:auto;">${filas}</table>`;
 }
 
 // Fila de Subtotal + Envío que se muestra justo antes del Total, para que
