@@ -10,51 +10,49 @@ function emailBase(contenido) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { margin: 0; padding: 0; background: #F5EFE6; font-family: 'Helvetica Neue', Arial, sans-serif; }
-    .wrapper { max-width: 600px; margin: 0 auto; background: #F5EFE6; padding: 32px 16px; }
-    .card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
-    .header { background: #1C1007; padding: 28px 32px; text-align: center; }
-    .header img { height: 48px; }
-    .header-text { color: #F5EFE6; font-size: 13px; margin-top: 8px; letter-spacing: .04em; }
-    .body { padding: 32px; }
-    .titulo { font-size: 22px; font-weight: 800; color: #1C1007; margin: 0 0 8px; }
-    .subtitulo { font-size: 15px; color: #666; margin: 0 0 24px; }
-    .productos-tabla { width: 100%; border-collapse: collapse; margin: 20px 0; }
-    .productos-tabla th { background: #F5EFE6; text-align: left; padding: 10px 12px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: #888; border-bottom: 1.5px solid #e8ddd0; }
-    .productos-tabla td { padding: 12px; border-bottom: 1px solid #f0e8df; font-size: 14px; color: #1C1007; vertical-align: middle; }
-    .productos-tabla tr:last-child td { border-bottom: none; }
-    .total-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-top: 2px solid #C4622D; margin-top: 8px; }
-    .total-label { font-size: 15px; font-weight: 700; color: #1C1007; }
-    .total-valor { font-size: 20px; font-weight: 900; color: #C4622D; }
-    .info-box { background: #F5EFE6; border-radius: 12px; padding: 20px; margin: 20px 0; }
-    .info-box h3 { margin: 0 0 12px; font-size: 14px; color: #1C1007; font-weight: 700; }
-    .info-row { display: flex; gap: 8px; margin-bottom: 6px; font-size: 14px; color: #444; }
-    .info-row span:first-child { color: #888; min-width: 90px; }
-    .badge { display: inline-block; padding: 6px 14px; border-radius: 50px; font-size: 13px; font-weight: 700; }
-    .badge-naranja { background: #C4622D; color: #fff; }
-    .badge-verde { background: #4A7C59; color: #fff; }
-    .badge-azul { background: #2980b9; color: #fff; }
-    .cta-btn { display: block; text-align: center; background: #C4622D; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: 700; margin: 24px 0; }
-    .divider { border: none; border-top: 1px solid #f0e8df; margin: 24px 0; }
-    .footer { text-align: center; padding: 24px 16px; font-size: 12px; color: #999; }
-    .footer a { color: #C4622D; text-decoration: none; }
-    .pata { font-size: 24px; display: block; margin-bottom: 8px; }
+    body { margin:0; padding:0; background:#F5ECD7; font-family:Arial,Helvetica,sans-serif; color:#1A1A1A; }
+    .wrapper { max-width:600px; margin:0 auto; padding:28px 14px; }
+    .card { background:#FFFFFF; border-radius:18px; overflow:hidden; border:1px solid #E9D9C6; }
+    .header { background:#F5ECD7; padding:28px 20px 23px; text-align:center; border-top:5px solid #C4622D; border-bottom:1px solid #E7D8C5; }
+    .header img { display:block; height:70px; width:auto; max-width:210px; margin:0 auto; object-fit:contain; }
+    .header-text { color:#725B48; font-size:12px; margin-top:12px; letter-spacing:.08em; font-weight:700; }
+    .body { padding:32px; }
+    .titulo { font-size:23px; line-height:1.3; font-weight:800; color:#1C1007; margin:0 0 10px; }
+    .subtitulo { font-size:14px; color:#6B5A4E; line-height:1.65; margin:0 0 24px; }
+    .productos-tabla { width:100%; border-collapse:collapse; margin:20px 0; }
+    .productos-tabla th { background:#F8F2E7; text-align:left; padding:12px; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:#715F50; border-bottom:1px solid #E7D8C5; }
+    .productos-tabla td { padding:14px 12px; border-bottom:1px solid #F0E8DF; font-size:13px; color:#1C1007; vertical-align:middle; }
+    .total-row { display:block; padding:16px 0; margin-top:8px; }
+    .total-label { font-size:15px; font-weight:700; color:#1C1007; }
+    .total-valor { font-size:21px; font-weight:800; color:#C4622D; }
+    .info-box { background:#F8F2E7; border:1px solid #EDE0CF; border-radius:12px; padding:20px; margin:20px 0; }
+    .info-box h3 { margin:0 0 12px; font-size:14px; color:#1C1007; font-weight:700; }
+    .info-box p { font-size:13px; line-height:1.7; color:#524437; }
+    .info-row { margin-bottom:6px; font-size:14px; color:#444; }
+    .badge { display:inline-block; padding:6px 14px; border-radius:50px; font-size:13px; font-weight:700; }
+    .badge-naranja { background:#C4622D; color:#fff; }
+    .badge-verde { background:#4A7C59; color:#fff; }
+    .badge-azul { background:#2980b9; color:#fff; }
+    .cta-btn { display:block; text-align:center; background:#C4622D; color:#fff !important; text-decoration:none; padding:15px 20px; border-radius:50px; font-size:14px; font-weight:700; margin:26px 0 12px; }
+    .divider { border:0; border-top:1px solid #EFE4D6; margin:25px 0; }
+    .footer { text-align:center; padding:24px 16px; font-size:11px; color:#746456; line-height:1.9; }
+    .footer a { color:#A8501F; text-decoration:none; }
+    .pata { font-size:25px; display:block; margin-bottom:12px; }
+    @media only screen and (max-width:480px) { .wrapper{padding:12px 8px;} .body{padding:24px 18px;} .header{padding:24px 12px 20px;} .titulo{font-size:21px;} .productos-tabla td{padding:11px 7px;} }
   </style>
 </head>
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="header">
-        <img src="https://www.patasycaos.cl/logo.png" alt="Patas & Caos">
-        <div class="header-text">patasycaos.cl</div>
+      <div class="header" style="background:#F5ECD7;border-top:5px solid #C4622D;border-bottom:1px solid #E7D8C5;text-align:center;padding:28px 20px 23px">
+        <img src="https://www.patasycaos.cl/logo.png" alt="Patas & Caos" width="140" style="display:block;height:70px;width:auto;max-width:210px;margin:0 auto;object-fit:contain">
+        <div class="header-text" style="color:#725B48;font-size:12px;margin-top:12px;letter-spacing:.08em;font-weight:700">PATAS & CAOS · PATASYCAOS.CL</div>
       </div>
-      <div class="body">
-        ${contenido}
-      </div>
+      <div class="body">${contenido}</div>
     </div>
     <div class="footer">
       © 2026 Patas & Caos · <a href="https://www.patasycaos.cl">patasycaos.cl</a> · <a href="https://instagram.com/patasycaoscl">@patasycaoscl</a><br>
-      ¿Dudas? Escríbenos a <a href="mailto:contacto@patasycaos.cl">contacto@patasycaos.cl</a> o al <a href="https://wa.me/56923997854">+56 9 2399 7854</a>
+      ¿Dudas? <a href="mailto:contacto@patasycaos.cl">contacto@patasycaos.cl</a> · <a href="https://wa.me/56923997854">WhatsApp</a>
     </div>
   </div>
 </body>
@@ -89,7 +87,7 @@ function tablaProductos(items) {
 // ignoran display:flex y las columnas quedan pegadas sin separación.
 function filasTotales(subtotal, costoEnvio) {
   if (subtotal === undefined || subtotal === null) return '';
-  const envioTexto = costoEnvio > 0 ? `$${costoEnvio.toLocaleString('es-CL')}` : 'Gratis 🎉';
+  const envioTexto = costoEnvio > 0 ? `$${costoEnvio.toLocaleString('es-CL')}` : 'Gratis';
   return `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;color:#666">
       <tr>
@@ -122,10 +120,10 @@ export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, 
   `;
 
   const contenido = `
-    <span class="pata">🐾</span>
-    ${numeroPedido ? `<div style="text-align:center;margin-bottom:16px"><span style="background:#F5EFE6;border:1.5px solid #C4622D;border-radius:50px;padding:6px 18px;font-size:.85rem;font-weight:700;color:#C4622D">PAC-${String(numeroPedido).padStart(5,'0')}</span></div>` : ''}
+    <div style="color:#4A7C59;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;margin:0 0 12px">Confirmación de compra</div>
+    ${numeroPedido ? `<div style="text-align:center;margin-bottom:16px"><span style="background:#F8F2E7;border:1px solid #E8C7B0;border-radius:50px;padding:6px 18px;font-size:.85rem;font-weight:700;color:#C4622D">PAC-${String(numeroPedido).padStart(5,'0')}</span></div>` : ''}
     <p class="titulo">¡Recibimos tu pedido, ${nombre.split(' ')[0]}!</p>
-    <p class="subtitulo">Tu pago fue aprobado. Aquí está el resumen de tu compra:</p>
+    <p class="subtitulo">Gracias por elegirnos. Aquí encontrarás el detalle de tu pedido y la información de entrega.</p>
 
     ${tablaProductos(items)}
 
@@ -142,17 +140,17 @@ export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, 
     <hr class="divider">
 
     <div class="info-box">
-      <h3>📦 Información de entrega</h3>
+      <h3>Información de entrega</h3>
       <p style="font-size:14px;color:#444;margin:0 0 12px">${envioTexto}</p>
       ${infoEnvio}
     </div>
 
     <div class="info-box">
-      <h3>🔄 Cambios y devoluciones</h3>
+      <h3>Cambios y devoluciones</h3>
       <p style="font-size:14px;color:#444;margin:0">Tienes <strong>10 días hábiles</strong> desde que recibes el producto para solicitar un cambio o devolución. El producto debe estar sin uso, en su embalaje original y con la boleta. Escríbenos por WhatsApp al <a href="https://wa.me/56923997854" style="color:#C4622D">+56 9 2399 7854</a> o a <a href="mailto:contacto@patasycaos.cl" style="color:#C4622D">contacto@patasycaos.cl</a>.</p>
     </div>
 
-    <a href="https://wa.me/56923997854" class="cta-btn">💬 Consultar por mi pedido</a>
+    <a href="https://wa.me/56923997854" class="cta-btn">Consultar por mi pedido</a>
     <p style="text-align:center;font-size:13px;color:#999">También puedes escribirnos a contacto@patasycaos.cl</p>
   `;
 
