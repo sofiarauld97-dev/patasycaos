@@ -1796,7 +1796,7 @@ async function cambiarEstadoSus(id, nuevoEstado) {
 // (ej: "1,8kg"). Antes se usaba un simple split(',') que cortaba mal esos casos.
 function splitProductos(texto) {
   if (!texto) return [];
-  return [...texto.matchAll(/(?:,\s*)?(.+?\s+x\d+(?:\s*\(-?\d+%\))?)(?=,\s*|$)/g)].map(m => m[1].trim());
+  return [...texto.matchAll(/(?:,\s*)?(.+?\s+x\d+(?:\s*\(-?\d+(?:\.\d+)?%\))?(?:\s*\[precio:\d+\])?)(?=,\s*|$)/g)].map(m => m[1].trim());
 }
 
 const SUPA_URL = 'https://xintmnshndhtqqbouxbo.supabase.co';
@@ -2140,7 +2140,7 @@ async function itemsDesdePedidoParaStock(pedido) {
   const items = [];
 
   for (const parte of partes) {
-    const match = parte.match(/^(.*?)\s+x(\d+)(?:\s+\(-?\d+(?:\.\d+)?%\))?$/i);
+    const match = parte.match(/^(.*?)\s+x(\d+)(?:\s+\(-?\d+(?:\.\d+)?%\))?(?:\s+\[precio:\d+\])?$/i);
     const nombre = (match ? match[1] : parte).trim();
     const qty = match ? Math.max(1, parseInt(match[2], 10) || 1) : 1;
     const prod = CATALOGO.find(p => String(p.nombre || '').trim().toLowerCase() === nombre.toLowerCase());
@@ -2678,7 +2678,7 @@ async function guardarNuevoPedido() {
 
     if (!itemsSeleccionados.length) { alert('Agrega al menos un producto.'); return; }
 
-    const productosTexto = itemsSeleccionados.map(i => i.dcto > 0 ? `${i.nombre} x${i.qty} (-${i.dcto}%)` : `${i.nombre} x${i.qty}`).join(', ');
+    const productosTexto = itemsSeleccionados.map(i => i.dcto > 0 ? `${i.nombre} x${i.qty} (-${i.dcto}%) [precio:${i.precio}]` : `${i.nombre} x${i.qty} [precio:${i.precio}]`).join(', ');
     const subtotal = itemsSeleccionados.reduce((s, i) => s + i.precio * i.qty, 0);
     const costoEnvio = Number(document.getElementById('np-costo-envio').value);
     if (!Number.isInteger(costoEnvio) || costoEnvio < 0) throw new Error('Ingresa un costo de despacho válido (0 o más).');
@@ -3076,7 +3076,7 @@ async function guardarEditarPedido() {
       }
     });
 
-    const productosTexto = items.map(i => i.dcto > 0 ? `${i.nombre} x${i.qty} (-${i.dcto}%)` : `${i.nombre} x${i.qty}`).join(', ');
+    const productosTexto = items.map(i => i.dcto > 0 ? `${i.nombre} x${i.qty} (-${i.dcto}%) [precio:${i.precio}]` : `${i.nombre} x${i.qty} [precio:${i.precio}]`).join(', ');
     const subtotal = items.reduce((s, i) => s + i.precio * i.qty, 0);
     const costoEnvio = Number(document.getElementById('ep-costo-envio').value);
     if (!Number.isInteger(costoEnvio) || costoEnvio < 0) throw new Error('Ingresa un costo de despacho válido (0 o más).');

@@ -321,7 +321,7 @@ async function agregarFotosEmail(items) {
       const precioCatalogo = Number(producto?.precio);
       const resultado = { ...item };
       // Solo recurrir al precio actual si no se recuperó uno válido del pedido.
-      if (!(Number(item.price) > 0) && Number.isFinite(precioCatalogo) && precioCatalogo > 0) {
+      if (!item.precioGuardado && !(Number(item.price) > 0) && Number.isFinite(precioCatalogo) && precioCatalogo > 0) {
         resultado.price = precioCatalogo;
       }
       if (typeof ruta !== 'string' || !ruta.trim()) return resultado;
@@ -494,12 +494,13 @@ export default async function handler(req, res) {
       // Reconstruir items con precios desde el catálogo
       // (usamos un separador inteligente que no se rompe con comas dentro
       //  del propio nombre del producto, ej: "Leonardo Adult GF 1,8kg")
-      const segmentosProductos = [...(pedido.productos || '').matchAll(/(?:,\s*)?(.+?\s+x\d+(?:\s*\(-?\d+%\))?)(?=,\s*|$)/g)].map(m => m[1].trim());
+      const segmentosProductos = [...(pedido.productos || '').matchAll(/(?:,\s*)?(.+?\s+x\d+(?:\s*\(-?\d+(?:\.\d+)?%\))?(?:\s*\[precio:\d+\])?)(?=,\s*|$)/g)].map(m => m[1].trim());
       const items = segmentosProductos.map(s => {
         const match = s.match(/^(.+?)\s+x(\d+)(?:\s.*)?$/);
         if (!match) return null;
         const nombre = match[1].trim();
-        return { name: nombre, qty: parseInt(match[2]), price: getPrecio(nombre), stockId: getStockId(nombre) };
+        const precioGuardado = s.match(/\[precio:(\d+)\]$/);
+        return { name: nombre, qty: parseInt(match[2]), price: precioGuardado ? Number(precioGuardado[1]) : getPrecio(nombre), stockId: getStockId(nombre), precioGuardado: !!precioGuardado };
       }).filter(Boolean);
 
       // En pedidos manuales, ausencia de costo de despacho significa retiro en tienda.
@@ -508,7 +509,12 @@ export default async function handler(req, res) {
       // En pedidos con un solo producto, recuperamos su precio real, incluso si
       // hubo oferta o descuento y el precio actual del catálogo es diferente.
       const subtotalPedido = Number(pedido.subtotal ?? (Number(pedido.total || 0) - Number(pedido.costo_envio || 0)));
-      if (itemsConFoto.length === 1 && Number.isFinite(subtotalPedido) && subtotalPedido >= 0) {
+      const preciosGuardadosCompletos = itemsConFoto.length > 0 && itemsConFoto.every(item => item.precioGuardado);
+      if (preciosGuardadosCompletos) {
+        // El precio unitario registrado al vender tiene prioridad sobre cualquier catálogo posterior.
+        const totalLineas = itemsConFoto.reduce((s, item) => s + item.price * item.qty, 0);
+        if (Math.abs(totalLineas - subtotalPedido) >= 1) console.warn('[webhook] Subtotal distinto al desglose del pedido:', pedidoId);
+      } else if (itemsConFoto.length === 1 && Number.isFinite(subtotalPedido) && subtotalPedido >= 0) {
         const cantidad = Number(itemsConFoto[0].qty) || 1;
         itemsConFoto[0].price = subtotalPedido / cantidad;
       } else if (itemsConFoto.length > 1 && Number.isFinite(subtotalPedido)) {
@@ -516,7 +522,7 @@ export default async function handler(req, res) {
         // Para pedidos con varios productos, no inventamos precios unitarios
         // cuando los valores reconstruidos no cuadran con el pedido guardado.
         if (Math.abs(suma - subtotalPedido) >= 1) {
-          itemsConFoto.forEach(item => { item.price = null; });
+          itemsConFoto.forEach(item => { if (!item.precioGuardado) item.price = null; });
         }
       }
       const esRetiro = Number(pedido.costo_envio || 0) === 0;
