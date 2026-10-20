@@ -85,9 +85,9 @@ function tablaProductos(items) {
 // el cliente entienda la diferencia entre el valor de los productos y el total final.
 // Se usa una tabla (no flex/grid) porque muchos clientes de correo (Gmail, Outlook, etc.)
 // ignoran display:flex y las columnas quedan pegadas sin separación.
-function filasTotales(subtotal, costoEnvio) {
+function filasTotales(subtotal, costoEnvio, esRetiro = false) {
   if (subtotal === undefined || subtotal === null) return '';
-  const envioTexto = costoEnvio > 0 ? `$${costoEnvio.toLocaleString('es-CL')}` : 'Gratis';
+  const envioTexto = esRetiro ? 'Retiro gratuito' : costoEnvio > 0 ? `$${costoEnvio.toLocaleString('es-CL')}` : 'Envío gratis';
   return `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;color:#666">
       <tr>
@@ -95,7 +95,7 @@ function filasTotales(subtotal, costoEnvio) {
         <td style="padding:4px 0;text-align:right">$${subtotal.toLocaleString('es-CL')}</td>
       </tr>
       <tr>
-        <td style="padding:4px 0 12px;text-align:left">Envío</td>
+        <td style="padding:4px 0 12px;text-align:left">${esRetiro ? 'Entrega' : 'Despacho'}</td>
         <td style="padding:4px 0 12px;text-align:right">${envioTexto}</td>
       </tr>
     </table>
@@ -106,7 +106,7 @@ function filasTotales(subtotal, costoEnvio) {
 // ============================================================
 // EMAIL 1: CONFIRMACIÓN DE PEDIDO
 // ============================================================
-export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, documento, esRetiro, numeroPedido }) {
+export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, documento, esRetiro, numeroPedido, esPedidoManual = false }) {
   const envioTexto = esRetiro
     ? '🏠 Retiro en tienda — Providencia (coordinamos por WhatsApp)'
     : `🚚 Despacho a domicilio — ${direccion}, ${comuna}, ${ciudad}`;
@@ -128,10 +128,10 @@ export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, 
     ${tablaProductos(items)}
 
     <div class="total-row" style="display:block;padding-top:0">
-      ${filasTotales(subtotal, costoEnvio)}
+      ${filasTotales(subtotal, costoEnvio, esRetiro)}
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:2px solid #C4622D">
         <tr>
-          <td class="total-label" style="padding-top:12px;text-align:left">Total pagado</td>
+          <td class="total-label" style="padding-top:12px;text-align:left">${esPedidoManual ? 'Total del pedido' : 'Total pagado'}</td>
           <td class="total-valor" style="padding-top:12px;text-align:right">$${total.toLocaleString('es-CL')}</td>
         </tr>
       </table>
@@ -176,7 +176,7 @@ export function emailDespacho({ nombre, items, subtotal, costoEnvio, total, dire
     ${tablaProductos(items)}
 
     <div class="total-row" style="display:block;padding-top:0">
-      ${filasTotales(subtotal, costoEnvio)}
+      ${filasTotales(subtotal, costoEnvio, esRetiro)}
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:2px solid #C4622D">
         <tr>
           <td class="total-label" style="padding-top:12px;text-align:left">Total</td>
@@ -211,7 +211,7 @@ export function emailDespacho({ nombre, items, subtotal, costoEnvio, total, dire
 // ============================================================
 // EMAIL 3: ENTREGADO
 // ============================================================
-export function emailEntregado({ nombre, items, subtotal, costoEnvio, total }) {
+export function emailEntregado({ nombre, items, subtotal, costoEnvio, total, esRetiro = false }) {
   const contenido = `
     <span class="pata">🎉</span>
     <p class="titulo">¡Llegó tu pedido, ${nombre.split(' ')[0]}!</p>
@@ -220,7 +220,7 @@ export function emailEntregado({ nombre, items, subtotal, costoEnvio, total }) {
     ${tablaProductos(items)}
 
     <div class="total-row" style="display:block;padding-top:0">
-      ${filasTotales(subtotal, costoEnvio)}
+      ${filasTotales(subtotal, costoEnvio, esRetiro)}
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:2px solid #C4622D">
         <tr>
           <td class="total-label" style="padding-top:12px;text-align:left">Total</td>
@@ -269,7 +269,7 @@ export function emailTransferencia({ nombre, items, subtotal, costoEnvio, total,
     ${tablaProductos(items)}
 
     <div class="total-row" style="display:block;padding-top:0">
-      ${filasTotales(subtotal, costoEnvio)}
+      ${filasTotales(subtotal, costoEnvio, esRetiro)}
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:2px solid #C4622D">
         <tr>
           <td style="padding-top:12px;text-align:left;font-size:15px;font-weight:700;color:#1C1007">Total a transferir</td>
@@ -315,7 +315,7 @@ export function emailTransferencia({ nombre, items, subtotal, costoEnvio, total,
 // ============================================================
 // EMAIL 5: PEDIDO CANCELADO
 // ============================================================
-export function emailCancelado({ nombre, items, subtotal, costoEnvio, total, numeroPedido }) {
+export function emailCancelado({ nombre, items, subtotal, costoEnvio, total, numeroPedido, esRetiro = false }) {
   const numStr = numeroPedido ? 'PAC-' + String(numeroPedido).padStart(5, '0') : '';
   const contenido = `
     <div style="font-size:32px;text-align:center;margin-bottom:12px">❌</div>
@@ -325,7 +325,7 @@ export function emailCancelado({ nombre, items, subtotal, costoEnvio, total, num
     ${tablaProductos(items)}
 
     <div class="total-row" style="display:block;padding-top:0">
-      ${filasTotales(subtotal, costoEnvio)}
+      ${filasTotales(subtotal, costoEnvio, esRetiro)}
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:2px solid #C4622D">
         <tr>
           <td style="padding-top:12px;text-align:left;font-size:15px;font-weight:700;color:#1C1007">Total</td>

@@ -402,7 +402,8 @@ export default async function handler(req, res) {
         return { name: nombre, qty: parseInt(match[2]), price: getPrecio(nombre), stockId: getStockId(nombre) };
       }).filter(Boolean);
 
-      const esRetiro = (pedido.direccion || '').toLowerCase().includes('retiro') || !(pedido.direccion || '').trim();
+      // En pedidos manuales, ausencia de costo de despacho significa retiro en tienda.
+      const esRetiro = Number(pedido.costo_envio || 0) === 0;
 
       let subject, html;
       if (estado === 'nuevo_pedido') {
@@ -417,6 +418,7 @@ export default async function handler(req, res) {
           ciudad: pedido.ciudad || '',
           documento: pedido.documento || 'Boleta',
           esRetiro,
+          esPedidoManual: true,
           numeroPedido: pedido.id,
         }));
       } else if (estado === 'despachado') {
@@ -433,6 +435,7 @@ export default async function handler(req, res) {
           subtotal: pedido.subtotal || pedido.total,
           costoEnvio: pedido.costo_envio || 0,
           total: pedido.total,
+          esRetiro,
         }));
       } else {
         ({ subject, html } = emailCancelado({
@@ -441,6 +444,7 @@ export default async function handler(req, res) {
           costoEnvio: pedido.costo_envio || 0,
           total: pedido.total,
           numeroPedido: pedido.id,
+          esRetiro,
         }));
       }
 

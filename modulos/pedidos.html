@@ -1264,9 +1264,9 @@ tbody tr:hover td{background:#FCFAF7!important}
     </div>
     <div class="form-grid full" style="margin-top:.75rem">
       <div class="form-field">
-        <label for="ep-costo-envio">Despacho ($) — monto manual</label>
+        <label for="ep-costo-envio">Despacho ($) — 0 = retiro en tienda</label>
         <input type="number" id="ep-costo-envio" min="0" step="1" value="0" placeholder="Ej: 4500" oninput="recalcularTotalEditar()">
-        <span class="catalog-source-note">Se suma al subtotal; no se registra como producto ni descuenta stock.</span>
+        <span class="catalog-source-note">Si queda en $0, el pedido será para retiro en tienda. No afecta al stock.</span>
       </div>
     </div>
     <div class="form-grid">
@@ -1356,9 +1356,9 @@ tbody tr:hover td{background:#FCFAF7!important}
     </div>
     <div class="form-grid full" style="margin-top:.75rem">
       <div class="form-field">
-        <label for="np-costo-envio">Despacho ($) — monto manual</label>
+        <label for="np-costo-envio">Despacho ($) — 0 = retiro en tienda</label>
         <input type="number" id="np-costo-envio" min="0" step="1" value="0" placeholder="Ej: 4500" oninput="recalcularTotal()">
-        <span class="catalog-source-note">Se suma al subtotal; no se registra como producto ni descuenta stock.</span>
+        <span class="catalog-source-note">Si queda en $0, el pedido será para retiro en tienda. No afecta al stock.</span>
       </div>
     </div>
     <div class="form-grid">
