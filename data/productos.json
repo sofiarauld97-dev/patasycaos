@@ -3989,5 +3989,45 @@
     "canonical": "https://www.patasycaos.cl/productos/crackers-brisket-beef-100g-naturalistic",
     "seoTitle": "Crackers Brisket Beef 100g - Naturalistic | Patas & Caos",
     "seoDescription": "Naturalistic Crackers Brisket Beef 100g para perros. Galletas crocantes Human Grade, grain free, vegan y libres de aditivos. Ideales como premio."
+  },
+  {
+    "sku": "red-oak-high-performance-15kg",
+    "slug": "red-oak-high-performance-15kg",
+    "nombre": "Red Oak High Performance 15kg",
+    "precio": 58500,
+    "precioNum": 58500,
+    "precioDisplay": "$58.500",
+    "precioTexto": "$58.500",
+    "etiquetaProducto": "Alimentos · Perros",
+    "audience": "Para Perros",
+    "categoria": "Alimentos",
+    "marca": "Red Oak",
+    "tagline": "Nutrición de alto rendimiento para perros activos.",
+    "descripcion": "Red Oak High Performance 15 kg es un alimento seco de fabricación canadiense, formulado para perros con altos niveles de actividad física y necesidades energéticas elevadas.\n\nSu fórmula 30/25 combina un 30% de proteína cruda y un 25% de grasa, aportando 4.190 kcal/kg para ayudar a mantener la condición corporal, favorecer el desarrollo y mantenimiento muscular y proporcionar energía durante actividades exigentes.\n\nElaborado con fuentes de proteína de pollo y pescado, incluye ácidos grasos del aceite de arenque y fuentes naturales de glucosamina.\n\nUna alternativa especialmente indicada para perros deportivos, de trabajo y otros perros físicamente activos.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Fórmula de alto rendimiento 30% proteína / 25% grasa.",
+      "Energía metabolizable: 4.190 kcal/kg.",
+      "Elaborado en Canadá por Corey Nutrition Company.",
+      "Fuentes de proteína de pollo, pescado y huevo.",
+      "Contiene aceite de arenque, fuente de ácidos grasos omega.",
+      "Con fuentes naturales de glucosamina.",
+      "Ingredientes no transgénicos.",
+      "Presentación: saco de 15 kg.",
+      "Formulado para perros con actividad física elevada."
+    ],
+    "ingredientes": "Harina de pollo, grasa de pollo conservada con tocoferoles mixtos, harina de arenque, maíz integral molido, arroz integral, trigo integral molido, huevo deshidratado, hígado de pollo, pulpa de betarraga deshidratada, levadura de cerveza deshidratada, aceite de arenque, harina de algas, malta de cebada, sal, cloruro de potasio, propionato de calcio, linaza, taurina, sulfato de hierro, sulfato de zinc, vitamina C, complejo zinc metionina, extracto de Yucca schidigera, L-lisina, niacina, pantotenato de calcio, proteinatos de cobre y manganeso, riboflavina, vitaminas A, D3, B1, B6, B12 y E, y otros minerales y suplementos nutricionales.\n\nAnálisis garantizado:\n\n- Proteína cruda (mín.): 30%\n- Grasa cruda (mín.): 25%\n- Fibra cruda (máx.): 3%\n- Humedad (máx.): 10%\n- Energía metabolizable: 4.190 kcal/kg\n\nContenido: 15 kg.",
+    "imagenes": [
+      "/red-oak-high-performance.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "red-oak-high-performance-15kg",
+    "canonical": "https://www.patasycaos.cl/productos/red-oak-high-performance-15kg",
+    "seoTitle": "Red Oak High Performance 15kg | Patas & Caos",
+    "seoDescription": "Red Oak High Performance 15kg, alimento canadiense para perros activos. Fórmula 30% proteína y 25% grasa, con 4.190 kcal/kg. Conoce sus beneficios en Patas & Caos."
   }
 ]
