@@ -1,0 +1,105 @@
+export default async function handler(req, res) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const { items, cliente } = req.body;
+  if (!items || items.length === 0) return res.status(400).json({ error: 'No items in cart' });
+
+  // Asegurar el precio promocional de las botellas incluso si el carrito
+  // del navegador conservó un precio anterior en localStorage.
+  const preciosBotellas = {
+    'botella-portatil-para-perros_Rosada': 12990,
+    'botella-portatil-para-perros_Calipso': 12990,
+  };
+  const itemsActualizados = items.map(item => {
+    const precioOferta = preciosBotellas[item.id];
+    return precioOferta === undefined ? item : {
+      ...item,
+      price: precioOferta,
+      precioNum: precioOferta,
+      precioOriginalNum: 13990,
+      ahorro: 1000,
+      oferta: true,
+    };
+  });
+
+  const mpItems = itemsActualizados.map(item => ({
+    title: item.name,
+    quantity: item.qty,
+    unit_price: item.price,
+    currency_id: 'CLP',
+  }));
+
+  // El checkout envía el costo de despacho dentro de cliente.costoEnvio.
+  // Mercado Pago solo cobra los elementos incluidos en `items`, por eso
+  // agregamos el despacho como un ítem separado cuando corresponde.
+  const costoEnvio = Number(cliente?.costoEnvio || 0);
+  if (costoEnvio > 0) {
+    mpItems.push({
+      title: 'Envío',
+      quantity: 1,
+      unit_price: costoEnvio,
+      currency_id: 'CLP',
+    });
+  }
+
+  try {
+    const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`,
+      },
+      body: JSON.stringify({
+        items: mpItems,
+        back_urls: {
+          success: 'https://www.patasycaos.cl/pedido-ok',
+          failure: 'https://www.patasycaos.cl/?pago=error',
+          pending: 'https://www.patasycaos.cl/?pago=pendiente',
+        },
+        auto_return: 'approved',
+        statement_descriptor: 'PATAS & CAOS',
+        notification_url: 'https://www.patasycaos.cl/api/webhook',
+      }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) return res.status(500).json({ error: 'Error al crear preferencia de pago' });
+
+    // Guardar datos del cliente en Redis con expiración de 24h.
+    // IMPORTANTE: no enviar al cliente a Mercado Pago si este respaldo falla,
+    // porque el webhook necesita order:<preference_id> para crear el pedido.
+    if (!cliente || !data.id) {
+      return res.status(500).json({ error: 'No se pudo preparar el pedido para el pago' });
+    }
+
+    const redisResponse = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([
+        ['SET', `order:${data.id}`, JSON.stringify({ ...cliente, items: itemsActualizados }), 'EX', 86400]
+      ]),
+    });
+
+    if (!redisResponse.ok) {
+      const redisError = await redisResponse.text();
+      console.error('[checkout] No se pudo guardar pedido temporal en Upstash:', redisResponse.status, redisError);
+      return res.status(500).json({ error: 'No se pudo guardar el pedido antes del pago' });
+    }
+
+    const redisResult = await redisResponse.json();
+    const commandResult = Array.isArray(redisResult) ? redisResult[0] : null;
+    const setOk = commandResult?.result === 'OK';
+
+    if (!setOk) {
+      console.error('[checkout] Upstash no confirmó SET order:', data.id, redisResult);
+      return res.status(500).json({ error: 'No se pudo confirmar el pedido antes del pago' });
+    }
+
+    return res.status(200).json({ init_point: data.init_point });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error interno del servidor' });
+  }
+}

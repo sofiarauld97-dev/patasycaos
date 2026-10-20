@@ -65,6 +65,13 @@
     .checkline{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--suave)}
     .checkline input{width:16px;height:16px;accent-color:var(--terracota)}
     @media(max-width:760px){.grid,.fields{grid-template-columns:1fr}.full{grid-column:auto}.head{align-items:flex-start}.badge{display:none}}
+
+    .ofertas-lista{display:grid;gap:10px}
+    .oferta-item{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid var(--borde);border-radius:12px;background:#fff;padding:12px 15px}
+    .oferta-item strong{font-size:.82rem}.oferta-precios{display:flex;align-items:baseline;gap:10px;white-space:nowrap}
+    .oferta-anterior{text-decoration:line-through;color:#958b81;font-size:.78rem}
+    .oferta-nuevo{color:var(--terracota);font-weight:800;font-size:1rem}
+    @media(max-width:600px){.oferta-item{align-items:flex-start;flex-direction:column}}
   </style>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
@@ -141,6 +148,14 @@
   </div>
 
   <div class="grid">
+    <section class="card full" id="ofertasActualesSection">
+      <h2>Ofertas del catálogo</h2>
+      <div class="ofertas-lista" id="ofertasActualesLista" aria-live="polite">
+        <span class="hint">Cargando ofertas desde data/productos.json…</span>
+      </div>
+      <p class="hint" style="margin-top:12px">Se muestran los precios publicados en el catálogo. Este módulo crea productos; no modifica precios directamente en la web.</p>
+    </section>
+
     <section class="card full">
       <h2>1. Cargar catálogo actual</h2>
       <label class="upload" id="uploadBox">
@@ -254,6 +269,37 @@ let stockPatch = null;
 let selectedImageFiles = [];
 
 const $ = id => document.getElementById(id);
+
+// Mostrar ofertas ya configuradas, sin tocar stock ni alterar el catálogo.
+function renderOfertasActuales(data){
+  const items=Array.isArray(data)?data:(Array.isArray(data?.productos)?data.productos:Object.values(data||{}));
+  const vigentes=items.filter(p=>{
+    const actual=Number(p.precio??p.precioNum);
+    const anterior=Number(p.precioOriginalNum??p.precioOriginal);
+    return p.oferta===true && Number.isFinite(anterior) && anterior>actual && actual>0;
+  });
+  const cont=$('ofertasActualesLista');
+  cont.replaceChildren();
+  if(!vigentes.length){
+    const empty=document.createElement('span');empty.className='hint';
+    empty.textContent='No hay ofertas registradas en el catálogo cargado.';cont.appendChild(empty);return;
+  }
+  const formato=v=>'$'+Math.round(v).toLocaleString('es-CL');
+  for(const p of vigentes){
+    const row=document.createElement('div');row.className='oferta-item';
+    const nombre=document.createElement('strong');nombre.textContent=p.nombre||p.slug||p.sku||'Producto';
+    const precios=document.createElement('div');precios.className='oferta-precios';
+    const anterior=document.createElement('span');anterior.className='oferta-anterior';anterior.textContent=formato(p.precioOriginalNum??p.precioOriginal);
+    const actual=document.createElement('span');actual.className='oferta-nuevo';actual.textContent=formato(p.precio??p.precioNum);
+    precios.append(anterior,actual);row.append(nombre,precios);cont.appendChild(row);
+  }
+}
+
+fetch('/data/productos.json?t='+Date.now(),{cache:'no-store'})
+ .then(r=>{if(!r.ok)throw Error('No se pudo cargar catálogo');return r.json()})
+ .then(renderOfertasActuales)
+ .catch(()=>{$('ofertasActualesLista').textContent='Carga el catálogo actualizado para visualizar las ofertas.'});
+
 const slugify = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
   .replace(/&/g,' y ').replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-');
 
@@ -297,6 +343,7 @@ $('jsonFile').addEventListener('change', async e => {
   try {
     const text = await file.text();
     originalJson = JSON.parse(text);
+    renderOfertasActuales(originalJson);
     containerInfo = detectContainer(originalJson);
     $('uploadBox').classList.add('loaded');
     $('uploadText').textContent = `✅ ${file.name} · ${containerInfo.items.length} productos detectados`;
@@ -485,7 +532,9 @@ function buildFrontendCatalog(json){
       placeholders:Array.isArray(p.placeholders)&&p.placeholders.length
         ? p.placeholders
         : (Array.isArray(p.imagenes)?p.imagenes.map(()=>p.emoji||'🐾'):[]),
+      precioOriginalNum:Number(p.precioOriginalNum??p.precioOriginal)||undefined,
       ahorro:p.ahorro||undefined,
+      oferta:p.oferta===true||undefined,
       cyber:p.cyber||undefined
     };
   }
