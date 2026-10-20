@@ -46,8 +46,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* HERO */
   .hero { min-height: auto; padding: 0; position: relative; overflow: clip; }
-  .hero-slider { display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1); width: 300%; }
-  .hero-slide { min-width: 33.333333%; width: 33.333333%; flex-shrink: 0; }
+  .hero-slider { display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1); width: 200%; }
+  .hero-slide { min-width: 50%; width: 50%; flex-shrink: 0; }
   .hero-slide img { width: 100%; height: auto; display: block; max-width: 100%; object-fit: contain; }
   .hero-slide img.mobile { display: none; }
   .hero-slide img.desktop { display: block; }
@@ -1723,48 +1723,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- HERO -->
 <section class="hero" id="inicio">
   <div class="hero-slider" id="heroSlider">
-    <!-- Slide 1: Iron Can -->
-    <div class="hero-slide iron-slide">
-      <img class="desktop" src="hero-slide1-desktop.jpg" alt="Patas & Caos en Carrera Iron Can">
-      <img class="mobile" src="slide1-mobile.jpg" alt="Patas & Caos en Carrera Iron Can">
-
-      <div class="iron-card">
-        <img class="iron-brand-logo" src="logo.png" alt="Patas & Caos">
-        <p class="iron-card-kicker">Evento canino</p>
-        <h1>Nos vemos en la<br>CARRERA IRON CAN</h1>
-        <p class="iron-card-sub">Estaremos con un stand lleno de snacks naturales y premios para tu compañero de aventuras.</p>
-
-        <div class="iron-highlights" aria-label="Lo que encontrarás en nuestro stand">
-          <span class="iron-highlight">Snacks naturales</span>
-          <span class="iron-highlight">Variedad de marcas</span>
-          <span class="iron-highlight">Premios para regalonear</span>
-        </div>
-
-        <div class="iron-extra">
-          <strong>Una jornada para disfrutar juntos</strong>
-          <p>Pasa por nuestro stand, conoce nuestros productos y encuentra un premio rico para tu compañero de aventuras.</p>
-          <div class="iron-extra-points" aria-label="En nuestro stand">
-            <span>🐾 Snacks para premiar después de la aventura</span>
-            <span>🦴 Distintas opciones para regalonearlos</span>
-            <span>🎁 Y algunas sorpresas para quienes nos visiten</span>
-          </div>
-        </div>
-
-        <div class="iron-bottom">
-          <div class="iron-date">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M7 14h2M11 14h2M15 14h2M7 18h2M11 18h2"/></svg>
-            <div class="iron-date-copy">
-              <small>DOMINGO</small>
-              <strong>18 DE OCTUBRE</strong>
-              <span>Parque Padre Hurtado</span>
-            </div>
-          </div>
-          <div class="iron-visit">¡Ven a<br>visitarnos!<span>♡</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Slide 2: Snacks (antes slide 1) -->
+    <!-- Slide 1: Snacks -->
     <div class="hero-slide">
       <img class="desktop" src="hero-slide2-desktop.jpg" alt="Snacks para perros y gatos">
       <img class="mobile" src="slide2-mobile.jpg" alt="Snacks para perros y gatos">
@@ -1776,7 +1735,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
 
-    <!-- Slide 3: Alimentos y arena (antes slide 2) -->
+    <!-- Slide 2: Alimentos y arena -->
     <div class="hero-slide">
       <img class="desktop" src="hero-slide3-desktop.jpg" alt="Alimentos y arena Suscripciones">
       <img class="mobile" src="slide3-mobile.jpg" alt="Alimentos y arena Suscripciones">
@@ -1791,7 +1750,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="hero-dots">
     <button class="hero-dot activo" onclick="irASlide(0)" aria-label="Slide 1"></button>
     <button class="hero-dot" onclick="irASlide(1)" aria-label="Slide 2"></button>
-    <button class="hero-dot" onclick="irASlide(2)" aria-label="Slide 3"></button>
   </div>
 </section>
 
@@ -2879,17 +2837,17 @@ function generarCarrusel() {
 let heroIdx = 0;
 function irASlide(n) {
   heroIdx = n;
-  document.getElementById('heroSlider').style.transform = `translateX(-${n * (100 / 3)}%)`;
+  document.getElementById('heroSlider').style.transform = `translateX(-${n * 50}%)`;
   document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('activo', i === n));
 }
-// Auto-avance: el primer slide tiene más tiempo porque contiene más información
-const HERO_TIEMPOS = [12000, 7000, 7000];
+// Auto-avance de los dos slides restantes
+const HERO_TIEMPOS = [7000, 7000];
 let heroTimer;
 
 function programarSiguienteHero() {
   clearTimeout(heroTimer);
   heroTimer = setTimeout(() => {
-    irASlide((heroIdx + 1) % 3);
+    irASlide((heroIdx + 1) % 2);
     programarSiguienteHero();
   }, HERO_TIEMPOS[heroIdx]);
 }
@@ -2903,7 +2861,7 @@ programarSiguienteHero();
   el.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
   el.addEventListener('touchend', e => {
     const diff = startX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) irASlide(diff > 0 ? Math.min(heroIdx + 1, 2) : Math.max(heroIdx - 1, 0));
+    if (Math.abs(diff) > 40) irASlide(diff > 0 ? Math.min(heroIdx + 1, 1) : Math.max(heroIdx - 1, 0));
   });
 })();
 
