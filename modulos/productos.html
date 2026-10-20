@@ -183,6 +183,23 @@ html,body{max-width:100%;overflow-x:hidden}
  .row{align-items:center!important}.row .x{flex:0 0 40px;height:42px}
 }
 </style>
+
+<style id="pac-productos-placeholder-compacto">
+/* Solo los textos de ejemplo: el texto ingresado sigue a 16px para evitar zoom en iOS. */
+@media (max-width: 760px) {
+  input::placeholder, textarea::placeholder,
+  .field input::placeholder, .field textarea::placeholder,
+  .row input::placeholder {
+    font-family: 'Poppins', Arial, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0 !important;
+    line-height: normal !important;
+    color: #918B85 !important;
+    opacity: 1 !important;
+  }
+}
+</style>
 </head>
 <body>
 <header>
