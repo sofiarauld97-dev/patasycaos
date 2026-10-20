@@ -428,6 +428,7 @@ export default async function handler(req, res) {
           costoEnvio: pedido.costo_envio || 0,
           total: pedido.total,
           direccion: pedido.direccion || '', comuna: pedido.comuna || '', ciudad: pedido.ciudad || '', esRetiro,
+          numeroPedido: pedido.id,
         }));
       } else if (estado === 'entregado') {
         ({ subject, html } = emailEntregado({
@@ -435,6 +436,7 @@ export default async function handler(req, res) {
           subtotal: pedido.subtotal || pedido.total,
           costoEnvio: pedido.costo_envio || 0,
           total: pedido.total,
+          numeroPedido: pedido.id,
           esRetiro,
         }));
       } else {
@@ -462,7 +464,7 @@ export default async function handler(req, res) {
           body: JSON.stringify({
             from: 'Patas & Caos <contacto@patasycaos.cl>',
             to: [process.env.NOTIFY_EMAIL],
-            subject: `🐾 Nuevo pedido manual — ${pedido.nombre}`,
+            subject: `Nuevo pedido manual — ${pedido.nombre}`,
             text: `NUEVO PEDIDO MANUAL\n\nCliente: ${pedido.nombre}\nEmail: ${pedido.email}\nTeléfono: ${pedido.telefono || '-'}\nDirección: ${pedido.direccion || 'Retiro'}\nComuna: ${pedido.comuna || '-'}\nCiudad: ${pedido.ciudad || '-'}\nNotas: ${pedido.notas || 'Sin notas'}\n\nProductos: ${pedido.productos}\nTotal: $${pedido.total?.toLocaleString('es-CL')}`,
           }),
         });
@@ -691,7 +693,7 @@ export default async function handler(req, res) {
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
       body: JSON.stringify({
         from: 'Patas & Caos <contacto@patasycaos.cl>', to: [process.env.NOTIFY_EMAIL],
-        subject: `🐾 Nuevo pedido — ${order.nombre}`,
+        subject: `Nuevo pedido — ${order.nombre}`,
         text: `NUEVO PEDIDO\n\nCliente: ${order.nombre}\nEmail: ${order.email}\nTeléfono: ${order.telefono}\nDirección: ${order.direccion || 'Retiro'}\nComuna: ${order.comuna || '-'}\nCiudad: ${order.ciudad || '-'}\nNotas: ${order.notas || 'Sin notas'}\n\nProductos:\n${productosEmail}\n\nTotal: $${total.toLocaleString('es-CL')}`,
       }),
     });

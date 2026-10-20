@@ -106,25 +106,34 @@ function filasTotales(subtotal, costoEnvio, esRetiro = false) {
 }
 
 
+function numeroPedidoFormateado(numeroPedido) {
+  if (numeroPedido === undefined || numeroPedido === null || numeroPedido === '') return '';
+  return 'PAC-' + String(numeroPedido).padStart(5, '0');
+}
+function etiquetaNumeroPedido(numeroPedido) {
+  const num = numeroPedidoFormateado(numeroPedido);
+  return num ? `<div style="text-align:center;margin:0 0 18px"><span style="display:inline-block;background:#F8F2E7;border:1px solid #E8C7B0;border-radius:50px;padding:8px 18px;font-size:13px;font-weight:700;color:#C4622D">Pedido ${num}</span></div>` : '';
+}
+
 // ============================================================
 // EMAIL 1: CONFIRMACIÓN DE PEDIDO
 // ============================================================
 export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, documento, esRetiro, numeroPedido, esPedidoManual = false }) {
   const envioTexto = esRetiro
-    ? '🏠 Retiro en tienda — Providencia (coordinamos por WhatsApp)'
-    : `🚚 Despacho a domicilio — ${direccion}, ${comuna}, ${ciudad}`;
+    ? 'Retiro en tienda — Providencia (coordinamos por WhatsApp)'
+    : `Despacho a domicilio — ${direccion}, ${comuna}, ${ciudad}`;
 
   const infoEnvio = esRetiro ? `
-    <p>📲 Te contactaremos por WhatsApp para coordinar el horario y la dirección exacta de retiro.</p>
+    <p>Te contactaremos por WhatsApp para coordinar el horario y la dirección exacta de retiro.</p>
   ` : `
-    <p>🚀 <strong>Santiago:</strong> Entrega el mismo día para pedidos realizados antes de las 10:00 AM en días hábiles. Pedidos posteriores se despachan al día hábil siguiente.</p>
-    <p>🗺️ <strong>Regiones:</strong> Entre 3 y 7 días hábiles según la región. Te coordinaremos por WhatsApp antes de confirmar el despacho.</p>
-    <p>💬 Recibirás una notificación por WhatsApp con la hora estimada de llegada.</p>
+    <p> <strong>Santiago:</strong> Entrega el mismo día para pedidos realizados antes de las 10:00 AM en días hábiles. Pedidos posteriores se despachan al día hábil siguiente.</p>
+    <p> <strong>Regiones:</strong> Entre 3 y 7 días hábiles según la región. Te coordinaremos por WhatsApp antes de confirmar el despacho.</p>
+    <p>Recibirás una notificación por WhatsApp con la hora estimada de llegada.</p>
   `;
 
   const contenido = `
     <div style="color:#4A7C59;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;margin:0 0 12px">Confirmación de compra</div>
-    ${numeroPedido ? `<div style="text-align:center;margin-bottom:16px"><span style="background:#F8F2E7;border:1px solid #E8C7B0;border-radius:50px;padding:6px 18px;font-size:.85rem;font-weight:700;color:#C4622D">PAC-${String(numeroPedido).padStart(5,'0')}</span></div>` : ''}
+    ${etiquetaNumeroPedido(numeroPedido)}
     <p class="titulo">¡Recibimos tu pedido, ${nombre.split(' ')[0]}!</p>
     <p class="subtitulo">Gracias por elegirnos. Aquí encontrarás el detalle de tu pedido y la información de entrega.</p>
 
@@ -158,7 +167,7 @@ export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, 
   `;
 
   return {
-    subject: `🐾 ¡Pedido recibido! — Patas & Caos`,
+    subject: `Pedido recibido${numeroPedidoFormateado(numeroPedido) ? " " + numeroPedidoFormateado(numeroPedido) : ""} — Patas & Caos`,
     html: emailBase(contenido)
   };
 }
@@ -166,13 +175,13 @@ export function emailConfirmacion({ nombre, items, subtotal, costoEnvio, total, 
 // ============================================================
 // EMAIL 2: EN DESPACHO
 // ============================================================
-export function emailDespacho({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, esRetiro }) {
+export function emailDespacho({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, esRetiro, numeroPedido }) {
   const mensaje = esRetiro
-    ? '¡Tu pedido está listo para retiro! 📲 Te contactaremos por WhatsApp para coordinar el horario y la dirección exacta.'
-    : '¡Tu pedido ya está en camino! 🚚 Recibirás un mensaje de WhatsApp con la hora estimada de llegada.';
+    ? '¡Tu pedido está listo para retiro! Te contactaremos por WhatsApp para coordinar el horario y la dirección exacta.'
+    : '¡Tu pedido ya está en camino! Recibirás un mensaje de WhatsApp con la hora estimada de llegada.';
 
   const contenido = `
-    <span class="pata">🚚</span>
+    ${etiquetaNumeroPedido(numeroPedido)}
     <p class="titulo">${esRetiro ? '¡Tu pedido está listo!' : '¡Tu pedido va en camino!'}</p>
     <p class="subtitulo">${mensaje}</p>
 
@@ -192,21 +201,21 @@ export function emailDespacho({ nombre, items, subtotal, costoEnvio, total, dire
 
     ${!esRetiro ? `
     <div class="info-box">
-      <h3>📍 Dirección de entrega</h3>
+      <h3>Dirección de entrega</h3>
       <p style="font-size:14px;color:#444;margin:0">${direccion}, ${comuna}, ${ciudad}</p>
     </div>
     ` : ''}
 
     <div class="info-box">
-      <h3>💬 Seguimiento de tu pedido</h3>
+      <h3>Seguimiento de tu pedido</h3>
       <p style="font-size:14px;color:#444;margin:0">Ante cualquier consulta sobre tu despacho escríbenos directamente por WhatsApp.</p>
     </div>
 
-    <a href="https://wa.me/56923997854" class="cta-btn">💬 Consultar mi despacho</a>
+    <a href="https://wa.me/56923997854" class="cta-btn">Consultar mi despacho</a>
   `;
 
   return {
-    subject: esRetiro ? '📦 ¡Tu pedido está listo para retiro! — Patas & Caos' : '🚚 ¡Tu pedido va en camino! — Patas & Caos',
+    subject: esRetiro ? `Pedido ${numeroPedidoFormateado(numeroPedido)} listo para retiro — Patas & Caos` : `Pedido ${numeroPedidoFormateado(numeroPedido)} en camino — Patas & Caos`,
     html: emailBase(contenido)
   };
 }
@@ -214,11 +223,11 @@ export function emailDespacho({ nombre, items, subtotal, costoEnvio, total, dire
 // ============================================================
 // EMAIL 3: ENTREGADO
 // ============================================================
-export function emailEntregado({ nombre, items, subtotal, costoEnvio, total, esRetiro = false }) {
+export function emailEntregado({ nombre, items, subtotal, costoEnvio, total, esRetiro = false, numeroPedido }) {
   const contenido = `
-    <span class="pata">🎉</span>
+    ${etiquetaNumeroPedido(numeroPedido)}
     <p class="titulo">¡Llegó tu pedido, ${nombre.split(' ')[0]}!</p>
-    <p class="subtitulo">Esperamos que tus mascotas estén felices con lo que eligiste. 🐾</p>
+    <p class="subtitulo">Esperamos que tus mascotas estén felices con lo que eligiste.</p>
 
     ${tablaProductos(items)}
 
@@ -235,17 +244,17 @@ export function emailEntregado({ nombre, items, subtotal, costoEnvio, total, esR
     <hr class="divider">
 
     <div class="info-box">
-      <h3>🔄 ¿Algo no quedó bien?</h3>
+      <h3>¿Algo no quedó bien?</h3>
       <p style="font-size:14px;color:#444;margin:0">Tienes <strong>10 días hábiles</strong> para solicitar un cambio o devolución. Escríbenos por WhatsApp al <a href="https://wa.me/56923997854" style="color:#C4622D">+56 9 2399 7854</a> con tu boleta y te ayudamos de inmediato.</p>
     </div>
 
-    <a href="https://instagram.com/patasycaoscl" class="cta-btn">📸 Síguenos en Instagram @patasycaoscl</a>
+    <a href="https://instagram.com/patasycaoscl" class="cta-btn">Síguenos en Instagram @patasycaoscl</a>
 
-    <p style="text-align:center;font-size:14px;color:#666">¿Te gustó tu experiencia? Cuéntanos — cada mensaje importa. 🐾</p>
+    <p style="text-align:center;font-size:14px;color:#666">¿Te gustó tu experiencia? Cuéntanos — cada mensaje importa.</p>
   `;
 
   return {
-    subject: `🎉 ¡Tu pedido llegó! — Patas & Caos`,
+    subject: `Pedido ${numeroPedidoFormateado(numeroPedido)} entregado — Patas & Caos`,
     html: emailBase(contenido)
   };
 }
@@ -255,11 +264,11 @@ export function emailEntregado({ nombre, items, subtotal, costoEnvio, total, esR
 // ============================================================
 export function emailTransferencia({ nombre, items, subtotal, costoEnvio, total, direccion, comuna, ciudad, esRetiro, numeroPedido }) {
   const envioTexto = esRetiro
-    ? '🏠 Retiro en tienda — Providencia (coordinamos por WhatsApp)'
-    : `🚚 Despacho a domicilio — ${direccion}, ${comuna}, ${ciudad}`;
+    ? 'Retiro en tienda — Providencia (coordinamos por WhatsApp)'
+    : `Despacho a domicilio — ${direccion}, ${comuna}, ${ciudad}`;
 
   const contenido = `
-    <div style="font-size:32px;text-align:center;margin-bottom:12px">🏦</div>
+    ${etiquetaNumeroPedido(numeroPedido)}
     <p class="titulo">¡Recibimos tu pedido, ${nombre.split(' ')[0]}!</p>
     <p class="subtitulo">Para confirmar tu pedido, realiza la transferencia en las próximas <strong>48 horas</strong>. Una vez confirmado el pago, prepararemos tu pedido.</p>
 
@@ -284,7 +293,7 @@ export function emailTransferencia({ nombre, items, subtotal, costoEnvio, total,
     <hr class="divider">
 
     <div class="info-box">
-      <h3>🏦 Datos bancarios</h3>
+      <h3>Datos bancarios</h3>
       <table style="width:100%;font-size:14px;color:#444;border-collapse:collapse">
         <tr><td style="padding:5px 0;color:#888;width:130px">Banco</td><td style="font-weight:700;color:#1C1007">Mercado Pago</td></tr>
         <tr><td style="padding:5px 0;color:#888">Tipo de cuenta</td><td style="font-weight:700;color:#1C1007">Cuenta Vista</td></tr>
@@ -296,21 +305,21 @@ export function emailTransferencia({ nombre, items, subtotal, costoEnvio, total,
     </div>
 
     <div style="background:#fff3cd;border:1.5px solid #ffc107;border-radius:12px;padding:16px;margin:16px 0">
-      <p style="font-size:14px;font-weight:700;color:#856404;margin:0 0 6px">⚠️ Importante</p>
+      <p style="font-size:14px;font-weight:700;color:#856404;margin:0 0 6px">Importante</p>
       <p style="font-size:13px;color:#856404;margin:0">Tu pedido será <strong>cancelado automáticamente</strong> si no recibimos el comprobante dentro de las próximas <strong>48 horas</strong>. Una vez transferido, envíanos el comprobante por WhatsApp o email.</p>
     </div>
 
     <div class="info-box">
-      <h3>📦 Información de entrega</h3>
+      <h3>Información de entrega</h3>
       <p style="font-size:14px;color:#444;margin:0">${envioTexto}</p>
     </div>
 
-    <a href="https://wa.me/56923997854?text=Hola%2C%20acabo%20de%20transferir%20por%20el%20pedido%20PAC-${String(numeroPedido).padStart(5,'0')}" class="cta-btn">📲 Enviar comprobante por WhatsApp</a>
+    <a href="https://wa.me/56923997854?text=Hola%2C%20acabo%20de%20transferir%20por%20el%20pedido%20PAC-${String(numeroPedido).padStart(5,'0')}" class="cta-btn">Enviar comprobante por WhatsApp</a>
     <p style="text-align:center;font-size:13px;color:#999">O envíalo a <a href="mailto:contacto@patasycaos.cl" style="color:#C4622D">contacto@patasycaos.cl</a></p>
   `;
 
   return {
-    subject: `🏦 Pedido PAC-${String(numeroPedido).padStart(5,'0')} — Completa tu transferencia`,
+    subject: `Pedido ${numeroPedidoFormateado(numeroPedido)} — Completa tu transferencia`,
     html: emailBase(contenido)
   };
 }
@@ -321,7 +330,7 @@ export function emailTransferencia({ nombre, items, subtotal, costoEnvio, total,
 export function emailCancelado({ nombre, items, subtotal, costoEnvio, total, numeroPedido, esRetiro = false }) {
   const numStr = numeroPedido ? 'PAC-' + String(numeroPedido).padStart(5, '0') : '';
   const contenido = `
-    <div style="font-size:32px;text-align:center;margin-bottom:12px">❌</div>
+    ${etiquetaNumeroPedido(numeroPedido)}
     <p class="titulo">Tu pedido fue cancelado</p>
     <p class="subtitulo">Hola ${nombre.split(' ')[0]}, lamentamos informarte que tu pedido ${numStr ? '<strong>' + numStr + '</strong>' : ''} fue cancelado.</p>
 
@@ -340,15 +349,15 @@ export function emailCancelado({ nombre, items, subtotal, costoEnvio, total, num
     <hr class="divider">
 
     <div class="info-box">
-      <h3>💬 ¿Tienes dudas?</h3>
+      <h3>¿Tienes dudas?</h3>
       <p style="font-size:14px;color:#444;margin:0">Si crees que esto es un error o quieres saber más, escríbenos por WhatsApp al <a href="https://wa.me/56923997854" style="color:#C4622D">+56 9 2399 7854</a> o a <a href="mailto:contacto@patasycaos.cl" style="color:#C4622D">contacto@patasycaos.cl</a>.</p>
     </div>
 
-    <a href="https://www.patasycaos.cl/tienda" class="cta-btn">🛍️ Volver a la tienda</a>
+    <a href="https://www.patasycaos.cl/tienda" class="cta-btn">Volver a la tienda</a>
   `;
 
   return {
-    subject: `❌ Tu pedido${numStr ? ' ' + numStr : ''} fue cancelado — Patas & Caos`,
+    subject: `Pedido${numStr ? ' ' + numStr : ''} cancelado — Patas & Caos`,
     html: emailBase(contenido)
   };
 }
