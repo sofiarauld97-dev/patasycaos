@@ -46,6 +46,28 @@ main{min-width:0;min-height:0;display:flex;flex-direction:column}.top{height:70p
 }
 @media(max-width:520px){.metrics{grid-template-columns:1fr 1fr;gap:10px}.metric{min-height:102px;padding:15px}.metric strong{font-size:1.45rem}.lock{padding:27px 21px}}
 </style>
+<style id="pac-mobile-ux-2026">
+@media(max-width:760px){
+ html,body{height:100%;height:100dvh;overflow:hidden}
+ .app{height:100%;height:100dvh;min-height:0}
+ main{height:100%;min-height:0;overflow:hidden}
+ .top{height:58px;min-height:58px;padding-inline:12px;gap:10px}
+ .top h1{font-size:.94rem;line-height:1.25}
+ .content{min-height:0;padding-bottom:calc(65px + env(safe-area-inset-bottom));overflow:hidden}
+ .view{overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+ .view:has(iframe){overflow:hidden}
+ .view iframe{display:block;width:100%;height:100%;min-height:0;border:0}
+ .mobile-nav{height:calc(65px + env(safe-area-inset-bottom));min-height:0;align-items:center;padding-bottom:env(safe-area-inset-bottom)}
+ .mobile-nav button{height:48px;padding:5px 2px;touch-action:manipulation;font-size:.67rem}
+ aside{max-width:calc(100vw - 45px);overflow-y:auto;padding-bottom:calc(18px + env(safe-area-inset-bottom))}
+ .dash-head{gap:14px}.actions button{min-width:0;padding-inline:9px}
+ .metrics{gap:10px}.metric{min-width:0;overflow-wrap:anywhere}
+ .panels{grid-template-columns:minmax(0,1fr)}
+ .card,.row{min-width:0}.row{align-items:center;padding:13px 14px}.row>div{min-width:0}
+ .row button{min-width:52px;min-height:42px}
+}
+@media(max-width:380px){.metrics{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.metric{padding:12px}.metric strong{font-size:1.2rem}.dashboard{padding-inline:11px}.actions button{font-size:.67rem}}
+</style>
 </head>
 <body>
 <div id="lock"><div class="lock"><img src="/logo.png" alt="Patas & Caos"><h1>Panel Administrativo</h1><p>Productos, pedidos, suscripciones e inventario en un solo lugar.</p><input id="pw" type="password" placeholder="Contraseña"><button id="enter">Entrar</button><div id="error"></div></div></div>
