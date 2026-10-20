@@ -256,10 +256,16 @@ async function agregarFotosEmail(items) {
     return items.map(item => {
       const producto = porId.get(normalizar(item.id || item.stockId)) || porNombre.get(normalizar(item.name));
       const ruta = producto?.imagenes?.[0];
-      if (typeof ruta !== 'string' || !ruta.trim()) return item;
+      const precioCatalogo = Number(producto?.precio);
+      const resultado = { ...item };
+      // Solo recurrir al precio actual si no se recuperó uno válido del pedido.
+      if (!(Number(item.price) > 0) && Number.isFinite(precioCatalogo) && precioCatalogo > 0) {
+        resultado.price = precioCatalogo;
+      }
+      if (typeof ruta !== 'string' || !ruta.trim()) return resultado;
       const image = ruta.startsWith('/') ? 'https://www.patasycaos.cl' + ruta : ruta;
-      if (!/^https:\/\/www\.patasycaos\.cl\//i.test(image)) return item;
-      return { ...item, image };
+      if (!/^https:\/\/www\.patasycaos\.cl\//i.test(image)) return resultado;
+      return { ...resultado, image };
     });
   } catch (e) {
     console.warn('[webhook] No se pudieron cargar miniaturas para emails:', e.message);
@@ -436,6 +442,21 @@ export default async function handler(req, res) {
 
       // En pedidos manuales, ausencia de costo de despacho significa retiro en tienda.
       const itemsConFoto = await agregarFotosEmail(items);
+      // El subtotal histórico en Supabase es la fuente de verdad del cobro.
+      // En pedidos con un solo producto, recuperamos su precio real, incluso si
+      // hubo oferta o descuento y el precio actual del catálogo es diferente.
+      const subtotalPedido = Number(pedido.subtotal ?? (Number(pedido.total || 0) - Number(pedido.costo_envio || 0)));
+      if (itemsConFoto.length === 1 && Number.isFinite(subtotalPedido) && subtotalPedido >= 0) {
+        const cantidad = Number(itemsConFoto[0].qty) || 1;
+        itemsConFoto[0].price = subtotalPedido / cantidad;
+      } else if (itemsConFoto.length > 1 && Number.isFinite(subtotalPedido)) {
+        const suma = itemsConFoto.reduce((total, item) => total + (Number(item.price) || 0) * (Number(item.qty) || 0), 0);
+        // Para pedidos con varios productos, no inventamos precios unitarios
+        // cuando los valores reconstruidos no cuadran con el pedido guardado.
+        if (Math.abs(suma - subtotalPedido) >= 1) {
+          itemsConFoto.forEach(item => { item.price = null; });
+        }
+      }
       const esRetiro = Number(pedido.costo_envio || 0) === 0;
 
       let subject, html;

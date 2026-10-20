@@ -75,14 +75,16 @@ function imagenProducto(item) {
 function tablaProductos(items) {
   const filas = (Array.isArray(items) ? items : []).map(i => {
     const foto = imagenProducto(i);
-    const precio = (Number(i.price) || 0) * (Number(i.qty) || 0);
+    const precioConocido = i.price !== null && i.price !== undefined && i.price !== '' && Number.isFinite(Number(i.price));
+    const precio = precioConocido ? Number(i.price) * (Number(i.qty) || 0) : null;
+    const precioTexto = precio === null ? '—' : '$' + precio.toLocaleString('es-CL', { maximumFractionDigits: 0 });
     return `<tr>
       ${foto ? `<td width="68" style="width:68px;padding:12px 12px 12px 0;vertical-align:middle;">${foto}</td>` : ''}
       <td style="padding:12px 6px 12px 0;vertical-align:middle;overflow-wrap:anywhere;">
         <div style="font-size:13px;font-weight:600;line-height:1.5;color:#1C1007;">${escaparHtml(i.name)}</div>
         <div style="font-size:11px;line-height:1.5;color:#7B7169;margin-top:3px;">Cantidad: ${Number(i.qty) || 0}</div>
       </td>
-      <td style="text-align:right;padding:12px 0 12px 6px;white-space:nowrap;vertical-align:middle;font-size:13px;font-weight:700;color:#1C1007;">$${precio.toLocaleString('es-CL')}</td>
+      <td style="text-align:right;padding:12px 0 12px 6px;white-space:nowrap;vertical-align:middle;font-size:13px;font-weight:700;color:#1C1007;">${precioTexto}</td>
     </tr>`;
   }).join('');
   return `<table class="productos-tabla" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;margin:20px 0;table-layout:auto;">${filas}</table>`;
