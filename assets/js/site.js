@@ -172,28 +172,37 @@
           display:none!important;
         }
 
-        .mobile-menu .nav-ofertas-link{
-          display:inline-flex!important;
-          align-items:center!important;
-          justify-content:center!important;
-          width:max-content!important;
-          min-height:36px!important;
-          padding:0 16px!important;
-          margin:6px 0 10px!important;
-          border-radius:999px!important;
-          background:#C4622D!important;
-          color:#fff!important;
-          font-family:'Poppins',sans-serif!important;
-          font-size:13px!important;
-          font-weight:700!important;
-          line-height:36px!important;
-          text-decoration:none!important;
-          text-transform:none!important;
-        }
-        .mobile-menu .nav-ofertas-link::before,
-        .mobile-menu .nav-ofertas-link::after{
-          content:none!important;
-          display:none!important;
+        /* Ofertas móvil: fila completa como cualquier otra opción */
+        @media (max-width:768px){
+          .mobile-menu > a.nav-ofertas-link{
+            display:flex!important;
+            align-items:center!important;
+            justify-content:flex-start!important;
+            width:100%!important;
+            min-height:62px!important;
+            height:auto!important;
+            padding:0 2px!important;
+            margin:0!important;
+            border:0!important;
+            border-bottom:1px solid rgba(28,16,7,.09)!important;
+            border-radius:0!important;
+            background:transparent!important;
+            box-shadow:none!important;
+            line-height:normal!important;
+          }
+          .mobile-menu > a.nav-ofertas-link .mobile-ofertas-pill{
+            display:inline-flex!important;
+            justify-content:center!important;
+            align-items:center!important;
+            min-height:34px!important;
+            padding:0 15px!important;
+            border-radius:100px!important;
+            background:#C4622D!important;
+            color:#fff!important;
+            font-size:13px!important;
+            font-weight:700!important;
+            line-height:1!important;
+          }
         }
       `;
       document.head.appendChild(style);
@@ -237,13 +246,15 @@
           ofertaMobile = document.createElement('a');
           ofertaMobile.href = '/tienda?ofertas=1';
           ofertaMobile.className = 'nav-ofertas-link';
-          ofertaMobile.textContent = 'Ofertas';
+          ofertaMobile.innerHTML = '<span class="mobile-ofertas-pill">Ofertas</span>';
+          ofertaMobile.classList.add('mobile-ofertas-row');
           ofertaMobile.addEventListener('click', cerrarMenu);
           tiendaMobile.insertAdjacentElement('afterend', ofertaMobile);
         }
       } else {
         ofertaMobile.classList.add('nav-ofertas-link');
-        ofertaMobile.textContent = 'Ofertas';
+        ofertaMobile.classList.add('mobile-ofertas-row');
+        if (!ofertaMobile.querySelector('.mobile-ofertas-pill')) ofertaMobile.innerHTML = '<span class="mobile-ofertas-pill">Ofertas</span>';
       }
     }
   }

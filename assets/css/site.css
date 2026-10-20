@@ -1255,3 +1255,20 @@ body.cart-open .whatsapp-float{
   }
 }
 
+
+/* Menú móvil · Ofertas alineada y sin espacio extra (iPhone / Android) */
+@media(max-width:768px){
+ .mobile-menu > a.nav-ofertas-link.mobile-ofertas-row{
+  display:flex!important;align-items:center!important;justify-content:flex-start!important;
+  width:100%!important;height:auto!important;min-height:62px!important;
+  padding:0 2px!important;margin:0!important;
+  background:transparent!important;border:0!important;
+  border-bottom:1px solid rgba(28,16,7,.09)!important;
+  border-radius:0!important;box-shadow:none!important;
+ }
+ .mobile-menu > a.nav-ofertas-link .mobile-ofertas-pill{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:34px;padding:0 15px;border-radius:999px;
+  background:#C4622D;color:#fff;font-size:13px;font-weight:700;line-height:1;
+ }
+}
