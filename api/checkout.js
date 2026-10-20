@@ -4,7 +4,25 @@ export default async function handler(req, res) {
   const { items, cliente } = req.body;
   if (!items || items.length === 0) return res.status(400).json({ error: 'No items in cart' });
 
-  const mpItems = items.map(item => ({
+  // Asegurar el precio promocional de las botellas incluso si el carrito
+  // del navegador conservó un precio anterior en localStorage.
+  const preciosBotellas = {
+    'botella-portatil-para-perros_Rosada': 12990,
+    'botella-portatil-para-perros_Calipso': 12990,
+  };
+  const itemsActualizados = items.map(item => {
+    const precioOferta = preciosBotellas[item.id];
+    return precioOferta === undefined ? item : {
+      ...item,
+      price: precioOferta,
+      precioNum: precioOferta,
+      precioOriginalNum: 13990,
+      ahorro: 1000,
+      oferta: true,
+    };
+  });
+
+  const mpItems = itemsActualizados.map(item => ({
     title: item.name,
     quantity: item.qty,
     unit_price: item.price,
@@ -61,7 +79,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify([
-        ['SET', `order:${data.id}`, JSON.stringify({ ...cliente, items }), 'EX', 86400]
+        ['SET', `order:${data.id}`, JSON.stringify({ ...cliente, items: itemsActualizados }), 'EX', 86400]
       ]),
     });
 

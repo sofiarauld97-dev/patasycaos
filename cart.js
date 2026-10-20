@@ -184,6 +184,8 @@ function removeItem(id) { cart = cart.filter(i => i.id !== id); renderCart(); gu
 // Mantiene el precio rebajado como precio real del carrito y conserva el original
 // solo para mostrarlo tachado.
 const PAC_OFERTAS_CARRITO = {
+  "botella-portatil-para-perros_Rosada": { original: 14990, oferta: 12990 },
+  "botella-portatil-para-perros_Calipso": { original: 14990, oferta: 12990 },
   "dispensador-de-bolsas---diseno-cafe": { original: 5990, oferta: 4990 },
   "fuente-agua": { original: 21990, oferta: 17990 },
   "lata-leonardo_Ternera": { original: 3790, oferta: 3290 },
