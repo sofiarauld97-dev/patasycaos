@@ -1134,6 +1134,34 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 }
 @media(max-width:390px){.modal-box{padding-left:12px!important;padding-right:12px!important}.modal-btns{margin-left:-12px!important;margin-right:-12px!important;padding-inline:12px!important}.item-row{padding:11px!important;gap:8px!important}.stat-label{font-size:.6rem!important}}
 </style>
+<style id="pac-iphone-13-fix">
+
+html,body{max-width:100%;overflow-x:hidden}
+@media(max-width:820px){
+ #panel main{padding:18px 12px 36px!important}
+ .tabla-wrap tr{height:auto!important;min-height:0!important;display:block!important;padding:8px 14px!important}
+ .tabla-wrap td{height:auto!important;min-height:0!important;padding:10px 0!important;display:grid!important;grid-template-columns:105px minmax(0,1fr)!important;align-items:start!important;gap:10px!important}
+ .tabla-wrap td::before{font-size:.65rem!important}
+ .tabla-wrap .estado-select,.tabla-wrap .btn-editar-pedido{min-height:44px!important}
+ .modal-overlay.activo{inset:0!important;position:fixed!important;height:100%!important;height:100dvh!important;padding:0!important;z-index:9999!important;overflow:hidden!important;align-items:stretch!important}
+ .modal-box{display:flex!important;flex-direction:column!important;position:relative!important;min-width:0!important;width:100%!important;max-width:none!important;height:100%!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;overflow-y:auto!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;padding:18px 15px 20px!important;margin:0!important;border-radius:0!important}
+ .modal-close{position:sticky!important;top:0!important;flex:0 0 38px!important;z-index:8!important;align-self:flex-end!important;margin-bottom:5px!important}
+ .modal-box h3{margin-top:-38px!important;min-height:42px;padding-top:7px!important}
+ .modal-box .form-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+ .form-field,.form-field input,.form-field select{min-width:0!important;max-width:100%!important}
+ .form-field input,.form-field select,.form-field textarea,.item-row select,.item-row input{font-size:16px!important;min-height:44px!important}
+ .modal-btns{position:sticky!important;bottom:0!important;flex:0 0 auto!important;z-index:10!important;margin:16px -15px -20px!important;padding:12px 15px calc(12px + env(safe-area-inset-bottom))!important;background:#fff!important;border-top:1px solid var(--borde)!important;display:grid!important;grid-template-columns:1fr 1.3fr!important;gap:9px!important}
+ .modal-btns button{width:100%!important;min-height:49px!important;margin:0!important}
+ .item-row{width:100%!important;min-width:0!important}
+ .item-row select{width:100%!important}
+}
+@media(max-width:500px){
+ .tabla-wrap td{grid-template-columns:95px minmax(0,1fr)!important}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .stat-card{min-height:90px!important;height:auto!important}
+}
+
+</style>
 </head>
 <body>
 <!-- PANEL -->

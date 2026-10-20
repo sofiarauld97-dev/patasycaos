@@ -68,6 +68,23 @@ main{min-width:0;min-height:0;display:flex;flex-direction:column}.top{height:70p
 }
 @media(max-width:380px){.metrics{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.metric{padding:12px}.metric strong{font-size:1.2rem}.dashboard{padding-inline:11px}.actions button{font-size:.67rem}}
 </style>
+<style id="pac-iphone-13-fix">
+
+@media(max-width:760px){
+ html,body{width:100%;overflow:hidden}
+ .app{height:100dvh;min-height:0;overflow:hidden;grid-template-columns:minmax(0,1fr)}
+ main{height:100dvh;min-height:0;min-width:0}
+ .top{height:62px;flex:0 0 62px;position:relative;z-index:4}
+ .content{flex:1 1 auto;min-height:0;padding-bottom:0!important;overflow:hidden!important}
+ .view{inset:0;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch}
+ .view iframe{width:100%!important;height:100%!important;min-height:0!important;border:0;display:block}
+ .mobile-nav{display:none!important}
+ aside{height:100dvh;bottom:auto;max-height:100dvh;overflow:auto}
+ .dashboard{padding-bottom:45px!important}
+ .menu{min-width:44px;min-height:44px;font-size:20px}
+}
+
+</style>
 </head>
 <body>
 <div id="lock"><div class="lock"><img src="/logo.png" alt="Patas & Caos"><h1>Panel Administrativo</h1><p>Productos, pedidos, suscripciones e inventario en un solo lugar.</p><input id="pw" type="password" placeholder="Contraseña"><button id="enter">Entrar</button><div id="error"></div></div></div>

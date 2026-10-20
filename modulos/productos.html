@@ -149,6 +149,20 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
  pre{max-width:100%;overflow-x:auto;word-break:break-word}
 }
 </style>
+<style id="pac-iphone-13-fix">
+
+html,body{max-width:100%;overflow-x:hidden}
+@media(max-width:760px){
+ main{padding:18px 12px 38px!important}
+ .grid,.fields{grid-template-columns:minmax(0,1fr)!important}
+ .card{min-width:0!important;padding:17px 14px!important}
+ .field input,.field select,.field textarea{font-size:16px!important;min-height:44px}
+ .actions{display:grid!important;grid-template-columns:1fr!important}
+ .actions button{min-width:0!important;width:100%!important}
+ .row{min-width:0!important}.row input{min-width:0!important}
+}
+
+</style>
 </head>
 <body>
 <header>
