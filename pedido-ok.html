@@ -557,14 +557,28 @@ function runSearch(q) {
   const contenido = document.getElementById('pedido-contenido');
 
   if (!prefId) {
-    contenido.innerHTML = errorHTML('No encontramos tu pedido.', 'Si completaste el pago, revisa tu correo — enviamos una confirmación automática.');
+    contenido.innerHTML = errorHTML('No encontramos tu pedido.', 'Si pagaste en Mercado Pago, conserva el comprobante y contáctanos por WhatsApp para verificar la compra.');
     return;
   }
 
   try {
-    const res = await fetch('/api/webhook?preference_id=' + encodeURIComponent(prefId));
-    if (!res.ok) throw new Error('not found');
-    const order = await res.json();
+    let order;
+    // Mercado Pago puede redirigir al comprador antes de que llegue el webhook.
+    // Consultamos el estado unos segundos, sin crear pedidos ni descontar stock.
+    for (let intento = 0; intento < 7; intento++) {
+      const res = await fetch('/api/webhook?preference_id=' + encodeURIComponent(prefId), { cache: 'no-store' });
+      if (!res.ok) throw new Error('not found');
+      order = await res.json();
+      if (order.registrado) break;
+      if (intento < 6) await new Promise(resolve => setTimeout(resolve, 1500));
+    }
+    if (!order.registrado) {
+      contenido.innerHTML = errorHTML(
+        'Estamos verificando tu pedido',
+        'Si pagaste en Mercado Pago, guarda el comprobante. La confirmación automática aún está pendiente. Escríbenos al WhatsApp de Patas & Caos indicando tu número de operación para que podamos ayudarte.'
+      );
+      return;
+    }
     contenido.innerHTML = renderPedido(order);
 
     // Habilitar Reseñas de Clientes en Google con los datos reales del pedido
@@ -579,7 +593,7 @@ function runSearch(q) {
   } catch(e) {
     contenido.innerHTML = errorHTML(
       'No pudimos cargar el detalle de tu pedido.',
-      'Si completaste el pago con Mercado Pago, el cobro fue procesado correctamente. Recibirás la confirmación en tu correo en los próximos minutos.'
+      'Si realizaste el pago, conserva el comprobante y contáctanos por WhatsApp para verificar tu compra. No vuelvas a pagar.'
     );
   }
 })();

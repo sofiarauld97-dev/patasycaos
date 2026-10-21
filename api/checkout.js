@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -43,6 +45,8 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Referencia única adicional para recuperar la venta si MP omite preference_id.
+    const externalReference = `pac-${randomUUID()}`;
     const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
       method: 'POST',
       headers: {
@@ -51,6 +55,8 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         items: mpItems,
+        external_reference: externalReference,
+        payer: cliente?.email ? { email: String(cliente.email).trim() } : undefined,
         back_urls: {
           success: 'https://www.patasycaos.cl/pedido-ok',
           failure: 'https://www.patasycaos.cl/?pago=error',
@@ -65,13 +71,14 @@ export default async function handler(req, res) {
     const data = await response.json();
     if (!response.ok) return res.status(500).json({ error: 'Error al crear preferencia de pago' });
 
-    // Guardar datos del cliente en Redis con expiración de 24h.
+    // Guardar datos del cliente en Redis durante 7 días (pagos asíncronos/reintentos).
     // IMPORTANTE: no enviar al cliente a Mercado Pago si este respaldo falla,
     // porque el webhook necesita order:<preference_id> para crear el pedido.
     if (!cliente || !data.id) {
       return res.status(500).json({ error: 'No se pudo preparar el pedido para el pago' });
     }
 
+    const orderData = JSON.stringify({ ...cliente, items: itemsActualizados, preference_id: data.id, external_reference: externalReference });
     const redisResponse = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
       method: 'POST',
       headers: {
@@ -79,7 +86,8 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify([
-        ['SET', `order:${data.id}`, JSON.stringify({ ...cliente, items: itemsActualizados }), 'EX', 86400]
+        ['SET', `order:${data.id}`, orderData, 'EX', 604800],
+        ['SET', `order_ref:${externalReference}`, data.id, 'EX', 604800]
       ]),
     });
 
@@ -90,8 +98,8 @@ export default async function handler(req, res) {
     }
 
     const redisResult = await redisResponse.json();
-    const commandResult = Array.isArray(redisResult) ? redisResult[0] : null;
-    const setOk = commandResult?.result === 'OK';
+    const setOk = Array.isArray(redisResult) && redisResult.length === 2 &&
+      redisResult.every(result => result?.result === 'OK' && !result.error);
 
     if (!setOk) {
       console.error('[checkout] Upstash no confirmó SET order:', data.id, redisResult);

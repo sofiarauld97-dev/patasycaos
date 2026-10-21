@@ -348,11 +348,20 @@ export default async function handler(req, res) {
         const redisData = await redisRes.json();
         if (!redisData.result) return res.status(404).json({ error: 'Order not found' });
         const order = JSON.parse(redisData.result);
+        // El respaldo temporal por sí solo NO significa que el pago se haya registrado.
+        let registrado = false;
+        try {
+          const rEstado = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/processed_pref:${encodeURIComponent(preference_id)}`, {
+            headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
+          });
+          if (rEstado.ok) registrado = Boolean((await rEstado.json()).result);
+        } catch (e) { console.warn('[webhook] No se pudo consultar estado:', e.message); }
         const subtotal = order.items.reduce((s, i) => s + i.price * i.qty, 0);
         const costoEnvio = order.costoEnvio || 0;
         return res.status(200).json({
           nombre: order.nombre,
           email: order.email || '',
+          registrado,
           items: order.items,
           subtotal,
           costoEnvio,
@@ -660,191 +669,237 @@ export default async function handler(req, res) {
     }
   }
 
-  // === NOTIFICACIÓN MERCADO PAGO ===
-  // Mercado Pago puede enviar el id del pago en el body moderno
-  // ({ type: 'payment', data: { id } }) o, en algunos reintentos/formatos,
-  // mediante query params (?topic=payment&id=...). Aceptamos ambos.
+  // === NOTIFICACIÓN MERCADO PAGO — RESISTENTE A REINTENTOS ===
   const { type, data } = req.body || {};
   const topic = type || req.query?.type || req.query?.topic;
   const paymentId = data?.id || req.query?.['data.id'] || req.query?.id;
   if (topic !== 'payment' || !paymentId) return res.status(200).end();
 
+  // Esta venta fue ingresada manualmente y descontó stock el 21-10-2026.
+  // No debe reprocesarse aunque Mercado Pago reenvíe una notificación antigua.
+  if (String(paymentId) === '184256106031') {
+    console.log('[webhook] Pago 184256106031 conciliado manualmente; no reprocesar.');
+    return res.status(200).end();
+  }
+
+  const redisURL = process.env.UPSTASH_REDIS_REST_URL;
+  const redisAuth = { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` };
+  const supaKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+  const supaHeaders = { apikey: supaKey, Authorization: `Bearer ${supaKey}` };
+  let locked = false;
+  let lockKey = '';
+  const lockToken = `${Date.now()}-${Math.random()}`;
+
+  async function redisGet(key) {
+    const r = await fetch(`${redisURL}/get/${encodeURIComponent(key)}`, { headers: redisAuth });
+    const result = await r.json();
+    if (!r.ok || result.error) throw new Error(`Upstash GET ${key}: ${r.status} ${result.error || ''}`);
+    return result.result;
+  }
+  async function redisCommands(commands) {
+    const r = await fetch(`${redisURL}/pipeline`, {
+      method: 'POST',
+      headers: { ...redisAuth, 'Content-Type': 'application/json' },
+      body: JSON.stringify(commands),
+    });
+    const result = await r.json();
+    if (!r.ok || !Array.isArray(result) || result.some(x => x?.error)) {
+      throw new Error(`Upstash pipeline: ${r.status} ${JSON.stringify(result).slice(0, 600)}`);
+    }
+    return result;
+  }
+  async function sendEmailOnce(prefId, kind, payload) {
+    const marker = `email_done:${kind}:${prefId}`;
+    if (await redisGet(marker)) return true;
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
+      body: JSON.stringify(payload),
+    });
+    if (!r.ok) {
+      console.error(`[webhook] EMAIL ${kind.toUpperCase()} FALLÓ`, r.status, await r.text());
+      return false;
+    }
+    await redisCommands([['SET', marker, '1']]);
+    return true;
+  }
+
   try {
-    const mpRes = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+    if (!process.env.MP_ACCESS_TOKEN || !redisURL || !process.env.UPSTASH_REDIS_REST_TOKEN || !process.env.SUPABASE_URL || !supaKey) {
+      throw new Error('Faltan variables de entorno para procesar pedidos.');
+    }
+    const mpRes = await fetch(`https://api.mercadopago.com/v1/payments/${encodeURIComponent(String(paymentId))}`, {
       headers: { Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}` },
     });
     const payment = await mpRes.json();
-    if (!mpRes.ok) {
-      console.error('[webhook] MERCADO PAGO CONSULTA FALLÓ', { paymentId, status: mpRes.status, response: payment });
-      return res.status(500).json({ error: 'No se pudo consultar el pago en Mercado Pago' });
-    }
-    console.log('[webhook] status:', payment.status, '| pref:', payment.preference_id);
+    if (!mpRes.ok) throw new Error(`MP no pudo verificar el pago ${paymentId}: HTTP ${mpRes.status}`);
     if (payment.status !== 'approved') return res.status(200).end();
-    if (!payment.preference_id) {
-      console.error('[webhook] PAGO APROBADO SIN PREFERENCE_ID', { payment_id: payment.id });
-      return res.status(500).json({ error: 'Pago aprobado sin preference_id' });
-    }
 
-    // Idempotencia: Mercado Pago reintenta webhooks. Si este preference_id ya
-    // creó un pedido, respondemos OK sin volver a descontar stock ni duplicar emails.
-    const existingRes = await fetch(
-      `${process.env.SUPABASE_URL}/rest/v1/Pedidos?mp_preference_id=eq.${encodeURIComponent(payment.preference_id)}&select=id&limit=1`,
-      { headers: { apikey: process.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}` } }
-    );
-    if (existingRes.ok) {
-      const existing = await existingRes.json();
-      if (Array.isArray(existing) && existing.length > 0) {
-        console.log('[webhook] PAGO YA PROCESADO', { payment_id: payment.id, preference_id: payment.preference_id, pedido_id: existing[0].id });
-        return res.status(200).end();
+    // Doble vínculo: preference_id original + external_reference desde checkout.js.
+    let preferenceId = String(payment.preference_id || '').trim();
+    if (!preferenceId && payment.external_reference) {
+      const recovered = await redisGet(`order_ref:${payment.external_reference}`);
+      preferenceId = String(recovered || '').trim();
+    }
+    if (!preferenceId) throw new Error(`Pago aprobado ${payment.id} sin preferencia recuperable.`);
+
+    lockKey = `processing_pref:${preferenceId}`;
+    const lock = await redisCommands([['SET', lockKey, lockToken, 'EX', 120, 'NX']]);
+    if (lock[0]?.result !== 'OK') {
+      // Otra notificación del mismo pago está siendo procesada en este momento.
+      return res.status(503).json({ error: 'Pago en procesamiento. Reintentar notificación.' });
+    }
+    locked = true;
+
+    let orderRaw = await redisGet(`order:${preferenceId}`);
+    if (!orderRaw) {
+      const backupRaw = await redisGet(`paid_order:${payment.id}`);
+      if (backupRaw) {
+        const backup = typeof backupRaw === 'string' ? JSON.parse(backupRaw) : backupRaw;
+        orderRaw = backup.order ? JSON.stringify(backup.order) : null;
       }
-    } else {
-      console.warn('[webhook] No se pudo comprobar idempotencia en Supabase:', existingRes.status);
+    }
+    if (!orderRaw) throw new Error(`PEDIDO TEMPORAL NO ENCONTRADO payment=${payment.id}, preference=${preferenceId}`);
+    const order = typeof orderRaw === 'string' ? JSON.parse(orderRaw) : orderRaw;
+    if (!Array.isArray(order.items) || !order.items.length) throw new Error('Pedido sin productos válidos.');
+
+    // Respaldo antes de crear el pedido; sirve para diagnóstico y recuperación manual.
+    if (!await redisGet(`paid_order:${payment.id}`)) {
+      await redisCommands([['SET', `paid_order:${payment.id}`, JSON.stringify({
+        payment_id: payment.id, preference_id: preferenceId, status: payment.status,
+        processed_at: new Date().toISOString(), order,
+      })]]);
     }
 
-    const redisRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/order:${payment.preference_id}`, {
-      headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
-    });
-    const redisData = await redisRes.json();
-    if (!redisRes.ok) {
-      console.error('[webhook] UPSTASH GET FALLÓ', { status: redisRes.status, response: redisData, preference_id: payment.preference_id });
-      return res.status(500).json({ error: 'No se pudo consultar el pedido temporal' });
-    }
-    if (!redisData.result) {
-      console.error('[webhook] PEDIDO TEMPORAL NO ENCONTRADO', {
-        payment_id: payment.id,
-        preference_id: payment.preference_id
-      });
-      return res.status(500).json({
-        error: 'Pedido temporal no encontrado',
-        payment_id: payment.id,
-        preference_id: payment.preference_id
-      });
-    }
-
-    const order = JSON.parse(redisData.result);
-
-    // Respaldo inmediato de todo pago aprobado antes de continuar.
-    const backupKey = `paid_order:${payment.id}`;
-    const backupRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify([['SET', backupKey, JSON.stringify({
-        payment_id: payment.id,
-        preference_id: payment.preference_id,
-        status: payment.status,
-        processed_at: new Date().toISOString(),
-        order
-      })]])
-    });
-    if (!backupRes.ok) {
-      throw new Error(`No se pudo respaldar el pago aprobado en Upstash (${backupRes.status})`);
-    }
-    const subtotal = order.items.reduce((s, i) => s + i.price * i.qty, 0);
-    const costoEnvio = order.costoEnvio || 0;
+    const subtotal = order.items.reduce((s, i) => s + Number(i.price) * Number(i.qty), 0);
+    const costoEnvio = Number(order.costoEnvio || 0);
     const total = subtotal + costoEnvio;
+    if (!Number.isFinite(total) || total <= 0) throw new Error('Total de pedido inválido.');
+    if (Math.abs(Number(payment.transaction_amount) - total) >= 1) {
+      throw new Error(`Pago y pedido con totales diferentes: MP=${payment.transaction_amount}, pedido=${total}`);
+    }
     const productosTexto = order.items.map(i => `${i.name} x${i.qty}`).join(', ');
     const esRetiro = order.metodoEntrega === 'retiro';
 
-    // Descontar stock
-    const stockRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/pac_stock`, {
-      headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
-    });
-    const stockData = await stockRes.json();
-    let stock = {};
-    if (stockData.result) {
-      let val = stockData.result;
-      let i = 0;
-      while (typeof val === 'string' && i++ < 5) { try { val = JSON.parse(val); } catch(e) { break; } }
-      if (typeof val === 'object' && val !== null) stock = val;
+    // Evitar duplicados tanto en Redis como en Supabase.
+    let numeroPedido = Number(await redisGet(`processed_pref:${preferenceId}`)) || null;
+    let columnaPreferenceExiste = true;
+    if (!numeroPedido) {
+      const existingRes = await fetch(
+        `${process.env.SUPABASE_URL}/rest/v1/Pedidos?mp_preference_id=eq.${encodeURIComponent(preferenceId)}&select=id&limit=1`,
+        { headers: supaHeaders }
+      );
+      if (existingRes.ok) {
+        const existing = await existingRes.json();
+        numeroPedido = existing?.[0]?.id || null;
+      } else {
+        const message = await existingRes.text();
+        if (/42703|PGRST204|does not exist|column.*mp_preference_id/i.test(message)) {
+          columnaPreferenceExiste = false;
+          console.warn('[webhook] La columna mp_preference_id no existe en Supabase. Usando idempotencia de Upstash.');
+        } else {
+          throw new Error(`SUPABASE CONSULTA FALLÓ: ${existingRes.status} ${message.slice(0, 400)}`);
+        }
+      }
     }
-    for (const item of order.items) {
-      const cur = typeof stock[item.id] === 'number' ? stock[item.id] : 0;
-      stock[item.id] = Math.max(0, cur - item.qty);
-    }
-    await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/pipeline`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify([['SET', 'pac_stock', JSON.stringify(stock)]]),
-    });
 
-    // Guardar pedido en Supabase
-    const supaInsertRes = await fetch(`${process.env.SUPABASE_URL}/rest/v1/Pedidos`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', apikey: process.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${process.env.SUPABASE_ANON_KEY}`, Prefer: 'return=representation' },
-      body: JSON.stringify({
+    if (!numeroPedido) {
+      const values = {
         nombre: order.nombre, email: order.email, telefono: order.telefono,
         direccion: order.direccion || '', comuna: order.comuna || '', ciudad: order.ciudad || '',
         notas: order.notas || '', productos: productosTexto,
         subtotal, costo_envio: costoEnvio, total,
         documento: order.documento || 'Boleta', estado: 'pendiente',
-        mp_preference_id: payment.preference_id,
-      }),
-    });
-    const supaInsertText = await supaInsertRes.text();
-    let supaInsertData = [];
-    try { supaInsertData = supaInsertText ? JSON.parse(supaInsertText) : []; } catch {}
-
-    if (!supaInsertRes.ok) {
-      console.error('[webhook] SUPABASE INSERT FALLÓ', {
-        payment_id: payment.id,
-        preference_id: payment.preference_id,
-        status: supaInsertRes.status,
-        response: supaInsertText
+      };
+      if (columnaPreferenceExiste) values.mp_preference_id = preferenceId;
+      const insertRes = await fetch(`${process.env.SUPABASE_URL}/rest/v1/Pedidos`, {
+        method: 'POST',
+        headers: { ...supaHeaders, 'Content-Type': 'application/json', Prefer: 'return=representation' },
+        body: JSON.stringify(values),
       });
-      throw new Error(`Supabase rechazó el pedido (${supaInsertRes.status}): ${supaInsertText}`);
+      const insertText = await insertRes.text();
+      if (!insertRes.ok) {
+        console.error('[webhook] SUPABASE INSERT FALLÓ', insertRes.status, insertText);
+        throw new Error(`Supabase rechazó el pedido (${insertRes.status}): ${insertText.slice(0, 500)}`);
+      }
+      let inserted;
+      try { inserted = JSON.parse(insertText); } catch { inserted = []; }
+      numeroPedido = inserted?.[0]?.id;
+      if (!numeroPedido) throw new Error('Supabase insertó, pero no devolvió ID; verificar antes de reintentar.');
+      console.log('[webhook] PEDIDO CREADO', { numeroPedido, preferenceId, paymentId: payment.id });
     }
 
-    const numeroPedido = supaInsertData?.[0]?.id;
-    if (!numeroPedido) {
-      throw new Error('Supabase no devolvió el ID del pedido creado.');
+    // El pedido queda marcado en cuanto Supabase confirma su creación.
+    await redisCommands([['SET', `processed_pref:${preferenceId}`, String(numeroPedido)]]);
+
+    // Descuento ATÓMICO e IDEMPOTENTE después de insertar el pedido.
+    // El propio script registra stock_done en la misma transacción Redis.
+    const decrements = {};
+    for (const item of order.items) {
+      const id = String(item.id || item.stockId || '').trim();
+      const qty = Number(item.qty);
+      if (!id || !Number.isInteger(qty) || qty <= 0) throw new Error(`SKU/cantidad inválidos: ${item.name}`);
+      decrements[id] = (decrements[id] || 0) + qty;
     }
+    const lua = `
+      if redis.call('EXISTS', KEYS[2]) == 1 then return 'already' end
+      local raw = redis.call('GET', KEYS[1])
+      if not raw then return redis.error_reply('Inventario no encontrado') end
+      local ok, stock = pcall(cjson.decode, raw)
+      if not ok or type(stock) ~= 'table' then return redis.error_reply('Inventario inválido') end
+      local dec = cjson.decode(ARGV[1])
+      for sku, qty in pairs(dec) do
+        if stock[sku] == nil then return redis.error_reply('SKU no encontrado: ' .. sku) end
+        local current = tonumber(stock[sku])
+        if not current then return redis.error_reply('Stock inválido: ' .. sku) end
+        stock[sku] = math.max(0, current - tonumber(qty))
+      end
+      redis.call('SET', KEYS[1], cjson.encode(stock))
+      redis.call('SET', KEYS[2], '1')
+      return 'applied'
+    `;
+    await redisCommands([['EVAL', lua, '2', 'pac_stock', `stock_done:${preferenceId}`, JSON.stringify(decrements)]]);
 
-    console.log('[webhook] PEDIDO CREADO', {
-      numeroPedido,
-      payment_id: payment.id,
-      preference_id: payment.preference_id
-    });
-
-    // Email interno a Sofía
-    const productosEmail = order.items.map(i => `${i.name} x${i.qty} — $${(i.price * i.qty).toLocaleString('es-CL')}`).join('\n');
-    const notifyRes = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
-      body: JSON.stringify({
+    const productosEmail = order.items.map(i => `${i.name} x${i.qty} — $${(Number(i.price) * Number(i.qty)).toLocaleString('es-CL')}`).join('\n');
+    let emailsOk = true;
+    if (!process.env.NOTIFY_EMAIL || !process.env.RESEND_API_KEY) {
+      console.error('[webhook] Faltan NOTIFY_EMAIL o RESEND_API_KEY; pedido registrado, email pendiente.');
+      emailsOk = false;
+    } else {
+      emailsOk = await sendEmailOnce(preferenceId, 'interno', {
         from: 'Patas & Caos <contacto@patasycaos.cl>', to: [process.env.NOTIFY_EMAIL],
         subject: `Nuevo pedido — ${order.nombre}`,
         text: `NUEVO PEDIDO\n\nCliente: ${order.nombre}\nEmail: ${order.email}\nTeléfono: ${order.telefono}\nDirección: ${order.direccion || 'Retiro'}\nComuna: ${order.comuna || '-'}\nCiudad: ${order.ciudad || '-'}\nNotas: ${order.notas || 'Sin notas'}\n\nProductos:\n${productosEmail}\n\nTotal: $${total.toLocaleString('es-CL')}`,
-      }),
-    });
-    if (!notifyRes.ok) {
-      console.error('[webhook] EMAIL INTERNO FALLÓ', notifyRes.status, await notifyRes.text());
+      });
     }
-
-    // Email confirmación al cliente
     if (order.email) {
-      const itemsConFoto = await agregarFotosEmail(order.items);
-      const { subject, html } = emailConfirmacion({
-        nombre: order.nombre, items: itemsConFoto, subtotal, costoEnvio, total,
-        direccion: order.direccion || '', comuna: order.comuna || '', ciudad: order.ciudad || '',
-        documento: order.documento || 'Boleta', esRetiro,
-        numeroPedido,
-      });
-      const customerEmailRes = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
-        body: JSON.stringify({ from: 'Patas & Caos <contacto@patasycaos.cl>', to: [order.email], subject, html }),
-      });
-      if (!customerEmailRes.ok) {
-        console.error('[webhook] EMAIL CLIENTE FALLÓ', customerEmailRes.status, await customerEmailRes.text());
+      if (!process.env.RESEND_API_KEY) {
+        emailsOk = false;
+      } else {
+        const itemsConFoto = await agregarFotosEmail(order.items);
+        const { subject, html } = emailConfirmacion({
+          nombre: order.nombre, items: itemsConFoto, subtotal, costoEnvio, total,
+          direccion: order.direccion || '', comuna: order.comuna || '', ciudad: order.ciudad || '',
+          documento: order.documento || 'Boleta', esRetiro, numeroPedido,
+        });
+        const sent = await sendEmailOnce(preferenceId, 'cliente', {
+          from: 'Patas & Caos <contacto@patasycaos.cl>', to: [order.email], subject, html,
+        });
+        if (!sent) emailsOk = false;
       }
     }
-
+    if (!emailsOk) return res.status(500).json({ error: 'Pedido registrado. Emails pendientes; Mercado Pago reintentará.' });
     return res.status(200).end();
   } catch (e) {
-    console.error('[webhook] ERROR:', e);
-    return res.status(500).end();
+    console.error('[webhook] ERROR PAGO:', e);
+    return res.status(500).json({ error: 'No se pudo completar el procesamiento del pago' });
+  } finally {
+    if (locked && lockKey) {
+      try {
+        // Borrar el lock sólo si todavía nos pertenece (no el de otro reintento).
+        const releaseLua = `if redis.call('GET', KEYS[1]) == ARGV[1] then return redis.call('DEL', KEYS[1]) else return 0 end`;
+        await redisCommands([['EVAL', releaseLua, '1', lockKey, lockToken]]);
+      } catch (e) { console.error('[webhook] No se pudo liberar lock:', e.message); }
+    }
   }
 }
