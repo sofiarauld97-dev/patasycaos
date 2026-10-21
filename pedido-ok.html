@@ -197,6 +197,112 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </style>
 
 <!-- FIX MENÚ MÓVIL: ocultar navegación horizontal y dejar solo hamburguesa -->
+
+<!-- NAV de pedido-ok: mismos estilos y espaciados del encabezado principal -->
+<style id="pac-pedido-nav-igual-web">
+/* Desktop: igual que index.html (layout, peso, espaciados, menú desplegable). */
+.site-header .nav-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5%;
+  border-top: none;
+}
+.site-header .nav-bottom ul.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.site-header .nav-bottom .nav-links > li { display: flex; align-items: center; }
+.site-header .nav-bottom .nav-links > li > a:not(.nav-ofertas-link) {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 11px 14px;
+  border-bottom: 2px solid transparent;
+  color: var(--negro);
+  font-family: 'Poppins', sans-serif;
+  font-size: .87rem;
+  font-weight: 500;
+  line-height: normal;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color .2s, border-color .2s;
+}
+.site-header .nav-bottom .nav-links > li > a:not(.nav-ofertas-link):hover,
+.site-header .nav-bottom .nav-links > li > a:not(.nav-ofertas-link).activo {
+  color: var(--terracota);
+  border-bottom-color: var(--terracota);
+}
+.site-header .nav-item { position: relative; }
+.site-header .nav-item > a::after { content:' ▾'; font-size: .65rem; }
+.site-header .nav-item .mega-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding: 1.2rem 1.5rem;
+  min-width: 200px;
+  background: #fff;
+  border-radius: 0 0 14px 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.12);
+  z-index: 200;
+}
+.site-header .nav-item:hover .mega-menu { display: flex; flex-direction: column; gap: 0; }
+.site-header .mega-col h4 {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--terracota);
+  margin: 0;
+  white-space: nowrap;
+}
+.site-header .mega-col a { display: block; padding: 6px 0; text-decoration: none; }
+.site-header .mega-col a:hover h4 { color: var(--negro); }
+.site-header .cart-badge {
+  top: -4px;
+  right: -4px;
+  background: var(--terracota);
+  color: #fff;
+  font-size: .58rem;
+  font-weight: 700;
+  width: 15px;
+  height: 15px;
+  pointer-events: none;
+}
+/* Botón móvil con las mismas tres líneas que la cabecera general. */
+.site-header .hamburger {
+  display: none;
+  width: auto;
+  height: auto;
+  padding: 4px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.site-header .hamburger span { display: block; width: 22px; height: 2px; background: var(--negro); border-radius: 2px; }
+.site-header .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.site-header .hamburger.open span:nth-child(2) { opacity: 0; }
+.site-header .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+@media (max-width: 768px) {
+  .site-header .hamburger { display: flex; }
+  .site-header .nav-bottom { display: none !important; }
+}
+@media (max-width: 600px) {
+  .site-header .nav-ig-desktop { display: none; }
+  .site-header .nav-logo span { display: none; }
+}
+</style>
+
 <style id="fix-nav-bottom-mobile-global">
 @media (max-width: 768px) {
   .site-header .nav-bottom,
@@ -245,7 +351,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="nav-icon-btn" onclick="toggleCart()" aria-label="Carrito"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
         <span class="cart-badge" id="cart-badge">0</span>
       </div>
-      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+      <button class="hamburger" id="hamburger" type="button" onclick="toggleMenu()" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -550,6 +656,67 @@ function runSearch(q) {
   if (q.trim().length > 1) window.location.href = '/tienda?q=' + encodeURIComponent(q.trim());
 }
 
+
+// Vaciar carrito SOLO tras confirmar en el servidor que el pago generó su pedido.
+// Marca por preference_id: recargar un comprobante antiguo no vuelve a vaciar una compra nueva.
+async function vaciarCarritoTrasPedidoRegistrado(preferenceId, pedidoConfirmado) {
+  const marca = 'pac_carrito_pagado:' + preferenceId;
+  try {
+    if (localStorage.getItem(marca)) return;
+  } catch (e) { console.warn('[pedido-ok] No se pudo leer la marca del carrito', e); }
+
+  // No borrar un carrito nuevo al abrir un comprobante antiguo desde un enlace.
+  // Solo limpiar si el carrito corresponde a alguno de los productos de esta compra.
+  if (typeof cart !== 'undefined' && Array.isArray(cart) && cart.length > 0 && Array.isArray(pedidoConfirmado?.items)) {
+    const mismoProducto = cart.some(actual => pedidoConfirmado.items.some(comprado =>
+      (actual.id && comprado.id && String(actual.id) === String(comprado.id)) ||
+      (actual.name && comprado.name && String(actual.name) === String(comprado.name))
+    ));
+    if (!mismoProducto) {
+      try { localStorage.setItem(marca, 'comprobante-antiguo'); } catch (e) {}
+      return;
+    }
+  }
+
+  // Usar la misma variable y funciones de cart.js que emplea el resto de la web.
+  if (typeof cart !== 'undefined') {
+    cart = [];
+    if (typeof guardarCarritoLocal === 'function') guardarCarritoLocal();
+    if (typeof renderCart === 'function') renderCart();
+  } else {
+    try { localStorage.setItem('pac_cart', '[]'); } catch (e) {}
+  }
+
+  // Si la persona inició sesión, también hay que vaciar su carrito en Upstash;
+  // de lo contrario, cargarDatosUsuario() podría restaurarlo en otra página.
+  let guardadoEnCuenta = true;
+  try {
+    if (typeof _sb !== 'undefined') {
+      const { data, error } = await _sb.auth.getSession();
+      if (error) throw error;
+      if (data?.session?.access_token) {
+        const respuesta = await fetch('/api/user-data-set', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + data.session.access_token
+          },
+          body: JSON.stringify({ cart: [] })
+        });
+        if (!respuesta.ok) throw new Error('No se pudo sincronizar carrito con la cuenta: ' + respuesta.status);
+      }
+    }
+  } catch (error) {
+    guardadoEnCuenta = false;
+    console.warn('[pedido-ok] Carrito local vacío, sincronización de cuenta pendiente:', error);
+  }
+
+  // Si hay una falla de red al sincronizar, permitir reintentar al abrir el comprobante.
+  if (guardadoEnCuenta) {
+    try { localStorage.setItem(marca, '1'); } catch (e) {}
+  }
+}
+
 // ── CARGAR PEDIDO ──
 (async function() {
   const params = new URLSearchParams(window.location.search);
@@ -580,6 +747,8 @@ function runSearch(q) {
       return;
     }
     contenido.innerHTML = renderPedido(order);
+    // El pago está registrado; no borrar el carrito en estados pendientes o de error.
+    await vaciarCarritoTrasPedidoRegistrado(prefId, order);
 
     // Habilitar Reseñas de Clientes en Google con los datos reales del pedido
     if (order.email) {
