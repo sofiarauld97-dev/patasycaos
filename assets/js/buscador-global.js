@@ -1,4 +1,4 @@
-/* PATAS & CAOS — Buscador global v9 */
+/* PATAS & CAOS — Buscador global v10 | resultados adaptados a móvil */
 (function () {
   'use strict';
 
@@ -111,14 +111,83 @@
         background: #fff !important;
       }
 
+      /* En móvil, el buscador normal se reduce a un botón pequeño. Al enfocarlo,
+         se abre sobre la primera fila del encabezado para dar ancho real al input
+         y a la lista de resultados, sin alterar el menú del sitio. */
+      .pac-search-close { display: none; }
       @media (max-width: 768px) {
-        #nav-drop {
+        .nav-top { position: relative !important; overflow: visible !important; }
+        .nav-search-wrap { min-width: 0 !important; }
+
+        .nav-search-wrap.pac-search-expanded {
+          position: absolute !important;
+          top: 50% !important;
+          left: 12px !important;
+          right: 12px !important;
+          width: auto !important;
+          max-width: none !important;
+          margin: 0 !important;
+          transform: translateY(-50%) !important;
+          background: #F5ECD7 !important;
+          height: 46px !important;
+          display: flex !important;
+          align-items: center !important;
+          z-index: 10000 !important;
+          border-radius: 24px !important;
+        }
+
+        .nav-search-wrap.pac-search-expanded input {
+          display: block !important;
+          width: 100% !important;
+          min-width: 0 !important;
+          height: 44px !important;
+          padding: 9px 46px 9px 40px !important;
+          font-size: 16px !important; /* evita el zoom del teclado en iPhone */
+          background: #fff !important;
+          box-sizing: border-box !important;
+        }
+
+        .nav-search-wrap.pac-search-expanded .s-icon {
+          top: 50% !important;
+          left: 13px !important;
+          z-index: 2 !important;
+        }
+
+        .nav-search-wrap.pac-search-expanded .pac-search-close {
+          display: flex !important;
+          position: absolute !important;
+          right: 6px !important;
+          top: 50% !important;
+          transform: translateY(-50%) !important;
+          width: 34px !important;
+          height: 34px !important;
+          padding: 0 !important;
+          border: none !important;
+          border-radius: 50% !important;
+          background: #F5ECD7 !important;
+          align-items: center !important;
+          justify-content: center !important;
+          cursor: pointer !important;
+          color: #1C1007 !important;
+          z-index: 3 !important;
+        }
+        .pac-search-close svg { width: 16px; height: 16px; display: block; }
+
+        /* Los resultados ocupan el ancho del buscador ABIERTO,
+           no el del botón redondo original (60-70px). */
+        .nav-search-wrap.pac-search-expanded #nav-drop {
           position: absolute !important;
           top: calc(100% + 6px) !important;
           left: 0 !important;
           right: 0 !important;
           width: 100% !important;
-          max-height: 300px !important;
+          max-width: 100% !important;
+          max-height: min(55dvh, 380px) !important;
+          overflow-x: hidden !important;
+          overflow-y: auto !important;
+        }
+        .nav-search-wrap:not(.pac-search-expanded) #nav-drop {
+          display: none !important;
         }
       }
     `;
@@ -318,18 +387,50 @@
     input.removeAttribute('onfocus');
     input.removeAttribute('onblur');
 
-    input.addEventListener('input', e => window.runSearch(e.target.value));
+    const wrap = input.closest('.nav-search-wrap');
+    const mobile = () => window.matchMedia('(max-width: 768px)').matches;
+
+    // El botón cerrar solo se muestra al desplegar el buscador en móvil.
+    const cerrarBtn = document.createElement('button');
+    cerrarBtn.type = 'button';
+    cerrarBtn.className = 'pac-search-close';
+    cerrarBtn.setAttribute('aria-label', 'Cerrar buscador');
+    cerrarBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+    wrap.appendChild(cerrarBtn);
+
+    function contraer() {
+      cerrar();
+      wrap.classList.remove('pac-search-expanded');
+    }
+
+    cerrarBtn.addEventListener('click', () => {
+      input.value = '';
+      contraer();
+      input.blur();
+    });
+
+    input.addEventListener('input', e => {
+      if (mobile()) wrap.classList.add('pac-search-expanded');
+      window.runSearch(e.target.value);
+    });
     input.addEventListener('focus', () => {
+      if (mobile()) wrap.classList.add('pac-search-expanded');
       if (normalizar(input.value).length >= 2) window.runSearch(input.value);
     });
     input.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
-        cerrar();
+        contraer();
         input.blur();
       }
     });
     document.addEventListener('click', e => {
-      if (!e.target.closest('.nav-search-wrap')) cerrar();
+      if (!e.target.closest('.nav-search-wrap')) {
+        if (mobile()) contraer();
+        else cerrar();
+      }
+    });
+    window.addEventListener('resize', () => {
+      if (!mobile()) wrap.classList.remove('pac-search-expanded');
     });
   }
 
