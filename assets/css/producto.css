@@ -130,3 +130,44 @@ body { background: var(--cream) !important; }
 .product-tab-panel li{margin-bottom:8px;}
 .product-tab-panel p{line-height:1.75;}
 @media(max-width:600px){.product-tab-btn{padding:10px 13px;font-size:.76rem}.product-tabs-panels{padding:16px 2px 2px}}
+
+
+/* PATAS & CAOS — Lectura de fichas y galería acompañante (octubre 2026) */
+.product-description {
+  font-size: .9rem;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+.product-tab-panel,
+.product-tab-panel p,
+.product-tab-panel li {
+  font-size: .85rem;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+/* Solo escritorio: la fotografía acompaña el scroll dentro de la ficha. */
+@media (min-width: 901px) {
+  .product-page-grid > .product-gallery {
+    position: sticky;
+    top: 112px;
+    align-self: start;
+    max-height: calc(100vh - 128px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .product-gallery-main {
+    max-height: calc(100vh - 270px);
+    min-height: 0;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 900px) {
+  .product-page-grid > .product-gallery {
+    position: static;
+    max-height: none;
+    overflow: hidden;
+  }
+  .product-gallery-main { max-height: none; }
+}
