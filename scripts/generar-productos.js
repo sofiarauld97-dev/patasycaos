@@ -41,6 +41,12 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+// Conserva los saltos de línea introducidos en el administrador sin permitir HTML.
+// Los saltos dobles separan párrafos y los simples permiten listas de ingredientes.
+function escapeHtmlConSaltos(str) {
+  return escapeHtml(str).replace(/\r\n?/g, '\n').replace(/\n/g, '<br>');
+}
+
 function leer(rutaAbs) {
   if (!fs.existsSync(rutaAbs)) {
     throw new Error(`Falta el archivo requerido: ${rutaAbs}`);
@@ -140,7 +146,7 @@ function construirTabs(p) {
 
   if (tieneIngredientes) {
     nav += `<button aria-controls="product-panel-1" aria-selected="false" class="product-tab-btn" id="product-tab-1" onclick="switchProductTab(this)" role="tab" type="button">Ingredientes</button>`;
-    panels += `<div aria-labelledby="product-tab-1" class="product-tab-panel" id="product-panel-1" role="tabpanel"><p>${escapeHtml(p.ingredientes)}</p></div>`;
+    panels += `<div aria-labelledby="product-tab-1" class="product-tab-panel" id="product-panel-1" role="tabpanel"><p>${escapeHtmlConSaltos(p.ingredientes)}</p></div>`;
   }
   // Si no hay ingredientes, la pestaña simplemente no se genera (oculta), tal como se pidió.
 
@@ -223,7 +229,7 @@ function generarHtml(p, plantilla, headerHtml, footerHtml) {
     '__PRODUCT_TAG__': escapeHtml(p.etiquetaProducto || ''),
     '__PRODUCT_NAME__': escapeHtml(p.nombre),
     '__PRODUCT_PRICE_DISPLAY__': escapeHtml(p.precioDisplay),
-    '__PRODUCT_DESCRIPTION__': escapeHtml(p.descripcion || p.seoDescription),
+    '__PRODUCT_DESCRIPTION__': escapeHtmlConSaltos(p.descripcion || p.seoDescription),
     '__TABS_NAV_HTML__': nav,
     '__TABS_PANELS_HTML__': panels,
     '__CURRENT_PRODUCT_JS__': currentProductJs,
