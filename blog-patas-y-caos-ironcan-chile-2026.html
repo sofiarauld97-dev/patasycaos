@@ -183,6 +183,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .article-cta a { display: inline-block; background: var(--terracota); color: #fff; border-radius: 50px; padding: 10px 22px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .85rem; text-decoration: none; transition: background .2s; }
   .article-cta a:hover { background: #a8501f; }
 
+
+  /* FAQ IRONCAN — mismo acordeón que /faq, aislado del resto del sitio */
+  .ironcan-faq { margin-top: 2.2rem; margin-bottom: 2rem; }
+  .ironcan-faq .faq-item { border: 1.5px solid rgba(28,16,7,.1); border-radius: 14px; overflow: hidden; margin-bottom: 10px; background: var(--blanco); transition: border-color .2s; }
+  .ironcan-faq .faq-item.open { border-color: var(--terracota); }
+  .ironcan-faq .faq-pregunta { width: 100%; background: none; border: none; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; text-align: left; font-family: 'Poppins', sans-serif; font-size: .92rem; font-weight: 600; color: var(--negro); gap: 12px; transition: color .2s; }
+  .ironcan-faq .faq-pregunta:focus-visible { outline: 2px solid var(--terracota); outline-offset: -3px; }
+  .ironcan-faq .faq-item.open .faq-pregunta { color: var(--terracota); }
+  .ironcan-faq .faq-chevron { flex-shrink: 0; width: 20px; height: 20px; border: 1.5px solid rgba(28,16,7,.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all .3s; }
+  .ironcan-faq .faq-item.open .faq-chevron { background: var(--terracota); border-color: var(--terracota); transform: rotate(180deg); }
+  .ironcan-faq .faq-chevron svg { width: 10px; height: 10px; stroke: var(--negro); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: stroke .3s; }
+  .ironcan-faq .faq-item.open .faq-chevron svg { stroke: var(--blanco); }
+  .ironcan-faq .faq-respuesta { max-height: 0; overflow: hidden; transition: max-height .35s cubic-bezier(.4,0,.2,1); }
+  .ironcan-faq .faq-item.open .faq-respuesta { max-height: 400px; }
+  .ironcan-faq .faq-respuesta-inner { padding: 0 20px 18px; font-size: .87rem; color: #5a4a3a; line-height: 1.75; }
+  .ironcan-faq .faq-respuesta-inner strong { color: var(--negro); }
+  .ironcan-faq .faq-respuesta-inner p { margin: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .ironcan-faq .faq-item, .ironcan-faq .faq-pregunta, .ironcan-faq .faq-chevron, .ironcan-faq .faq-respuesta { transition: none; }
+  }
+
   /* VOLVER */
   .article-back { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(28,16,7,.08); }
   .article-back a { color: var(--terracota); text-decoration: none; font-weight: 600; font-size: .88rem; }
@@ -527,15 +548,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <figcaption>Una dupla cruza el sector de meta en IronCan Chile 2026.</figcaption>
     </figure>
     <p>Nos quedamos con los encuentros, la buena energía y las ganas de participar en más iniciativas como esta. Gracias a quienes se acercaron a nuestro stand y fueron parte de esta jornada.</p>
-    <h2>Preguntas frecuentes sobre IronCan Chile 2026</h2>
-    <h3>¿Qué es IronCan Chile?</h3>
-    <p>Es una experiencia de <strong>canicross con obstáculos</strong> en Chile, en la que personas y perros participan en dupla.</p>
-    <h3>¿Cuándo y dónde fue IronCan 2026?</h3>
-    <p>Se realizó el <strong>domingo 18 de octubre de 2026</strong> en el <strong>Parque Padre Hurtado, Santiago</strong>.</p>
-    <h3>¿Cuántos kilómetros tuvo el circuito?</h3>
-    <p>El recorrido de la edición 2026 fue de <strong>2,5 kilómetros</strong>, con obstáculos diseñados para las duplas.</p>
-    <h3>¿Patas &amp; Caos participó en la carrera?</h3>
-    <p>Estuvimos presentes como <strong>marca expositora</strong> con nuestro stand y productos para mascotas, compartiendo con asistentes y participantes.</p>
+    <section class="ironcan-faq" id="preguntas-frecuentes" aria-labelledby="ironcan-faq-titulo">
+      <h2 id="ironcan-faq-titulo">Preguntas frecuentes sobre IronCan Chile 2026</h2>
+      <div class="faq-item">
+        <button class="faq-pregunta" type="button" id="ironcan-faq-pregunta-1" aria-expanded="false" aria-controls="ironcan-faq-respuesta-1">
+          <span>¿Qué es IronCan Chile?</span>
+          <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+        </button>
+        <div class="faq-respuesta" id="ironcan-faq-respuesta-1" role="region" aria-labelledby="ironcan-faq-pregunta-1" aria-hidden="true">
+          <div class="faq-respuesta-inner"><p>Es una experiencia de <strong>canicross con obstáculos</strong> en Chile, en la que personas y perros participan en dupla.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-pregunta" type="button" id="ironcan-faq-pregunta-2" aria-expanded="false" aria-controls="ironcan-faq-respuesta-2">
+          <span>¿Cuándo y dónde fue IronCan 2026?</span>
+          <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+        </button>
+        <div class="faq-respuesta" id="ironcan-faq-respuesta-2" role="region" aria-labelledby="ironcan-faq-pregunta-2" aria-hidden="true">
+          <div class="faq-respuesta-inner"><p>Se realizó el <strong>domingo 18 de octubre de 2026</strong> en el <strong>Parque Padre Hurtado, Santiago</strong>.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-pregunta" type="button" id="ironcan-faq-pregunta-3" aria-expanded="false" aria-controls="ironcan-faq-respuesta-3">
+          <span>¿Cuántos kilómetros tuvo el circuito?</span>
+          <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+        </button>
+        <div class="faq-respuesta" id="ironcan-faq-respuesta-3" role="region" aria-labelledby="ironcan-faq-pregunta-3" aria-hidden="true">
+          <div class="faq-respuesta-inner"><p>El recorrido de la edición 2026 fue de <strong>2,5 kilómetros</strong>, con obstáculos diseñados para las duplas.</p></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-pregunta" type="button" id="ironcan-faq-pregunta-4" aria-expanded="false" aria-controls="ironcan-faq-respuesta-4">
+          <span>¿Patas &amp; Caos participó en la carrera?</span>
+          <span class="faq-chevron" aria-hidden="true"><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5"/></svg></span>
+        </button>
+        <div class="faq-respuesta" id="ironcan-faq-respuesta-4" role="region" aria-labelledby="ironcan-faq-pregunta-4" aria-hidden="true">
+          <div class="faq-respuesta-inner"><p>Estuvimos presentes como <strong>marca expositora</strong> con nuestro stand y productos para mascotas, compartiendo con asistentes y participantes.</p></div>
+        </div>
+      </div>
+    </section>
     <div class="article-note"><strong>Más información:</strong> visita el <a href="https://www.ironcan.cl/" target="_blank" rel="noopener noreferrer">sitio oficial de IronCan Chile</a> para conocer la iniciativa. La seguridad y el bienestar de los perros siempre deben ser prioritarios en cualquier actividad deportiva.</div>
   </div>
   <div class="article-back"><a href="/blog">← Volver al blog</a></div>
@@ -696,6 +747,30 @@ _sb.auth.onAuthStateChange(async (event, session) => {
   else { sbUser=null; sbToken=null; updateAuthUI(); }
 });
 _sb.auth.getSession().then(({ data:{ session } }) => { if (session) { sbUser=session.user; sbToken=session.access_token; updateAuthUI(); } });
+</script>
+
+<script>
+/* Acordeón de preguntas de IronCan; no interfiere con otros elementos del sitio. */
+(function () {
+  const seccion = document.getElementById('preguntas-frecuentes');
+  if (!seccion) return;
+  seccion.querySelectorAll('.faq-pregunta').forEach(boton => {
+    boton.addEventListener('click', () => {
+      const item = boton.closest('.faq-item');
+      const abrir = !item.classList.contains('open');
+      seccion.querySelectorAll('.faq-item').forEach(actual => {
+        actual.classList.remove('open');
+        actual.querySelector('.faq-pregunta').setAttribute('aria-expanded', 'false');
+        actual.querySelector('.faq-respuesta').setAttribute('aria-hidden', 'true');
+      });
+      if (abrir) {
+        item.classList.add('open');
+        boton.setAttribute('aria-expanded', 'true');
+        item.querySelector('.faq-respuesta').setAttribute('aria-hidden', 'false');
+      }
+    });
+  });
+})();
 </script>
 
 <!-- WhatsApp Flotante -->
