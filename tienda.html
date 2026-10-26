@@ -785,6 +785,63 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="/assets/js/site.js"></script>
 <script src="/products-data.js?v=ofertas-20260914"></script>
 
+<!-- Visibilidad del catálogo SOLO en tienda.html: no altera products-data.js ni productos.json. -->
+<script id="pac-tienda-productos-ocultos">
+(() => {
+  if (typeof productos === 'undefined') return;
+  // Ocultos y retirados de la vitrina. Los registros de origen permanecen intactos.
+  const idsOcultos = new Set([
+    'collar-findmy_Amarillo',
+    'collar-findmy_Negro',
+    'collar-suede-para-perro-zeedog',
+    'collar-zeecat-error-404',
+    'collar-zeecat-error-500',
+    'comedero-lento-desmontable-azul',
+    'comedero-lento-desmontable-rojo',
+    'fuente-agua',
+    'pajaro',
+    'paw-balm',
+    'pelota-snack-interactiva_Roja',
+    // Latas Leonardo retiradas anteriormente (solo permanecen Ternera y Kitten).
+    'lata-leonardo_Ave',
+    'lata-leonardo_Pato',
+    'lata-leonardo_Conejo',
+    'lata-leonardo_Pescado'
+  ]);
+  const normalizar = nombre => String(nombre || '')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  // También contempla productos que no están actualmente en products-data.js.
+  const nombresOcultos = new Set([
+    'Churu Dog Meal Topper Chicken & Pumpkin 4uds',
+    'Collar Find My — Amarillo',
+    'Collar Find My — Negro',
+    'Collar Suede Zee.Dog',
+    'Collar Zee.Cat Error 404',
+    'Collar Zee.Cat Error 500',
+    'Comedero Lento Desmontable — Azul',
+    'Comedero Lento Desmontable — Rojo',
+    'Fuente de Agua Flor USB',
+    'Mousse de Salmón Piel & Pelaje 150g - Ikai',
+    'Mousse Salmón & Camarón 60g - Ikai',
+    'Mousse Salmón & Cangrejo 60g - Ikai',
+    'Pájaro Interactivo',
+    'Paw Balm',
+    'Pelota Snack Interactiva — Roja',
+    'Arena Sanitaria Michi 4kg',
+    'Lata Leonardo Adulto — Ave',
+    'Lata Leonardo Adulto — Pato',
+    'Lata Leonardo Adulto — Conejo',
+    'Lata Leonardo Adulto — Pescado'
+  ].map(normalizar));
+  Object.entries(productos).forEach(([id, producto]) => {
+    if (idsOcultos.has(id) || nombresOcultos.has(normalizar(producto?.nombre))) {
+      delete productos[id];
+    }
+  });
+})();
+</script>
+
 <script id="pac-offers-config">
 const PAC_OFERTAS = {
   "botella-portatil-para-perros_Rosada": { original: 14990, precio: 12990 },
