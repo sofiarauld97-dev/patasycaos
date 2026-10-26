@@ -4031,5 +4031,41 @@
     "canonical": "https://www.patasycaos.cl/productos/red-oak-high-performance-15kg",
     "seoTitle": "Red Oak High Performance 15kg | Patas & Caos",
     "seoDescription": "Red Oak High Performance 15kg para perros activos, 30% proteína y 25% grasa. Incluye vaso medidor de regalo. Disponible en Patas & Caos."
+  },
+  {
+    "sku": "medallones-de-cordero-100g-tasty-farm",
+    "slug": "medallones-de-cordero-100g-tasty-farm",
+    "nombre": "Medallones de Cordero 100g - Tasty Farm",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Tasty Farm",
+    "tagline": "¡Un premio irresistible con todo el sabor del cordero! 🐾",
+    "descripcion": "Los Medallones de Cordero Tasty Farm son deliciosos snacks para perros, elaborados con cordero y presentados en prácticos bocados con forma de medallón.\n\nCon un 30% de proteína, son una alternativa ideal para premiar a tu peludo durante sus entrenamientos, paseos o simplemente para regalonearlo.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Elaborados con cordero y derivados.",
+      "Aportan un 30% de proteína.",
+      "Ideales como premio entre comidas.",
+      "Aptos para perros de todos los tamaños, desde los 3 meses.",
+      "Presentación de 100 g."
+    ],
+    "ingredientes": "Cordero y derivados, almidón de maíz, glicerina, sorbitol, proteína de soja, sal y sorbato potásico.",
+    "imagenes": [
+      "/medallones-de-cordero-tasty-farm-100g.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "medallones-de-cordero-100g-tasty-farm",
+    "canonical": "https://www.patasycaos.cl/productos/medallones-de-cordero-100g-tasty-farm",
+    "seoTitle": "Medallones de Cordero Tasty Farm 100g | Patas & Caos",
+    "seoDescription": "Premia a tu perro con los Medallones de Cordero Tasty Farm 100g. Snack sabroso, ideal como premio y perfecto para perros de todos los tamaños. Encuéntralo en Patas & Caos."
   }
 ]
