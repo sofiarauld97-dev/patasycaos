@@ -4067,5 +4067,41 @@
     "canonical": "https://www.patasycaos.cl/productos/medallones-de-cordero-100g-tasty-farm",
     "seoTitle": "Medallones de Cordero Tasty Farm 100g | Patas & Caos",
     "seoDescription": "Premia a tu perro con los Medallones de Cordero Tasty Farm 100g. Snack sabroso, ideal como premio y perfecto para perros de todos los tamaños. Encuéntralo en Patas & Caos."
+  },
+  {
+    "sku": "brochetas-3-sabores-100g-fit-formula",
+    "slug": "brochetas-3-sabores-100g-fit-formula",
+    "nombre": "Brochetas 3 Sabores 100g - Fit Formula",
+    "precio": 3990,
+    "precioNum": 3990,
+    "precioDisplay": "$3.990",
+    "precioTexto": "$3.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Fit Formula",
+    "tagline": "¡Tres sabores irresistibles para premiar a tu peludo!",
+    "descripcion": "Las Brochetas 3 Sabores de Fit Formula combinan pollo, pato e hígado de pollo en un delicioso snack masticable que tu perro disfrutará.\n\nSu textura ayuda a satisfacer el instinto natural de masticación y favorece la limpieza mecánica de los dientes, mientras disfruta de un premio lleno de sabor.\n\nIdeales para regalonear a tu peludo, premiarlo por su buen comportamiento o mantenerlo entretenido.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Combinación de pollo, pato e hígado de pollo.",
+      "Snack masticable que favorece el cuidado dental.",
+      "Ideal como premio o recompensa.",
+      "Apto para perros mayores de 3 meses.",
+      "Presentación de 100 g con cierre zipper."
+    ],
+    "ingredientes": "Cuero de bovino, carne de pollo, carne de pato, hígado de pollo, almidón de maíz, proteína de arveja, glicerina, sorbitol, sal y FD&C40.",
+    "imagenes": [
+      "/brochetas-3-sabores-fit-formula.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "brochetas-3-sabores-100g-fit-formula",
+    "canonical": "https://www.patasycaos.cl/productos/brochetas-3-sabores-100g-fit-formula",
+    "seoTitle": "Brochetas 3 Sabores Fit Formula 100g | Patas & Caos",
+    "seoDescription": "Premia a tu perro con las Brochetas 3 Sabores Fit Formula 100g. Con pollo, pato e hígado de pollo. Ideales como snack masticable. ¡Compra en Patas & Caos!"
   }
 ]
