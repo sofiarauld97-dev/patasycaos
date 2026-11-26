@@ -4141,5 +4141,42 @@
     "canonical": "https://www.patasycaos.cl/productos/calendario-de-adviento-para-perros-120g-tasty-farm",
     "seoTitle": "Calendario de Adviento para Perros Tasty Farm 120 g | Patas & Caos",
     "seoDescription": "Celebra la Navidad con tu perro. Calendario de Adviento Tasty Farm con 24 premios sorpresa, 8 variedades de snacks y 120 g de contenido."
+  },
+  {
+    "sku": "calendario-de-adviento-para-gatos-120g-cats-snack",
+    "slug": "calendario-de-adviento-para-gatos-120g-cats-snack",
+    "nombre": "Calendario de Adviento para Gatos 120g - Cats Snack",
+    "precio": 10990,
+    "precioNum": 10990,
+    "precioDisplay": "$10.990",
+    "precioTexto": "$10.990",
+    "etiquetaProducto": "Snacks y Golosinas · Gatos",
+    "audience": "Para Gatos",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Cats Snack",
+    "tagline": "24 días de sorpresas y ronroneos 🎄🐱",
+    "descripcion": "¡La magia de la Navidad también es para tu michi! 🎄🐱\n\nHaz que la espera hasta Navidad sea aún más especial con el Calendario de Adviento Cats Snack. Descubre una deliciosa sorpresa cada día, desde el 1 hasta el 24 de diciembre, y comparte momentos especiales con tu compañero felino.\n\nSus 24 ventanas esconden una selección de snacks con diferentes sabores, aromas y texturas, incluyendo variedades con hierba gatera (catnip), ideales para despertar su curiosidad e incorporar entretenimiento a su rutina diaria.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "24 ventanas con premios sorpresa.",
+      "Variedad de snacks especialmente elaborados para gatos.",
+      "Sabores de salmón, atún, pollo, camarón y cordero, entre otros.",
+      "Incluye variedades con hierba gatera (catnip).",
+      "Favorece la exploración y el enriquecimiento ambiental.",
+      "Perfecto como regalo navideño."
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/calendario-de-adviento-cats-snack-gatos1.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "calendario-de-adviento-para-gatos-120g-cats-snack",
+    "canonical": "https://www.patasycaos.cl/productos/calendario-de-adviento-para-gatos-120g-cats-snack",
+    "seoTitle": "Calendario de Adviento para Gatos Cats Snack 120 g | Patas & Caos",
+    "seoDescription": "Sorprende a tu gato esta Navidad con el Calendario de Adviento Cats Snack. Incluye 24 premios sorpresa, distintos sabores y variedades con catnip."
   }
 ]
