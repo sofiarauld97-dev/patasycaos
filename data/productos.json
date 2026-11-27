@@ -4108,10 +4108,10 @@
     "sku": "calendario-de-adviento-para-perros-120g-tasty-farm",
     "slug": "calendario-de-adviento-para-perros-120g-tasty-farm",
     "nombre": "Calendario de Adviento para Perros 120g - Tasty Farm",
-    "precio": 11990,
-    "precioNum": 11990,
-    "precioDisplay": "$11.990",
-    "precioTexto": "$11.990",
+    "precio": 10990,
+    "precioNum": 10990,
+    "precioDisplay": "$10.990",
+    "precioTexto": "$10.990",
     "etiquetaProducto": "Snacks y Golosinas · Perros",
     "audience": "Para Perros",
     "categoria": "Snacks y Golosinas",
@@ -4131,8 +4131,8 @@
     "ingredientes": "El calendario contiene 8 variedades de snacks surtidos:\n\nCubos de salmón: salmón, bonito, sorbitol, glicerina, harina de trigo, proteína de soja, sal y sorbato potásico.\n\nTranas de pato: pato, bonito, sorbitol, glicerina, harina de trigo, proteína de soja, sal y sorbato potásico.\n\nPalitos de atún: atún, polvo de soja, glicerina, almidón de maíz, proteína de soja, sal y sorbato potásico.\n\nPalitos de calabaza: pollo, cuero crudo, camarón, almidón de maíz, glicerina, sorbitol, sal y sorbato potásico.\n\nRebanadas de vacuno en trozos: carne de vacuno y derivado, bonito, sorbitol, glicerina, harina de trigo, proteína de soja, sal y sorbato potásico.\n\nMedallones de cordero: cordero y derivado, boniato, sorbitol, glicerina, sorbitol, proteína de soja, sal y sorbato potásico.\n\nRebanadas de conejo en trozos: conejo, boniato, sorbitol, glicerina, harina de trigo, proteína de soja, sal y sorbato potásico.\n\nRebanadas de pollo en trozos: pollo, boniato, sorbitol, glicerina, harina de trigo, proteína de soja, sal y sorbato potásico.",
     "imagenes": [
       "/calendario-de-adviento-tastyfarm-perros1.jpg",
-      "/calendario-de-adviento-tastyfarm-perros3.jpg",
-      "/calendario-de-adviento-tastyfarm-perros.png"
+      "/calendario-de-adviento-tastyfarm-perros2.jpg",
+      "/calendario-de-adviento-tastyfarm-perros3.jpg"
     ],
     "placeholders": [
       "🐾"
@@ -4182,5 +4182,77 @@
     "canonical": "https://www.patasycaos.cl/productos/calendario-de-adviento-para-gatos-120g-cats-snack",
     "seoTitle": "Calendario de Adviento para Gatos Cats Snack 120 g | Patas & Caos",
     "seoDescription": "Sorprende a tu gato esta Navidad con el Calendario de Adviento Cats Snack. Incluye 24 premios sorpresa, distintos sabores y variedades con catnip."
+  },
+  {
+    "sku": "bioline-set-higiene-dental-carne-100g",
+    "slug": "bioline-set-higiene-dental-carne-100g",
+    "nombre": "Bioline Set de Higiene Dental Carne 100 g",
+    "precio": 4990,
+    "precioNum": 4990,
+    "precioDisplay": "$4.990",
+    "precioTexto": "$4.990",
+    "etiquetaProducto": "Aseo e Higiene · Perros",
+    "audience": "Para Perros",
+    "categoria": "Aseo e Higiene",
+    "marca": "Bioline",
+    "tagline": "Una sonrisa limpia y un aliento más fresco 🦷",
+    "descripcion": "Set de higiene dental para perros con pasta dentífrica sabor carne de vacuno y cepillos para facilitar la limpieza habitual de los dientes.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "Pasta dental sabor carne de vacuno de 100 g",
+      "Incluye cepillo de doble extremo y dos cepillos de dedo",
+      "Para la rutina de higiene dental de perros"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/Set-higiene-dental.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "bioline-set-higiene-dental-carne-100g",
+    "canonical": "https://www.patasycaos.cl/productos/bioline-set-higiene-dental-carne-100g",
+    "seoTitle": "Bioline Set de Higiene Dental Carne 100 g | Patas & Caos",
+    "seoDescription": "Set de higiene dental para perros con pasta dentífrica sabor carne de vacuno y cepillos para facilitar la limpieza habitual de los dientes.",
+    "tallaEnvio": "XS"
+  },
+  {
+    "sku": "fit-formula-huesitos-sabores-10-un",
+    "slug": "fit-formula-huesitos-sabores-10-un",
+    "nombre": "Fit Formula Huesitos Sabores 10 un.",
+    "precio": 4990,
+    "precioNum": 4990,
+    "precioDisplay": "$4.990",
+    "precioTexto": "$4.990",
+    "etiquetaProducto": "Snacks y Golosinas · Perros",
+    "audience": "Para Perros",
+    "categoria": "Snacks y Golosinas",
+    "marca": "Fit Formula",
+    "tagline": "Diez premios para disfrutar mordida a mordida 🐾",
+    "descripcion": "Huesos masticables de sabores variados para perros, ideales como premio y para acompañar la masticación. Su acción mecánica ayuda al cuidado dental.",
+    "caracTitulo": "Características",
+    "caracteristicas": [
+      "10 unidades",
+      "Sabores variados",
+      "Envase con cierre zipper",
+      "Ideal como premio",
+      "Administrar bajo supervisión y con agua fresca disponible"
+    ],
+    "ingredientes": "",
+    "imagenes": [
+      "/huesitos-sabores-fit-formula.jpg"
+    ],
+    "placeholders": [
+      "🐾"
+    ],
+    "emoji": "🐾",
+    "disponible": true,
+    "stockId": "fit-formula-huesitos-sabores-10-un",
+    "canonical": "https://www.patasycaos.cl/productos/fit-formula-huesitos-sabores-10-un",
+    "seoTitle": "Fit Formula Huesitos Sabores 10 un. | Patas & Caos",
+    "seoDescription": "Huesos masticables de sabores variados para perros, ideales como premio y para acompañar la masticación. Su acción mecánica ayuda al cuidado dental.",
+    "tallaEnvio": "XS"
   }
 ]
